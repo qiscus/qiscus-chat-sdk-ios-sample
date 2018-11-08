@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postBack" rowHeight="81" id="KGk-i7-Jjw" customClass="QPostbackLeftCell" customModule="Qiscus" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="276" height="81"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="276" height="80.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oaN-7f-0PB">
+                        <rect key="frame" x="0.0" y="5" width="246" height="70.5"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Halooo ...." translatesAutoresizingMaskIntoConstraints="NO" id="836-Ql-Vet">
+                        <rect key="frame" x="18" y="9" width="225" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="gQx-nS-tEB"/>
+                        </constraints>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                    </textView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPF-ZG-5GK">
+                        <rect key="frame" x="190" y="39.5" width="50" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="cR3-mR-Rub"/>
+                            <constraint firstAttribute="height" constant="12" id="kk9-IK-SC1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="dWA-YN-0gc">
+                        <rect key="frame" x="16" y="55" width="230" height="20"/>
+                        <color key="backgroundColor" red="0.92455440759999996" green="0.43101489539999999" blue="0.44916653629999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="uBe-8B-YNi"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="dWA-YN-0gc" firstAttribute="trailing" secondItem="oaN-7f-0PB" secondAttribute="trailing" id="5Ah-ri-0lE"/>
+                    <constraint firstItem="836-Ql-Vet" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="18" id="5Jc-L5-jJd"/>
+                    <constraint firstAttribute="bottom" secondItem="dWA-YN-0gc" secondAttribute="bottom" constant="5.5" id="AD7-8y-2YL"/>
+                    <constraint firstItem="dPF-ZG-5GK" firstAttribute="trailing" secondItem="836-Ql-Vet" secondAttribute="trailing" constant="-3" id="AmD-b2-uyd"/>
+                    <constraint firstAttribute="bottom" secondItem="oaN-7f-0PB" secondAttribute="bottom" constant="5" id="IhA-lu-eSY"/>
+                    <constraint firstItem="836-Ql-Vet" firstAttribute="width" secondItem="oaN-7f-0PB" secondAttribute="width" constant="-21" id="UV3-5G-2ba"/>
+                    <constraint firstItem="oaN-7f-0PB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Usg-pk-gm6"/>
+                    <constraint firstAttribute="trailing" secondItem="oaN-7f-0PB" secondAttribute="trailing" constant="30" id="XLI-in-RB7"/>
+                    <constraint firstItem="836-Ql-Vet" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="evd-zT-17i"/>
+                    <constraint firstItem="dWA-YN-0gc" firstAttribute="top" secondItem="dPF-ZG-5GK" secondAttribute="bottom" constant="3.5" id="l0V-SA-jl7"/>
+                    <constraint firstItem="dPF-ZG-5GK" firstAttribute="top" secondItem="836-Ql-Vet" secondAttribute="bottom" constant="-0.5" id="lJU-RO-2fs"/>
+                    <constraint firstItem="oaN-7f-0PB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="yLL-re-Qfo"/>
+                    <constraint firstItem="dWA-YN-0gc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="z6K-JQ-K0y"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="balloonView" destination="oaN-7f-0PB" id="pe3-tf-bPe"/>
+                <outlet property="buttonsView" destination="dWA-YN-0gc" id="BIr-QC-LT5"/>
+                <outlet property="buttonsViewHeight" destination="uBe-8B-YNi" id="ig3-MI-EoW"/>
+                <outlet property="dateLabel" destination="dPF-ZG-5GK" id="mNS-wu-DDl"/>
+                <outlet property="textView" destination="836-Ql-Vet" id="gEt-63-P2D"/>
+                <outlet property="textViewHeight" destination="gQx-nS-tEB" id="c1q-oF-rkt"/>
+            </connections>
+            <point key="canvasLocation" x="8" y="2.5"/>
+        </tableViewCell>
+    </objects>
+</document>

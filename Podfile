@@ -6,5 +6,12 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-
+  pod 'QiscusUI'
+  
+  # 3rd party
+  pod 'SDWebImage'
+  pod 'SimpleImageViewer'
+  pod 'SwiftyJSON'
+  pod 'Alamofire'
+  
 end
