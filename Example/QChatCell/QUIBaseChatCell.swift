@@ -25,7 +25,7 @@ extension UIBaseChatCell {
             var foregroundColorAttributeName = ColorConfiguration.leftBaloonTextColor
             return [
                 NSAttributedStringKey.foregroundColor: foregroundColorAttributeName,
-                NSAttributedStringKey.font: Qiscus.style.chatFont
+                NSAttributedStringKey.font: UIConfiguration.chatFont
             ]
         }
     }
@@ -38,7 +38,7 @@ extension UIBaseChatCell {
                 NSAttributedStringKey.foregroundColor.rawValue: foregroundColorAttributeName,
                 NSAttributedStringKey.underlineColor.rawValue: underlineColorAttributeName,
                 NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue,
-                NSAttributedStringKey.font.rawValue: Qiscus.style.chatFont
+                NSAttributedStringKey.font.rawValue: UIConfiguration.chatFont
             ]
         }
     }

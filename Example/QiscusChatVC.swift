@@ -14,73 +14,25 @@ import Photos
 import MobileCoreServices
     
 struct UserNameColor {
-    var userEmail            : String    = ""
+    var userEmail            : String = ""
     var color               : UIColor = UIColor.lightGray
 }
 
 public protocol QiscusChatVCCellDelegate{
     func chatVC(viewController:QiscusChatVC, didTapLinkButtonWithURL url:URL )
-    
-//    func didTapCell(viewController:QiscusChatVC, withData data: CommentModel)
-//    func didTouchLink(viewController:QiscusChatVC, onCell cell: UIBaseChatCell)
     func didTapPostbackButton(viewController:QiscusChatVC, withData data: JSON)
     func didTapAccountLinking(viewController:QiscusChatVC, withData data: JSON)
-//    func didTapSaveContact(viewController:QiscusChatVC, withData data:CommentModel)
-//    func didShare(viewController:QiscusChatVC, comment: CommentModel)
-//    func didForward(viewController:QiscusChatVC, comment: CommentModel)
-//    func didReply(viewController:QiscusChatVC, comment:CommentModel)
-//    func getInfo(viewController:QiscusChatVC, comment:CommentModel)
-//    func didTapFile(viewController:QiscusChatVC, comment: CommentModel)
 }
 
-public protocol QiscusChatVCConfigDelegate{
-//    func chatVCConfigDelegate(usingSoftDeleteOn viewController:QiscusChatVC)->Bool
-//    func chatVCConfigDelegate(deletedMessageTextFor viewController:QiscusChatVC, selfMessage isSelf:Bool)->String
-//    func chatVCConfigDelegate(enableReplyMenuItem viewController:QiscusChatVC, forComment comment: CommentModel)->Bool
-//    func chatVCConfigDelegate(enableForwardMenuItem viewController:QiscusChatVC, forComment comment: CommentModel)->Bool
-//    func chatVCConfigDelegate(enableResendMenuItem viewController:QiscusChatVC, forComment comment: CommentModel)->Bool
-//    func chatVCConfigDelegate(enableDeleteMenuItem viewController:QiscusChatVC, forComment comment: CommentModel)->Bool
-//    func chatVCConfigDelegate(enableDeleteForMeMenuItem viewController:QiscusChatVC, forComment comment: CommentModel)->Bool
-//    func chatVCConfigDelegate(enableShareMenuItem viewController:QiscusChatVC, forComment comment: CommentModel)->Bool
-//    func chatVCConfigDelegate(enableInfoMenuItem viewController:QiscusChatVC, forComment comment: CommentModel)->Bool
-//    
-//    func chatVCConfigDelegate(usingNavigationSubtitleTyping viewController:QiscusChatVC)->Bool
-//    func chatVCConfigDelegate(usingTypingCell viewController:QiscusChatVC)->Bool
-    
-}
-
-public protocol QiscusChatVCDelegate{
-    // MARK : Review this
-    func chatVC(enableForwardAction viewController:QiscusChatVC)->Bool
-    func chatVC(enableInfoAction viewController:QiscusChatVC)->Bool
-    func chatVC(overrideBackAction viewController:QiscusChatVC)->Bool
-    //
-    func chatVC(backAction viewController:QiscusChatVC, room:RoomModel?, data:Any?)
-    func chatVC(titleAction viewController:QiscusChatVC, room:RoomModel?, data:Any?)
-    func chatVC(viewController:QiscusChatVC, onForwardComment comment:CommentModel, data:Any?)
-    func chatVC(viewController:QiscusChatVC, infoActionComment comment:CommentModel,data:Any?)
-    
-    func chatVC(onViewDidLoad viewController:QiscusChatVC)
-    func chatVC(viewController:QiscusChatVC, willAppear animated:Bool)
-    func chatVC(viewController:QiscusChatVC, willDisappear animated:Bool)
-    func chatVC(didTapAttachment actionSheet: UIAlertController, viewController: QiscusChatVC, onRoom: RoomModel?)
-    
-    func chatVC(viewController:QiscusChatVC, willPostComment comment:CommentModel, room:RoomModel?, data:Any?)->CommentModel?
-    
-    func chatVC(viewController:QiscusChatVC, didFailLoadRoom error:String)
-}
 
 public class QiscusChatVC: UIChatViewController {
     //TODO NEED TO BE IMPLEMENT
-    public var delegate:QiscusChatVCDelegate?
-    public var configDelegate:QiscusChatVCConfigDelegate?
     public var cellDelegate:QiscusChatVCCellDelegate?
     public var isPresence:Bool = false
     public var chatDistinctId:String?
     public var chatData:String?
     public var chatMessage:String?
     
-    public var archived:Bool = QiscusUIConfiguration.sharedInstance.readOnly
     public var chatNewRoomUsers:[String] = [String]()
     public var chatTitle:String?
     public var chatSubtitle:String?
@@ -104,51 +56,30 @@ public class QiscusChatVC: UIChatViewController {
         }
     }
     
-
-    @objc func back() {
-        self.isPresence = false
-        view.endEditing(true)
-        if let delegate = self.delegate{
-            if delegate.chatVC(overrideBackAction: self){
-                delegate.chatVC(backAction: self, room: self.room as! RoomModel, data: data)
-            }else{
-                let _ = self.navigationController?.popViewController(animated: true)
-            }
-        }else{
-            let _ = self.navigationController?.popViewController(animated: true)
-        }
-    }
-    
     var replyData:CommentModel? = nil {
         didSet{
             inputBar.replyData = replyData
         }
     }
     
-    @objc public func showLoading(_ text:String = "Loading"){
+    func showLoading(_ text:String = "Loading"){
         if !self.presentingLoading {
             self.presentingLoading = true
-            self.showQiscusLoading(withText: text, isBlocking: true)
+            self.showLoading(withText: text)
         }
     }
-    @objc public func dismissLoading(){
+    func stopLoading(){
         self.presentingLoading = false
-        self.dismissQiscusLoading()
+        self.dismissLoading()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
        super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
-        if let delegate = self.delegate{
-            delegate.chatVC(viewController: self, willAppear: animated)
-        }
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if let delegate = self.delegate{
-            delegate.chatVC(viewController: self, willDisappear: animated)
-        }
     }
     
     public override func viewDidLoad() {
@@ -172,9 +103,6 @@ public class QiscusChatVC: UIChatViewController {
         
         self.setupUI()
         NotificationCenter.default.addObserver(self, selector:#selector(willEnterFromForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        if let delegate = self.delegate{
-            delegate.chatVC(onViewDidLoad: self)
-        }
         
         if let room = self.room{
             if room.participants?.count != 0 {
@@ -216,13 +144,12 @@ public class QiscusChatVC: UIChatViewController {
          self.setupBackgroundChat()
          self.registerCell()
          self.setupNavigationTitle()
-         self.setupNotification()
          self.setupChatInput()
         
     }
     
     func setupBackgroundChat(){
-        self.setBackground(with: Qiscus.style.assets.backgroundChat!)
+        self.setBackground(with: AssetsConfiguration.backgroundChat!)
     }
     
     func setupChatInput(){
@@ -267,7 +194,7 @@ public class QiscusChatVC: UIChatViewController {
             unkvc.contactStore = CNContactStore()
             unkvc.delegate = self
             unkvc.allowsActions = false
-            self.navigationController?.navigationBar.backgroundColor =  Qiscus.shared.styleConfiguration.color.topColor
+            self.navigationController?.navigationBar.backgroundColor = ColorConfiguration.topColor
             self.navigationController?.pushViewController(unkvc, animated: true)
         }
     }
@@ -703,9 +630,9 @@ extension QiscusChatVC : UIChatView {
         inputBar.attachButton.setImage(attachmentImage, for: .normal)
         inputBar.cancelReplyPreviewButton.setImage(cancel, for: .normal)
         
-        inputBar.sendButton.tintColor = Qiscus.shared.styleConfiguration.color.topColor
-        inputBar.attachButton.tintColor = Qiscus.shared.styleConfiguration.color.topColor
-         inputBar.cancelReplyPreviewButton.tintColor = Qiscus.shared.styleConfiguration.color.topColor
+        inputBar.sendButton.tintColor = ColorConfiguration.topColor
+        inputBar.attachButton.tintColor = ColorConfiguration.topColor
+         inputBar.cancelReplyPreviewButton.tintColor = ColorConfiguration.topColor
         inputBar.delegate = self
         inputBar.hidePreviewReply()
         return inputBar
@@ -726,12 +653,7 @@ extension QiscusChatVC: CNContactViewControllerDelegate{
 extension QiscusChatVC : CustomChatInputDelegate {
     func sendMessage(message: CommentModel) {
         var postedComment = message
-        if let delegate = self.delegate{
-            if let comment = delegate.chatVC(viewController: self, willPostComment: message, room: self.room, data: self.data){
-                postedComment = comment
-            }
-        }
-        
+    
         self.send(message: postedComment, onSuccess: { (comment) in
             //success
         }) { (error) in
@@ -741,44 +663,38 @@ extension QiscusChatVC : CustomChatInputDelegate {
     
     func sendAttachment() {
         let optionMenu = UIAlertController()
-        if Qiscus.shared.cameraUpload {
-            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
-                (alert: UIAlertAction!) -> Void in
-                self.uploadFromCamera()
-            })
-            optionMenu.addAction(cameraAction)
-        }
-       
-        if Qiscus.shared.galeryUpload {
-            let galleryAction = UIAlertAction(title: "Photo & Video Library", style: .default, handler: {
-                (alert: UIAlertAction!) -> Void in
-                self.uploadImage()
-            })
-            optionMenu.addAction(galleryAction)
-        }
-        if Qiscus.sharedInstance.iCloudUpload {
-            let docAction = UIAlertAction(title: "Document", style: .default, handler: {
-                (alert: UIAlertAction!) -> Void in
-                self.iCloudOpen()
-            })
-            optionMenu.addAction(docAction)
-        }
+        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.uploadFromCamera()
+        })
+        optionMenu.addAction(cameraAction)
+   
+
+        let galleryAction = UIAlertAction(title: "Photo & Video Library", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.uploadImage()
+        })
+        optionMenu.addAction(galleryAction)
+    
+
+        let docAction = UIAlertAction(title: "Document", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.iCloudOpen()
+        })
+        optionMenu.addAction(docAction)
         
-        if Qiscus.shared.contactShare {
-            let contactAction = UIAlertAction(title: "Contact", style: .default, handler: {
-                (alert: UIAlertAction!) -> Void in
-                self.getContact()
-            })
-            optionMenu.addAction(contactAction)
-        }
+        
+        let contactAction = UIAlertAction(title: "Contact", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.getContact()
+        })
+        optionMenu.addAction(contactAction)
        
-        if Qiscus.shared.locationShare {
-            let locationAction = UIAlertAction(title: "Location", style: .default, handler: {
-                (alert: UIAlertAction!) -> Void in
-                self.getLocation()
-            })
-            optionMenu.addAction(locationAction)
-        }
+        let locationAction = UIAlertAction(title: "Location", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.getLocation()
+        })
+        optionMenu.addAction(locationAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -790,7 +706,7 @@ extension QiscusChatVC : CustomChatInputDelegate {
     }
     
     func iCloudOpen(){
-        if Qiscus.sharedInstance.connected{
+        if QiscusCore.connect(){
             if #available(iOS 11.0, *) {
                 self.latestNavbarTint = self.currentNavbarTint
                 UINavigationBar.appearance().tintColor = UIColor.blue
@@ -807,7 +723,7 @@ extension QiscusChatVC : CustomChatInputDelegate {
     
     func uploadImage(){
         view.endEditing(true)
-        if Qiscus.sharedInstance.connected{
+        if QiscusCore.connect() {
             let photoPermissions = PHPhotoLibrary.authorizationStatus()
             
             if(photoPermissions == PHAuthorizationStatus.authorized){
@@ -847,7 +763,7 @@ extension QiscusChatVC : CustomChatInputDelegate {
     
     func uploadFromCamera(){
         view.endEditing(true)
-        if Qiscus.sharedInstance.connected{
+        if QiscusCore.connect(){
             if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized
             {
                 DispatchQueue.main.async(execute: {
@@ -1437,7 +1353,7 @@ extension QiscusChatVC: CLLocationManagerDelegate {
     }
     
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        QiscusBackgroundThread.async {autoreleasepool{
+        DispatchQueue.global(qos: .background).async { autoreleasepool{
             manager.stopUpdatingLocation()
             if !self.didFindLocation {
                 if let currentLocation = manager.location {

@@ -89,9 +89,6 @@ class QReplyRightCell: UIBaseChatCell {
         }
         var username = replyData["replied_comment_sender_username"] as? String
         let repliedEmail = replyData["replied_comment_sender_email"] as? String
-        if repliedEmail == Qiscus.client.email {
-            username = "You"
-        }
         
         switch replyType {
         case .text:
@@ -133,7 +130,7 @@ class QReplyRightCell: UIBaseChatCell {
             self.ivCommentImageWidhtCons.constant = 0
         }
         
-        self.lbCommentSender.text = username
+        
         self.lbContent.text = message.message
         self.lbTime.text = self.hour(date: message.date())
         if(message.isMyComment() == true){
@@ -142,6 +139,11 @@ class QReplyRightCell: UIBaseChatCell {
             self.lbName.text = message.username
         }
         
+        guard let user = QiscusCore.getProfile() else { return }
+        if repliedEmail == user.email {
+            username = "You"
+        }
+        self.lbCommentSender.text = username
     }
     
     func setupBalon(){

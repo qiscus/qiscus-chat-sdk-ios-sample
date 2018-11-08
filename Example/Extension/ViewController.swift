@@ -20,4 +20,20 @@ extension UIViewController {
         view.endEditing(true)
     }
 
+    func showLoading(withText text: String = "Please wait...") {
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func dismissLoading() {
+        dismiss(animated: false, completion: nil)
+    }
+    
 }

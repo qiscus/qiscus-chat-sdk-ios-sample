@@ -9,6 +9,14 @@ import Foundation
 import QiscusCore
 import SwiftyJSON
 
+@objc public enum QiscusFileType:Int{
+    case image
+    case video
+    case audio
+    case document
+    case file
+}
+
 @objc public enum CommentModelType:Int {
     case text
     case image
@@ -91,20 +99,6 @@ extension CommentModel {
         }
     }
     
-    /// will post pending message when internet connection is available
-    internal class func resendPendingMessage(){
-        
-        let comments = QiscusCore.database.comment.all().filter({ (comment) in comment.status.rawValue.lowercased() == "failed".lowercased() ||  comment.status.rawValue.lowercased() == "pending".lowercased() })
-        
-        for comment in comments {
-            RoomModel.getRoom(withId: comment.roomId, onSuccess: { (roomModel, commentModel) in
-                roomModel.post(comment: comment)
-            }) { (error) in
-             //error
-            }
-        }
-    }
-    
     public func encodeDictionary()->[AnyHashable : Any]{
         var data = [AnyHashable : Any]()
         
@@ -131,7 +125,7 @@ extension CommentModel {
     ///   - onSuccess: will return success
     ///   - onError: will return error message
     public func forward(toRoomWithId roomId: String, onSuccess:@escaping ()->Void, onError:@escaping (String)->Void){
-        var comment = CommentModel.init()
+        let comment = CommentModel.init()
         if(comment.type == "file_attachment"){
             comment.type = "file_attachment"
             comment.payload = self.payload
@@ -158,7 +152,7 @@ extension CommentModel {
     public func deleteMessage(uniqueIDs id: [String], type: DeleteType, onSuccess:@escaping ([CommentModel])->Void, onError:@escaping (String)->Void) {
        
         QiscusCore.shared.deleteMessage(uniqueIDs: id, type: type, onSuccess: { (commentsModel) in
-             onSuccess(commentsModel as! [CommentModel])
+            onSuccess(commentsModel)
         }) { (error) in
             onError(error.message)
         }

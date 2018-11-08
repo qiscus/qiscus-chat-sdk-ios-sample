@@ -29,10 +29,10 @@ extension UIBaseChatCell {
         var edgeInset = UIEdgeInsetsMake(13, 13, 13, 28)
         
         if (self.comment?.isMyComment() == true){
-            balloonImage = Qiscus.style.assets.rightBallonLast
+            balloonImage = AssetsConfiguration.rightBallonLast
         }else{
             edgeInset = UIEdgeInsetsMake(13, 28, 13, 13)
-            balloonImage = Qiscus.style.assets.leftBallonLast
+            balloonImage = AssetsConfiguration.leftBallonLast
         }
         
         return balloonImage?.resizableImage(withCapInsets: edgeInset, resizingMode: .stretch).withRenderingMode(.alwaysTemplate)

@@ -115,7 +115,7 @@ public class QCarouselCell: UIBaseChatCell {
             attributedText.addAttributes(self.textAttribute, range: allRange)
             
             let textView = UITextView()
-            textView.font = Qiscus.style.chatFont
+            textView.font = UIConfiguration..chatFont
             if message.type == "carousel" {
                 textView.font = UIFont.systemFont(ofSize: 12)
             }
@@ -123,7 +123,7 @@ public class QCarouselCell: UIBaseChatCell {
             textView.linkTextAttributes = self.linkTextAttributes
             
             
-            var maxWidth:CGFloat = QiscusUIConfiguration.chatTextMaxWidth
+            var maxWidth:CGFloat = UIConfiguration.chatTextMaxWidth
             if message.type == "carousel"{
                 maxWidth = (QiscusHelper.screenWidth() * 0.70) - 8
             }

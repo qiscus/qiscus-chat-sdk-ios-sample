@@ -46,7 +46,7 @@ class CustomChatInput: UIChatInput {
         textView.delegate = self
         textView.text = QiscusTextConfiguration.sharedInstance.textPlaceholder
         textView.textColor = UIColor.lightGray
-        textView.font = Qiscus.sharedInstance.styleConfiguration.chatFont
+        textView.font = UIConfiguration.chatFont
         
     }
     

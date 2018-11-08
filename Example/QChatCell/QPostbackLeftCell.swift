@@ -11,9 +11,9 @@ import QiscusCore
 import SwiftyJSON
 
 class QPostbackLeftCell: UIBaseChatCell {
-    let maxWidth:CGFloat = QiscusUIConfiguration.chatTextMaxWidth
-    let minWidth:CGFloat = QiscusUIConfiguration.chatTextMaxWidth
-    let buttonWidth:CGFloat = QiscusUIConfiguration.chatTextMaxWidth + 10
+    let maxWidth:CGFloat = UIConfiguration.chatTextMaxWidth
+    let minWidth:CGFloat = UIConfiguration.chatTextMaxWidth
+    let buttonWidth:CGFloat = UIConfiguration.chatTextMaxWidth + 10
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var balloonView: UIImageView!
@@ -71,7 +71,7 @@ class QPostbackLeftCell: UIBaseChatCell {
             
             let message = data["text"].string ?? ""
             
-            var attributedText = NSMutableAttributedString(string: message)
+            let attributedText = NSMutableAttributedString(string: message)
             let allRange = (message as NSString).range(of: message)
             attributedText.addAttributes(self.textAttribute, range: allRange)
             

@@ -25,8 +25,8 @@ public class QPopUpView: UIViewController {
     let fixedWidth:CGFloat = 240
     var isPresent:Bool = false
     
-    var topColor = QiscusUIConfiguration.sharedInstance.baseColor
-    var bottomColor = QiscusUIConfiguration.sharedInstance.baseColor
+    var topColor = UIConfiguration.baseColor
+    var bottomColor = UIConfiguration.baseColor
     
     @IBOutlet weak var containerHeight: NSLayoutConstraint!
     @IBOutlet weak var containerView: UIView!
@@ -68,8 +68,8 @@ public class QPopUpView: UIViewController {
         let parentView = self.view
         parentView!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         
-        self.topColor = Qiscus.shared.styleConfiguration.color.topColor
-        self.bottomColor = Qiscus.shared.styleConfiguration.color.bottomColor
+        self.topColor = ColorConfiguration.topColor
+        self.bottomColor = ColorConfiguration.bottomColor
         
         if self.image != nil {
             self.imageView.image = self.image
