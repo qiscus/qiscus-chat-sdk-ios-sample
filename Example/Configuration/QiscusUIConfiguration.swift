@@ -24,9 +24,7 @@ class UIConfiguration: NSObject {
     }
 
     static var chatTextMaxWidth:CGFloat = 0.7 * QiscusHelper.screenWidth()
-    var topicId:Int = 0
-    var chatUsers:[String] = [String]()
-    var baseColor:UIColor{
+    static var baseColor:UIColor{
         get{
             return ColorConfiguration.topColor
         }

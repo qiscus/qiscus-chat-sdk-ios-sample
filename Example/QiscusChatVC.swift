@@ -12,11 +12,6 @@ import SwiftyJSON
 import ContactsUI
 import Photos
 import MobileCoreServices
-    
-struct UserNameColor {
-    var userEmail            : String = ""
-    var color               : UIColor = UIColor.lightGray
-}
 
 public protocol QiscusChatVCCellDelegate{
     func chatVC(viewController:QiscusChatVC, didTapLinkButtonWithURL url:URL )
@@ -26,6 +21,13 @@ public protocol QiscusChatVCCellDelegate{
 
 
 public class QiscusChatVC: UIChatViewController {
+    // UI Config
+    var usersColor : [String:UIColor] = [String:UIColor]()
+    /**
+    Setup maximum size when you send attachment inside chat view, example send video/image from galery. By default maximum size is unlimited.
+    */
+    var maxUploadSizeInKB:Double = Double(100) * Double(1024)
+    
     //TODO NEED TO BE IMPLEMENT
     public var cellDelegate:QiscusChatVCCellDelegate?
     public var isPresence:Bool = false
@@ -108,27 +110,12 @@ public class QiscusChatVC: UIChatViewController {
             if room.participants?.count != 0 {
                 if let participants = room.participants {
                     for participant in participants.enumerated(){
-                        if Qiscus.shared.usersColor.count == 0{
-                            var data = UserNameColor()
-                            data.userEmail = participant.element.email
-                            data.color = ColorConfiguration.randomColorLabelName.randomItem()!
-                            Qiscus.shared.usersColor.append(data)
-                        }else{
-                            let user = Qiscus.shared.usersColor.filter( { return $0.userEmail == participant.element.email } )
-                            
-                            if(user.count == 0){
-                                var data = UserNameColor()
-                                data.userEmail = participant.element.email
-                                data.color = ColorConfiguration.randomColorLabelName.randomItem()!
-                                Qiscus.shared.usersColor.append(data)
-                            }
-                        }
+                        let email = participant.element.email
+                        let color = ColorConfiguration.randomColorLabelName.randomItem()!
+                        usersColor[email] = color
                     }
                 }
-                
-                
             }
-            
         }
     }
     
@@ -161,15 +148,12 @@ public class QiscusChatVC: UIChatViewController {
             let comment = userInfo["comment"] as! CommentModel
             
             self.replyData = comment
-            if Qiscus.shared.usersColor.count != 0{
-                for user in Qiscus.shared.usersColor.enumerated(){
-                    if(self.replyData?.userEmail == user.element.userEmail){
-                        self.inputBar.colorName = user.element.color
-                    }
+            if usersColor.count != 0{
+                if let email = self.replyData?.userEmail, let color = usersColor[email] {
+                    self.inputBar.colorName = color
                 }
             }
             self.inputBar.showPreviewReply()
-            
         }
     }
     
@@ -202,18 +186,14 @@ public class QiscusChatVC: UIChatViewController {
     @objc private func didClickInfo(_ notification: Notification){
         if let userInfo = notification.userInfo {
             let comment = userInfo["comment"] as! CommentModel
-            if let delegate = self.delegate{
-                delegate.chatVC(viewController: self, infoActionComment: comment, data: data)
-            }
+            
         }
     }
     
     @objc private func didClickForward(_ notification: Notification){
         if let userInfo = notification.userInfo {
             let comment = userInfo["comment"] as! CommentModel
-            if let delegate = self.delegate{
-                delegate.chatVC(viewController: self, onForwardComment: comment, data: data)
-            }
+
         }
     }
     
@@ -275,16 +255,14 @@ public class QiscusChatVC: UIChatViewController {
             self.navigationController?.navigationBar.prefersLargeTitles = false
         }
         var totalButton = 1
+        
         if let leftButtons = self.navigationItem.leftBarButtonItems {
             totalButton += leftButtons.count
         }
+        
         if let rightButtons = self.navigationItem.rightBarButtonItems {
             totalButton += rightButtons.count
         }
-        
-        let backButton = self.backButton(self, action: #selector(self.back))
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationItem.leftBarButtonItems = [backButton]
         
         if chatTitle != nil {
             self.titleLabel.text = chatTitle
@@ -310,9 +288,7 @@ public class QiscusChatVC: UIChatViewController {
     }
     
     @objc func tapFunction(sender:UITapGestureRecognizer) {
-        if let delegate = self.delegate {
-            delegate.chatVC(titleAction: self, room: room, data: self.data)
-        }
+        
     }
     
     private func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
@@ -412,21 +388,11 @@ extension QiscusChatVC : UIChatView {
     
     public func uiChat(viewController: UIChatViewController, cellForMessage message: CommentModel) -> UIBaseChatCell? {
         var colorName:UIColor = UIColor.lightGray
-        if Qiscus.shared.usersColor.count != 0{
-                let user = Qiscus.shared.usersColor.filter( { return $0.userEmail == message.userEmail } )
-                if(user.count != 0){
-                    colorName = (user.first?.color)!
-                }
+        if let color = usersColor[message.userEmail] {
+            colorName = color
         }
         
         var menuConfig = enableMenuConfig()
-        if let isEnable = delegate?.chatVC(enableInfoAction: self) {
-            menuConfig.info = isEnable
-        }
-        
-        if let isEnable = delegate?.chatVC(enableForwardAction: self) {
-            menuConfig.forward = isEnable
-        }
         
         if message.type == "text" {
             if (message.isMyComment() == true){
@@ -859,7 +825,7 @@ extension QiscusChatVC : CustomChatInputDelegate {
                 var data:Data = try Data(contentsOf: dataURL, options: NSData.ReadingOptions.mappedIfSafe)
                 let mediaSize = Double(data.count) / 1024.0
                 
-                if mediaSize > Qiscus.maxUploadSizeInKB {
+                if mediaSize > maxUploadSizeInKB {
                     self.showFileTooBigAlert()
                     return
                 }
@@ -1088,7 +1054,7 @@ extension QiscusChatVC : CustomChatInputDelegate {
     }
     
     func showNoConnectionToast(){
-        QToasterSwift.toast(target: self, text: QiscusTextConfiguration.sharedInstance.noConnectionText, backgroundColor: UIColor(red: 0.9, green: 0,blue: 0,alpha: 0.8), textColor: UIColor.white)
+        
     }
 }
 
@@ -1220,7 +1186,7 @@ extension QiscusChatVC : UIImagePickerControllerDelegate, UINavigationController
             
             if data != nil {
                 let mediaSize = Double(data!.count) / 1024.0
-                if mediaSize > Qiscus.maxUploadSizeInKB {
+                if mediaSize > maxUploadSizeInKB {
                     picker.dismiss(animated: true, completion: {
                         self.showFileTooBigAlert()
                     })
@@ -1247,7 +1213,7 @@ extension QiscusChatVC : UIImagePickerControllerDelegate, UINavigationController
             
             let mediaData = try? Data(contentsOf: mediaURL)
             let mediaSize = Double(mediaData!.count) / 1024.0
-            if mediaSize > Qiscus.maxUploadSizeInKB {
+            if mediaSize > maxUploadSizeInKB {
                 picker.dismiss(animated: true, completion: {
                     self.showFileTooBigAlert()
                 })

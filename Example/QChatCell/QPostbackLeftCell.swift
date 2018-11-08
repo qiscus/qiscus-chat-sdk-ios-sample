@@ -197,12 +197,12 @@ class QPostbackLeftCell: UIBaseChatCell {
             let type = "text"
             if let room = self.delegateChat?.room {
                 
-                let comment = CommentModel()
-                comment.type = type
-                comment.message = text
-                comment.payload = payload.dictionary
-                
-                room.post(comment: comment)
+//                let comment = CommentModel()
+//                comment.type = type
+//                comment.message = text
+//                comment.payload = payload.dictionary
+//                
+//                room.post(comment: comment)
             }
             break
         }

@@ -15,6 +15,7 @@ import SwiftyJSON
     case audio
     case document
     case file
+    case pdf
 }
 
 @objc public enum CommentModelType:Int {

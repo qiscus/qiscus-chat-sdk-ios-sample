@@ -28,7 +28,8 @@ public class QCarouselCell: UIBaseChatCell {
         didSet{
             self.carouselView.reloadData()
             if let c = self.comment {
-                if c.userEmail == Qiscus.client.email {
+                guard let user = QiscusCore.getProfile() else { return }
+                if c.userEmail == user.email {
                     if cards.count > 0 {
                         if cards.count == 1 {
                             self.carouselLeading.constant = QiscusHelper.screenWidth() - (QiscusHelper.screenWidth() * 0.6 + 32)
@@ -81,8 +82,8 @@ public class QCarouselCell: UIBaseChatCell {
         if let c = self.comment {
             var leftSpace = CGFloat(0)
             var rightSpace = CGFloat(0)
-            
-            if c.userEmail == Qiscus.client.email {
+            guard let user = QiscusCore.getProfile() else { return }
+            if c.userEmail == user.email {
                 self.userNameLabel.textAlignment = .right
                 rightSpace = 15
             }else{
@@ -97,7 +98,7 @@ public class QCarouselCell: UIBaseChatCell {
             self.carouselView.collectionViewLayout = layout
             
             //if self.showUserName{
-                if c.userEmail == Qiscus.client.email {
+                if c.userEmail == user.email {
                     self.userNameLabel.text = "YOU"
                 }else{
                     self.userNameLabel.text = c.username
@@ -115,7 +116,7 @@ public class QCarouselCell: UIBaseChatCell {
             attributedText.addAttributes(self.textAttribute, range: allRange)
             
             let textView = UITextView()
-            textView.font = UIConfiguration..chatFont
+            textView.font = UIConfiguration.chatFont
             if message.type == "carousel" {
                 textView.font = UIFont.systemFont(ofSize: 12)
             }
@@ -216,8 +217,8 @@ public class QCarouselCell: UIBaseChatCell {
             let type = "button_postback_response"
             
             if let room = self.delegateChat?.room {
-                let newComment = room.newComment(roomId: room.id, text: text)
-                room.post(comment: newComment, type: type, payload: action.payload!)
+//                let newComment = room.newComment(roomId: room.id, text: text)
+//                room.post(comment: newComment, type: type, payload: action.payload!)
 //                room.post(comment: newComment, type: type, payload: action.payload!, onSuccess: {
 //                    
 //                }, onError: { (error) in

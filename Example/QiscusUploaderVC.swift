@@ -41,6 +41,10 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     var imageData: [CommentModel] = []
     var selectedImageIndex: Int = 0
     let maxProgressHeight:Double = 40.0
+    /**
+     Setup maximum size when you send attachment inside chat view, example send video/image from galery. By default maximum size is unlimited.
+     */
+    var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -335,7 +339,7 @@ extension QiscusUploaderVC: UIImagePickerControllerDelegate, UINavigationControl
 
                 if data != nil {
                     let mediaSize = Double(data!.count) / 1024.0
-                    if mediaSize > Qiscus.maxUploadSizeInKB {
+                    if mediaSize > maxUploadSizeInKB {
                         picker.dismiss(animated: true, completion: {
                             self.showFileTooBigAlert()
                         })
