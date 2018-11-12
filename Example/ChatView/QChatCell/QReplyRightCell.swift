@@ -22,7 +22,7 @@ class QReplyRightCell: UIBaseChatCell {
     @IBOutlet weak var ivBaloon: UIImageView!
     @IBOutlet weak var ivStatus: UIImageView!
     var menuConfig = enableMenuConfig()
-    var delegateChat: QiscusChatVC? = nil
+    var delegateChat: ChatViewController? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -1,5 +1,5 @@
 //
-//  QiscusChatVC.swift
+//  ChatViewController.swift
 //  Qiscus
 //
 //  Created by Qiscus on 07/08/18.
@@ -13,14 +13,14 @@ import ContactsUI
 import Photos
 import MobileCoreServices
 
-public protocol QiscusChatVCCellDelegate{
-    func chatVC(viewController:QiscusChatVC, didTapLinkButtonWithURL url:URL )
-    func didTapPostbackButton(viewController:QiscusChatVC, withData data: JSON)
-    func didTapAccountLinking(viewController:QiscusChatVC, withData data: JSON)
-}
+//public protocol ChatViewControllerCellDelegate{
+//    func chatVC(viewController:ChatViewController, didTapLinkButtonWithURL url:URL )
+//    func didTapPostbackButton(viewController:ChatViewController, withData data: JSON)
+//    func didTapAccountLinking(viewController:ChatViewController, withData data: JSON)
+//}
 
 
-public class QiscusChatVC: UIChatViewController {
+public class ChatViewController: UIChatViewController {
     // UI Config
     var usersColor : [String:UIColor] = [String:UIColor]()
     /**
@@ -29,7 +29,6 @@ public class QiscusChatVC: UIChatViewController {
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     
     //TODO NEED TO BE IMPLEMENT
-    public var cellDelegate:QiscusChatVCCellDelegate?
     public var isPresence:Bool = false
     public var chatDistinctId:String?
     public var chatData:String?
@@ -355,7 +354,7 @@ public class QiscusChatVC: UIChatViewController {
     
 }
 
-extension QiscusChatVC : UIChatView {
+extension ChatViewController : UIChatView {
     public func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?) {
         if action == #selector(UIResponderStandardEditActions.copy(_:)) {
             let pasteboard = UIPasteboard.general
@@ -604,7 +603,7 @@ extension QiscusChatVC : UIChatView {
     
 }
 
-extension QiscusChatVC: CNContactViewControllerDelegate{
+extension ChatViewController: CNContactViewControllerDelegate{
     public func contactViewController(_ viewController: CNContactViewController, shouldPerformDefaultActionFor property: CNContactProperty) -> Bool {
         return true
     }
@@ -614,7 +613,7 @@ extension QiscusChatVC: CNContactViewControllerDelegate{
     }
 }
 
-extension QiscusChatVC : CustomChatInputDelegate {
+extension ChatViewController : CustomChatInputDelegate {
     func sendMessage(message: CommentModel) {
         var postedComment = message
     
@@ -1058,7 +1057,7 @@ extension QiscusChatVC : CustomChatInputDelegate {
 }
 
 // Contact Picker
-extension QiscusChatVC : CNContactPickerDelegate {
+extension ChatViewController : CNContactPickerDelegate {
     public func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
         let userName:String = contact.givenName
         let surName:String = contact.familyName
@@ -1086,7 +1085,7 @@ extension QiscusChatVC : CNContactPickerDelegate {
 }
 
 // MARK: - UIDocumentPickerDelegate
-extension QiscusChatVC: UIDocumentPickerDelegate{
+extension ChatViewController: UIDocumentPickerDelegate{
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         if #available(iOS 11.0, *) {
             UINavigationBar.appearance().tintColor = self.latestNavbarTint
@@ -1104,7 +1103,7 @@ extension QiscusChatVC: UIDocumentPickerDelegate{
 }
 
 // Image Picker
-extension QiscusChatVC : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func showFileTooBigAlert(){
         let alertController = UIAlertController(title: "Fail to upload", message: "File too big", preferredStyle: .alert)
         let galeryActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ -> Void in }
@@ -1274,7 +1273,7 @@ extension QiscusChatVC : UIImagePickerControllerDelegate, UINavigationController
     }
 }
 
-extension QiscusChatVC: CLLocationManagerDelegate {
+extension ChatViewController: CLLocationManagerDelegate {
     
     func newLocationComment(latitude:Double, longitude:Double, title:String?=nil, address:String?=nil)->CommentModel{
         let comment = CommentModel()

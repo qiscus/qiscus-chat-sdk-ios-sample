@@ -25,7 +25,7 @@ class QReplyLeftCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     var isPublic: Bool = false
     var colorName : UIColor = UIColor.black
-    var delegateChat: QiscusChatVC? = nil
+    var delegateChat: ChatViewController? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

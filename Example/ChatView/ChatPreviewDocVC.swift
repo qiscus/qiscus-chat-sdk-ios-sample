@@ -144,12 +144,12 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
         let backLabel = UILabel()
         
         backLabel.text = ""
-        backLabel.textColor = QiscusChatVC().currentNavbarTint
+        backLabel.textColor = ChatViewController().currentNavbarTint
         backLabel.font = UIFont.systemFont(ofSize: 12)
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = QiscusChatVC().currentNavbarTint
+        backIcon.tintColor = ChatViewController().currentNavbarTint
         
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {

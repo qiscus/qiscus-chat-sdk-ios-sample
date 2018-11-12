@@ -42,7 +42,7 @@ class ChatListViewController: UIChatListViewController {
     }
     
     func chat(withRoom room: RoomModel){
-        let target = QiscusChatVC()
+        let target = ChatViewController()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)
     }

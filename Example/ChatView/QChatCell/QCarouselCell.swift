@@ -23,7 +23,7 @@ public class QCarouselCell: UIBaseChatCell {
     @IBOutlet weak var topMargin: NSLayoutConstraint!
     @IBOutlet weak var carouselHeight: NSLayoutConstraint!
     var sizeCarousel : CGSize = CGSize(width: 0, height: 0)
-    var delegateChat : QiscusChatVC? = nil
+    var delegateChat : ChatViewController? = nil
     public var cards = [QCard](){
         didSet{
             self.carouselView.reloadData()

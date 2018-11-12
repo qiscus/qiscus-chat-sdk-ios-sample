@@ -24,7 +24,7 @@ class QPostbackLeftCell: UIBaseChatCell {
     @IBOutlet weak var textViewHeight: NSLayoutConstraint!
 //    @IBOutlet weak var textViewWidth: NSLayoutConstraint!
     @IBOutlet weak var buttonsViewHeight: NSLayoutConstraint!
-    var delegateChat : QiscusChatVC? = nil
+    var delegateChat : ChatViewController? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -136,7 +136,6 @@ class QPostbackLeftCell: UIBaseChatCell {
         let allData =  data["buttons"].arrayValue
         if allData.count > sender.tag {
             if let delegate = delegateChat {
-                delegate.cellDelegate?.didTapPostbackButton(viewController: delegate, withData: allData[sender.tag])
                 self.didTapActionButton(withData: allData[sender.tag])
                 
             }
@@ -151,7 +150,6 @@ class QPostbackLeftCell: UIBaseChatCell {
         let data = JSON(dataPayload)
         
         if let delegate = delegateChat {
-            delegate.cellDelegate?.didTapAccountLinking(viewController: delegate, withData: data)
             self.didTapAccountLinking(data: data)
         }
     }

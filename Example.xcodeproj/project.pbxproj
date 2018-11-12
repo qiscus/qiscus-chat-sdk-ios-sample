@@ -17,7 +17,7 @@
 		3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8582192E20900FE7228 /* NavigationBar.swift */; };
 		3D40B8B72192E20C00FE7228 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8592192E20900FE7228 /* Background.swift */; };
 		3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B85A2192E20900FE7228 /* UIImage.swift */; };
-		3D40B8BA2192E20C00FE7228 /* QiscusChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B85C2192E20900FE7228 /* QiscusChatVC.swift */; };
+		3D40B8BA2192E20C00FE7228 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B85C2192E20900FE7228 /* ChatViewController.swift */; };
 		3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B85E2192E20900FE7228 /* QPopUpView.swift */; };
 		3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B8622192E20900FE7228 /* QPopUpView.xib */; };
 		3D40B8C22192E20C00FE7228 /* QCardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8652192E20900FE7228 /* QCardButton.swift */; };
@@ -71,7 +71,7 @@
 		3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8A92192E20C00FE7228 /* QiscusTextConfiguration.swift */; };
 		3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AA2192E20C00FE7228 /* ColorConfiguration.swift */; };
 		3D40B9012192E20C00FE7228 /* UIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AB2192E20C00FE7228 /* UIConfiguration.swift */; };
-		3D40B9022192E20C00FE7228 /* QiscusChatVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B8AC2192E20C00FE7228 /* QiscusChatVC.xib */; };
+		3D40B9022192E20C00FE7228 /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B8AC2192E20C00FE7228 /* ChatViewController.xib */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
@@ -95,7 +95,7 @@
 		3D40B8582192E20900FE7228 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		3D40B8592192E20900FE7228 /* Background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		3D40B85A2192E20900FE7228 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
-		3D40B85C2192E20900FE7228 /* QiscusChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusChatVC.swift; sourceTree = "<group>"; };
+		3D40B85C2192E20900FE7228 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		3D40B85E2192E20900FE7228 /* QPopUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QPopUpView.swift; sourceTree = "<group>"; };
 		3D40B8622192E20900FE7228 /* QPopUpView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QPopUpView.xib; sourceTree = "<group>"; };
 		3D40B8652192E20900FE7228 /* QCardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardButton.swift; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 		3D40B8A92192E20C00FE7228 /* QiscusTextConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusTextConfiguration.swift; sourceTree = "<group>"; };
 		3D40B8AA2192E20C00FE7228 /* ColorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorConfiguration.swift; sourceTree = "<group>"; };
 		3D40B8AB2192E20C00FE7228 /* UIConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIConfiguration.swift; sourceTree = "<group>"; };
-		3D40B8AC2192E20C00FE7228 /* QiscusChatVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusChatVC.xib; sourceTree = "<group>"; };
+		3D40B8AC2192E20C00FE7228 /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatViewController.xib; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -311,8 +311,8 @@
 				3D40B86C2192E20A00FE7228 /* ChatPreviewDocVC.xib */,
 				3DCF6A3F2199581200C108E6 /* ChatUpload */,
 				3D40B8712192E20A00FE7228 /* QChatCell */,
-				3D40B85C2192E20900FE7228 /* QiscusChatVC.swift */,
-				3D40B8AC2192E20C00FE7228 /* QiscusChatVC.xib */,
+				3D40B85C2192E20900FE7228 /* ChatViewController.swift */,
+				3D40B8AC2192E20C00FE7228 /* ChatViewController.xib */,
 			);
 			path = ChatView;
 			sourceTree = "<group>";
@@ -444,7 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */,
-				3D40B9022192E20C00FE7228 /* QiscusChatVC.xib in Resources */,
+				3D40B9022192E20C00FE7228 /* ChatViewController.xib in Resources */,
 				3D40B8EC2192E20C00FE7228 /* QAudioRightCell.xib in Resources */,
 				3D40B8E22192E20C00FE7228 /* QAudioLeftCell.xib in Resources */,
 				3D40B8DE2192E20C00FE7228 /* QReplyRightCell.xib in Resources */,
@@ -557,7 +557,7 @@
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
 				3D40B8EF2192E20C00FE7228 /* QLocationLeftCell.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
-				3D40B8BA2192E20C00FE7228 /* QiscusChatVC.swift in Sources */,
+				3D40B8BA2192E20C00FE7228 /* ChatViewController.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */,
 				3D40B8DA2192E20C00FE7228 /* QPostbackLeftCell.swift in Sources */,

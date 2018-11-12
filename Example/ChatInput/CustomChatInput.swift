@@ -76,7 +76,7 @@ class CustomChatInput: UIChatInput {
                 self.iconReplyPreview.image = UIImage(named: "contact")
                 self.ivReplyPreviewWidth.constant = 0
             }else if data.type == "file_attachment"{
-                let replyType = QiscusChatVC().getType(message: data)
+                let replyType = ChatViewController().getType(message: data)
                 switch replyType {
                 case .image:
                     guard let payload = data.payload else { return }
