@@ -67,7 +67,7 @@
 		3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8982192E20A00FE7228 /* QImageRightCell.swift */; };
 		3D40B8F12192E20C00FE7228 /* QiscusUploaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8992192E20B00FE7228 /* QiscusUploaderVC.swift */; };
 		3D40B8F22192E20C00FE7228 /* QRoomListDefaultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B89B2192E20B00FE7228 /* QRoomListDefaultCell.xib */; };
-		3D40B8F32192E20C00FE7228 /* QRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B89C2192E20B00FE7228 /* QRoomList.swift */; };
+		3D40B8F32192E20C00FE7228 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B89C2192E20B00FE7228 /* ChatListViewController.swift */; };
 		3D40B8F42192E20C00FE7228 /* QRoomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B89D2192E20B00FE7228 /* QRoomListCell.swift */; };
 		3D40B8F52192E20C00FE7228 /* QSearchListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B89E2192E20B00FE7228 /* QSearchListCell.swift */; };
 		3D40B8F62192E20C00FE7228 /* QRoomListDefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B89F2192E20B00FE7228 /* QRoomListDefaultCell.swift */; };
@@ -81,6 +81,8 @@
 		3D40B9002192E20C00FE7228 /* QiscusColorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AA2192E20C00FE7228 /* QiscusColorConfiguration.swift */; };
 		3D40B9012192E20C00FE7228 /* QiscusUIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AB2192E20C00FE7228 /* QiscusUIConfiguration.swift */; };
 		3D40B9022192E20C00FE7228 /* QiscusChatVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B8AC2192E20C00FE7228 /* QiscusChatVC.xib */; };
+		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
+		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDEFB642192D35600484795 /* AppDelegate.swift */; };
 		3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB682192D35600484795 /* Main.storyboard */; };
 		3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6B2192D35D00484795 /* Assets.xcassets */; };
@@ -149,7 +151,7 @@
 		3D40B8982192E20A00FE7228 /* QImageRightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QImageRightCell.swift; sourceTree = "<group>"; };
 		3D40B8992192E20B00FE7228 /* QiscusUploaderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusUploaderVC.swift; sourceTree = "<group>"; };
 		3D40B89B2192E20B00FE7228 /* QRoomListDefaultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QRoomListDefaultCell.xib; sourceTree = "<group>"; };
-		3D40B89C2192E20B00FE7228 /* QRoomList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRoomList.swift; sourceTree = "<group>"; };
+		3D40B89C2192E20B00FE7228 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		3D40B89D2192E20B00FE7228 /* QRoomListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRoomListCell.swift; sourceTree = "<group>"; };
 		3D40B89E2192E20B00FE7228 /* QSearchListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QSearchListCell.swift; sourceTree = "<group>"; };
 		3D40B89F2192E20B00FE7228 /* QRoomListDefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRoomListDefaultCell.swift; sourceTree = "<group>"; };
@@ -163,7 +165,9 @@
 		3D40B8AA2192E20C00FE7228 /* QiscusColorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusColorConfiguration.swift; sourceTree = "<group>"; };
 		3D40B8AB2192E20C00FE7228 /* QiscusUIConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusUIConfiguration.swift; sourceTree = "<group>"; };
 		3D40B8AC2192E20C00FE7228 /* QiscusChatVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusChatVC.xib; sourceTree = "<group>"; };
-		3DDEFB612192D35600484795 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		3DDEFB612192D35600484795 /* Qiscus+UI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Qiscus+UI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DDEFB642192D35600484795 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DDEFB692192D35600484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3DDEFB6B2192D35D00484795 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -293,7 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				3D40B89B2192E20B00FE7228 /* QRoomListDefaultCell.xib */,
-				3D40B89C2192E20B00FE7228 /* QRoomList.swift */,
+				3D40B89C2192E20B00FE7228 /* ChatListViewController.swift */,
 				3D40B89D2192E20B00FE7228 /* QRoomListCell.swift */,
 				3D40B89E2192E20B00FE7228 /* QSearchListCell.swift */,
 				3D40B89F2192E20B00FE7228 /* QRoomListDefaultCell.swift */,
@@ -314,6 +318,15 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		3DCF6A37219926F800C108E6 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				3DCF6A382199277E00C108E6 /* LoginViewController.swift */,
+				3DCF6A392199277E00C108E6 /* LoginViewController.xib */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		3DDEFB582192D35600484795 = {
 			isa = PBXGroup;
 			children = (
@@ -327,7 +340,7 @@
 		3DDEFB622192D35600484795 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3DDEFB612192D35600484795 /* Example.app */,
+				3DDEFB612192D35600484795 /* Qiscus+UI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -335,6 +348,7 @@
 		3DDEFB632192D35600484795 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				3DCF6A37219926F800C108E6 /* Login */,
 				3D40B86E2192E20A00FE7228 /* ChatInput */,
 				3D40B86B2192E20A00FE7228 /* ChatPreviewDocVC.swift */,
 				3D40B86C2192E20A00FE7228 /* ChatPreviewDocVC.xib */,
@@ -398,7 +412,7 @@
 			);
 			name = Example;
 			productName = Example;
-			productReference = 3DDEFB612192D35600484795 /* Example.app */;
+			productReference = 3DDEFB612192D35600484795 /* Qiscus+UI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -449,6 +463,7 @@
 				3D40B8D92192E20C00FE7228 /* QLocationRightCell.xib in Resources */,
 				3D40B8D22192E20C00FE7228 /* QCarouselCardCell.xib in Resources */,
 				3D40B8D72192E20C00FE7228 /* QSystemCell.xib in Resources */,
+				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
 				3D40B8CD2192E20C00FE7228 /* QPostbackLeftCell.xib in Resources */,
 				3D40B8DB2192E20C00FE7228 /* QReplyLeftCell.xib in Resources */,
@@ -498,8 +513,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
@@ -517,8 +530,6 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftyTimer/SwiftyTimer.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
@@ -548,7 +559,7 @@
 			files = (
 				3D40B8B52192E20C00FE7228 /* ViewController.swift in Sources */,
 				3D40B8EA2192E20C00FE7228 /* QAudioRightCell.swift in Sources */,
-				3D40B8F32192E20C00FE7228 /* QRoomList.swift in Sources */,
+				3D40B8F32192E20C00FE7228 /* ChatListViewController.swift in Sources */,
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
 				3D40B8CF2192E20C00FE7228 /* QMediaLeftCell.swift in Sources */,
 				3D40B8BE2192E20C00FE7228 /* QLoadingViewController.swift in Sources */,
@@ -560,6 +571,7 @@
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8BA2192E20C00FE7228 /* QiscusChatVC.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
+				3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */,
 				3D40B8DA2192E20C00FE7228 /* QPostbackLeftCell.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* QiscusColorConfiguration.swift in Sources */,
 				3D40B8D12192E20C00FE7228 /* QCarouselCardCell.swift in Sources */,
@@ -746,7 +758,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.Example;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Qiscus+UI";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -765,7 +777,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.Example;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Qiscus+UI";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

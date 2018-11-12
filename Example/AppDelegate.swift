@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import QiscusCore
+import QiscusUI
+
+let APP_ID : String = "sampleapp-65ghcsaysse"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.auth()
         return true
     }
 
@@ -41,3 +46,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate {
+    // Auth
+    func auth() {
+        let target : UIViewController
+        if QiscusCore.isLogined {
+            target = ChatListViewController()
+            // if your are using qiscus ui, qiscuscoredelegate already use in there. but, you can got qiscus event using ChatUIDelegate
+            // QiscusUI.delegate = self
+            _ = QiscusCore.connect(delegate: self)
+        }else {
+            target = LoginViewController()
+        }
+        let navbar = UINavigationController()
+        navbar.viewControllers = [target]
+        self.window = UIWindow.init(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = navbar
+        self.window?.makeKeyAndVisible()
+    }
+}
+
+extension AppDelegate : QiscusConnectionDelegate {
+    func disconnect(withError err: QError?) {
+        //
+    }
+    
+    func connected() {
+        //
+    }
+    
+    func connectionState(change state: QiscusConnectionState) {
+        //
+    }
+    
+}

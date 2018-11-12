@@ -10,7 +10,7 @@ import UIKit
 import QiscusUI
 import QiscusCore
 
-open class QRoomList: UIChatListViewController {
+class ChatListViewController: UIChatListViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -25,26 +25,26 @@ open class QRoomList: UIChatListViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let room = self.rooms[indexPath.row]
         self.chat(withRoom: room)
     }
     
-    open func chat(withRoom room: RoomModel){
+    func chat(withRoom room: RoomModel){
         let target = QiscusChatVC()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)
     }
     
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
     }
     
 }
 
-extension QRoomList: UIChatListViewDelegate {
-    public func uiChatList(tableView: UITableView, cellForRoom room: RoomModel, atIndexPath indexpath: IndexPath) -> BaseChatListCell? {
+extension ChatListViewController: UIChatListViewDelegate {
+    func uiChatList(tableView: UITableView, cellForRoom room: RoomModel, atIndexPath indexpath: IndexPath) -> BaseChatListCell? {
 
         return tableView.dequeueReusableCell(withIdentifier: QRoomListDefaultCell.identifier, for: indexpath) as? BaseChatListCell
     }
