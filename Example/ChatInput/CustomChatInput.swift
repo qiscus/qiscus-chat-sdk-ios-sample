@@ -44,7 +44,7 @@ class CustomChatInput: UIChatInput {
         let nib = UINib(nibName: "CustomChatInput", bundle: nil)
         super.commonInit(nib: nib)
         textView.delegate = self
-        textView.text = QiscusTextConfiguration.sharedInstance.textPlaceholder
+        textView.text = TextConfiguration.sharedInstance.textPlaceholder
         textView.textColor = UIColor.lightGray
         textView.font = UIConfiguration.chatFont
         
@@ -148,7 +148,7 @@ class CustomChatInput: UIChatInput {
     }
     @IBAction func clickSend(_ sender: Any) {
         guard let text = self.textView.text else {return}
-        if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != QiscusTextConfiguration.sharedInstance.textPlaceholder {
+        if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
             var payload:JSON? = nil
             let comment = CommentModel()
             if(replyData != nil){
@@ -186,7 +186,7 @@ class CustomChatInput: UIChatInput {
 
 extension CustomChatInput : UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if(textView.text == QiscusTextConfiguration.sharedInstance.textPlaceholder){
+        if(textView.text == TextConfiguration.sharedInstance.textPlaceholder){
             textView.text = ""
             textView.textColor = UIColor.black
         }
@@ -194,7 +194,7 @@ extension CustomChatInput : UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if(textView.text.isEmpty){
-            textView.text = QiscusTextConfiguration.sharedInstance.textPlaceholder
+            textView.text = TextConfiguration.sharedInstance.textPlaceholder
             textView.textColor = UIColor.lightGray
         }
         self.typing(false)

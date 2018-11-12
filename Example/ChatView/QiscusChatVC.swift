@@ -276,8 +276,6 @@ public class QiscusChatVC: UIChatViewController {
             self.roomAvatar.af_setImage(withURL: URL(string: chatAvatarURL!)!)
         }
         
-        self.titleLabel.textColor       = ColorConfiguration.tintColor
-        self.subtitleLabel.textColor    = ColorConfiguration.tintColor
         self.titleLabel.font            = titleLabel.font.withSize(14)
         self.subtitleLabel.font         = subtitleLabel.font.withSize(12)
        
@@ -833,7 +831,7 @@ extension QiscusChatVC : CustomChatInputDelegate {
                 var fileName = dataURL.lastPathComponent.replacingOccurrences(of: "%20", with: "_")
                 fileName = fileName.replacingOccurrences(of: " ", with: "_")
                 
-                var popupText = QiscusTextConfiguration.sharedInstance.confirmationImageUploadText
+                var popupText = TextConfiguration.sharedInstance.confirmationImageUploadText
                 var fileType = QiscusFileType.image
                 var thumb:UIImage? = nil
                 let fileNameArr = (fileName as String).split(separator: ".")
@@ -935,9 +933,9 @@ extension QiscusChatVC : CustomChatInputDelegate {
                     usePopup = true
                 }else{
                     usePopup = true
-                    let textFirst = QiscusTextConfiguration.sharedInstance.confirmationFileUploadText
+                    let textFirst = TextConfiguration.sharedInstance.confirmationFileUploadText
                     let textMiddle = "\(fileName as String)"
-                    let textLast = QiscusTextConfiguration.sharedInstance.questionMark
+                    let textLast = TextConfiguration.sharedInstance.questionMark
                     popupText = "\(textFirst) \(textMiddle) \(textLast)"
                     fileType = QiscusFileType.file
                 }
@@ -1016,9 +1014,9 @@ extension QiscusChatVC : CustomChatInputDelegate {
     
     func showLocationAccessAlert(){
         DispatchQueue.main.async{autoreleasepool{
-            let text = QiscusTextConfiguration.sharedInstance.locationAccessAlertText
-            let cancelTxt = QiscusTextConfiguration.sharedInstance.alertCancelText
-            let settingTxt = QiscusTextConfiguration.sharedInstance.alertSettingText
+            let text = TextConfiguration.sharedInstance.locationAccessAlertText
+            let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
+            let settingTxt = TextConfiguration.sharedInstance.alertSettingText
             QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
                                  doneAction: {
                                     self.goToIPhoneSetting()
@@ -1029,9 +1027,9 @@ extension QiscusChatVC : CustomChatInputDelegate {
     }
     func showPhotoAccessAlert(){
         DispatchQueue.main.async(execute: {
-            let text = QiscusTextConfiguration.sharedInstance.galeryAccessAlertText
-            let cancelTxt = QiscusTextConfiguration.sharedInstance.alertCancelText
-            let settingTxt = QiscusTextConfiguration.sharedInstance.alertSettingText
+            let text = TextConfiguration.sharedInstance.galeryAccessAlertText
+            let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
+            let settingTxt = TextConfiguration.sharedInstance.alertSettingText
             QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
                                  doneAction: {
                                     self.goToIPhoneSetting()
@@ -1042,9 +1040,9 @@ extension QiscusChatVC : CustomChatInputDelegate {
     }
     func showCameraAccessAlert(){
         DispatchQueue.main.async(execute: {
-            let text = QiscusTextConfiguration.sharedInstance.cameraAccessAlertText
-            let cancelTxt = QiscusTextConfiguration.sharedInstance.alertCancelText
-            let settingTxt = QiscusTextConfiguration.sharedInstance.alertSettingText
+            let text = TextConfiguration.sharedInstance.cameraAccessAlertText
+            let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
+            let settingTxt = TextConfiguration.sharedInstance.alertSettingText
             QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
                                  doneAction: {
                                     self.goToIPhoneSetting()

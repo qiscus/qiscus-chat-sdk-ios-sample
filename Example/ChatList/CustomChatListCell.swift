@@ -13,7 +13,7 @@ import QiscusUI
 import SwiftyJSON
 import SDWebImage
 
-class QRoomListDefaultCell: BaseChatListCell {
+class CustomChatListCell: BaseChatListCell {
     static var nib:UINib {
         return UINib(nibName: identifier, bundle:nil)
     }

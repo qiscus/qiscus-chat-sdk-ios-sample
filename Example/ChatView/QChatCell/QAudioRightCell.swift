@@ -118,7 +118,7 @@ class QAudioRightCell: UIBaseChatCell {
         case .sending, .pending:
             dateLabel.textColor = ColorConfiguration.rightBaloonTextColor
             ivStatus.tintColor = ColorConfiguration.rightBaloonTextColor
-            dateLabel.text = QiscusTextConfiguration.sharedInstance.sendingText
+            dateLabel.text = TextConfiguration.sharedInstance.sendingText
             ivStatus.image = UIImage(named: "ic_info_time")?.withRenderingMode(.alwaysTemplate)
             break
         case .sent:
@@ -138,7 +138,7 @@ class QAudioRightCell: UIBaseChatCell {
             break
         case . failed:
             dateLabel.textColor = ColorConfiguration.failToSendColor
-            dateLabel.text = QiscusTextConfiguration.sharedInstance.failedText
+            dateLabel.text = TextConfiguration.sharedInstance.failedText
             ivStatus.image = UIImage(named: "ic_warning")?.withRenderingMode(.alwaysTemplate)
             ivStatus.tintColor = ColorConfiguration.failToSendColor
             break

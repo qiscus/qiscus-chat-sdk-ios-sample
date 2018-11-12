@@ -11,7 +11,7 @@ import UIKit
 
 /// Qiscus ui style configuration
 class UIConfiguration: NSObject {
-    var copyright = QiscusTextConfiguration.sharedInstance
+    var copyright = TextConfiguration.sharedInstance
 
     static var chatFont = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body){
         didSet{

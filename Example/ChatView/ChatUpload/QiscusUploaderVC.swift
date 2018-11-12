@@ -61,7 +61,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         
         mediaCaption.inputAccessoryView = keyboardToolBar
         
-        mediaCaption.text = QiscusTextConfiguration.sharedInstance.captionPlaceholder
+        mediaCaption.text = TextConfiguration.sharedInstance.captionPlaceholder
         mediaCaption.textColor = UIColor.lightGray
         mediaCaption.delegate = self
         
@@ -136,7 +136,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = QiscusTextConfiguration.sharedInstance.captionPlaceholder
+            textView.text = TextConfiguration.sharedInstance.captionPlaceholder
             textView.textColor = UIColor.lightGray
         }
     }
@@ -207,7 +207,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     @IBAction func sendMedia(_ sender: Any) {
         if type == .image {
             
-            if (mediaCaption.text != QiscusTextConfiguration.sharedInstance.captionPlaceholder ){
+            if (mediaCaption.text != TextConfiguration.sharedInstance.captionPlaceholder ){
                 
                 self.imageData.first?.payload![ "caption" ] = mediaCaption.text
                 

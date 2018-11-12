@@ -1,5 +1,5 @@
 //
-//  QiscusTextConfiguration.swift
+//  TextConfiguration.swift
 //  QiscusSDK
 //
 //  Created by Ahmad Athaullah on 9/7/16.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-open class QiscusTextConfiguration: NSObject {
-    static var sharedInstance = QiscusTextConfiguration()
+open class TextConfiguration: NSObject {
+    static var sharedInstance = TextConfiguration()
     
     /// Your text to show as subtitle if there isn't any message, Default value : "Let's write message to start conversation"
     open var emptyMessage = "EMPTY_MESSAGE"//.getLocalize()
@@ -85,39 +85,4 @@ open class QiscusTextConfiguration: NSObject {
     open var defaultRoomSubtitle = "not Available"
     
     fileprivate override init(){}
-}
-
-extension String {
-//    func getLocalize(value: Int) -> String {
-//        var bundle =nil
-//
-//        if Qiscus.sharedInstance.disableLocalization {
-//            let path = bundle.path(forResource: "en", ofType: "lproj")
-//            bundle = Bundle(path: path!)!
-//        }
-//
-//        return String(format: NSLocalizedString(self, bundle: bundle, comment: ""), value)
-//    }
-//
-//    func getLocalize(value: String) -> String {
-//        var bundle =nil
-//
-//        if Qiscus.sharedInstance.disableLocalization {
-//            let path = bundle.path(forResource: "en", ofType: "lproj")
-//            bundle = Bundle(path: path!)!
-//        }
-//
-//        return String(format: NSLocalizedString(self, bundle: bundle, comment: ""), value)
-//    }
-//
-//    func getLocalize() -> String {
-//        var bundle =nil
-//
-//        if Qiscus.sharedInstance.disableLocalization {
-//            let path = bundle.path(forResource: "en", ofType: "lproj")
-//            bundle = Bundle(path: path!)!
-//        }
-//
-//        return NSLocalizedString(self, bundle: bundle, comment: "")
-//    }
 }

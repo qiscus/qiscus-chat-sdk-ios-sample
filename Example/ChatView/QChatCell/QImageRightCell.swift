@@ -131,7 +131,7 @@ class QImageRightCell: UIBaseChatCell {
         case .sending, .pending:
             lbTime.textColor = ColorConfiguration.rightBaloonTextColor
             ivStatus.tintColor = ColorConfiguration.rightBaloonTextColor
-            lbTime.text = QiscusTextConfiguration.sharedInstance.sendingText
+            lbTime.text = TextConfiguration.sharedInstance.sendingText
             ivStatus.image = UIImage(named: "ic_info_time")?.withRenderingMode(.alwaysTemplate)
             break
         case .sent:
@@ -151,7 +151,7 @@ class QImageRightCell: UIBaseChatCell {
             break
         case . failed:
             lbTime.textColor = ColorConfiguration.failToSendColor
-            lbTime.text = QiscusTextConfiguration.sharedInstance.failedText
+            lbTime.text = TextConfiguration.sharedInstance.failedText
             ivStatus.image = UIImage(named: "ic_warning")?.withRenderingMode(.alwaysTemplate)
             ivStatus.tintColor = ColorConfiguration.failToSendColor
             break
