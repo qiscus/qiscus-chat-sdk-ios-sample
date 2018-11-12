@@ -18,6 +18,7 @@ class ChatListViewController: UIChatListViewController {
         self.delegate = self
         
         self.registerCell(nib: QRoomListDefaultCell.nib, forCellWithReuseIdentifier: QRoomListDefaultCell.identifier)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
     }
     
     override open func didReceiveMemoryWarning() {
@@ -25,9 +26,19 @@ class ChatListViewController: UIChatListViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let room = self.rooms[indexPath.row]
-        self.chat(withRoom: room)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    @objc func logout() {
+        QiscusCore.logout { (error) in
+            let local = UserDefaults.standard
+            local.removeObject(forKey: "AppID")
+            local.synchronize()
+            let app = UIApplication.shared.delegate as! AppDelegate
+            app.auth()
+        }
     }
     
     func chat(withRoom room: RoomModel){
@@ -36,11 +47,10 @@ class ChatListViewController: UIChatListViewController {
         self.navigationController?.pushViewController(target, animated: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let room = self.rooms[indexPath.row]
+        self.chat(withRoom: room)
     }
-    
 }
 
 extension ChatListViewController: UIChatListViewDelegate {

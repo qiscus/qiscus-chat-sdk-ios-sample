@@ -50,7 +50,8 @@ class LoginViewController: UIViewController {
 
                     QiscusCore.setup(WithAppID: APP_ID)
                     QiscusCore.loginOrRegister(userID: name, userKey: key, onSuccess: { (user) in
-                        self.navigationController?.pushViewController(ChatListViewController(), animated: true)
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.auth()
                     }, onError: { (error) in
                         print("error \(String(describing: error))")
                         let alert = UIAlertController(title: "Failed to Login?", message: String(describing: error), preferredStyle: .alert)

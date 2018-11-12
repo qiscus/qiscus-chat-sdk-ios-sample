@@ -921,7 +921,8 @@ extension QiscusChatVC : CustomChatInputDelegate {
                     thumbGenerator.appliesPreferredTrackTransform = true
                     
                     let thumbTime = CMTimeMakeWithSeconds(0, 30)
-                    let maxSize = CGSize(width: QiscusHelper.screenWidth(), height: QiscusHelper.screenWidth())
+                    let width = UIScreen.main.bounds.size.width
+                    let maxSize = CGSize(width: width, height: width)
                     thumbGenerator.maximumSize = maxSize
                     
                     do{
@@ -1225,7 +1226,8 @@ extension QiscusChatVC : UIImagePickerControllerDelegate, UINavigationController
             thumbGenerator.appliesPreferredTrackTransform = true
             
             let thumbTime = CMTimeMakeWithSeconds(0, 30)
-            let maxSize = CGSize(width: QiscusHelper.screenWidth(), height: QiscusHelper.screenWidth())
+            let width = UIScreen.main.bounds.size.width
+            let maxSize = CGSize(width: width, height: width)
             thumbGenerator.maximumSize = maxSize
             
             picker.dismiss(animated: true, completion: {

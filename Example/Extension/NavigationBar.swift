@@ -12,7 +12,7 @@ extension UINavigationItem {
 
     public func setTitleWithSubtitle(title:String, subtitle : String){
         
-        let titleWidth = QiscusHelper.screenWidth() - 120
+        let titleWidth = UIScreen.main.bounds.size.width - 120
         
         let titleLabel = UILabel(frame:CGRect(x: 0, y: 0, width: titleWidth, height: 0))
         titleLabel.backgroundColor = UIColor.clear

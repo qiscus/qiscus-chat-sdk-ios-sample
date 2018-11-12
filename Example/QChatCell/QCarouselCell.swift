@@ -32,7 +32,8 @@ public class QCarouselCell: UIBaseChatCell {
                 if c.userEmail == user.email {
                     if cards.count > 0 {
                         if cards.count == 1 {
-                            self.carouselLeading.constant = QiscusHelper.screenWidth() - (QiscusHelper.screenWidth() * 0.6 + 32)
+                            let width = UIScreen.main.bounds.size.width
+                            self.carouselLeading.constant = width - (width * 0.6 + 32)
                         }else{
                             self.carouselLeading.constant = 0
                         }
@@ -126,7 +127,7 @@ public class QCarouselCell: UIBaseChatCell {
             
             var maxWidth:CGFloat = UIConfiguration.chatTextMaxWidth
             if message.type == "carousel"{
-                maxWidth = (QiscusHelper.screenWidth() * 0.70) - 8
+                maxWidth = (UIScreen.main.bounds.size.width * 0.70) - 8
             }
             if message.type != "carousel" {
                 textView.attributedText = attributedText
@@ -235,7 +236,7 @@ extension QCarouselCell: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let c = self.comment {
             var size = self.sizeCarousel
-            size.width = QiscusHelper.screenWidth() * 0.70
+            size.width = UIScreen.main.bounds.size.width * 0.70
             size.height += 30
             return size
         }
