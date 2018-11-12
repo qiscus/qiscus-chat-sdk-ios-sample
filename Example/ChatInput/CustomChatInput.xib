@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomChatInput" customModule="Example" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomChatInput" customModule="Qiscus_UI" customModuleProvider="target">
             <connections>
                 <outlet property="attachButton" destination="eX8-dS-8SK" id="Hfi-oJ-JQY"/>
                 <outlet property="cancelReplyPreviewButton" destination="kLy-0I-JSS" id="qXl-Mc-JNg"/>
@@ -35,6 +35,7 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KIv-HR-J1D">
                     <rect key="frame" x="325" y="50" width="50" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="dO6-to-wpg"/>
                         <constraint firstAttribute="width" constant="50" id="ty3-9h-BCL"/>
@@ -47,6 +48,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eX8-dS-8SK">
                     <rect key="frame" x="0.0" y="50" width="50" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="BWF-iV-nYy"/>
                         <constraint firstAttribute="height" constant="50" id="IuH-vd-Pvb"/>
@@ -58,11 +60,12 @@
                     </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vuj-gV-0ov">
-                    <rect key="frame" x="44" y="55" width="287" height="40"/>
+                    <rect key="frame" x="50" y="58" width="275" height="34"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="1uw-f4-jxK"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="1uw-f4-jxK"/>
                     </constraints>
+                    <inset key="scrollIndicatorInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     <userDefinedRuntimeAttributes>
@@ -166,16 +169,16 @@
             <constraints>
                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="9Gk-gy-9FX"/>
                 <constraint firstItem="32c-UV-wSH" firstAttribute="trailing" secondItem="8Om-te-Qpk" secondAttribute="trailing" id="BNL-Cu-5RY"/>
+                <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="Vuj-gV-0ov" secondAttribute="trailing" id="MqH-nR-qm0"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="Okz-vH-BXh"/>
-                <constraint firstItem="Vuj-gV-0ov" firstAttribute="top" secondItem="32c-UV-wSH" secondAttribute="bottom" constant="5" id="Qwr-1x-rg7"/>
-                <constraint firstItem="8Om-te-Qpk" firstAttribute="trailing" secondItem="Vuj-gV-0ov" secondAttribute="trailing" constant="44" id="RKJ-J6-YHb"/>
+                <constraint firstItem="Vuj-gV-0ov" firstAttribute="top" secondItem="32c-UV-wSH" secondAttribute="bottom" constant="8" id="Qwr-1x-rg7"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="SiA-rY-7RG"/>
-                <constraint firstItem="Vuj-gV-0ov" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" constant="44" id="adQ-6h-zzC"/>
-                <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="Vuj-gV-0ov" secondAttribute="bottom" constant="5" id="bTd-G3-sYf"/>
+                <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="Vuj-gV-0ov" secondAttribute="bottom" constant="8" id="bTd-G3-sYf"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="gOG-2e-H61"/>
                 <constraint firstItem="32c-UV-wSH" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="sVg-Vl-YZH"/>
                 <constraint firstItem="32c-UV-wSH" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" id="t00-Pu-1tY"/>
                 <constraint firstAttribute="trailing" secondItem="KIv-HR-J1D" secondAttribute="trailing" id="zAX-l7-ZVv"/>
+                <constraint firstItem="Vuj-gV-0ov" firstAttribute="leading" secondItem="eX8-dS-8SK" secondAttribute="trailing" id="zkU-TJ-URL"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="8Om-te-Qpk"/>

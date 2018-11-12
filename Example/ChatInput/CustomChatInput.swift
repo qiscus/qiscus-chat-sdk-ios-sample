@@ -36,8 +36,8 @@ class CustomChatInput: UIChatInput {
     @IBOutlet weak var textView: UITextView!
     var delegate : CustomChatInputDelegate? = nil
     var replyData:CommentModel?
-    var defaultInputBarHeight: CGFloat = 50.0
-    var customInputBarHeight: CGFloat = 50.0
+    var defaultInputBarHeight: CGFloat = 34.0
+    var customInputBarHeight: CGFloat = 34.0
     var colorName : UIColor = UIColor.black
     
     override func commonInit(nib: UINib) {
@@ -47,7 +47,9 @@ class CustomChatInput: UIChatInput {
         textView.text = TextConfiguration.sharedInstance.textPlaceholder
         textView.textColor = UIColor.lightGray
         textView.font = UIConfiguration.chatFont
-        
+        self.textView.layer.cornerRadius = self.textView.frame.size.height / 2
+        self.textView.clipsToBounds = true
+        self.textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
     
     func showPreviewReply(){
@@ -204,9 +206,9 @@ extension CustomChatInput : UITextViewDelegate {
         self.typing(true)
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSize.init(width: fixedWidth, height: CGFloat(MAXFLOAT)))
-        if (newSize.height >= 40 && newSize.height <= 100) {
+        if (newSize.height >= 34 && newSize.height <= 100) {
             self.heightTextViewCons.constant = newSize.height
-            self.heightView.constant = newSize.height + 10.0
+            self.heightView.constant = newSize.height + 15.0
             if(self.topReplyPreviewCons.constant != 0){
                 self.setHeight(self.heightView.constant)
             }else{

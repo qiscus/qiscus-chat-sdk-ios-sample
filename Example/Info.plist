@@ -43,9 +43,21 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>$(PRODUCT_NAME) media library use</string>
     <key>NSCameraUsageDescription</key>
-    <string></string>
+    <string>Need camera access for uploading Images</string>
+    <key>NSContactsUsageDescription</key>
+    <string>App will continuously upload your contacts to its heavily cloud servers to let you connect with your friends accross all your device in App</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>$(PRODUCT_NAME) location use</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>$(PRODUCT_NAME) location use</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>$(PRODUCT_NAME) microphone use</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>NeedLibrary access for uploading and save images</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string></string>
+    <string>NeedLibrary access for uploading and save images</string>
 </dict>
 </plist>
