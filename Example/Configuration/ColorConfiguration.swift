@@ -19,7 +19,7 @@ class ColorConfiguration: NSObject {
     static var leftBaloonColor = #colorLiteral(red: 0.9063341451, green: 0.9063341451, blue: 0.9063341451, alpha: 1)
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
-    static var rightBaloonColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+    static var rightBaloonColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
     static var systemBalloonColor = UIColor(red: 201/255, green: 229/255, blue: 215/255, alpha: 1)
@@ -39,7 +39,7 @@ class ColorConfiguration: NSObject {
     /// Your failed text color if the message fail to send, using UIColor class, Default value : UIColor(red: 1, green: 19/255.0, blue: 0, alpha: 1)
     static var failToSendColor = UIColor(red: 1, green: 19/255.0, blue: 0, alpha: 1)
     
-    static var readMessageColor = UIColor.green
+    static var readMessageColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
     
     /// Your link color of left baloon chat, using UIColor class, Default value : UIColor.whiteColor()
     static var leftBaloonLinkColor = UIColor.white
