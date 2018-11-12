@@ -81,15 +81,15 @@ extension UIBaseChatCell {
     }
     
     @objc open func reply(_ send:AnyObject){
-        QiscusNotification.publishDidClickReply(message: self.comment!)
+        
     }
     
     @objc open func forward(_ send:AnyObject){
-        QiscusNotification.publishDidClickForward(message: self.comment!)
+        
     }
     
     @objc open func share(_ send:AnyObject){
-        QiscusNotification.publishDidClickShare(message: self.comment!)
+        
     }
     
     @objc open func deleteComment(_ send:AnyObject){
@@ -117,7 +117,7 @@ extension UIBaseChatCell {
     }
     
     @objc open func info(_ send:AnyObject){
-        QiscusNotification.publishDidClickInfo(message: self.comment!)
+        
     }
 }
 

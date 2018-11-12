@@ -315,6 +315,16 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		3DCF6A3E2199562700C108E6 /* ChatView */ = {
+			isa = PBXGroup;
+			children = (
+				3D40B8712192E20A00FE7228 /* QChatCell */,
+				3D40B85C2192E20900FE7228 /* QiscusChatVC.swift */,
+				3D40B8AC2192E20C00FE7228 /* QiscusChatVC.xib */,
+			);
+			path = ChatView;
+			sourceTree = "<group>";
+		};
 		3DDEFB582192D35600484795 = {
 			isa = PBXGroup;
 			children = (
@@ -346,9 +356,7 @@
 				3D40B8502192E20900FE7228 /* Model */,
 				3D40B8A42192E20B00FE7228 /* MultipleImageCell.swift */,
 				3D40B8A22192E20B00FE7228 /* MultipleImageCell.xib */,
-				3D40B8712192E20A00FE7228 /* QChatCell */,
-				3D40B85C2192E20900FE7228 /* QiscusChatVC.swift */,
-				3D40B8AC2192E20C00FE7228 /* QiscusChatVC.xib */,
+				3DCF6A3E2199562700C108E6 /* ChatView */,
 				3D40B8A62192E20C00FE7228 /* QiscusNotification.swift */,
 				3D40B8992192E20B00FE7228 /* QiscusUploaderVC.swift */,
 				3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */,
