@@ -77,6 +77,7 @@
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
 		3DCF6A422199622300C108E6 /* CustomChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A402199622200C108E6 /* CustomChatListCell.swift */; };
 		3DCF6A432199622300C108E6 /* CustomChatListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A412199622300C108E6 /* CustomChatListCell.xib */; };
+		3DCF6A452199751C00C108E6 /* ChatBaloon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A442199751C00C108E6 /* ChatBaloon.swift */; };
 		3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDEFB642192D35600484795 /* AppDelegate.swift */; };
 		3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB682192D35600484795 /* Main.storyboard */; };
 		3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6B2192D35D00484795 /* Assets.xcassets */; };
@@ -155,6 +156,7 @@
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		3DCF6A402199622200C108E6 /* CustomChatListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomChatListCell.swift; sourceTree = "<group>"; };
 		3DCF6A412199622300C108E6 /* CustomChatListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomChatListCell.xib; sourceTree = "<group>"; };
+		3DCF6A442199751C00C108E6 /* ChatBaloon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBaloon.swift; sourceTree = "<group>"; };
 		3DDEFB612192D35600484795 /* Qiscus+UI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Qiscus+UI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DDEFB642192D35600484795 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DDEFB692192D35600484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 		3D40B8712192E20A00FE7228 /* QChatCell */ = {
 			isa = PBXGroup;
 			children = (
+				3DCF6A442199751C00C108E6 /* ChatBaloon.swift */,
 				3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */,
 				3D40B8722192E20A00FE7228 /* QTextLeftCell.xib */,
 				3D40B8732192E20A00FE7228 /* QContactRightCell.xib */,
@@ -584,6 +587,7 @@
 				3D40B8D82192E20C00FE7228 /* QLocationRightCell.swift in Sources */,
 				3D40B8DD2192E20C00FE7228 /* QDocumentLeftCell.swift in Sources */,
 				3D40B8F12192E20C00FE7228 /* QiscusUploaderVC.swift in Sources */,
+				3DCF6A452199751C00C108E6 /* ChatBaloon.swift in Sources */,
 				3D40B8C22192E20C00FE7228 /* QCardButton.swift in Sources */,
 				3D40B9012192E20C00FE7228 /* UIConfiguration.swift in Sources */,
 				3D40B8E32192E20C00FE7228 /* QContactRightCell.swift in Sources */,

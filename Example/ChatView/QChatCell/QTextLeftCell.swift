@@ -62,6 +62,7 @@ class QTextLeftCell: UIBaseChatCell {
     }
     
     func setupBalon(){
+        self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
         self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
     }
