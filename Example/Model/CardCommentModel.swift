@@ -30,9 +30,9 @@ public class QCard: NSObject {
 }
 
 public class QCardAction: NSObject {
-    public var title = ""
-    public var type = QCardButtonType.link
-    public var postbackText = ""
+    public var title                    = ""
+    public var type : QCardButtonType   = .link
+    public var postbackText             = ""
     public var payload:JSON?
     
     public init(json:JSON) {

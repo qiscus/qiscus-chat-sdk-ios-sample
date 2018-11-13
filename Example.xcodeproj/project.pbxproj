@@ -251,11 +251,11 @@
 				3D40B8892192E20A00FE7228 /* QContactLeftCell.swift */,
 				3D40B88A2192E20A00FE7228 /* QAudioLeftCell.xib */,
 				3D40B88B2192E20A00FE7228 /* QContactRightCell.swift */,
-				3D40B88C2192E20A00FE7228 /* QCarouselCell.xib */,
 				3D40B88D2192E20A00FE7228 /* QAudioLeftCell.swift */,
 				3D40B88E2192E20A00FE7228 /* QSystemCell.swift */,
 				3D40B88F2192E20A00FE7228 /* QContactLeftCell.xib */,
 				3D40B8902192E20A00FE7228 /* QCarouselCell.swift */,
+				3D40B88C2192E20A00FE7228 /* QCarouselCell.xib */,
 				3D40B8912192E20A00FE7228 /* QImageRightCell.xib */,
 				3D40B8922192E20A00FE7228 /* QAudioRightCell.swift */,
 				3D40B8932192E20A00FE7228 /* QReplyRightCell.swift */,
@@ -745,7 +745,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.primatek;
 				PRODUCT_NAME = "Qiscus+UI";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -764,7 +764,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.primatek;
 				PRODUCT_NAME = "Qiscus+UI";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

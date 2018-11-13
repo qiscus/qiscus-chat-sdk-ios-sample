@@ -10,12 +10,12 @@ import QiscusUI
 import QiscusCore
 import SwiftyJSON
 
-public protocol QCellCarouselDelegate {
-   // func cellCarousel(carouselCell:QCarouselCell, didTapCard card:QCard)
-   // func cellCarousel(carouselCell:QCarouselCell, didTapAction action:QCardAction)
+protocol QCellCarouselDelegate {
+    func cellCarousel(carouselCell:QCarouselCell, didTapCard card:QCard)
+    func cellCarousel(carouselCell:QCarouselCell, didTapAction action:QCardAction)
 }
 
-public class QCarouselCell: UIBaseChatCell {
+class QCarouselCell: UIBaseChatCell {
     @IBOutlet weak var carouselView: UICollectionView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var carouselTrailing: NSLayoutConstraint!
@@ -23,8 +23,8 @@ public class QCarouselCell: UIBaseChatCell {
     @IBOutlet weak var topMargin: NSLayoutConstraint!
     @IBOutlet weak var carouselHeight: NSLayoutConstraint!
     var sizeCarousel : CGSize = CGSize(width: 0, height: 0)
-    var delegateChat : ChatViewController? = nil
-    public var cards = [QCard](){
+//    var delegateChat : ChatViewController? = nil
+    var cards = [QCard](){
         didSet{
             self.carouselView.reloadData()
             if let c = self.comment {
@@ -47,9 +47,9 @@ public class QCarouselCell: UIBaseChatCell {
         }
     }
     
-    //public var cellCarouselDelegate:QCellCarouselDelegate?
+    var delegate : QCellCarouselDelegate?
     
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         self.carouselView.register(UINib(nibName: "QCarouselCardCell",bundle:nil), forCellWithReuseIdentifier: "cellCardCarousel")
         carouselView.delegate = self
@@ -59,12 +59,12 @@ public class QCarouselCell: UIBaseChatCell {
         self.layer.zPosition = 99
     }
     
-    override public func present(message: CommentModel) {
+    override  func present(message: CommentModel) {
         // parsing payload
         self.bindData(message: message)
     }
     
-    override public func update(message: CommentModel) {
+    override  func update(message: CommentModel) {
         self.bindData(message: message)
     }
     
@@ -174,66 +174,13 @@ public class QCarouselCell: UIBaseChatCell {
         }
     }
 
-    override public func setSelected(_ selected: Bool, animated: Bool) {
+    override  func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-    
-    public func cellDelegate(didTapCardAction action: QCardAction) {
-        switch action.type {
-        case .link:
-            let urlString = action.payload!["url"].stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
-            let urlArray = urlString.components(separatedBy: "/")
-            
-            if let url = URL(string: urlString) {
-                func openInBrowser(){
-                    UIApplication.shared.openURL(url)
-                }
-                
-                if urlArray.count > 2 {
-                    if urlArray[2].lowercased().contains("instagram.com") {
-                        var instagram = "instagram://app"
-                        if urlArray.count == 4 || (urlArray.count == 5 && urlArray[4] == ""){
-                            let usernameIG = urlArray[3]
-                            instagram = "instagram://user?username=\(usernameIG)"
-                        }
-                        if let instagramURL =  URL(string: instagram) {
-                            if UIApplication.shared.canOpenURL(instagramURL) {
-                                UIApplication.shared.openURL(instagramURL)
-                            }else{
-                                UIApplication.shared.openURL(url)
-                            }
-                        }
-                    }else{
-                        UIApplication.shared.openURL(url)
-                    }
-                }else{
-                    UIApplication.shared.openURL(url)
-                }
-            }
-            break
-        default:
-            let text = action.postbackText
-            let type = "button_postback_response"
-            
-            if let room = self.delegateChat?.room {
-//                let newComment = room.newComment(roomId: room.id, text: text)
-//                room.post(comment: newComment, type: type, payload: action.payload!)
-//                room.post(comment: newComment, type: type, payload: action.payload!, onSuccess: {
-//                    
-//                }, onError: { (error) in
-//                    print("error \(error)")
-//                })
-            }
-            break
-        }
-    }
-    
 }
 
 extension QCarouselCell: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let c = self.comment {
             var size = self.sizeCarousel
             size.width = UIScreen.main.bounds.size.width * 0.70
@@ -250,11 +197,11 @@ extension QCarouselCell: UICollectionViewDelegate{
 
 extension QCarouselCell: UICollectionViewDataSource{
     
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cards.count
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellCardCarousel", for: indexPath) as! QCarouselCardCell
         let height = self.sizeCarousel.height + 30.0
         
@@ -264,8 +211,61 @@ extension QCarouselCell: UICollectionViewDataSource{
     }
 }
 extension QCarouselCell: QCarouselCardDelegate {
-    public func carouselCard(cardCell: QCarouselCardCell, didTapAction card: QCardAction) {
-        self.cellDelegate(didTapCardAction: card)
-        //self.cellCarouselDelegate?.cellCarousel(carouselCell: self, didTapAction: card)
+     func carouselCard(cardCell: QCarouselCardCell, didTapAction card: QCardAction) {
+        self.delegate?.cellCarousel(carouselCell: self, didTapAction: card)
+    }
+}
+
+// MARK : Carousel handle
+extension ChatViewController : QCellCarouselDelegate {
+    func cellCarousel(carouselCell: QCarouselCell, didTapCard card: QCard) {
+        //
+    }
+    
+    func cellCarousel(carouselCell: QCarouselCell, didTapAction action: QCardAction) {
+        switch action.type {
+        case .link:
+            let urlString = action.payload!["url"].stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            let urlArray = urlString.components(separatedBy: "/")
+            
+            if let url = URL(string: urlString) {
+                func openInBrowser(){
+                    UIApplication.shared.canOpenURL(url)
+                }
+                
+                if urlArray.count > 2 {
+                    if urlArray[2].lowercased().contains("instagram.com") {
+                        var instagram = "instagram://app"
+                        if urlArray.count == 4 || (urlArray.count == 5 && urlArray[4] == ""){
+                            let usernameIG = urlArray[3]
+                            instagram = "instagram://user?username=\(usernameIG)"
+                        }
+                        if let instagramURL =  URL(string: instagram) {
+                            if UIApplication.shared.canOpenURL(instagramURL) {
+                                UIApplication.shared.canOpenURL(instagramURL)
+                            }else{
+                                UIApplication.shared.canOpenURL(url)
+                            }
+                        }
+                    }else{
+                        UIApplication.shared.canOpenURL(url)
+                    }
+                }else{
+                    UIApplication.shared.canOpenURL(url)
+                }
+            }
+            break
+        default:
+            let text = action.postbackText
+            let type = "button_postback_response"
+            let comment = CommentModel()
+            comment.message = text
+            comment.type    = type
+            comment.payload = action.payload?.dictionaryObject
+            
+            self.sendMessage(message: comment)
+
+            break
+        }
     }
 }

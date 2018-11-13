@@ -569,7 +569,7 @@ extension ChatViewController : UIChatView {
             return cell
         }else if message.type == "carousel" ||  message.type == "card" {
             let cell =  self.reusableCell(withIdentifier: "qCarouselCell", for: message) as! QCarouselCell
-            cell.delegateChat = self
+            cell.delegate = self
             return cell
         }else {
             print("message.type =\(message.type)")
@@ -1359,4 +1359,3 @@ extension ChatViewController: CLLocationManagerDelegate {
             }}
     }
 }
-

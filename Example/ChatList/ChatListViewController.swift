@@ -19,6 +19,7 @@ class ChatListViewController: UIChatListViewController {
         
         self.registerCell(nib: CustomChatListCell.nib, forCellWithReuseIdentifier: CustomChatListCell.identifier)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "🤖", style: .plain, target: self, action: #selector(chatBot))
     }
     
     override open func didReceiveMemoryWarning() {
@@ -29,6 +30,14 @@ class ChatListViewController: UIChatListViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    @objc func chatBot() {
+        QiscusCore.shared.getRoom(withUser: "myim3bot@indosatooredoo.com", onSuccess: { (room, comments) in
+            self.chat(withRoom: room)
+        }) { (error) in
+            print("error chat: \(error.message)")
+        }
     }
     
     @objc func logout() {
