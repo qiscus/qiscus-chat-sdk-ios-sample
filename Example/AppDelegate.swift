@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        QiscusUI.enableDebugPrint   = true
+        QiscusCore.enableDebugPrint = true
+        QiscusCore.setup(WithAppID: APP_ID)
         self.auth()
         return true
     }

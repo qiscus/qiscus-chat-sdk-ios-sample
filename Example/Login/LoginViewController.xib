@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Example" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Qiscus_UI" customModuleProvider="target">
             <connections>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -39,15 +39,31 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLs-uF-54w">
+                    <rect key="frame" x="16" y="363.5" width="343" height="40"/>
+                    <color key="backgroundColor" red="0.21741285860000001" green="0.76113314759999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="MWP-Rz-mfG"/>
+                    </constraints>
+                    <state key="normal" title="LOGIN JWT">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="clickJWT:" destination="-1" eventType="touchUpInside" id="p1h-jb-chz"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="D3R-F7-Mo0" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="1ox-g3-RDo"/>
+                <constraint firstItem="KLs-uF-54w" firstAttribute="top" secondItem="D3R-F7-Mo0" secondAttribute="bottom" constant="10" id="OJ6-9q-ue8"/>
+                <constraint firstItem="KLs-uF-54w" firstAttribute="centerX" secondItem="D3R-F7-Mo0" secondAttribute="centerX" id="TOj-cR-bI1"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6wQ-kH-QPF" secondAttribute="trailing" constant="16" id="Vo9-ge-wUH"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D3R-F7-Mo0" secondAttribute="trailing" constant="16" id="fOp-TI-qv3"/>
                 <constraint firstItem="6wQ-kH-QPF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="l8g-ZB-7cY"/>
                 <constraint firstItem="D3R-F7-Mo0" firstAttribute="top" secondItem="6wQ-kH-QPF" secondAttribute="bottom" constant="40" id="qYq-Av-zc0"/>
                 <constraint firstItem="D3R-F7-Mo0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="rn7-2N-9Kt"/>
+                <constraint firstItem="KLs-uF-54w" firstAttribute="width" secondItem="D3R-F7-Mo0" secondAttribute="width" id="yCk-Qb-35g"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="33.5" y="53.5"/>

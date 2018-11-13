@@ -48,7 +48,6 @@ class LoginViewController: UIViewController {
 //                        "name"   : name
 //                    ]
 
-                    QiscusCore.setup(WithAppID: APP_ID)
                     QiscusCore.loginOrRegister(userID: name, userKey: key, onSuccess: { (user) in
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         appDelegate.auth()
@@ -67,4 +66,13 @@ class LoginViewController: UIViewController {
         
     }
     
+    @IBAction func clickJWT(_ sender: Any) {
+        let token = "_"
+        QiscusCore.login(withIdentityToken: token, onSuccess: { (user) in
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.auth()
+        }) { (error) in
+            print("Error Login \(error.message)")
+        }
+    }
 }
