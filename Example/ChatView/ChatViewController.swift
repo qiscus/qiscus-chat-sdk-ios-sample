@@ -13,13 +13,6 @@ import ContactsUI
 import Photos
 import MobileCoreServices
 
-//public protocol ChatViewControllerCellDelegate{
-//    func chatVC(viewController:ChatViewController, didTapLinkButtonWithURL url:URL )
-//    func didTapPostbackButton(viewController:ChatViewController, withData data: JSON)
-//    func didTapAccountLinking(viewController:ChatViewController, withData data: JSON)
-//}
-
-
 public class ChatViewController: UIChatViewController {
     // UI Config
     var usersColor : [String:UIColor] = [String:UIColor]()
