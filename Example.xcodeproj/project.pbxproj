@@ -806,7 +806,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.primatek;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.Example;
 				PRODUCT_NAME = "Qiscus+UI";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -826,7 +826,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.primatek;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscusdev.Example;
 				PRODUCT_NAME = "Qiscus+UI";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

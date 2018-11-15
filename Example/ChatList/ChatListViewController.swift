@@ -19,7 +19,7 @@ class ChatListViewController: UIChatListViewController {
         
         self.registerCell(nib: CustomChatListCell.nib, forCellWithReuseIdentifier: CustomChatListCell.identifier)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "🤖", style: .plain, target: self, action: #selector(chatBot))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "💬", style: .plain, target: self, action: #selector(chatBot))
     }
     
     override open func didReceiveMemoryWarning() {
@@ -33,11 +33,24 @@ class ChatListViewController: UIChatListViewController {
     }
     
     @objc func chatBot() {
-        QiscusCore.shared.getRoom(withUser: "myim3bot@indosatooredoo.com", onSuccess: { (room, comments) in
-            self.chat(withRoom: room)
-        }) { (error) in
-            print("error chat: \(error.message)")
-        }
+        let alert = UIAlertController(title: "Chat with user", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "Qiscus User or email"
+        })
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            if let name = alert.textFields?.first?.text {
+                QiscusCore.shared.getRoom(withUser: name, onSuccess: { (room, comments) in
+                    self.chat(withRoom: room)
+                }) { (error) in
+                    print("error chat: \(error.message)")
+                }
+            }
+        }))
+        
+        self.present(alert, animated: true)
+        
     }
     
     @objc func logout() {

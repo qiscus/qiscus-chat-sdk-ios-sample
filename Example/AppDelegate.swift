@@ -10,7 +10,7 @@ import UIKit
 import QiscusCore
 import QiscusUI
 
-let APP_ID : String = "chatbot-h3epiudknsanf"
+let APP_ID : String = "sampleapp-65ghcsaysse"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
