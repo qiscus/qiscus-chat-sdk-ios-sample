@@ -550,11 +550,13 @@ extension ChatViewController : UIChatView {
             }
         }else if message.type == "account_linking" {
             let cell = self.reusableCell(withIdentifier: "postBack", for: message) as! QPostbackLeftCell
-            cell.delegateChat = self
+            cell.delegate = self
+            cell.type = .accountLinking
             return cell
         }else if message.type == "buttons" {
             let cell = self.reusableCell(withIdentifier: "postBack", for: message) as! QPostbackLeftCell
-            cell.delegateChat = self
+            cell.delegate = self
+            cell.type = .buttons
             return cell
         }else if message.type == "button_postback_response" {
             let cell =  self.reusableCell(withIdentifier: "qTextRightCell", for: message) as! QTextRightCell
