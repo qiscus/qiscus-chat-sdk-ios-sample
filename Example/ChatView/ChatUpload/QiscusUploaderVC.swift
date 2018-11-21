@@ -164,7 +164,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     }
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -284,16 +284,16 @@ extension QiscusUploaderVC: UIImagePickerControllerDelegate, UINavigationControl
         alertController.addAction(galeryActionButton)
         self.present(alertController, animated: true, completion: nil)
     }
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             let time = Double(Date().timeIntervalSince1970)
-            let fileType:String = info[UIImagePickerControllerMediaType] as! String
+        guard let fileType:String = info[.mediaType] as? String else { return }
             //picker.dismiss(animated: true, completion: nil)
 
             if fileType == "public.image"{
                 var imageName:String = ""
-                let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-                var data = UIImagePNGRepresentation(image)
-                if let imageURL = info[UIImagePickerControllerReferenceURL] as? URL{
+                guard let image = info[.originalImage] as? UIImage else { return }
+                var data = image.pngData()
+                if let imageURL = info[.referenceURL] as? URL{
                     imageName = imageURL.lastPathComponent
 
                     let imageNameArr = imageName.split(separator: ".")
@@ -303,7 +303,7 @@ extension QiscusUploaderVC: UIImagePickerControllerDelegate, UINavigationControl
                     let png:Bool = (imageExt == "png" || imageExt == "png_")
 
                     if png{
-                        data = UIImagePNGRepresentation(image)!
+                        data = image.pngData()!
                     }else if gif{
                         let asset = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
                         if let phAsset = asset.firstObject {
@@ -333,7 +333,7 @@ extension QiscusUploaderVC: UIImagePickerControllerDelegate, UINavigationControl
                             compressVal = 2000 / bigPart
                         }
 
-                        data = UIImageJPEGRepresentation(image, compressVal)!
+                        data = image.jpegData(compressionQuality: compressVal) 
                     }
                 }
 

@@ -30,15 +30,15 @@ extension UIBaseChatCell {
         }
     }
     
-    var linkTextAttributes:[String: Any]{
+    var linkTextAttributes:[NSAttributedString.Key: Any]{
         get{
             var foregroundColorAttributeName = ColorConfiguration.leftBaloonLinkColor
             var underlineColorAttributeName = ColorConfiguration.leftBaloonLinkColor
             return [
-                NSAttributedString.Key.foregroundColor.rawValue: foregroundColorAttributeName,
-                NSAttributedString.Key.underlineColor.rawValue: underlineColorAttributeName,
-                NSAttributedString.Key.underlineStyle.rawValue: NSUnderlineStyle.single.rawValue,
-                NSAttributedString.Key.font.rawValue: UIConfiguration.chatFont
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): foregroundColorAttributeName,
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.underlineColor.rawValue): underlineColorAttributeName,
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.underlineStyle.rawValue): NSUnderlineStyle.single.rawValue,
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIConfiguration.chatFont
             ]
         }
     }
