@@ -22,18 +22,15 @@ public class ChatViewController: UIChatViewController {
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     
     //TODO NEED TO BE IMPLEMENT
-    public var isPresence:Bool = false
-    public var chatDistinctId:String?
-    public var chatData:String?
-    public var chatMessage:String?
+    var isPresence:Bool = false
+    var chatDistinctId:String?
+    var chatData:String?
+    var chatMessage:String?
     
-    public var chatNewRoomUsers:[String] = [String]()
-    public var chatTitle:String?
-    public var chatSubtitle:String?
-    public var chatAvatarURL : String?
-    public var chatUser:String?
-    public var data:Any?
-    public var chatRoomId:String?
+    var chatNewRoomUsers:[String] = [String]()
+    var chatUser:String?
+    var data:Any?
+    var chatRoomId:String?
     //public var chatTarget:CommentModel?
     var didFindLocation = true
     let locationManager = CLLocationManager()
@@ -255,19 +252,7 @@ public class ChatViewController: UIChatViewController {
         if let rightButtons = self.navigationItem.rightBarButtonItems {
             totalButton += rightButtons.count
         }
-        
-        if chatTitle != nil {
-            self.chatTitleView.labelTitle.text = chatTitle
-        }
-        
-        if chatSubtitle != nil {
-            self.chatTitleView.labelSubtitle.text = chatSubtitle
-        }
-        
-        if chatAvatarURL != nil {
-            self.chatTitleView.imageViewAvatar.af_setImage(withURL: URL(string: chatAvatarURL!)!)
-        }
-        
+
         self.chatTitleView.labelTitle.font            = self.chatTitleView.labelTitle.font.withSize(14)
         self.chatTitleView.labelSubtitle.font         = self.chatTitleView.labelSubtitle.font.withSize(12)
        
@@ -278,7 +263,7 @@ public class ChatViewController: UIChatViewController {
     }
     
     @objc func tapFunction(sender:UITapGestureRecognizer) {
-        
+        print("Tap avatar")
     }
     
     private func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
