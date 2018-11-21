@@ -4,7 +4,7 @@ Qiscus UI Example compatible with Qiscus SDK iOS 2.8.x , android and web.
 
 ## Requirements
 
-Please user branch [swift 4.1] if you'r using xcode 9.4
+Please user branch [Swift 4.1](https://github.com/qiscus/QiscusUI-Example/tree/swift4.1) if you'r using xcode 9.4
 
 - iOS 10.0+
 - Xcode 10+
