@@ -6,12 +6,12 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  pod 'QiscusUI', :path => '../QiscusUI/'
+  pod 'QiscusUI', '~> 0.2.1'
   
   # 3rd party
-  pod 'SDWebImage'
-  pod 'SimpleImageViewer'
-  pod 'SwiftyJSON'
-  pod 'Alamofire'
+  pod 'SDWebImage', '~> 4.4.2'
+  pod 'SimpleImageViewer', '~> 1.1.1'
+  pod 'SwiftyJSON', '~> 4.2.0'
+  pod 'Alamofire', '~> 4.7.3'
   
 end
