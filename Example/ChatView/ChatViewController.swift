@@ -257,23 +257,23 @@ public class ChatViewController: UIChatViewController {
         }
         
         if chatTitle != nil {
-            self.titleLabel.text = chatTitle
+            self.chatTitleView.labelTitle.text = chatTitle
         }
         
         if chatSubtitle != nil {
-            self.subtitleLabel.text = chatSubtitle
+            self.chatTitleView.labelSubtitle.text = chatSubtitle
         }
         
         if chatAvatarURL != nil {
-            self.roomAvatar.af_setImage(withURL: URL(string: chatAvatarURL!)!)
+            self.chatTitleView.imageViewAvatar.af_setImage(withURL: URL(string: chatAvatarURL!)!)
         }
         
-        self.titleLabel.font            = titleLabel.font.withSize(14)
-        self.subtitleLabel.font         = subtitleLabel.font.withSize(12)
+        self.chatTitleView.labelTitle.font            = self.chatTitleView.labelTitle.font.withSize(14)
+        self.chatTitleView.labelSubtitle.font         = self.chatTitleView.labelSubtitle.font.withSize(12)
        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction))
-        titleLabel.isUserInteractionEnabled = true
-        titleLabel.addGestureRecognizer(tap)
+        self.chatTitleView.labelTitle.isUserInteractionEnabled = true
+        self.chatTitleView.labelTitle.addGestureRecognizer(tap)
         
     }
     
