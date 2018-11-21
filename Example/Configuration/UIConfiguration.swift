@@ -13,10 +13,10 @@ import UIKit
 class UIConfiguration: NSObject {
     var copyright = TextConfiguration.sharedInstance
 
-    static var chatFont = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body){
+    static var chatFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body){
         didSet{
-            if chatFont.pointSize != UIFont.preferredFont(forTextStyle: UIFontTextStyle.body).pointSize{
-                if chatFont.fontName != UIFont.preferredFont(forTextStyle: UIFontTextStyle.body).fontName {
+            if chatFont.pointSize != UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body).pointSize{
+                if chatFont.fontName != UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body).fontName {
                     
                 }
             }

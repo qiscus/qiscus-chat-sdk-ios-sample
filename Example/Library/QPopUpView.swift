@@ -54,7 +54,7 @@ public class QPopUpView: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(true , animated: false)
-        self.imageView.contentMode = UIViewContentMode.scaleAspectFill
+        self.imageView.contentMode = UIView.ContentMode.scaleAspectFill
         // Do any additional setup after loading the view.
     }
     

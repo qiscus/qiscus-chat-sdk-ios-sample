@@ -118,7 +118,7 @@ class CustomChatListCell: BaseChatListCell {
                 let range = (message as NSString).range(of: senderColor)
                 
                 let attribute = NSMutableAttributedString.init(string: message)
-                attribute.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.black , range: range)
+                attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black , range: range)
                 
                 self.labelLastMessage.attributedText = attribute
             }else{

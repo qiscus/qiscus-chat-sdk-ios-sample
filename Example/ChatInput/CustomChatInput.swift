@@ -95,13 +95,13 @@ class CustomChatInput: UIChatInput {
                 case .video:
                     var filename = data.fileName(text: data.message)
                     self.lbReplyPreview.text = filename
-                    self.iconReplyPreview.image = UIImage(named: "ic_videocam")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+                    self.iconReplyPreview.image = UIImage(named: "ic_videocam")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
                     self.iconReplyPreview.tintColor = UIColor.lightGray
                     self.ivReplyPreviewWidth.constant = 0
                 case .audio:
                     var filename = data.fileName(text: data.message)
                     self.lbReplyPreview.text = filename
-                    self.iconReplyPreview.image = UIImage(named: "ar_record")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+                    self.iconReplyPreview.image = UIImage(named: "ar_record")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
                     self.iconReplyPreview.tintColor = UIColor.lightGray
                     self.ivReplyPreviewWidth.constant = 0
                 case .document:

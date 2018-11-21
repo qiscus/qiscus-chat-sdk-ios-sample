@@ -93,7 +93,7 @@ public class ChatViewController: UIChatViewController {
         }
         
         self.setupUI()
-        NotificationCenter.default.addObserver(self, selector:#selector(willEnterFromForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(willEnterFromForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         if let room = self.room{
             if room.participants?.count != 0 {
@@ -270,7 +270,7 @@ public class ChatViewController: UIChatViewController {
         let backIcon = UIImageView()
         backIcon.contentMode = .scaleAspectFit
         
-        let image = QiscusUI.image(named: "ic_back")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        let image = QiscusUI.image(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
         backIcon.tintColor = UINavigationBar.appearance().tintColor
         
@@ -282,7 +282,7 @@ public class ChatViewController: UIChatViewController {
         
         let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 23,height: 44))
         backButton.addSubview(backIcon)
-        backButton.addTarget(target, action: action, for: UIControlEvents.touchUpInside)
+        backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
         return UIBarButtonItem(customView: backButton)
     }
     
@@ -698,7 +698,7 @@ extension ChatViewController : CustomChatInputDelegate {
             let picker = UIImagePickerController()
             picker.delegate = self
             picker.allowsEditing = false
-            picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
             picker.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
             self.present(picker, animated: true, completion: nil)
         })
@@ -715,7 +715,7 @@ extension ChatViewController : CustomChatInputDelegate {
                     picker.allowsEditing = false
                     picker.mediaTypes = [(kUTTypeImage as String),(kUTTypeMovie as String)]
                     
-                    picker.sourceType = UIImagePickerControllerSourceType.camera
+                    picker.sourceType = UIImagePickerController.SourceType.camera
                     self.present(picker, animated: true, completion: nil)
                 })
             }else{
@@ -730,7 +730,7 @@ extension ChatViewController : CustomChatInputDelegate {
                                     picker.allowsEditing = false
                                     picker.mediaTypes = [(kUTTypeImage as String),(kUTTypeMovie as String)]
                                     
-                                    picker.sourceType = UIImagePickerControllerSourceType.camera
+                                    picker.sourceType = UIImagePickerController.SourceType.camera
                                     self.present(picker, animated: true, completion: nil)
                                     break
                                 case .denied:
@@ -847,7 +847,7 @@ extension ChatViewController : CustomChatInputDelegate {
                     if(bigPart > 2000){
                         compressVal = 2000 / bigPart
                     }
-                    data = UIImageJPEGRepresentation(image, compressVal)!
+                    data = image.jpegData(compressionQuality: compressVal)!
                     thumb = UIImage(data: data)
                 }else if isPDF{
                     usePopup = true
@@ -897,7 +897,7 @@ extension ChatViewController : CustomChatInputDelegate {
                     let thumbGenerator = AVAssetImageGenerator(asset: assetMedia)
                     thumbGenerator.appliesPreferredTrackTransform = true
                     
-                    let thumbTime = CMTimeMakeWithSeconds(0, 30)
+                    let thumbTime = CMTimeMakeWithSeconds(0, preferredTimescale: 30)
                     let width = UIScreen.main.bounds.size.width
                     let maxSize = CGSize(width: width, height: width)
                     thumbGenerator.maximumSize = maxSize
@@ -987,7 +987,7 @@ extension ChatViewController : CustomChatInputDelegate {
     
     //Alert
     func goToIPhoneSetting(){
-        UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+        UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
         let _ = self.navigationController?.popViewController(animated: true)
     }
     
@@ -1091,19 +1091,21 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         self.present(alertController, animated: true, completion: nil)
     }
     
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        let fileType:String = info[UIImagePickerControllerMediaType] as! String
+        guard let fileType:String = info[.mediaType] as? String else { return }
         let time = Double(Date().timeIntervalSince1970)
         let timeToken = UInt64(time * 10000)
         
         if fileType == "public.image"{
 
             var imageName:String = "\(NSDate().timeIntervalSince1970 * 1000).jpg"
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            var data = UIImagePNGRepresentation(image)
+            guard let image = info[.originalImage] as? UIImage else { return }
+            var data = image.pngData()
             
-            if let imageURL = info[UIImagePickerControllerReferenceURL] as? URL{
+            if let imageURL = info[.referenceURL] as? URL{
                 imageName = imageURL.lastPathComponent
                 
                 let imageNameArr = imageName.split(separator: ".")
@@ -1113,7 +1115,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                 let png:Bool = (imageExt == "png" || imageExt == "png_")
                 
                 if png{
-                    data = UIImagePNGRepresentation(image)!
+                    data = image.pngData()!
                 }else if gif{
                     let asset = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
                     if let phAsset = asset.firstObject {
@@ -1143,7 +1145,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                         compressVal = 2000 / bigPart
                     }
                     
-                    data = UIImageJPEGRepresentation(image, compressVal)!
+                    data = image.jpegData(compressionQuality: compressVal)
                 }
             }else{
                 let imageSize = image.size
@@ -1159,7 +1161,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                     compressVal = 2000 / bigPart
                 }
                 
-                data = UIImageJPEGRepresentation(image, compressVal)!
+                data = image.jpegData(compressionQuality: compressVal)
             }
             
             if data != nil {
@@ -1186,7 +1188,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
             }
             
         }else if fileType == "public.movie" {
-            let mediaURL = info[UIImagePickerControllerMediaURL] as! URL
+            let mediaURL = info[.mediaURL] as! URL
             let fileName = mediaURL.lastPathComponent
             
             let mediaData = try? Data(contentsOf: mediaURL)
@@ -1202,7 +1204,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
             let thumbGenerator = AVAssetImageGenerator(asset: assetMedia)
             thumbGenerator.appliesPreferredTrackTransform = true
             
-            let thumbTime = CMTimeMakeWithSeconds(0, 30)
+            let thumbTime = CMTimeMakeWithSeconds(0, preferredTimescale: 30)
             let width = UIScreen.main.bounds.size.width
             let maxSize = CGSize(width: width, height: width)
             thumbGenerator.maximumSize = maxSize

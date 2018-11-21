@@ -53,9 +53,9 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         keyboardToolBar.sizeToFit()
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem:
-            UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem:
-            UIBarButtonSystemItem.done, target: self, action: #selector(self.doneClicked) )
+            UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.doneClicked) )
         
         keyboardToolBar.setItems([flexibleSpace, doneButton], animated: true)
         
@@ -154,8 +154,8 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         }
 
         let center: NotificationCenter = NotificationCenter.default
-        center.addObserver(self, selector: #selector(QiscusUploaderVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        center.addObserver(self, selector: #selector(QiscusUploaderVC.keyboardChange(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        center.addObserver(self, selector: #selector(QiscusUploaderVC.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(QiscusUploaderVC.keyboardChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         self.navigationController?.isNavigationBarHidden = true
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -163,8 +163,8 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         
     }
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIKeyboardWillChangeFrame, object: nil)
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -239,24 +239,24 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     @objc func keyboardWillHide(_ notification: Notification){
         let info: NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
         
-        let animateDuration = info[UIKeyboardAnimationDurationUserInfoKey] as! Double
+        let animateDuration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         self.inputBottom.constant = self.imageData.count > 1 ? self.imageCollection.frame.height : 0
         self.mediaBottomMargin.constant = 8
-        UIView.animate(withDuration: animateDuration, delay: 0, options: UIViewAnimationOptions(), animations: {
+        UIView.animate(withDuration: animateDuration, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.view.layoutIfNeeded()
             
         }, completion: nil)
     }
     @objc func keyboardChange(_ notification: Notification){
         let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardSize = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         let keyboardHeight: CGFloat = keyboardSize.height
-        let animateDuration = info[UIKeyboardAnimationDurationUserInfoKey] as! Double
+        let animateDuration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         
         self.inputBottom.constant = keyboardHeight
         self.mediaBottomMargin.constant = -(self.mediaCaption.frame.height + 8)
-        UIView.animate(withDuration: animateDuration, delay: 0, options: UIViewAnimationOptions(), animations: {
+        UIView.animate(withDuration: animateDuration, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
@@ -270,7 +270,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
             let picker = UIImagePickerController()
             picker.delegate = self
             picker.allowsEditing = false
-            picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
             picker.mediaTypes = [kUTTypeImage as String]
             self.present(picker, animated: true, completion: nil)
         })
@@ -365,7 +365,7 @@ extension QiscusUploaderVC: UIImagePickerControllerDelegate, UINavigationControl
 
                    // imageData.append(self.generateComment(fileName: imageName, data: data!, mediaCaption: ""))
                     self.inputBottom.constant = self.imageCollection.frame.height
-                    UIView.animate(withDuration: 1, delay: 0, options: UIViewAnimationOptions(), animations: {
+                    UIView.animate(withDuration: 1, delay: 0, options: UIView.AnimationOptions(), animations: {
                         self.view.layoutIfNeeded()
 
                     }, completion: nil)

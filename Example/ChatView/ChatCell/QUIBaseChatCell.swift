@@ -20,12 +20,12 @@ open class enableMenuConfig : NSObject {
 }
 extension UIBaseChatCell {
     
-    var textAttribute:[NSAttributedStringKey: Any]{
+    var textAttribute:[NSAttributedString.Key: Any]{
         get{
             var foregroundColorAttributeName = ColorConfiguration.leftBaloonTextColor
             return [
-                NSAttributedStringKey.foregroundColor: foregroundColorAttributeName,
-                NSAttributedStringKey.font: UIConfiguration.chatFont
+                NSAttributedString.Key.foregroundColor: foregroundColorAttributeName,
+                NSAttributedString.Key.font: UIConfiguration.chatFont
             ]
         }
     }
@@ -35,10 +35,10 @@ extension UIBaseChatCell {
             var foregroundColorAttributeName = ColorConfiguration.leftBaloonLinkColor
             var underlineColorAttributeName = ColorConfiguration.leftBaloonLinkColor
             return [
-                NSAttributedStringKey.foregroundColor.rawValue: foregroundColorAttributeName,
-                NSAttributedStringKey.underlineColor.rawValue: underlineColorAttributeName,
-                NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue,
-                NSAttributedStringKey.font.rawValue: UIConfiguration.chatFont
+                NSAttributedString.Key.foregroundColor.rawValue: foregroundColorAttributeName,
+                NSAttributedString.Key.underlineColor.rawValue: underlineColorAttributeName,
+                NSAttributedString.Key.underlineStyle.rawValue: NSUnderlineStyle.single.rawValue,
+                NSAttributedString.Key.font.rawValue: UIConfiguration.chatFont
             ]
         }
     }

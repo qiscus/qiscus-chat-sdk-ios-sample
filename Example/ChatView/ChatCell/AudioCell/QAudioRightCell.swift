@@ -47,17 +47,17 @@ class QAudioRightCell: UIBaseChatCell {
         didSet {
             self.playButton.removeTarget(nil, action: nil, for: .allEvents)
             if isPlaying {
-                self.playButton.setImage(UIImage(named: "audio_pause"), for: UIControlState())
+                self.playButton.setImage(UIImage(named: "audio_pause"), for: UIControl.State())
                 self.playButton.addTarget(self, action: #selector(pauseButtonTapped(_:)), for: .touchUpInside)
             } else {
-                self.playButton.setImage(UIImage(named: "play_audio"), for: UIControlState())
+                self.playButton.setImage(UIImage(named: "play_audio"), for: UIControl.State())
                 self.playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
             }
         }
     }
     
     @IBAction func slide(_ sender: Any) {
-        player?.seek(to: CMTimeMake(Int64(currentTImeSlider.value), 1))
+        player?.seek(to: CMTimeMake(value: Int64(currentTImeSlider.value), timescale: 1))
     }
     
     override func awakeFromNib() {
@@ -104,7 +104,7 @@ class QAudioRightCell: UIBaseChatCell {
             
         }
        
-        self.playButton.setImage(UIImage(named: "play_audio"), for: UIControlState())
+        self.playButton.setImage(UIImage(named: "play_audio"), for: UIControl.State())
         self.playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
         
     }

@@ -15,7 +15,7 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
     var webView = WKWebView()
     var url: String = ""
     var fileName: String = ""
-    var progressView = UIProgressView(progressViewStyle: UIProgressViewStyle.bar)
+    var progressView = UIProgressView(progressViewStyle: UIProgressView.Style.bar)
     var roomName:String = ""
     
     var accountLinking = false
@@ -164,7 +164,7 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
         let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 60,height: 20))
         backButton.addSubview(backIcon)
         backButton.addSubview(backLabel)
-        backButton.addTarget(target, action: action, for: UIControlEvents.touchUpInside)
+        backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
         
         return UIBarButtonItem(customView: backButton)
     }

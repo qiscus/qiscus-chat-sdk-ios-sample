@@ -26,12 +26,12 @@ extension UIBaseChatCell {
     
     open func getBallon()->UIImage?{
         var balloonImage:UIImage? = nil
-        var edgeInset = UIEdgeInsetsMake(13, 13, 13, 28)
+        var edgeInset = UIEdgeInsets(top: 13, left: 13, bottom: 13, right: 28)
         
         if (self.comment?.isMyComment() == true){
             balloonImage = AssetsConfiguration.rightBallonLast
         }else{
-            edgeInset = UIEdgeInsetsMake(13, 28, 13, 13)
+            edgeInset = UIEdgeInsets(top: 13, left: 28, bottom: 13, right: 13)
             balloonImage = AssetsConfiguration.leftBallonLast
         }
         

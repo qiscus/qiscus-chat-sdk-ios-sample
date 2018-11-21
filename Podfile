@@ -10,7 +10,7 @@ target 'Example' do
   
   # 3rd party
   pod 'SDWebImage', '~> 4.4.2'
-  pod 'SimpleImageViewer', '~> 1.1.1'
+  pod 'SimpleImageViewer', :git => 'https://github.com/aFrogleap/SimpleImageViewer'
   pod 'SwiftyJSON', '~> 4.2.0'
   pod 'Alamofire', '~> 4.7.3'
   
