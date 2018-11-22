@@ -132,20 +132,6 @@ public class ChatViewController: UIChatViewController {
         picker.delegate = self
     }
     
-    @objc private func didClickReply(_ notification: Notification){
-        if let userInfo = notification.userInfo {
-            let comment = userInfo["comment"] as! CommentModel
-            
-            self.replyData = comment
-            if usersColor.count != 0{
-                if let email = self.replyData?.userEmail, let color = usersColor[email] {
-                    self.inputBar.colorName = color
-                }
-            }
-            self.inputBar.showPreviewReply()
-        }
-    }
-    
     @objc private func didSaveContact(_ notification: Notification){
         if let userInfo = notification.userInfo {
             let comment = userInfo["comment"] as! CommentModel
@@ -367,12 +353,13 @@ extension ChatViewController : UIChatView {
             colorName = color
         }
         
-        var menuConfig = enableMenuConfig()
+        let menuConfig = enableMenuConfig()
         
         if message.type == "text" {
             if (message.isMyComment() == true){
                 let cell =  self.reusableCell(withIdentifier: "qTextRightCell", for: message) as! QTextRightCell
                 cell.menuConfig = menuConfig
+                cell.cellMenu = self
                 return cell
             }else{
                 let cell = self.reusableCell(withIdentifier: "qTextLeftCell", for: message) as! QTextLeftCell
@@ -382,6 +369,7 @@ extension ChatViewController : UIChatView {
                 }else {
                     cell.isPublic = false
                 }
+                cell.cellMenu = self
                 return cell
             }
         }else if message.type == "file_attachment" {
@@ -391,6 +379,7 @@ extension ChatViewController : UIChatView {
                 if (message.isMyComment() == true){
                     let cell =  self.reusableCell(withIdentifier: "qImageRightCell", for: message) as! QImageRightCell
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }else{
                     let cell = self.reusableCell(withIdentifier: "qImageLeftCell", for: message) as! QImageLeftCell
@@ -401,17 +390,19 @@ extension ChatViewController : UIChatView {
                     }else {
                         cell.isPublic = false
                     }
-                    
+                    cell.cellMenu = self
                     return cell
                 }
             case .video:
                 if (message.isMyComment() == true){
                     let cell =  self.reusableCell(withIdentifier: "qDocumentRightCell", for: message) as! QDocumentRightCell
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }else{
                     let cell = self.reusableCell(withIdentifier: "qDocumentLeftCell", for: message) as! QDocumentLeftCell
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     if self.room?.type == .group {
                         cell.colorName = colorName
                         cell.isPublic = true
@@ -424,10 +415,12 @@ extension ChatViewController : UIChatView {
                 if (message.isMyComment() == true){
                     let cell = self.reusableCell(withIdentifier: "qAudioRightCell", for: message) as! QAudioRightCell
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }else{
                     let cell = self.reusableCell(withIdentifier: "qAudioLeftCell", for: message) as! QAudioLeftCell
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     if self.room?.type == .group {
                         cell.colorName = colorName
                         cell.isPublic = true
@@ -450,12 +443,14 @@ extension ChatViewController : UIChatView {
                         cell.isPublic = false
                     }
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }
             case .document:
                 if (message.isMyComment() == true){
                     let cell = self.reusableCell(withIdentifier: "qDocumentRightCell", for: message) as! QDocumentRightCell
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }else{
                     let cell = self.reusableCell(withIdentifier: "qDocumentLeftCell", for: message) as! QDocumentLeftCell
@@ -466,12 +461,14 @@ extension ChatViewController : UIChatView {
                         cell.isPublic = false
                     }
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }
             default:
                 if (message.isMyComment() == true){
                     let cell = self.reusableCell(withIdentifier: "qDocumentRightCell", for: message) as! QDocumentRightCell
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }else{
                     let cell = self.reusableCell(withIdentifier: "qDocumentLeftCell", for: message) as! QDocumentLeftCell
@@ -482,6 +479,7 @@ extension ChatViewController : UIChatView {
                         cell.isPublic = false
                     }
                     cell.menuConfig = menuConfig
+                    cell.cellMenu = self
                     return cell
                 }
             }
@@ -492,6 +490,7 @@ extension ChatViewController : UIChatView {
                 let cell = self.reusableCell(withIdentifier: "qReplyRightCell", for: message) as! QReplyRightCell
                 cell.menuConfig = menuConfig
                 cell.delegateChat = self
+                cell.cellMenu = self
                 return cell
             }else{
                 let cell = self.reusableCell(withIdentifier: "qReplyLeftCell", for: message) as! QReplyLeftCell
@@ -503,6 +502,7 @@ extension ChatViewController : UIChatView {
                 }
                 cell.delegateChat = self
                 cell.menuConfig = menuConfig
+                cell.cellMenu = self
                 return cell
             }
             
@@ -510,21 +510,25 @@ extension ChatViewController : UIChatView {
             if (message.isMyComment() == true){
                 let cell =  self.reusableCell(withIdentifier: "qLocationRightCell", for: message) as! QLocationRightCell
                 cell.menuConfig = menuConfig
+                cell.cellMenu = self
                 return cell
             }else{
                 let cell = self.reusableCell(withIdentifier: "qLocationLeftCell", for: message) as! QLocationLeftCell
                 cell.menuConfig = menuConfig
                 cell.colorName = colorName
+                cell.cellMenu = self
                 return cell
             }
         }else if message.type == "contact_person" {
             if (message.isMyComment() == true){
                 let cell =  self.reusableCell(withIdentifier: "qContactRightCell", for: message) as! QContactRightCell
                 cell.menuConfig = menuConfig
+                cell.cellMenu = self
                 return cell
             }else{
                 let cell = self.reusableCell(withIdentifier: "qContactLeftCell", for: message) as! QContactLeftCell
                 cell.menuConfig = menuConfig
+                cell.cellMenu = self
                 if self.room?.type == .group {
                     cell.isPublic = true
                     cell.colorName = colorName
@@ -546,6 +550,7 @@ extension ChatViewController : UIChatView {
         }else if message.type == "button_postback_response" {
             let cell =  self.reusableCell(withIdentifier: "qTextRightCell", for: message) as! QTextRightCell
             cell.menuConfig = menuConfig
+            cell.cellMenu = self
             return cell
         }else if message.type == "carousel" ||  message.type == "card" {
             let cell =  self.reusableCell(withIdentifier: "qCarouselCell", for: message) as! QCarouselCell
@@ -1339,5 +1344,46 @@ extension ChatViewController: CLLocationManagerDelegate {
                 self.dismissLoading()
             }
             }}
+    }
+}
+
+// MARK: Handle Cell Menu
+extension ChatViewController : QUIBaseChatCellDelegate {
+    func didTap(replay comment: CommentModel) {
+        self.replyData = comment
+        if usersColor.count != 0{
+            if let email = self.replyData?.userEmail, let color = usersColor[email] {
+                self.inputBar.colorName = color
+            }
+        }
+        self.inputBar.showPreviewReply()
+    }
+    
+    func didTap(forward comment: CommentModel) {
+        //
+    }
+    
+    func didTap(share comment: CommentModel) {
+        //
+    }
+    
+    func didTap(info comment: CommentModel) {
+        //
+    }
+    
+    func didTap(delete comment: CommentModel) {
+        QiscusCore.shared.deleteMessage(uniqueIDs: [comment.uniqId], type: .forEveryone, onSuccess: { (commentsModel) in
+            print("success delete comment for everyone")
+        }) { (error) in
+            print("failed delete comment for everyone")
+        }
+    }
+    
+    func didTap(deleteForMe comment: CommentModel) {
+        QiscusCore.shared.deleteMessage(uniqueIDs: [comment.uniqId], type: DeleteType.forMe, onSuccess: { (commentsModel) in
+            print("success delete comment for me")
+        }) { (error) in
+            print("failed delete comment for me \(error.message)")
+        }
     }
 }

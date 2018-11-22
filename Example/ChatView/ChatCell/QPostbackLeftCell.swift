@@ -19,7 +19,7 @@ enum PostbackType : String {
     case buttons           = "buttons"
 }
 
-class QPostbackLeftCell: UIBaseChatCell {
+class QPostbackLeftCell: QUIBaseChatCell {
     let maxWidth:CGFloat = UIConfiguration.chatTextMaxWidth
     let minWidth:CGFloat = UIConfiguration.chatTextMaxWidth
     let buttonWidth:CGFloat = UIConfiguration.chatTextMaxWidth + 10

@@ -1,5 +1,5 @@
 //
-//  QUIBaseChatCell.swift
+//  QQUIBaseChatCell.swift
 //  Pods
 //
 //  Created by asharijuang on 24/09/18.
@@ -18,7 +18,23 @@ open class enableMenuConfig : NSObject {
         self.info           = info
     }
 }
-extension UIBaseChatCell {
+
+protocol QUIBaseChatCellDelegate {
+    func didTap(replay comment: CommentModel)
+    func didTap(forward comment: CommentModel)
+    func didTap(share comment: CommentModel)
+    func didTap(info comment: CommentModel)
+    func didTap(delete comment: CommentModel)
+    func didTap(deleteForMe comment: CommentModel)
+}
+
+/// Create Custom class base on UIBaseChatCell to provide own variable exm: QUIBaseChatCellDelegate
+class QUIBaseChatCell: UIBaseChatCell {
+    var cellMenu : QUIBaseChatCellDelegate? = nil
+    
+}
+
+extension QUIBaseChatCell {
     
     var textAttribute:[NSAttributedString.Key: Any]{
         get{
@@ -81,43 +97,33 @@ extension UIBaseChatCell {
     }
     
     @objc open func reply(_ send:AnyObject){
-        
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(replay: _comment)
     }
     
     @objc open func forward(_ send:AnyObject){
-        
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(replay: _comment)
     }
     
     @objc open func share(_ send:AnyObject){
-        
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(share: _comment)
     }
     
     @objc open func deleteComment(_ send:AnyObject){
-        var uniqueIDs = [String]()
-        let uniqueID = self.comment!.uniqId
-        uniqueIDs.append(uniqueID)
-        QiscusCore.shared.deleteMessage(uniqueIDs: uniqueIDs, type: .forEveryone, onSuccess: { (commentsModel) in
-            print("success delete comment for everyone")
-        }) { (error) in
-            print("failed delete comment for everyone")
-        }
-    
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(delete: _comment)
     }
     
     @objc open func deleteCommentForMe(_ send:AnyObject){
-        var uniqueIDs = [String]()
-        let uniqueID = self.comment!.uniqId
-        uniqueIDs.append(uniqueID)
-        
-        QiscusCore.shared.deleteMessage(uniqueIDs: uniqueIDs, type: DeleteType.forMe, onSuccess: { (commentsModel) in
-             print("success delete comment for me")
-        }) { (error) in
-             print("failed delete comment for me \(error.message)")
-        }
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(deleteForMe: _comment)
     }
     
     @objc open func info(_ send:AnyObject){
-        
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(info: _comment)
     }
 }
 

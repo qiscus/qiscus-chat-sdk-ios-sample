@@ -9,7 +9,7 @@ import UIKit
 import QiscusUI
 import QiscusCore
 
-class QDocumentRightCell: UIBaseChatCell {
+class QDocumentRightCell: QUIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var balloonView: UIImageView!

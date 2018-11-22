@@ -10,7 +10,7 @@ import QiscusUI
 import QiscusCore
 import AVFoundation
 
-class QAudioLeftCell: UIBaseChatCell {
+class QAudioLeftCell: QUIBaseChatCell {
     @IBOutlet weak var heightUsernameCons: NSLayoutConstraint!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var balloonView: UIImageView!
@@ -126,7 +126,7 @@ class QAudioLeftCell: UIBaseChatCell {
     }
     
     func playUsingAVPlayer() {
-        let activeCell = UIBaseChatCell.self
+        let activeCell = QUIBaseChatCell.self
         
         if let targetCell = activeCell as? QAudioLeftCell{
             targetCell.isPlaying = false

@@ -22,7 +22,7 @@ public enum QReplyType:Int{
     case other
 }
 
-extension UIBaseChatCell {
+extension QUIBaseChatCell {
     
     open func getBallon()->UIImage?{
         var balloonImage:UIImage? = nil

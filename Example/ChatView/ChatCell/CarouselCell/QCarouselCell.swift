@@ -15,7 +15,7 @@ protocol QCellCarouselDelegate {
     func cellCarousel(carouselCell:QCarouselCell, didTapAction action:QCardAction)
 }
 
-class QCarouselCell: UIBaseChatCell {
+class QCarouselCell: QUIBaseChatCell {
     @IBOutlet weak var carouselView: UICollectionView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var carouselTrailing: NSLayoutConstraint!

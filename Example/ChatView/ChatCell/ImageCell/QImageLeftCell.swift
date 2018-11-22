@@ -12,7 +12,7 @@ import Alamofire
 import SimpleImageViewer
 import SDWebImage
 
-class QImageLeftCell: UIBaseChatCell {
+class QImageLeftCell: QUIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
