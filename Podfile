@@ -6,8 +6,9 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  pod 'QiscusUI', '~> 0.2.1'
-  
+  pod 'QiscusUI', :path => '../QiscusUI/'
+#  pod 'QiscusUI', '~> 0.2.1'
+
   # 3rd party
   pod 'SDWebImage', '~> 4.4.2'
   pod 'SimpleImageViewer', :git => 'https://github.com/aFrogleap/SimpleImageViewer'

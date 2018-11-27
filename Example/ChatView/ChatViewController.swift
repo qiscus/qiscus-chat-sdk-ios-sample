@@ -36,6 +36,7 @@ public class ChatViewController: UIChatViewController {
     let locationManager = CLLocationManager()
     var presentingLoading = false
     var inputBar = CustomChatInput()
+    var customChatNavigation = CustomChatNavigation()
     
     var latestNavbarTint = UINavigationBar.appearance().tintColor
     internal var currentNavbarTint = UINavigationBar.appearance().tintColor
@@ -245,7 +246,6 @@ public class ChatViewController: UIChatViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction))
         self.chatTitleView.labelTitle.isUserInteractionEnabled = true
         self.chatTitleView.labelTitle.addGestureRecognizer(tap)
-        
     }
     
     @objc func tapFunction(sender:UITapGestureRecognizer) {
@@ -570,20 +570,24 @@ extension ChatViewController : UIChatView {
         return nil
     }
     
-    public func uiChat(input InViewController: UIChatViewController) -> UIChatInput? {
+    public func uiChat(input inViewController: UIChatViewController) -> UIChatInput? {
         let sendImage = UIImage(named: "send")?.withRenderingMode(.alwaysTemplate)
         let attachmentImage = UIImage(named: "share_attachment")?.withRenderingMode(.alwaysTemplate)
         let cancel = UIImage(named: "ar_cancel")?.withRenderingMode(.alwaysTemplate)
         inputBar.sendButton.setImage(sendImage, for: .normal)
         inputBar.attachButton.setImage(attachmentImage, for: .normal)
         inputBar.cancelReplyPreviewButton.setImage(cancel, for: .normal)
-        
+
         inputBar.sendButton.tintColor = ColorConfiguration.topColor
         inputBar.attachButton.tintColor = ColorConfiguration.topColor
-         inputBar.cancelReplyPreviewButton.tintColor = ColorConfiguration.topColor
+        inputBar.cancelReplyPreviewButton.tintColor = ColorConfiguration.topColor
         inputBar.delegate = self
         inputBar.hidePreviewReply()
         return inputBar
+    }
+    
+    public func uiChat(navigationView inViewConroller: UIChatViewController) -> UIChatNavigation? {
+        return nil
     }
     
 }

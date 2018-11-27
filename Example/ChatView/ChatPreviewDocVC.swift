@@ -160,7 +160,6 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
             backLabel.frame = CGRect(x: 0,y: 0,width: 45,height: 15)
         }
         
-        
         let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 60,height: 20))
         backButton.addSubview(backIcon)
         backButton.addSubview(backLabel)

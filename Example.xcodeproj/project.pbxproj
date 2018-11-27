@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D37F25521ABFB3D0045AE54 /* CustomChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37F25421ABFB3D0045AE54 /* CustomChatNavigation.swift */; };
+		3D37F25721ABFB540045AE54 /* CustomChatNavigation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D37F25621ABFB540045AE54 /* CustomChatNavigation.xib */; };
 		3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */; };
 		3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */; };
 		3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */; };
@@ -85,6 +87,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D37F25421ABFB3D0045AE54 /* CustomChatNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomChatNavigation.swift; sourceTree = "<group>"; };
+		3D37F25621ABFB540045AE54 /* CustomChatNavigation.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomChatNavigation.xib; sourceTree = "<group>"; };
 		3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QExtensionUICore.swift; sourceTree = "<group>"; };
 		3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusUploaderVC.xib; sourceTree = "<group>"; };
 		3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QUIBaseChatCell.swift; sourceTree = "<group>"; };
@@ -178,6 +182,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D37F25321ABFB070045AE54 /* ChatNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				3D37F25421ABFB3D0045AE54 /* CustomChatNavigation.swift */,
+				3D37F25621ABFB540045AE54 /* CustomChatNavigation.xib */,
+			);
+			path = ChatNavigation;
+			sourceTree = "<group>";
+		};
 		3D40B8502192E20900FE7228 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +426,7 @@
 		3DDEFB632192D35600484795 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				3D37F25321ABFB070045AE54 /* ChatNavigation */,
 				3DCF6A37219926F800C108E6 /* Login */,
 				3D40B86E2192E20A00FE7228 /* ChatInput */,
 				3D40B8A72192E20C00FE7228 /* Configuration */,
@@ -535,6 +549,7 @@
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */,
 				3D40B8E72192E20C00FE7228 /* QContactLeftCell.xib in Resources */,
+				3D37F25721ABFB540045AE54 /* CustomChatNavigation.xib in Resources */,
 				3D40B8CA2192E20C00FE7228 /* CustomChatInput.xib in Resources */,
 				3D40B8E42192E20C00FE7228 /* QCarouselCell.xib in Resources */,
 			);
@@ -629,6 +644,7 @@
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
 				3D40B8E52192E20C00FE7228 /* QAudioLeftCell.swift in Sources */,
 				3DCF6A422199622300C108E6 /* CustomChatListCell.swift in Sources */,
+				3D37F25521ABFB3D0045AE54 /* CustomChatNavigation.swift in Sources */,
 				3D40B8E02192E20C00FE7228 /* QDocumentRightCell.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
