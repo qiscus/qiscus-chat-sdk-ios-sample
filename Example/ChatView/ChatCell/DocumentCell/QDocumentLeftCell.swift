@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 
-class QDocumentLeftCell: QUIBaseChatCell {
+class QDocumentLeftCell: UIBaseChatCell {
     
     @IBOutlet weak var lblNameHeightCons: NSLayoutConstraint!
     @IBOutlet weak var lbName: UILabel!

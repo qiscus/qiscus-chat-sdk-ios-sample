@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import MobileCoreServices
 import QiscusCore
-import QiscusUI
+
 enum QUploaderType {
     case image
     case video
@@ -218,20 +218,6 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
             }, onError: { (error) in
                  let _ = self.navigationController?.popViewController(animated: true)
             })
-            
-//            let firstComment = self.room!.prepareImageComment(filename: self.fileName!, caption: self.mediaCaption.value, data: self.data!)
-//            self.imageData.removeFirst()
-//            self.imageData.insert(firstComment, at: 0)
-//            for comment in imageData {
-//                self.room!.add(newComment: comment)
-//                self.room!.upload(comment: comment, onSuccess: { (roomResult, commentResult) in
-//
-//                }, onError: { (roomResult, commentResult, error) in
-//                    print("Error: \(error)")
-//                })
-//            }
-            
-           
         }
     }
     

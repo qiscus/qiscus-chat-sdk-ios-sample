@@ -6,14 +6,14 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 import SwiftyJSON
 import ContactsUI
 import Photos
 import MobileCoreServices
 
-public class ChatViewController: UIChatViewController {
+public class ChatViewController : UIChatViewController {
     // UI Config
     var usersColor : [String:UIColor] = [String:UIColor]()
     /**
@@ -1352,7 +1352,7 @@ extension ChatViewController: CLLocationManagerDelegate {
 }
 
 // MARK: Handle Cell Menu
-extension ChatViewController : QUIBaseChatCellDelegate {
+extension ChatViewController : UIBaseChatCellDelegate {
     func didTap(replay comment: CommentModel) {
         self.replyData = comment
         if usersColor.count != 0{

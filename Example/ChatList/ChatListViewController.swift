@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 
 class ChatListViewController: UIChatListViewController {

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 import SwiftyJSON
 
@@ -19,7 +19,7 @@ enum PostbackType : String {
     case buttons           = "buttons"
 }
 
-class QPostbackLeftCell: QUIBaseChatCell {
+class QPostbackLeftCell: UIBaseChatCell {
     let maxWidth:CGFloat = UIConfiguration.chatTextMaxWidth
     let minWidth:CGFloat = UIConfiguration.chatTextMaxWidth
     let buttonWidth:CGFloat = UIConfiguration.chatTextMaxWidth + 10

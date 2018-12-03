@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 import SwiftyJSON
 
-class QReplyLeftCell: QUIBaseChatCell {
+class QReplyLeftCell: UIBaseChatCell {
     
     @IBOutlet weak var viewReplyPreview: UIView!
     @IBOutlet weak var lblNameHeightCons: NSLayoutConstraint!

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 import SwiftyJSON
 
@@ -15,7 +15,7 @@ protocol QCellCarouselDelegate {
     func cellCarousel(carouselCell:QCarouselCell, didTapAction action:QCardAction)
 }
 
-class QCarouselCell: QUIBaseChatCell {
+class QCarouselCell: UIBaseChatCell {
     @IBOutlet weak var carouselView: UICollectionView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var carouselTrailing: NSLayoutConstraint!

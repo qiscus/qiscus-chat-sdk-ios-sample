@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import QiscusUI
+
 import QiscusCore
 import SwiftyJSON
 
@@ -22,7 +22,7 @@ public enum QReplyType:Int{
     case other
 }
 
-extension QUIBaseChatCell {
+extension UIBaseChatCell {
     
     open func getBallon()->UIImage?{
         var balloonImage:UIImage? = nil

@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 
-class QTextRightCell: QUIBaseChatCell {
+class QTextRightCell: UIBaseChatCell {
 
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!

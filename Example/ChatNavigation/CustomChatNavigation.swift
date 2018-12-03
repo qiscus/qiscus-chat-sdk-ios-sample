@@ -6,7 +6,7 @@
 //  Copyright © 2018 Qiscus. All rights reserved.
 //
 
-import QiscusUI
+
 import QiscusCore
 
 class CustomChatNavigation : UIChatNavigation {

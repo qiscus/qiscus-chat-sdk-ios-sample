@@ -9,6 +9,16 @@
 /* Begin PBXBuildFile section */
 		3D37F25521ABFB3D0045AE54 /* CustomChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37F25421ABFB3D0045AE54 /* CustomChatNavigation.swift */; };
 		3D37F25721ABFB540045AE54 /* CustomChatNavigation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D37F25621ABFB540045AE54 /* CustomChatNavigation.xib */; };
+		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
+		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
+		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
+		3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854A121B4DE6600435B31 /* UIChatViewController.xib */; };
+		3D3854A721B4DE6600435B31 /* UIChatNavigation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854A221B4DE6600435B31 /* UIChatNavigation.xib */; };
+		3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A821B4E03500435B31 /* UIChatListViewController.swift */; };
+		3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854A921B4E03600435B31 /* UIChatListViewController.xib */; };
+		3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854AA21B4E03600435B31 /* UIChatListPresenter.swift */; };
+		3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854AE21B4E12E00435B31 /* UIChatInput.xib */; };
+		3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854AF21B4E12F00435B31 /* UIChatInput.swift */; };
 		3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */; };
 		3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */; };
 		3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */; };
@@ -89,6 +99,16 @@
 /* Begin PBXFileReference section */
 		3D37F25421ABFB3D0045AE54 /* CustomChatNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomChatNavigation.swift; sourceTree = "<group>"; };
 		3D37F25621ABFB540045AE54 /* CustomChatNavigation.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomChatNavigation.xib; sourceTree = "<group>"; };
+		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
+		3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
+		3D3854A021B4DE6600435B31 /* UIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatViewController.swift; sourceTree = "<group>"; };
+		3D3854A121B4DE6600435B31 /* UIChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatViewController.xib; sourceTree = "<group>"; };
+		3D3854A221B4DE6600435B31 /* UIChatNavigation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatNavigation.xib; sourceTree = "<group>"; };
+		3D3854A821B4E03500435B31 /* UIChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatListViewController.swift; sourceTree = "<group>"; };
+		3D3854A921B4E03600435B31 /* UIChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatListViewController.xib; sourceTree = "<group>"; };
+		3D3854AA21B4E03600435B31 /* UIChatListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatListPresenter.swift; sourceTree = "<group>"; };
+		3D3854AE21B4E12E00435B31 /* UIChatInput.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatInput.xib; sourceTree = "<group>"; };
+		3D3854AF21B4E12F00435B31 /* UIChatInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatInput.swift; sourceTree = "<group>"; };
 		3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QExtensionUICore.swift; sourceTree = "<group>"; };
 		3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusUploaderVC.xib; sourceTree = "<group>"; };
 		3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QUIBaseChatCell.swift; sourceTree = "<group>"; };
@@ -227,6 +247,8 @@
 		3D40B86E2192E20A00FE7228 /* ChatInput */ = {
 			isa = PBXGroup;
 			children = (
+				3D3854AF21B4E12F00435B31 /* UIChatInput.swift */,
+				3D3854AE21B4E12E00435B31 /* UIChatInput.xib */,
 				3D40B86F2192E20A00FE7228 /* CustomChatInput.swift */,
 				3D40B8702192E20A00FE7228 /* CustomChatInput.xib */,
 			);
@@ -268,6 +290,9 @@
 		3D40B89A2192E20B00FE7228 /* ChatList */ = {
 			isa = PBXGroup;
 			children = (
+				3D3854AA21B4E03600435B31 /* UIChatListPresenter.swift */,
+				3D3854A821B4E03500435B31 /* UIChatListViewController.swift */,
+				3D3854A921B4E03600435B31 /* UIChatListViewController.xib */,
 				3DCF6A402199622200C108E6 /* CustomChatListCell.swift */,
 				3DCF6A412199622300C108E6 /* CustomChatListCell.xib */,
 				3D40B89C2192E20B00FE7228 /* ChatListViewController.swift */,
@@ -384,6 +409,11 @@
 		3DCF6A3E2199562700C108E6 /* ChatView */ = {
 			isa = PBXGroup;
 			children = (
+				3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */,
+				3D3854A221B4DE6600435B31 /* UIChatNavigation.xib */,
+				3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */,
+				3D3854A021B4DE6600435B31 /* UIChatViewController.swift */,
+				3D3854A121B4DE6600435B31 /* UIChatViewController.xib */,
 				3D40B86B2192E20A00FE7228 /* ChatPreviewDocVC.swift */,
 				3D40B86C2192E20A00FE7228 /* ChatPreviewDocVC.xib */,
 				3DCF6A3F2199581200C108E6 /* ChatUpload */,
@@ -527,7 +557,9 @@
 				3D40B8E22192E20C00FE7228 /* QAudioLeftCell.xib in Resources */,
 				3D40B8DE2192E20C00FE7228 /* QReplyRightCell.xib in Resources */,
 				3D40B8D92192E20C00FE7228 /* QLocationRightCell.xib in Resources */,
+				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D40B8D22192E20C00FE7228 /* QCarouselCardCell.xib in Resources */,
+				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D40B8D72192E20C00FE7228 /* QSystemCell.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
@@ -541,11 +573,13 @@
 				3D40B8D02192E20C00FE7228 /* QLocationLeftCell.xib in Resources */,
 				3D40B8F92192E20C00FE7228 /* MultipleImageCell.xib in Resources */,
 				3D40B8CE2192E20C00FE7228 /* QDocumentLeftCell.xib in Resources */,
+				3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */,
 				3DCF6A432199622300C108E6 /* CustomChatListCell.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D40B8CC2192E20C00FE7228 /* QContactRightCell.xib in Resources */,
 				3D40B8DC2192E20C00FE7228 /* QMediaLeftCell.xib in Resources */,
 				3D40B8C72192E20C00FE7228 /* ChatPreviewDocVC.xib in Resources */,
+				3D3854A721B4DE6600435B31 /* UIChatNavigation.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */,
 				3D40B8E72192E20C00FE7228 /* QContactLeftCell.xib in Resources */,
@@ -587,11 +621,9 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaMQTT/CocoaMQTT.framework",
-				"${PODS_ROOT}/QiscusCore/QiscusCore.framework",
-				"${PODS_ROOT}/QiscusCore/QiscusCore.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/QiscusCore/QiscusCore.framework",
 				"${PODS_ROOT}/QiscusRealtime/QiscusRealtime.framework",
 				"${PODS_ROOT}/QiscusRealtime/QiscusRealtime.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/QiscusUI/QiscusUI.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SimpleImageViewer/SimpleImageViewer.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -603,10 +635,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaMQTT.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QiscusCore.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/QiscusCore.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QiscusRealtime.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/QiscusRealtime.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QiscusUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SimpleImageViewer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -628,6 +658,8 @@
 				3D40B8F32192E20C00FE7228 /* ChatListViewController.swift in Sources */,
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
 				3D40B8CF2192E20C00FE7228 /* QMediaLeftCell.swift in Sources */,
+				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
+				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
 				3D40B8B12192E20C00FE7228 /* CardCommentModel.swift in Sources */,
@@ -636,14 +668,17 @@
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8BA2192E20C00FE7228 /* ChatViewController.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
+				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
 				3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */,
 				3D40B8DA2192E20C00FE7228 /* QPostbackLeftCell.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
 				3D40B8D12192E20C00FE7228 /* QCarouselCardCell.swift in Sources */,
 				3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */,
+				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
 				3D40B8E52192E20C00FE7228 /* QAudioLeftCell.swift in Sources */,
 				3DCF6A422199622300C108E6 /* CustomChatListCell.swift in Sources */,
+				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D37F25521ABFB3D0045AE54 /* CustomChatNavigation.swift in Sources */,
 				3D40B8E02192E20C00FE7228 /* QDocumentRightCell.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
@@ -655,6 +690,7 @@
 				3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */,
 				3D40B8E12192E20C00FE7228 /* QContactLeftCell.swift in Sources */,
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
+				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3D40B8E82192E20C00FE7228 /* QCarouselCell.swift in Sources */,
 				3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */,
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,

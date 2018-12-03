@@ -9,17 +9,25 @@
 import UIKit
 import QiscusCore
 import AlamofireImage
-import QiscusUI
+
 import SwiftyJSON
 import SDWebImage
 
-class CustomChatListCell: BaseChatListCell {
+class CustomChatListCell: UITableViewCell {
     static var nib:UINib {
         return UINib(nibName: identifier, bundle:nil)
     }
     
     static var identifier: String {
         return String(describing: self)
+    }
+    
+    var data : RoomModel? {
+        didSet {
+            if data != nil {
+                self.setupUI()
+            }
+        }
     }
     
     @IBOutlet weak var badgeWitdh: NSLayoutConstraint!
@@ -77,7 +85,7 @@ class CustomChatListCell: BaseChatListCell {
         super.setSelected(selected, animated: animated)
     }
     
-    override func setupUI() {
+    func setupUI() {
         
         if let data = data {
             if !data.name.isEmpty {
@@ -127,13 +135,13 @@ class CustomChatListCell: BaseChatListCell {
         }
     }
     
-    public func hiddenBadge(){
+    func hiddenBadge(){
         self.viewBadge.isHidden     = true
         self.badgeWitdh.constant    = 0
         self.labelBadge.isHidden    = true
     }
     
-    public func showBadge(){
+    func showBadge(){
         self.viewBadge.isHidden     = false
         self.labelBadge.isHidden    = false
         self.badgeWitdh.constant    = 25

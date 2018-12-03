@@ -6,12 +6,12 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 import MapKit
 import SwiftyJSON
 
-class QLocationLeftCell: QUIBaseChatCell {
+class QLocationLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var ivBaloon: UIImageView!

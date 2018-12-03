@@ -8,7 +8,7 @@
 
 import UIKit
 import QiscusCore
-import QiscusUI
+
 
 let APP_ID : String = "sampleapp-65ghcsaysse"
 
@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        QiscusUI.enableDebugPrint   = true
         QiscusCore.enableDebugPrint = true
         QiscusCore.setup(WithAppID: APP_ID)
         self.auth()
@@ -55,7 +54,6 @@ extension AppDelegate {
         let target : UIViewController
         if QiscusCore.isLogined {
             target = ChatListViewController()
-            // if your are using qiscus ui, qiscuscoredelegate already use in there. but, you can got qiscus event using ChatUIDelegate
             // QiscusUI.delegate = self
             _ = QiscusCore.connect(delegate: self)
         }else {

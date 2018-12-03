@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 import SwiftyJSON
 
-class QContactLeftCell: QUIBaseChatCell {
+class QContactLeftCell: UIBaseChatCell {
     
     @IBOutlet weak var lbNameCons: NSLayoutConstraint!
     @IBOutlet weak var nameContact: UILabel!

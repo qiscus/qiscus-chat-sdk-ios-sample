@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 
-class QSystemCell:  QUIBaseChatCell {
+class QSystemCell:  UIBaseChatCell {
     
     @IBOutlet weak var lbComment: UILabel!
     override func awakeFromNib() {

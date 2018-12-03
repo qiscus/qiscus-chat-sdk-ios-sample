@@ -7,11 +7,11 @@
 
 import UIKit
 import QiscusCore
-import QiscusUI
+
 import SwiftyJSON
 import SimpleImageViewer
 
-class QMediaLeftCell: QUIBaseChatCell {
+class QMediaLeftCell: UIBaseChatCell {
     @IBOutlet weak var viewContainer: UIView!
     
     @IBOutlet weak var ivBaloon: UIImageView!

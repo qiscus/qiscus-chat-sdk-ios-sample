@@ -1,5 +1,5 @@
 //
-//  QQUIBaseChatCell.swift
+//  QUIBaseChatCell.swift
 //  Pods
 //
 //  Created by asharijuang on 24/09/18.
@@ -7,7 +7,6 @@
 
 import Foundation
 import QiscusCore
-import QiscusUI
 
 open class enableMenuConfig : NSObject {
     internal var forward    : Bool = false
@@ -19,7 +18,7 @@ open class enableMenuConfig : NSObject {
     }
 }
 
-protocol QUIBaseChatCellDelegate {
+protocol UIBaseChatCellDelegate {
     func didTap(replay comment: CommentModel)
     func didTap(forward comment: CommentModel)
     func didTap(share comment: CommentModel)
@@ -28,13 +27,48 @@ protocol QUIBaseChatCellDelegate {
     func didTap(deleteForMe comment: CommentModel)
 }
 
-/// Create Custom class base on UIBaseChatCell to provide own variable exm: QUIBaseChatCellDelegate
-class QUIBaseChatCell: UIBaseChatCell {
-    var cellMenu : QUIBaseChatCellDelegate? = nil
+class UIBaseChatCell: UITableViewCell {
+    // MARK: cell data source
+    public var comment: CommentModel? {
+        set {
+            self._comment = newValue
+            if let data = newValue { present(message: data) } // bind data only
+        }
+        get {
+            return self._comment
+        }
+    }
+    private var _comment : CommentModel? = nil
+    var indexPath: IndexPath!
+    var firstInSection: Bool = false
+    var cellMenu : UIBaseChatCellDelegate? = nil
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.configureUI()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.configureUI()
+    }
+    
+    open func present(message: CommentModel) {
+        preconditionFailure("this func must be override, without super")
+    }
+    
+    open func update(message: CommentModel) {
+        preconditionFailure("this func must be override, without super")
+    }
+    
+    /// configure ui element when init cell
+    func configureUI() {
+        // MARK: configure long press on cell
+        self.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+    }
 }
 
-extension QUIBaseChatCell {
+extension UIBaseChatCell {
     
     var textAttribute:[NSAttributedString.Key: Any]{
         get{

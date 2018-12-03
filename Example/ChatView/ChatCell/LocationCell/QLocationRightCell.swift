@@ -6,12 +6,12 @@
 //
 
 import UIKit
-import QiscusUI
+
 import QiscusCore
 import MapKit
 import SwiftyJSON
 
-class QLocationRightCell: QUIBaseChatCell {
+class QLocationRightCell: UIBaseChatCell {
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var ivBaloon: UIImageView!
     @IBOutlet weak var ivStatus: UIImageView!
@@ -20,6 +20,7 @@ class QLocationRightCell: QUIBaseChatCell {
     @IBOutlet weak var addressView: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
     var menuConfig = enableMenuConfig()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
