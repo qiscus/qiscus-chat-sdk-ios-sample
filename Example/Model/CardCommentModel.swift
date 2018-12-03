@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-public class QCard: NSObject {
+class QCard: NSObject {
     var title:String = ""
     var desc:String = ""
     var displayURL:String = ""
     var actions:[QCardAction] = [QCardAction]()
     var defaultAction:QCardAction?
     
-    public init(json:JSON) {
+    init(json:JSON) {
         self.title = json["title"].stringValue
         self.desc = json["description"].stringValue
         self.displayURL = json["image"].stringValue
@@ -29,13 +29,13 @@ public class QCard: NSObject {
     }
 }
 
-public class QCardAction: NSObject {
-    public var title                    = ""
-    public var type : QCardButtonType   = .link
-    public var postbackText             = ""
-    public var payload:JSON?
+class QCardAction: NSObject {
+    var title                    = ""
+    var type : QCardButtonType   = .link
+    var postbackText             = ""
+    var payload:JSON?
     
-    public init(json:JSON) {
+    init(json:JSON) {
         self.title = json["label"].stringValue
         if json["type"].stringValue == "postback" {
             self.type = .postback

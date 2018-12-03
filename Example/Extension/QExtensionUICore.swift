@@ -10,7 +10,7 @@ import Foundation
 import QiscusCore
 import SwiftyJSON
 
-public enum QReplyType:Int{
+enum QReplyType:Int{
     case text
     case image
     case video
@@ -24,7 +24,7 @@ public enum QReplyType:Int{
 
 extension UIBaseChatCell {
     
-    open func getBallon()->UIImage?{
+    func getBallon()->UIImage?{
         var balloonImage:UIImage? = nil
         var edgeInset = UIEdgeInsets(top: 13, left: 13, bottom: 13, right: 28)
         

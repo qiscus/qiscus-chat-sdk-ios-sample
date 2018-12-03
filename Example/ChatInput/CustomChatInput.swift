@@ -34,7 +34,7 @@ class CustomChatInput: UIChatInput {
     
     @IBOutlet weak var heightTextViewCons: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
-    var delegate : CustomChatInputDelegate? = nil
+    var customDelegate : CustomChatInputDelegate? = nil
     var replyData:CommentModel?
     var defaultInputBarHeight: CGFloat = 34.0
     var customInputBarHeight: CGFloat = 34.0
@@ -174,7 +174,7 @@ class CustomChatInput: UIChatInput {
                 
             }
            
-            self.delegate?.sendMessage(message: comment)
+            self.customDelegate?.sendMessage(message: comment)
         }
         
         self.textView.text = ""
@@ -182,7 +182,7 @@ class CustomChatInput: UIChatInput {
     }
     
     @IBAction func clickAttachment(_ sender: Any) {
-        self.delegate?.sendAttachment()
+        self.customDelegate?.sendAttachment()
     }
 }
 

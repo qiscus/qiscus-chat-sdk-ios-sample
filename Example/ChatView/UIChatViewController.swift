@@ -10,7 +10,7 @@ import ContactsUI
 import SwiftyJSON
 import QiscusCore
 
-// Chat view blue print or open function
+// Chat view blue print or function
 protocol UIChatView {
     func uiChat(viewController : UIChatViewController, didSelectMessage message: CommentModel)
     func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?)
@@ -53,7 +53,7 @@ class UIChatViewController: UIViewController {
     @IBOutlet weak var viewChatInput: UIView!
     @IBOutlet weak var constraintViewInputBottom: NSLayoutConstraint!
     @IBOutlet weak var constraintViewInputHeight: NSLayoutConstraint!
-    public var chatTitleView : UIChatNavigation = UIChatNavigation()
+    var chatTitleView : UIChatNavigation = UIChatNavigation()
     
     private var presenter: UIChatPresenter = UIChatPresenter()
     var heightAtIndexPath: [String: CGFloat] = [:]
@@ -70,7 +70,7 @@ class UIChatViewController: UIViewController {
         }
     }
     
-    override open func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
     }
@@ -251,7 +251,7 @@ class UIChatViewController: UIViewController {
         }
     }
     
-    // MARK : Public open method
+    // MARK : method
     func registerClass(nib: UINib?, forMessageCellWithReuseIdentifier reuseIdentifier: String) {
         self.tableViewConversation.register(nib, forCellReuseIdentifier: reuseIdentifier)
     }

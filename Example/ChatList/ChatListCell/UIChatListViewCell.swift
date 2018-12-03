@@ -10,18 +10,11 @@ import UIKit
 import QiscusCore
 import AlamofireImage
 
-import SwiftyJSON
-import SDWebImage
+class UIChatListViewCell: UITableViewCell {
 
-class CustomChatListCell: UITableViewCell {
     static var nib:UINib {
-        return UINib(nibName: identifier, bundle:nil)
+        return UINib(nibName: identifier, bundle: nil)
     }
-    
-    static var identifier: String {
-        return String(describing: self)
-    }
-    
     var data : RoomModel? {
         didSet {
             if data != nil {
@@ -29,7 +22,9 @@ class CustomChatListCell: UITableViewCell {
             }
         }
     }
-    
+    static var identifier: String {
+        return String(describing: self)
+    }
     @IBOutlet weak var badgeWitdh: NSLayoutConstraint!
     
     @IBOutlet weak var viewBadge: UIView!
@@ -49,8 +44,7 @@ class CustomChatListCell: UITableViewCell {
                 return ""
             }else{
                 var result = ""
-                
-                let date = Date(timeIntervalSince1970: TimeInterval(createAt / 1000000000))
+                let date = Date(timeIntervalSince1970: Double(createAt))
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "d/MM"
                 let dateString = dateFormatter.string(from: date)
@@ -59,10 +53,10 @@ class CustomChatListCell: UITableViewCell {
                 timeFormatter.dateFormat = "h:mm a"
                 let timeString = timeFormatter.string(from: date)
                 
-                if date.isToday{
+                if Calendar.current.isDateInToday(date){
                     result = "\(timeString)"
                 }
-                else if date.isYesterday{
+                else if Calendar.current.isDateInYesterday(date) {
                     result = "Yesterday"
                 }else{
                     result = "\(dateString)"
@@ -92,7 +86,7 @@ class CustomChatListCell: UITableViewCell {
                 self.labelName.text = data.name
             }else { self.labelName.text = "Room" }
             self.labelDate.text = lastMessageCreateAt
-            
+
             if let avatar = data.avatarUrl {
                 self.imageViewRoom.af_setImage(withURL: avatar)
             }
@@ -105,30 +99,13 @@ class CustomChatListCell: UITableViewCell {
             
             var message = ""
             guard let lastComment = data.lastComment else { return }
-            if lastComment.message.range(of:"[file]") != nil {
-                guard let payload = lastComment.payload else { return }
-                let json = JSON(payload)
-                let caption = json["caption"].string ?? ""
-                if  !caption.isEmpty {
-                    message = caption
-                }else{
-                    message = "Send Attachment"
-                }
-                
-            }else{
+            if lastComment.type == ""{
+                message = "File Attachment"
+            }else {
                 message = lastComment.message
             }
-
             if(data.type != .single){
-                let message = "\(lastComment.username) :\n\(message)"
-                let senderColor = "\(lastComment.username) :"
-                
-                let range = (message as NSString).range(of: senderColor)
-                
-                let attribute = NSMutableAttributedString.init(string: message)
-                attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black , range: range)
-                
-                self.labelLastMessage.attributedText = attribute
+                self.labelLastMessage.text  =  "\(lastComment.username) :\n\(message)"
             }else{
                 self.labelLastMessage.text  = message // single
             }

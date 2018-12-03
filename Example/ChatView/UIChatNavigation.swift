@@ -8,17 +8,17 @@
 import UIKit
 import QiscusCore
 
-open class UIChatNavigation: UIView {
+class UIChatNavigation: UIView {
     var contentsView            : UIView!
     // ui component
     /// UILabel title,
-    @IBOutlet weak open var labelTitle: UILabel!
+    @IBOutlet weak var labelTitle: UILabel!
     /// UILabel subtitle
-    @IBOutlet weak open var labelSubtitle: UILabel!
+    @IBOutlet weak var labelSubtitle: UILabel!
     /// UIImageView room avatar
-    @IBOutlet weak open var imageViewAvatar: UIImageView!
+    @IBOutlet weak var imageViewAvatar: UIImageView!
     
-    public var room: RoomModel? {
+    var room: RoomModel? {
         set {
             self._room = newValue
             if let data = newValue { present(room: data) } // bind data only
@@ -30,7 +30,7 @@ open class UIChatNavigation: UIView {
     private var _room : RoomModel? = nil
     
     // If someone is to initialize a UIChatInput in code
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         // For use in code
         super.init(frame: frame)
         let nib = UINib(nibName: "UIChatNavigation", bundle: nil)
@@ -38,14 +38,14 @@ open class UIChatNavigation: UIView {
     }
     
     // If someone is to initalize a UIChatInput in Storyboard setting the Custom Class of a UIView
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         // For use in Interface Builder
         super.init(coder: aDecoder)
         let nib = UINib(nibName: "UIChatNavigation", bundle: nil)
         commonInit(nib: nib)
     }
     
-    open func commonInit(nib: UINib) {
+    func commonInit(nib: UINib) {
         self.contentsView = nib.instantiate(withOwner: self, options: nil).first as! UIView
         // 2. Adding the 'contentView' to self (self represents the instance of a WeatherView which is a 'UIView').
         addSubview(contentsView)
@@ -70,7 +70,7 @@ open class UIChatNavigation: UIView {
         }
     }
     
-    open func present(room: RoomModel) {
+    func present(room: RoomModel) {
         // title value
         self.labelTitle.text = room.name
         self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
@@ -88,7 +88,7 @@ open class UIChatNavigation: UIView {
         }
     }
     
-    override open func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         print("height \(self.contentsView.frame)")
         if self.imageViewAvatar != nil {

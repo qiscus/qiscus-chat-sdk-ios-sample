@@ -9,59 +9,57 @@
 import UIKit
 import QiscusCore
 
-public protocol UIChatListViewDelegate {
-    func uiChatList(tableView: UITableView, cellForRoom room: RoomModel, atIndexPath indexpath: IndexPath) -> BaseChatListCell?
-}
-
-open class UIChatListViewController: UIViewController {
+class UIChatListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
-    public var delegate: UIChatListViewDelegate? = nil
     
-    public var rooms : [RoomModel] {
+    var rooms : [RoomModel] {
         get {
             return presenter.rooms
         }
     }
-    public init() {
+    init() {
         super.init(nibName: "UIChatListViewController", bundle: nil)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override open func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.presenter.loadChat()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-//        self.tableView.estimatedRowHeight = UITableViewAutomaticDimension
-        self.registerCell(nib: UIChatListViewCell.nib, forCellWithReuseIdentifier: UIChatListViewCell.identifier)
+        self.tableView.register(UIChatListViewCell.nib, forCellReuseIdentifier: UIChatListViewCell.identifier)
+        
         // Add Refresh Control to Table View
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
             tableView.addSubview(refreshControl)
         }
-        
         refreshControl.addTarget(self, action: #selector(reloadData(_:)), for: .valueChanged)
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "💬", style: .plain, target: self, action: #selector(chatBot))
     }
 
-    override open func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override open func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.presenter.attachView(view: self)
         self.presenter.loadChat()
+        self.tabBarController?.tabBar.isHidden = false
     }
     
-    override open func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.presenter.detachView()
     }
@@ -70,57 +68,76 @@ open class UIChatListViewController: UIViewController {
         self.presenter.reLoadChat()
     }
     
-    // MARK: public open method
-    public func registerCell(nib: UINib?, forCellWithReuseIdentifier reuseIdentifier: String) {
-        self.tableView.register(nib, forCellReuseIdentifier: reuseIdentifier)
+    @objc func chatBot() {
+        let alert = UIAlertController(title: "Chat with user", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "Qiscus User or email"
+        })
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            if let name = alert.textFields?.first?.text {
+                QiscusCore.shared.getRoom(withUser: name, onSuccess: { (room, comments) in
+                    self.chat(withRoom: room)
+                }) { (error) in
+                    print("error chat: \(error.message)")
+                }
+            }
+        }))
+        
+        self.present(alert, animated: true)
+        
     }
     
-    public func registerCell(cellClass: AnyClass?, forCellWithReuseIdentifier reuseIdentifier: String) {
-        self.tableView.register(cellClass, forCellReuseIdentifier: reuseIdentifier)
+    @objc func logout() {
+        QiscusCore.logout { (error) in
+            let local = UserDefaults.standard
+            local.removeObject(forKey: "AppID")
+            local.synchronize()
+            let app = UIApplication.shared.delegate as! AppDelegate
+            app.auth()
+        }
     }
     
-    public func reusableCell(withIdentifier identifier: String, for indexpath: IndexPath) -> BaseChatListCell? {
-        return self.tableView.dequeueReusableCell(withIdentifier: identifier, for: indexpath) as? BaseChatListCell
+    func chat(withRoom room: RoomModel){
+        let target = ChatViewController()
+        target.room = room
+        self.navigationController?.pushViewController(target, animated: true)
     }
 }
 
 extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource {
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms.count
     }
     
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = self.rooms[indexPath.row]
         var cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! BaseChatListCell
-        
-        if let customCell = delegate?.uiChatList(tableView: tableView, cellForRoom: data, atIndexPath: indexPath) {
-            cell = customCell
-        }
         
         cell.data = data
         return cell
     }
     
-    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let chatView = UIChatViewController()
-        chatView.room = self.rooms[indexPath.row]
-        self.navigationController?.pushViewController(chatView, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let room = self.rooms[indexPath.row]
+        self.chat(withRoom: room)
     }
     
-    open func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 
     }
 
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
@@ -146,14 +163,6 @@ extension UIChatListViewController : UIChatListView {
     
     func updateRooms(data: RoomModel) {
         self.tableView.reloadData()
-        // improve only reload for new cell with room data
-//        let indexPath = getIndexpath(byRoom: data)
-//        let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
-//        if let v = isVisible, let index = indexPath, v == true {
-//            let newIndex = IndexPath(row: 0, section: 0)
-//            self.tableView.reloadRows(at: [index], with: UITableViewRowAnimation.none)
-//            self.tableView.moveRow(at: index, to: newIndex)
-//        }
     }
     
     func didFinishLoadChat(rooms: [RoomModel]) {

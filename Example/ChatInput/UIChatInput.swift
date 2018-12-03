@@ -8,7 +8,7 @@
 import UIKit
 import QiscusCore
 
-// Blueprint public method
+// Blueprint method
 protocol UIChatInputAction {
     func send(message : CommentModel)
     func typing(_ value: Bool)
@@ -22,7 +22,7 @@ protocol UIChatInputDelegate {
     func onHeightChanged(height: CGFloat)
 }
 
-open class UIChatInput: UIView {
+class UIChatInput: UIView {
     
     @IBOutlet weak var btnAttachment: UIButton!
     @IBOutlet weak var btnSend: UIButton!
@@ -39,7 +39,7 @@ open class UIChatInput: UIView {
     var contentsView            : UIView!
 
     // If someone is to initialize a UIChatInput in code
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         // For use in code
         super.init(frame: frame)
         let nib = UINib(nibName: "UIChatInput", bundle: nil)
@@ -47,14 +47,14 @@ open class UIChatInput: UIView {
     }
     
     // If someone is to initalize a UIChatInput in Storyboard setting the Custom Class of a UIView
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         // For use in Interface Builder
         super.init(coder: aDecoder)
         let nib = UINib(nibName: "UIChatInput", bundle: nil)
         commonInit(nib: nib)
     }
     
-    open func commonInit(nib: UINib) {
+    func commonInit(nib: UINib) {
         self.contentsView = nib.instantiate(withOwner: self, options: nil).first as! UIView
         // 2. Adding the 'contentView' to self (self represents the instance of a WeatherView which is a 'UIView').
         addSubview(contentsView)
@@ -88,15 +88,15 @@ open class UIChatInput: UIView {
 }
 
 extension UIChatInput : UIChatInputAction {
-    public func setHeight(_ value: CGFloat) {
+    func setHeight(_ value: CGFloat) {
         self._delegate?.onHeightChanged(height: value)
     }
     
-    public func typing(_ value: Bool) {
+    func typing(_ value: Bool) {
         self._delegate?.typing(value)
     }
     
-    public func send(message : CommentModel) {
+    func send(message : CommentModel) {
         self._delegate?.send(message: message, onSuccess: { (comment) in
             //success
         }, onError: { (error) in

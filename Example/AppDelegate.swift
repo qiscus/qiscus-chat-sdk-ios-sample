@@ -53,7 +53,7 @@ extension AppDelegate {
     func auth() {
         let target : UIViewController
         if QiscusCore.isLogined {
-            target = ChatListViewController()
+            target = UIChatListViewController()
             // QiscusUI.delegate = self
             _ = QiscusCore.connect(delegate: self)
         }else {

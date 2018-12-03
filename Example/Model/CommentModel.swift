@@ -9,7 +9,7 @@ import Foundation
 import QiscusCore
 import SwiftyJSON
 
-@objc public enum QiscusFileType:Int{
+@objc enum QiscusFileType:Int{
     case image
     case video
     case audio
@@ -18,7 +18,7 @@ import SwiftyJSON
     case pdf
 }
 
-@objc public enum CommentModelType:Int {
+@objc enum CommentModelType:Int {
     case text
     case image
     case video
@@ -37,7 +37,7 @@ import SwiftyJSON
     
     static let all = [text.name(), image.name(), video.name(), audio.name(),file.name(),postback.name(),account.name(), reply.name(), system.name(), card.name(), contact.name(), location.name(), custom.name()]
     
-    public func name() -> String{
+    func name() -> String{
         switch self {
         case .text      : return "text"
         case .image     : return "image"
@@ -56,7 +56,7 @@ import SwiftyJSON
         case .carousel  : return "carousel"
         }
     }
-    public init(name:String) {
+    init(name:String) {
         switch name {
         case "text","button_postback_response"     : self = .text ; break
         case "image"            : self = .image ; break
@@ -79,7 +79,7 @@ import SwiftyJSON
 
 extension CommentModel {
 
-    open func isMyComment() -> Bool {
+    func isMyComment() -> Bool {
         // change this later when user savevd on presisstance storage
         if let user = QiscusCore.getProfile() {
             return userEmail == user.email
@@ -88,7 +88,7 @@ extension CommentModel {
         }
     }
     
-    open func date() -> Date? {
+    func date() -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ssZ"
         formatter.timeZone      = TimeZone(abbreviation: "UTC")
@@ -96,7 +96,7 @@ extension CommentModel {
         return date
     }
     
-    open func hour() -> String {
+    func hour() -> String {
         guard let date = self.date() else {
             return "-"
         }
@@ -107,7 +107,7 @@ extension CommentModel {
         return defaultTimeZoneStr
     }
     
-    open func replyType(message:String)->QReplyType{
+    func replyType(message:String)->QReplyType{
         if self.isAttachment(text: message){
             let url = getAttachmentURL(message: message)
             
@@ -130,21 +130,21 @@ extension CommentModel {
         }
     }
     
-    open func isAttachment(text:String) -> Bool {
+    func isAttachment(text:String) -> Bool {
         var check:Bool = false
         if(text.hasPrefix("[file]")){
             check = true
         }
         return check
     }
-    open func getAttachmentURL(message: String) -> String {
+    func getAttachmentURL(message: String) -> String {
         let component1 = message.components(separatedBy: "[file]")
         let component2 = component1.last!.components(separatedBy: "[/file]")
         let mediaUrlString = component2.first?.trimmingCharacters(in: CharacterSet.whitespaces).replacingOccurrences(of: " ", with: "%20")
         return mediaUrlString!
     }
     
-    open func fileExtension(fromURL url:String) -> String{
+    func fileExtension(fromURL url:String) -> String{
         var ext = ""
         if url.range(of: ".") != nil{
             let fileNameArr = url.split(separator: ".")
@@ -157,7 +157,7 @@ extension CommentModel {
         return ext
     }
     
-    open func fileName(text:String) ->String{
+    func fileName(text:String) ->String{
         let url = getAttachmentURL(message: text)
         var fileName:String = ""
         
@@ -170,7 +170,7 @@ extension CommentModel {
         return fileName
     }
     
-    public var typeMessage: CommentModelType{
+    var typeMessage: CommentModelType{
         get{
             return CommentModelType(rawValue: type.hashValue)!
         }
@@ -191,7 +191,7 @@ extension CommentModel {
         }
     }
     
-    public func encodeDictionary()->[AnyHashable : Any]{
+    func encodeDictionary()->[AnyHashable : Any]{
         var data = [AnyHashable : Any]()
         
         data["qiscus_commentdata"] = true
@@ -216,7 +216,7 @@ extension CommentModel {
     ///   - roomId: roomId
     ///   - onSuccess: will return success
     ///   - onError: will return error message
-    public func forward(toRoomWithId roomId: String, onSuccess:@escaping ()->Void, onError:@escaping (String)->Void){
+    func forward(toRoomWithId roomId: String, onSuccess:@escaping ()->Void, onError:@escaping (String)->Void){
         let comment = CommentModel.init()
         if(comment.type == "file_attachment"){
             comment.type = "file_attachment"
@@ -241,7 +241,7 @@ extension CommentModel {
     ///   - uniqueID: comment unique id
     ///   - type: forMe or ForEveryone
     ///   - completion: Response Comments your deleted
-    public func deleteMessage(uniqueIDs id: [String], type: DeleteType, onSuccess:@escaping ([CommentModel])->Void, onError:@escaping (String)->Void) {
+    func deleteMessage(uniqueIDs id: [String], type: DeleteType, onSuccess:@escaping ([CommentModel])->Void, onError:@escaping (String)->Void) {
        
         QiscusCore.shared.deleteMessage(uniqueIDs: id, type: type, onSuccess: { (commentsModel) in
             onSuccess(commentsModel)

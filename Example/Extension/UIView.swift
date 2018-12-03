@@ -37,7 +37,7 @@ extension UIView {
     }
     
     // MARK: - Vertical Gradient Background
-    @objc public func verticalGradientColor(_ topColor:UIColor, bottomColor:UIColor){
+    @objc func verticalGradientColor(_ topColor:UIColor, bottomColor:UIColor){
         var updatedFrame = self.bounds
         // take into account the status bar
         updatedFrame.size.height += 20

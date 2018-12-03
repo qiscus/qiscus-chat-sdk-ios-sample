@@ -270,7 +270,7 @@ extension QiscusUploaderVC: UIImagePickerControllerDelegate, UINavigationControl
         alertController.addAction(galeryActionButton)
         self.present(alertController, animated: true, completion: nil)
     }
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             let time = Double(Date().timeIntervalSince1970)
         guard let fileType:String = info[.mediaType] as? String else { return }
             //picker.dismiss(animated: true, completion: nil)
@@ -362,7 +362,7 @@ extension QiscusUploaderVC: UIImagePickerControllerDelegate, UINavigationControl
                 }
             }
     }
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
 }

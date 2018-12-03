@@ -13,7 +13,7 @@ import ContactsUI
 import Photos
 import MobileCoreServices
 
-public class ChatViewController : UIChatViewController {
+class ChatViewController : UIChatViewController {
     // UI Config
     var usersColor : [String:UIColor] = [String:UIColor]()
     /**
@@ -31,7 +31,7 @@ public class ChatViewController : UIChatViewController {
     var chatUser:String?
     var data:Any?
     var chatRoomId:String?
-    //public var chatTarget:CommentModel?
+    //var chatTarget:CommentModel?
     var didFindLocation = true
     let locationManager = CLLocationManager()
     var presentingLoading = false
@@ -65,16 +65,16 @@ public class ChatViewController : UIChatViewController {
         self.dismissLoading()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
        super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
     }
     
-    public override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         self.chatDelegate = self
         // Set delegate before super
         super.viewDidLoad()
@@ -256,7 +256,7 @@ public class ChatViewController : UIChatViewController {
         let backIcon = UIImageView()
         backIcon.contentMode = .scaleAspectFit
         
-        let image = QiscusUI.image(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
         backIcon.tintColor = UINavigationBar.appearance().tintColor
         
@@ -319,14 +319,14 @@ public class ChatViewController : UIChatViewController {
 }
 
 extension ChatViewController : UIChatView {
-    public func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?) {
+    func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?) {
         if action == #selector(UIResponderStandardEditActions.copy(_:)) {
             let pasteboard = UIPasteboard.general
             pasteboard.string = message.message
         }
     }
     
-    public func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool {
+    func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool {
         switch action.description {
         case "copy:":
             return true
@@ -347,7 +347,7 @@ extension ChatViewController : UIChatView {
         }
     }
     
-    public func uiChat(viewController: UIChatViewController, cellForMessage message: CommentModel) -> UIBaseChatCell? {
+    func uiChat(viewController: UIChatViewController, cellForMessage message: CommentModel) -> UIBaseChatCell? {
         var colorName:UIColor = UIColor.lightGray
         if let color = usersColor[message.userEmail] {
             colorName = color
@@ -562,15 +562,15 @@ extension ChatViewController : UIChatView {
         }
     }
     
-    public func uiChat(viewController: UIChatViewController, didSelectMessage message: CommentModel) {
+    func uiChat(viewController: UIChatViewController, didSelectMessage message: CommentModel) {
         //
     }
     
-    public func uiChat(viewController: UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView? {
+    func uiChat(viewController: UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
     
-    public func uiChat(input inViewController: UIChatViewController) -> UIChatInput? {
+    func uiChat(input inViewController: UIChatViewController) -> UIChatInput? {
         let sendImage = UIImage(named: "send")?.withRenderingMode(.alwaysTemplate)
         let attachmentImage = UIImage(named: "share_attachment")?.withRenderingMode(.alwaysTemplate)
         let cancel = UIImage(named: "ar_cancel")?.withRenderingMode(.alwaysTemplate)
@@ -581,23 +581,23 @@ extension ChatViewController : UIChatView {
         inputBar.sendButton.tintColor = ColorConfiguration.topColor
         inputBar.attachButton.tintColor = ColorConfiguration.topColor
         inputBar.cancelReplyPreviewButton.tintColor = ColorConfiguration.topColor
-        inputBar.delegate = self
+        inputBar.customDelegate = self
         inputBar.hidePreviewReply()
         return inputBar
     }
     
-    public func uiChat(navigationView inViewConroller: UIChatViewController) -> UIChatNavigation? {
+    func uiChat(navigationView inViewConroller: UIChatViewController) -> UIChatNavigation? {
         return nil
     }
     
 }
 
 extension ChatViewController: CNContactViewControllerDelegate{
-    public func contactViewController(_ viewController: CNContactViewController, shouldPerformDefaultActionFor property: CNContactProperty) -> Bool {
+    func contactViewController(_ viewController: CNContactViewController, shouldPerformDefaultActionFor property: CNContactProperty) -> Bool {
         return true
     }
     
-    public func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
+    func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
         viewController.navigationController?.popViewController(animated: true)
     }
 }
@@ -804,7 +804,7 @@ extension ChatViewController : CustomChatInputDelegate {
     }
     
     
-    public func postReceivedFile(fileUrl: URL) {
+    func postReceivedFile(fileUrl: URL) {
         let coordinator = NSFileCoordinator()
         coordinator.coordinate(readingItemAt: fileUrl, options: NSFileCoordinator.ReadingOptions.forUploading, error: nil) { (dataURL) in
             do{
@@ -1047,7 +1047,7 @@ extension ChatViewController : CustomChatInputDelegate {
 
 // Contact Picker
 extension ChatViewController : CNContactPickerDelegate {
-    public func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
         let userName:String = contact.givenName
         let surName:String = contact.familyName
         let fullName:String = userName + " " + surName
@@ -1075,7 +1075,7 @@ extension ChatViewController : CNContactPickerDelegate {
 
 // MARK: - UIDocumentPickerDelegate
 extension ChatViewController: UIDocumentPickerDelegate{
-    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         if #available(iOS 11.0, *) {
             UINavigationBar.appearance().tintColor = self.latestNavbarTint
             self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
@@ -1083,7 +1083,7 @@ extension ChatViewController: UIDocumentPickerDelegate{
         self.postReceivedFile(fileUrl: url)
     }
     
-    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         if #available(iOS 11.0, *) {
             UINavigationBar.appearance().tintColor = self.latestNavbarTint
             self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
@@ -1102,7 +1102,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
     
     
     
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let fileType:String = info[.mediaType] as? String else { return }
         let time = Double(Date().timeIntervalSince1970)
@@ -1259,7 +1259,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
        
     }
     
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
 }
@@ -1308,7 +1308,7 @@ extension ChatViewController: CLLocationManagerDelegate {
         return comment
     }
     
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         DispatchQueue.global(qos: .background).async { autoreleasepool{
             manager.stopUpdatingLocation()
             if !self.didFindLocation {

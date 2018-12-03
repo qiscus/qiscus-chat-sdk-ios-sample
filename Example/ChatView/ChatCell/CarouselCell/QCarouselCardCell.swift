@@ -9,10 +9,10 @@ import UIKit
 import SimpleImageViewer
 import SDWebImage
 
-public protocol QCarouselCardDelegate {
+protocol QCarouselCardDelegate {
     func carouselCard(cardCell:QCarouselCardCell, didTapAction card:QCardAction)
 }
-public class QCarouselCardCell: UICollectionViewCell {
+class QCarouselCardCell: UICollectionViewCell {
     @IBOutlet weak var containerArea: UIView!
     @IBOutlet weak var displayImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -27,7 +27,7 @@ public class QCarouselCardCell: UICollectionViewCell {
     var buttons = [UIButton]()
     var height = CGFloat(0)
     
-    public var cardDelegate: QCarouselCardDelegate?
+    var cardDelegate: QCarouselCardDelegate?
     
     var card:QCard?{
         didSet{
@@ -37,7 +37,7 @@ public class QCarouselCardCell: UICollectionViewCell {
         }
     }
     
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         self.containerArea.layer.cornerRadius = 10.0
         self.containerArea.layer.borderWidth = 0.5

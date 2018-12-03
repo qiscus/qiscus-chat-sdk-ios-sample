@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 import SwiftyJSON
 
-open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegate {
+class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegate {
     
     var webView = WKWebView()
     var url: String = ""
@@ -27,7 +27,7 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
         self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
     }
     // MARK: - UI Lifecycle
-    override open func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.webView.navigationDelegate = self
         self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
@@ -37,7 +37,7 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
         }
     }
     
-    override open func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if !accountLinking {
@@ -80,18 +80,18 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
         }
     }
     
-    override open func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         self.progressView.removeFromSuperview()
         super.viewWillDisappear(animated)
     }
-    override open func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     
     // MARK: - WebView Delegate
-    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let objectSender = object as? WKWebView {
             if (keyPath! == "estimatedProgress") && (objectSender == self.webView) {
                 progressView.isHidden = self.webView.estimatedProgress == 1
@@ -103,18 +103,18 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
             self.progressView.progress = 0.0
         }
     }
-    open func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
             self.progressView.progress = 0.0
             //self.setupTableMessage(error.localizedDescription)
         }
     }
-    open func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(WKNavigationActionPolicy.allow)
         if self.accountLinking {
             if let urlToLoad = webView.url {
@@ -126,18 +126,18 @@ open class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDe
         }
     }
     
-    open func webViewDidFinishLoad(_ webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         self.progressView.isHidden = true
         
     }
     
     // MARK: - Navigation
-    open func goBack(_ sender: AnyObject) {
+    func goBack(_ sender: AnyObject) {
         let _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Custom Component
-    open func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
+    func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
         let backIcon = UIImageView()
         backIcon.contentMode = .scaleAspectFit
         

@@ -10,7 +10,7 @@ import UIKit
 
 extension UINavigationItem {
 
-    public func setTitleWithSubtitle(title:String, subtitle : String){
+    func setTitleWithSubtitle(title:String, subtitle : String){
         
         let titleWidth = UIScreen.main.bounds.size.width - 120
         

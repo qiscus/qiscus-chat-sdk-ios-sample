@@ -7,7 +7,7 @@
 
 import UIKit
 
-public enum QCardButtonType:Int{
+enum QCardButtonType:Int{
     case link
     case postback
 }

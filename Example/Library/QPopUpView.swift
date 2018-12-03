@@ -8,9 +8,9 @@
 
 import UIKit
 
-public class QPopUpView: UIViewController {
+class QPopUpView: UIViewController {
     
-    open static let sharedInstance = QPopUpView()
+    static let sharedInstance = QPopUpView()
     
     var text:String = ""
     var image:UIImage?
@@ -47,23 +47,23 @@ public class QPopUpView: UIViewController {
         super.init(nibName: "QPopUpView", bundle:nil)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(true , animated: false)
         self.imageView.contentMode = UIView.ContentMode.scaleAspectFill
         // Do any additional setup after loading the view.
     }
     
-    override public func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override public func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let parentView = self.view
         parentView!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
@@ -111,7 +111,7 @@ public class QPopUpView: UIViewController {
         self.videoOverlay.isHidden = !isVideo
     }
     
-    override public func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.isPresent = false
     }

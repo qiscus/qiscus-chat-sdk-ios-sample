@@ -22,7 +22,7 @@ extension CAGradientLayer {
 }
 
 extension UINavigationBar {
-    override public func verticalGradientColor(_ topColor:UIColor, bottomColor:UIColor){
+    override func verticalGradientColor(_ topColor:UIColor, bottomColor:UIColor){
         var updatedFrame = self.bounds
         // take into account the status bar
         updatedFrame.size.height += 20

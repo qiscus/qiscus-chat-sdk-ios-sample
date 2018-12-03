@@ -8,11 +8,11 @@
 import Foundation
 import QiscusCore
 
-open class enableMenuConfig : NSObject {
+class enableMenuConfig : NSObject {
     internal var forward    : Bool = false
     internal var info       : Bool = false
     
-    public init(forward: Bool = false, info : Bool = true) {
+    init(forward: Bool = false, info : Bool = true) {
         self.forward        = forward
         self.info           = info
     }
@@ -29,7 +29,7 @@ protocol UIBaseChatCellDelegate {
 
 class UIBaseChatCell: UITableViewCell {
     // MARK: cell data source
-    public var comment: CommentModel? {
+    var comment: CommentModel? {
         set {
             self._comment = newValue
             if let data = newValue { present(message: data) } // bind data only
@@ -48,16 +48,16 @@ class UIBaseChatCell: UITableViewCell {
         self.configureUI()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.configureUI()
     }
     
-    open func present(message: CommentModel) {
+    func present(message: CommentModel) {
         preconditionFailure("this func must be override, without super")
     }
     
-    open func update(message: CommentModel) {
+    func update(message: CommentModel) {
         preconditionFailure("this func must be override, without super")
     }
     
@@ -93,7 +93,7 @@ extension UIBaseChatCell {
         }
     }
     
-    open func setMenu(forward : Bool = false , info : Bool = false) {
+    func setMenu(forward : Bool = false , info : Bool = false) {
         
         let reply = UIMenuItem(title: "Reply", action: #selector(reply(_:)))
         let forwardMessage = UIMenuItem(title: "Forward", action: #selector(forward(_:)))
@@ -130,32 +130,32 @@ extension UIBaseChatCell {
         
     }
     
-    @objc open func reply(_ send:AnyObject){
+    @objc func reply(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(replay: _comment)
     }
     
-    @objc open func forward(_ send:AnyObject){
+    @objc func forward(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(replay: _comment)
     }
     
-    @objc open func share(_ send:AnyObject){
+    @objc func share(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(share: _comment)
     }
     
-    @objc open func deleteComment(_ send:AnyObject){
+    @objc func deleteComment(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(delete: _comment)
     }
     
-    @objc open func deleteCommentForMe(_ send:AnyObject){
+    @objc func deleteCommentForMe(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(deleteForMe: _comment)
     }
     
-    @objc open func info(_ send:AnyObject){
+    @objc func info(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(info: _comment)
     }
