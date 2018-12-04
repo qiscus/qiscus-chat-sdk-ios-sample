@@ -10,6 +10,10 @@ import UIKit
 import QiscusCore
 import SwiftyJSON
 
+protocol ReplayCellDelegate {
+    func didTapComment(replay: CommentModel)
+}
+
 class QReplyLeftCell: UIBaseChatCell {
     
     @IBOutlet weak var viewReplyPreview: UIView!
@@ -25,7 +29,8 @@ class QReplyLeftCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     var isPublic: Bool = false
     var colorName : UIColor = UIColor.black
-    var delegateChat: ChatViewController? = nil
+    var delegate : ReplayCellDelegate? = nil
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -37,16 +42,15 @@ class QReplyLeftCell: UIBaseChatCell {
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        if let delegate = delegateChat {
-            guard let replyData = self.comment?.payload else {
-                return
-            }
-            let json = JSON(replyData)
-            var commentID = json["replied_comment_id"].int ?? 0
-            if commentID != 0 {
-                if let comment = QiscusCore.database.comment.find(id: "\(commentID)"){
-                    delegate.scrollToComment(comment: comment)
-                }
+        guard let replyData = self.comment?.payload else {
+            return
+        }
+        let json = JSON(replyData)
+        var commentID = json["replied_comment_id"].int ?? 0
+        if commentID != 0 {
+            if let comment = QiscusCore.database.comment.find(id: "\(commentID)"){
+                self.delegate?.didTapComment(replay: comment)
+//                delegate.scrollToComment(comment: comment)
             }
         }
     }

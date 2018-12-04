@@ -34,7 +34,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     @IBOutlet weak var minInputHeight: NSLayoutConstraint!
     @IBOutlet weak var mediaBottomMargin: NSLayoutConstraint!
     
-    var chatView:ChatViewController?
+//    var chatView:ChatViewController?
     var type = QUploaderType.image
     var data   : Data?
     var fileName :String?
@@ -213,11 +213,11 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 
             }
             
-            chatView?.send(message: self.imageData.first!, onSuccess: { (comment) in
-                 let _ = self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
-                 let _ = self.navigationController?.popViewController(animated: true)
-            })
+//            chatView?.send(message: self.imageData.first!, onSuccess: { (comment) in
+//                 let _ = self.navigationController?.popViewController(animated: true)
+//            }, onError: { (error) in
+//                 let _ = self.navigationController?.popViewController(animated: true)
+//            })
         }
     }
     

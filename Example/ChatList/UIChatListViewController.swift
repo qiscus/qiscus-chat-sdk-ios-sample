@@ -20,13 +20,6 @@ class UIChatListViewController: UIViewController {
             return presenter.rooms
         }
     }
-    init() {
-        super.init(nibName: "UIChatListViewController", bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +93,7 @@ class UIChatListViewController: UIViewController {
     }
     
     func chat(withRoom room: RoomModel){
-        let target = ChatViewController()
+        let target = UIChatViewController()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)
     }

@@ -158,7 +158,7 @@ class QPostbackLeftCell: UIBaseChatCell {
     }
 }
 
-extension ChatViewController : PostbackCellDelegate {
+extension UIChatViewController : PostbackCellDelegate {
     func postBackCell(cell: QPostbackLeftCell, didTapAction data: JSON) {
         switch cell.type {
         case .accountLinking:
@@ -208,7 +208,11 @@ extension ChatViewController : PostbackCellDelegate {
                 comment.type = type
                 comment.message = text
                 comment.payload = payload.dictionaryObject
-                self.sendMessage(message: comment)
+                self.send(message: comment, onSuccess: { (result) in
+                    //
+                }) { (error) in
+                    //
+                }
                 break
             }
             break

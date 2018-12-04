@@ -33,6 +33,7 @@ class QImageRightCell: UIBaseChatCell {
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
     @IBOutlet weak var progressHeight: NSLayoutConstraint!
     var menuConfig = enableMenuConfig()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

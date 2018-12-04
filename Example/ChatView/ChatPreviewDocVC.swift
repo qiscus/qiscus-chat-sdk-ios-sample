@@ -144,12 +144,12 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         let backLabel = UILabel()
         
         backLabel.text = ""
-        backLabel.textColor = ChatViewController().currentNavbarTint
+        backLabel.textColor = UINavigationBar.appearance().tintColor
         backLabel.font = UIFont.systemFont(ofSize: 12)
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = ChatViewController().currentNavbarTint
+        backIcon.tintColor = UINavigationBar.appearance().tintColor
         
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {

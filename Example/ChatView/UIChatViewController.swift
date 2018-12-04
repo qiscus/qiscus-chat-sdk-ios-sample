@@ -16,10 +16,8 @@ protocol UIChatView {
     func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?)
     func uiChat(viewController : UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool
     func uiChat(viewController : UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView?
-    func uiChat(viewController : UIChatViewController, cellForMessage message: CommentModel) -> UIBaseChatCell?
 
     func uiChat(navigationView inViewConroller: UIChatViewController) -> UIChatNavigation?
-    func uiChat(input inViewController: UIChatViewController) -> UIChatInput?
 }
 
 class DateHeaderLabel: UILabel {
@@ -54,11 +52,15 @@ class UIChatViewController: UIViewController {
     @IBOutlet weak var constraintViewInputBottom: NSLayoutConstraint!
     @IBOutlet weak var constraintViewInputHeight: NSLayoutConstraint!
     var chatTitleView : UIChatNavigation = UIChatNavigation()
+    var chatInput : CustomChatInput = CustomChatInput()
     
     private var presenter: UIChatPresenter = UIChatPresenter()
     var heightAtIndexPath: [String: CGFloat] = [:]
     var roomId: String = ""
     var chatDelegate : UIChatView? = nil
+    // UI Config
+    var usersColor : [String:UIColor] = [String:UIColor]()
+    var currentNavbarTint = UINavigationBar.appearance().tintColor
     
     var room : RoomModel? {
         set(newValue) {
@@ -113,14 +115,9 @@ class UIChatViewController: UIViewController {
         self.setupNavigationTitle()
         self.qiscusAutoHideKeyboard()
         self.setupTableView()
+        // use default
+        self.setupInputBar(self.chatInput)
         
-        // setup chatInputBar
-        if let customInputBar = self.chatDelegate?.uiChat(input: self) {
-            self.setupInputBar(customInputBar)
-        }else {
-            // use default
-            self.setupInputBar(UIChatInput())
-        }
     }
     
     private func setupInputBar(_ inputchatview: UIChatInput) {
@@ -198,7 +195,10 @@ class UIChatViewController: UIViewController {
         self.tableViewConversation.scrollsToTop = false
         self.tableViewConversation.allowsSelection = false
         
-        self.tableViewConversation.register(UINib(nibName: "TextCell", bundle: nil), forCellReuseIdentifier: "TextCell")
+        // support variation comment type
+        self.registerClass(nib: UINib(nibName: "QTextRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextRightCell")
+        self.registerClass(nib: UINib(nibName: "QTextLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextLeftCell")
+        self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
         
     }
     
@@ -243,14 +243,6 @@ class UIChatViewController: UIViewController {
         return result
     }
     
-    func reusableCell(withIdentifier identifier: String, for comment: CommentModel) -> UIBaseChatCell {
-        if let indexPath = self.presenter.getIndexPath(comment: comment) {
-            return self.tableViewConversation.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! UIBaseChatCell
-        }else {
-            return self.tableViewConversation.dequeueReusableCell(withIdentifier: "TextCell") as! UIBaseChatCell
-        }
-    }
-    
     // MARK : method
     func registerClass(nib: UINib?, forMessageCellWithReuseIdentifier reuseIdentifier: String) {
         self.tableViewConversation.register(nib, forCellReuseIdentifier: reuseIdentifier)
@@ -272,6 +264,33 @@ class UIChatViewController: UIViewController {
     func scrollToComment(comment: CommentModel) {
         if let indexPath = self.presenter.getIndexPath(comment: comment) {
             self.tableViewConversation.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    func cellFor(message: CommentModel, at indexPath: IndexPath, in tableView: UITableView) -> UIBaseChatCell {
+        let menuConfig = enableMenuConfig()
+        var colorName:UIColor = UIColor.lightGray
+        
+        if message.type == "text" {
+            if (message.isMyComment() == true){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                cell.menuConfig = menuConfig
+                cell.cellMenu = self
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
+                if self.room?.type == .group {
+                    cell.colorName = colorName
+                    cell.isPublic = true
+                }else {
+                    cell.isPublic = false
+                }
+                cell.cellMenu = self
+                return cell
+            }
+        }else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
+            return cell
         }
     }
 }
@@ -390,12 +409,7 @@ extension UIChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // get mesage at indexpath
         let comment = self.presenter.getMessage(atIndexPath: indexPath)
-        var cell = tableView.dequeueReusableCell(withIdentifier: "TextCell", for: indexPath) as! UIBaseChatCell
-        
-        // Checking Custom Cell
-        if let _custom = self.chatDelegate?.uiChat(viewController: self, cellForMessage: comment) {
-            cell = _custom
-        }
+        var cell = self.cellFor(message: comment, at: indexPath, in: tableView)
         cell.comment = comment
         cell.layer.shouldRasterize = true
         cell.layer.rasterizationScale = UIScreen.main.scale
@@ -481,6 +495,47 @@ extension UIChatViewController : UIChatInputDelegate {
             onSuccess(comment)
         }) { (error) in
             onError(error)
+        }
+    }
+}
+
+//// MARK: Handle Cell Menu
+extension UIChatViewController : UIBaseChatCellDelegate {
+    func didTap(replay comment: CommentModel) {
+        self.chatInput.replyData = comment
+        if usersColor.count != 0{
+            if let email = self.chatInput.replyData?.userEmail, let color = usersColor[email] {
+                self.chatInput.colorName = color
+            }
+        }
+        self.chatInput.showPreviewReply()
+    }
+
+    func didTap(forward comment: CommentModel) {
+        //
+    }
+
+    func didTap(share comment: CommentModel) {
+        //
+    }
+
+    func didTap(info comment: CommentModel) {
+        //
+    }
+
+    func didTap(delete comment: CommentModel) {
+        QiscusCore.shared.deleteMessage(uniqueIDs: [comment.uniqId], type: .forEveryone, onSuccess: { (commentsModel) in
+            print("success delete comment for everyone")
+        }) { (error) in
+            print("failed delete comment for everyone")
+        }
+    }
+
+    func didTap(deleteForMe comment: CommentModel) {
+        QiscusCore.shared.deleteMessage(uniqueIDs: [comment.uniqId], type: DeleteType.forMe, onSuccess: { (commentsModel) in
+            print("success delete comment for me")
+        }) { (error) in
+            print("failed delete comment for me \(error.message)")
         }
     }
 }

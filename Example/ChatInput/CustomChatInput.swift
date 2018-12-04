@@ -78,47 +78,47 @@ class CustomChatInput: UIChatInput {
                 self.iconReplyPreview.image = UIImage(named: "contact")
                 self.ivReplyPreviewWidth.constant = 0
             }else if data.type == "file_attachment"{
-                let replyType = ChatViewController().getType(message: data)
-                switch replyType {
-                case .image:
-                    guard let payload = data.payload else { return }
-                    let caption = payload["caption"] as? String
-                    self.lbReplyPreview.text = caption
-                    if let url = payload["url"] as? String {
-                        ivReplyPreview.sd_setShowActivityIndicatorView(true)
-                        ivReplyPreview.sd_setIndicatorStyle(.whiteLarge)
-                        ivReplyPreview.sd_setImage(with: URL(string: url)!)
-                    }
-                    
-                    self.iconReplyPreview.image = UIImage(named: "ic_image")
-                    
-                case .video:
-                    var filename = data.fileName(text: data.message)
-                    self.lbReplyPreview.text = filename
-                    self.iconReplyPreview.image = UIImage(named: "ic_videocam")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-                    self.iconReplyPreview.tintColor = UIColor.lightGray
-                    self.ivReplyPreviewWidth.constant = 0
-                case .audio:
-                    var filename = data.fileName(text: data.message)
-                    self.lbReplyPreview.text = filename
-                    self.iconReplyPreview.image = UIImage(named: "ar_record")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-                    self.iconReplyPreview.tintColor = UIColor.lightGray
-                    self.ivReplyPreviewWidth.constant = 0
-                case .document:
-                    var filename = data.fileName(text: data.message)
-                    self.lbReplyPreview.text = filename
-                    self.iconReplyPreview.image = UIImage(named: "ic_file")
-                    self.ivReplyPreviewWidth.constant = 0
-                case .file:
-                    var filename = data.fileName(text: data.message)
-                    self.lbReplyPreview.text = filename
-                    self.iconReplyPreview.image = UIImage(named: "ic_file")
-                    self.ivReplyPreviewWidth.constant = 0
-                default:
-                    self.lbReplyPreview.text = data.message
-                    self.iconReplyPreviewWidhtCons.constant = 0
-                    self.iconReplyPreviewWidhtCons.constant = 0
-                }
+//                let replyType = ChatViewController().getType(message: data)
+//                switch replyType {
+//                case .image:
+//                    guard let payload = data.payload else { return }
+//                    let caption = payload["caption"] as? String
+//                    self.lbReplyPreview.text = caption
+//                    if let url = payload["url"] as? String {
+//                        ivReplyPreview.sd_setShowActivityIndicatorView(true)
+//                        ivReplyPreview.sd_setIndicatorStyle(.whiteLarge)
+//                        ivReplyPreview.sd_setImage(with: URL(string: url)!)
+//                    }
+//                    
+//                    self.iconReplyPreview.image = UIImage(named: "ic_image")
+//                    
+//                case .video:
+//                    var filename = data.fileName(text: data.message)
+//                    self.lbReplyPreview.text = filename
+//                    self.iconReplyPreview.image = UIImage(named: "ic_videocam")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+//                    self.iconReplyPreview.tintColor = UIColor.lightGray
+//                    self.ivReplyPreviewWidth.constant = 0
+//                case .audio:
+//                    var filename = data.fileName(text: data.message)
+//                    self.lbReplyPreview.text = filename
+//                    self.iconReplyPreview.image = UIImage(named: "ar_record")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+//                    self.iconReplyPreview.tintColor = UIColor.lightGray
+//                    self.ivReplyPreviewWidth.constant = 0
+//                case .document:
+//                    var filename = data.fileName(text: data.message)
+//                    self.lbReplyPreview.text = filename
+//                    self.iconReplyPreview.image = UIImage(named: "ic_file")
+//                    self.ivReplyPreviewWidth.constant = 0
+//                case .file:
+//                    var filename = data.fileName(text: data.message)
+//                    self.lbReplyPreview.text = filename
+//                    self.iconReplyPreview.image = UIImage(named: "ic_file")
+//                    self.ivReplyPreviewWidth.constant = 0
+//                default:
+//                    self.lbReplyPreview.text = data.message
+//                    self.iconReplyPreviewWidhtCons.constant = 0
+//                    self.iconReplyPreviewWidhtCons.constant = 0
+//                }
             }
             
             

@@ -16,7 +16,7 @@ extension UINavigationItem {
         
         let titleLabel = UILabel(frame:CGRect(x: 0, y: 0, width: titleWidth, height: 0))
         titleLabel.backgroundColor = UIColor.clear
-        titleLabel.textColor = ChatViewController().currentNavbarTint
+//        titleLabel.textColor = ChatViewController().currentNavbarTint
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
         titleLabel.text = title
         titleLabel.textAlignment = .center
@@ -25,7 +25,7 @@ extension UINavigationItem {
         
         let subTitleLabel = UILabel(frame:CGRect(x: 0, y: 18, width: titleWidth, height: 0))
         subTitleLabel.backgroundColor = UIColor.clear
-        subTitleLabel.textColor = ChatViewController().currentNavbarTint
+//        subTitleLabel.textColor = ChatViewController().currentNavbarTint
         subTitleLabel.font = UIFont.systemFont(ofSize: 11)
         subTitleLabel.text = subtitle
         subTitleLabel.tag = 402

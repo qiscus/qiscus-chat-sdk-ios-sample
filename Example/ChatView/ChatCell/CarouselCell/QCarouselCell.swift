@@ -217,7 +217,7 @@ extension QCarouselCell: QCarouselCardDelegate {
 }
 
 // MARK : Carousel handle
-extension ChatViewController : QCellCarouselDelegate {
+extension UIChatViewController : QCellCarouselDelegate {
     func cellCarousel(carouselCell: QCarouselCell, didTapCard card: QCard) {
         //
     }
@@ -263,7 +263,11 @@ extension ChatViewController : QCellCarouselDelegate {
             comment.type    = type
             comment.payload = action.payload?.dictionaryObject
             
-            self.sendMessage(message: comment)
+            self.send(message: comment, onSuccess: { (result) in
+                //
+            }) { (error) in
+                //
+            }
 
             break
         }
