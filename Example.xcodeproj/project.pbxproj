@@ -23,6 +23,7 @@
 		3D3854B721B4E34800435B31 /* UIChatListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854B521B4E34800435B31 /* UIChatListViewCell.xib */; };
 		3D3854BB21B6409A00435B31 /* EmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854B921B6409A00435B31 /* EmptyCell.xib */; };
 		3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854BA21B6409A00435B31 /* EmptyCell.swift */; };
+		3D3854BE21B67D4B00435B31 /* ChatAttachmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854BD21B67D4B00435B31 /* ChatAttachmentManager.swift */; };
 		3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */; };
 		3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */; };
 		3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */; };
@@ -67,7 +68,7 @@
 		3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8A82192E20C00FE7228 /* AssetsConfiguration.swift */; };
 		3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8A92192E20C00FE7228 /* QiscusTextConfiguration.swift */; };
 		3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AA2192E20C00FE7228 /* ColorConfiguration.swift */; };
-		3D40B9012192E20C00FE7228 /* UIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AB2192E20C00FE7228 /* UIConfiguration.swift */; };
+		3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AB2192E20C00FE7228 /* ChatConfig.swift */; };
 		3D40B9022192E20C00FE7228 /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B8AC2192E20C00FE7228 /* ChatViewController.xib */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
@@ -96,6 +97,7 @@
 		3D3854B521B4E34800435B31 /* UIChatListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatListViewCell.xib; sourceTree = "<group>"; };
 		3D3854B921B6409A00435B31 /* EmptyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyCell.xib; sourceTree = "<group>"; };
 		3D3854BA21B6409A00435B31 /* EmptyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		3D3854BD21B67D4B00435B31 /* ChatAttachmentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAttachmentManager.swift; sourceTree = "<group>"; };
 		3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QExtensionUICore.swift; sourceTree = "<group>"; };
 		3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusUploaderVC.xib; sourceTree = "<group>"; };
 		3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QUIBaseChatCell.swift; sourceTree = "<group>"; };
@@ -140,7 +142,7 @@
 		3D40B8A82192E20C00FE7228 /* AssetsConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetsConfiguration.swift; sourceTree = "<group>"; };
 		3D40B8A92192E20C00FE7228 /* QiscusTextConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusTextConfiguration.swift; sourceTree = "<group>"; };
 		3D40B8AA2192E20C00FE7228 /* ColorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorConfiguration.swift; sourceTree = "<group>"; };
-		3D40B8AB2192E20C00FE7228 /* UIConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIConfiguration.swift; sourceTree = "<group>"; };
+		3D40B8AB2192E20C00FE7228 /* ChatConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatConfig.swift; sourceTree = "<group>"; };
 		3D40B8AC2192E20C00FE7228 /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatViewController.xib; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				3D3854AE21B4E12E00435B31 /* UIChatInput.xib */,
 				3D40B86F2192E20A00FE7228 /* CustomChatInput.swift */,
 				3D40B8702192E20A00FE7228 /* CustomChatInput.xib */,
+				3D3854BD21B67D4B00435B31 /* ChatAttachmentManager.swift */,
 			);
 			path = ChatInput;
 			sourceTree = "<group>";
@@ -276,7 +279,7 @@
 				3D40B8A82192E20C00FE7228 /* AssetsConfiguration.swift */,
 				3D40B8A92192E20C00FE7228 /* QiscusTextConfiguration.swift */,
 				3D40B8AA2192E20C00FE7228 /* ColorConfiguration.swift */,
-				3D40B8AB2192E20C00FE7228 /* UIConfiguration.swift */,
+				3D40B8AB2192E20C00FE7228 /* ChatConfig.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
 				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
+				3D3854BE21B67D4B00435B31 /* ChatAttachmentManager.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
 				3D40B8B12192E20C00FE7228 /* CardCommentModel.swift in Sources */,
@@ -600,7 +604,7 @@
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
 				3D40B8F12192E20C00FE7228 /* QiscusUploaderVC.swift in Sources */,
 				3D40B8C22192E20C00FE7228 /* QCardButton.swift in Sources */,
-				3D40B9012192E20C00FE7228 /* UIConfiguration.swift in Sources */,
+				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
 				3D40B8DF2192E20C00FE7228 /* QReplyLeftCell.swift in Sources */,
 				3D40B8B72192E20C00FE7228 /* Background.swift in Sources */,

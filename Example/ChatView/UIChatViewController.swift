@@ -116,6 +116,9 @@ class UIChatViewController: UIViewController {
         self.qiscusAutoHideKeyboard()
         self.setupTableView()
         // use default
+        self.chatInput.attacmentManager = ChatAttachmentManager(controller: self)
+        self.chatInput.chatInputDelegate = self
+        self.chatInput.hidePreviewReply()
         self.setupInputBar(self.chatInput)
         
     }

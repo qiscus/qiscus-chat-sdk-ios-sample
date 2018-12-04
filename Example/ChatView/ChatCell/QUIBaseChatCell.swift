@@ -75,7 +75,7 @@ extension UIBaseChatCell {
             var foregroundColorAttributeName = ColorConfiguration.leftBaloonTextColor
             return [
                 NSAttributedString.Key.foregroundColor: foregroundColorAttributeName,
-                NSAttributedString.Key.font: UIConfiguration.chatFont
+                NSAttributedString.Key.font: ChatConfig.chatFont
             ]
         }
     }
@@ -88,7 +88,7 @@ extension UIBaseChatCell {
                 NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): foregroundColorAttributeName,
                 NSAttributedString.Key(rawValue: NSAttributedString.Key.underlineColor.rawValue): underlineColorAttributeName,
                 NSAttributedString.Key(rawValue: NSAttributedString.Key.underlineStyle.rawValue): NSUnderlineStyle.single.rawValue,
-                NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIConfiguration.chatFont
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): ChatConfig.chatFont
             ]
         }
     }

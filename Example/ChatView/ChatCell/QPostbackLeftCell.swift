@@ -20,9 +20,9 @@ enum PostbackType : String {
 }
 
 class QPostbackLeftCell: UIBaseChatCell {
-    let maxWidth:CGFloat = UIConfiguration.chatTextMaxWidth
-    let minWidth:CGFloat = UIConfiguration.chatTextMaxWidth
-    let buttonWidth:CGFloat = UIConfiguration.chatTextMaxWidth + 10
+    let maxWidth:CGFloat = ChatConfig.chatTextMaxWidth
+    let minWidth:CGFloat = ChatConfig.chatTextMaxWidth
+    let buttonWidth:CGFloat = ChatConfig.chatTextMaxWidth + 10
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var balloonView: UIImageView!

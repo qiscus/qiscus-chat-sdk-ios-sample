@@ -12,7 +12,7 @@ import QiscusCore
 import SwiftyJSON
 
 protocol CustomChatInputDelegate {
-    func sendAttachment()
+    func sendAttachment(manager: ChatAttachmentManager)
     func sendMessage(message: CommentModel)
 }
 
@@ -34,7 +34,8 @@ class CustomChatInput: UIChatInput {
     
     @IBOutlet weak var heightTextViewCons: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
-    var customDelegate : CustomChatInputDelegate? = nil
+    var chatInputDelegate : CustomChatInputDelegate? = nil
+    var attacmentManager : ChatAttachmentManager? = nil
     var replyData:CommentModel?
     var defaultInputBarHeight: CGFloat = 34.0
     var customInputBarHeight: CGFloat = 34.0
@@ -46,7 +47,7 @@ class CustomChatInput: UIChatInput {
         textView.delegate = self
         textView.text = TextConfiguration.sharedInstance.textPlaceholder
         textView.textColor = UIColor.lightGray
-        textView.font = UIConfiguration.chatFont
+        textView.font = ChatConfig.chatFont
         self.textView.layer.cornerRadius = self.textView.frame.size.height / 2
         self.textView.clipsToBounds = true
         self.textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
@@ -174,7 +175,7 @@ class CustomChatInput: UIChatInput {
                 
             }
            
-            self.customDelegate?.sendMessage(message: comment)
+            self.chatInputDelegate?.sendMessage(message: comment)
         }
         
         self.textView.text = ""
@@ -182,7 +183,11 @@ class CustomChatInput: UIChatInput {
     }
     
     @IBAction func clickAttachment(_ sender: Any) {
-        self.customDelegate?.sendAttachment()
+        if let manager = self.attacmentManager {
+            self.chatInputDelegate?.sendAttachment(manager: manager)
+        }else {
+            // please define attachment manager
+        }
     }
 }
 
@@ -221,5 +226,43 @@ extension CustomChatInput : UITextViewDelegate {
             self.textView.isScrollEnabled = true
         }
     }
+}
+
+extension UIChatViewController : CustomChatInputDelegate {
+    func sendMessage(message: CommentModel) {
+        let postedComment = message
+
+        self.send(message: postedComment, onSuccess: { (comment) in
+            //success
+        }) { (error) in
+            //error
+        }
+    }
+
+    func sendAttachment(manager: ChatAttachmentManager) {
+        let optionMenu = UIAlertController()
+        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            manager.uploadCamera()
+        })
+        optionMenu.addAction(cameraAction)
+
+
+        let galleryAction = UIAlertAction(title: "Photo & Video Library", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            manager.uploadGalery()
+        })
+        optionMenu.addAction(galleryAction)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+
+        })
+
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+
     
 }
+

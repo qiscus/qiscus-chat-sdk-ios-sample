@@ -1,5 +1,5 @@
 //
-//  UIConfiguration.swift
+//  ChatConfig.swift
 //  QiscusSDK
 //
 //  Created by Ahmad Athaullah on 8/18/16.
@@ -10,7 +10,13 @@ import UIKit
 
 
 /// Qiscus ui style configuration
-class UIConfiguration: NSObject {
+class ChatConfig: NSObject {
+    static var bundle : Bundle? {
+        get{
+            return nil
+        }
+    }
+    
     var copyright = TextConfiguration.sharedInstance
 
     static var chatFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body){

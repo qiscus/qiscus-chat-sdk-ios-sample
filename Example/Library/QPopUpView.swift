@@ -25,8 +25,8 @@ class QPopUpView: UIViewController {
     let fixedWidth:CGFloat = 240
     var isPresent:Bool = false
     
-    var topColor = UIConfiguration.baseColor
-    var bottomColor = UIConfiguration.baseColor
+    var topColor = ChatConfig.baseColor
+    var bottomColor = ChatConfig.baseColor
     
     @IBOutlet weak var containerHeight: NSLayoutConstraint!
     @IBOutlet weak var containerView: UIView!

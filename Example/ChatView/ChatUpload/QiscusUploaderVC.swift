@@ -74,7 +74,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         self.sendButton.tintColor = ColorConfiguration.topColor
         self.cancelButton.setTitle("Cancel", for: .normal)
         //self.mediaCaption.chatInputDelegate = self
-        self.mediaCaption.font = UIConfiguration.chatFont
+        self.mediaCaption.font = ChatConfig.chatFont
         
         imageCollection.dataSource = self
         imageCollection.delegate = self
