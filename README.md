@@ -1,10 +1,7 @@
-# QiscusUI-Example
-Example project to teach you how to use Qiscus UI Library.
-Qiscus UI Example compatible with Qiscus SDK iOS 2.8.x , android and web.
+# QiscusCore-Example
+Example project to teach you how to use QiscusCore SDK.
 
 ## Requirements
-
-Please user branch [Swift 4.1](https://github.com/qiscus/QiscusUI-Example/tree/swift4.1) if you'r using xcode 9.4
 
 - iOS 10.0+
 - Xcode 10+
@@ -12,15 +9,16 @@ Please user branch [Swift 4.1](https://github.com/qiscus/QiscusUI-Example/tree/s
 
 ## Dependency
 
-* [QiscusUI](https://github.com/qiscus) - An chat component library, make it easy to custom your chat UI.
 * Alamofire
+* AlamofireImage
 * SwiftyJSON
 * SimpleImageViewer
 * SDWebImage
 
 ## lesson
 
-* How to use custom chat input
+* How to create custom chat input
+* How to create custom chat navigation
 * How to get QiscusCore Event
 
 ## Security Disclosure
