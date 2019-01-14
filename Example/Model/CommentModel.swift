@@ -241,9 +241,9 @@ extension CommentModel {
     ///   - uniqueID: comment unique id
     ///   - type: forMe or ForEveryone
     ///   - completion: Response Comments your deleted
-    func deleteMessage(uniqueIDs id: [String], type: DeleteType, onSuccess:@escaping ([CommentModel])->Void, onError:@escaping (String)->Void) {
+    func deleteMessage(uniqueIDs id: [String], onSuccess:@escaping ([CommentModel])->Void, onError:@escaping (String)->Void) {
        
-        QiscusCore.shared.deleteMessage(uniqueIDs: id, type: type, onSuccess: { (commentsModel) in
+        QiscusCore.shared.deleteMessage(uniqueIDs: id, onSuccess: { (commentsModel) in
             onSuccess(commentsModel)
         }) { (error) in
             onError(error.message)

@@ -280,6 +280,10 @@ class UIChatPresenter: UIChatUserInteraction {
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
+    func didDelete(Comment comment: CommentModel) {
+        //
+    }
+    
     func onRoom(update room: RoomModel) {
         // 
     }

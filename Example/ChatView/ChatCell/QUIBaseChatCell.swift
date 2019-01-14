@@ -24,7 +24,6 @@ protocol UIBaseChatCellDelegate {
     func didTap(share comment: CommentModel)
     func didTap(info comment: CommentModel)
     func didTap(delete comment: CommentModel)
-    func didTap(deleteForMe comment: CommentModel)
 }
 
 class UIBaseChatCell: UITableViewCell {
@@ -65,6 +64,7 @@ class UIBaseChatCell: UITableViewCell {
     func configureUI() {
         // MARK: configure long press on cell
         self.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+        self.selectionStyle = .none
     }
 }
 
@@ -100,7 +100,6 @@ extension UIBaseChatCell {
         let share = UIMenuItem(title: "Share", action: #selector(share(_:)))
         let infoMessage = UIMenuItem(title: "Info", action: #selector(info(_:)))
         let delete = UIMenuItem(title: "Delete", action: #selector(deleteComment(_:)))
-        let deleteForMe = UIMenuItem(title: "Delete For Me", action: #selector(deleteCommentForMe(_:)))
         
         var menuItems: [UIMenuItem] = [UIMenuItem]()
         menuItems.append(reply)
@@ -108,7 +107,6 @@ extension UIBaseChatCell {
         if(forward == true){
             menuItems.append(forwardMessage)
         }
-        menuItems.append(deleteForMe)
         
         if let myComment = self.comment?.isMyComment() {
             if(myComment){
@@ -148,11 +146,6 @@ extension UIBaseChatCell {
     @objc func deleteComment(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(delete: _comment)
-    }
-    
-    @objc func deleteCommentForMe(_ send:AnyObject){
-        guard let _comment = self.comment else { return }
-        self.cellMenu?.didTap(deleteForMe: _comment)
     }
     
     @objc func info(_ send:AnyObject){

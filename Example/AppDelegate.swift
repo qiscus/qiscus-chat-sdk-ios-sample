@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         QiscusCore.enableDebugPrint = true
         QiscusCore.setup(WithAppID: APP_ID)
         self.auth()
+        
         return true
     }
 
