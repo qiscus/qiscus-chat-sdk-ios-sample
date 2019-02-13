@@ -23,4 +23,4 @@ Example project to teach you how to use QiscusCore SDK.
 
 ## Security Disclosure
 
-If you believe you have identified a security vulnerability with QiscusCore, you should report it as soon as possible via email to juang@qiscus.co. Please do not post it to a public issue.
+If you believe you have identified a security vulnerability with QiscusCore, you should report it as soon as possible via email to contact.us@qiscus.com. Please do not post it to a public issue.
