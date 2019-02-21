@@ -27,9 +27,9 @@ class TextConfiguration: NSObject {
     var readOnlyText = "Archieved message: This message was locked. Click the key to the conversation."
     
     /// Your text placeholder if you want to send any message, Default value : "Text a message here ..."
-    var textPlaceholder = "Text Message"
+    var textPlaceholder = "Type your message"
     
-    var captionPlaceholder = "Caption here..."
+    var captionPlaceholder = "Add caption to your image"
     /// Your text to show as title alert when you access gallery but you not allow gallery access, Default value : "Important"
     var galeryAccessAlertTitle = "Important"
     

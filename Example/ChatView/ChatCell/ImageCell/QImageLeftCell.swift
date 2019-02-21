@@ -19,35 +19,26 @@ class QImageLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var ivStatus: UIImageView!
-    @IBOutlet weak var btnDownload: UIButton!
     @IBOutlet weak var ivComment: UIImageView!
-    
-    @IBOutlet weak var progressContainer: UIView!
-    @IBOutlet weak var progressView: UIView!
-    @IBOutlet weak var progressLabel: UILabel!
+    @IBOutlet weak var ivLoading: UIImageView!
+    @IBOutlet weak var lbLoading: UILabel!
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
     @IBOutlet weak var lbNameLeading: NSLayoutConstraint!
-    @IBOutlet weak var lbNameTrailing: NSLayoutConstraint!
-    @IBOutlet weak var statusWidth: NSLayoutConstraint!
     @IBOutlet weak var rightConstraint: NSLayoutConstraint!
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var progressHeight: NSLayoutConstraint!
+    
     var isPublic: Bool = false
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu(forward: menuConfig.forward, info: menuConfig.info)
+        self.setMenu()
         self.ivComment.contentMode = .scaleAspectFill
         self.ivComment.clipsToBounds = true
+         self.ivComment.layer.cornerRadius = 8
         self.ivComment.backgroundColor = UIColor.black
         self.ivComment.isUserInteractionEnabled = true
-        self.progressContainer.layer.cornerRadius = 20
-        self.progressContainer.clipsToBounds = true
-        self.progressContainer.layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.65).cgColor
-        self.progressContainer.layer.borderWidth = 2
-        self.progressView.backgroundColor = UIColor.green
         let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QImageLeftCell.imageDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
     }
@@ -71,15 +62,29 @@ class QImageLeftCell: UIBaseChatCell {
         
         // get image
         self.lbTime.text = self.hour(date: message.date())
+        self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
         guard let payload = message.payload else { return }
         let caption = payload["caption"] as? String
         
         self.tvContent.text = caption
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         if let url = payload["url"] as? String {
-            ivComment.sd_setShowActivityIndicatorView(true)
-            ivComment.sd_setIndicatorStyle(.whiteLarge)
-            ivComment.sd_setImage(with: URL(string: url)!)
+            if let url = payload["url"] as? String {
+                
+                if self.ivComment.image == nil {
+                    self.showLoading()
+                    self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlFile) in
+                        self.hideLoading()
+                        
+                        let data = NSData(contentsOf: urlFile)
+                        self.ivComment.image = UIImage(data: data as! Data)
+                        
+                    }, onProgress: { (progress) in
+                        
+                    })
+                }
+            }
         }
         
         if(isPublic == true){
@@ -93,13 +98,51 @@ class QImageLeftCell: UIBaseChatCell {
         
     }
     
+    func hideLoading(){
+        self.lbLoading.isHidden = true
+        self.ivLoading.isHidden = true
+    }
+    
+    func showLoading(){
+        self.lbLoading.isHidden = false
+        self.ivLoading.isHidden = false
+    }
+    
+    
     @objc func imageDidTap() {
-        let configuration = ImageViewerConfiguration { config in
-            config.imageView = ivComment
-        }
         
-        let imageViewerController = ImageViewerController(configuration: configuration)
-        self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
+        guard let selectedImage = self.ivComment.image else {
+            print("Image not found!")
+            return
+        }
+        UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        
+        //active this code for detail image
+//        let configuration = ImageViewerConfiguration { config in
+//            config.imageView = ivComment
+//        }
+//
+//        let imageViewerController = ImageViewerController(configuration: configuration)
+//        self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
+    }
+    
+    //MARK: - Add image to Library
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            showAlertWith(title: "Save error", message: error.localizedDescription)
+        } else {
+            showAlertWith(title: "Saved!", message: "Your image has been saved to your photos.")
+        }
+    }
+    
+    func showAlertWith(title: String, message: String){
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        self.currentViewController()?.navigationController?.present(ac, animated: true, completion: {
+            //success
+        })
+        
     }
     
     func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIChatListViewController" customModule="QiscusUI" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIChatListViewController" customModule="Qiscus" customModuleProvider="target">
             <connections>
+                <outlet property="btStartChat" destination="fqT-RD-FEd" id="wmP-8o-M12"/>
+                <outlet property="emptyRoomView" destination="vtG-KY-IwS" id="Uq6-WP-st6"/>
                 <outlet property="tableView" destination="TRn-Cv-g3V" id="Z7V-iR-yQw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -26,15 +28,71 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vtG-KY-IwS">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyRoom" translatesAutoresizingMaskIntoConstraints="NO" id="QmE-kP-C9C">
+                            <rect key="frame" x="61" y="120" width="253" height="163"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops!!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abw-cY-hAA">
+                            <rect key="frame" x="137.5" y="306" width="100" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="O9R-0L-g5k"/>
+                                <constraint firstAttribute="height" constant="21" id="nJ5-FN-x42"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You don't have any conversation. Lets send a message to your contact" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1wW-eU-GWu">
+                            <rect key="frame" x="52" y="343" width="271" height="38.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqT-RD-FEd">
+                            <rect key="frame" x="127.5" y="408" width="120" height="35"/>
+                            <color key="backgroundColor" red="0.51764705882352935" green="0.76078431372549016" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="120" id="3cw-D4-CBf"/>
+                                <constraint firstAttribute="height" constant="35" id="48m-97-wM0"/>
+                            </constraints>
+                            <state key="normal" title="START CHAT">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="fqT-RD-FEd" firstAttribute="top" secondItem="1wW-eU-GWu" secondAttribute="bottom" constant="26.5" id="0GO-xa-vPJ"/>
+                        <constraint firstItem="1wW-eU-GWu" firstAttribute="top" secondItem="abw-cY-hAA" secondAttribute="bottom" constant="16" id="3Ez-Dt-xkQ"/>
+                        <constraint firstItem="XU9-jG-iud" firstAttribute="trailing" secondItem="1wW-eU-GWu" secondAttribute="trailing" constant="52" id="47s-EB-uhI"/>
+                        <constraint firstItem="abw-cY-hAA" firstAttribute="centerX" secondItem="QmE-kP-C9C" secondAttribute="centerX" id="BF1-GX-fqg"/>
+                        <constraint firstItem="XU9-jG-iud" firstAttribute="trailing" secondItem="QmE-kP-C9C" secondAttribute="trailing" constant="61" id="DTU-4j-Uwn"/>
+                        <constraint firstItem="1wW-eU-GWu" firstAttribute="leading" secondItem="XU9-jG-iud" secondAttribute="leading" constant="52" id="HJE-Ho-kMt"/>
+                        <constraint firstItem="abw-cY-hAA" firstAttribute="top" secondItem="QmE-kP-C9C" secondAttribute="bottom" constant="23" id="fJG-7a-dWE"/>
+                        <constraint firstItem="QmE-kP-C9C" firstAttribute="top" secondItem="XU9-jG-iud" secondAttribute="top" constant="100" id="hah-zn-7aF"/>
+                        <constraint firstItem="QmE-kP-C9C" firstAttribute="leading" secondItem="XU9-jG-iud" secondAttribute="leading" constant="61" id="hj6-hE-QdJ"/>
+                        <constraint firstItem="fqT-RD-FEd" firstAttribute="centerX" secondItem="QmE-kP-C9C" secondAttribute="centerX" id="wTe-a0-ZNm"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="XU9-jG-iud"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="TRn-Cv-g3V" secondAttribute="bottom" id="9P0-Th-CPs"/>
                 <constraint firstItem="TRn-Cv-g3V" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="BKL-dD-pWw"/>
+                <constraint firstItem="vtG-KY-IwS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="IX0-Kq-1Ba"/>
+                <constraint firstItem="vtG-KY-IwS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="IjZ-AH-Ksj"/>
+                <constraint firstItem="vtG-KY-IwS" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="XFb-za-fGh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="TRn-Cv-g3V" secondAttribute="trailing" id="dfU-jA-Bol"/>
+                <constraint firstItem="vtG-KY-IwS" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="mCN-lM-JU9"/>
                 <constraint firstItem="TRn-Cv-g3V" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ttA-PE-h9j"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
         </view>
     </objects>
+    <resources>
+        <image name="emptyRoom" width="156" height="163"/>
+    </resources>
 </document>

@@ -107,29 +107,6 @@ extension CommentModel {
         return defaultTimeZoneStr
     }
     
-    func replyType(message:String)->QReplyType{
-        if self.isAttachment(text: message){
-            let url = getAttachmentURL(message: message)
-            
-            switch self.fileExtension(fromURL: url) {
-            case "jpg","jpg_","png","png_","gif","gif_":
-                return .image
-            case "m4a","m4a_","aac","aac_","mp3","mp3_":
-                return .audio
-            case "mov","mov_","mp4","mp4_":
-                return .video
-            case "pdf","pdf_":
-                return .document
-            case "doc","docx","ppt","pptx","xls","xlsx","txt":
-                return .file
-            default:
-                return .other
-            }
-        }else{
-            return .text
-        }
-    }
-    
     func isAttachment(text:String) -> Bool {
         var check:Bool = false
         if(text.hasPrefix("[file]")){
@@ -208,31 +185,6 @@ extension CommentModel {
         data["qiscus_data"] = self.payload
         
         return data
-    }
-    
-    /// forward to other roomId
-    ///
-    /// - Parameters:
-    ///   - roomId: roomId
-    ///   - onSuccess: will return success
-    ///   - onError: will return error message
-    func forward(toRoomWithId roomId: String, onSuccess:@escaping ()->Void, onError:@escaping (String)->Void){
-        let comment = CommentModel.init()
-        if(comment.type == "file_attachment"){
-            comment.type = "file_attachment"
-            comment.payload = self.payload
-            comment.message = "Send Attachment"
-        }else{
-            comment.type = self.type
-            comment.message = self.message
-        }
-
-        QiscusCore.shared.sendMessage(roomID: roomId, comment: comment, onSuccess: { (commentModel) in
-            onSuccess()
-        }) { (error) in
-            onError(error.message)
-        }
-        
     }
     
     /// Delete message by id
