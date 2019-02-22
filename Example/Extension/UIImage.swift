@@ -22,6 +22,27 @@ extension UIImage {
             }
         }
     }
+    
+    // MARK: - Upload image preparation
+    class func uploadImagePreparation(pickedImage: UIImage) -> String {
+        // We use document directory to place our cloned image
+        let documentDirectory: NSString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+        
+        // Set static name, so everytime image is cloned, it will be named "temp", thus rewrite the last "temp" image.
+        // *Don't worry it won't be shown in Photos app.
+        let imageName = "temp_avatar.png"
+        let imagePath = documentDirectory.appendingPathComponent(imageName)
+        
+        // Encode this image into JPEG. *You can add conditional based on filetype, to encode into JPEG or PNG
+        if let data = pickedImage.jpegData(compressionQuality: 80)  {
+            // Save cloned image into document directory
+            try! data.write(to: URL(fileURLWithPath: imagePath))
+        }
+        
+        // Save it's path
+        let localPath = imagePath
+        return localPath
+    }
 }
 
 extension UIImageView {

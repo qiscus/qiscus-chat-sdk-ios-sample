@@ -23,6 +23,7 @@ protocol UIChatViewDelegate {
     func onLoadMessageFinished()
     func onLoadMessageFailed(message: String)
     func onLoadMoreMesageFinished()
+    func onReloadComment()
     func onSendingComment(comment: CommentModel, newSection: Bool)
     func onSendMessageFinished(comment: CommentModel)
     func onGotNewComment(newSection: Bool)
@@ -236,6 +237,7 @@ class UIChatPresenter: UIChatUserInteraction {
         
         // choose uidelegate
         if isIncoming {
+            QiscusCore.shared.updateCommentRead(roomId: message.roomId, lastCommentReadId: message.id)
             self.viewPresenter?.onGotNewComment(newSection: section)
         }else {
             self.viewPresenter?.onSendingComment(comment: message, newSection: section)
@@ -281,7 +283,15 @@ class UIChatPresenter: UIChatUserInteraction {
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
     func didDelete(Comment comment: CommentModel) {
-        //
+        // check comment already exist in view
+        for (group,var c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
+                c.remove(at: index)
+                self.comments = groupingComments(c)
+                self.lastIdToLoad = ""
+                self.viewPresenter?.onReloadComment()
+            }
+        }
     }
     
     func onRoom(update room: RoomModel) {
@@ -296,14 +306,9 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     }
     
     func didComment(comment: CommentModel, changeStatus status: CommentStatus) {
-        // MARK : TODO handle comment isDeleted or status deleted
-        
         // check comment already exist in view
         for (group,c) in comments.enumerated() {
             if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
-                // then update comment value and notice onChange()
-                print("comment \(comment.message), status update \(status.rawValue)")
-                print("comment change last \(comments.count), \(c.count)")
                 comments[group][index] = comment
                 self.viewPresenter?.onUpdateComment(comment: comment, indexpath: IndexPath(row: index, section: group))
             }
@@ -317,28 +322,10 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     func onChangeUser(_ user: MemberModel, onlineStatus status: Bool, whenTime time: Date) {
         if let room = self.room {
             if room.type != .group {
-                var message = ""
-                //let lessMinute = time.timeIntervalSinceNow.second
-                //if lessMinute <= 59 {
-                message = "online"
-                // }else {
-                //if lessMinute
-                // message = "Last seen .. ago"
-                //}
+                let message = time.timeAgoSinceDate(numericDates: false)
                 self.viewPresenter?.onUser(name: user.username, isOnline: status, message: message)
             }
         }
     }
 }
 
-extension Date {
-    func reduceToMonthDayYear() -> Date {
-        let calendar = Calendar.current
-        let month = calendar.component(.month, from: self)
-        let day = calendar.component(.day, from: self)
-        let year = calendar.component(.year, from: self)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-        return dateFormatter.date(from: "\(month)/\(day)/\(year)") ?? Date()
-    }
-}

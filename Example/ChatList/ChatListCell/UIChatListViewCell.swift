@@ -44,7 +44,7 @@ class UIChatListViewCell: UITableViewCell {
                 return ""
             }else{
                 var result = ""
-                let date = Date(timeIntervalSince1970: Double(createAt))
+                let date = Date(timeIntervalSince1970: Double(createAt/1000000000))
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "d/MM"
                 let dateString = dateFormatter.string(from: date)

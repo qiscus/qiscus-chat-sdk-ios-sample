@@ -9,20 +9,10 @@ import Foundation
 import QiscusCore
 
 class enableMenuConfig : NSObject {
-    internal var forward    : Bool = false
-    internal var info       : Bool = false
-    
-    init(forward: Bool = false, info : Bool = true) {
-        self.forward        = forward
-        self.info           = info
-    }
+    override init() {}
 }
 
 protocol UIBaseChatCellDelegate {
-    func didTap(replay comment: CommentModel)
-    func didTap(forward comment: CommentModel)
-    func didTap(share comment: CommentModel)
-    func didTap(info comment: CommentModel)
     func didTap(delete comment: CommentModel)
 }
 
@@ -93,27 +83,13 @@ extension UIBaseChatCell {
         }
     }
     
-    func setMenu(forward : Bool = false , info : Bool = false) {
+    func setMenu() {
         
-        let reply = UIMenuItem(title: "Reply", action: #selector(reply(_:)))
-        let forwardMessage = UIMenuItem(title: "Forward", action: #selector(forward(_:)))
-        let share = UIMenuItem(title: "Share", action: #selector(share(_:)))
-        let infoMessage = UIMenuItem(title: "Info", action: #selector(info(_:)))
         let delete = UIMenuItem(title: "Delete", action: #selector(deleteComment(_:)))
         
         var menuItems: [UIMenuItem] = [UIMenuItem]()
-        menuItems.append(reply)
-        menuItems.append(share)
-        if(forward == true){
-            menuItems.append(forwardMessage)
-        }
-        
         if let myComment = self.comment?.isMyComment() {
             if(myComment){
-                //UIMenuController.shared.menuItems = [reply,infoMessage,share,forwardMessage,delete,deleteForMe]
-                if(info == true){
-                    menuItems.append(infoMessage)
-                }
                 menuItems.append(delete)
                 UIMenuController.shared.menuItems = menuItems
             }else{
@@ -124,33 +100,11 @@ extension UIBaseChatCell {
             UIMenuController.shared.update()
         }
         
-        
-        
-    }
-    
-    @objc func reply(_ send:AnyObject){
-        guard let _comment = self.comment else { return }
-        self.cellMenu?.didTap(replay: _comment)
-    }
-    
-    @objc func forward(_ send:AnyObject){
-        guard let _comment = self.comment else { return }
-        self.cellMenu?.didTap(replay: _comment)
-    }
-    
-    @objc func share(_ send:AnyObject){
-        guard let _comment = self.comment else { return }
-        self.cellMenu?.didTap(share: _comment)
     }
     
     @objc func deleteComment(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(delete: _comment)
-    }
-    
-    @objc func info(_ send:AnyObject){
-        guard let _comment = self.comment else { return }
-        self.cellMenu?.didTap(info: _comment)
     }
 }
 

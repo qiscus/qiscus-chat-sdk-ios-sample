@@ -35,9 +35,6 @@ class UIChatListPresenter {
     }
     
     func loadChat() {
-        if self.rooms.isEmpty {
-            self.loadFromServer()
-        }
         self.loadFromLocal()
     }
     
@@ -47,18 +44,36 @@ class UIChatListPresenter {
     
     private func loadFromLocal(refresh: Bool = true) {
         // get from local
-        self.rooms = QiscusCore.database.room.all()
+        let localdb = QiscusCore.database.room.all()
+        self.rooms = filterRoom(data: localdb)
         if refresh {
             self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
         }
+        
+        if self.rooms.isEmpty {
+            self.loadFromServer()
+        }
+    }
+    
+    // Hide empty rooms
+    func filterRoom(data: [RoomModel]) -> [RoomModel] {
+        var source = data
+        //source = source.filter({ ($0.lastComment != nil || $0.type != .single) })
+        source.sort { (room1, room2) -> Bool in
+            if let comment1 = room1.lastComment, let comment2 = room2.lastComment {
+                return comment1.unixTimestamp > comment2.unixTimestamp
+            }else {
+                return false
+            }
+        }
+        return source
     }
     
     private func loadFromServer() {
         // check update from server
-        QiscusCore.shared.getAllRoom(limit: 50, page: 1, onSuccess: { (results, meta) in
+        QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
             self.rooms = results
             self.viewPresenter?.didFinishLoadChat(rooms: results)
-            self.loadFromLocal() // load from local without refresh, improve tableview move
         }) { (error) in
             self.viewPresenter?.setEmptyData(message: "")
         }
@@ -68,10 +83,10 @@ class UIChatListPresenter {
 
 extension UIChatListPresenter : QiscusCoreDelegate {
     func onRoom(deleted room: RoomModel) {
-        //
+        self.loadFromLocal()
     }
     func onRoom(update room: RoomModel) {
-        //
+        self.loadFromLocal()
     }
     
     func onChange(user: MemberModel, isOnline online: Bool, at time: Date) {
@@ -86,7 +101,6 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         // show in app notification
         print("got new comment: \(comment.message)")
         self.viewPresenter?.updateRooms(data: room)
-        // MARK: TODO check room already exist?
         if !rooms.contains(where: { $0.id == room.id}) {
             loadFromServer()
         }else {
@@ -105,6 +119,7 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     
     func gotNew(room: RoomModel) {
         // add not if exist
+        loadFromLocal(refresh: true)
     }
 
     func remove(room: RoomModel) {

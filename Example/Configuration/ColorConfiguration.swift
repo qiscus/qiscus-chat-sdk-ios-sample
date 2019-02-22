@@ -16,10 +16,10 @@ class ColorConfiguration: NSObject {
     static var alertTextColor = UIColor(red: 155/255.0, green: 155/255.0, blue: 155/255.0, alpha:1.0)
     
     /// Your left baloon color, using UIColor class, Default value : UIColor(red: 0/255.0, green: 187/255.0, blue: 150/255.0, alpha: 1.0)
-    static var leftBaloonColor = #colorLiteral(red: 0.9063341451, green: 0.9063341451, blue: 0.9063341451, alpha: 1)
+    static var leftBaloonColor = #colorLiteral(red: 0.8588235294, green: 0.8588235294, blue: 0.8588235294, alpha: 1)
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
-    static var rightBaloonColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+    static var rightBaloonColor = #colorLiteral(red: 0.9960784314, green: 0.9960784314, blue: 0.9960784314, alpha: 1)
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
     static var systemBalloonColor = UIColor(red: 201/255, green: 229/255, blue: 215/255, alpha: 1)
@@ -27,19 +27,23 @@ class ColorConfiguration: NSObject {
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
     static var systemBalloonTextColor = UIColor(red: 33/255, green: 33/255, blue: 35/255, alpha: 1)
     
-    /// Your left baloon text color, using UIColor class, Default value : UIColor.whiteColor()
-    static var leftBaloonTextColor = UIColor.darkText
+    /// Your left baloon text color, using UIColor class
+    static var leftBaloonTextColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
     
-    /// Your right baloon text color, using UIColor class, Default value : UIColor(red: 33/255.0, green: 33/255.0, blue: 33/255.0, alpha: 1)
-    static var rightBaloonTextColor = UIColor(red: 33/255.0, green: 33/255.0, blue: 33/255.0, alpha: 1)
+    /// Your right baloon text color, using UIColor class
+    static var rightBaloonTextColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
     
     /// Your text color of time label, using UIColor class, Default value : UIColor(red: 114/255.0, green: 114/255.0, blue: 114/255.0, alpha: 1)
-    static var timeLabelTextColor = UIColor(red: 114/255.0, green: 114/255.0, blue: 114/255.0, alpha: 1)
+    static var timeLabelTextColor = UIColor(red: 133/255.0, green: 133/255.0, blue: 133/255.0, alpha: 1)
     
     /// Your failed text color if the message fail to send, using UIColor class, Default value : UIColor(red: 1, green: 19/255.0, blue: 0, alpha: 1)
     static var failToSendColor = UIColor(red: 1, green: 19/255.0, blue: 0, alpha: 1)
     
-    static var readMessageColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+    static var readMessageColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+    
+    static var sendButtonColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+    
+    static var attachmentButtonColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
     
     /// Your link color of left baloon chat, using UIColor class, Default value : UIColor.whiteColor()
     static var leftBaloonLinkColor = UIColor.white

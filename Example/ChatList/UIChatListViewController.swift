@@ -11,7 +11,13 @@ import QiscusCore
 
 class UIChatListViewController: UIViewController {
 
+    @IBOutlet weak var btStartChat: UIButton!
+    @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    
+    
+    public var labelProfile = UILabel()
+    
     private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
     
@@ -23,7 +29,16 @@ class UIChatListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupUI()
         self.presenter.loadChat()
+    
+    }
+    
+    func setupUI(){
+        self.btStartChat.addTarget(self, action: #selector(startChatButtonPressed), for: .touchUpInside)
+        self.btStartChat.layer.cornerRadius = 8
+        self.title = "Conversations"
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(UIChatListViewCell.nib, forCellReuseIdentifier: UIChatListViewCell.identifier)
@@ -36,8 +51,34 @@ class UIChatListViewController: UIViewController {
         }
         refreshControl.addTarget(self, action: #selector(reloadData(_:)), for: .valueChanged)
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "💬", style: .plain, target: self, action: #selector(chatBot))
+    
+        let buttonProfile = UIButton(type: .custom)
+        buttonProfile.frame = CGRect(x: 0, y: 6, width: 30, height: 30)
+        buttonProfile.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        buttonProfile.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        buttonProfile.layer.cornerRadius = 15
+        buttonProfile.clipsToBounds = true
+        buttonProfile.setImage(UIImage(named: "avatar"), for: .normal)
+        buttonProfile.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        
+        let barButton = UIBarButtonItem(customView: buttonProfile)
+        
+        let buttonChat = UIButton(type: .custom)
+        buttonChat.frame = CGRect(x: 0, y: 6, width: 30, height: 30)
+        buttonChat.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        buttonChat.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        buttonChat.layer.cornerRadius = 15
+        buttonChat.clipsToBounds = true
+        buttonChat.setImage(UIImage(named: "search"), for: .normal)
+        buttonChat.addTarget(self, action: #selector(startChatButtonPressed), for: .touchUpInside)
+        
+        let barButtonChat = UIBarButtonItem(customView: buttonChat)
+        
+        
+        //assign button to navigationbar
+        self.navigationItem.leftBarButtonItem = barButton
+        self.navigationItem.rightBarButtonItem = barButtonChat
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,24 +102,26 @@ class UIChatListViewController: UIViewController {
         self.presenter.reLoadChat()
     }
     
-    @objc func chatBot() {
-        let alert = UIAlertController(title: "Chat with user", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addTextField(configurationHandler: { textField in
-            textField.placeholder = "Qiscus User or email"
-        })
+    @objc func profileButtonPressed() {
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            if let name = alert.textFields?.first?.text {
-                QiscusCore.shared.getRoom(withUser: name, onSuccess: { (room, comments) in
-                    self.chat(withRoom: room)
-                }) { (error) in
-                    print("error chat: \(error.message)")
-                }
-            }
-        }))
+    }
+    
+    @objc func startChatButtonPressed() {
         
-        self.present(alert, animated: true)
+        let vc = NewConversationVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+//        QiscusCore.shared.getRoom(withUser: "crowdid92", onSuccess: { (room, comments) in
+//            self.chat(withRoom: room)
+//        }) { (error) in
+//            print("error chat: \(error.message)")
+//        }
+//
+//        QiscusCore.shared.createGroup(withName: "testing3", participants: ["crowdid92"], avatarUrl: URL(string: "https://res.cloudinary.com/qiscus/image/upload/c_thumb,g_center,h_48,w_48/v1543556691/files_kiwari-prod_user_id_72/toq8ob6zccjcsfm8qlgl.jpg"), onSuccess: { (roomModel) in
+//            self.chat(withRoom: roomModel)
+//        }) { (error) in
+//            print("error chat: \(error.message)")
+//        }
         
     }
     
@@ -93,6 +136,7 @@ class UIChatListViewController: UIViewController {
     }
     
     func chat(withRoom room: RoomModel){
+        QiscusCore.shared.subscribeRooms(rooms:[room])
         let target = UIChatViewController()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)
@@ -158,9 +202,18 @@ extension UIChatListViewController : UIChatListView {
     }
     
     func didFinishLoadChat(rooms: [RoomModel]) {
-        // 1st time load data
-        self.refreshControl.endRefreshing()
-        self.tableView.reloadData()
+        if rooms.count == 0 {
+            self.emptyRoomView.isHidden = false
+            self.tableView.isHidden = true
+        }else{
+            self.emptyRoomView.isHidden = true
+            self.tableView.isHidden = false
+            
+            // 1st time load data
+            self.refreshControl.endRefreshing()
+            self.tableView.reloadData()
+        }
+       
     }
     
     func startLoading(message: String) {
@@ -173,6 +226,8 @@ extension UIChatListViewController : UIChatListView {
     
     func setEmptyData(message: String) {
         //
+        self.emptyRoomView.isHidden = false
+        self.tableView.isHidden = true
         self.refreshControl.endRefreshing()
     }
 }

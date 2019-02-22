@@ -25,12 +25,12 @@ class QTextLeftCell: UIBaseChatCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu(forward: menuConfig.forward, info: menuConfig.info)
+        self.setMenu()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.setMenu(forward: menuConfig.forward, info: menuConfig.info)
+        self.setMenu()
         // Configure the view for the selected state
     }
     
@@ -48,6 +48,7 @@ class QTextLeftCell: UIBaseChatCell {
         self.setupBalon()
         
         self.lbTime.text = self.hour(date: message.date())
+        self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
         self.tvContent.text = message.message
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         

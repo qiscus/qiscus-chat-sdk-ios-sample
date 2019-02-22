@@ -16,8 +16,6 @@ protocol UIChatView {
     func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?)
     func uiChat(viewController : UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool
     func uiChat(viewController : UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView?
-
-    func uiChat(navigationView inViewConroller: UIChatViewController) -> UIChatNavigation?
 }
 
 class DateHeaderLabel: UILabel {
@@ -51,17 +49,28 @@ class UIChatViewController: UIViewController {
     @IBOutlet weak var viewChatInput: UIView!
     @IBOutlet weak var constraintViewInputBottom: NSLayoutConstraint!
     @IBOutlet weak var constraintViewInputHeight: NSLayoutConstraint!
+    @IBOutlet weak var emptyMessageView: UIView!
+    @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var heightProgressBar: NSLayoutConstraint!
+    
     var chatTitleView : UIChatNavigation = UIChatNavigation()
     var chatInput : CustomChatInput = CustomChatInput()
-    
     private var presenter: UIChatPresenter = UIChatPresenter()
+    
     var heightAtIndexPath: [String: CGFloat] = [:]
     var roomId: String = ""
     var chatDelegate : UIChatView? = nil
+    
     // UI Config
     var usersColor : [String:UIColor] = [String:UIColor]()
     var currentNavbarTint = UINavigationBar.appearance().tintColor
-    
+    var latestNavbarTint = UINavigationBar.appearance().tintColor
+    var maxUploadSizeInKB:Double = Double(100) * Double(1024)
+    var UTIs:[String]{
+        get{
+            return ["public.jpeg", "public.png","com.compuserve.gif","public.text", "public.archive", "com.microsoft.word.doc", "com.microsoft.excel.xls", "com.microsoft.powerpoint.​ppt", "com.adobe.pdf","public.mpeg-4"]
+        }
+    }
     var room : RoomModel? {
         set(newValue) {
             self.presenter.room = newValue
@@ -70,6 +79,14 @@ class UIChatViewController: UIViewController {
         get {
             return self.presenter.room
         }
+    }
+    
+    open func getProgressBar() -> UIProgressView {
+        return progressBar
+    }
+    
+    open func getProgressBarHeight() ->  NSLayoutConstraint{
+        return heightProgressBar
     }
     
     override func viewDidLoad() {
@@ -99,8 +116,6 @@ class UIChatViewController: UIViewController {
         self.presenter.detachView()
     }
     
-    // Provide new flow, load chat ui then set room. old Qiscus SDK
-    // MARK: TODO need optimize, prevent call api twice
     func refreshUI() {
         if self.isViewLoaded {
             self.presenter.attachView(view: self)
@@ -109,16 +124,12 @@ class UIChatViewController: UIViewController {
     }
     
     // MARK: View Event Listener
-    
     private func setupUI() {
         // config navBar
         self.setupNavigationTitle()
         self.qiscusAutoHideKeyboard()
         self.setupTableView()
-        // use default
-        self.chatInput.attacmentManager = ChatAttachmentManager(controller: self)
         self.chatInput.chatInputDelegate = self
-        self.chatInput.hidePreviewReply()
         self.setupInputBar(self.chatInput)
         
     }
@@ -155,16 +166,9 @@ class UIChatViewController: UIViewController {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
         
-        if let customNavigation = self.chatDelegate?.uiChat(navigationView: self) {
-            customNavigation.frame = self.navigationController?.navigationBar.frame ?? CGRect.zero
-            self.navigationItem.titleView = customNavigation
-            customNavigation.room = room
-        }else {
-            self.chatTitleView = UIChatNavigation(frame: self.navigationController?.navigationBar.frame ?? CGRect.zero)
-            self.navigationItem.titleView = chatTitleView
-            self.chatTitleView.room = room
-        }
-        
+        self.chatTitleView = UIChatNavigation(frame: self.navigationController?.navigationBar.frame ?? CGRect.zero)
+        self.navigationItem.titleView = chatTitleView
+        self.chatTitleView.room = room
         
     }
     
@@ -174,15 +178,15 @@ class UIChatViewController: UIViewController {
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = UINavigationBar.appearance().tintColor
+        backIcon.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
-            backIcon.frame = CGRect(x: 0,y: 11,width: 13,height: 22)
+            backIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)
         }else{
-            backIcon.frame = CGRect(x: 22,y: 11,width: 13,height: 22)
+            backIcon.frame = CGRect(x: 22,y: 11,width: 30,height: 25)
         }
         
-        let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 23,height: 44))
+        let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 30,height: 44))
         backButton.addSubview(backIcon)
         backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
         return UIBarButtonItem(customView: backButton)
@@ -197,10 +201,15 @@ class UIChatViewController: UIViewController {
         self.tableViewConversation.delegate = self
         self.tableViewConversation.scrollsToTop = false
         self.tableViewConversation.allowsSelection = false
+        self.chatDelegate = self
         
         // support variation comment type
         self.registerClass(nib: UINib(nibName: "QTextRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextRightCell")
         self.registerClass(nib: UINib(nibName: "QTextLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextLeftCell")
+        self.registerClass(nib: UINib(nibName: "QImageRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageRightCell")
+        self.registerClass(nib: UINib(nibName: "QFileRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileRightCell")
+         self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
+        self.registerClass(nib: UINib(nibName: "QImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageLeftCell")
         self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
         
     }
@@ -291,6 +300,41 @@ class UIChatViewController: UIViewController {
                 cell.cellMenu = self
                 return cell
             }
+        }else if message.type == "image" {
+            if (message.isMyComment() == true){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
+                cell.menuConfig = menuConfig
+                cell.cellMenu = self
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                if self.room?.type == .group {
+                    cell.colorName = colorName
+                    cell.isPublic = true
+                }else {
+                    cell.isPublic = false
+                }
+                cell.cellMenu = self
+                return cell
+            }
+        }else if message.type == "file" {
+            if (message.isMyComment() == true){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
+                cell.menuConfig = menuConfig
+                cell.cellMenu = self
+                return cell
+            }
+            else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
+                if self.room?.type == .group {
+                    cell.colorName = colorName
+                    cell.isPublic = true
+                }else {
+                    cell.isPublic = false
+                }
+                cell.cellMenu = self
+                return cell
+            }
         }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
             return cell
@@ -300,6 +344,9 @@ class UIChatViewController: UIViewController {
 
 // MARK: UIChatDelegate
 extension UIChatViewController: UIChatViewDelegate {
+    func onReloadComment(){
+        self.tableViewConversation.reloadData()
+    }
     func onUpdateComment(comment: CommentModel, indexpath: IndexPath) {
         // reload cell in section and index path
         if self.tableViewConversation.cellForRow(at: indexpath) != nil{
@@ -328,10 +375,6 @@ extension UIChatViewController: UIChatViewDelegate {
             if let room = self.presenter.room {
                 if room.type == .group {
                     self.chatTitleView.labelSubtitle.text = getParticipant()
-                }else {
-                    let user = QiscusCore.getProfile()
-                    guard let opponent = self.presenter.participants.filter({ $0.email == user?.email ?? ""}).first else { return }
-                    self.chatTitleView.labelSubtitle.text = "last seen at \(opponent.lastCommentReadId)" // or last seen at
                 }
             }
         }
@@ -354,6 +397,14 @@ extension UIChatViewController: UIChatViewDelegate {
         if let _room = room {
             self.chatTitleView.room = _room
         }
+        
+        if self.presenter.comments.count == 0 {
+            self.tableViewConversation.isHidden = true
+            self.emptyMessageView.alpha = 1
+        }else{
+            self.tableViewConversation.isHidden = false
+            self.emptyMessageView.alpha = 0
+        }
     }
     
     func onLoadMoreMesageFinished() {
@@ -361,6 +412,14 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     
     func onLoadMessageFinished() {
+        if self.presenter.comments.count == 0 {
+            self.tableViewConversation.isHidden = true
+            self.emptyMessageView.alpha = 1
+        }else{
+            self.tableViewConversation.isHidden = false
+            self.emptyMessageView.alpha = 0
+        }
+        
         self.tableViewConversation.reloadData()
     }
     
@@ -369,6 +428,16 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     
     func onGotNewComment(newSection: Bool) {
+        if self.presenter.comments.count == 0 {
+            self.tableViewConversation.isHidden = true
+            self.emptyMessageView.alpha = 1
+        }else{
+            if(self.tableViewConversation.isHidden == true){
+                self.tableViewConversation.isHidden = false
+                self.emptyMessageView.alpha = 0
+            }
+        }
+        
         if Thread.isMainThread {
             if newSection {
                 self.tableViewConversation.beginUpdates()
@@ -457,6 +526,10 @@ extension UIChatViewController: UITableViewDataSource {
 }
 
 extension UIChatViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // get mesage at indexpath
@@ -464,9 +537,6 @@ extension UIChatViewController: UITableViewDelegate {
         self.chatDelegate?.uiChat(viewController: self, didSelectMessage: comment)
     }
     
-    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
     
     func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         let comment = self.presenter.getMessage(atIndexPath: indexPath)
@@ -484,6 +554,34 @@ extension UIChatViewController: UITableViewDelegate {
     
 }
 
+extension UIChatViewController : UIChatView {
+    func uiChat(viewController: UIChatViewController, didSelectMessage message: CommentModel) {
+        
+    }
+    
+    func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?) {
+        if action == #selector(UIResponderStandardEditActions.copy(_:)) {
+            let pasteboard = UIPasteboard.general
+            pasteboard.string = message.message
+        }
+    }
+    
+    func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool {
+        switch action.description {
+        case "copy:":
+            return true
+        case "deleteComment:":
+            return true
+        default:
+            return false
+        }
+    }
+    
+    func uiChat(viewController: UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView? {
+        return nil
+    }
+}
+
 extension UIChatViewController : UIChatInputDelegate {
     func onHeightChanged(height: CGFloat) {
         self.constraintViewInputHeight.constant = height
@@ -495,6 +593,10 @@ extension UIChatViewController : UIChatInputDelegate {
     
     func send(message: CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
         self.presenter.sendMessage(withComment: message, onSuccess: { (comment) in
+            if(self.tableViewConversation.isHidden == true){
+                self.tableViewConversation.isHidden = false
+                self.emptyMessageView.alpha = 0
+            }
             onSuccess(comment)
         }) { (error) in
             onError(error)
@@ -504,28 +606,6 @@ extension UIChatViewController : UIChatInputDelegate {
 
 //// MARK: Handle Cell Menu
 extension UIChatViewController : UIBaseChatCellDelegate {
-    func didTap(replay comment: CommentModel) {
-        self.chatInput.replyData = comment
-        if usersColor.count != 0{
-            if let email = self.chatInput.replyData?.userEmail, let color = usersColor[email] {
-                self.chatInput.colorName = color
-            }
-        }
-        self.chatInput.showPreviewReply()
-    }
-
-    func didTap(forward comment: CommentModel) {
-        //
-    }
-
-    func didTap(share comment: CommentModel) {
-        //
-    }
-
-    func didTap(info comment: CommentModel) {
-        //
-    }
-
     func didTap(delete comment: CommentModel) {
         QiscusCore.shared.deleteMessage(uniqueIDs: [comment.uniqId], onSuccess: { (commentsModel) in
             print("success delete comment for everyone")

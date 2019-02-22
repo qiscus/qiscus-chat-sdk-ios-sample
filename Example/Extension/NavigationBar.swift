@@ -53,3 +53,18 @@ extension UINavigationItem {
     }
 
 }
+
+extension UINavigationController {
+    func pushIgnorePreviousVC(to target: UIViewController, except exceptVc: AnyClass) {
+        var newVC: [UIViewController ] = []
+        for vc in self.viewControllers {
+            vc.isKind
+            if vc.isKind(of: exceptVc.self) {
+                newVC.append(vc)
+            }
+        }
+        newVC.append(target)
+        self.viewControllers = newVC
+    }
+}
+

@@ -29,6 +29,10 @@ class UIChatNavigation: UIView {
     }
     private var _room : RoomModel? = nil
     
+    override var intrinsicContentSize: CGSize {
+        return UIView.layoutFittingExpandedSize
+    }
+    
     // If someone is to initialize a UIChatInput in code
     override init(frame: CGRect) {
         // For use in code
@@ -66,7 +70,11 @@ class UIChatNavigation: UIView {
     private func setupUI() {
         // default ui
         if self.imageViewAvatar != nil {
-            self.imageViewAvatar.layer.cornerRadius = self.contentsView.frame.height/2
+            self.imageViewAvatar.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            self.imageViewAvatar.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            print("cek height ini =\(self.contentsView.frame.height)")
+            self.imageViewAvatar.layer.cornerRadius = self.imageViewAvatar.frame.height/2
         }
     }
     
@@ -78,21 +86,13 @@ class UIChatNavigation: UIView {
             self.labelSubtitle.text = getParticipant(room: room)
         }else {
             self.labelSubtitle.text = ""
-            // MARK : TODO provide last seen
-            //            guard let user = QiscusCore.getProfile() else { return }
-            //            self.presenter.participants.forEach { (member) in
-            //                if member.email != user.email {
-            //                    self.subtitleLabel.text = "last seen at \(member.lastCommentReadId)"
-            //                }
-            //            }
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        print("height \(self.contentsView.frame)")
         if self.imageViewAvatar != nil {
-            self.imageViewAvatar.layer.cornerRadius = self.contentsView.frame.height/2
+            self.imageViewAvatar.layer.cornerRadius = self.imageViewAvatar.frame.height/2
         }
     }
     
