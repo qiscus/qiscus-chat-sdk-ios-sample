@@ -136,7 +136,6 @@ class UIChatListViewController: UIViewController {
     }
     
     func chat(withRoom room: RoomModel){
-        QiscusCore.shared.subscribeRooms(rooms:[room])
         let target = UIChatViewController()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)
@@ -193,7 +192,17 @@ extension UIChatListViewController : UIChatListView {
         let indexPath = getIndexpath(byRoom: room)
         let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
         if let v = isVisible, let index = indexPath, v == true {
-            self.tableView.reloadRows(at: [index], with: UITableView.RowAnimation.none)
+            if let cell: UIChatListViewCell = self.tableView.cellForRow(at: index) as? UIChatListViewCell{
+                if typing == true{
+                    if(room.type == .group){
+                        cell.labelLastMessage.text = "\(user.username) isTyping..."
+                    }else{
+                         cell.labelLastMessage.text = "isTyping..."
+                    }
+                }else{
+                    cell.labelLastMessage.text = room.lastComment?.message
+                }
+            }
         }
     }
     
@@ -212,6 +221,15 @@ extension UIChatListViewController : UIChatListView {
             // 1st time load data
             self.refreshControl.endRefreshing()
             self.tableView.reloadData()
+            for room in rooms {
+                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()+1, execute: {
+                    QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
+                        if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
+                            self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
+                        }
+                    }
+                })
+            }
         }
        
     }

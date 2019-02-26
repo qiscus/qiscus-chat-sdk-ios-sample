@@ -140,7 +140,6 @@ class CreateGroupInfoVC: UIViewController, UITextFieldDelegate {
             
             if avatarURL?.isEmpty == true {
                 QiscusCore.shared.createGroup(withName: title, participants: participants, avatarUrl: nil, onSuccess: { (room) in
-                    QiscusCore.shared.subscribeRooms(rooms:[room])
                     let target = UIChatViewController()
                     target.room = room
                     self.navigationController?.pushIgnorePreviousVC(to: target, except: UIChatListViewController.self)
@@ -149,7 +148,6 @@ class CreateGroupInfoVC: UIViewController, UITextFieldDelegate {
                 }
             }else{
                 QiscusCore.shared.createGroup(withName: title, participants: participants, avatarUrl: URL(string: self.avatarURL!), onSuccess: { (room) in
-                    QiscusCore.shared.subscribeRooms(rooms:[room])
                     let target = UIChatViewController()
                     target.room = room
                     self.navigationController?.pushIgnorePreviousVC(to: target, except: UIChatListViewController.self)

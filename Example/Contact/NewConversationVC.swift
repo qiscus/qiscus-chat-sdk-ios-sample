@@ -118,7 +118,6 @@ class NewConversationVC: UIViewController {
     }
     
     func chat(withRoom room: RoomModel){
-        QiscusCore.shared.subscribeRooms(rooms:[room])
         let target = UIChatViewController()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)

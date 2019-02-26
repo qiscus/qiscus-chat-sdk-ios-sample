@@ -89,10 +89,6 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         self.loadFromLocal()
     }
     
-    func onChange(user: MemberModel, isOnline online: Bool, at time: Date) {
-        //
-    }
-    
     func onRoom(_ room: RoomModel, didDeleteComment comment: CommentModel) {
         //
     }
@@ -108,15 +104,7 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         }
         
     }
-    
-    func onRoom(_ room: RoomModel, didChangeComment comment: CommentModel, changeStatus status: CommentStatus) {
-        //
-    }
-    
-    func onRoom(_ room: RoomModel, thisParticipant user: MemberModel, isTyping typing: Bool) {
-        self.viewPresenter?.didUpdate(user: user, isTyping: typing, in: room)
-    }
-    
+
     func gotNew(room: RoomModel) {
         // add not if exist
         loadFromLocal(refresh: true)
