@@ -97,7 +97,7 @@ class LoginViewController: UIViewController {
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.auth()
             }) { (error) in
-                let alert = UIAlertController(title: "Failed to Login?", message: String(describing: error), preferredStyle: .alert)
+                let alert = UIAlertController(title: "Failed to Login?", message: String(describing: error.message), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Try Again", style: .cancel, handler: nil))
                 
                 self.present(alert, animated: true)
