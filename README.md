@@ -1,5 +1,6 @@
-# QiscusCore-Example
-Example project to teach you how to use QiscusCore SDK.
+# Qiscus Chat SDK Sample UI 
+
+This repo is aimed to give an example on how to build a chat UI using Qiscus Chat SDK. Qiscus Chat Sample UI is built with full functionalities so that you can figure out the flow and main activities of common Chat apps. This sample app is built on top of Qiscus Chat SDK, for further feature you can figure out in our[docs](https://docs.qiscus.com/ios/latest/introduction)
 
 ## Requirements
 
@@ -15,11 +16,14 @@ Example project to teach you how to use QiscusCore SDK.
 * SimpleImageViewer
 * SDWebImage
 
-## lesson
+## How to Run
 
-* How to create custom chat input
-* How to create custom chat navigation
-* How to get QiscusCore Event
+To run this app, first you should already installed Cocoapods and then run this command at your terminal
+
+```pod install```
+
+## Contribution
+Qiscus Chat SDK Sample UI is fully open-source. All contributions and suggestions are welcome!
 
 ## Security Disclosure
 
