@@ -103,36 +103,13 @@ class UIChatListViewController: UIViewController {
     }
     
     @objc func profileButtonPressed() {
-        
+        let vc = ProfileVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func startChatButtonPressed() {
-        
         let vc = NewConversationVC()
         self.navigationController?.pushViewController(vc, animated: true)
-        
-//        QiscusCore.shared.getRoom(withUser: "crowdid92", onSuccess: { (room, comments) in
-//            self.chat(withRoom: room)
-//        }) { (error) in
-//            print("error chat: \(error.message)")
-//        }
-//
-//        QiscusCore.shared.createGroup(withName: "testing3", participants: ["crowdid92"], avatarUrl: URL(string: "https://res.cloudinary.com/qiscus/image/upload/c_thumb,g_center,h_48,w_48/v1543556691/files_kiwari-prod_user_id_72/toq8ob6zccjcsfm8qlgl.jpg"), onSuccess: { (roomModel) in
-//            self.chat(withRoom: roomModel)
-//        }) { (error) in
-//            print("error chat: \(error.message)")
-//        }
-        
-    }
-    
-    @objc func logout() {
-        QiscusCore.logout { (error) in
-            let local = UserDefaults.standard
-            local.removeObject(forKey: "AppID")
-            local.synchronize()
-            let app = UIApplication.shared.delegate as! AppDelegate
-            app.auth()
-        }
     }
     
     func chat(withRoom room: RoomModel){
@@ -222,7 +199,7 @@ extension UIChatListViewController : UIChatListView {
             self.refreshControl.endRefreshing()
             self.tableView.reloadData()
             for room in rooms {
-                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()+1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
                     QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
                         if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
                             self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
