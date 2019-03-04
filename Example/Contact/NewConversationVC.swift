@@ -131,7 +131,7 @@ extension NewConversationVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         if let contact = self.contactAll{
-            let name = contact[indexPath.row].username
+            let name = contact[indexPath.row].email
             QiscusCore.shared.getRoom(withUser: name, onSuccess: { (room, comments) in
                 self.chat(withRoom: room)
             }) { (error) in
