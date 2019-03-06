@@ -117,6 +117,20 @@ class UIChatViewController: UIViewController {
         self.presenter.detachView()
     }
     
+    func setupToolbarHandle(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction))
+        self.chatTitleView.isUserInteractionEnabled = true
+        self.chatTitleView.addGestureRecognizer(tap)
+    }
+    
+    @objc func tapFunction(sender:UITapGestureRecognizer) {
+        if self.room != nil {
+            let vc = RoomInfoVC()
+            vc.room = room
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     func refreshUI() {
         if self.isViewLoaded {
             self.presenter.attachView(view: self)
@@ -128,6 +142,7 @@ class UIChatViewController: UIViewController {
     private func setupUI() {
         // config navBar
         self.setupNavigationTitle()
+        self.setupToolbarHandle()
         self.qiscusAutoHideKeyboard()
         self.setupTableView()
         self.chatInput.chatInputDelegate = self

@@ -78,12 +78,24 @@ class UIChatNavigation: UIView {
     
     func present(room: RoomModel) {
         // title value
-        self.labelTitle.text = room.name
-        self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+        //always check room localDB
+        if let room = QiscusCore.database.room.find(id: room.id){
+            self.labelTitle.text = room.name
+            self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+            if room.type == .group {
+                self.labelSubtitle.text = getParticipant(participants: room.participants!)
+            }else {
+                self.labelSubtitle.text = ""
+            }
+        }
+        
+        //load from rest
         if room.type == .group {
-            self.labelSubtitle.text = getParticipant(room: room)
-        }else {
-            self.labelSubtitle.text = ""
+            QiscusCore.shared.getParticipant(roomUniqeId: (self.room?.uniqueId)!, onSuccess: { (participants) in
+                self.labelSubtitle.text = self.getParticipant(participants: participants)
+            }, onError: { (error) in
+                //error
+            })
         }
     }
     
@@ -97,9 +109,8 @@ class UIChatNavigation: UIView {
 }
 
 extension UIChatNavigation {
-    func getParticipant(room: RoomModel) -> String {
+    func getParticipant(participants: [MemberModel]) -> String {
         var result = ""
-        guard let participants = room.participants else { return result }
         for m in participants {
             if result.isEmpty {
                 result = m.username

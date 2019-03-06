@@ -10,6 +10,10 @@ import UIKit
 import AlamofireImage
 import QiscusCore
 
+protocol ContactCellDelegate {
+    func reloadTableView()
+}
+
 open class ContactCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -17,7 +21,9 @@ open class ContactCell: UITableViewCell {
     
     @IBOutlet weak var ivCheck: UIImageView!
     var contact: MemberModel?
-    
+    var roomId : String? = ""
+    var removeParticipant: Bool? = false
+    var delegate : ContactCellDelegate? = nil
     open override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -53,7 +59,21 @@ open class ContactCell: UITableViewCell {
         profileImageView.contentMode    = .scaleAspectFill
         profileImageView.af_setImage(withURL: avatarURL, placeholderImage: placeHolderImage, filter: nil)
         
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(removeParticipant(tapGestureRecognizer:)))
+        ivCheck.isUserInteractionEnabled = true
+        ivCheck.addGestureRecognizer(tapGestureRecognizer)
+        
         makeMatchingPartBold(searchText: searchText)
+    }
+    
+    @objc func removeParticipant(tapGestureRecognizer: UITapGestureRecognizer){
+        if removeParticipant == true{
+            QiscusCore.shared.removeParticipant(userEmails: [(contact?.email)!], roomId: roomId!, onSuccess: { (success) in
+                self.delegate?.reloadTableView()
+            }) { (error) in
+                //error
+            }
+        }
     }
     
     func makeMatchingPartBold(searchText: String) {

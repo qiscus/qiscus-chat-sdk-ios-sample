@@ -71,6 +71,10 @@
 		3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A30221E656C00F1B7CA /* QFileRightCell.xib */; };
 		3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA7C699221A68A20018A94F /* NewConversationVC.swift */; };
 		3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA7C69A221A68A20018A94F /* NewConversationVC.xib */; };
+		3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */; };
+		3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */; };
+		3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */; };
+		3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
@@ -147,6 +151,10 @@
 		3D819A30221E656C00F1B7CA /* QFileRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileRightCell.xib; sourceTree = "<group>"; };
 		3DA7C699221A68A20018A94F /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
 		3DA7C69A221A68A20018A94F /* NewConversationVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewConversationVC.xib; sourceTree = "<group>"; };
+		3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomInfoVC.swift; sourceTree = "<group>"; };
+		3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomInfoVC.xib; sourceTree = "<group>"; };
+		3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRoomNameVC.swift; sourceTree = "<group>"; };
+		3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditRoomNameVC.xib; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -340,6 +348,17 @@
 			path = Contact;
 			sourceTree = "<group>";
 		};
+		3DAF2A35222E62330002B4E3 /* RoomInfo */ = {
+			isa = PBXGroup;
+			children = (
+				3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */,
+				3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */,
+				3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */,
+				3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */,
+			);
+			path = RoomInfo;
+			sourceTree = "<group>";
+		};
 		3DCF6A37219926F800C108E6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -396,6 +415,7 @@
 		3DDEFB632192D35600484795 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				3DAF2A35222E62330002B4E3 /* RoomInfo */,
 				3D5DD75D2227809100E39C96 /* Profile */,
 				3D819A27221D1A7900F1B7CA /* Qiscus.entitlements */,
 				3DA7C698221A685A0018A94F /* Contact */,
@@ -505,6 +525,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */,
+				3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
@@ -513,6 +534,7 @@
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
+				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
@@ -615,10 +637,12 @@
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
 				3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
+				3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */,
 				3D80B2B7221BDBE80053280C /* CreateGroupInfoVC.swift in Sources */,
 				3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */,
 				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */,
+				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
 				3D3854B621B4E34800435B31 /* UIChatListViewCell.swift in Sources */,
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,

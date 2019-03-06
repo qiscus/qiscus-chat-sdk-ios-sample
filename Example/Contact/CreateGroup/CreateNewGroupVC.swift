@@ -13,7 +13,6 @@ import AlamofireImage
 protocol CreateNewGroupVCDelegate{
     func showProgress()
     func loadContactsDidSucceed(contacts : [MemberModel])
-    func searchContactDidSucceed(contacts : [MemberModel])
     func loadContactsDidFailed(message: String)
 }
 
@@ -35,10 +34,13 @@ class CreateNewGroupVC: UIViewController {
     }
     
     internal var contactAll: [MemberModel]? = nil
-    internal var filteredContact: [MemberModel]? = nil
+    //internal var filteredContact: [MemberModel]? = nil
     var searchActive : Bool = false
-    var keywordSearch : String = ""
+    var keywordSearch : String? = nil
     var page : Int = 1
+    var stopLoad : Bool = false
+    var fromRoomInfo : Bool = false
+    var roomID : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -48,20 +50,21 @@ class CreateNewGroupVC: UIViewController {
         self.getContacts()
     }
     
-    func getContacts(){
-        QiscusCore.shared.getUsers(limit: 20, page: page, querySearch: nil, onSuccess: { (contacts, metaData) in
-            if (metaData.currentPage != self.page){
-                self.page += 1
+    @objc func getContacts(){
+        if self.stopLoad == true{
+            return
+        }
+        QiscusCore.shared.getUsers(limit: 20, page: page, querySearch: keywordSearch, onSuccess: { (contacts, metaData) in
+            if (metaData.currentPage! >= self.page){
+                
+                if metaData.currentPage! == self.page {
+                    self.stopLoad = true
+                }else{
+                    self.page += 1
+                }
+                
                 self.loadContactsDidSucceed(contacts: contacts)
             }
-        }) { (error) in
-            self.loadContactsDidFailed(message: error.message)
-        }
-    }
-    
-    @objc func search(){
-        QiscusCore.shared.getUsers(limit: 100, page: 1, querySearch: self.keywordSearch, onSuccess: { (contacts, metaData) in
-            self.searchContactDidSucceed(contacts: contacts)
         }) { (error) in
             self.loadContactsDidFailed(message: error.message)
         }
@@ -145,9 +148,29 @@ class CreateNewGroupVC: UIViewController {
     
     @objc func goNext() {
         view.endEditing(true)
-        let vc = CreateGroupInfoVC()
-        vc.userGroup = self.selectedContacts
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        if fromRoomInfo == false{
+            let vc = CreateGroupInfoVC()
+            vc.userGroup = self.selectedContacts
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else{
+             let participants: [String] = self.selectedContacts.map{ $0.email}
+            QiscusCore.shared.addParticipant(userEmails: participants, roomId: roomID, onSuccess: { (participants) in
+                let alertController = UIAlertController(title: "Success", message: "Success add participant", preferredStyle: UIAlertController.Style.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { alert -> Void in
+                     self.navigationController?.popViewController(animated: true)
+                })
+                
+                alertController.addAction(okAction)
+                
+                self.present(alertController, animated: true) {
+                    
+                }
+               
+            }) { (error) in
+                //error
+            }
+        }
     }
     
 }
@@ -203,24 +226,12 @@ extension CreateNewGroupVC: UICollectionViewDelegateFlowLayout, UICollectionView
 extension CreateNewGroupVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var ids: [String] = selectedContacts.map{ $0.id }
-        if(searchActive == true){
-            if let contact = self.filteredContact{
-                if !ids.contains(contact[indexPath.row].id){
-                    self.selectedContacts.append(contact[indexPath.row])
-                }else{
-                    if let idx: Int = ids.index(of: contact[indexPath.row].id){
-                        self.selectedContacts.remove(at: idx)
-                    }
-                }
-            }
-        }else{
-            if let contact = self.contactAll{
-                if !ids.contains(contact[indexPath.row].id){
-                    self.selectedContacts.append(contact[indexPath.row])
-                }else{
-                    if let idx: Int = ids.index(of: contact[indexPath.row].id){
-                        self.selectedContacts.remove(at: idx)
-                    }
+        if let contact = self.contactAll{
+            if !ids.contains(contact[indexPath.row].id){
+                self.selectedContacts.append(contact[indexPath.row])
+            }else{
+                if let idx: Int = ids.index(of: contact[indexPath.row].id){
+                    self.selectedContacts.remove(at: idx)
                 }
             }
         }
@@ -244,44 +255,27 @@ extension CreateNewGroupVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(searchActive) {
-            return filteredContact?.count ?? 0
-        }
         return self.contactAll?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellIdentifire", for: indexPath) as! ContactCell
         var ids: [String] = selectedContacts.map{ $0.id }
-        if(searchActive == true){
-            if let contacts = self.filteredContact{
-                let contact = contacts[indexPath.row]
-                cell.configureWithData(contact: contact)
-                if ids.contains(contact.id){
-                    cell.ivCheck.isHidden = false
-                    cell.ivCheck.layer.cornerRadius = cell.ivCheck.frame.size.height / 2
-                }else{
-                    cell.ivCheck.isHidden = true
-                }
+        if let contacts = self.contactAll{
+            let contact = contacts[indexPath.row]
+            cell.configureWithData(contact: contact)
+            if ids.contains(contact.id){
+                cell.ivCheck.isHidden = false
+                cell.ivCheck.layer.cornerRadius = cell.ivCheck.frame.size.height / 2
+            }else{
+                cell.ivCheck.isHidden = true
             }
-        }else{
-            if let contacts = self.contactAll{
-                let contact = contacts[indexPath.row]
-                cell.configureWithData(contact: contact)
-                if ids.contains(contact.id){
-                    cell.ivCheck.isHidden = false
-                    cell.ivCheck.layer.cornerRadius = cell.ivCheck.frame.size.height / 2
-                }else{
-                    cell.ivCheck.isHidden = true
-                }
-                
-                if indexPath.row == contacts.count - 1{
-                    self.getContacts()
-                }
-                
+            
+            if indexPath.row == contacts.count - 1{
+                self.getContacts()
             }
+            
         }
-        
         self.tableView.tableFooterView = UIView()
         return cell
     }
@@ -289,34 +283,37 @@ extension CreateNewGroupVC: UITableViewDataSource {
 
 extension CreateNewGroupVC: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchActive = true
         searchBar.showsCancelButton = true
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchActive = false
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchActive = false
         self.tableView.reloadData()
         searchBar.text = ""
         searchBar.endEditing(true)
         searchBar.showsCancelButton = false
+        
+        self.keywordSearch = nil
+        self.page = 1
+        self.getContacts()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchActive = false
     }
     
     func searchBar(_ owsearchBar: UISearchBar, textDidChange searchText: String) {
-        searchActive = true
         self.keywordSearch = searchText
+        self.page = 1
+        self.stopLoad = false
+        self.contactAll?.removeAll()
+        self.tableView.reloadData()
         NSObject.cancelPreviousPerformRequests(withTarget: self,
-                                               selector: #selector(self.search),
+                                               selector: #selector(self.getContacts),
                                                object: nil)
         
-        perform(#selector(self.search),
+        perform(#selector(self.getContacts),
                 with: nil, afterDelay: 0.5)
         
     }
@@ -329,14 +326,6 @@ extension CreateNewGroupVC: CreateNewGroupVCDelegate {
         }else{
             self.contactAll = contacts
         }
-        
-        self.tableView.reloadData()
-        self.tvMarginBottom.constant = 0
-    }
-    
-    func searchContactDidSucceed(contacts: [MemberModel]){
-        self.filteredContact?.removeAll()
-        self.filteredContact = contacts
         
         self.tableView.reloadData()
         self.tvMarginBottom.constant = 0
