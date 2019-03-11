@@ -824,7 +824,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.sample;
 				PRODUCT_NAME = Qiscus;
 				PROVISIONING_PROFILE_SPECIFIER = "Qiscus SDK";
 				SWIFT_VERSION = 4.2;
@@ -846,7 +846,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.sample;
 				PRODUCT_NAME = Qiscus;
 				PROVISIONING_PROFILE_SPECIFIER = "Qiscus SDK";
 				SWIFT_VERSION = 4.2;
