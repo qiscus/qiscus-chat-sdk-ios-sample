@@ -4,7 +4,7 @@ This repo is aimed to give an example on how to build a chat UI using Qiscus Cha
 
 ## Requirements
 
-- iOS 10.0+
+- iOS 9.0+
 - Xcode 10+
 - Swift 4.2+
 
