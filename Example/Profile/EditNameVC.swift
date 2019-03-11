@@ -13,6 +13,7 @@ import Foundation
 class EditNameVC: UIViewController {
     @IBOutlet weak var tvName: UITextField!
     var name :String = ""
+    @IBOutlet weak var topNameCons: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,18 @@ class EditNameVC: UIViewController {
         //setup textView
         self.tvName.text = name
         self.tvName.setBottomBorder()
+        
+        if UIDevice().userInterfaceIdiom == .phone {
+            switch UIScreen.main.bounds.size.height{
+            case 480:
+                self.topNameCons.constant = 70
+            case 568:
+                self.topNameCons.constant = 70
+            default:
+                //no action
+                break
+            }
+        }
     }
     
     private func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{

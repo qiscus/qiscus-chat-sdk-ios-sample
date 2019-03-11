@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -12,13 +12,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditNameVC" customModule="Qiscus" customModuleProvider="target">
             <connections>
+                <outlet property="topNameCons" destination="Cxn-c1-LUG" id="AYf-gr-VfH"/>
                 <outlet property="tvName" destination="5Jn-TG-me1" id="eMA-nH-E8b"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DISPLAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FaO-HD-UTh">
@@ -31,7 +32,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Jn-TG-me1">
-                    <rect key="frame" x="16" y="104" width="343" height="25"/>
+                    <rect key="frame" x="16" y="104" width="288" height="25"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="pY4-gR-ydZ"/>
                     </constraints>
@@ -43,10 +44,10 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="5Jn-TG-me1" secondAttribute="trailing" constant="16" id="4gY-oh-UAj"/>
+                <constraint firstItem="FaO-HD-UTh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="Cxn-c1-LUG"/>
                 <constraint firstItem="5Jn-TG-me1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="E35-6w-GZm"/>
                 <constraint firstItem="5Jn-TG-me1" firstAttribute="top" secondItem="FaO-HD-UTh" secondAttribute="bottom" id="rrH-e5-2TM"/>
                 <constraint firstItem="FaO-HD-UTh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="u0T-BI-tW6"/>
-                <constraint firstItem="FaO-HD-UTh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="zsV-7v-7ON"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
