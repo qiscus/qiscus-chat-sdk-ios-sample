@@ -118,13 +118,17 @@ extension Date {
             }
         }
         
-        //        if let second = components.second {
-        //            if (second >= 3) {
-        //                return "\(second) seconds ago"
-        //            }
-        //        }
+        if let second = components.second {
+            if (second >= 3) {
+                return "a few seconds ago"
+            }else{
+                return "Online"
+            }
+        }
         
-        return "Online"
+        
+        
+        return ""
     }
     
     private func stringToReturn(flag:Bool, strings: (String, String)) -> String {
