@@ -95,13 +95,18 @@ class UIChatPresenter: UIChatUserInteraction {
     }
     
     func loadComments(withID roomId: String) {
-        // load local
-        if let _comments = QiscusCore.database.comment.find(roomId: roomId) {
-            guard let lastComment = _comments.last else { return }
-            // read comment
-            QiscusCore.shared.updateCommentRead(roomId: roomId, lastCommentReadId: lastComment.id)
-            self.comments = self.groupingComments(_comments)
-            self.viewPresenter?.onLoadMessageFinished()
+        if let room = QiscusCore.database.room.find(id: roomId){
+            // load local
+            if let _comments = QiscusCore.database.comment.find(roomId: roomId) {
+                guard let lastComment = _comments.last else { return }
+                // read comment
+                if let lastComment = room.lastComment {
+                     QiscusCore.shared.updateCommentRead(roomId: roomId, lastCommentReadId: lastComment.id)
+                }
+               
+                self.comments = self.groupingComments(_comments)
+                self.viewPresenter?.onLoadMessageFinished()
+            }
         }
         
     }
