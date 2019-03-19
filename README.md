@@ -2,6 +2,17 @@
 
 This repo is aimed to give an example on how to build a chat UI using Qiscus Chat SDK. Qiscus Chat Sample UI is built with full functionalities so that you can figure out the flow and main activities of common Chat apps. This sample app is built on top of Qiscus Chat SDK, for further feature you can figure out in our [docs](https://docs.qiscus.com/ios/latest/introduction)
 
+## Screen Shots
+You can see some of sample UI in this repository
+
+<img src="https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/ogp4jg-vSN/Screen+Shot+2019-03-18+at+08.00.12.png" alt="Chat Rooms" width="240"/>
+
+<img src="https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/NRrM6CSG5l/Screen+Shot+2019-03-18+at+08.05.08.png" alt="Chat" width="240"/>
+
+<img src="https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/7W08U63Fg_/Screen+Shot+2019-03-18+at+08.06.21.png" alt="New Chat" width="240"/>
+
+<img src="https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/98Aciulka3/Screen+Shot+2019-03-18+at+08.07.04.png" alt="Chat Room Info" width="240"/>
+
 ## Requirements
 
 - iOS 9.0+
