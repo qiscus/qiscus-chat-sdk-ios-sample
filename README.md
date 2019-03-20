@@ -74,7 +74,7 @@ Do the following steps to setup push notifications:
 3. Export a p12 file and upload it to Qiscus Dashboard.
 4. Register a device token in Qiscus SDK and parse Qiscus APNS messages.
 
-##### Step Push Notification 1:  Create A Certificate Signing Request(CSR)
+#### Step Push Notification 1:  Create A Certificate Signing Request(CSR)
 
 Open **Keychain Access** on your Mac (Applications -> Utilities -> Keychain Access). Select **Request a Certificate From a Certificate Authority**.
 <p align="center"><br/><img src="https://d3p8ijl4igpb16.cloudfront.net/docs/assets/apns1.png" width="100%" /><br/></p>
@@ -88,7 +88,7 @@ In the **Certificate Information** window, do the following:
 
 <p align="center"><br/><img src="https://d3p8ijl4igpb16.cloudfront.net/docs/assets/apns2.png" width="100%" /><br/></p>
 
-##### Step Push Notification 2: Create A Push Notification SSL Certificate In Apple Developer Site.
+#### Step Push Notification 2: Create A Push Notification SSL Certificate In Apple Developer Site.
 
 Log in to the [Apple Developer Member Center](https://developer.apple.com/) and find the **Certificates, Identifiers & Profiles** menu. Select **App IDs**, find your target application, and click the **Edit** button.
 <p align="center"><br/><img src="https://d3p8ijl4igpb16.cloudfront.net/docs/assets/apns3.png" width="100%" /><br/></p>
@@ -101,7 +101,7 @@ Upload the **CSR file** that you created in section (1) to complete this process
 Double-click the file and register it to your **login keychain.**
 
 
-##### Step Push Notification 3: Export A p12 File and Upload It To Qiscus Dashboard
+#### Step Push Notification 3: Export A p12 File and Upload It To Qiscus Dashboard
 
 Under the Keychain Access, click the Certificates category from the left menu. Find the Push SSL certificate you just registered and right-click it without expanding the certificate. Then select Export to save the file to your disk.
 
@@ -123,7 +123,7 @@ klik add and fill the form upload certificates
 > **Note:  
 **Example of this certificate for production, you need create cert Push Notification for development, and Export A p12 File and Upload It To Qiscus Dashboard if you run from Xcode
 
-##### Step Push Notification 4: Register A Device Token In Qiscus SDK And Parse Qiscus APNS Messages.   
+#### Step Push Notification 4: Register A Device Token In Qiscus SDK And Parse Qiscus APNS Messages.   
 
 In your app's AppDelegate, store your device token as a variable.
 
@@ -210,7 +210,7 @@ Don't forget set **Remote notifications and Background fetch** in menu **Capabil
 
 <p align="center"><br/><img src="https://d3p8ijl4igpb16.cloudfront.net/docs/assets/apns11.png" width="100%" /><br/></p>
 
-##### Step Push Notification 6: Test PN from third party
+#### Step Push Notification 6: Test PN from third party
 
 for example using tool Easy APNs Provider :
 
