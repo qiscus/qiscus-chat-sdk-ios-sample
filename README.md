@@ -217,8 +217,7 @@ for example using tool Easy APNs Provider :
 <p align="center"><br/><img src="https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/MZukRQrLqf/Screen+Shot+2019-03-20+at+11.02.14.png" width="100%"/><br/></p>
 
 > **Note:  
-**Follow step 1 - 6 tools to test push notification. 
-
+**Follow step 1 - 6 tools to test push notification.
 **We test using cert Apple Development IOS Push Service
 
 
