@@ -218,6 +218,7 @@ for example using tool Easy APNs Provider :
 
 > **Note:  
 **Follow step 1 - 6 tools to test push notification. 
+
 **We test using cert Apple Development IOS Push Service
 
 
