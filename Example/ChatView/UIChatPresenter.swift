@@ -288,12 +288,12 @@ class UIChatPresenter: UIChatUserInteraction {
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
     func didDelete(Comment comment: CommentModel) {
-        // check comment already exist in view
         for (group,var c) in comments.enumerated() {
             if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
                 c.remove(at: index)
                 self.comments = groupingComments(c)
                 self.lastIdToLoad = ""
+                self.loadMoreAvailable = true
                 self.viewPresenter?.onReloadComment()
             }
         }
