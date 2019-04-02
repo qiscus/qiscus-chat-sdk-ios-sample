@@ -391,6 +391,8 @@ extension UIChatViewController: UIChatViewDelegate {
             if let room = self.presenter.room {
                 if room.type == .group {
                     self.chatTitleView.labelSubtitle.text = getParticipant()
+                }else{
+                    self.chatTitleView.labelSubtitle.text = "Online"
                 }
             }
         }
@@ -613,8 +615,10 @@ extension UIChatViewController : UIChatInputDelegate {
                 self.tableViewConversation.isHidden = false
                 self.emptyMessageView.alpha = 0
             }
+            self.presenter.isTyping(false)
             onSuccess(comment)
         }) { (error) in
+            self.presenter.isTyping(false)
             onError(error)
         }
     }

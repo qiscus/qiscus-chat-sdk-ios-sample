@@ -27,7 +27,6 @@ class UIChatListPresenter {
     
     func attachView(view : UIChatListView){
         viewPresenter = view
-        QiscusCore.shared.isOnline(true)
     }
     
     func detachView() {
