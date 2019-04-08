@@ -6,13 +6,13 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-    pod 'QiscusCore', '~> 0.2.10'
+  pod 'QiscusCore', '~> 0.3.0'
 
     # 3rd party
   pod 'SDWebImage', '~> 4.4.2'
   pod 'SimpleImageViewer', :git => 'https://github.com/aFrogleap/SimpleImageViewer'
-  pod 'SwiftyJSON', '~> 4.2.0'
-  pod 'Alamofire', '~> 4.7.3'
+  pod 'SwiftyJSON'
+  pod 'Alamofire'
   pod 'AlamofireImage'
   pod 'UICircularProgressRing'
 end
