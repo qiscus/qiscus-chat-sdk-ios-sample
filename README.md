@@ -1,6 +1,6 @@
 # Qiscus Chat SDK IOS Sample UI 
 
-This repo is aimed to give an example on how to build a chat UI using Qiscus Chat SDK. Qiscus Chat Sample UI is built with full functionalities so that you can figure out the flow and main activities of common Chat apps. This sample app is built on top of Qiscus Chat SDK, for further feature you can figure out in our [docs](https://docs.qiscus.com/ios/latest/introduction)
+This repo is aimed to give an example on how to build a chat UI using Qiscus Chat SDK. Qiscus Chat Sample UI is built with full functionalities so that you can figure out the flow and main activities of common Chat apps. This sample app is built on top of Qiscus Chat SDK, for further feature you can figure out in our [docs](https://documentation.qiscus.com/chat-sdk-ios/introduction)
 
 ## Screen Shots
 You can see some of sample UI in this repository
