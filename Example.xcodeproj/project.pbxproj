@@ -69,6 +69,7 @@
 		3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A2C221E655800F1B7CA /* QFileLeftCell.xib */; };
 		3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */; };
 		3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A30221E656C00F1B7CA /* QFileRightCell.xib */; };
+		3D8F0D6122684130000135CA /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F0D6022684130000135CA /* UserDefault.swift */; };
 		3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA7C699221A68A20018A94F /* NewConversationVC.swift */; };
 		3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA7C69A221A68A20018A94F /* NewConversationVC.xib */; };
 		3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */; };
@@ -149,6 +150,7 @@
 		3D819A2C221E655800F1B7CA /* QFileLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileLeftCell.xib; sourceTree = "<group>"; };
 		3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QFileRightCell.swift; sourceTree = "<group>"; };
 		3D819A30221E656C00F1B7CA /* QFileRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileRightCell.xib; sourceTree = "<group>"; };
+		3D8F0D6022684130000135CA /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserDefault.swift; path = Example/UserDefault.swift; sourceTree = SOURCE_ROOT; };
 		3DA7C699221A68A20018A94F /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
 		3DA7C69A221A68A20018A94F /* NewConversationVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewConversationVC.xib; sourceTree = "<group>"; };
 		3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomInfoVC.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				3D40B85A2192E20900FE7228 /* UIImage.swift */,
 				3DCF6A3C2199545100C108E6 /* Date.swift */,
 				3D819A25221D0BFB00F1B7CA /* UITextField.swift */,
+				3D8F0D6022684130000135CA /* UserDefault.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
+				3D8F0D6122684130000135CA /* UserDefault.swift in Sources */,
 				3D819A26221D0BFB00F1B7CA /* UITextField.swift in Sources */,
 				3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */,
 				3D80B2B4221BB75A0053280C /* ContactSelectCollCell.swift in Sources */,
