@@ -18,8 +18,31 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>$(PRODUCT_NAME) media library use</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Need camera access for uploading Images</string>
+    <key>NSContactsUsageDescription</key>
+    <string>App will continuously upload your contacts to its heavily cloud servers to let you connect with your friends accross all your device in App</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>$(PRODUCT_NAME) location use</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>$(PRODUCT_NAME) location use</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>$(PRODUCT_NAME) microphone use</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>This app need access for uploading and save images</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app need access for uploading and save images</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+        <string>fetch</string>
+        <string>location</string>
+        <string>remote-notification</string>
+    </array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

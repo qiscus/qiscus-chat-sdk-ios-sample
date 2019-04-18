@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="82" id="KGk-i7-Jjw" customClass="UIChatListViewCell" customModule="Qiscus" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="421" height="81"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="421" height="80.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="UC3-pb-PeH" userLabel="profileImageView">
+                        <rect key="frame" x="10" y="8" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="UKz-VE-WuS"/>
+                            <constraint firstAttribute="height" constant="50" id="r4j-Qn-6ZH"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dO-lh-ltC" userLabel="name">
+                        <rect key="frame" x="70" y="10" width="275" height="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GcT-oK-RZz" userLabel="message">
+                        <rect key="frame" x="70" y="32" width="305" height="15"/>
+                        <attributedString key="attributedText">
+                            <fragment content="sender :                                             Last message...">
+                                <attributes>
+                                    <color key="NSColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <font key="NSFont" size="12" name=".AppleSystemUIFont"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73m-0b-2Yc">
+                        <rect key="frame" x="340" y="8" width="65" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="65" id="LeL-bC-oGw"/>
+                            <constraint firstAttribute="height" constant="21" id="N6K-Z8-PjW"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYr-1A-NvS">
+                        <rect key="frame" x="383" y="33" width="25" height="25"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99+" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vd9-lp-FVL">
+                                <rect key="frame" x="2.5" y="4" width="20" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="badgeColor">
+                                        <color key="value" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="insets">
+                                        <size key="value" width="0.0" height="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.51764705879999995" green="0.76078431369999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="vd9-lp-FVL" secondAttribute="bottom" constant="4" id="Cvh-xO-pND"/>
+                            <constraint firstAttribute="width" constant="25" id="Eqn-Zv-hB0"/>
+                            <constraint firstItem="vd9-lp-FVL" firstAttribute="centerY" secondItem="aYr-1A-NvS" secondAttribute="centerY" id="Oe2-gW-VHg"/>
+                            <constraint firstAttribute="height" constant="25" id="aUq-SP-jMg"/>
+                            <constraint firstItem="vd9-lp-FVL" firstAttribute="centerX" secondItem="aYr-1A-NvS" secondAttribute="centerX" id="kK0-Oy-MD4"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiuss">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TuX-OW-oJJ" userLabel="border">
+                        <rect key="frame" x="70" y="72" width="346" height="0.5"/>
+                        <color key="backgroundColor" red="0.69803921570000005" green="0.69803921570000005" blue="0.69803921570000005" alpha="0.70307707060000002" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="yBq-ot-5vp"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="UC3-pb-PeH" secondAttribute="bottom" constant="8" id="06k-br-M6A"/>
+                    <constraint firstItem="73m-0b-2Yc" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="trailing" constant="-5" id="5sb-i8-sSd"/>
+                    <constraint firstItem="3dO-lh-ltC" firstAttribute="leading" secondItem="UC3-pb-PeH" secondAttribute="trailing" constant="10" id="ChH-rJ-gQv"/>
+                    <constraint firstItem="GcT-oK-RZz" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="leading" id="HUQ-48-R7c"/>
+                    <constraint firstItem="UC3-pb-PeH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Mum-DL-Kf8"/>
+                    <constraint firstAttribute="bottom" secondItem="TuX-OW-oJJ" secondAttribute="bottom" constant="8" id="S6i-al-eDk"/>
+                    <constraint firstItem="UC3-pb-PeH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Trl-aM-zqE"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="73m-0b-2Yc" secondAttribute="trailing" id="UX9-Qg-CxQ"/>
+                    <constraint firstItem="aYr-1A-NvS" firstAttribute="leading" secondItem="GcT-oK-RZz" secondAttribute="trailing" constant="8" id="Uog-hy-Thy"/>
+                    <constraint firstAttribute="bottom" secondItem="UC3-pb-PeH" secondAttribute="bottom" constant="22.5" id="WFT-tn-wGR"/>
+                    <constraint firstAttribute="trailing" secondItem="TuX-OW-oJJ" secondAttribute="trailing" constant="5" id="Z6Z-ju-vMg"/>
+                    <constraint firstItem="73m-0b-2Yc" firstAttribute="top" secondItem="UC3-pb-PeH" secondAttribute="top" id="ZkB-bU-KUR"/>
+                    <constraint firstItem="3dO-lh-ltC" firstAttribute="top" secondItem="UC3-pb-PeH" secondAttribute="top" constant="2" id="b6w-ao-qQr"/>
+                    <constraint firstAttribute="trailing" secondItem="aYr-1A-NvS" secondAttribute="trailing" constant="13" id="bFy-8V-XKa"/>
+                    <constraint firstItem="TuX-OW-oJJ" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="leading" id="lZl-y4-d6l"/>
+                    <constraint firstItem="GcT-oK-RZz" firstAttribute="top" secondItem="3dO-lh-ltC" secondAttribute="bottom" constant="5" id="pz2-1I-OjZ"/>
+                    <constraint firstItem="aYr-1A-NvS" firstAttribute="top" secondItem="73m-0b-2Yc" secondAttribute="bottom" constant="4" id="qPF-An-hCE"/>
+                    <constraint firstItem="TuX-OW-oJJ" firstAttribute="top" relation="lessThanOrEqual" secondItem="GcT-oK-RZz" secondAttribute="bottom" constant="25" id="yDc-lj-MRt"/>
+                </constraints>
+            </tableViewCellContentView>
+            <accessibility key="accessibilityConfiguration" identifier="ChatCellIdentifier"/>
+            <connections>
+                <outlet property="badgeWitdh" destination="Eqn-Zv-hB0" id="hSW-rU-Ye9"/>
+                <outlet property="imageViewRoom" destination="UC3-pb-PeH" id="nmZ-Ao-O5F"/>
+                <outlet property="labelBadge" destination="vd9-lp-FVL" id="D8l-Eo-UQD"/>
+                <outlet property="labelDate" destination="73m-0b-2Yc" id="xrU-h0-85F"/>
+                <outlet property="labelLastMessage" destination="GcT-oK-RZz" id="kpc-28-Ylc"/>
+                <outlet property="labelName" destination="3dO-lh-ltC" id="Kan-Dy-F1O"/>
+                <outlet property="viewBadge" destination="aYr-1A-NvS" id="1GI-zH-its"/>
+            </connections>
+            <point key="canvasLocation" x="83.4375" y="121.875"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="avatar" width="24.269662857055664" height="24.269662857055664"/>
+    </resources>
+</document>
