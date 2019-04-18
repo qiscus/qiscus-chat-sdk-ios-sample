@@ -95,6 +95,7 @@ class LoginViewController: UIViewController {
             
             QiscusCore.loginOrRegister(userID: self.textFieldUserID.text!, userKey: self.textFieldUserKey.text!, username: self.textFieldName.text!, avatarURL: nil, extras: nil, onSuccess: { (user) in
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.registerDeviceToken()
                 appDelegate.auth()
             }) { (error) in
                 let alert = UIAlertController(title: "Failed to Login?", message: String(describing: error.message), preferredStyle: .alert)

@@ -55,11 +55,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tokenString += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
         }
         print("token = \(tokenString)")
-        QiscusCore.shared.register(deviceToken: tokenString, onSuccess: { (response) in
-            print("success register device token =\(tokenString)")
-        }) { (error) in
-            print("failed register device token = \(error.message)")
+        UserDefaults.standard.setDeviceToken(value: tokenString)
+        if QiscusCore.isLogined {
+            QiscusCore.shared.register(deviceToken: tokenString, onSuccess: { (response) in
+                print("success register device token =\(tokenString)")
+            }) { (error) in
+                print("failed register device token = \(error.message)")
+            }
         }
+        
     }
     
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
@@ -129,6 +133,16 @@ extension AppDelegate {
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.rootViewController = navbar
         self.window?.makeKeyAndVisible()
+    }
+    
+    func registerDeviceToken(){
+        if let deviceToken = UserDefaults.standard.getDeviceToken(){
+            QiscusCore.shared.register(deviceToken: deviceToken, onSuccess: { (response) in
+                print("success register device token =\(deviceToken)")
+            }) { (error) in
+                print("failed register device token = \(error.message)")
+            }
+        }
     }
 }
 
