@@ -31,30 +31,42 @@ import QiscusCore
         QiscusCore.setup(WithAppID: appId)
         // enable debug log
         QiscusCore.enableDebugPrint = true
+        
+        if QiscusCore.isLogined{
+            QiscusCore.connect()
+        }
     }
     
-    
-    @objc public func setup(withAppId appId:String, userEmail:String, userKey:String, username:String, avatarURL:String? = nil, extras:[String: Any]? = nil) {
-        QiscusCore.setup(WithAppID: appId)
-        let url = URL(string: avatarURL ?? "http://")
-        QiscusCore.loginOrRegister(userID: userEmail, userKey: userKey,username: username, avatarURL: url, extras: extras, onSuccess: { (userModel) in
-            // when login success
-            print(userModel)
-        }) { (error) in
-            // when login error
+    @objc public func login(withUserID userID:String, userKey:String, username:String, avatarURL:String? = nil, extras:[String: Any]? = nil) {
+        
+        var url = URL(string: avatarURL ?? "http://")
+        
+        if QiscusCore.isLogined{
+            QiscusCore.logout { (error) in
+                QiscusCore.loginOrRegister(userID: userID, userKey: userKey,username: username, avatarURL: url, extras: extras, onSuccess: { (userModel) in
+                    // when login success
+                    print(userModel)
+                    QiscusCore.connect()
+                }) { (error) in
+                    // when login error
+                }
+            }
+        }else{
+            QiscusCore.loginOrRegister(userID: userID, userKey: userKey,username: username, avatarURL: url, extras: extras, onSuccess: { (userModel) in
+                // when login success
+                print(userModel)
+                QiscusCore.connect()
+            }) { (error) in
+                // when login error
+            }
         }
+        
         // enable debug log
         QiscusCore.enableDebugPrint = true
     }
     
     
     @objc public func chat(withUser user: String) {
-        if !QiscusCore.isLogined{
-            return
-        }else{
-            QiscusCore.connect()
-        }
-        
         QiscusCore.shared.getRoom(withUser: user, onSuccess: { (room, comments) in
             let vc = UIChatViewController()
             vc.room = room

@@ -13,6 +13,13 @@ import MobileCoreServices
 import AlamofireImage
 
 class RoomInfoVC: UIViewController {
+    init() {
+        super.init(nibName: "RoomInfoVC".self, bundle: MyChat.bundle)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var lbRoomName: UILabel!
     @IBOutlet weak var btIconEditName: UIButton!

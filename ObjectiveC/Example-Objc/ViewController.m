@@ -28,7 +28,7 @@
     
 - (IBAction)clickLogin:(id)sender {
     NSString *target = @"crowdid95";
-    [[MyChat shared] setupWithAppId:@"sdksample" userEmail:target userKey:target username:target avatarURL:@"https://res.cloudinary.com/qiscus/image/upload/v1492675291/kiwari-prod_user_id_169/jjgbgrln7u9sdc0pw8s3.jpg" extras:nil];
+    [[MyChat shared] loginWithUserID: target userKey:target username:target avatarURL:@"https://res.cloudinary.com/qiscus/image/upload/v1492675291/kiwari-prod_user_id_169/jjgbgrln7u9sdc0pw8s3.jpg" extras:nil];
 }
     
 - (IBAction)clickChat:(id)sender {

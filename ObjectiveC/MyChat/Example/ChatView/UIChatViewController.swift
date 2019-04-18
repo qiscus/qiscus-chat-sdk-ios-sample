@@ -150,7 +150,12 @@ class UIChatViewController: UIViewController {
     private func setupUI() {
         // config navBar
         self.setupNavigationTitle()
-        self.setupToolbarHandle()
+        if let room = self.room {
+            if room.type == .group{
+                self.setupToolbarHandle()
+            }
+            
+        }
         self.qiscusAutoHideKeyboard()
         self.setupTableView()
         self.chatInput.chatInputDelegate = self
@@ -373,7 +378,7 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     func onUpdateComment(comment: CommentModel, indexpath: IndexPath) {
         // reload cell in section and index path
-as        if self.tableViewConversation.cellForRow(at: indexpath) != nil{
+        if self.tableViewConversation.cellForRow(at: indexpath) != nil{
             self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
         }
     }
