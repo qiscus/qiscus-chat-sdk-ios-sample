@@ -49,6 +49,14 @@ class UIChatListPresenter {
             self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
         }
         
+        //for sub
+        //sample code for subscribe room manually
+        //QiscusCore.shared.subcribeRooms(self.rooms)
+        
+        //for unsub
+        //sample code for unSubscribe room manually
+        //QiscusCore.shared.unSubcribeRooms(self.rooms)
+        
         if self.rooms.isEmpty {
             self.loadFromServer()
         }
@@ -90,6 +98,10 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     
     func onRoom(_ room: RoomModel, didDeleteComment comment: CommentModel) {
         //
+    }
+    
+    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus){
+        print("change comment: \(comment.message) && status =\(status)")
     }
     
     func onRoom(_ room: RoomModel, gotNewComment comment: CommentModel) {
