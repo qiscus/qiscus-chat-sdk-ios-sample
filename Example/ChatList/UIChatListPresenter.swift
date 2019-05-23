@@ -81,6 +81,10 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
+    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
+        print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
+    }
+    
     func onRoom(deleted room: RoomModel) {
         self.loadFromLocal()
     }
