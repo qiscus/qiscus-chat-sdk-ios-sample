@@ -199,13 +199,11 @@ extension UIChatListViewController : UIChatListView {
             self.refreshControl.endRefreshing()
             self.tableView.reloadData()
             for room in rooms {
-                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
-                    QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
-                        if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
-                            self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
-                        }
+                QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
+                    if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
+                        self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
                     }
-                })
+                }
             }
         }
        

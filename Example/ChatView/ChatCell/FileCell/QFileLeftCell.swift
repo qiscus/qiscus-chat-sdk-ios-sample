@@ -109,7 +109,7 @@ class QFileLeftCell: UIBaseChatCell {
                                               destinationURL: DocumentsDirectory.iCloudDocumentsURL!.appendingPathComponent(file)!)
                 print("Moved to iCloud")
             } catch let error as NSError {
-                print("Failed to move file to Cloud : \(error)")
+                print("Failed to move file to Cloud : \(error.localizedDescription)")
             }
         }
         
