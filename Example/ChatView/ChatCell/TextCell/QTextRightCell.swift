@@ -86,7 +86,7 @@ class QTextRightCell: UIBaseChatCell {
             break
         case .read:
             lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.tintColor = UIColor.red
             ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
             break
         case . failed:
