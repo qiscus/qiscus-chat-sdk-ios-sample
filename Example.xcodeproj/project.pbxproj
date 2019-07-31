@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
 		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
@@ -57,6 +58,8 @@
 		3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DD75F222780E300E39C96 /* ProfileVC.xib */; };
 		3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DD76222279AA400E39C96 /* EditNameVC.swift */; };
 		3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DD76322279AA400E39C96 /* EditNameVC.xib */; };
+		3D77A44C22F822E700BDFD51 /* UIChatListResolvedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D77A44A22F822E700BDFD51 /* UIChatListResolvedViewController.swift */; };
+		3D77A44D22F822E700BDFD51 /* UIChatListResolvedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D77A44B22F822E700BDFD51 /* UIChatListResolvedViewController.xib */; };
 		3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D80B2AD221BB4770053280C /* CreateNewGroupVC.swift */; };
 		3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80B2AE221BB4770053280C /* CreateNewGroupVC.xib */; };
 		3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80B2B1221BB75A0053280C /* ContactSelectCollCell.xib */; };
@@ -72,6 +75,20 @@
 		3D8F0D6122684130000135CA /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F0D6022684130000135CA /* UserDefault.swift */; };
 		3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA7C699221A68A20018A94F /* NewConversationVC.swift */; };
 		3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA7C69A221A68A20018A94F /* NewConversationVC.xib */; };
+		3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */; };
+		3DA824482301B3980054D92F /* QCarouselCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8243D2301B3980054D92F /* QCarouselCardCell.swift */; };
+		3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA8243E2301B3980054D92F /* QCarouselCardCell.xib */; };
+		3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA8243F2301B3980054D92F /* QCarouselCell.xib */; };
+		3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824402301B3980054D92F /* QCarouselCell.swift */; };
+		3DA8244C2301B3980054D92F /* QCardRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA824422301B3980054D92F /* QCardRightCell.xib */; };
+		3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824432301B3980054D92F /* QCardRightCell.swift */; };
+		3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA824442301B3980054D92F /* QCardLeftCell.xib */; };
+		3DA8244F2301B3980054D92F /* QCardLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824452301B3980054D92F /* QCardLeftCell.swift */; };
+		3DA824502301B3980054D92F /* QPostbackLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA824462301B3980054D92F /* QPostbackLeftCell.xib */; };
+		3DA824532301B5690054D92F /* QiscusHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824522301B5680054D92F /* QiscusHelper.swift */; };
+		3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824542301C2DA0054D92F /* QCardAction.swift */; };
+		3DA824572301C2DA0054D92F /* QCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824552301C2DA0054D92F /* QCard.swift */; };
+		3DA824592301C35B0054D92F /* QCardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824582301C35A0054D92F /* QCardButton.swift */; };
 		3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */; };
 		3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */; };
 		3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */; };
@@ -87,6 +104,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatTabViewController.swift; sourceTree = "<group>"; };
 		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
 		3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
 		3D3854A021B4DE6600435B31 /* UIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +155,8 @@
 		3D5DD75F222780E300E39C96 /* ProfileVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
 		3D5DD76222279AA400E39C96 /* EditNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameVC.swift; sourceTree = "<group>"; };
 		3D5DD76322279AA400E39C96 /* EditNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditNameVC.xib; sourceTree = "<group>"; };
+		3D77A44A22F822E700BDFD51 /* UIChatListResolvedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListResolvedViewController.swift; sourceTree = "<group>"; };
+		3D77A44B22F822E700BDFD51 /* UIChatListResolvedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListResolvedViewController.xib; sourceTree = "<group>"; };
 		3D80B2AD221BB4770053280C /* CreateNewGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewGroupVC.swift; sourceTree = "<group>"; };
 		3D80B2AE221BB4770053280C /* CreateNewGroupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateNewGroupVC.xib; sourceTree = "<group>"; };
 		3D80B2B1221BB75A0053280C /* ContactSelectCollCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactSelectCollCell.xib; sourceTree = "<group>"; };
@@ -153,6 +173,20 @@
 		3D8F0D6022684130000135CA /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserDefault.swift; path = Example/UserDefault.swift; sourceTree = SOURCE_ROOT; };
 		3DA7C699221A68A20018A94F /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
 		3DA7C69A221A68A20018A94F /* NewConversationVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewConversationVC.xib; sourceTree = "<group>"; };
+		3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QPostbackLeftCell.swift; sourceTree = "<group>"; };
+		3DA8243D2301B3980054D92F /* QCarouselCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCarouselCardCell.swift; sourceTree = "<group>"; };
+		3DA8243E2301B3980054D92F /* QCarouselCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QCarouselCardCell.xib; sourceTree = "<group>"; };
+		3DA8243F2301B3980054D92F /* QCarouselCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QCarouselCell.xib; sourceTree = "<group>"; };
+		3DA824402301B3980054D92F /* QCarouselCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCarouselCell.swift; sourceTree = "<group>"; };
+		3DA824422301B3980054D92F /* QCardRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QCardRightCell.xib; sourceTree = "<group>"; };
+		3DA824432301B3980054D92F /* QCardRightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardRightCell.swift; sourceTree = "<group>"; };
+		3DA824442301B3980054D92F /* QCardLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QCardLeftCell.xib; sourceTree = "<group>"; };
+		3DA824452301B3980054D92F /* QCardLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardLeftCell.swift; sourceTree = "<group>"; };
+		3DA824462301B3980054D92F /* QPostbackLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QPostbackLeftCell.xib; sourceTree = "<group>"; };
+		3DA824522301B5680054D92F /* QiscusHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusHelper.swift; sourceTree = "<group>"; };
+		3DA824542301C2DA0054D92F /* QCardAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardAction.swift; sourceTree = "<group>"; };
+		3DA824552301C2DA0054D92F /* QCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCard.swift; sourceTree = "<group>"; };
+		3DA824582301C35A0054D92F /* QCardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardButton.swift; sourceTree = "<group>"; };
 		3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomInfoVC.swift; sourceTree = "<group>"; };
 		3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomInfoVC.xib; sourceTree = "<group>"; };
 		3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRoomNameVC.swift; sourceTree = "<group>"; };
@@ -196,6 +230,8 @@
 		3D40B8502192E20900FE7228 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3DA824552301C2DA0054D92F /* QCard.swift */,
+				3DA824542301C2DA0054D92F /* QCardAction.swift */,
 				3D40B8542192E20900FE7228 /* CommentModel.swift */,
 			);
 			path = Model;
@@ -220,6 +256,7 @@
 		3D40B85D2192E20900FE7228 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				3DA824582301C35A0054D92F /* QCardButton.swift */,
 				3D40B85E2192E20900FE7228 /* QPopUpView.swift */,
 				3D40B8622192E20900FE7228 /* QPopUpView.xib */,
 			);
@@ -240,6 +277,10 @@
 		3D40B8712192E20A00FE7228 /* ChatCell */ = {
 			isa = PBXGroup;
 			children = (
+				3DA824412301B3980054D92F /* QCard */,
+				3DA8243C2301B3980054D92F /* QCarouselCell */,
+				3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */,
+				3DA824462301B3980054D92F /* QPostbackLeftCell.xib */,
 				3D8474E5219D2CA3004877C8 /* TextCell */,
 				3D8474E7219D2CEF004877C8 /* ImageCell */,
 				3D819A28221E574400F1B7CA /* FileCell */,
@@ -259,6 +300,9 @@
 				3D3854AA21B4E03600435B31 /* UIChatListPresenter.swift */,
 				3D3854A821B4E03500435B31 /* UIChatListViewController.swift */,
 				3D3854A921B4E03600435B31 /* UIChatListViewController.xib */,
+				3D77A44A22F822E700BDFD51 /* UIChatListResolvedViewController.swift */,
+				3D77A44B22F822E700BDFD51 /* UIChatListResolvedViewController.xib */,
+				3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -351,6 +395,36 @@
 			path = Contact;
 			sourceTree = "<group>";
 		};
+		3DA8243C2301B3980054D92F /* QCarouselCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DA8243D2301B3980054D92F /* QCarouselCardCell.swift */,
+				3DA8243E2301B3980054D92F /* QCarouselCardCell.xib */,
+				3DA8243F2301B3980054D92F /* QCarouselCell.xib */,
+				3DA824402301B3980054D92F /* QCarouselCell.swift */,
+			);
+			path = QCarouselCell;
+			sourceTree = "<group>";
+		};
+		3DA824412301B3980054D92F /* QCard */ = {
+			isa = PBXGroup;
+			children = (
+				3DA824422301B3980054D92F /* QCardRightCell.xib */,
+				3DA824432301B3980054D92F /* QCardRightCell.swift */,
+				3DA824442301B3980054D92F /* QCardLeftCell.xib */,
+				3DA824452301B3980054D92F /* QCardLeftCell.swift */,
+			);
+			path = QCard;
+			sourceTree = "<group>";
+		};
+		3DA824512301B5680054D92F /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3DA824522301B5680054D92F /* QiscusHelper.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		3DAF2A35222E62330002B4E3 /* RoomInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +495,7 @@
 				3DAF2A35222E62330002B4E3 /* RoomInfo */,
 				3D5DD75D2227809100E39C96 /* Profile */,
 				3D819A27221D1A7900F1B7CA /* Qiscus.entitlements */,
+				3DA824512301B5680054D92F /* Helper */,
 				3DA7C698221A685A0018A94F /* Contact */,
 				3DCF6A37219926F800C108E6 /* Login */,
 				3D40B8A72192E20C00FE7228 /* Configuration */,
@@ -529,6 +604,7 @@
 			files = (
 				3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */,
 				3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */,
+				3DA8244C2301B3980054D92F /* QCardRightCell.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
@@ -536,12 +612,15 @@
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
+				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
+				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
+				3D77A44D22F822E700BDFD51 /* UIChatListResolvedViewController.xib in Resources */,
 				3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */,
 				3D40B8D42192E20C00FE7228 /* QTextRightCell.xib in Resources */,
 				3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */,
@@ -552,8 +631,10 @@
 				3D3854B721B4E34800435B31 /* UIChatListViewCell.xib in Resources */,
 				3D3854A721B4DE6600435B31 /* UIChatNavigation.xib in Resources */,
 				3D3854BB21B6409A00435B31 /* EmptyCell.xib in Resources */,
+				3DA824502301B3980054D92F /* QPostbackLeftCell.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
+				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
 				3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */,
 				3D40B8CA2192E20C00FE7228 /* CustomChatInput.xib in Resources */,
 				3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */,
@@ -608,23 +689,31 @@
 				3D40B8B52192E20C00FE7228 /* ViewController.swift in Sources */,
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
+				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
 				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
+				3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
 				3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */,
+				3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
 				3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */,
 				3D80B2B7221BDBE80053280C /* CreateGroupInfoVC.swift in Sources */,
 				3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */,
+				3DA824532301B5690054D92F /* QiscusHelper.swift in Sources */,
 				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */,
+				3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */,
+				3D77A44C22F822E700BDFD51 /* UIChatListResolvedViewController.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
+				3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */,
 				3D3854B621B4E34800435B31 /* UIChatListViewCell.swift in Sources */,
+				3DA824572301C2DA0054D92F /* QCard.swift in Sources */,
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
@@ -636,6 +725,7 @@
 				3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */,
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
+				3DA8244F2301B3980054D92F /* QCardLeftCell.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3D8F0D6122684130000135CA /* UserDefault.swift in Sources */,
 				3D819A26221D0BFB00F1B7CA /* UITextField.swift in Sources */,
@@ -647,8 +737,10 @@
 				3D40B8F12192E20C00FE7228 /* QiscusUploaderVC.swift in Sources */,
 				3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */,
 				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
+				3DA824592301C35B0054D92F /* QCardButton.swift in Sources */,
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
 				3D40B8B72192E20C00FE7228 /* Background.swift in Sources */,
+				3DA824482301B3980054D92F /* QCarouselCardCell.swift in Sources */,
 				3D819A2D221E655800F1B7CA /* QFileLeftCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -800,7 +892,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -822,7 +914,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -9,6 +9,7 @@ import UIKit
 import ContactsUI
 import SwiftyJSON
 import QiscusCore
+import Alamofire
 
 // Chat view blue print or function
 protocol UIChatView {
@@ -44,7 +45,7 @@ class DateHeaderLabel: UILabel {
     
 }
 
-class UIChatViewController: UIViewController {
+class UIChatViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var tableViewConversation: UITableView!
     @IBOutlet weak var viewChatInput: UIView!
     @IBOutlet weak var constraintViewInputBottom: NSLayoutConstraint!
@@ -52,6 +53,14 @@ class UIChatViewController: UIViewController {
     @IBOutlet weak var emptyMessageView: UIView!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var heightProgressBar: NSLayoutConstraint!
+    
+    @IBOutlet weak var viewResloved: UIView!
+    @IBOutlet weak var tvNotes: UITextView!
+    @IBOutlet weak var btCheckBox: UIButton!
+    @IBOutlet weak var btSubmitResolved: UIButton!
+    @IBOutlet weak var btCancelSubmit: UIButton!
+    var placeholderLabel : UILabel!
+    
     
     var chatTitleView : UIChatNavigation = UIChatNavigation()
     var chatInput : CustomChatInput = CustomChatInput()
@@ -101,7 +110,12 @@ class UIChatViewController: UIViewController {
         center.addObserver(self, selector: #selector(UIChatViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         center.addObserver(self, selector: #selector(UIChatViewController.keyboardChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         center.addObserver(self,selector: #selector(reSubscribeRoom(_:)), name: Notification.Name(rawValue: "reSubscribeRoom"),object: nil)
+        center.addObserver(self, selector: #selector(applicationDidBecomeActive),
+                                               name: UIApplication.didBecomeActiveNotification, object: nil)
+
         view.endEditing(true)
+        
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -110,8 +124,17 @@ class UIChatViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "reSubscribeRoom"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+
         view.endEditing(true)
     }
+    
+    @objc func applicationDidBecomeActive() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.presenter.attachView(view: self)
+        }
+    }
+
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -154,7 +177,26 @@ class UIChatViewController: UIViewController {
         self.setupTableView()
         self.chatInput.chatInputDelegate = self
         self.setupInputBar(self.chatInput)
+        self.setupPopupResolved()
+    }
+    
+    private func setupPopupResolved(){
+        self.tvNotes.layer.borderWidth = 1
+        self.tvNotes.layer.borderColor = UIColor(red:222/255, green:225/255, blue:227/255, alpha: 1).cgColor
         
+        self.tvNotes.delegate = self
+        placeholderLabel = UILabel()
+        placeholderLabel.text = "Add Notes"
+        placeholderLabel.font = UIFont.italicSystemFont(ofSize: (self.tvNotes.font?.pointSize)!)
+        placeholderLabel.sizeToFit()
+        self.tvNotes.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (self.tvNotes.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.lightGray
+        placeholderLabel.isHidden = !self.tvNotes.text.isEmpty
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
     private func setupInputBar(_ inputchatview: UIChatInput) {
@@ -186,8 +228,23 @@ class UIChatViewController: UIViewController {
         }
         
         let backButton = self.backButton(self, action: #selector(UIChatViewController.goBack))
+        
+        if let room = self.room {
+            if let option = room.options {
+                if !option.isEmpty{
+                    let json = JSON.init(parseJSON: option)
+                    let is_resolved = json["is_resolved"].bool ?? false
+                    
+                    if is_resolved == false {
+                        let resolveButton = self.resolveButton(self, action:  #selector(UIChatViewController.goResolve))
+                        self.navigationItem.rightBarButtonItems = [resolveButton]
+                    }
+                }
+            }
+        }
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
+      
         
         self.chatTitleView = UIChatNavigation(frame: self.navigationController?.navigationBar.frame ?? CGRect.zero)
         self.navigationItem.titleView = chatTitleView
@@ -201,7 +258,7 @@ class UIChatViewController: UIViewController {
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+        backIcon.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
             backIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)
@@ -211,6 +268,16 @@ class UIChatViewController: UIViewController {
         
         let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 30,height: 44))
         backButton.addSubview(backIcon)
+        backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
+        return UIBarButtonItem(customView: backButton)
+    }
+    
+    private func resolveButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
+        let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 80,height: 30))
+        backButton.setTitle("Resolve", for: .normal)
+        backButton.tintColor        = UIColor.white
+        backButton.layer.cornerRadius = 8
+        backButton.backgroundColor  = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
         backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
         return UIBarButtonItem(customView: backButton)
     }
@@ -234,12 +301,112 @@ class UIChatViewController: UIViewController {
          self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
         self.registerClass(nib: UINib(nibName: "QImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageLeftCell")
         self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
+        self.registerClass(nib: UINib(nibName: "QSystemCell", bundle:nil), forMessageCellWithReuseIdentifier: "qSystemCell")
+        
+        self.registerClass(nib: UINib(nibName: "QPostbackLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBack")
+        self.registerClass(nib: UINib(nibName: "QCarouselCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCarouselCell")
+        self.registerClass(nib: UINib(nibName: "QCardRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCardRightCell")
+        self.registerClass(nib: UINib(nibName: "QCardLeftCell", bundle: nil ), forMessageCellWithReuseIdentifier: "qCardLeftCell")
         
     }
     
     @objc func goBack() {
         view.endEditing(true)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @IBAction func btCheckBoxClick(_ sender: Any) {
+        if (btCheckBox.isSelected == true){
+            btCheckBox.setBackgroundImage(UIImage(named: "ic_uncheck_button"), for: UIControl.State.normal)
+            btCheckBox.isSelected = false
+        } else {
+            btCheckBox.setBackgroundImage(UIImage(named: "ic_check_button"), for: UIControl.State.normal)
+            btCheckBox.isSelected = true
+        }
+    }
+    @IBAction func submitResolved(_ sender: Any) {
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1 {
+                 asAdminOrAgent(value: 1)
+            }else{
+                asAdminOrAgent(value: userType)
+            }
+        }else{
+             asAdminOrAgent(value: 0)
+        }
+    }
+    
+    @IBAction func cancelResolved(_ sender: Any) {
+         view.endEditing(true)
+        self.viewResloved.isHidden = true
+    }
+    
+    @objc func goResolve() {
+        self.viewResloved.isHidden = false
+    }
+    
+    func asAdminOrAgent(value : Int){
+        if let room = self.room{
+            guard let roomLocal = QiscusCore.database.room.find(id: room.id) else {
+                return
+            }
+            
+            guard let token = UserDefaults.standard.getAuthenticationToken() else {
+                return
+            }
+            
+            var notes = ""
+            if let tv = self.tvNotes.text{
+                if tv.isEmpty {
+                    notes = ""
+                }else{
+                    notes = tv
+                }
+            }
+            
+            var sendEmail = false
+            if self.btCheckBox.isSelected == true{
+                sendEmail = true
+            }
+            
+            let params = ["room_id": roomLocal.id,
+                          "is_send_email": sendEmail,
+                          "notes": notes,
+                          "last_comment_id": roomLocal.lastComment?.id] as [String : Any]
+            
+            let header = ["Authorization": token] as [String : String]
+            
+            
+            var adminOrAgent = "agent"
+            if value == 1{
+                adminOrAgent = "admin"
+            }
+        
+            
+            Alamofire.request("https://qismo.qiscus.com/api/v1/\(adminOrAgent)/service/mark_as_resolved", method: .post, parameters: params, headers: header as! HTTPHeaders).responseJSON { (response) in
+                print("response call \(response)")
+                if response.result.value != nil {
+                    if (response.response?.statusCode)! >= 300 {
+                        //failed
+                        self.viewResloved.isHidden = true
+                    } else {
+                       //success
+                        
+                        QiscusCore.shared.getRoom(withID: roomLocal.id, onSuccess: { (rooms, comments) in
+                            self.viewResloved.isHidden = true
+                            self.goBack()
+                        }, onError: { (error) in
+                            self.viewResloved.isHidden = true
+                        })
+                    }
+                } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                   //failed
+                } else {
+                   //failed
+                }
+            }
+        }
     }
     
     // MARK: - Keyboard Methode
@@ -305,7 +472,6 @@ class UIChatViewController: UIViewController {
     func cellFor(message: CommentModel, at indexPath: IndexPath, in tableView: UITableView) -> UIBaseChatCell {
         let menuConfig = enableMenuConfig()
         var colorName:UIColor = UIColor.lightGray
-        
         if message.type == "text" {
             if (message.isMyComment() == true){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
@@ -323,14 +489,88 @@ class UIChatViewController: UIViewController {
                 cell.cellMenu = self
                 return cell
             }
-        }else if message.type == "image" {
+        }else if  message.type == "file_attachment" {
+            guard let payload = message.payload else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
+                return cell
+            }
+            
+            if let url = payload["url"] as? String {
+                let ext = message.fileExtension(fromURL:url)
+                if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
+                    if (message.isMyComment() == true){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        return cell
+                    }else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.cellMenu = self
+                        return cell
+                    }
+                }else{
+                    if (message.isMyComment() == true){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        return cell
+                    }
+                    else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.cellMenu = self
+                        return cell
+                    }
+                }
+            }else{
+                if (message.isMyComment() == true){
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                    cell.menuConfig = menuConfig
+                    cell.cellMenu = self
+                    return cell
+                }else{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
+                    if self.room?.type == .group {
+                        cell.colorName = colorName
+                        cell.isPublic = true
+                    }else {
+                        cell.isPublic = false
+                    }
+                    cell.cellMenu = self
+                    return cell
+                }
+            }
+        }else if message.type == "system_event" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "qSystemCell", for: indexPath) as! QSystemCell
+            
+            return cell
+        }else if message.type == "account_linking" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+            cell.delegateChat = self
+            return cell
+        }else if message.type == "buttons" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+            cell.delegateChat = self
+            return cell
+        }else if message.type == "button_postback_response" {
             if (message.isMyComment() == true){
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                 cell.menuConfig = menuConfig
                 cell.cellMenu = self
                 return cell
             }else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
                 if self.room?.type == .group {
                     cell.colorName = colorName
                     cell.isPublic = true
@@ -340,24 +580,32 @@ class UIChatViewController: UIViewController {
                 cell.cellMenu = self
                 return cell
             }
-        }else if message.type == "file" {
+        }else if message.type == "carousel"{
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "qCarouselCell", for: indexPath) as! QCarouselCell
+            cell.delegateChat = self
+            if self.room?.type == .group {
+                cell.isPublic = true
+            }else {
+                cell.isPublic = false
+            }
+            return cell
+        }else if message.type == "card" {
             if (message.isMyComment() == true){
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
-                cell.menuConfig = menuConfig
-                cell.cellMenu = self
+                let cell =  tableView.dequeueReusableCell(withIdentifier: "qCardRightCell", for: indexPath) as! QCardRightCell
+                cell.delegateChat = self
                 return cell
-            }
-            else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qCardLeftCell", for: indexPath) as! QCardLeftCell
+                cell.delegateChat = self
                 if self.room?.type == .group {
-                    cell.colorName = colorName
                     cell.isPublic = true
+                    cell.colorName = colorName
                 }else {
                     cell.isPublic = false
                 }
-                cell.cellMenu = self
                 return cell
             }
+            
         }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
             return cell

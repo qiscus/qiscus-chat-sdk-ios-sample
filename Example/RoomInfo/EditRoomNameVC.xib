@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DISPLAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FaO-HD-UTh">
-                    <rect key="frame" x="15" y="84" width="74" height="20"/>
+                    <rect key="frame" x="15" y="114" width="74" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="vgn-Ob-mqL"/>
                     </constraints>
@@ -31,7 +31,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Jn-TG-me1">
-                    <rect key="frame" x="16" y="104" width="343" height="25"/>
+                    <rect key="frame" x="16" y="134" width="343" height="25"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="pY4-gR-ydZ"/>
                     </constraints>
@@ -46,7 +46,7 @@
                 <constraint firstItem="5Jn-TG-me1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="E35-6w-GZm"/>
                 <constraint firstItem="5Jn-TG-me1" firstAttribute="top" secondItem="FaO-HD-UTh" secondAttribute="bottom" id="rrH-e5-2TM"/>
                 <constraint firstItem="FaO-HD-UTh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="u0T-BI-tW6"/>
-                <constraint firstItem="FaO-HD-UTh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="zsV-7v-7ON"/>
+                <constraint firstItem="FaO-HD-UTh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="zsV-7v-7ON"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

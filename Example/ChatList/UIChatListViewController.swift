@@ -8,37 +8,42 @@
 
 import UIKit
 import QiscusCore
+import XLPagerTabStrip
 
-class UIChatListViewController: UIViewController {
-
+class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var btStartChat: UIButton!
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     
     public var labelProfile = UILabel()
-    
     private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
-    
+    var lastRoomCount: Int = 0
     var rooms : [RoomModel] {
         get {
             return presenter.rooms
         }
     }
     
+    // MARK: - IndicatorInfoProvider
+    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        return IndicatorInfo(title: "ALL")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        self.presenter.loadChat()
+        self.presenter.loadFromServer()
+        
+        
+    }
     
+    @objc func onDidReceiveData(_ notification:Notification) {
+        self.presenter.loadChat()
     }
     
     func setupUI(){
-        self.btStartChat.addTarget(self, action: #selector(startChatButtonPressed), for: .touchUpInside)
-        self.btStartChat.layer.cornerRadius = 8
-        self.title = "Conversations"
-        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(UIChatListViewCell.nib, forCellReuseIdentifier: UIChatListViewCell.identifier)
@@ -51,34 +56,6 @@ class UIChatListViewController: UIViewController {
         }
         refreshControl.addTarget(self, action: #selector(reloadData(_:)), for: .valueChanged)
         
-    
-        let buttonProfile = UIButton(type: .custom)
-        buttonProfile.frame = CGRect(x: 0, y: 6, width: 30, height: 30)
-        buttonProfile.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        buttonProfile.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        buttonProfile.layer.cornerRadius = 15
-        buttonProfile.clipsToBounds = true
-        buttonProfile.setImage(UIImage(named: "avatar"), for: .normal)
-        buttonProfile.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
-        
-        let barButton = UIBarButtonItem(customView: buttonProfile)
-        
-        let buttonChat = UIButton(type: .custom)
-        buttonChat.frame = CGRect(x: 0, y: 6, width: 30, height: 30)
-        buttonChat.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        buttonChat.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        buttonChat.layer.cornerRadius = 15
-        buttonChat.clipsToBounds = true
-        buttonChat.setImage(UIImage(named: "search"), for: .normal)
-        buttonChat.addTarget(self, action: #selector(startChatButtonPressed), for: .touchUpInside)
-        
-        let barButtonChat = UIBarButtonItem(customView: buttonChat)
-        
-        
-        //assign button to navigationbar
-        self.navigationItem.leftBarButtonItem = barButton
-        self.navigationItem.rightBarButtonItem = barButtonChat
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,14 +65,16 @@ class UIChatListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.presenter.attachView(view: self)
+        self.presenter.attachView(view: self,typeTabAll: true)
         self.presenter.loadChat()
         self.tabBarController?.tabBar.isHidden = false
+        NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.presenter.detachView()
+         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
     }
     
     @objc private func reloadData(_ sender: Any) {
@@ -194,19 +173,21 @@ extension UIChatListViewController : UIChatListView {
         }else{
             self.emptyRoomView.isHidden = true
             self.tableView.isHidden = false
+            self.refreshControl.endRefreshing()
             
             // 1st time load data
-            self.refreshControl.endRefreshing()
             self.tableView.reloadData()
-            for room in rooms {
-                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
-                    QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
-                        if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
-                            self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
-                        }
-                    }
-                })
-            }
+            
+            //for room in rooms {
+            //    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+            //        QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
+            //            if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
+            //                self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
+            //            }
+            //        }
+            //    })
+            //}
+           
         }
        
     }

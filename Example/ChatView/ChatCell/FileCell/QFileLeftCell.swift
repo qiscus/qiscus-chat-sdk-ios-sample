@@ -29,7 +29,8 @@ class QFileLeftCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
     @IBOutlet weak var ivFIle: UIImageView!
-    @IBOutlet weak var viewBorder: UIView!
+    @IBOutlet weak var ivAvatarUser: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -60,8 +61,21 @@ class QFileLeftCell: UIBaseChatCell {
         self.tvContent.text = message.message
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         self.ivFIle.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(.alwaysTemplate)
-        self.ivFIle.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
-        self.viewBorder.layer.cornerRadius = 8
+        self.ivFIle.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        
+        self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
+        self.ivAvatarUser.clipsToBounds = true
+        
+        QiscusCore.shared.download(url: message.userAvatarUrl!, onSuccess: { (urlFile) in
+            let data = NSData(contentsOf: urlFile)
+            
+            DispatchQueue.main.async {
+                self.ivAvatarUser.image = UIImage(data: data as! Data)
+            }
+        }, onProgress: { (progress) in
+            
+        })
+        
         if(isPublic == true){
             self.lbName.text = message.username
             self.lbName.textColor = colorName
@@ -73,7 +87,12 @@ class QFileLeftCell: UIBaseChatCell {
         
         guard let payload = message.payload else { return }
         if let fileName = payload["file_name"] as? String{
-            self.tvContent.text = fileName
+            if fileName.isEmpty {
+                self.tvContent.text = message.fileName(text: message.message)
+            }else{
+                self.tvContent.text = fileName
+            }
+            
             if let url = payload["url"] as? String {
                 QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
                     
@@ -88,11 +107,14 @@ class QFileLeftCell: UIBaseChatCell {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
-                QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
-                    self.save(fileName: fileName, tempLocalUrl: urlLocal)
-                }) { (progress) in
-                    print("progress download =\(progress)")
-                }
+                let preview = ChatPreviewDocVC()
+                preview.fileName = fileName
+                preview.url = url
+                preview.roomName = "Document Preview"
+                let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                
+                self.currentViewController()?.navigationItem.backBarButtonItem = backButton
+                self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
             }
         }
     }

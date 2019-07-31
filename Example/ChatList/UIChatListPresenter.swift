@@ -8,6 +8,7 @@
 
 import Foundation
 import QiscusCore
+import SwiftyJSON
 
 protocol UIChatListView {
     func setEmptyData(message: String)
@@ -19,13 +20,15 @@ protocol UIChatListView {
 class UIChatListPresenter {
     
     private var viewPresenter : UIChatListView?
+    var typeTabAll: Bool = true
     var rooms : [RoomModel] = [RoomModel]()
-    
+    var page : Int = 1
     init() {
         QiscusCore.delegate = self
     }
     
-    func attachView(view : UIChatListView){
+    func attachView(view : UIChatListView, typeTabAll : Bool = true){
+        self.typeTabAll = typeTabAll
         viewPresenter = view
     }
     
@@ -42,30 +45,28 @@ class UIChatListPresenter {
     }
     
     private func loadFromLocal(refresh: Bool = true) {
-        // get from local
-        let localdb = QiscusCore.database.room.all()
-        self.rooms = filterRoom(data: localdb)
-        if refresh {
-            self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+        var localdb = QiscusCore.database.room.all()
+        
+        var roomsDB : [RoomModel] = [RoomModel]()
+        
+        for (index, db) in localdb.enumerated(){
+            if localdb[index].id != ""{
+                roomsDB.append(db)
+            }
         }
         
-        //for sub
-        //sample code for subscribe room manually
-        //QiscusCore.shared.subcribeRooms(self.rooms)
+        self.rooms = roomsDB
+        self.rooms = filterRoom(data:  self.rooms)
+        self.rooms = filterTypeChannel(data:  self.rooms)
         
-        //for unsub
-        //sample code for unSubscribe room manually
-        //QiscusCore.shared.unSubcribeRooms(self.rooms)
-        
-        if self.rooms.isEmpty {
-            self.loadFromServer()
+        if refresh {
+            self.viewPresenter?.didFinishLoadChat(rooms:self.rooms)
         }
     }
     
-    // Hide empty rooms
+    
     func filterRoom(data: [RoomModel]) -> [RoomModel] {
         var source = data
-        //source = source.filter({ ($0.lastComment != nil || $0.type != .single) })
         source.sort { (room1, room2) -> Bool in
             if let comment1 = room1.lastComment, let comment2 = room2.lastComment {
                 return comment1.unixTimestamp > comment2.unixTimestamp
@@ -76,11 +77,47 @@ class UIChatListPresenter {
         return source
     }
     
-    private func loadFromServer() {
+    func filterTypeChannel(data: [RoomModel])-> [RoomModel]{
+        var source = data
+        source = source.filter({ (room) -> Bool in
+            if let option = room.options{
+                if !option.isEmpty{
+                    let json = JSON.init(parseJSON: option)
+                    let is_resolved = json["is_resolved"].bool ?? false
+                    
+                    if typeTabAll{
+                        if is_resolved == true {
+                            return false
+                        }else{
+                            return true
+                        }
+                    }else{
+                        if is_resolved == true {
+                            return true
+                        }else{
+                            return false
+                        }
+                    }
+                    
+                }else{
+                    return false
+                }
+            }else{
+                return false
+            }
+           
+        })
+        
+        return source
+    }
+    
+    public func loadFromServer() {
         // check update from server
         QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
-            self.rooms = results
-            self.viewPresenter?.didFinishLoadChat(rooms: results)
+                self.rooms = self.filterRoom(data: results)
+                self.rooms = self.filterTypeChannel(data: self.rooms)
+                
+                self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
         }) { (error) in
             self.viewPresenter?.setEmptyData(message: "")
         }
@@ -107,18 +144,13 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     func onRoom(_ room: RoomModel, gotNewComment comment: CommentModel) {
         // show in app notification
         print("got new comment: \(comment.message)")
-        self.viewPresenter?.updateRooms(data: room)
-        if !rooms.contains(where: { $0.id == room.id}) {
-            loadFromServer()
-        }else {
-            loadFromLocal(refresh: false)
-        }
-        
+        //patch hack, something presenter not working
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadCell"), object: nil)
     }
 
     func gotNew(room: RoomModel) {
         // add not if exist
-        loadFromLocal(refresh: true)
+        self.loadFromLocal(refresh: true)
     }
 
     func remove(room: RoomModel) {

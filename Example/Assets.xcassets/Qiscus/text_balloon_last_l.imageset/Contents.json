@@ -1,18 +1,54 @@
 {
   "images" : [
     {
+      "resizing" : {
+        "mode" : "3-part-horizontal",
+        "center" : {
+          "mode" : "tile",
+          "width" : 82
+        },
+        "cap-insets" : {
+          "right" : 15,
+          "left" : 14
+        }
+      },
       "idiom" : "universal",
-      "filename" : "text_balloon_last_l.png",
+      "filename" : "Rectangle-1 (1)-1.png",
       "scale" : "1x"
     },
     {
+      "resizing" : {
+        "mode" : "3-part-horizontal",
+        "center" : {
+          "mode" : "tile",
+          "width" : 82
+        },
+        "cap-insets" : {
+          "right" : 15,
+          "left" : 15
+        }
+      },
       "idiom" : "universal",
-      "filename" : "text_balloon_last_l@2x.png",
+      "filename" : "Rectangle-1 (1)-2.png",
       "scale" : "2x"
     },
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 62,
+          "height" : 34
+        },
+        "cap-insets" : {
+          "bottom" : 48,
+          "top" : 48,
+          "right" : 48,
+          "left" : 48
+        }
+      },
       "idiom" : "universal",
-      "filename" : "text_balloon_last_l@3x.png",
+      "filename" : "Rectangle (2).png",
       "scale" : "3x"
     }
   ],

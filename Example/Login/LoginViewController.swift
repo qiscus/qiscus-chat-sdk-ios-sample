@@ -1,136 +1,131 @@
 //
-//  LoginViewController.swift
-//  example
+//  LoginQRController.swift
+//  qiscus-sdk-ios-sample-v2
 //
-//  Created by Qiscus on 30/07/18.
-//  Copyright © 2018 Qiscus. All rights reserved.
+//  Created by UziApel on 17/07/18.
+//  Copyright © 2018 Qiscus Technology. All rights reserved.
 //
 
 import UIKit
-import QiscusCore
+import AVFoundation
+import SwiftyJSON
+import Qiscus
 
-
-class LoginViewController: UIViewController {
-
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var textFieldUserID: UITextField!
-    @IBOutlet weak var textFieldUserKey: UITextField!
-    @IBOutlet weak var textFieldName: UITextField!
-    @IBOutlet weak var viewStart: UIView!
-    @IBOutlet weak var arrowNext: UIImageView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.title = "Login"
-        // Do any additional setup after loading the view.
-        self.setup()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+    
+    var captureSession: AVCaptureSession!
+    var previewLayer: AVCaptureVideoPreviewLayer!
+    
+    
+    // show alert message while cannot connect with qiscus sdk
+    var withMessage: String? {
+        didSet {
+            guard let message = withMessage else { return }
+            if !(message.isEmpty) {
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+                    //self.showError(message: message)
+                    
+                })
+            }
+        }
     }
     
-    func setup(){
-        self.textFieldUserID.delegate = self
-        self.textFieldUserKey.delegate = self
-        self.textFieldName.delegate = self
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = false
+        self.title = "Scan Your QR Code Here"
+        view.backgroundColor = UIColor.black
+        captureSession = AVCaptureSession()
         
-        self.textFieldUserID.setBottomBorder()
-        self.textFieldUserKey.setBottomBorder()
-        self.textFieldName.setBottomBorder()
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+        let videoInput: AVCaptureDeviceInput
         
-        self.textFieldUserID.addDoneButtonOnKeyboard()
-        self.textFieldUserKey.addDoneButtonOnKeyboard()
-        self.textFieldName.addDoneButtonOnKeyboard()
+        do {
+            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+        } catch {
+            return
+        }
         
-        self.arrowNext.image = self.arrowNext.image?.withRenderingMode(.alwaysTemplate)
-        self.arrowNext.tintColor = UIColor.white
+        if (captureSession.canAddInput(videoInput)) {
+            captureSession.addInput(videoInput)
+        } else {
+            failed()
+            return
+        }
         
-        let tap = UITapGestureRecognizer(target: self, action:#selector(login))
-        self.viewStart.addGestureRecognizer(tap)
+        let metadataOutput = AVCaptureMetadataOutput()
         
-        self.viewStart.layer.cornerRadius = 4
+        if (captureSession.canAddOutput(metadataOutput)) {
+            captureSession.addOutput(metadataOutput)
+            
+            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.metadataObjectTypes = [.qr]
+        } else {
+            failed()
+            return
+        }
+        
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer.frame = view.layer.bounds
+        previewLayer.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(previewLayer)
+        
+        
+        
+        captureSession.startRunning()
     }
-
+    
+    
+    func failed() {
+        let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+        captureSession = nil
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
+        
+        if (captureSession?.isRunning == false) {
+            captureSession.startRunning()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    // Called when the UIKeyboardWillHideNotification is sent
-    @objc func keyboardWillHide(notification: NSNotification) {
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInset
-    }
-    
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
         
-        var contentInset:UIEdgeInsets = self.scrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        scrollView.contentInset = contentInset
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    @objc func login() {
-        if(self.textFieldUserID.text?.isEmpty == true){
-             self.textFieldUserID.becomeFirstResponder()
-        }else if (self.textFieldUserKey.text?.isEmpty == true){
-             self.textFieldUserKey.becomeFirstResponder()
-        }else if (self.textFieldName.text?.isEmpty == true){
-            self.textFieldName.becomeFirstResponder()
-        }else{
-            
-            QiscusCore.loginOrRegister(userID: self.textFieldUserID.text!, userKey: self.textFieldUserKey.text!, username: self.textFieldName.text!, avatarURL: nil, extras: nil, onSuccess: { (user) in
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.registerDeviceToken()
-                appDelegate.auth()
-            }) { (error) in
-                let alert = UIAlertController(title: "Failed to Login?", message: String(describing: error.message), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Try Again", style: .cancel, handler: nil))
-                
-                self.present(alert, animated: true)
-            }
-        }
-    }
-}
-
-extension LoginViewController: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.textFieldName.setBottomColorGrey()
-        self.textFieldUserID.setBottomColorGrey()
-        self.textFieldUserKey.setBottomColorGrey()
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if(textField == self.textFieldUserID){
-            self.textFieldUserID.setBottomGreen()
-            self.textFieldUserKey.setBottomColorGrey()
-            self.textFieldName.setBottomColorGrey()
-        }else if(textField == self.textFieldUserKey){
-            self.textFieldUserKey.setBottomGreen()
-            self.textFieldUserID.setBottomColorGrey()
-            self.textFieldName.setBottomColorGrey()
-        }else {
-            self.textFieldName.setBottomGreen()
-            self.textFieldUserID.setBottomColorGrey()
-            self.textFieldUserKey.setBottomColorGrey()
+        if (captureSession?.isRunning == true) {
+            captureSession.stopRunning()
         }
     }
     
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        captureSession.stopRunning()
+        
+        if let metadataObject = metadataObjects.first {
+            guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
+            guard let stringValue = readableObject.stringValue else { return }
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            found(code: stringValue)
+        }
+        
+        dismiss(animated: true)
+    }
+    
+    func found(code: String) {
+        let payload = JSON.init(parseJSON: code)
+        let appId = payload["app_id"].stringValue
+        let identityToken = payload["identity_token"].stringValue
+        let qismo_key = payload["qismo_key"].stringValue
+        let app = UIApplication.shared.delegate as! AppDelegate
+        app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 }
-
-
-

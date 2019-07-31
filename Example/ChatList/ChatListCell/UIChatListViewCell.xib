@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,13 +26,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dO-lh-ltC" userLabel="name">
-                        <rect key="frame" x="70" y="10" width="275" height="17"/>
+                        <rect key="frame" x="70" y="10" width="38.5" height="16"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GcT-oK-RZz" userLabel="message">
-                        <rect key="frame" x="70" y="32" width="305" height="15"/>
+                        <rect key="frame" x="70" y="31" width="305" height="16"/>
                         <attributedString key="attributedText">
                             <fragment content="sender :                                             Last message...">
                                 <attributes>
@@ -93,23 +93,51 @@
                             <constraint firstAttribute="height" constant="0.5" id="yBq-ot-5vp"/>
                         </constraints>
                     </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qiscus" translatesAutoresizingMaskIntoConstraints="NO" id="yUy-XR-s6h" userLabel="profileImageView">
+                        <rect key="frame" x="34.5" y="33.5" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="2Iw-1m-fu4"/>
+                            <constraint firstAttribute="height" constant="25" id="tIK-LR-Kim"/>
+                        </constraints>
+                    </imageView>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_check" translatesAutoresizingMaskIntoConstraints="NO" id="yl6-x1-Ho1" userLabel="profileImageView">
+                        <rect key="frame" x="10" y="8" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="vgf-Hl-aO9"/>
+                            <constraint firstAttribute="height" constant="20" id="y96-5e-7zt"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot" translatesAutoresizingMaskIntoConstraints="NO" id="Z5o-nh-2oh" userLabel="profileImageView">
+                        <rect key="frame" x="113.5" y="5" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="cGW-E5-1BK"/>
+                            <constraint firstAttribute="width" constant="20" id="wV5-Ay-FUA"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="UC3-pb-PeH" secondAttribute="bottom" constant="8" id="06k-br-M6A"/>
-                    <constraint firstItem="73m-0b-2Yc" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="trailing" constant="-5" id="5sb-i8-sSd"/>
+                    <constraint firstItem="73m-0b-2Yc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Z5o-nh-2oh" secondAttribute="trailing" id="CLF-Pq-imK"/>
                     <constraint firstItem="3dO-lh-ltC" firstAttribute="leading" secondItem="UC3-pb-PeH" secondAttribute="trailing" constant="10" id="ChH-rJ-gQv"/>
                     <constraint firstItem="GcT-oK-RZz" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="leading" id="HUQ-48-R7c"/>
+                    <constraint firstItem="yl6-x1-Ho1" firstAttribute="centerY" secondItem="3dO-lh-ltC" secondAttribute="centerY" id="HWV-wr-aOj"/>
+                    <constraint firstItem="yUy-XR-s6h" firstAttribute="centerX" secondItem="UC3-pb-PeH" secondAttribute="centerX" constant="12" id="KiR-hS-FtQ"/>
                     <constraint firstItem="UC3-pb-PeH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Mum-DL-Kf8"/>
+                    <constraint firstItem="Z5o-nh-2oh" firstAttribute="top" secondItem="73m-0b-2Yc" secondAttribute="top" constant="-3" id="Rxa-kS-BV4"/>
                     <constraint firstAttribute="bottom" secondItem="TuX-OW-oJJ" secondAttribute="bottom" constant="8" id="S6i-al-eDk"/>
+                    <constraint firstItem="Z5o-nh-2oh" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="trailing" constant="5" id="TYO-xq-bhM"/>
                     <constraint firstItem="UC3-pb-PeH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Trl-aM-zqE"/>
                     <constraint firstAttribute="trailingMargin" secondItem="73m-0b-2Yc" secondAttribute="trailing" id="UX9-Qg-CxQ"/>
                     <constraint firstItem="aYr-1A-NvS" firstAttribute="leading" secondItem="GcT-oK-RZz" secondAttribute="trailing" constant="8" id="Uog-hy-Thy"/>
                     <constraint firstAttribute="bottom" secondItem="UC3-pb-PeH" secondAttribute="bottom" constant="22.5" id="WFT-tn-wGR"/>
+                    <constraint firstItem="yl6-x1-Ho1" firstAttribute="leading" secondItem="UC3-pb-PeH" secondAttribute="leading" id="YhR-fd-XB1"/>
                     <constraint firstAttribute="trailing" secondItem="TuX-OW-oJJ" secondAttribute="trailing" constant="5" id="Z6Z-ju-vMg"/>
                     <constraint firstItem="73m-0b-2Yc" firstAttribute="top" secondItem="UC3-pb-PeH" secondAttribute="top" id="ZkB-bU-KUR"/>
                     <constraint firstItem="3dO-lh-ltC" firstAttribute="top" secondItem="UC3-pb-PeH" secondAttribute="top" constant="2" id="b6w-ao-qQr"/>
                     <constraint firstAttribute="trailing" secondItem="aYr-1A-NvS" secondAttribute="trailing" constant="13" id="bFy-8V-XKa"/>
                     <constraint firstItem="TuX-OW-oJJ" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="leading" id="lZl-y4-d6l"/>
+                    <constraint firstItem="yUy-XR-s6h" firstAttribute="centerY" secondItem="UC3-pb-PeH" secondAttribute="centerY" constant="13" id="lwc-af-wTp"/>
+                    <constraint firstItem="yl6-x1-Ho1" firstAttribute="top" secondItem="UC3-pb-PeH" secondAttribute="top" id="p3U-hN-pWQ"/>
                     <constraint firstItem="GcT-oK-RZz" firstAttribute="top" secondItem="3dO-lh-ltC" secondAttribute="bottom" constant="5" id="pz2-1I-OjZ"/>
                     <constraint firstItem="aYr-1A-NvS" firstAttribute="top" secondItem="73m-0b-2Yc" secondAttribute="bottom" constant="4" id="qPF-An-hCE"/>
                     <constraint firstItem="TuX-OW-oJJ" firstAttribute="top" relation="lessThanOrEqual" secondItem="GcT-oK-RZz" secondAttribute="bottom" constant="25" id="yDc-lj-MRt"/>
@@ -118,7 +146,10 @@
             <accessibility key="accessibilityConfiguration" identifier="ChatCellIdentifier"/>
             <connections>
                 <outlet property="badgeWitdh" destination="Eqn-Zv-hB0" id="hSW-rU-Ye9"/>
+                <outlet property="ic_isResolved" destination="yl6-x1-Ho1" id="EyZ-fw-GxZ"/>
                 <outlet property="imageViewRoom" destination="UC3-pb-PeH" id="nmZ-Ao-O5F"/>
+                <outlet property="ivBot" destination="Z5o-nh-2oh" id="Hje-qd-GVK"/>
+                <outlet property="ivTypeChannel" destination="yUy-XR-s6h" id="c8V-VV-kiI"/>
                 <outlet property="labelBadge" destination="vd9-lp-FVL" id="D8l-Eo-UQD"/>
                 <outlet property="labelDate" destination="73m-0b-2Yc" id="xrU-h0-85F"/>
                 <outlet property="labelLastMessage" destination="GcT-oK-RZz" id="kpc-28-Ylc"/>
@@ -129,6 +160,9 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="avatar" width="24.269662857055664" height="24.269662857055664"/>
+        <image name="avatar" width="60" height="60"/>
+        <image name="ic_bot" width="60" height="60"/>
+        <image name="ic_check" width="60" height="60"/>
+        <image name="ic_qiscus" width="60" height="60"/>
     </resources>
 </document>

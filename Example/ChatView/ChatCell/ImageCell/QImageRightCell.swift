@@ -100,14 +100,13 @@ class QImageRightCell: UIBaseChatCell {
             print("Image not found!")
             return
         }
-        UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
         
         //active this code for detail image
-//        let configuration = ImageViewerConfiguration { config in
-//            config.imageView = ivComment
-//        }
-//
-//    self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
+        let configuration = ImageViewerConfiguration { config in
+            config.imageView = ivComment
+        }
+
+    self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
         
     }
     

@@ -57,9 +57,9 @@ class EditRoomNameVC: UIViewController {
         let saveIcon = UIImageView()
         saveIcon.contentMode = .scaleAspectFit
         
-        let image = UIImage(named: "ic_check")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let image = UIImage(named: "ic_check")
         saveIcon.image = image
-        saveIcon.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+        //saveIcon.tintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
             saveIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)

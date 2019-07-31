@@ -10,7 +10,9 @@ import UIKit
 import QiscusCore
 import Photos
 import MobileCoreServices
+import Alamofire
 import AlamofireImage
+import SwiftyJSON
 
 class RoomInfoVC: UIViewController {
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -18,9 +20,9 @@ class RoomInfoVC: UIViewController {
     @IBOutlet weak var btIconEditName: UIButton!
     @IBOutlet weak var btIconAvatar: UIButton!
     
+    @IBOutlet weak var lbAdditionalInformationCount: UILabel!
     @IBOutlet weak var ivAvatar: UIImageView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var ivIconAddParticipant: UIImageView!
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     var lastAvatarURL: URL? = nil
     
@@ -43,6 +45,14 @@ class RoomInfoVC: UIViewController {
             vc.roomID = room.id
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    @IBAction func clickAddtionalInformation(_ sender: Any) {
+        
+    }
+    
+    @IBAction func clickNotes(_ sender: Any) {
+        
     }
     
     @IBAction func changeRoomAvatar(_ sender: Any) {
@@ -99,28 +109,87 @@ class RoomInfoVC: UIViewController {
                 //error
             })
             
+            
+            if !room.options!.isEmpty{
+                let json = JSON.init(parseJSON: room.options!)
+                print("check ini =\(json)")
+                let channelType = json["channel"].string ?? "qiscus"
+                if channelType.lowercased() == "qiscus"{
+                    self.btIconAvatar.setImage(UIImage(named: "ic_qiscus"), for: .normal)
+                }else if channelType.lowercased() == "telegram"{
+                    self.btIconAvatar.setImage(UIImage(named: "ic_telegram"), for: .normal)
+                }else if channelType.lowercased() == "line"{
+                    self.btIconAvatar.setImage(UIImage(named: "ic_line"), for: .normal)
+                }else if channelType.lowercased() == "fb"{
+                    self.btIconAvatar.setImage(UIImage(named: "ic_fb"), for: .normal)
+                }else if channelType.lowercased() == "wa"{
+                    self.btIconAvatar.setImage(UIImage(named: "ic_wa"), for: .normal)
+                }else{
+                    self.btIconAvatar.setImage(UIImage(named: "ic_qiscus"), for: .normal)
+                }
+                
+            }
+            
+            self.lbAdditionalInformationCount.layer.cornerRadius = self.lbAdditionalInformationCount.frame.size.width / 2
+            self.lbAdditionalInformationCount.clipsToBounds = true
+            
+            self.getCustomerInfo()
+            
+        }
+    }
+    
+    func getCustomerInfo(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token] as [String : String]
+        Alamofire.request("https://qismo.qiscus.com/api/v1/qiscus/room/\(room!.id)/user_info", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    print("response.result.value =\(json)")
+                    var data = json["data"]["extras"].dictionary
+                    
+                    if let dataUser = data {
+                        let userProperties = dataUser["user_properties"]?.array
+                        var count = 0
+                        if let countAdditional = userProperties{
+                            count = countAdditional.count
+                        }
+                        
+                        self.lbAdditionalInformationCount.text = "\(count)"
+                    }
+ 
+                    print("response.result.value2 =\(data)")
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
         }
     }
     
     func setupUI(){
         //setup navigationBar
-        self.title = "Room Info"
+        self.title = "Chat & Customer Info"
         let backButton = self.backButton(self, action: #selector(ProfileVC.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)]
         
         //table view
         self.tableView.dataSource = self
         self.tableView.register(UINib(nibName: "ContactCell", bundle: nil), forCellReuseIdentifier: "ContactCellIdentifire")
         
         //setup color icon
-        btIconEditName.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        btIconAvatar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        ivIconAddParticipant.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+        btIconEditName.tintColor = UIColor(red: 106/255, green: 106/255, blue: 106/255, alpha: 1)
         
-        ivIconAddParticipant.image = UIImage(named: "ic_add_participants")?.withRenderingMode(.alwaysTemplate)
-        
-        btIconAvatar.setImage(UIImage(named: "ic_image_attachment")?.withRenderingMode(.alwaysTemplate), for: .normal)
         btIconEditName.setImage(UIImage(named: "ic_edit")?.withRenderingMode(.alwaysTemplate), for: .normal)
         
         loadingIndicator.isHidden = true
@@ -132,7 +201,7 @@ class RoomInfoVC: UIViewController {
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+        backIcon.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
             backIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)
@@ -292,7 +361,7 @@ extension RoomInfoVC: UITableViewDataSource {
         cell.ivCheck.image = image
         cell.ivCheck.tintColor = UIColor.red
         cell.ivCheck.backgroundColor = UIColor.clear
-        cell.ivCheck.isHidden = false
+        cell.ivCheck.isHidden = true
         cell.roomId = self.room?.id
         cell.delegate = self
         cell.removeParticipant = true

@@ -11,9 +11,7 @@ import QiscusCore
 import Foundation
 import UserNotifications
 import SwiftyJSON
-
-let APP_ID : String = "sdksample"
-
+import Alamofire
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -21,8 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        QiscusCore.enableDebugPrint = true
-        QiscusCore.setup(WithAppID: APP_ID)
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().tintColor = UIColor.white
         self.auth()
@@ -109,6 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if QiscusCore.isLogined{
+            QiscusCore.connect()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -119,9 +118,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     // Auth
     func auth() {
+        QiscusCore.enableDebugPrint = true
         let target : UIViewController
         if QiscusCore.isLogined {
-            target = UIChatListViewController()
+            if let appID = UserDefaults.standard.getAppID(){
+                QiscusCore.setup(WithAppID: appID)
+            }
+            
+            target = UIChatTabViewController()//UIChatListViewController()
             _ = QiscusCore.connect(delegate: self)
         }else {
             target = LoginViewController()
@@ -140,6 +144,52 @@ extension AppDelegate {
             }) { (error) in
                 print("failed register device token = \(error.message)")
             }
+        }
+    }
+    
+    func validateUserToken(appId :String,identityToken :String, qismo_key : String){
+        UserDefaults.standard.setAppID(value: appId)
+        QiscusCore.setup(WithAppID: appId)
+        
+        QiscusCore.login(withIdentityToken: identityToken, onSuccess: { (user) in
+            
+            let header = ["Authorization": user.token] as [String : String]
+            
+            let params = ["app_id": appId,
+                          "qismo_key": qismo_key] as [String : Any]
+            
+            
+            Alamofire.request("https://qismo.qiscus.com/api/v1/auth/get_token_by_qismo_key", method: .post, parameters: params, headers: header as! HTTPHeaders).responseJSON { (response) in
+                print("response call \(response)")
+                if response.result.value != nil {
+                    if (response.response?.statusCode)! >= 300 {
+                        //failed
+                    } else {
+                        //success
+                        
+                        let result = response.result.value
+                        let json = JSON(result)
+                        print("check json ini =\(json)")
+                        
+                        let token = json["data"]["authentication_token"].stringValue
+                        let userType = json["data"]["type"].intValue
+                        let bubbleColor = json["data"]["bubble_color"].stringValue
+                        
+                        UserDefaults.standard.setAuthenticationToken(value: token)
+                        UserDefaults.standard.setUserType(value: userType)
+                        UserDefaults.standard.setBubbleColor(value: bubbleColor)
+                        
+                        self.auth()
+                       
+                    }
+                } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                    //failed
+                } else {
+                    //failed
+                }
+            }
+        }) { (error) in
+            self.auth()
         }
     }
 }

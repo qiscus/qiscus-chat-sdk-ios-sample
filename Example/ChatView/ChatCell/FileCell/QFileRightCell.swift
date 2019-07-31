@@ -23,7 +23,6 @@ class QFileRightCell: UIBaseChatCell {
     @IBOutlet weak var lbNameTrailing: NSLayoutConstraint!
     
     @IBOutlet weak var ivFIle: UIImageView!
-    @IBOutlet weak var viewBorder: UIView!
     var menuConfig = enableMenuConfig()
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,14 +53,17 @@ class QFileRightCell: UIBaseChatCell {
         self.lbName.text = "You"
         self.lbTime.text = self.hour(date: message.date())
         self.tvContent.textColor = ColorConfiguration.rightBaloonTextColor
-        self.viewBorder.layer.cornerRadius = 8
         self.lbNameHeight.constant = 0
         self.ivFIle.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(.alwaysTemplate)
-        self.ivFIle.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+        self.ivFIle.tintColor = UIColor.white
         
         guard let payload = message.payload else { return }
         if let fileName = payload["file_name"] as? String{
-            self.tvContent.text = fileName
+            if fileName.isEmpty {
+                self.tvContent.text = message.fileName(text: message.message)
+            }else{
+                self.tvContent.text = fileName
+            }
             if let url = payload["url"] as? String {
                 QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
                     
@@ -76,11 +78,14 @@ class QFileRightCell: UIBaseChatCell {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
-                QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
-                    self.save(fileName: fileName, tempLocalUrl: urlLocal)
-                }) { (progress) in
-                    
-                }
+                let preview = ChatPreviewDocVC()
+                preview.fileName = fileName
+                preview.url = url
+                preview.roomName = "Document Preview"
+                let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                
+                self.currentViewController()?.navigationItem.backBarButtonItem = backButton
+                self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
             }
         }
     }

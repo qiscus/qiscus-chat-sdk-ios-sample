@@ -11,10 +11,16 @@ import QiscusCore
 
 class QSystemCell:  UIBaseChatCell {
     
+    @IBOutlet weak var viewBackground: UIView!
     @IBOutlet weak var lbComment: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        self.viewBackground.layer.cornerRadius = 8
+        self.viewBackground.clipsToBounds = true
+        self.viewBackground.layer.borderWidth = 1
+        self.viewBackground.layer.borderColor = UIColor(red:222/255, green:225/255, blue:227/255, alpha: 1).cgColor
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

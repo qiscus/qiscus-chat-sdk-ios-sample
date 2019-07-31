@@ -22,6 +22,8 @@ class QTextLeftCell: UIBaseChatCell {
     var isPublic: Bool = false
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
+    
+    @IBOutlet weak var ivAvatarUser: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -51,6 +53,19 @@ class QTextLeftCell: UIBaseChatCell {
         self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
         self.tvContent.text = message.message
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
+        
+        
+        self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
+        self.ivAvatarUser.clipsToBounds = true
+        
+        QiscusCore.shared.download(url: message.userAvatarUrl!, onSuccess: { (urlFile) in
+            let data = NSData(contentsOf: urlFile)
+            DispatchQueue.main.async {
+                self.ivAvatarUser.image = UIImage(data: data as! Data)
+            }
+        }, onProgress: { (progress) in
+            
+        })
         
         if(isPublic == true){
             self.lbName.text = message.username

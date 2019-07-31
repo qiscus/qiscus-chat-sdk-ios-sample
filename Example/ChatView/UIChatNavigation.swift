@@ -83,7 +83,9 @@ class UIChatNavigation: UIView {
             self.labelTitle.text = room.name
             self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
             if room.type == .group {
-                self.labelSubtitle.text = getParticipant(participants: room.participants!)
+                if let participant = room.participants{
+                    self.labelSubtitle.text = getParticipant(participants: participant)
+                }
             }else {
                 self.labelSubtitle.text = ""
             }

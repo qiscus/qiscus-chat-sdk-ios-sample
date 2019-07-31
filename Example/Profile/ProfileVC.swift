@@ -38,6 +38,9 @@ class ProfileVC: UIViewController {
            self.fromEditNameVC = false
            self.setupProfile()
         }
+        
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)]
     }
     
     func setupProfile(){

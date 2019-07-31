@@ -27,6 +27,7 @@ class QImageLeftCell: UIBaseChatCell {
     @IBOutlet weak var rightConstraint: NSLayoutConstraint!
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var ivAvatarUser: UIImageView!
     var isPublic: Bool = false
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
@@ -77,8 +78,8 @@ class QImageLeftCell: UIBaseChatCell {
                     QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlFile) in
                         let data = NSData(contentsOf: urlFile)
                         DispatchQueue.main.async {
-                            self.hideLoading()
-                            self.ivComment.image = UIImage(data: data as! Data)
+                             self.hideLoading()
+                             self.ivComment.image = UIImage(data: data as! Data)
                         }
                     }, onProgress: { (progress) in
                         
@@ -86,6 +87,18 @@ class QImageLeftCell: UIBaseChatCell {
                 }
             }
         }
+        
+        self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
+        self.ivAvatarUser.clipsToBounds = true
+        
+        QiscusCore.shared.download(url: message.userAvatarUrl!, onSuccess: { (urlFile) in
+            let data = NSData(contentsOf: urlFile)
+            DispatchQueue.main.async {
+                self.ivAvatarUser.image = UIImage(data: data as! Data)
+            }
+        }, onProgress: { (progress) in
+            
+        })
         
         if(isPublic == true){
             self.lbName.text = message.username
@@ -115,15 +128,13 @@ class QImageLeftCell: UIBaseChatCell {
             print("Image not found!")
             return
         }
-        UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-        
         //active this code for detail image
-//        let configuration = ImageViewerConfiguration { config in
-//            config.imageView = ivComment
-//        }
-//
-//        let imageViewerController = ImageViewerController(configuration: configuration)
-//        self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
+        let configuration = ImageViewerConfiguration { config in
+            config.imageView = ivComment
+        }
+
+        let imageViewerController = ImageViewerController(configuration: configuration)
+        self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
     }
     
     //MARK: - Add image to Library

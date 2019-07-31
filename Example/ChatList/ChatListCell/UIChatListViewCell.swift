@@ -9,6 +9,7 @@
 import UIKit
 import QiscusCore
 import AlamofireImage
+import SwiftyJSON
 
 class UIChatListViewCell: UITableViewCell {
 
@@ -36,6 +37,10 @@ class UIChatListViewCell: UITableViewCell {
     
     @IBOutlet weak var labelBadge: UILabel!
     
+    @IBOutlet weak var ic_isResolved: UIImageView!
+    @IBOutlet weak var ivTypeChannel: UIImageView!
+    
+    @IBOutlet weak var ivBot: UIImageView!
     var lastMessageCreateAt:String{
         get{
             guard let comment = data?.lastComment else { return "" }
@@ -82,6 +87,42 @@ class UIChatListViewCell: UITableViewCell {
     func setupUI() {
         
         if let data = data {
+            if let option = data.options {
+                if !option.isEmpty{
+                    let json = JSON.init(parseJSON: option)
+                    let channelType = json["channel"].string ?? "qiscus"
+                    let is_resolved = json["is_resolved"].bool ?? false
+                    let is_handled_by_bot = json["is_handled_by_bot"].bool ?? false
+                    if channelType.lowercased() == "qiscus"{
+                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                    }else if channelType.lowercased() == "telegram"{
+                        self.ivTypeChannel.image = UIImage(named: "ic_telegram")
+                    }else if channelType.lowercased() == "line"{
+                        self.ivTypeChannel.image = UIImage(named: "ic_line")
+                    }else if channelType.lowercased() == "fb"{
+                        self.ivTypeChannel.image = UIImage(named: "ic_fb")
+                    }else if channelType.lowercased() == "wa"{
+                        self.ivTypeChannel.image = UIImage(named: "ic_wa")
+                    }else{
+                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                    }
+                    
+                    
+                    if is_resolved == true {
+                        self.ic_isResolved.isHidden = false
+                    }else{
+                        self.ic_isResolved.isHidden = true
+                    }
+                    
+                    if is_handled_by_bot == true {
+                        self.ivBot.isHidden = false
+                    }else{
+                        self.ivBot.isHidden = true
+                    }
+                }
+            }
+            
+            
             if !data.name.isEmpty {
                 self.labelName.text = data.name
             }else { self.labelName.text = "Room" }

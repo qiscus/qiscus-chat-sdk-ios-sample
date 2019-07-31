@@ -16,10 +16,10 @@ class ColorConfiguration: NSObject {
     static var alertTextColor = UIColor(red: 155/255.0, green: 155/255.0, blue: 155/255.0, alpha:1.0)
     
     /// Your left baloon color, using UIColor class, Default value : UIColor(red: 0/255.0, green: 187/255.0, blue: 150/255.0, alpha: 1.0)
-    static var leftBaloonColor = #colorLiteral(red: 0.8588235294, green: 0.8588235294, blue: 0.8588235294, alpha: 1)
+    static var leftBaloonColor = UIColor.white
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
-    static var rightBaloonColor = #colorLiteral(red: 0.9960784314, green: 0.9960784314, blue: 0.9960784314, alpha: 1)
+    static var rightBaloonColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
     static var systemBalloonColor = UIColor(red: 201/255, green: 229/255, blue: 215/255, alpha: 1)
@@ -31,7 +31,7 @@ class ColorConfiguration: NSObject {
     static var leftBaloonTextColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
     
     /// Your right baloon text color, using UIColor class
-    static var rightBaloonTextColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+    static var rightBaloonTextColor = UIColor.white
     
     /// Your text color of time label, using UIColor class, Default value : UIColor(red: 114/255.0, green: 114/255.0, blue: 114/255.0, alpha: 1)
     static var timeLabelTextColor = UIColor(red: 133/255.0, green: 133/255.0, blue: 133/255.0, alpha: 1)
