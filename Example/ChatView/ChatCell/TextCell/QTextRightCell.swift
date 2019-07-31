@@ -70,23 +70,23 @@ class QTextRightCell: UIBaseChatCell {
             break
         case .sending, .pending:
             lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
             lbTime.text = TextConfiguration.sharedInstance.sendingText
             ivStatus.image = UIImage(named: "ic_info_time")?.withRenderingMode(.alwaysTemplate)
             break
         case .sent:
             lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
             ivStatus.image = UIImage(named: "ic_sending")?.withRenderingMode(.alwaysTemplate)
             break
         case .delivered:
             lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
             ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
             break
         case .read:
             lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = UIColor.red
+            ivStatus.tintColor = ColorConfiguration.readMessageColor
             ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
             break
         case . failed:

@@ -41,6 +41,8 @@ class ColorConfiguration: NSObject {
     
     static var readMessageColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
     
+    static var sentOrDeliveredColor = UIColor(red: 133/255.0, green: 133/255.0, blue: 133/255.0, alpha: 1)
+    
     static var sendButtonColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
     
     static var attachmentButtonColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
