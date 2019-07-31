@@ -42,7 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-
         
         return true
     }
@@ -123,7 +122,6 @@ extension AppDelegate {
         let target : UIViewController
         if QiscusCore.isLogined {
             target = UIChatListViewController()
-            // QiscusUI.delegate = self
             _ = QiscusCore.connect(delegate: self)
         }else {
             target = LoginViewController()
@@ -152,11 +150,30 @@ extension AppDelegate : QiscusConnectionDelegate {
     }
     
     func connected() {
-        //
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reSubscribeRoom"), object: nil)
     }
     
     func connectionState(change state: QiscusConnectionState) {
-        //
+        if (state == .disconnected){
+            var roomsId = [String]()
+            
+            let rooms = QiscusCore.database.room.all()
+            
+            if rooms.count != 0{
+                
+                for room in rooms {
+                    roomsId.append(room.id)
+                }
+                
+                QiscusCore.shared.getRooms(withId: roomsId, onSuccess: { (rooms) in
+                    //brodcast rooms to your update ui ex in ui listRoom
+                }) { (error) in
+                    print("error = \(error.message)")
+                }
+            }
+            
+        }
+
     }
     
 }
