@@ -30,6 +30,8 @@ You can see some of sample UI in this repository
 ## How to Run
 To run this app without push notification, no need follow this step, just do `pod install`, but if you need to run with push notification you should follow these steps.
 
+Notes: `swift4.2 branch` for Swift 4.2, `master branch` for swift 5
+
 ### Step 1 : Get Your APP ID
 
 Firstly, you need to create your application in dashboard, by accessing this link [dashboard](https://www.qiscus.com/dashboard/login). You can create more than one APP ID.
@@ -39,7 +41,7 @@ Firstly, you need to create your application in dashboard, by accessing this lin
 Qiscus Chat SDK requires minimum IOS  SDK 9, To integrate your app with Qiscus, it can be done in 2 steps. Firstly, you need to add dependency QiscusCore in your Podfile,
 
 ```
-pod 'QiscusCore'
+pod 'QiscusCore', "0.2.17"
 ```
 
 Secondly, you need to pod install from terminal
