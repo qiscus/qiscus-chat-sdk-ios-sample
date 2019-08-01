@@ -17,7 +17,7 @@ You can see some of sample UI in this repository
 
 - iOS 9.0+
 - Xcode 10+
-- Swift 4.2+
+- Swift 5
 
 ## Dependency
 
@@ -29,6 +29,8 @@ You can see some of sample UI in this repository
 
 ## How to Run
 To run this app without push notification, no need follow this step, just do `pod install`, but if you need to run with push notification you should follow these steps.
+
+>Note: `swift4.2 branch` for Swift 4.2, `master branch` for Swift 5
 
 ### Step 1 : Get Your APP ID
 
@@ -56,8 +58,8 @@ You need to initiate your APP ID for your chat App before carry out to Authentic
 QiscusCore.setup(WithAppID: "yourAppId")
 ```
 
-> **Note:  
-**The initialization should be called always . The best practise you can put in AppDelegate
+> Note:  
+The initialization should be called always . The best practise you can put in AppDelegate
 
 
 ### Step 4 : Change Name in Bundle Identifier and Create Certificate
