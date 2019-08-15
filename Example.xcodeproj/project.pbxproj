@@ -58,8 +58,8 @@
 		3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DD75F222780E300E39C96 /* ProfileVC.xib */; };
 		3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DD76222279AA400E39C96 /* EditNameVC.swift */; };
 		3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DD76322279AA400E39C96 /* EditNameVC.xib */; };
-		3D77A44C22F822E700BDFD51 /* UIChatListResolvedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D77A44A22F822E700BDFD51 /* UIChatListResolvedViewController.swift */; };
-		3D77A44D22F822E700BDFD51 /* UIChatListResolvedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D77A44B22F822E700BDFD51 /* UIChatListResolvedViewController.xib */; };
+		3D77A44C22F822E700BDFD51 /* UIChatListOngoingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */; };
+		3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */; };
 		3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D80B2AD221BB4770053280C /* CreateNewGroupVC.swift */; };
 		3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80B2AE221BB4770053280C /* CreateNewGroupVC.xib */; };
 		3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80B2B1221BB75A0053280C /* ContactSelectCollCell.xib */; };
@@ -155,8 +155,8 @@
 		3D5DD75F222780E300E39C96 /* ProfileVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
 		3D5DD76222279AA400E39C96 /* EditNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameVC.swift; sourceTree = "<group>"; };
 		3D5DD76322279AA400E39C96 /* EditNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditNameVC.xib; sourceTree = "<group>"; };
-		3D77A44A22F822E700BDFD51 /* UIChatListResolvedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListResolvedViewController.swift; sourceTree = "<group>"; };
-		3D77A44B22F822E700BDFD51 /* UIChatListResolvedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListResolvedViewController.xib; sourceTree = "<group>"; };
+		3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListOngoingViewController.swift; sourceTree = "<group>"; };
+		3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListOngoingViewController.xib; sourceTree = "<group>"; };
 		3D80B2AD221BB4770053280C /* CreateNewGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewGroupVC.swift; sourceTree = "<group>"; };
 		3D80B2AE221BB4770053280C /* CreateNewGroupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateNewGroupVC.xib; sourceTree = "<group>"; };
 		3D80B2B1221BB75A0053280C /* ContactSelectCollCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactSelectCollCell.xib; sourceTree = "<group>"; };
@@ -300,8 +300,8 @@
 				3D3854AA21B4E03600435B31 /* UIChatListPresenter.swift */,
 				3D3854A821B4E03500435B31 /* UIChatListViewController.swift */,
 				3D3854A921B4E03600435B31 /* UIChatListViewController.xib */,
-				3D77A44A22F822E700BDFD51 /* UIChatListResolvedViewController.swift */,
-				3D77A44B22F822E700BDFD51 /* UIChatListResolvedViewController.xib */,
+				3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */,
+				3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */,
 				3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */,
 			);
 			path = ChatList;
@@ -620,7 +620,7 @@
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
-				3D77A44D22F822E700BDFD51 /* UIChatListResolvedViewController.xib in Resources */,
+				3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */,
 				3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */,
 				3D40B8D42192E20C00FE7228 /* QTextRightCell.xib in Resources */,
 				3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */,
@@ -708,7 +708,7 @@
 				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */,
 				3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */,
-				3D77A44C22F822E700BDFD51 /* UIChatListResolvedViewController.swift in Sources */,
+				3D77A44C22F822E700BDFD51 /* UIChatListOngoingViewController.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
 				3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */,

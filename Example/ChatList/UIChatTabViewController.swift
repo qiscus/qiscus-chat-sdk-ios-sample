@@ -94,7 +94,7 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         let child_1 = UIChatListViewController()
-        let child_2 = UIChatListResolvedViewController()
+        let child_2 = UIChatListOngoingViewController()
         
         guard isReload else {
             return [child_1, child_2]

@@ -10,7 +10,7 @@ import UIKit
 import QiscusCore
 import XLPagerTabStrip
 
-class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider {
+class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var btStartChat: UIButton!
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -29,7 +29,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
     
     // MARK: - IndicatorInfoProvider
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        return IndicatorInfo(title: "RESOLVED")
+        return IndicatorInfo(title: "ONGOING")
     }
     
     override func viewDidLoad() {
@@ -99,7 +99,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
     }
 }
 
-extension UIChatListResolvedViewController : UITableViewDelegate, UITableViewDataSource {
+extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms.count
@@ -144,7 +144,7 @@ extension UIChatListResolvedViewController : UITableViewDelegate, UITableViewDat
     }
 }
 
-extension UIChatListResolvedViewController : UIChatListView {
+extension UIChatListOngoingViewController : UIChatListView {
     func didUpdate(user: MemberModel, isTyping typing: Bool, in room: RoomModel) {
         let indexPath = getIndexpath(byRoom: room)
         let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
