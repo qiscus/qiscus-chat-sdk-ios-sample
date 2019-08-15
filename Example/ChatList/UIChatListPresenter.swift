@@ -57,7 +57,10 @@ class UIChatListPresenter {
         
         self.rooms = roomsDB
         self.rooms = filterRoom(data:  self.rooms)
-        self.rooms = filterTypeChannel(data:  self.rooms)
+        if !typeTabAll{
+            self.rooms = filterTypeChannel(data:  self.rooms)
+        }
+        
         
         if refresh {
             self.viewPresenter?.didFinishLoadChat(rooms:self.rooms)
@@ -79,24 +82,17 @@ class UIChatListPresenter {
     
     func filterTypeChannel(data: [RoomModel])-> [RoomModel]{
         var source = data
+        
         source = source.filter({ (room) -> Bool in
             if let option = room.options{
                 if !option.isEmpty{
                     let json = JSON.init(parseJSON: option)
                     let is_resolved = json["is_resolved"].bool ?? false
                     
-                    if typeTabAll{
-                        if is_resolved == true {
-                            return false
-                        }else{
-                            return true
-                        }
+                    if is_resolved == false {
+                        return true
                     }else{
-                        if is_resolved == true {
-                            return true
-                        }else{
-                            return false
-                        }
+                        return false
                     }
                     
                 }else{
@@ -105,7 +101,7 @@ class UIChatListPresenter {
             }else{
                 return false
             }
-           
+            
         })
         
         return source
@@ -115,7 +111,9 @@ class UIChatListPresenter {
         // check update from server
         QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
                 self.rooms = self.filterRoom(data: results)
-                self.rooms = self.filterTypeChannel(data: self.rooms)
+                if !self.typeTabAll{
+                    self.rooms = self.filterTypeChannel(data:  self.rooms)
+                }
                 
                 self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
         }) { (error) in
