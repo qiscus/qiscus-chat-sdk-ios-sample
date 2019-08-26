@@ -26,16 +26,126 @@ import XLPagerTabStrip
 import QiscusCore
 import Alamofire
 import AlamofireImage
+import ExpandingMenu
+import SwiftyJSON
 
 class UIChatTabViewController: ButtonBarPagerTabStripViewController {
     
     var isReload = false
+    var timer : Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
         self.setupUINavBar()
+        self.setupAdminOrAgent()
         
+        if (self.timer != nil) {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+        self.timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getCountCustomer), userInfo: nil, repeats: true)
+    }
+    func setupAdminOrAgent(){
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                getCountCustomer()
+            }
+        }
+    }
+    
+    @objc func getCountCustomer(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+   
+        let header = ["Authorization": token] as [String : String]
+        
+        Alamofire.request("https://qismo.qiscus.com/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    self.configureExpandingMenuButton()
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let count = payload["data"]["total_unresolved"].int ?? 0
+                    self.configureExpandingMenuButton(value: count)
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.configureExpandingMenuButton()
+            } else {
+                //failed
+                self.configureExpandingMenuButton()
+            }
+        }
+    }
+    
+    func getCustomer(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token] as [String : String]
+        
+        Alamofire.request("https://qismo.qiscus.com/api/v1/agent/service/takeover_unresolved_room", method: .post, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                   //failed
+                    let payload = JSON(response.result.value)
+                    let errors = payload["errors"].string ?? "Failed Get Customer"
+                    self.showAlert(errors)
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    print("check payload2 =\(payload)")
+                    self.getCountCustomer()
+                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadListRoom"), object: nil)
+                    self.showAlert("Success Get Customer")
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.showAlert("Failed Get Customer")
+            } else {
+                //failed
+                self.showAlert("Failed Get Customer")
+            }
+        }
+    }
+    
+    func showAlert(_ title: String) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    fileprivate func configureExpandingMenuButton(value : Int = 0) {
+        
+        if let viewWithTag = self.view.viewWithTag(222) {
+            viewWithTag.removeFromSuperview()
+        }
+        
+        let menuButtonSize: CGSize = CGSize(width: 80.0, height: 80.0)
+        let menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "chooser-button-tab")!, rotatedImage: UIImage(named: "chooser-button-tab")!)
+        menuButton.center = CGPoint(x: (self.view.frame.size.width - 32.0), y: self.view.frame.size.height - 32.0)
+        menuButton.tag = 222
+        self.view.addSubview(menuButton)
+        
+        let item1 = ExpandingMenuItem(size: menuButtonSize, title: "Get Customer \(value)", image: UIImage(named: "ic_cs")!, highlightedImage: UIImage(named: "chooser-moment-icon-place-highlighted")!, backgroundImage: UIImage(named: "chooser-moment-button"), backgroundHighlightedImage: UIImage(named: "chooser-moment-button-highlighted")) { () -> Void in
+            self.getCustomer()
+        }
+        
+        menuButton.addMenuItems([item1])
+        
+        menuButton.willPresentMenuItems = { (menu) -> Void in
+            print("MenuItems will present.")
+        }
+        
+        menuButton.didDismissMenuItems = { (menu) -> Void in
+            print("MenuItems dismissed.")
+        }
     }
     
     func setupUI(){

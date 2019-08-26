@@ -36,7 +36,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         self.setupUI()
         self.presenter.loadFromServer()
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(UIChatListViewController.reloadData(_:)), name: NSNotification.Name(rawValue: "reloadListRoom"), object: nil)
     }
     
     @objc func onDidReceiveData(_ notification:Notification) {
