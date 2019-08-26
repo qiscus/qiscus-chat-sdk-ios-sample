@@ -39,17 +39,17 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
         self.setupUI()
         self.setupUINavBar()
         self.setupAdminOrAgent()
-        
-        if (self.timer != nil) {
-            self.timer?.invalidate()
-            self.timer = nil
-        }
-        self.timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getCountCustomer), userInfo: nil, repeats: true)
     }
     func setupAdminOrAgent(){
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 2 {
                 getCountCustomer()
+                
+                if (self.timer != nil) {
+                    self.timer?.invalidate()
+                    self.timer = nil
+                }
+                self.timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getCountCustomer), userInfo: nil, repeats: true)
             }
         }
     }
@@ -127,13 +127,53 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
             viewWithTag.removeFromSuperview()
         }
         
-        let menuButtonSize: CGSize = CGSize(width: 80.0, height: 80.0)
-        let menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "chooser-button-tab")!, rotatedImage: UIImage(named: "chooser-button-tab")!)
-        menuButton.center = CGPoint(x: (self.view.frame.size.width - 32.0), y: self.view.frame.size.height - 32.0)
+        var menuButtonSize: CGSize = CGSize(width: 80.0, height: 80.0)
+        var menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+        
+        if UIDevice().userInterfaceIdiom == .phone {
+            switch UIScreen.main.nativeBounds.height {
+            case 1136:
+                print("iPhone 5 or 5S or 5C")
+                menuButtonSize = CGSize(width: 80.0, height: 80.0)
+                menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+                menuButton.center = CGPoint(x: (self.view.frame.size.width - 40.0), y: self.view.frame.size.height - 40.0)
+            case 1334:
+                print("iPhone 6/6S/7/8")
+                menuButtonSize = CGSize(width: 100.0, height: 100.0)
+                menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+                menuButton.center = CGPoint(x: (self.view.frame.size.width - 50.0), y: self.view.frame.size.height - 50.0)
+            case 1920, 2208:
+                print("iPhone 6+/6S+/7+/8+")
+                menuButtonSize = CGSize(width: 120.0, height: 120.0)
+                menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+                menuButton.center = CGPoint(x: (self.view.frame.size.width - 50.0), y: self.view.frame.size.height - 50.0)
+            case 2436:
+                print("iPhone X, XS")
+                menuButtonSize = CGSize(width: 100.0, height: 100.0)
+                menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+                menuButton.center = CGPoint(x: (self.view.frame.size.width - 50.0), y: self.view.frame.size.height - 50.0)
+            case 2688:
+                print("iPhone XS Max")
+                menuButtonSize = CGSize(width: 100.0, height: 100.0)
+                menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+                menuButton.center = CGPoint(x: (self.view.frame.size.width - 50.0), y: self.view.frame.size.height - 50.0)
+            case 1792:
+                print("iPhone XR")
+                menuButtonSize = CGSize(width: 100.0, height: 100.0)
+                menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+                menuButton.center = CGPoint(x: (self.view.frame.size.width - 50.0), y: self.view.frame.size.height - 50.0)
+            default:
+                print("Unknown")
+                menuButtonSize = CGSize(width: 120.0, height: 120.0)
+                menuButton = ExpandingMenuButton(frame: CGRect(origin: CGPoint.zero, size: menuButtonSize), image: UIImage(named: "plus")!, rotatedImage: UIImage(named: "plus")!)
+                menuButton.center = CGPoint(x: (self.view.frame.size.width - 50.0), y: self.view.frame.size.height - 50.0)
+            }
+        }
+        
         menuButton.tag = 222
         self.view.addSubview(menuButton)
         
-        let item1 = ExpandingMenuItem(size: menuButtonSize, title: "Get Customer \(value)", image: UIImage(named: "ic_cs")!, highlightedImage: UIImage(named: "chooser-moment-icon-place-highlighted")!, backgroundImage: UIImage(named: "chooser-moment-button"), backgroundHighlightedImage: UIImage(named: "chooser-moment-button-highlighted")) { () -> Void in
+        let item1 = ExpandingMenuItem(size: menuButtonSize, title: "Get Customer \(value)", image: UIImage(named: "ic_cs")!, highlightedImage: UIImage(named: "chooser-moment-icon-place-highlighted")!, backgroundImage: UIImage(named: "ic_circle"), backgroundHighlightedImage: UIImage(named: "chooser-moment-button-highlighted")) { () -> Void in
             self.getCustomer()
         }
         
