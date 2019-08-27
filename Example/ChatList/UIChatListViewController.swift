@@ -28,7 +28,15 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     
     // MARK: - IndicatorInfoProvider
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        return IndicatorInfo(title: "ALL")
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                return IndicatorInfo(title: "ONGOING")
+            }else{
+                 return IndicatorInfo(title: "ALL")
+            }
+        }else{
+             return IndicatorInfo(title: "ALL")
+        }
     }
     
     override func viewDidLoad() {
@@ -65,7 +73,15 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.presenter.attachView(view: self,typeTabAll: true)
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                 self.presenter.attachView(view: self,typeTab: .ONGOING)
+            }else{
+                self.presenter.attachView(view: self,typeTab: .ALL)
+            }
+        }else{
+             self.presenter.attachView(view: self, typeTab: .ALL)
+        }
         self.presenter.loadChat()
         self.tabBarController?.tabBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NSNotification.Name(rawValue: "reloadCell"), object: nil)

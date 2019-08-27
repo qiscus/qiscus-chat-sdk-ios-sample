@@ -17,18 +17,32 @@ protocol UIChatListView {
     func didUpdate(user: MemberModel, isTyping typing: Bool, in room: RoomModel)
 }
 
+public enum typeTab: String {
+    case ALL = "ALL"
+    case ONGOING = "ONGOING"
+    case RESOLVED = "RESOLVED"
+    
+    static let all = [ALL,ONGOING,RESOLVED]
+}
+
 class UIChatListPresenter {
     
     private var viewPresenter : UIChatListView?
     var typeTabAll: Bool = true
+    var typeTab: typeTab = .ALL
     var rooms : [RoomModel] = [RoomModel]()
     var page : Int = 1
     init() {
         QiscusCore.delegate = self
     }
     
-    func attachView(view : UIChatListView, typeTabAll : Bool = true){
-        self.typeTabAll = typeTabAll
+//    func attachView(view : UIChatListView, typeTabAll : Bool = true){
+//        self.typeTabAll = typeTabAll
+//        viewPresenter = view
+//    }
+    
+    func attachView(view : UIChatListView, typeTab : typeTab){
+        self.typeTab = typeTab
         viewPresenter = view
     }
     
@@ -57,10 +71,14 @@ class UIChatListPresenter {
         
         self.rooms = roomsDB
         self.rooms = filterRoom(data:  self.rooms)
-        if !typeTabAll{
-            self.rooms = filterTypeChannel(data:  self.rooms)
-        }
         
+        if typeTab == .ALL {
+            //no action
+        }else if typeTab == .ONGOING {
+            self.rooms = filterTypeOnGoing(data:  self.rooms)
+        }else if typeTab == .RESOLVED {
+            self.rooms = filterTypeResolved(data:  self.rooms)
+        }
         
         if refresh {
             self.viewPresenter?.didFinishLoadChat(rooms:self.rooms)
@@ -80,7 +98,34 @@ class UIChatListPresenter {
         return source
     }
     
-    func filterTypeChannel(data: [RoomModel])-> [RoomModel]{
+    func filterTypeResolved(data: [RoomModel])-> [RoomModel]{
+        var source = data
+        
+        source = source.filter({ (room) -> Bool in
+            if let option = room.options{
+                if !option.isEmpty{
+                    let json = JSON.init(parseJSON: option)
+                    let is_resolved = json["is_resolved"].bool ?? false
+                    
+                    if is_resolved == false {
+                        return false
+                    }else{
+                        return true
+                    }
+                    
+                }else{
+                    return false
+                }
+            }else{
+                return false
+            }
+            
+        })
+        
+        return source
+    }
+    
+    func filterTypeOnGoing(data: [RoomModel])-> [RoomModel]{
         var source = data
         
         source = source.filter({ (room) -> Bool in
@@ -111,8 +156,12 @@ class UIChatListPresenter {
         // check update from server
         QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
                 self.rooms = self.filterRoom(data: results)
-                if !self.typeTabAll{
-                    self.rooms = self.filterTypeChannel(data:  self.rooms)
+                if self.typeTab == .ALL {
+                //no action
+                }else if self.typeTab == .ONGOING {
+                    self.rooms = self.filterTypeOnGoing(data:  self.rooms)
+                }else if self.typeTab == .RESOLVED {
+                    self.rooms = self.filterTypeResolved(data:  self.rooms)
                 }
                 
                 self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
