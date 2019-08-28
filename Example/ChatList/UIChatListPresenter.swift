@@ -56,9 +56,9 @@ class UIChatListPresenter {
         //for unsub
         //sample code for unSubscribe room manually
         //QiscusCore.shared.unSubcribeRooms(self.rooms)
-        
-        if self.rooms.isEmpty {
-            self.loadFromServer()
+
+        if refresh{
+             self.loadFromServer()
         }
     }
     
