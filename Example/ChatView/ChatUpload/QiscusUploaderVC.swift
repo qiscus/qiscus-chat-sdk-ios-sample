@@ -51,7 +51,12 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         
         if self.fileName != nil && self.data != nil && self.imageData.count == 0 {
             self.labelTitle.text = self.fileName!
-            QiscusCore.shared.upload(data: data!, filename: fileName!, onSuccess: { (file) in
+            
+            let file = FileUploadModel()
+            file.data = data!
+            file.name = fileName!
+            
+            QiscusCore.shared.upload(file: file, onSuccess: { (file) in
                 self.sendButton.isEnabled = true
                 self.sendButton.isHidden = false
                 self.hiddenProgress()
@@ -67,8 +72,8 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 message.message = "Send Image"
                 self.imageData.append(message)
             }, onError: { (error) in
-                //
-            }) { (progress) in
+                //error
+            }, progressListener: { (progress) in
                 print("upload progress: \(progress)")
                 self.showProgress()
                 self.labelProgress.text = "\(Int(progress * 100)) %"
@@ -78,7 +83,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 UIView.animate(withDuration: 0.65, animations: {
                     self.progressView.layoutIfNeeded()
                 })
-            }
+            })
             
         }
         

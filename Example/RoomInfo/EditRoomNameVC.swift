@@ -89,7 +89,7 @@ class EditRoomNameVC: UIViewController {
                 
             }
         }else{
-            QiscusCore.shared.updateRoom(withID: (room?.id)!, name: self.tvName.text, avatarURL: nil, options: nil, onSuccess: { (roomModel) in
+            QiscusCore.shared.updateChatRoom(roomId: (room?.id)!, name: self.tvName.text, avatarURL: nil, extras: nil, onSuccess: { (roomModel) in
                 self.navigationController?.popViewController(animated: true)
             }) { (error) in
                 //error

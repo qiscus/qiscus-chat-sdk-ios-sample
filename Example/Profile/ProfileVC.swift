@@ -50,14 +50,14 @@ class ProfileVC: UIViewController {
         }
         
         //load from server
-        QiscusCore.shared.getProfile(onSuccess: { (profile) in
+        QiscusCore.shared.getUserData(onSuccess: { (profile) in
             self.lbName.text = profile.username
             self.lbUniqueID.text = profile.email
             self.ivAvatar.af_setImage(withURL: profile.avatarUrl)
             self.lastAvatarURL = profile.avatarUrl
-        }, onError: { (error) in
+        }) { (error) in
             //error
-        })
+        }
     }
     
     func setupUI(){
@@ -109,10 +109,15 @@ class ProfileVC: UIViewController {
     }
     
     @IBAction func logout(_ sender: Any) {
+        if let deviceToken = UserDefaults.standard.getDeviceToken(){
+            QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (success) in
+                //success
+            }) { (error) in
+                
+            }
+        }
+        
         QiscusCore.logout { (error) in
-//            let local = UserDefaults.standard
-//            local.removeObject(forKey: "AppID")
-//            local.synchronize()
             let app = UIApplication.shared.delegate as! AppDelegate
             app.auth()
         }
@@ -375,8 +380,13 @@ extension ProfileVC : UIImagePickerControllerDelegate, UINavigationControllerDel
                 self.ivAvatar.image = image
                 self.loadingIndicator.isHidden = false
                 self.loadingIndicator.startAnimating()
-                QiscusCore.shared.upload(data: data!, filename: imageName, onSuccess: { (fileURL) in
-                    QiscusCore.shared.updateProfile(username: (QiscusCore.getProfile()?.username)!, avatarUrl: fileURL.url, onSuccess: { (userModel) in
+                
+                let file = FileUploadModel()
+                file.data = data!
+                file.name = imageName
+                
+                QiscusCore.shared.upload(file: file, onSuccess: { (fileURL) in
+                    QiscusCore.shared.updateUser(name: (QiscusCore.getProfile()?.username)!, avatarURL: fileURL.url, extras: nil, onSuccess: { (userModel) in
                         self.loadingIndicator.stopAnimating()
                         self.loadingIndicator.isHidden = true
                         self.ivAvatar.af_setImage(withURL: userModel.avatarUrl)
@@ -391,9 +401,10 @@ extension ProfileVC : UIImagePickerControllerDelegate, UINavigationControllerDel
                     self.loadingIndicator.stopAnimating()
                     self.loadingIndicator.isHidden = true
                     print("error upload avatar =\(error.message)")
-                }) { (progress) in
-                    print("progress upload =\(progress)")
-                }
+                }, progressListener: { (progress) in
+                     print("progress upload =\(progress)")
+                })
+                
             }
         }
         

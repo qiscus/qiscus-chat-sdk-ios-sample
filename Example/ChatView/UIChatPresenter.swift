@@ -77,16 +77,12 @@ class UIChatPresenter: UIChatUserInteraction {
     /// Update room
     func loadRoom() {
         guard let _room = self.room else { return }
-        QiscusCore.shared.getRoom(withID: _room.id, onSuccess: { [weak self] (room,comments) in
+        QiscusCore.shared.getChatRoomWithMessages(roomId: _room.id, onSuccess: { [weak self] (room,comments) in
             guard let instance = self else { return }
             if comments.isEmpty {
                 instance.viewPresenter?.onLoadMessageFailed(message: "no message")
                 return
             }
-//            // MARK: TODO improve and grouping
-//            instance.comments.removeAll()
-//            instance.comments = instance.groupingComments(comments)
-//            // MARK : TODO improve and compare with local data, reduce flicker effect
             instance.viewPresenter?.onLoadMessageFinished()
         }) { [weak self] (error) in
             guard let instance = self else { return }
@@ -101,7 +97,7 @@ class UIChatPresenter: UIChatUserInteraction {
                 guard let lastComment = _comments.last else { return }
                 // read comment
                 if let lastComment = room.lastComment {
-                     QiscusCore.shared.updateCommentRead(roomId: roomId, lastCommentReadId: lastComment.id)
+                     QiscusCore.shared.markAsRead(roomId: roomId, commentId: lastComment.id)
                 }
                
                 self.comments = self.groupingComments(_comments)
@@ -134,7 +130,7 @@ class UIChatPresenter: UIChatUserInteraction {
                 
                 // update lastIdToLoad value
                 instance.lastIdToLoad = lastComment.id
-                QiscusCore.shared.loadMore(roomID: roomId, lastCommentID: lastCommentId, limit: 10, onSuccess: { (comments) in
+                 QiscusCore.shared.getPreviousMessagesById(roomID: roomId,limit: 10,messageId: lastCommentId, onSuccess: { (comments) in
                     
                     // notify the dispatch group that the current process is complete and able to continue to the next load more process
                     instance.loadMoreDispatchGroup.leave()
@@ -195,7 +191,7 @@ class UIChatPresenter: UIChatUserInteraction {
     
     func sendMessage(withComment comment: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
         addNewCommentUI(comment, isIncoming: false)
-        QiscusCore.shared.sendMessage(roomID: (self.room?.id)!, comment: comment, onSuccess: { [weak self] (comment) in
+        QiscusCore.shared.sendMessage(roomID: (self.room?.id)!, message: comment, onSuccess: { [weak self] (comment) in
             self?.didComment(comment: comment, changeStatus: comment.status)
             onSuccess(comment)
         }) { (error) in
@@ -210,7 +206,7 @@ class UIChatPresenter: UIChatUserInteraction {
         message.message = text
         message.type    = "text"
         addNewCommentUI(message, isIncoming: false)
-        QiscusCore.shared.sendMessage(roomID: (self.room?.id)!, comment: message, onSuccess: { [weak self] (comment) in
+        QiscusCore.shared.sendMessage(roomID: (self.room?.id)!, message: message, onSuccess:{ [weak self] (comment) in
             self?.didComment(comment: comment, changeStatus: comment.status)
         }) { (error) in
             //
@@ -242,7 +238,7 @@ class UIChatPresenter: UIChatUserInteraction {
         
         // choose uidelegate
         if isIncoming {
-            QiscusCore.shared.updateCommentRead(roomId: message.roomId, lastCommentReadId: message.id)
+            QiscusCore.shared.markAsRead(roomId: message.roomId, commentId: message.id)
             self.viewPresenter?.onGotNewComment(newSection: section)
         }else {
             self.viewPresenter?.onSendingComment(comment: message, newSection: section)

@@ -57,9 +57,7 @@ class UIChatListPresenter {
         //sample code for unSubscribe room manually
         //QiscusCore.shared.unSubcribeRooms(self.rooms)
         
-        if self.rooms.isEmpty {
-            self.loadFromServer()
-        }
+        self.loadFromServer()
     }
     
     // Hide empty rooms
@@ -78,12 +76,12 @@ class UIChatListPresenter {
     
     private func loadFromServer() {
         // check update from server
-        QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
-            self.rooms = results
-            self.viewPresenter?.didFinishLoadChat(rooms: results)
-        }) { (error) in
+        QiscusCore.shared.getChatRooms(showParticipant: true, showRemoved: false, showEmpty: true, page: 1, limit: 100, onSuccess: { (results, meta) in
+            self.rooms = self.filterRoom(data: results)
+            self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+        }, onError: { (error) in
             self.viewPresenter?.setEmptyData(message: "")
-        }
+        })
     }
     
 }

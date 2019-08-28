@@ -132,9 +132,13 @@ class UIChatViewController: UIViewController {
     
     @objc func tapFunction(sender:UITapGestureRecognizer) {
         if self.room != nil {
-            let vc = RoomInfoVC()
-            vc.room = room
-            self.navigationController?.pushViewController(vc, animated: true)
+            if self.room?.type == .group{
+                let vc = RoomInfoVC()
+                vc.room = room
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                // no action for type single
+            }
         }
     }
     
@@ -634,7 +638,7 @@ extension UIChatViewController : UIChatInputDelegate {
 //// MARK: Handle Cell Menu
 extension UIChatViewController : UIBaseChatCellDelegate {
     func didTap(delete comment: CommentModel) {
-        QiscusCore.shared.deleteMessage(uniqueIDs: [comment.uniqId], onSuccess: { (commentsModel) in
+        QiscusCore.shared.deleteMessages(messageUniqueIds: [comment.uniqId], onSuccess: { (commentsModel) in
             print("success delete comment for everyone")
         }) { (error) in
             print("failed delete comment for everyone")

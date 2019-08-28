@@ -135,11 +135,11 @@ class CreateGroupInfoVC: UIViewController, UITextFieldDelegate {
     @objc func goNext() {
         view.endEditing(true)
         if self.checkValidation() == true{
-            let participants: [String] = self.userGroup.map{ $0.email}
+            let participantsId: [String] = self.userGroup.map{ $0.id}
             let title: String = self.nameTextField.text!
             
             if avatarURL?.isEmpty == true {
-                QiscusCore.shared.createGroup(withName: title, participants: participants, avatarUrl: nil, onSuccess: { (room) in
+                QiscusCore.shared.createGroupChat(name: title, userIds: participantsId, avatarURL: nil, extras: nil, onSuccess: { (room) in
                     let target = UIChatViewController()
                     target.room = room
                     self.navigationController?.pushIgnorePreviousVC(to: target, except: UIChatListViewController.self)
@@ -147,13 +147,14 @@ class CreateGroupInfoVC: UIViewController, UITextFieldDelegate {
                     print("error create group =\(error.message)")
                 }
             }else{
-                QiscusCore.shared.createGroup(withName: title, participants: participants, avatarUrl: URL(string: self.avatarURL!), onSuccess: { (room) in
+                QiscusCore.shared.createGroupChat(name: title, userIds: participantsId, avatarURL: URL(string: self.avatarURL!), extras: nil, onSuccess: { (room) in
                     let target = UIChatViewController()
                     target.room = room
                     self.navigationController?.pushIgnorePreviousVC(to: target, except: UIChatListViewController.self)
                 }) { (error) in
                     print("error create group =\(error.message)")
                 }
+                
             }
             
            
@@ -501,7 +502,12 @@ extension CreateGroupInfoVC : UIImagePickerControllerDelegate, UINavigationContr
                 self.profileImageView.image = image
                 self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.height / 2
                 self.iconAvatarGroup.isHidden = true
-                QiscusCore.shared.upload(data: data!, filename: imageName, onSuccess: { (fileURL) in
+                
+                let file = FileUploadModel()
+                file.data = data!
+                file.name = imageName
+                
+                QiscusCore.shared.upload(file: file, onSuccess: { (fileURL) in
                     self.progressRing.isHidden = true
                     self.avatarURL = fileURL.url.absoluteString
                     self.iconAvatarGroup.isHidden = false
@@ -512,7 +518,7 @@ extension CreateGroupInfoVC : UIImagePickerControllerDelegate, UINavigationContr
                 }) { (progress) in
                     self.progressRing.isHidden = false
                     self.progressRing.value = CGFloat(progress) * 100
-                }  
+                }
             }
         }
         

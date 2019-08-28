@@ -68,7 +68,7 @@ open class ContactCell: UITableViewCell {
     
     @objc func removeParticipant(tapGestureRecognizer: UITapGestureRecognizer){
         if removeParticipant == true{
-            QiscusCore.shared.removeParticipant(userEmails: [(contact?.email)!], roomId: roomId!, onSuccess: { (success) in
+            QiscusCore.shared.removeParticipants(roomId: roomId!, userIds: [(contact?.id)!], onSuccess: { (success) in
                 self.delegate?.reloadTableView()
             }) { (error) in
                 //error
