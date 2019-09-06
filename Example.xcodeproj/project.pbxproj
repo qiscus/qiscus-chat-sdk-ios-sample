@@ -93,6 +93,8 @@
 		3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */; };
 		3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */; };
 		3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */; };
+		3DB438002322448A007BE03F /* UIBottomPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */; };
+		3DB438012322448A007BE03F /* UIBottomPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB437FF2322448A007BE03F /* UIBottomPopupVC.xib */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
@@ -191,6 +193,8 @@
 		3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomInfoVC.xib; sourceTree = "<group>"; };
 		3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRoomNameVC.swift; sourceTree = "<group>"; };
 		3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditRoomNameVC.xib; sourceTree = "<group>"; };
+		3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBottomPopupVC.swift; sourceTree = "<group>"; };
+		3DB437FF2322448A007BE03F /* UIBottomPopupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIBottomPopupVC.xib; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 				3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */,
 				3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */,
 				3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */,
+				3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */,
+				3DB437FF2322448A007BE03F /* UIBottomPopupVC.xib */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -625,6 +631,7 @@
 				3D40B8D42192E20C00FE7228 /* QTextRightCell.xib in Resources */,
 				3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */,
 				3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */,
+				3DB438012322448A007BE03F /* UIBottomPopupVC.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
 				3D40B8C72192E20C00FE7228 /* ChatPreviewDocVC.xib in Resources */,
@@ -741,6 +748,7 @@
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
 				3D40B8B72192E20C00FE7228 /* Background.swift in Sources */,
 				3DA824482301B3980054D92F /* QCarouselCardCell.swift in Sources */,
+				3DB438002322448A007BE03F /* UIBottomPopupVC.swift in Sources */,
 				3D819A2D221E655800F1B7CA /* QFileLeftCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -892,7 +900,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -915,7 +923,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

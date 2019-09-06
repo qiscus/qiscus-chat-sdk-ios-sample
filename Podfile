@@ -18,5 +18,5 @@ target 'Example' do
   pod 'UICircularProgressRing'
   pod 'XLPagerTabStrip', '~> 9.0'
   pod 'ExpandingMenu', '~> 0.4'
-  
+  pod 'BottomPopup'
 end
