@@ -145,12 +145,14 @@ extension AppDelegate {
 }
 
 extension AppDelegate : QiscusConnectionDelegate {
-    func disconnect(withError err: QError?) {
-        //
-    }
-    
-    func connected() {
+    func onConnected(){
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reSubscribeRoom"), object: nil)
+    }
+    func onReconnecting(){
+        
+    }
+    func onDisconnected(withError err: QError?){
+        
     }
     
     func connectionState(change state: QiscusConnectionState) {
@@ -174,9 +176,18 @@ extension AppDelegate : QiscusConnectionDelegate {
             }
             
         }
-
+        
     }
     
+    //this func was deprecated
+    func disconnect(withError err: QError?) {
+        //
+    }
+    
+    //this func was deprecated
+    func connected() {
+        
+    }
 }
 
 // [START ios_10_message_handling]

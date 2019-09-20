@@ -90,8 +90,37 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
-    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
-        print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
+    func onRoomMessageReceived(_ room: RoomModel, message: CommentModel){
+        // show in app notification
+        print("got new comment: \(message.message)")
+        self.viewPresenter?.updateRooms(data: room)
+        if !rooms.contains(where: { $0.id == room.id}) {
+            loadFromServer()
+        }else {
+            loadFromLocal(refresh: false)
+        }
+        
+    }
+    
+    func onRoomMessageDelivered(message : CommentModel){
+        //
+    }
+    
+    func onRoomMessageRead(message : CommentModel){
+        //
+    }
+    
+    func onChatRoomCleared(roomId : String){
+        self.loadFromLocal()
+    }
+    
+    func onRoomMessageDeleted(room: RoomModel, message: CommentModel) {
+        //
+    }
+    
+    func gotNew(room: RoomModel) {
+        // add not if exist
+        loadFromLocal(refresh: true)
     }
     
     func onRoom(deleted room: RoomModel) {
@@ -101,27 +130,22 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         self.loadFromLocal()
     }
     
+    //this func was deprecated
+    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
+        print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
+    }
+    
+    //this func was deprecated
     func onRoom(_ room: RoomModel, didDeleteComment comment: CommentModel) {
         //
     }
     
+    //this func was deprecated
     func onRoom(_ room: RoomModel, gotNewComment comment: CommentModel) {
-        // show in app notification
-        print("got new comment: \(comment.message)")
-        self.viewPresenter?.updateRooms(data: room)
-        if !rooms.contains(where: { $0.id == room.id}) {
-            loadFromServer()
-        }else {
-            loadFromLocal(refresh: false)
-        }
         
     }
 
-    func gotNew(room: RoomModel) {
-        // add not if exist
-        loadFromLocal(refresh: true)
-    }
-
+    //this func was deprecated
     func remove(room: RoomModel) {
         //
     }

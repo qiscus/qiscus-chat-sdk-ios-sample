@@ -283,6 +283,63 @@ class UIChatPresenter: UIChatUserInteraction {
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
+    func onMessageReceived(message: CommentModel){
+        // 2check comment already in ui?
+        if (self.getIndexPath(comment: message) == nil) {
+            self.addNewCommentUI(message, isIncoming: true)
+        }
+    }
+    
+    func onMessageDelivered(message : CommentModel){
+        // check comment already exist in view
+        for (group,c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+                comments[group][index] = message
+                self.viewPresenter?.onUpdateComment(comment: message, indexpath: IndexPath(row: index, section: group))
+            }
+        }
+    }
+    
+    func onMessageRead(message : CommentModel){
+        // check comment already exist in view
+        for (group,c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+                comments[group][index] = message
+                self.viewPresenter?.onUpdateComment(comment: message, indexpath: IndexPath(row: index, section: group))
+            }
+        }
+    }
+    
+    func onMessageDeleted(message: CommentModel){
+        for (group,var c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+                c.remove(at: index)
+                self.comments = groupingComments(c)
+                self.lastIdToLoad = ""
+                self.loadMoreAvailable = true
+                self.viewPresenter?.onReloadComment()
+            }
+        }
+    }
+    
+    func onUserTyping(userId : String, roomId : String, typing: Bool){
+        if let user = QiscusCore.database.member.find(byUserId : userId){
+            self.viewPresenter?.onUser(name: user.username, typing: typing)
+        }
+    }
+    
+    func onUserOnlinePresence(userId: String, isOnline: Bool, lastSeen: Date){
+        if let room = self.room {
+            if room.type != .group {
+                let message = lastSeen.timeAgoSinceDate(numericDates: false)
+                if let user = QiscusCore.database.member.find(byUserId : userId){
+                    self.viewPresenter?.onUser(name: user.username, isOnline: isOnline, message: message)
+                }
+            }
+        }
+    }
+    
+    //this func was deprecated
     func didDelete(Comment comment: CommentModel) {
         for (group,var c) in comments.enumerated() {
             if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
@@ -299,34 +356,24 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         // 
     }
     
+    //this func was deprecated
     func gotNewComment(comment: CommentModel) {
-        // 2check comment already in ui?
-        if (self.getIndexPath(comment: comment) == nil) {
-            self.addNewCommentUI(comment, isIncoming: true)
-        }
+        
     }
     
+     //this func was deprecated
     func didComment(comment: CommentModel, changeStatus status: CommentStatus) {
-        // check comment already exist in view
-        for (group,c) in comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
-                comments[group][index] = comment
-                self.viewPresenter?.onUpdateComment(comment: comment, indexpath: IndexPath(row: index, section: group))
-            }
-        }
+       
     }
     
+    //this func was deprecated
     func onRoom(thisParticipant user: MemberModel, isTyping typing: Bool) {
-        self.viewPresenter?.onUser(name: user.username, typing: typing)
+        
     }
     
+    //this func was deprecated
     func onChangeUser(_ user: MemberModel, onlineStatus status: Bool, whenTime time: Date) {
-        if let room = self.room {
-            if room.type != .group {
-                let message = time.timeAgoSinceDate(numericDates: false)
-                self.viewPresenter?.onUser(name: user.username, isOnline: status, message: message)
-            }
-        }
+        
     }
 }
 
