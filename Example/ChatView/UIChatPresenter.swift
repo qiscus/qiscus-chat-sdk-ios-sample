@@ -185,7 +185,7 @@ class UIChatPresenter: UIChatUserInteraction {
     
     func isTyping(_ value: Bool) {
         if let r = self.room {
-            QiscusCore.shared.isTyping(value, roomID: r.id)
+            QiscusCore.shared.publishTyping(roomID: r.id, isTyping: value)
         }
     }
     
