@@ -621,6 +621,13 @@ extension UIChatViewController : UIChatInputDelegate {
     }
     
     func send(message: CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+        
+        if message.roomId.isEmpty{
+            if let room = self.room{
+                message.roomId = room.id
+            }
+        }
+        
         self.presenter.sendMessage(withComment: message, onSuccess: { (comment) in
             if(self.tableViewConversation.isHidden == true){
                 self.tableViewConversation.isHidden = false

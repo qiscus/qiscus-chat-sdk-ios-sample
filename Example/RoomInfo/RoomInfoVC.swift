@@ -91,7 +91,7 @@ class RoomInfoVC: UIViewController {
             self.tableView.reloadData()
             
             //load from rest
-            QiscusCore.shared.getParticipants(roomId: (self.room?.id)!, onSuccess: { (participants) in
+            QiscusCore.shared.getParticipants(uniqueId: (self.room?.uniqueId)!, onSuccess: { (participants) in
                 self.participants.removeAll()
                 self.participants = participants
                 self.tableView.reloadData()
@@ -306,7 +306,7 @@ extension RoomInfoVC: UITableViewDataSource {
 
 extension RoomInfoVC : ContactCellDelegate {
     func reloadTableView() {
-        QiscusCore.shared.getParticipants(roomId: (self.room?.id)!, onSuccess: { (participants) in
+        QiscusCore.shared.getParticipants(uniqueId: (self.room?.uniqueId)!, onSuccess: { (participants) in
             let alertController = UIAlertController(title: "Success", message: "Success remove participant", preferredStyle: UIAlertController.Style.alert)
             let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { alert -> Void in
                 self.participants.removeAll()
