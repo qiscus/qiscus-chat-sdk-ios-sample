@@ -356,28 +356,20 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         }
     }
     
+    //this func was deprecated
     func onRoom(update room: RoomModel) {
         // 
     }
     
-    //this func was deprecated
-    func gotNewComment(comment: CommentModel) {
-        
-    }
-    
      //this func was deprecated
     func didComment(comment: CommentModel, changeStatus status: CommentStatus) {
-       
-    }
-    
-    //this func was deprecated
-    func onRoom(thisParticipant user: MemberModel, isTyping typing: Bool) {
-        
-    }
-    
-    //this func was deprecated
-    func onChangeUser(_ user: MemberModel, onlineStatus status: Bool, whenTime time: Date) {
-        
+       // check comment already exist in view
+       for (group,c) in comments.enumerated() {
+           if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
+               comments[group][index] = comment
+               self.viewPresenter?.onUpdateComment(comment: comment, indexpath: IndexPath(row: index, section: group))
+           }
+       }
     }
 }
 

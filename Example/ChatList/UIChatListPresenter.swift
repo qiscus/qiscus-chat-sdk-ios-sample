@@ -134,19 +134,4 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
         print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
     }
-    
-    //this func was deprecated
-    func onRoom(_ room: RoomModel, didDeleteComment comment: CommentModel) {
-        //
-    }
-    
-    //this func was deprecated
-    func onRoom(_ room: RoomModel, gotNewComment comment: CommentModel) {
-        
-    }
-
-    //this func was deprecated
-    func remove(room: RoomModel) {
-        //
-    }
 }

@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        QiscusCore.enableDebugPrint = true
-        QiscusCore.setup(WithAppID: APP_ID)
+        QiscusCore.enableDebugMode(value: true)
+        QiscusCore.setup(AppID: APP_ID)
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().tintColor = UIColor.white
         self.auth()
@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print("token = \(tokenString)")
         UserDefaults.standard.setDeviceToken(value: tokenString)
-        if QiscusCore.isLogined {
+        if QiscusCore.hasSetupUser() {
             QiscusCore.shared.registerDeviceToken(token: tokenString, onSuccess: { (response) in
                 print("success register device token =\(tokenString)")
             }) { (error) in
@@ -120,7 +120,7 @@ extension AppDelegate {
     // Auth
     func auth() {
         let target : UIViewController
-        if QiscusCore.isLogined {
+        if QiscusCore.hasSetupUser() {
             target = UIChatListViewController()
             _ = QiscusCore.connect(delegate: self)
         }else {
@@ -176,16 +176,6 @@ extension AppDelegate : QiscusConnectionDelegate {
             }
             
         }
-        
-    }
-    
-    //this func was deprecated
-    func disconnect(withError err: QError?) {
-        //
-    }
-    
-    //this func was deprecated
-    func connected() {
         
     }
 }
