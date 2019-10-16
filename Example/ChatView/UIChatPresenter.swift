@@ -83,7 +83,7 @@ class UIChatPresenter: UIChatUserInteraction {
                 instance.viewPresenter?.onLoadMessageFailed(message: "no message")
                 return
             }
-            instance.viewPresenter?.onLoadMessageFinished()
+            instance.loadComments(withID: room.id)
         }) { [weak self] (error) in
             guard let instance = self else { return }
             instance.viewPresenter?.onLoadMessageFailed(message: error.message)
