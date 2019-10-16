@@ -83,11 +83,8 @@ class UIChatPresenter: UIChatUserInteraction {
                 instance.viewPresenter?.onLoadMessageFailed(message: "no message")
                 return
             }
-//            // MARK: TODO improve and grouping
-//            instance.comments.removeAll()
-//            instance.comments = instance.groupingComments(comments)
-//            // MARK : TODO improve and compare with local data, reduce flicker effect
-            instance.viewPresenter?.onLoadMessageFinished()
+
+            instance.loadComments(withID: room.id)
         }) { [weak self] (error) in
             guard let instance = self else { return }
             instance.viewPresenter?.onLoadMessageFailed(message: error.message)
