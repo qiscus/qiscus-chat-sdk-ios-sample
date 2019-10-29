@@ -62,7 +62,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 self.hiddenProgress()
                 
                 let message = CommentModel()
-                message.type = "image"
+                message.type = "file_attachment"
                 message.payload = [
                     "url"       : file.url.absoluteString,
                     "file_name" : file.name,
