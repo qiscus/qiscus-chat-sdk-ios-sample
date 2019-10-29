@@ -132,9 +132,13 @@ class UIChatViewController: UIViewController {
     
     @objc func tapFunction(sender:UITapGestureRecognizer) {
         if self.room != nil {
-            let vc = RoomInfoVC()
-            vc.room = room
-            self.navigationController?.pushViewController(vc, animated: true)
+            if self.room?.type == .group{
+                let vc = RoomInfoVC()
+                vc.room = room
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                // no action for type single
+            }
         }
     }
     
@@ -323,42 +327,69 @@ class UIChatViewController: UIViewController {
                 cell.cellMenu = self
                 return cell
             }
-        }else if message.type == "image" {
-            if (message.isMyComment() == true){
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
-                cell.menuConfig = menuConfig
-                cell.cellMenu = self
-                return cell
+        }else if  message.type == "file_attachment" {
+            guard let payload = message.payload else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
+                    return cell
+            }
+                
+            if let url = payload["url"] as? String {
+                let ext = message.fileExtension(fromURL:url)
+                if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
+                    if (message.isMyComment() == true){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        return cell
+                    }else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.cellMenu = self
+                        return cell
+                    }
+                }else{
+                    if (message.isMyComment() == true){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        return cell
+                    }
+                    else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.cellMenu = self
+                        return cell
+                    }
+                }
             }else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
-                if self.room?.type == .group {
-                    cell.colorName = colorName
-                    cell.isPublic = true
-                }else {
-                    cell.isPublic = false
+                if (message.isMyComment() == true){
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                    cell.menuConfig = menuConfig
+                    cell.cellMenu = self
+                    return cell
+                }else{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
+                    if self.room?.type == .group {
+                        cell.colorName = colorName
+                        cell.isPublic = true
+                    }else {
+                        cell.isPublic = false
+                    }
+                    cell.cellMenu = self
+                    return cell
                 }
-                cell.cellMenu = self
-                return cell
             }
-        }else if message.type == "file" {
-            if (message.isMyComment() == true){
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
-                cell.menuConfig = menuConfig
-                cell.cellMenu = self
-                return cell
-            }
-            else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
-                if self.room?.type == .group {
-                    cell.colorName = colorName
-                    cell.isPublic = true
-                }else {
-                    cell.isPublic = false
-                }
-                cell.cellMenu = self
-                return cell
-            }
-        }else {
+        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
             return cell
         }
@@ -617,6 +648,13 @@ extension UIChatViewController : UIChatInputDelegate {
     }
     
     func send(message: CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+        
+        if message.roomId.isEmpty{
+            if let room = self.room{
+                message.roomId = room.id
+            }
+        }
+        
         self.presenter.sendMessage(withComment: message, onSuccess: { (comment) in
             if(self.tableViewConversation.isHidden == true){
                 self.tableViewConversation.isHidden = false
@@ -634,7 +672,7 @@ extension UIChatViewController : UIChatInputDelegate {
 //// MARK: Handle Cell Menu
 extension UIChatViewController : UIBaseChatCellDelegate {
     func didTap(delete comment: CommentModel) {
-        QiscusCore.shared.deleteMessage(uniqueIDs: [comment.uniqId], onSuccess: { (commentsModel) in
+        QiscusCore.shared.deleteMessages(messageUniqueIds: [comment.uniqId], onSuccess: { (commentsModel) in
             print("success delete comment for everyone")
         }) { (error) in
             print("failed delete comment for everyone")

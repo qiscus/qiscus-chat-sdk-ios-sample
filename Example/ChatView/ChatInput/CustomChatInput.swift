@@ -415,10 +415,15 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                 if usePopup {
                     QPopUpView.showAlert(withTarget: self, image: thumb, message:popupText, isVideoImage: video,
                                          doneAction: {
-                                            QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
+                                            
+                                            let file = FileUploadModel()
+                                            file.data = data
+                                            file.name = fileName
+                                            
+                                            QiscusCore.shared.upload(file: file, onSuccess: { (file) in
                                                 self.getProgressBarHeight().constant = 0.0
                                                 let message = CommentModel()
-                                                message.type = "file"
+                                                message.type = "file_attachment"
                                                 message.payload = [
                                                     "url"       : file.url.absoluteString,
                                                     "file_name" : file.name,
@@ -434,7 +439,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                                 })
                                             }, onError: { (error) in
                                                 self.getProgressBarHeight().constant = 0
-                                            }) { (progress) in
+                                            }, progressListener: { (progress) in
                                                 print("upload progress :\(progress)")
                                                 self.getProgressBarHeight().constant = 2
                                                 self.getProgressBar().progress = Float(progress)
@@ -444,17 +449,17 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                                         self.getProgressBar().progress = 0.0
                                                     }
                                                 }
-                                            }
+                                            })
+                                            
                     },
                                          cancelAction: {
                                             
-                    }
-                    )
+                    })
                 }else{
                     QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
                         self.getProgressBarHeight().constant = 0.0
                         let message = CommentModel()
-                        message.type = "file"
+                        message.type = "file_attachment"
                         message.payload = [
                             "url"       : file.url.absoluteString,
                             "file_name" : file.name,
@@ -625,9 +630,12 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                 
                 QPopUpView.showAlert(withTarget: self, image: thumbImage, message:"Are you sure to send this video?", isVideoImage: true,
                                      doneAction: {
-                                        QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
+                                        let file = FileUploadModel()
+                                        file.data = mediaData!
+                                        file.name = fileName
+                                        QiscusCore.shared.upload(file: file, onSuccess: { (file) in
                                             let message = CommentModel()
-                                            message.type = "file"
+                                            message.type = "file_attachment"
                                             message.payload = [
                                                 "url"       : file.url.absoluteString,
                                                 "file_name" : file.name,
@@ -641,10 +649,11 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                                                 //error
                                             })
                                         }, onError: { (error) in
-                                            //
-                                        }) { (progress) in
+                                            //error
+                                        }, progressListener: { (progress) in
                                             print("progress =\(progress)")
-                                        }
+                                        })
+                                        
                 },
                                      cancelAction: {
                                         //cancel upload

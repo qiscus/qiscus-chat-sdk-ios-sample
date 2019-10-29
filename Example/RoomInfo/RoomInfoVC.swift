@@ -79,6 +79,7 @@ class RoomInfoVC: UIViewController {
         if let room = self.room{
             //always check from local db
             if let room = QiscusCore.database.room.find(id: room.id){
+                self.room = room
                 self.lbRoomName.text = room.name
                 self.ivAvatar.af_setImage(withURL: room.avatarUrl!)
                 
@@ -90,15 +91,13 @@ class RoomInfoVC: UIViewController {
             self.tableView.reloadData()
             
             //load from rest
-            QiscusCore.shared.getParticipant(roomUniqeId: (self.room?.uniqueId)!, onSuccess: { (participants) in
+            QiscusCore.shared.getParticipants(roomUniqueId:  (self.room?.uniqueId)!, onSuccess: { (participants) in
                 self.participants.removeAll()
-                self.participants = participants
-                self.tableView.reloadData()
+                               self.participants = participants
+                               self.tableView.reloadData()
+            }) { (error) in
                 
-            }, onError: { (error) in
-                //error
-            })
-            
+            }
         }
     }
     
@@ -305,7 +304,7 @@ extension RoomInfoVC: UITableViewDataSource {
 
 extension RoomInfoVC : ContactCellDelegate {
     func reloadTableView() {
-        QiscusCore.shared.getParticipant(roomUniqeId: (self.room?.uniqueId)!, onSuccess: { (participants) in
+        QiscusCore.shared.getParticipants(roomUniqueId: (self.room?.uniqueId)!, onSuccess: { (participants) in
             let alertController = UIAlertController(title: "Success", message: "Success remove participant", preferredStyle: UIAlertController.Style.alert)
             let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { alert -> Void in
                 self.participants.removeAll()
@@ -426,8 +425,13 @@ extension RoomInfoVC : UIImagePickerControllerDelegate, UINavigationControllerDe
                 self.ivAvatar.image = image
                 self.loadingIndicator.isHidden = false
                 self.loadingIndicator.startAnimating()
-                QiscusCore.shared.upload(data: data!, filename: imageName, onSuccess: { (fileURL) in
-                    QiscusCore.shared.updateRoom(withID: (self.room?.id)!, name: nil, avatarURL: fileURL.url, options: nil, onSuccess: { (roomModel) in
+                
+                let file = FileUploadModel()
+                file.data = data!
+                file.name = imageName
+                
+                QiscusCore.shared.upload(file: file, onSuccess: { (fileURL) in
+                    QiscusCore.shared.updateChatRoom(roomId: (self.room?.id)!, name: nil, avatarURL: fileURL.url, extras: nil, onSuccess: { (roomModel) in
                         self.loadingIndicator.stopAnimating()
                         self.loadingIndicator.isHidden = true
                         self.ivAvatar.af_setImage(withURL: roomModel.avatarUrl!)
@@ -443,7 +447,7 @@ extension RoomInfoVC : UIImagePickerControllerDelegate, UINavigationControllerDe
                     self.loadingIndicator.isHidden = true
                     print("error upload avatar =\(error.message)")
                 }) { (progress) in
-                    print("progress upload =\(progress)")
+                     print("progress upload =\(progress)")
                 }
             }
         }

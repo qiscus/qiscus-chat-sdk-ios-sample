@@ -91,7 +91,7 @@ class UIChatNavigation: UIView {
         
         //load from rest
         if room.type == .group {
-            QiscusCore.shared.getParticipant(roomUniqeId: (self.room?.uniqueId)!, onSuccess: { (participants) in
+            QiscusCore.shared.getParticipants(roomUniqueId: (self.room?.uniqueId)!, onSuccess: { (participants) in
                 self.labelSubtitle.text = self.getParticipant(participants: participants)
             }, onError: { (error) in
                 //error

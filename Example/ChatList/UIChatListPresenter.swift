@@ -51,15 +51,15 @@ class UIChatListPresenter {
         
         //for sub
         //sample code for subscribe room manually
-        //QiscusCore.shared.subcribeRooms(self.rooms)
+        //QiscusCore.shared.subscribeChatRooms(self.rooms)
         
         //for unsub
         //sample code for unSubscribe room manually
-        //QiscusCore.shared.unSubcribeRooms(self.rooms)
-        
-        if self.rooms.isEmpty {
-            self.loadFromServer()
+        //QiscusCore.shared.unSubcribeChatRooms(self.rooms)
+        if refresh{
+             self.loadFromServer()
         }
+       
     }
     
     // Hide empty rooms
@@ -78,19 +78,49 @@ class UIChatListPresenter {
     
     private func loadFromServer() {
         // check update from server
-        QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
-            self.rooms = results
-            self.viewPresenter?.didFinishLoadChat(rooms: results)
-        }) { (error) in
+        QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: true, page: 1, limit: 100, onSuccess: { (results, meta) in
+            self.rooms = self.filterRoom(data: results)
+            self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+        }, onError: { (error) in
             self.viewPresenter?.setEmptyData(message: "")
-        }
+        })
+        
     }
     
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
-    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
-        print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
+    func onRoomMessageReceived(_ room: RoomModel, message: CommentModel){
+        // show in app notification
+        print("got new comment: \(message.message)")
+        self.viewPresenter?.updateRooms(data: room)
+        if !rooms.contains(where: { $0.id == room.id}) {
+            loadFromServer()
+        }else {
+            loadFromLocal(refresh: false)
+        }
+        
+    }
+    
+    func onRoomMessageDelivered(message : CommentModel){
+        //
+    }
+    
+    func onRoomMessageRead(message : CommentModel){
+        //
+    }
+    
+    func onChatRoomCleared(roomId : String){
+        self.loadFromLocal()
+    }
+    
+    func onRoomMessageDeleted(room: RoomModel, message: CommentModel) {
+        //
+    }
+    
+    func gotNew(room: RoomModel) {
+        // add not if exist
+        loadFromLocal(refresh: true)
     }
     
     func onRoom(deleted room: RoomModel) {
@@ -100,28 +130,8 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         self.loadFromLocal()
     }
     
-    func onRoom(_ room: RoomModel, didDeleteComment comment: CommentModel) {
-        //
-    }
-    
-    func onRoom(_ room: RoomModel, gotNewComment comment: CommentModel) {
-        // show in app notification
-        print("got new comment: \(comment.message)")
-        self.viewPresenter?.updateRooms(data: room)
-        if !rooms.contains(where: { $0.id == room.id}) {
-            loadFromServer()
-        }else {
-            loadFromLocal(refresh: false)
-        }
-        
-    }
-
-    func gotNew(room: RoomModel) {
-        // add not if exist
-        loadFromLocal(refresh: true)
-    }
-
-    func remove(room: RoomModel) {
-        //
+    //this func was deprecated
+    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
+        print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
     }
 }

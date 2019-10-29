@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        QiscusCore.enableDebugPrint = true
-        QiscusCore.setup(WithAppID: APP_ID)
+        QiscusCore.enableDebugMode(value: true)
+        QiscusCore.setup(AppID: APP_ID)
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().tintColor = UIColor.white
         self.auth()
@@ -55,8 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print("token = \(tokenString)")
         UserDefaults.standard.setDeviceToken(value: tokenString)
-        if QiscusCore.isLogined {
-            QiscusCore.shared.register(deviceToken: tokenString, onSuccess: { (response) in
+        if QiscusCore.hasSetupUser() {
+            //change isDevelopment to false for production and true for development
+            QiscusCore.shared.registerDeviceToken(token: tokenString, onSuccess: { (response) in
                 print("success register device token =\(tokenString)")
             }) { (error) in
                 print("failed register device token = \(error.message)")
@@ -87,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let roomID = jsonPayload["room_id_str"].string ?? ""
             
                 if !messageID.isEmpty && !roomID.isEmpty{
-                    QiscusCore.shared.updateCommentReceive(roomId: roomID, lastCommentReceivedId: messageID)
+                    QiscusCore.shared.markAsDelivered(roomId: roomID, commentId: messageID)
                 }
             }
         }
@@ -120,7 +121,7 @@ extension AppDelegate {
     // Auth
     func auth() {
         let target : UIViewController
-        if QiscusCore.isLogined {
+        if QiscusCore.hasSetupUser() {
             target = UIChatListViewController()
             _ = QiscusCore.connect(delegate: self)
         }else {
@@ -135,7 +136,8 @@ extension AppDelegate {
     
     func registerDeviceToken(){
         if let deviceToken = UserDefaults.standard.getDeviceToken(){
-            QiscusCore.shared.register(deviceToken: deviceToken, onSuccess: { (response) in
+            //change isDevelopment to false for production and true for development
+            QiscusCore.shared.registerDeviceToken(token: deviceToken, onSuccess: { (success) in
                 print("success register device token =\(deviceToken)")
             }) { (error) in
                 print("failed register device token = \(error.message)")
@@ -145,12 +147,14 @@ extension AppDelegate {
 }
 
 extension AppDelegate : QiscusConnectionDelegate {
-    func disconnect(withError err: QError?) {
-        //
-    }
-    
-    func connected() {
+    func onConnected(){
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reSubscribeRoom"), object: nil)
+    }
+    func onReconnecting(){
+        
+    }
+    func onDisconnected(withError err: QError?){
+        
     }
     
     func connectionState(change state: QiscusConnectionState) {
@@ -165,17 +169,17 @@ extension AppDelegate : QiscusConnectionDelegate {
                     roomsId.append(room.id)
                 }
                 
-                QiscusCore.shared.getRooms(withId: roomsId, onSuccess: { (rooms) in
+                QiscusCore.shared.getChatRooms(roomIds: roomsId, showRemoved: false, showParticipant: true, onSuccess: { (rooms) in
                     //brodcast rooms to your update ui ex in ui listRoom
-                }) { (error) in
+                }, onError: { (error) in
                     print("error = \(error.message)")
-                }
+                })
+                
             }
             
         }
-
+        
     }
-    
 }
 
 // [START ios_10_message_handling]
