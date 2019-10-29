@@ -56,6 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("token = \(tokenString)")
         UserDefaults.standard.setDeviceToken(value: tokenString)
         if QiscusCore.hasSetupUser() {
+            //change isDevelopment to false for production and true for development
             QiscusCore.shared.registerDeviceToken(token: tokenString, onSuccess: { (response) in
                 print("success register device token =\(tokenString)")
             }) { (error) in
@@ -135,6 +136,7 @@ extension AppDelegate {
     
     func registerDeviceToken(){
         if let deviceToken = UserDefaults.standard.getDeviceToken(){
+            //change isDevelopment to false for production and true for development
             QiscusCore.shared.registerDeviceToken(token: deviceToken, onSuccess: { (success) in
                 print("success register device token =\(deviceToken)")
             }) { (error) in
