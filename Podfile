@@ -6,7 +6,7 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  pod 'QiscusCore', '~> 0.3.0'
+  pod 'QiscusCore', '1.0.1-rc.1'
 
     # 3rd party
   pod 'SDWebImage', '~> 4.4.2'
