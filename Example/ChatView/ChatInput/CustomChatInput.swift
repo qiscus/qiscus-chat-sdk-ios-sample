@@ -418,7 +418,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                             QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
                                                 self.getProgressBarHeight().constant = 0.0
                                                 let message = CommentModel()
-                                                message.type = "file"
+                                                message.type = "file_attachment"
                                                 message.payload = [
                                                     "url"       : file.url.absoluteString,
                                                     "file_name" : file.name,
@@ -454,7 +454,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                     QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
                         self.getProgressBarHeight().constant = 0.0
                         let message = CommentModel()
-                        message.type = "file"
+                        message.type = "file_attachment"
                         message.payload = [
                             "url"       : file.url.absoluteString,
                             "file_name" : file.name,
@@ -627,7 +627,7 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                                      doneAction: {
                                         QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
                                             let message = CommentModel()
-                                            message.type = "file"
+                                            message.type = "file_attachment"
                                             message.payload = [
                                                 "url"       : file.url.absoluteString,
                                                 "file_name" : file.name,
