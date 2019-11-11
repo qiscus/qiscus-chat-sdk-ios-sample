@@ -43,7 +43,7 @@ class ProfileVC: UIViewController {
     func setupProfile(){
         //load fromDB
         if let profile = QiscusCore.getUserData(){
-            self.lbName.text = profile.username
+            self.lbName.text = profile.name
             self.lbUniqueID.text = profile.email
             self.ivAvatar.af_setImage(withURL: profile.avatarUrl)
             self.lastAvatarURL = profile.avatarUrl
@@ -51,7 +51,7 @@ class ProfileVC: UIViewController {
         
         //load from server
         QiscusCore.shared.getUserData(onSuccess: { (profile) in
-            self.lbName.text = profile.username
+            self.lbName.text = profile.name
             self.lbUniqueID.text = profile.email
             self.ivAvatar.af_setImage(withURL: profile.avatarUrl)
             self.lastAvatarURL = profile.avatarUrl
@@ -386,7 +386,7 @@ extension ProfileVC : UIImagePickerControllerDelegate, UINavigationControllerDel
                 file.name = imageName
                 
                 QiscusCore.shared.upload(file: file, onSuccess: { (fileURL) in
-                    QiscusCore.shared.updateUser(name: (QiscusCore.getUserData()?.username)!, avatarURL: fileURL.url, extras: nil, onSuccess: { (userModel) in
+                    QiscusCore.shared.updateUser(name: (QiscusCore.getUserData()?.name)!, avatarURL: fileURL.url, extras: nil, onSuccess: { (userModel) in
                         self.loadingIndicator.stopAnimating()
                         self.loadingIndicator.isHidden = true
                         self.ivAvatar.af_setImage(withURL: userModel.avatarUrl)

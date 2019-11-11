@@ -12,7 +12,7 @@ import AlamofireImage
 
 protocol CreateNewGroupVCDelegate{
     func showProgress()
-    func loadContactsDidSucceed(contacts : [MemberModel])
+    func loadContactsDidSucceed(contacts : [QUser])
     func loadContactsDidFailed(message: String)
 }
 
@@ -27,14 +27,14 @@ class CreateNewGroupVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var heightCollCons: NSLayoutConstraint!
-    internal var selectedContacts: [MemberModel] = [] {
+    internal var selectedContacts: [QUser] = [] {
         didSet {
             self.collectionView.reloadData()
         }
     }
     
-    internal var contactAll: [MemberModel]? = nil
-    //internal var filteredContact: [MemberModel]? = nil
+    internal var contactAll: [QUser]? = nil
+    //internal var filteredContact: [QUser]? = nil
     var searchActive : Bool = false
     var keywordSearch : String? = nil
     var page : Int = 1
@@ -208,7 +208,7 @@ extension CreateNewGroupVC: UICollectionViewDelegateFlowLayout, UICollectionView
              cell.profileImageView.af_setImage(withURL: avatarURL, placeholderImage: placeHolderImage, filter: imageFilter)
         }
       
-        cell.nameLabel.text                 = contactList.username
+        cell.nameLabel.text                 = contactList.name
         let iconImage                       = UIImage(named: "ar_cancel", in: nil, compatibleWith: nil)!
         cell.iconImageView.image            = iconImage.withRenderingMode(.alwaysTemplate)
         cell.iconImageView.tintColor        = UIColor.red
@@ -320,7 +320,7 @@ extension CreateNewGroupVC: UISearchBarDelegate {
 }
 
 extension CreateNewGroupVC: CreateNewGroupVCDelegate {
-    func loadContactsDidSucceed(contacts: [MemberModel]) {
+    func loadContactsDidSucceed(contacts: [QUser]) {
         if let contact = self.contactAll{
             self.contactAll = contact + contacts
         }else{

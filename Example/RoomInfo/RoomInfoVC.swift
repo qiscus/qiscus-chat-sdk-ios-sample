@@ -25,7 +25,7 @@ class RoomInfoVC: UIViewController {
     var lastAvatarURL: URL? = nil
     
     var room : RoomModel? = nil
-    var participants = [MemberModel]()
+    var participants = [QParticipant]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -284,8 +284,8 @@ extension RoomInfoVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellIdentifire", for: indexPath) as! ContactCell
         
-        let contact = self.participants[indexPath.row]
-        cell.configureWithData(contact: contact)
+        let participant = self.participants[indexPath.row]
+        cell.configureWithDataParticipant(participant: participant)
         
         let image = UIImage(named: "ar_cancel")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         cell.ivCheck.image = image

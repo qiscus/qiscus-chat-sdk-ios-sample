@@ -14,7 +14,7 @@ import SwiftyJSON
 
 protocol CustomChatInputDelegate {
     func sendAttachment()
-    func sendMessage(message: CommentModel)
+    func sendMessage(message: QMessage)
 }
 
 class CustomChatInput: UIChatInput {
@@ -50,7 +50,7 @@ class CustomChatInput: UIChatInput {
         guard let text = self.textView.text else {return}
         if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
             var payload:JSON? = nil
-            let comment = CommentModel()
+            let comment = QMessage()
             comment.type = "text"
             comment.message = text
             self.chatInputDelegate?.sendMessage(message: comment)
@@ -229,7 +229,7 @@ extension UIChatViewController : CustomChatInputDelegate {
         })
     }
     
-    func sendMessage(message: CommentModel) {
+    func sendMessage(message: QMessage) {
         let postedComment = message
 
         self.send(message: postedComment, onSuccess: { (comment) in
@@ -422,7 +422,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                             
                                             QiscusCore.shared.upload(file: file, onSuccess: { (file) in
                                                 self.getProgressBarHeight().constant = 0.0
-                                                let message = CommentModel()
+                                                let message = QMessage()
                                                 message.type = "file_attachment"
                                                 message.payload = [
                                                     "url"       : file.url.absoluteString,
@@ -458,7 +458,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                 }else{
                     QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
                         self.getProgressBarHeight().constant = 0.0
-                        let message = CommentModel()
+                        let message = QMessage()
                         message.type = "file_attachment"
                         message.payload = [
                             "url"       : file.url.absoluteString,
@@ -634,7 +634,7 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                                         file.data = mediaData!
                                         file.name = fileName
                                         QiscusCore.shared.upload(file: file, onSuccess: { (file) in
-                                            let message = CommentModel()
+                                            let message = QMessage()
                                             message.type = "file_attachment"
                                             message.payload = [
                                                 "url"       : file.url.absoluteString,

@@ -34,17 +34,17 @@ class QTextLeftCell: UIBaseChatCell {
         // Configure the view for the selected state
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         // parsing payload
         self.bindData(message: message)
         
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bindData(message: message)
     }
     
-    func bindData(message: CommentModel){
+    func bindData(message: QMessage){
         self.setupBalon()
         
         self.lbTime.text = self.hour(date: message.date())
@@ -53,7 +53,7 @@ class QTextLeftCell: UIBaseChatCell {
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         
         if(isPublic == true){
-            self.lbName.text = message.username
+            self.lbName.text = message.sender
             self.lbName.textColor = colorName
             lbNameHeight.constant = 21
         }else{

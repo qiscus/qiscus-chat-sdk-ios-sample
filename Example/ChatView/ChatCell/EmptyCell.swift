@@ -21,11 +21,11 @@ class EmptyCell: UIBaseChatCell {
         // Configure the view for the selected state
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         // parsing payload
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         
     }
     

@@ -42,17 +42,17 @@ class QFileLeftCell: UIBaseChatCell {
         // Configure the view for the selected state
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         // parsing payload
         self.bindData(message: message)
         
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bindData(message: message)
     }
     
-    func bindData(message: CommentModel){
+    func bindData(message: QMessage){
         self.setupBalon()
         
         self.lbTime.text = self.hour(date: message.date())
@@ -63,7 +63,7 @@ class QFileLeftCell: UIBaseChatCell {
         self.ivFIle.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
         self.viewBorder.layer.cornerRadius = 8
         if(isPublic == true){
-            self.lbName.text = message.username
+            self.lbName.text = message.sender
             self.lbName.textColor = colorName
             lbNameHeight.constant = 21
         }else{

@@ -37,17 +37,17 @@ class QFileRightCell: UIBaseChatCell {
         // Configure the view for the selected state
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         // parsing payload
         self.bindData(message: message)
         
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bindData(message: message)
     }
     
-    func bindData(message: CommentModel){
+    func bindData(message: QMessage){
         self.setupBalon()
         self.status(message: message)
         
@@ -142,7 +142,7 @@ class QFileRightCell: UIBaseChatCell {
     }
     
     
-    func status(message: CommentModel){
+    func status(message: QMessage){
         
         switch message.status {
         case .deleted:

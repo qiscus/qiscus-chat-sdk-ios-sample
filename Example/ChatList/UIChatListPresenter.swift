@@ -13,7 +13,7 @@ protocol UIChatListView {
     func setEmptyData(message: String)
     func didFinishLoadChat(rooms : [RoomModel])
     func updateRooms(data: RoomModel)
-    func didUpdate(user: MemberModel, isTyping typing: Bool, in room: RoomModel)
+    func didUpdate(user: QParticipant, isTyping typing: Bool, in room: RoomModel)
 }
 
 class UIChatListPresenter {
@@ -90,7 +90,7 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
-    func onRoomMessageReceived(_ room: RoomModel, message: CommentModel){
+    func onRoomMessageReceived(_ room: RoomModel, message: QMessage){
         // show in app notification
         print("got new comment: \(message.message)")
         self.viewPresenter?.updateRooms(data: room)
@@ -102,11 +102,11 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         
     }
     
-    func onRoomMessageDelivered(message : CommentModel){
+    func onRoomMessageDelivered(message : QMessage){
         //
     }
     
-    func onRoomMessageRead(message : CommentModel){
+    func onRoomMessageRead(message : QMessage){
         //
     }
     
@@ -114,7 +114,7 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         self.loadFromLocal()
     }
     
-    func onRoomMessageDeleted(room: RoomModel, message: CommentModel) {
+    func onRoomMessageDeleted(room: RoomModel, message: QMessage) {
         //
     }
     
@@ -131,7 +131,7 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     }
     
     //this func was deprecated
-    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
+    func onRoomDidChangeComment(comment: QMessage, changeStatus status: QMessageStatus) {
         print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
     }
 }

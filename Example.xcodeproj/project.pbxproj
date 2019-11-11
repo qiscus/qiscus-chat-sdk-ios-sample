@@ -24,7 +24,7 @@
 		3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */; };
 		3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */; };
 		3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */; };
-		3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8542192E20900FE7228 /* CommentModel.swift */; };
+		3D40B8B32192E20C00FE7228 /* QMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8542192E20900FE7228 /* QMessage.swift */; };
 		3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8562192E20900FE7228 /* UIView.swift */; };
 		3D40B8B52192E20C00FE7228 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8572192E20900FE7228 /* ViewController.swift */; };
 		3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8582192E20900FE7228 /* NavigationBar.swift */; };
@@ -104,7 +104,7 @@
 		3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QExtensionUICore.swift; sourceTree = "<group>"; };
 		3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusUploaderVC.xib; sourceTree = "<group>"; };
 		3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QUIBaseChatCell.swift; sourceTree = "<group>"; };
-		3D40B8542192E20900FE7228 /* CommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
+		3D40B8542192E20900FE7228 /* QMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QMessage.swift; sourceTree = "<group>"; };
 		3D40B8562192E20900FE7228 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		3D40B8572192E20900FE7228 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3D40B8582192E20900FE7228 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 		3D40B8502192E20900FE7228 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3D40B8542192E20900FE7228 /* CommentModel.swift */,
+				3D40B8542192E20900FE7228 /* QMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -628,7 +628,7 @@
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
-				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
+				3D40B8B32192E20C00FE7228 /* QMessage.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
 				3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */,
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,

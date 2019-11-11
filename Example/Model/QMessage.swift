@@ -77,7 +77,7 @@ import SwiftyJSON
     }
 }
 
-extension CommentModel {
+extension QMessage {
 
     func isMyComment() -> Bool {
         // change this later when user savevd on presisstance storage
@@ -92,7 +92,7 @@ extension CommentModel {
         let formatter = DateFormatter()
         formatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ssZ"
         formatter.timeZone      = TimeZone(abbreviation: "UTC")
-        let date = formatter.date(from: self.timestamp)
+        let date = formatter.date(from: self.timestampString)
         return date
     }
     
@@ -155,7 +155,7 @@ extension CommentModel {
     }
     
     //Todo search comment from local
-    internal class func comments(searchQuery: String, onSuccess:@escaping (([CommentModel])->Void), onFailed: @escaping ((String)->Void)){
+    internal class func comments(searchQuery: String, onSuccess:@escaping (([QMessage])->Void), onFailed: @escaping ((String)->Void)){
         
         let comments = QiscusCore.database.comment.all().filter({ (comment) -> Bool in
             return comment.message.lowercased().contains(searchQuery.lowercased())
@@ -164,7 +164,7 @@ extension CommentModel {
         if(comments.count == 0){
             onFailed("Comment not found")
         }else{
-            onSuccess(comments as! [CommentModel])
+            onSuccess(comments as! [QMessage])
         }
     }
     
@@ -172,14 +172,14 @@ extension CommentModel {
         var data = [AnyHashable : Any]()
         
         data["qiscus_commentdata"] = true
-        data["qiscus_uniqueId"] = self.uniqId
+        data["qiscus_uniqueId"] = self.uniqueId
         data["qiscus_id"] = self.id
-        data["qiscus_roomId"] = self.roomId
-        data["qiscus_beforeId"] = self.commentBeforeId
+        data["qiscus_roomId"] = self.chatRoomId
+        data["qiscus_beforeId"] = self.previousMessageId
         data["qiscus_text"] = self.message
         data["qiscus_createdAt"] = self.unixTimestamp
         data["qiscus_senderEmail"] = self.userEmail
-        data["qiscus_senderName"] = self.username
+        data["qiscus_senderName"] = self.sender
         data["qiscus_statusRaw"] = self.status
         data["qiscus_typeRaw"] = self.type
         data["qiscus_data"] = self.payload
@@ -193,7 +193,7 @@ extension CommentModel {
     ///   - uniqueID: comment unique id
     ///   - type: forMe or ForEveryone
     ///   - completion: Response Comments your deleted
-    func deleteMessage(uniqueIDs id: [String], onSuccess:@escaping ([CommentModel])->Void, onError:@escaping (String)->Void) {
+    func deleteMessage(uniqueIDs id: [String], onSuccess:@escaping ([QMessage])->Void, onError:@escaping (String)->Void) {
        
         QiscusCore.shared.deleteMessage(uniqueIDs: id, onSuccess: { (commentsModel) in
             onSuccess(commentsModel)

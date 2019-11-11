@@ -165,14 +165,14 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
 }
 
 extension UIChatListViewController : UIChatListView {
-    func didUpdate(user: MemberModel, isTyping typing: Bool, in room: RoomModel) {
+    func didUpdate(user: QParticipant, isTyping typing: Bool, in room: RoomModel) {
         let indexPath = getIndexpath(byRoom: room)
         let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
         if let v = isVisible, let index = indexPath, v == true {
             if let cell: UIChatListViewCell = self.tableView.cellForRow(at: index) as? UIChatListViewCell{
                 if typing == true{
                     if(room.type == .group){
-                        cell.labelLastMessage.text = "\(user.username) isTyping..."
+                        cell.labelLastMessage.text = "\(user.name) isTyping..."
                     }else{
                          cell.labelLastMessage.text = "isTyping..."
                     }

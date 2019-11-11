@@ -12,10 +12,10 @@ import QiscusCore
 
 // Chat view blue print or function
 protocol UIChatView {
-    func uiChat(viewController : UIChatViewController, didSelectMessage message: CommentModel)
-    func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?)
-    func uiChat(viewController : UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool
-    func uiChat(viewController : UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView?
+    func uiChat(viewController : UIChatViewController, didSelectMessage message: QMessage)
+    func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?)
+    func uiChat(viewController : UIChatViewController, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool
+    func uiChat(viewController : UIChatViewController, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView?
 }
 
 class DateHeaderLabel: UILabel {
@@ -274,9 +274,9 @@ class UIChatViewController: UIViewController {
         var result = ""
         for m in self.presenter.participants {
             if result.isEmpty {
-                result = m.username
+                result = m.name
             }else {
-                result = result + ", \(m.username)"
+                result = result + ", \(m.name)"
             }
         }
         return result
@@ -300,13 +300,13 @@ class UIChatViewController: UIViewController {
         self.tableViewConversation.backgroundColor = color
     }
     
-    func scrollToComment(comment: CommentModel) {
+    func scrollToComment(comment: QMessage) {
         if let indexPath = self.presenter.getIndexPath(comment: comment) {
             self.tableViewConversation.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     
-    func cellFor(message: CommentModel, at indexPath: IndexPath, in tableView: UITableView) -> UIBaseChatCell {
+    func cellFor(message: QMessage, at indexPath: IndexPath, in tableView: UITableView) -> UIBaseChatCell {
         let menuConfig = enableMenuConfig()
         var colorName:UIColor = UIColor.lightGray
         
@@ -401,7 +401,7 @@ extension UIChatViewController: UIChatViewDelegate {
     func onReloadComment(){
         self.tableViewConversation.reloadData()
     }
-    func onUpdateComment(comment: CommentModel, indexpath: IndexPath) {
+    func onUpdateComment(comment: QMessage, indexpath: IndexPath) {
         // reload cell in section and index path
         if self.tableViewConversation.cellForRow(at: indexpath) != nil{
             self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
@@ -436,7 +436,7 @@ extension UIChatViewController: UIChatViewDelegate {
         }
     }
     
-    func onSendingComment(comment: CommentModel, newSection: Bool) {
+    func onSendingComment(comment: QMessage, newSection: Bool) {
         if newSection {
             self.tableViewConversation.beginUpdates()
             self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .left)
@@ -479,7 +479,7 @@ extension UIChatViewController: UIChatViewDelegate {
         self.tableViewConversation.reloadData()
     }
     
-    func onSendMessageFinished(comment: CommentModel) {
+    func onSendMessageFinished(comment: QMessage) {
         
     }
     
@@ -562,7 +562,7 @@ extension UIChatViewController: UITableViewDataSource {
         if let firstMessageInSection = self.presenter.comments[section].first {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "E, d MMM"
-            let dateString = dateFormatter.string(from: firstMessageInSection.date)
+            let dateString = dateFormatter.string(from: firstMessageInSection.timestamp)
             
             let label = DateHeaderLabel()
             label.text = dateString
@@ -611,18 +611,18 @@ extension UIChatViewController: UITableViewDelegate {
 }
 
 extension UIChatViewController : UIChatView {
-    func uiChat(viewController: UIChatViewController, didSelectMessage message: CommentModel) {
+    func uiChat(viewController: UIChatViewController, didSelectMessage message: QMessage) {
         
     }
     
-    func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?) {
+    func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?) {
         if action == #selector(UIResponderStandardEditActions.copy(_:)) {
             let pasteboard = UIPasteboard.general
             pasteboard.string = message.message
         }
     }
     
-    func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool {
+    func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool {
         switch action.description {
         case "copy:":
             return true
@@ -633,7 +633,7 @@ extension UIChatViewController : UIChatView {
         }
     }
     
-    func uiChat(viewController: UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView? {
+    func uiChat(viewController: UIChatViewController, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
 }
@@ -647,11 +647,11 @@ extension UIChatViewController : UIChatInputDelegate {
         self.presenter.isTyping(value)
     }
     
-    func send(message: CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+    func send(message: QMessage,onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void) {
         
-        if message.roomId.isEmpty{
+        if message.chatRoomId.isEmpty{
             if let room = self.room{
-                message.roomId = room.id
+                message.chatRoomId = room.id
             }
         }
         
@@ -671,8 +671,8 @@ extension UIChatViewController : UIChatInputDelegate {
 
 //// MARK: Handle Cell Menu
 extension UIChatViewController : UIBaseChatCellDelegate {
-    func didTap(delete comment: CommentModel) {
-        QiscusCore.shared.deleteMessages(messageUniqueIds: [comment.uniqId], onSuccess: { (commentsModel) in
+    func didTap(delete comment: QMessage) {
+        QiscusCore.shared.deleteMessages(messageUniqueIds: [comment.uniqueId], onSuccess: { (commentsModel) in
             print("success delete comment for everyone")
         }) { (error) in
             print("failed delete comment for everyone")

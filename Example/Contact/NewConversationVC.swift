@@ -11,7 +11,7 @@ import QiscusCore
 
 protocol NewConversationVCDelegate{
     func showProgress()
-    func loadContactsDidSucceed(contacts : [MemberModel])
+    func loadContactsDidSucceed(contacts : [QUser])
     func loadContactsDidFailed(message: String)
 }
 
@@ -27,7 +27,7 @@ class NewConversationVC: UIViewController {
     @IBOutlet weak var viewCreateGroup: UIView!
     
     
-    internal var contactAll: [MemberModel]? = nil
+    internal var contactAll: [QUser]? = nil
     var searchActive : Bool = false
     var keywordSearch : String? = nil
     var page : Int = 1
@@ -132,7 +132,7 @@ extension NewConversationVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         if let contact = self.contactAll{
-            let userId = contact[indexPath.row].email
+            let userId = contact[indexPath.row].id
             QiscusCore.shared.chatUser(userId: userId, onSuccess: { (room, comments) in
                  self.chat(withRoom: room)
             }) { (error) in
@@ -208,7 +208,7 @@ extension NewConversationVC: UISearchBarDelegate {
 }
 
 extension NewConversationVC: NewConversationVCDelegate {
-    func loadContactsDidSucceed(contacts: [MemberModel]) {
+    func loadContactsDidSucceed(contacts: [QUser]) {
         if let contact = self.contactAll{
            self.contactAll = contact + contacts
         }else{

@@ -36,7 +36,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     var type = QUploaderType.image
     var data   : Data?
     var fileName :String?
-    var imageData: [CommentModel] = []
+    var imageData: [QMessage] = []
     var selectedImageIndex: Int = 0
     let maxProgressHeight:Double = 40.0
     /**
@@ -61,7 +61,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 self.sendButton.isHidden = false
                 self.hiddenProgress()
                 
-                let message = CommentModel()
+                let message = QMessage()
                 message.type = "file_attachment"
                 message.payload = [
                     "url"       : file.url.absoluteString,

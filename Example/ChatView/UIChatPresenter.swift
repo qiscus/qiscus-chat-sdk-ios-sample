@@ -15,7 +15,7 @@ protocol UIChatUserInteraction {
     func loadComments(withID roomId: String)
     func loadMore()
     func getAvatarImage(section: Int, imageView: UIImageView)
-    func getMessage(atIndexPath: IndexPath) -> CommentModel
+    func getMessage(atIndexPath: IndexPath) -> QMessage
 }
 
 protocol UIChatViewDelegate {
@@ -24,25 +24,25 @@ protocol UIChatViewDelegate {
     func onLoadMessageFailed(message: String)
     func onLoadMoreMesageFinished()
     func onReloadComment()
-    func onSendingComment(comment: CommentModel, newSection: Bool)
-    func onSendMessageFinished(comment: CommentModel)
+    func onSendingComment(comment: QMessage, newSection: Bool)
+    func onSendMessageFinished(comment: QMessage)
     func onGotNewComment(newSection: Bool)
-    func onUpdateComment(comment: CommentModel, indexpath: IndexPath)
+    func onUpdateComment(comment: QMessage, indexpath: IndexPath)
     func onUser(name: String, typing: Bool)
     func onUser(name: String, isOnline: Bool, message: String)
 }
 
 class UIChatPresenter: UIChatUserInteraction {
     private var viewPresenter: UIChatViewDelegate?
-    var comments: [[CommentModel]]
+    var comments: [[QMessage]]
     var room: RoomModel? 
     var loadMoreAvailable: Bool = true
-    var participants : [MemberModel] = [MemberModel]()
+    var participants : [QParticipant] = [QParticipant]()
     var loadMoreDispatchGroup: DispatchGroup = DispatchGroup()
     var lastIdToLoad: String = ""
     
     init() {
-        self.comments = [[CommentModel]]()
+        self.comments = [[QMessage]]()
     }
     
     func attachView(view : UIChatViewDelegate){
@@ -65,7 +65,7 @@ class UIChatPresenter: UIChatUserInteraction {
         }
     }
     
-    func getMessage(atIndexPath: IndexPath) -> CommentModel {
+    func getMessage(atIndexPath: IndexPath) -> QMessage {
         let comment = comments[atIndexPath.section][atIndexPath.row]
         return comment
     }
@@ -144,7 +144,7 @@ class UIChatPresenter: UIChatUserInteraction {
                     var groupedLoadedComment = instance.groupingComments(comments)
                     
                     // check if the first comment in the first section from the load more result has the same date then add merge first section from loaded comments with last section from existing comments
-                    if lastComment.date.reduceToMonthDayYear() == groupedLoadedComment.first?.first?.date.reduceToMonthDayYear() {
+                    if lastComment.timestamp.reduceToMonthDayYear() == groupedLoadedComment.first?.first?.timestamp.reduceToMonthDayYear() {
                         // last section of existing comments
                         guard var lastGroup = instance.comments.last else { return }
                         
@@ -189,7 +189,7 @@ class UIChatPresenter: UIChatUserInteraction {
         }
     }
     
-    func sendMessage(withComment comment: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+    func sendMessage(withComment comment: QMessage, onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void) {
         addNewCommentUI(comment, isIncoming: false)
         QiscusCore.shared.sendMessage(message: comment, onSuccess: { [weak self] (comment) in
             self?.didComment(comment: comment, changeStatus: comment.status)
@@ -202,11 +202,11 @@ class UIChatPresenter: UIChatUserInteraction {
     func sendMessage(withText text: String) {
         // create object comment
         // MARK: TODO improve object generator
-        let message = CommentModel()
+        let message = QMessage()
         message.message = text
         message.type    = "text"
         if let r = self.room {
-             message.roomId  = r.id
+             message.chatRoomId  = r.id
         }
        
         addNewCommentUI(message, isIncoming: false)
@@ -217,13 +217,13 @@ class UIChatPresenter: UIChatUserInteraction {
         }
     }
     
-    private func addNewCommentUI(_ message: CommentModel, isIncoming: Bool) {
+    private func addNewCommentUI(_ message: QMessage, isIncoming: Bool) {
         // add new comment to ui
         var section = false
         if self.comments.count > 0 {
             if self.comments[0].count > 0 {
                 let lastComment = self.comments[0][0]
-                if lastComment.date.reduceToMonthDayYear() == message.date.reduceToMonthDayYear() {
+                if lastComment.timestamp.reduceToMonthDayYear() == message.timestamp.reduceToMonthDayYear() {
                     self.comments[0].insert(message, at: 0)
                     section = false
                 } else {
@@ -242,7 +242,7 @@ class UIChatPresenter: UIChatUserInteraction {
         
         // choose uidelegate
         if isIncoming {
-            QiscusCore.shared.markAsRead(roomId: message.roomId, commentId: message.id)
+            QiscusCore.shared.markAsRead(roomId: message.chatRoomId, commentId: message.id)
             self.viewPresenter?.onGotNewComment(newSection: section)
         }else {
             self.viewPresenter?.onSendingComment(comment: message, newSection: section)
@@ -260,10 +260,10 @@ class UIChatPresenter: UIChatUserInteraction {
     }
     
     /// Grouping by useremail and date(same day), example [[you,you],[me,me],[me]]
-    private func groupingComments(_ data: [CommentModel]) -> [[CommentModel]]{
-        var retVal = [[CommentModel]]()
+    private func groupingComments(_ data: [QMessage]) -> [[QMessage]]{
+        var retVal = [[QMessage]]()
         let groupedMessages = Dictionary(grouping: data) { (element) -> Date in
-            return element.date.reduceToMonthDayYear()
+            return element.timestamp.reduceToMonthDayYear()
         }
         
         let sortedKeys = groupedMessages.keys.sorted(by: { $0.compare($1) == .orderedDescending })
@@ -274,9 +274,9 @@ class UIChatPresenter: UIChatUserInteraction {
         return retVal
     }
     
-    func getIndexPath(comment : CommentModel) -> IndexPath? {
+    func getIndexPath(comment : QMessage) -> IndexPath? {
         for (group,c) in self.comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
+            if let index = c.index(where: { $0.uniqueId == comment.uniqueId }) {
                 return IndexPath.init(row: index, section: group)
             }
         }
@@ -287,36 +287,36 @@ class UIChatPresenter: UIChatUserInteraction {
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
-    func onMessageReceived(message: CommentModel){
+    func onMessageReceived(message: QMessage){
         // 2check comment already in ui?
         if (self.getIndexPath(comment: message) == nil) {
             self.addNewCommentUI(message, isIncoming: true)
         }
     }
     
-    func onMessageDelivered(message : CommentModel){
+    func onMessageDelivered(message : QMessage){
         // check comment already exist in view
         for (group,c) in comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+            if let index = c.index(where: { $0.uniqueId == message.uniqueId }) {
                 comments[group][index] = message
                 self.viewPresenter?.onUpdateComment(comment: message, indexpath: IndexPath(row: index, section: group))
             }
         }
     }
     
-    func onMessageRead(message : CommentModel){
+    func onMessageRead(message : QMessage){
         // check comment already exist in view
         for (group,c) in comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+            if let index = c.index(where: { $0.uniqueId == message.uniqueId }) {
                 comments[group][index] = message
                 self.viewPresenter?.onUpdateComment(comment: message, indexpath: IndexPath(row: index, section: group))
             }
         }
     }
     
-    func onMessageDeleted(message: CommentModel){
+    func onMessageDeleted(message: QMessage){
         for (group,var c) in comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+            if let index = c.index(where: { $0.uniqueId == message.uniqueId }) {
                 c.remove(at: index)
                 self.comments = groupingComments(c)
                 self.lastIdToLoad = ""
@@ -328,7 +328,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     
     func onUserTyping(userId : String, roomId : String, typing: Bool){
         if let user = QiscusCore.database.member.find(byUserId : userId){
-            self.viewPresenter?.onUser(name: user.username, typing: typing)
+            self.viewPresenter?.onUser(name: user.name, typing: typing)
         }
     }
     
@@ -337,16 +337,16 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
             if room.type != .group {
                 let message = lastSeen.timeAgoSinceDate(numericDates: false)
                 if let user = QiscusCore.database.member.find(byUserId : userId){
-                    self.viewPresenter?.onUser(name: user.username, isOnline: isOnline, message: message)
+                    self.viewPresenter?.onUser(name: user.name, isOnline: isOnline, message: message)
                 }
             }
         }
     }
     
     //this func was deprecated
-    func didDelete(Comment comment: CommentModel) {
+    func didDelete(Comment comment: QMessage) {
         for (group,var c) in comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
+            if let index = c.index(where: { $0.uniqueId == comment.uniqueId }) {
                 c.remove(at: index)
                 self.comments = groupingComments(c)
                 self.lastIdToLoad = ""
@@ -362,10 +362,10 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     }
     
      //this func was deprecated
-    func didComment(comment: CommentModel, changeStatus status: CommentStatus) {
+    func didComment(comment: QMessage, changeStatus status: QMessageStatus) {
        // check comment already exist in view
        for (group,c) in comments.enumerated() {
-           if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
+           if let index = c.index(where: { $0.uniqueId == comment.uniqueId }) {
                comments[group][index] = comment
                self.viewPresenter?.onUpdateComment(comment: comment, indexpath: IndexPath(row: index, section: group))
            }

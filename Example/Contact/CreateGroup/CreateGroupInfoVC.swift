@@ -19,7 +19,7 @@ class CreateGroupInfoVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var progressRing: UICircularProgressRing!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var iconAvatarGroup: UIImageView!
-    internal var userGroup: [MemberModel] = []
+    internal var userGroup: [QUser] = []
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     var avatarURL:String? = ""
     override func viewDidLoad() {

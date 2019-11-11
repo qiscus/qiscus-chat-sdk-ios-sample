@@ -13,12 +13,12 @@ class enableMenuConfig : NSObject {
 }
 
 protocol UIBaseChatCellDelegate {
-    func didTap(delete comment: CommentModel)
+    func didTap(delete comment: QMessage)
 }
 
 class UIBaseChatCell: UITableViewCell {
     // MARK: cell data source
-    var comment: CommentModel? {
+    var comment: QMessage? {
         set {
             self._comment = newValue
             if let data = newValue { present(message: data) } // bind data only
@@ -27,7 +27,7 @@ class UIBaseChatCell: UITableViewCell {
             return self._comment
         }
     }
-    private var _comment : CommentModel? = nil
+    private var _comment : QMessage? = nil
     var indexPath: IndexPath!
     var firstInSection: Bool = false
     var cellMenu : UIBaseChatCellDelegate? = nil
@@ -42,11 +42,11 @@ class UIBaseChatCell: UITableViewCell {
         self.configureUI()
     }
     
-    func present(message: CommentModel) {
+    func present(message: QMessage) {
         preconditionFailure("this func must be override, without super")
     }
     
-    func update(message: CommentModel) {
+    func update(message: QMessage) {
         preconditionFailure("this func must be override, without super")
     }
     

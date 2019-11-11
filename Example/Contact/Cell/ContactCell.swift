@@ -20,7 +20,8 @@ open class ContactCell: UITableViewCell {
     @IBOutlet var profileImageView: UIImageView!
     
     @IBOutlet weak var ivCheck: UIImageView!
-    var contact: MemberModel?
+    var contact: QUser?
+    var participants: QParticipant?
     var roomId : String? = ""
     var removeParticipant: Bool? = false
     var delegate : ContactCellDelegate? = nil
@@ -39,9 +40,36 @@ open class ContactCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureWithData(contact data: MemberModel, searchText: String = "") {
+    func configureWithData(contact data: QUser, searchText: String = "") {
         self.contact = data
-        let fullName: String            = data.username
+        let fullName: String            = data.name
+        let avatarURL: URL              = data.avatarUrl!
+        let placeHolderImage: UIImage   = UIImage(named: "avatar", in: nil, compatibleWith: nil)!
+        
+        let cellImageLayer: CALayer?    = profileImageView.layer
+        let imageRadius: CGFloat        = CGFloat(cellImageLayer!.frame.size.height / 2)
+        let imageSize: CGSize           = CGSize(width: profileImageView.frame.width, height: profileImageView.frame.height)
+        let imageFilter                 = AspectScaledToFillSizeWithRoundedCornersFilter(size: imageSize, radius: imageRadius)
+        cellImageLayer!.cornerRadius    = imageRadius
+        cellImageLayer!.masksToBounds   = true
+        
+        accessoryType = .none
+        
+        nameLabel.text                  = fullName
+        profileImageView.clipsToBounds  = true
+        profileImageView.contentMode    = .scaleAspectFill
+        profileImageView.af_setImage(withURL: avatarURL, placeholderImage: placeHolderImage, filter: nil)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(removeParticipant(tapGestureRecognizer:)))
+        ivCheck.isUserInteractionEnabled = true
+        ivCheck.addGestureRecognizer(tapGestureRecognizer)
+        
+        makeMatchingPartBold(searchText: searchText)
+    }
+    
+    func configureWithDataParticipant(participant data: QParticipant, searchText: String = "") {
+        self.participants = data
+        let fullName: String            = data.name
         let avatarURL: URL              = data.avatarUrl!
         let placeHolderImage: UIImage   = UIImage(named: "avatar", in: nil, compatibleWith: nil)!
         
@@ -68,7 +96,7 @@ open class ContactCell: UITableViewCell {
     
     @objc func removeParticipant(tapGestureRecognizer: UITapGestureRecognizer){
         if removeParticipant == true{
-            QiscusCore.shared.removeParticipants(roomId: roomId!, userIds: [(contact?.id)!], onSuccess: { (success) in
+            QiscusCore.shared.removeParticipants(roomId: roomId!, userIds: [(participants?.id)!], onSuccess: { (success) in
                 self.delegate?.reloadTableView()
             }) { (error) in
                 //error

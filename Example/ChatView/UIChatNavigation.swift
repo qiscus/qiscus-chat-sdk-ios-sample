@@ -109,13 +109,13 @@ class UIChatNavigation: UIView {
 }
 
 extension UIChatNavigation {
-    func getParticipant(participants: [MemberModel]) -> String {
+    func getParticipant(participants: [QParticipant]) -> String {
         var result = ""
         for m in participants {
             if result.isEmpty {
-                result = m.username
+                result = m.name
             }else {
-                result = result + ", \(m.username)"
+                result = result + ", \(m.name)"
             }
         }
         return result
