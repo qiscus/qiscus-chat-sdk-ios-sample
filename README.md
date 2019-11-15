@@ -16,7 +16,7 @@ You can see some of sample UI in this repository
 ## Requirements
 
 - iOS 9.0+
-- Xcode 11+
+- Xcode 10.x.x
 - Swift 5
 
 ## Dependency
