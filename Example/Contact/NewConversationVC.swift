@@ -120,7 +120,7 @@ class NewConversationVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func chat(withRoom room: RoomModel){
+    func chat(withRoom room: QChatRoom){
         let target = UIChatViewController()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)

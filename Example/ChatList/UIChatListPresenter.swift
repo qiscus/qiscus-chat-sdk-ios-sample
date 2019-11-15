@@ -11,15 +11,15 @@ import QiscusCore
 
 protocol UIChatListView {
     func setEmptyData(message: String)
-    func didFinishLoadChat(rooms : [RoomModel])
-    func updateRooms(data: RoomModel)
-    func didUpdate(user: QParticipant, isTyping typing: Bool, in room: RoomModel)
+    func didFinishLoadChat(rooms : [QChatRoom])
+    func updateRooms(data: QChatRoom)
+    func didUpdate(user: QParticipant, isTyping typing: Bool, in room: QChatRoom)
 }
 
 class UIChatListPresenter {
     
     private var viewPresenter : UIChatListView?
-    var rooms : [RoomModel] = [RoomModel]()
+    var rooms : [QChatRoom] = [QChatRoom]()
     
     init() {
         QiscusCore.delegate = self
@@ -63,7 +63,7 @@ class UIChatListPresenter {
     }
     
     // Hide empty rooms
-    func filterRoom(data: [RoomModel]) -> [RoomModel] {
+    func filterRoom(data: [QChatRoom]) -> [QChatRoom] {
         var source = data
         //source = source.filter({ ($0.lastComment != nil || $0.type != .single) })
         source.sort { (room1, room2) -> Bool in
@@ -90,7 +90,7 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
-    func onRoomMessageReceived(_ room: RoomModel, message: QMessage){
+    func onRoomMessageReceived(_ room: QChatRoom, message: QMessage){
         // show in app notification
         print("got new comment: \(message.message)")
         self.viewPresenter?.updateRooms(data: room)
@@ -114,19 +114,19 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         self.loadFromLocal()
     }
     
-    func onRoomMessageDeleted(room: RoomModel, message: QMessage) {
+    func onRoomMessageDeleted(room: QChatRoom, message: QMessage) {
         //
     }
     
-    func gotNew(room: RoomModel) {
+    func gotNew(room: QChatRoom) {
         // add not if exist
         loadFromLocal(refresh: true)
     }
     
-    func onRoom(deleted room: RoomModel) {
+    func onRoom(deleted room: QChatRoom) {
         self.loadFromLocal()
     }
-    func onRoom(update room: RoomModel) {
+    func onRoom(update room: QChatRoom) {
         self.loadFromLocal()
     }
     

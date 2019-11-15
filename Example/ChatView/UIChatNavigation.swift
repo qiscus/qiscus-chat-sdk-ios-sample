@@ -18,7 +18,7 @@ class UIChatNavigation: UIView {
     /// UIImageView room avatar
     @IBOutlet weak var imageViewAvatar: UIImageView!
     
-    var room: RoomModel? {
+    var room: QChatRoom? {
         set {
             self._room = newValue
             if let data = newValue { present(room: data) } // bind data only
@@ -27,7 +27,7 @@ class UIChatNavigation: UIView {
             return self._room
         }
     }
-    private var _room : RoomModel? = nil
+    private var _room : QChatRoom? = nil
     
     override var intrinsicContentSize: CGSize {
         return UIView.layoutFittingExpandedSize
@@ -76,7 +76,7 @@ class UIChatNavigation: UIView {
         }
     }
     
-    func present(room: RoomModel) {
+    func present(room: QChatRoom) {
         // title value
         //always check room localDB
         if let room = QiscusCore.database.room.find(id: room.id){

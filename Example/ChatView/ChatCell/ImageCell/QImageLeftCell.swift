@@ -88,7 +88,7 @@ class QImageLeftCell: UIBaseChatCell {
         }
         
         if(isPublic == true){
-            self.lbName.text = message.sender
+            self.lbName.text = message.sender.name
             self.lbName.textColor = colorName
             lbNameHeight.constant = 21
         }else{

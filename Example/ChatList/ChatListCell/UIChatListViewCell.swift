@@ -15,7 +15,7 @@ class UIChatListViewCell: UITableViewCell {
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
-    var data : RoomModel? {
+    var data : QChatRoom? {
         didSet {
             if data != nil {
                 self.setupUI()

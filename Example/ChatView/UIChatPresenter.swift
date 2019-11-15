@@ -35,7 +35,7 @@ protocol UIChatViewDelegate {
 class UIChatPresenter: UIChatUserInteraction {
     private var viewPresenter: UIChatViewDelegate?
     var comments: [[QMessage]]
-    var room: RoomModel? 
+    var room: QChatRoom? 
     var loadMoreAvailable: Bool = true
     var participants : [QParticipant] = [QParticipant]()
     var loadMoreDispatchGroup: DispatchGroup = DispatchGroup()
@@ -357,7 +357,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     }
     
     //this func was deprecated
-    func onRoom(update room: RoomModel) {
+    func onRoom(update room: QChatRoom) {
         // 
     }
     

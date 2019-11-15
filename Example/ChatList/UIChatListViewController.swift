@@ -21,7 +21,7 @@ class UIChatListViewController: UIViewController {
     private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
     
-    var rooms : [RoomModel] {
+    var rooms : [QChatRoom] {
         get {
             return presenter.rooms
         }
@@ -112,7 +112,7 @@ class UIChatListViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func chat(withRoom room: RoomModel){
+    func chat(withRoom room: QChatRoom){
         let target = UIChatViewController()
         target.room = room
         self.navigationController?.pushViewController(target, animated: true)
@@ -153,7 +153,7 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
         return UITableView.automaticDimension
     }
     
-    private func getIndexpath(byRoom data: RoomModel) -> IndexPath? {
+    private func getIndexpath(byRoom data: QChatRoom) -> IndexPath? {
         // get current index
         for (i,r) in self.rooms.enumerated() {
             if r.id == data.id {
@@ -165,7 +165,7 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
 }
 
 extension UIChatListViewController : UIChatListView {
-    func didUpdate(user: QParticipant, isTyping typing: Bool, in room: RoomModel) {
+    func didUpdate(user: QParticipant, isTyping typing: Bool, in room: QChatRoom) {
         let indexPath = getIndexpath(byRoom: room)
         let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
         if let v = isVisible, let index = indexPath, v == true {
@@ -183,11 +183,11 @@ extension UIChatListViewController : UIChatListView {
         }
     }
     
-    func updateRooms(data: RoomModel) {
+    func updateRooms(data: QChatRoom) {
         self.tableView.reloadData()
     }
     
-    func didFinishLoadChat(rooms: [RoomModel]) {
+    func didFinishLoadChat(rooms: [QChatRoom]) {
         if rooms.count == 0 {
             self.emptyRoomView.isHidden = false
             self.tableView.isHidden = true

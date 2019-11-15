@@ -24,7 +24,7 @@ class RoomInfoVC: UIViewController {
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     var lastAvatarURL: URL? = nil
     
-    var room : RoomModel? = nil
+    var room : QChatRoom? = nil
     var participants = [QParticipant]()
     override func viewDidLoad() {
         super.viewDidLoad()

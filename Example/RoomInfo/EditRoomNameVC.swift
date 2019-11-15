@@ -12,7 +12,7 @@ import Foundation
 
 class EditRoomNameVC: UIViewController {
     @IBOutlet weak var tvName: UITextField!
-    var room : RoomModel? = nil
+    var room : QChatRoom? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()

@@ -63,7 +63,7 @@ class QFileLeftCell: UIBaseChatCell {
         self.ivFIle.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
         self.viewBorder.layer.cornerRadius = 8
         if(isPublic == true){
-            self.lbName.text = message.sender
+            self.lbName.text = message.sender.name
             self.lbName.textColor = colorName
             lbNameHeight.constant = 21
         }else{

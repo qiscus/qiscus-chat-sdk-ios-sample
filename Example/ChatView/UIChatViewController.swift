@@ -71,7 +71,7 @@ class UIChatViewController: UIViewController {
             return ["public.jpeg", "public.png","com.compuserve.gif","public.text", "public.archive", "com.microsoft.word.doc", "com.microsoft.excel.xls", "com.microsoft.powerpoint.​ppt", "com.adobe.pdf","public.mpeg-4"]
         }
     }
-    var room : RoomModel? {
+    var room : QChatRoom? {
         set(newValue) {
             self.presenter.room = newValue
             self.refreshUI()
