@@ -16,7 +16,7 @@ You can see some of sample UI in this repository
 ## Requirements
 
 - iOS 9.0+
-- Xcode 10+
+- Xcode 11+
 - Swift 5
 
 ## Dependency
@@ -30,7 +30,8 @@ You can see some of sample UI in this repository
 ## How to Run
 To run this app without push notification, no need follow this step, just do `pod install`, but if you need to run with push notification you should follow these steps.
 
->Note: `swift4.2 branch` for Swift 4.2, `master branch` for Swift 5
+>Note: `swift4.2 branch` for Swift 4.2, `swift5 branch` for Swift 5 xcode 10.x.x
+ `master branch` for Swift 5+ xcode 11.x.x
 
 ### Step 1 : Get Your APP ID
 
