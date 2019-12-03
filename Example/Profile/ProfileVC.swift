@@ -44,7 +44,7 @@ class ProfileVC: UIViewController {
         //load fromDB
         if let profile = QiscusCore.getUserData(){
             self.lbName.text = profile.name
-            self.lbUniqueID.text = profile.email
+            self.lbUniqueID.text = profile.id
             self.ivAvatar.af_setImage(withURL: profile.avatarUrl)
             self.lastAvatarURL = profile.avatarUrl
         }
@@ -52,7 +52,7 @@ class ProfileVC: UIViewController {
         //load from server
         QiscusCore.shared.getUserData(onSuccess: { (profile) in
             self.lbName.text = profile.name
-            self.lbUniqueID.text = profile.email
+            self.lbUniqueID.text = profile.id
             self.ivAvatar.af_setImage(withURL: profile.avatarUrl)
             self.lastAvatarURL = profile.avatarUrl
         }) { (error) in

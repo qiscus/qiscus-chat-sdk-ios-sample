@@ -93,7 +93,7 @@ class UIChatPresenter: UIChatUserInteraction {
     func loadComments(withID roomId: String) {
         if let room = QiscusCore.database.room.find(id: roomId){
             // load local
-            if let _comments = QiscusCore.database.comment.find(roomId: roomId) {
+            if let _comments = QiscusCore.database.message.find(roomId: roomId) {
                 guard let lastComment = _comments.last else { return }
                 // read comment
                 if let lastComment = room.lastComment {
@@ -327,7 +327,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     }
     
     func onUserTyping(userId : String, roomId : String, typing: Bool){
-        if let user = QiscusCore.database.member.find(byUserId : userId){
+        if let user = QiscusCore.database.participant.find(byUserId : userId){
             self.viewPresenter?.onUser(name: user.name, typing: typing)
         }
     }
@@ -336,7 +336,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         if let room = self.room {
             if room.type != .group {
                 let message = lastSeen.timeAgoSinceDate(numericDates: false)
-                if let user = QiscusCore.database.member.find(byUserId : userId){
+                if let user = QiscusCore.database.participant.find(byUserId : userId){
                     self.viewPresenter?.onUser(name: user.name, isOnline: isOnline, message: message)
                 }
             }

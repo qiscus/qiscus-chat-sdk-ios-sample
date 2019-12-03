@@ -82,7 +82,7 @@ extension QMessage {
     func isMyComment() -> Bool {
         // change this later when user savevd on presisstance storage
         if let user = QiscusCore.getProfile() {
-            return userEmail == user.email
+            return userEmail == user.id
         }else {
             return false
         }
@@ -157,7 +157,7 @@ extension QMessage {
     //Todo search comment from local
     internal class func comments(searchQuery: String, onSuccess:@escaping (([QMessage])->Void), onFailed: @escaping ((String)->Void)){
         
-        let comments = QiscusCore.database.comment.all().filter({ (comment) -> Bool in
+        let comments = QiscusCore.database.message.all().filter({ (comment) -> Bool in
             return comment.message.lowercased().contains(searchQuery.lowercased())
         })
         
