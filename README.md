@@ -16,7 +16,7 @@ You can see some of sample UI in this repository
 ## Requirements
 
 - iOS 9.0+
-- Xcode 10+
+- Xcode 11.2+
 - Swift 5
 
 ## Dependency
@@ -41,7 +41,7 @@ Firstly, you need to create your application in dashboard, by accessing this lin
 Qiscus Chat SDK requires minimum IOS  SDK 9, To integrate your app with Qiscus, it can be done in 2 steps. Firstly, you need to add dependency QiscusCore in your Podfile,
 
 ```
-pod 'QiscusCore'
+pod 'QiscusCore', '3.0.0-alpha.2'
 ```
 
 Secondly, you need to pod install from terminal
