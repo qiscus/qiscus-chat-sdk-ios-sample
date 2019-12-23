@@ -82,7 +82,9 @@ class UIChatListPresenter {
             self.rooms = self.filterRoom(data: results)
             self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
         }, onError: { (error) in
-            self.viewPresenter?.setEmptyData(message: "")
+            if  self.rooms.count == 0{
+                self.viewPresenter?.setEmptyData(message: "")
+            }
         })
         
     }
@@ -93,12 +95,8 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     func onRoomMessageReceived(_ room: QChatRoom, message: QMessage){
         // show in app notification
         print("got new comment: \(message.message)")
+        loadFromLocal(refresh: false)
         self.viewPresenter?.updateRooms(data: room)
-        if !rooms.contains(where: { $0.id == room.id}) {
-            loadFromServer()
-        }else {
-            loadFromLocal(refresh: false)
-        }
         
     }
     
