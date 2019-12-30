@@ -99,8 +99,20 @@ class UIChatListViewCell: UITableViewCell {
             
             var message = ""
             guard let lastComment = data.lastComment else { return }
-            if lastComment.type == ""{
-                message = "File Attachment"
+            if lastComment.type == "file_attachment"{
+                 guard let payload = lastComment.payload else {
+                    return message = "Send an Image"
+                }
+                               
+                if let url = payload["url"] as? String {
+                    let ext = lastComment.fileExtension(fromURL:url)
+                    if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
+                        message = "Send an Image"
+                    }else{
+                         message = "Send an File Attachment"
+                    }
+                }
+                
             }else {
                 message = lastComment.message
             }
