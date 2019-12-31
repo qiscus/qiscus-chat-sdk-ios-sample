@@ -29,12 +29,14 @@ class UIChatListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupUI()
-        self.presenter.loadChat()
-    
+        
     }
     
     func setupUI(){
+        
+        self.navigationItem.leftBarButtonItem = nil
+        self.navigationItem.rightBarButtonItem = nil
+        
         self.btStartChat.addTarget(self, action: #selector(startChatButtonPressed), for: .touchUpInside)
         self.btStartChat.layer.cornerRadius = 8
         self.title = "Conversations"
@@ -58,7 +60,19 @@ class UIChatListViewController: UIViewController {
         buttonProfile.heightAnchor.constraint(equalToConstant: 30).isActive = true
         buttonProfile.layer.cornerRadius = 15
         buttonProfile.clipsToBounds = true
-        buttonProfile.setImage(UIImage(named: "avatar"), for: .normal)
+        
+        //load from local
+        if let profile = QiscusCore.getUserData(){
+            buttonProfile.af_setImage(for: .normal, url: profile.avatarUrl)
+        }
+        
+        //load from server
+        QiscusCore.shared.getUserData(onSuccess: { (profile) in
+            buttonProfile.af_setImage(for: .normal, url: profile.avatarUrl)
+        }) { (error) in
+            //error
+        }
+        
         buttonProfile.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
         
         let barButton = UIBarButtonItem(customView: buttonProfile)
@@ -88,6 +102,7 @@ class UIChatListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.setupUI()
         self.presenter.attachView(view: self)
         self.presenter.loadChat()
         self.tabBarController?.tabBar.isHidden = false
