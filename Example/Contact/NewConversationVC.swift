@@ -38,7 +38,18 @@ class NewConversationVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.getContacts()
+        let center: NotificationCenter = NotificationCenter.default
+        center.addObserver(self, selector: #selector(NewConversationVC.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(NewConversationVC.keyboardChange(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        view.endEditing(true)
     }
     
     @objc func getContacts(){
@@ -126,10 +137,39 @@ class NewConversationVC: UIViewController {
         self.navigationController?.pushViewController(target, animated: true)
     }
     
+    // MARK: - Keyboard Methode
+    @objc func keyboardWillHide(_ notification: Notification){
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let viewHeight = self.view.frame.height
+            self.view.frame = CGRect(x: self.view.frame.origin.x,
+                                     y: self.view.frame.origin.y,
+                                     width: self.view.frame.width,
+                                     height: viewHeight + keyboardSize.height)
+        } else {
+            debugPrint("We're about to hide the keyboard and the keyboard size is nil. Now is the rapture.")
+        }
+    }
+    
+    @objc func keyboardChange(_ notification: Notification){
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+           let window = self.view.window?.frame {
+            // We're not just minusing the kb height from the view height because
+            // the view could already have been resized for the keyboard before
+            self.view.frame = CGRect(x: self.view.frame.origin.x,
+                                        y: self.view.frame.origin.y,
+                                        width: self.view.frame.width,
+                                        height: window.origin.y + window.height - keyboardSize.height)
+        } else {
+            debugPrint("We're showing the keyboard and either the keyboard size or window is nil: panic widely.")
+        }
+        
+    }
+    
 }
 
 extension NewConversationVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.endEditing(true)
         self.tableView.deselectRow(at: indexPath, animated: true)
         if let contact = self.contactAll{
             let userId = contact[indexPath.row].id
@@ -183,9 +223,11 @@ extension NewConversationVC: UISearchBarDelegate {
         searchBar.endEditing(true)
         searchBar.showsCancelButton = false
         
-        self.keywordSearch = nil
+        self.keywordSearch = ""
         self.page = 1
+        self.stopLoad = false
         self.getContacts()
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
