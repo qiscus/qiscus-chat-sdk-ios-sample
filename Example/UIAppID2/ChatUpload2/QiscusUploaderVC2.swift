@@ -11,12 +11,12 @@ import Photos
 import MobileCoreServices
 import QiscusCore
 
-enum QUploaderType {
+enum QUploaderType2 {
     case image
     case video
 }
 
-class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegate {
+class QiscusUploaderVC2: UIViewController, UIScrollViewDelegate,UITextViewDelegate {
 
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var heightProgressViewCons: NSLayoutConstraint!
@@ -32,8 +32,8 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     @IBOutlet weak var minInputHeight: NSLayoutConstraint!
     @IBOutlet weak var mediaBottomMargin: NSLayoutConstraint!
     
-    var chatView:UIChatViewController?
-    var type = QUploaderType.image
+    var chatView:UIChatViewController2?
+    var type = QUploaderType2.image
     var data   : Data?
     var fileName :String?
     var imageData: [QMessage] = []
@@ -56,7 +56,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
             file.data = data!
             file.name = fileName!
             
-            QiscusCoreManager.qiscusCore1.shared.upload(file: file, onSuccess: { (file) in
+            QiscusCoreManager.qiscusCore2.shared.upload(file: file, onSuccess: { (file) in
                 self.sendButton.isEnabled = true
                 self.sendButton.isHidden = false
                 self.hiddenProgress()

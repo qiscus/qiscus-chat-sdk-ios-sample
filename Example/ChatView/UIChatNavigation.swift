@@ -79,7 +79,7 @@ class UIChatNavigation: UIView {
     func present(room: QChatRoom) {
         // title value
         //always check room localDB
-        if let room = QiscusCore.database.room.find(id: room.id){
+        if let room = QiscusCoreManager.qiscusCore1.database.room.find(id: room.id){
             self.labelTitle.text = room.name
             self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
             if room.type == .group {
@@ -91,7 +91,7 @@ class UIChatNavigation: UIView {
         
         //load from rest
         if room.type == .group {
-            QiscusCore.shared.getParticipants(roomUniqueId: (self.room?.uniqueId)!, onSuccess: { (participants, meta) in
+            QiscusCoreManager.qiscusCore1.shared.getParticipants(roomUniqueId: (self.room?.uniqueId)!, onSuccess: { (participants, meta) in
                 self.labelSubtitle.text = self.getParticipant(participants: participants)
             }, onError: { (error) in
                 //error

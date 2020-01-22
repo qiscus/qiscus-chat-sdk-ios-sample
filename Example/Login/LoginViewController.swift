@@ -92,7 +92,7 @@ class LoginViewController: UIViewController {
         }else if (self.textFieldName.text?.isEmpty == true){
             self.textFieldName.becomeFirstResponder()
         }else{
-            QiscusCore.setUser(userId: self.textFieldUserID.text!, userKey: self.textFieldUserKey.text!, username: self.textFieldName.text!, avatarURL: nil, extras: nil, onSuccess: { (user) in
+            QiscusCoreManager.qiscusCore1.setUser(userId: self.textFieldUserID.text!, userKey: self.textFieldUserKey.text!, username: self.textFieldName.text!, avatarURL: nil, extras: nil, onSuccess: { (user) in
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.registerDeviceToken()
                 appDelegate.auth()

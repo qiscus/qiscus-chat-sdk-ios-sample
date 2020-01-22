@@ -78,7 +78,7 @@ class RoomInfoVC: UIViewController {
     func setupRoomInfo(){
         if let room = self.room{
             //always check from local db
-            if let room = QiscusCore.database.room.find(id: room.id){
+            if let room = QiscusCoreManager.qiscusCore1.database.room.find(id: room.id){
                 self.room = room
                 self.lbRoomName.text = room.name
                 self.ivAvatar.af_setImage(withURL: room.avatarUrl!)
@@ -91,7 +91,7 @@ class RoomInfoVC: UIViewController {
             self.tableView.reloadData()
             
             //load from rest
-            QiscusCore.shared.getParticipants(roomUniqueId:  (self.room?.uniqueId)!, onSuccess: { (participants, meta) in
+            QiscusCoreManager.qiscusCore1.shared.getParticipants(roomUniqueId:  (self.room?.uniqueId)!, onSuccess: { (participants, meta) in
                 self.participants.removeAll()
                                self.participants = participants
                                self.tableView.reloadData()
@@ -304,7 +304,7 @@ extension RoomInfoVC: UITableViewDataSource {
 
 extension RoomInfoVC : ContactCellDelegate {
     func reloadTableView() {
-        QiscusCore.shared.getParticipants(roomUniqueId: (self.room?.uniqueId)!, onSuccess: { (participants, meta) in
+        QiscusCoreManager.qiscusCore1.shared.getParticipants(roomUniqueId: (self.room?.uniqueId)!, onSuccess: { (participants, meta) in
             let alertController = UIAlertController(title: "Success", message: "Success remove participant", preferredStyle: UIAlertController.Style.alert)
             let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { alert -> Void in
                 self.participants.removeAll()
@@ -430,8 +430,8 @@ extension RoomInfoVC : UIImagePickerControllerDelegate, UINavigationControllerDe
                 file.data = data!
                 file.name = imageName
                 
-                QiscusCore.shared.upload(file: file, onSuccess: { (fileURL) in
-                    QiscusCore.shared.updateChatRoom(roomId: (self.room?.id)!, name: nil, avatarURL: fileURL.url, extras: nil, onSuccess: { (roomModel) in
+                QiscusCoreManager.qiscusCore1.shared.upload(file: file, onSuccess: { (fileURL) in
+                    QiscusCoreManager.qiscusCore1.shared.updateChatRoom(roomId: (self.room?.id)!, name: nil, avatarURL: fileURL.url, extras: nil, onSuccess: { (roomModel) in
                         self.loadingIndicator.stopAnimating()
                         self.loadingIndicator.isHidden = true
                         self.ivAvatar.af_setImage(withURL: roomModel.avatarUrl!)

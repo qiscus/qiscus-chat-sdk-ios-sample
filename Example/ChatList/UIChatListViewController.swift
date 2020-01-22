@@ -8,6 +8,7 @@
 
 import UIKit
 import QiscusCore
+import PopupDialog
 
 class UIChatListViewController: UIViewController {
 
@@ -62,12 +63,12 @@ class UIChatListViewController: UIViewController {
         buttonProfile.clipsToBounds = true
         
         //load from local
-        if let profile = QiscusCore.getUserData(){
+        if let profile = QiscusCoreManager.qiscusCore1.getUserData(){
             buttonProfile.af_setImage(for: .normal, url: profile.avatarUrl)
         }
         
         //load from server
-        QiscusCore.shared.getUserData(onSuccess: { (profile) in
+        QiscusCoreManager.qiscusCore1.shared.getUserData(onSuccess: { (profile) in
             buttonProfile.af_setImage(for: .normal, url: profile.avatarUrl)
         }) { (error) in
             //error
@@ -118,8 +119,63 @@ class UIChatListViewController: UIViewController {
     }
     
     @objc func profileButtonPressed() {
-        let vc = ProfileVC()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.showPopup()
+    }
+    
+    func showPopup(){
+        // Prepare the popup assets
+        let title = "THIS IS THE DIALOG TITLE"
+        let message = "This is the message section of the popup dialog default view"
+        let image = UIImage(named: "logo_without_text")
+
+        // Create the dialog
+        let popup = PopupDialog(title: title, message: message, image: image)
+
+        // Create buttons
+        let buttonOne = CancelButton(title: "CANCEL") {
+            print("You canceled the car dialog.")
+        }
+
+        // This button will not the dismiss the dialog
+        let buttonTwo = DefaultButton(title: "PROFILE", dismissOnTap: true) {
+            let vc = ProfileVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+
+        let buttonThree = DefaultButton(title: "CHANGE APPID2", height: 60, dismissOnTap: true) {
+            print("Ah, maybe next time :)")
+            QiscusCoreManager.qiscusCore2.setUser(userId: "arief92", userKey: "arief92", onSuccess: { (qAccount) in
+                
+                QiscusCoreManager.qiscusCore2.shared.getChatRooms(roomIds: ["115384"], onSuccess: { (qChatRooms) in
+                    let target = UIChatViewController2()
+                    target.room = qChatRooms.first
+                    self.navigationController?.pushViewController(target, animated: true)
+                }) { (error) in
+                    
+                }
+                
+//                QiscusCoreManager.qiscusCore2.shared.getAllChatRooms(page: 1, limit: 100, onSuccess: { (qRooms, meta) in
+//                    print("arief check appId2 \(qRooms.first)")
+//                    let target = UIChatViewController2()
+//                    target.room = room
+//                    self.navigationController?.pushViewController(target, animated: true)
+//
+//                    //"115384"
+//                }) { (error) in
+//
+//                }
+            }) { (error) in
+                
+            }
+        }
+
+        // Add buttons to dialog
+        // Alternatively, you can use popup.addButton(buttonOne)
+        // to add a single button
+        popup.addButtons([buttonOne, buttonTwo, buttonThree])
+
+        // Present dialog
+        self.present(popup, animated: true, completion: nil)
     }
     
     @objc func startChatButtonPressed() {
@@ -215,8 +271,8 @@ extension UIChatListViewController : UIChatListView {
             self.tableView.reloadData()
             for room in rooms {
                 DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
-                    QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
-                        if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
+                    QiscusCoreManager.qiscusCore1.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
+                        if let room = QiscusCoreManager.qiscusCore1.database.room.find(id: roomTyping.roomID){
                             self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
                         }
                     }

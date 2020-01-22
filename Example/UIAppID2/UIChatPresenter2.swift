@@ -9,7 +9,7 @@ import Foundation
 import QiscusCore
 import AlamofireImage
 
-protocol UIChatUserInteraction {
+protocol UIChatUserInteraction2 {
     func sendMessage(withText text: String)
     func loadRoom(withId roomId: String)
     func loadComments(withID roomId: String)
@@ -18,7 +18,7 @@ protocol UIChatUserInteraction {
     func getMessage(atIndexPath: IndexPath) -> QMessage
 }
 
-protocol UIChatViewDelegate {
+protocol UIChatViewDelegate2 {
     func onLoadRoomFinished(roomName: String, roomAvatarURL: URL?)
     func onLoadMessageFinished()
     func onLoadMessageFailed(message: String)
@@ -32,10 +32,10 @@ protocol UIChatViewDelegate {
     func onUser(name: String, isOnline: Bool, message: String)
 }
 
-class UIChatPresenter: UIChatUserInteraction {
-    private var viewPresenter: UIChatViewDelegate?
+class UIChatPresenter2: UIChatUserInteraction2 {
+    private var viewPresenter: UIChatViewDelegate2?
     var comments: [[QMessage]]
-    var room: QChatRoom? 
+    var room: QChatRoom?
     var loadMoreAvailable: Bool = true
     var participants : [QParticipant] = [QParticipant]()
     var loadMoreDispatchGroup: DispatchGroup = DispatchGroup()
@@ -45,16 +45,16 @@ class UIChatPresenter: UIChatUserInteraction {
         self.comments = [[QMessage]]()
     }
     
-    func attachView(view : UIChatViewDelegate){
+    func attachView(view : UIChatViewDelegate2){
         viewPresenter = view
         if let room = self.room {
-            QiscusCoreManager.qiscusCore1.roomDelegate = self
-            QiscusCoreManager.qiscusCore1.activeChatRoom = room
-            QiscusCoreManager.qiscusCore1.shared.subscribeChatRoom(room)
+            QiscusCoreManager.qiscusCore2.roomDelegate = self
+            QiscusCoreManager.qiscusCore2.activeChatRoom = room
+            QiscusCoreManager.qiscusCore2.shared.subscribeChatRoom(room)
             
             guard let participants = room.participants else { return }
             for u in participants {
-                QiscusCoreManager.qiscusCore1.shared.subscribeUserOnlinePresence(userId: u.id)
+                QiscusCoreManager.qiscusCore2.shared.subscribeUserOnlinePresence(userId: u.id)
             }
             
             self.loadRoom()
@@ -69,8 +69,8 @@ class UIChatPresenter: UIChatUserInteraction {
     func detachView() {
         viewPresenter = nil
         if let room = self.room {
-            QiscusCoreManager.qiscusCore1.roomDelegate = nil
-            QiscusCoreManager.qiscusCore1.activeChatRoom = nil
+            QiscusCoreManager.qiscusCore2.roomDelegate = nil
+            QiscusCoreManager.qiscusCore2.activeChatRoom = nil
         }
     }
     
@@ -86,7 +86,7 @@ class UIChatPresenter: UIChatUserInteraction {
     /// Update room
     func loadRoom() {
         guard let _room = self.room else { return }
-        QiscusCoreManager.qiscusCore1.shared.getChatRoomWithMessages(roomId: _room.id, onSuccess: { [weak self] (room,comments) in
+        QiscusCoreManager.qiscusCore2.shared.getChatRoomWithMessages(roomId: _room.id, onSuccess: { [weak self] (room,comments) in
             guard let instance = self else { return }
             if comments.isEmpty {
                 instance.viewPresenter?.onLoadMessageFailed(message: "no message")
@@ -100,13 +100,13 @@ class UIChatPresenter: UIChatUserInteraction {
     }
     
     func loadComments(withID roomId: String) {
-        if let room = QiscusCoreManager.qiscusCore1.database.room.find(id: roomId){
+        if let room = QiscusCoreManager.qiscusCore2.database.room.find(id: roomId){
             // load local
-            if let _comments = QiscusCoreManager.qiscusCore1.database.message.find(roomId: roomId) {
+            if let _comments = QiscusCoreManager.qiscusCore2.database.message.find(roomId: roomId) {
                 guard let lastComment = _comments.last else { return }
                 // read comment
                 if let lastComment = room.lastComment {
-                     QiscusCoreManager.qiscusCore1.shared.markAsRead(roomId: roomId, commentId: lastComment.id)
+                     QiscusCoreManager.qiscusCore2.shared.markAsRead(roomId: roomId, commentId: lastComment.id)
                 }
                
                 self.comments = self.groupingComments(_comments)
@@ -139,7 +139,7 @@ class UIChatPresenter: UIChatUserInteraction {
                 
                 // update lastIdToLoad value
                 instance.lastIdToLoad = lastComment.id
-                 QiscusCoreManager.qiscusCore1.shared.getPreviousMessagesById(roomID: roomId,limit: 10,messageId: lastCommentId, onSuccess: { (comments) in
+                 QiscusCoreManager.qiscusCore2.shared.getPreviousMessagesById(roomID: roomId,limit: 10,messageId: lastCommentId, onSuccess: { (comments) in
                     
                     // notify the dispatch group that the current process is complete and able to continue to the next load more process
                     instance.loadMoreDispatchGroup.leave()
@@ -194,13 +194,13 @@ class UIChatPresenter: UIChatUserInteraction {
     
     func isTyping(_ value: Bool) {
         if let r = self.room {
-            QiscusCoreManager.qiscusCore1.shared.publishTyping(roomID: r.id, isTyping: value)
+            QiscusCoreManager.qiscusCore2.shared.publishTyping(roomID: r.id, isTyping: value)
         }
     }
     
     func sendMessage(withComment comment: QMessage, onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void) {
         addNewCommentUI(comment, isIncoming: false)
-        QiscusCoreManager.qiscusCore1.shared.sendMessage(message: comment, onSuccess: { [weak self] (comment) in
+        QiscusCoreManager.qiscusCore2.shared.sendMessage(message: comment, onSuccess: { [weak self] (comment) in
             self?.didComment(comment: comment, changeStatus: comment.status)
             onSuccess(comment)
         }) { (error) in
@@ -215,7 +215,7 @@ class UIChatPresenter: UIChatUserInteraction {
         message.message = text
         message.type    = "text"
         
-        if let data = QiscusCoreManager.qiscusCore1.getUserData(){
+        if let data = QiscusCoreManager.qiscusCore2.getUserData(){
             message.userAvatarUrl = data.avatarUrl
             message.userEmail = data.id
             message.name    = data.name
@@ -227,7 +227,7 @@ class UIChatPresenter: UIChatUserInteraction {
         }
        
         addNewCommentUI(message, isIncoming: false)
-        QiscusCoreManager.qiscusCore1.shared.sendMessage(message: message, onSuccess:{ [weak self] (comment) in
+        QiscusCoreManager.qiscusCore2.shared.sendMessage(message: message, onSuccess:{ [weak self] (comment) in
             self?.didComment(comment: comment, changeStatus: comment.status)
         }) { (error) in
             //
@@ -259,7 +259,7 @@ class UIChatPresenter: UIChatUserInteraction {
         
         // choose uidelegate
         if isIncoming {
-            QiscusCoreManager.qiscusCore1.shared.markAsRead(roomId: message.chatRoomId, commentId: message.id)
+            QiscusCoreManager.qiscusCore2.shared.markAsRead(roomId: message.chatRoomId, commentId: message.id)
             self.viewPresenter?.onGotNewComment(newSection: section)
         }else {
             self.viewPresenter?.onSendingComment(comment: message, newSection: section)
@@ -303,7 +303,7 @@ class UIChatPresenter: UIChatUserInteraction {
 
 
 // MARK: Core Delegate
-extension UIChatPresenter : QiscusCoreRoomDelegate {
+extension UIChatPresenter2 : QiscusCoreRoomDelegate {
     func onMessageReceived(message: QMessage){
         // 2check comment already in ui?
         if (self.getIndexPath(comment: message) == nil) {
@@ -344,7 +344,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     }
     
     func onUserTyping(userId : String, roomId : String, typing: Bool){
-        if let user = QiscusCoreManager.qiscusCore1.database.participant.find(byUserId : userId){
+        if let user = QiscusCoreManager.qiscusCore2.database.participant.find(byUserId : userId){
             self.viewPresenter?.onUser(name: user.name, typing: typing)
         }
     }
@@ -353,7 +353,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         if let room = self.room {
             if room.type != .group {
                 let message = lastSeen.timeAgoSinceDate(numericDates: false)
-                if let user = QiscusCoreManager.qiscusCore1.database.participant.find(byUserId : userId){
+                if let user = QiscusCoreManager.qiscusCore2.database.participant.find(byUserId : userId){
                     self.viewPresenter?.onUser(name: user.name, isOnline: isOnline, message: message)
                 }
             }
@@ -375,7 +375,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     
     //this func was deprecated
     func onRoom(update room: QChatRoom) {
-        // 
+        //
     }
     
      //this func was deprecated

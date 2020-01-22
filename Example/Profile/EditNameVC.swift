@@ -103,7 +103,7 @@ class EditNameVC: UIViewController {
                 
             }
         }else{
-            QiscusCore.shared.updateUser(name: self.tvName.text!, avatarURL: nil, extras: nil, onSuccess: { (profile) in
+            QiscusCoreManager.qiscusCore1.shared.updateUser(name: self.tvName.text!, avatarURL: nil, extras: nil, onSuccess: { (profile) in
                 self.navigationController?.popViewController(animated: true)
             }) { (error) in
                 //error

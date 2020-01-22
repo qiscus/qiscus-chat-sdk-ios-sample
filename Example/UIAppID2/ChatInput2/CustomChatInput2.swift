@@ -12,19 +12,19 @@ import MobileCoreServices
 import QiscusCore
 import SwiftyJSON
 
-protocol CustomChatInputDelegate {
+protocol CustomChatInputDelegate2 {
     func sendAttachment()
     func sendMessage(message: QMessage)
 }
 
-class CustomChatInput: UIChatInput {
+class CustomChatInput2: UIChatInput2 {
     
     @IBOutlet weak var heightView: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var attachButton: UIButton!
     @IBOutlet weak var heightTextViewCons: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
-    var chatInputDelegate : CustomChatInputDelegate? = nil
+    var chatInputDelegate : CustomChatInputDelegate2? = nil
     var defaultInputBarHeight: CGFloat = 34.0
     var customInputBarHeight: CGFloat = 34.0
     var colorName : UIColor = UIColor.black
@@ -65,7 +65,7 @@ class CustomChatInput: UIChatInput {
     }
 }
 
-extension CustomChatInput : UITextViewDelegate {
+extension CustomChatInput2 : UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if(textView.text == TextConfiguration.sharedInstance.textPlaceholder){
             textView.text = ""
@@ -97,7 +97,7 @@ extension CustomChatInput : UITextViewDelegate {
     }
 }
 
-extension UIChatViewController : CustomChatInputDelegate {
+extension UIChatViewController2 : CustomChatInputDelegate2 {
     func uploadCamera() {
         self.view.endEditing(true)
         if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized
@@ -273,7 +273,7 @@ extension UIChatViewController : CustomChatInputDelegate {
 }
 
 // MARK: - UIDocumentPickerDelegate
-extension UIChatViewController: UIDocumentPickerDelegate{
+extension UIChatViewController2: UIDocumentPickerDelegate{
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         if #available(iOS 11.0, *) {
             UINavigationBar.appearance().tintColor = self.latestNavbarTint
@@ -420,7 +420,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                             file.data = data
                                             file.name = fileName
                                             
-                                            QiscusCoreManager.qiscusCore1.shared.upload(file: file, onSuccess: { (file) in
+                                            QiscusCoreManager.qiscusCore2.shared.upload(file: file, onSuccess: { (file) in
                                                 self.getProgressBarHeight().constant = 0.0
                                                 let message = QMessage()
                                                 message.type = "file_attachment"
@@ -456,7 +456,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                             
                     })
                 }else{
-                    QiscusCoreManager.qiscusCore1.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
+                    QiscusCoreManager.qiscusCore2.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
                         self.getProgressBarHeight().constant = 0.0
                         let message = QMessage()
                         message.type = "file_attachment"
@@ -496,7 +496,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
 }
 
 // Image Picker
-extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension UIChatViewController2 : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func showFileTooBigAlert(){
         let alertController = UIAlertController(title: "Fail to upload", message: "File too big", preferredStyle: .alert)
@@ -588,7 +588,7 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                 
                 dismiss(animated:true, completion: nil)
                 
-                let uploader = QiscusUploaderVC(nibName: "QiscusUploaderVC", bundle: nil)
+                let uploader = QiscusUploaderVC2(nibName: "QiscusUploaderVC", bundle: nil)
                 uploader.chatView = self
                 uploader.data = data
                 uploader.fileName = imageName
@@ -633,7 +633,7 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                                         let file = FileUploadModel()
                                         file.data = mediaData!
                                         file.name = fileName
-                                        QiscusCoreManager.qiscusCore1.shared.upload(file: file, onSuccess: { (file) in
+                                        QiscusCoreManager.qiscusCore2.shared.upload(file: file, onSuccess: { (file) in
                                             let message = QMessage()
                                             message.type = "file_attachment"
                                             message.payload = [

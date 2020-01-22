@@ -22,7 +22,7 @@ class UIChatListPresenter {
     var rooms : [QChatRoom] = [QChatRoom]()
     
     init() {
-        QiscusCore.delegate = self
+        QiscusCoreManager.qiscusCore1.delegate = self
     }
     
     func attachView(view : UIChatListView){
@@ -43,7 +43,7 @@ class UIChatListPresenter {
     
     private func loadFromLocal(refresh: Bool = true) {
         // get from local
-        let localdb = QiscusCore.database.room.all()
+        let localdb = QiscusCoreManager.qiscusCore1.database.room.all()
         self.rooms = filterRoom(data: localdb)
         if refresh {
             self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
@@ -78,7 +78,7 @@ class UIChatListPresenter {
     
     private func loadFromServer() {
         // check update from server
-        QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: true, page: 1, limit: 100, onSuccess: { (results, meta) in
+        QiscusCoreManager.qiscusCore1.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: true, page: 1, limit: 100, onSuccess: { (results, meta) in
             self.rooms = self.filterRoom(data: results)
             self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
         }, onError: { (error) in
@@ -95,7 +95,7 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     func onRoomMessageReceived(_ room: QChatRoom, message: QMessage){
         // show in app notification
         print("got new comment: \(message.message)")
-        loadFromLocal(refresh: false)
+        self.rooms = filterRoom(data: self.rooms)
         self.viewPresenter?.updateRooms(data: room)
         
     }
@@ -118,7 +118,8 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     
     func gotNew(room: QChatRoom) {
         // add not if exist
-        loadFromLocal(refresh: true)
+        loadFromLocal(refresh: false)
+        self.viewPresenter?.updateRooms(data: room)
     }
     
     func onRoom(deleted room: QChatRoom) {

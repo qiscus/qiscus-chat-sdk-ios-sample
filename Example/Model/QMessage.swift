@@ -81,7 +81,16 @@ extension QMessage {
 
     func isMyComment() -> Bool {
         // change this later when user savevd on presisstance storage
-        if let user = QiscusCore.getProfile() {
+        if let user = QiscusCoreManager.qiscusCore1.getProfile() {
+            return userEmail == user.id
+        }else {
+            return false
+        }
+    }
+    
+    func isMyComment2() -> Bool {
+        // change this later when user savevd on presisstance storage
+        if let user = QiscusCoreManager.qiscusCore2.getProfile() {
             return userEmail == user.id
         }else {
             return false
@@ -157,7 +166,7 @@ extension QMessage {
     //Todo search comment from local
     internal class func comments(searchQuery: String, onSuccess:@escaping (([QMessage])->Void), onFailed: @escaping ((String)->Void)){
         
-        let comments = QiscusCore.database.message.all().filter({ (comment) -> Bool in
+        let comments = QiscusCoreManager.qiscusCore1.database.message.all().filter({ (comment) -> Bool in
             return comment.message.lowercased().contains(searchQuery.lowercased())
         })
         
@@ -195,7 +204,7 @@ extension QMessage {
     ///   - completion: Response Comments your deleted
     func deleteMessage(uniqueIDs id: [String], onSuccess:@escaping ([QMessage])->Void, onError:@escaping (String)->Void) {
        
-        QiscusCore.shared.deleteMessage(uniqueIDs: id, onSuccess: { (commentsModel) in
+        QiscusCoreManager.qiscusCore1.shared.deleteMessage(uniqueIDs: id, onSuccess: { (commentsModel) in
             onSuccess(commentsModel)
         }) { (error) in
             onError(error.message)

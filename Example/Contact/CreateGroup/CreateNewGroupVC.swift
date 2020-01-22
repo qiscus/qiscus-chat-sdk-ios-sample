@@ -54,7 +54,7 @@ class CreateNewGroupVC: UIViewController {
         if self.stopLoad == true{
             return
         }
-        QiscusCore.shared.getUsers(searchUsername: keywordSearch, page: page, limit: 20,onSuccess: { (contacts, metaData) in
+        QiscusCoreManager.qiscusCore1.shared.getUsers(searchUsername: keywordSearch, page: page, limit: 20,onSuccess: { (contacts, metaData) in
             if (metaData.currentPage! >= self.page){
                 
                 if metaData.currentPage! == self.page {
@@ -156,7 +156,7 @@ class CreateNewGroupVC: UIViewController {
         }else{
             let participantIds: [String] = self.selectedContacts.map{ $0.id}
             
-            QiscusCore.shared.addParticipants(roomId: roomID, userIds: participantIds, onSuccess: { (participants) in
+            QiscusCoreManager.qiscusCore1.shared.addParticipants(roomId: roomID, userIds: participantIds, onSuccess: { (participants) in
                 let alertController = UIAlertController(title: "Success", message: "Success add participant", preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { alert -> Void in
                     self.navigationController?.popViewController(animated: true)

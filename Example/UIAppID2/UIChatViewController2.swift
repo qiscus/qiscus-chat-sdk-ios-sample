@@ -11,14 +11,14 @@ import SwiftyJSON
 import QiscusCore
 
 // Chat view blue print or function
-protocol UIChatView {
-    func uiChat(viewController : UIChatViewController, didSelectMessage message: QMessage)
-    func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?)
-    func uiChat(viewController : UIChatViewController, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool
-    func uiChat(viewController : UIChatViewController, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView?
+protocol UIChatView2 {
+    func uiChat(viewController : UIChatViewController2, didSelectMessage message: QMessage)
+    func uiChat(viewController : UIChatViewController2, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?)
+    func uiChat(viewController : UIChatViewController2, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool
+    func uiChat(viewController : UIChatViewController2, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView?
 }
 
-class DateHeaderLabel: UILabel {
+class DateHeaderLabel2: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,7 +44,7 @@ class DateHeaderLabel: UILabel {
     
 }
 
-class UIChatViewController: UIViewController {
+class UIChatViewController2: UIViewController {
     @IBOutlet weak var tableViewConversation: UITableView!
     @IBOutlet weak var viewChatInput: UIView!
     @IBOutlet weak var constraintViewInputBottom: NSLayoutConstraint!
@@ -54,12 +54,12 @@ class UIChatViewController: UIViewController {
     @IBOutlet weak var heightProgressBar: NSLayoutConstraint!
     
     var chatTitleView : UIChatNavigation = UIChatNavigation()
-    var chatInput : CustomChatInput = CustomChatInput()
-    private var presenter: UIChatPresenter = UIChatPresenter()
+    var chatInput : CustomChatInput2 = CustomChatInput2()
+    private var presenter: UIChatPresenter2 = UIChatPresenter2()
     
     var heightAtIndexPath: [String: CGFloat] = [:]
     var roomId: String = ""
-    var chatDelegate : UIChatView? = nil
+    var chatDelegate : UIChatView2? = nil
     
     // UI Config
     var usersColor : [String:UIColor] = [String:UIColor]()
@@ -98,8 +98,8 @@ class UIChatViewController: UIViewController {
         super.viewWillAppear(animated)
         self.presenter.attachView(view: self)
         let center: NotificationCenter = NotificationCenter.default
-        center.addObserver(self, selector: #selector(UIChatViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        center.addObserver(self, selector: #selector(UIChatViewController.keyboardChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        center.addObserver(self, selector: #selector(UIChatViewController2.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(UIChatViewController2.keyboardChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         center.addObserver(self,selector: #selector(reSubscribeRoom(_:)), name: Notification.Name(rawValue: "reSubscribeRoom"),object: nil)
         view.endEditing(true)
     }
@@ -161,7 +161,7 @@ class UIChatViewController: UIViewController {
         
     }
     
-    private func setupInputBar(_ inputchatview: UIChatInput) {
+    private func setupInputBar(_ inputchatview: UIChatInput2) {
         inputchatview.frame.size    = self.viewChatInput.frame.size
         inputchatview.frame.origin  = CGPoint.init(x: 0, y: 0)
         inputchatview.translatesAutoresizingMaskIntoConstraints = false
@@ -189,7 +189,7 @@ class UIChatViewController: UIViewController {
             totalButton += rightButtons.count
         }
         
-        let backButton = self.backButton(self, action: #selector(UIChatViewController.goBack))
+        let backButton = self.backButton(self, action: #selector(UIChatViewController2.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
         
@@ -311,7 +311,7 @@ class UIChatViewController: UIViewController {
         var colorName:UIColor = UIColor.lightGray
         
         if message.type == "text" {
-            if (message.isMyComment() == true){
+            if (message.isMyComment2() == true){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                 cell.menuConfig = menuConfig
                 cell.cellMenu = self
@@ -336,7 +336,7 @@ class UIChatViewController: UIViewController {
             if let url = payload["url"] as? String {
                 let ext = message.fileExtension(fromURL:url)
                 if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment2() == true){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
@@ -353,7 +353,7 @@ class UIChatViewController: UIViewController {
                         return cell
                     }
                 }else{
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment2() == true){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
@@ -372,7 +372,7 @@ class UIChatViewController: UIViewController {
                     }
                 }
             }else{
-                if (message.isMyComment() == true){
+                if (message.isMyComment2() == true){
                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                     cell.menuConfig = menuConfig
                     cell.cellMenu = self
@@ -397,7 +397,7 @@ class UIChatViewController: UIViewController {
 }
 
 // MARK: UIChatDelegate
-extension UIChatViewController: UIChatViewDelegate {
+extension UIChatViewController2: UIChatViewDelegate2 {
     func onReloadComment(){
         self.tableViewConversation.reloadData()
     }
@@ -511,7 +511,7 @@ extension UIChatViewController: UIChatViewDelegate {
     }
 }
 
-extension UIChatViewController: UITableViewDataSource {
+extension UIChatViewController2: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionCount = self.presenter.comments.count
         let rowCount = self.presenter.comments[section].count
@@ -581,7 +581,7 @@ extension UIChatViewController: UITableViewDataSource {
     
 }
 
-extension UIChatViewController: UITableViewDelegate {
+extension UIChatViewController2: UITableViewDelegate {
     func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -610,19 +610,19 @@ extension UIChatViewController: UITableViewDelegate {
     
 }
 
-extension UIChatViewController : UIChatView {
-    func uiChat(viewController: UIChatViewController, didSelectMessage message: QMessage) {
+extension UIChatViewController2 : UIChatView2 {
+    func uiChat(viewController: UIChatViewController2, didSelectMessage message: QMessage) {
         
     }
     
-    func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?) {
+    func uiChat(viewController: UIChatViewController2, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?) {
         if action == #selector(UIResponderStandardEditActions.copy(_:)) {
             let pasteboard = UIPasteboard.general
             pasteboard.string = message.message
         }
     }
     
-    func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool {
+    func uiChat(viewController: UIChatViewController2, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool {
         switch action.description {
         case "copy:":
             return true
@@ -633,12 +633,12 @@ extension UIChatViewController : UIChatView {
         }
     }
     
-    func uiChat(viewController: UIChatViewController, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView? {
+    func uiChat(viewController: UIChatViewController2, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
 }
 
-extension UIChatViewController : UIChatInputDelegate {
+extension UIChatViewController2 : UIChatInputDelegate2 {
     func onHeightChanged(height: CGFloat) {
         self.constraintViewInputHeight.constant = height
     }
@@ -655,7 +655,7 @@ extension UIChatViewController : UIChatInputDelegate {
             }
         }
         
-        if let data = QiscusCoreManager.qiscusCore1.getUserData(){
+        if let data = QiscusCoreManager.qiscusCore2.getUserData(){
             message.userAvatarUrl = data.avatarUrl
             message.userEmail = data.id
             message.name    = data.name
@@ -676,9 +676,9 @@ extension UIChatViewController : UIChatInputDelegate {
 }
 
 //// MARK: Handle Cell Menu
-extension UIChatViewController : UIBaseChatCellDelegate {
+extension UIChatViewController2 : UIBaseChatCellDelegate {
     func didTap(delete comment: QMessage) {
-        QiscusCoreManager.qiscusCore1.shared.deleteMessages(messageUniqueIds: [comment.uniqueId], onSuccess: { (commentsModel) in
+        QiscusCoreManager.qiscusCore2.shared.deleteMessages(messageUniqueIds: [comment.uniqueId], onSuccess: { (commentsModel) in
             print("success delete comment for everyone")
         }) { (error) in
             print("failed delete comment for everyone")

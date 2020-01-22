@@ -12,7 +12,9 @@ import Foundation
 import UserNotifications
 import SwiftyJSON
 
-let APP_ID : String = "sdksample"
+//let APP_ID : String = "sdksample"
+//let APP_ID : String = "dinosauru-nqmxcraaqm1"//stag
+let APP_ID : String = "dinosauru-l88z1enpnz4"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,8 +23,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        QiscusCore.enableDebugMode(value: true)
-        QiscusCore.setup(AppID: APP_ID)
+        QiscusCoreManager.qiscusCore1.enableDebugMode(value : true)
+        QiscusCoreManager.qiscusCore1.setup(AppID: "sdksample")
+        QiscusCoreManager.qiscusCore2.setupWithCustomServer(AppID: "dragongo", baseUrl: URL(string: "https://dragongo.qiscus.com")!, brokerUrl: "mqtt.qiscus.com", brokerLBUrl: nil)
+        QiscusCoreManager.qiscusCore2.enableDebugMode(value : true)
+      // QiscusCore.setup(WithAppID: "dinosauru-nqmxcraaqm1", server: QiscusServer(url:URL(string: "https://qiscus-lb.stage.halodoc.com")!, realtimeURL: "qiscus-mqtt.stage.halodoc.com", realtimePort: 1885,brokerLBUrl: "https://qiscus-mqtt-lb.stage.halodoc.com"))
+        //QiscusCore.setup(WithAppID: APP_ID, server: QiscusServer(url:URL(string: "https://qiscus-lb.stage.halodoc.com")!, realtimeURL: "qiscus-mqtt.stage.halodoc.com", realtimePort: 1885,brokerLBUrl: nil))
+        
+        //QiscusCore.setupWithCustomServer(AppID: APP_ID, baseUrl: URL(string: "https://qiscus-lb.stage.halodoc.com")!, brokerUrl: "qiscus-mqtt.stage.halodoc.com", brokerLBUrl: nil)an
+        //QiscusCore.setupWithCustomServer(AppID: APP_ID, baseUrl: URL(string: "https://qiscus-lb.api.halodoc.com")!, brokerUrl: "qiscus-mqtt.api.halodoc.com", brokerLBUrl: nil)
+        
+       // QiscusCore.setup(WithAppID: "sdksample", server: QiscusServer(url:URL(string: "https://api.qiscus.com")!, realtimeURL: "mqtt.qiscus.com", realtimePort: 1885))
+        //QiscusCore.setupWithCustomServer(AppID: "dragongo", baseUrl: URL(string: "https://dragongo.qiscus.com")!, brokerUrl: "mqtt.qiscus.com", brokerLBUrl: nil)
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().tintColor = UIColor.white
         self.auth()
@@ -43,10 +55,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         
+        // This is the workaround for Xcode 11.2
+        //UITextViewWorkaround.unique.executeWorkaround()
+        
+//        let URL =  getDocumentsDirectory()
+//        print("arief cek\(URL)")
+        
         return true
     }
     
-    
+//    func getDocumentsDirectory() -> URL {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        let documentsDirectory = paths[0]
+//        return documentsDirectory
+//    }
+//
+//
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         var tokenString: String = ""
@@ -55,9 +79,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print("token = \(tokenString)")
         UserDefaults.standard.setDeviceToken(value: tokenString)
-        if QiscusCore.hasSetupUser() {
+        if QiscusCoreManager.qiscusCore1.hasSetupUser() {
             //change isDevelopment to false for production and true for development
-            QiscusCore.shared.registerDeviceToken(token: tokenString, onSuccess: { (response) in
+            QiscusCoreManager.qiscusCore1.shared.registerDeviceToken(token: tokenString, onSuccess: { (response) in
                 print("success register device token =\(tokenString)")
             }) { (error) in
                 print("failed register device token = \(error.message)")
@@ -88,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let roomID = jsonPayload["room_id_str"].string ?? ""
             
                 if !messageID.isEmpty && !roomID.isEmpty{
-                    QiscusCore.shared.markAsDelivered(roomId: roomID, commentId: messageID)
+                    QiscusCoreManager.qiscusCore1.shared.markAsDelivered(roomId: roomID, commentId: messageID)
                 }
             }
         }
@@ -121,9 +145,9 @@ extension AppDelegate {
     // Auth
     func auth() {
         let target : UIViewController
-        if QiscusCore.hasSetupUser() {
+        if QiscusCoreManager.qiscusCore1.hasSetupUser() {
             target = UIChatListViewController()
-            _ = QiscusCore.connect(delegate: self)
+            _ = QiscusCoreManager.qiscusCore1.connect(delegate: self)
         }else {
             target = LoginViewController()
         }
@@ -137,7 +161,7 @@ extension AppDelegate {
     func registerDeviceToken(){
         if let deviceToken = UserDefaults.standard.getDeviceToken(){
             //change isDevelopment to false for production and true for development
-            QiscusCore.shared.registerDeviceToken(token: deviceToken, onSuccess: { (success) in
+            QiscusCoreManager.qiscusCore1.shared.registerDeviceToken(token: deviceToken, onSuccess: { (success) in
                 print("success register device token =\(deviceToken)")
             }) { (error) in
                 print("failed register device token = \(error.message)")
@@ -161,7 +185,7 @@ extension AppDelegate : QiscusConnectionDelegate {
         if (state == .disconnected){
             var roomsId = [String]()
             
-            let rooms = QiscusCore.database.room.all()
+            let rooms = QiscusCoreManager.qiscusCore1.database.room.all()
             
             if rooms.count != 0{
                 
@@ -169,7 +193,7 @@ extension AppDelegate : QiscusConnectionDelegate {
                     roomsId.append(room.id)
                 }
                 
-                QiscusCore.shared.getChatRooms(roomIds: roomsId, showRemoved: false, showParticipant: true, onSuccess: { (rooms) in
+                QiscusCoreManager.qiscusCore1.shared.getChatRooms(roomIds: roomsId, showRemoved: false, showParticipant: true, onSuccess: { (rooms) in
                     //brodcast rooms to your update ui ex in ui listRoom
                 }, onError: { (error) in
                     print("error = \(error.message)")
@@ -207,4 +231,47 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler()
     }
 }
-// [END ios_10_message_handling]
+//// [END ios_10_message_handling]
+//
+////******************************************************************
+//// MARK: - Workaround for the Xcode 11.2 bug
+////******************************************************************
+//class UITextViewWorkaround: NSObject {
+//
+//    // --------------------------------------------------------------------
+//    // MARK: Singleton
+//    // --------------------------------------------------------------------
+//    // make it a singleton
+//    static let unique = UITextViewWorkaround()
+//
+//    // --------------------------------------------------------------------
+//    // MARK: executeWorkaround()
+//    // --------------------------------------------------------------------
+//    func executeWorkaround() {
+//
+//        if #available(iOS 13.2, *) {
+//
+//            NSLog("UITextViewWorkaround.unique.executeWorkaround(): we are on iOS 13.2+ no need for a workaround")
+//
+//        } else {
+//
+//            // name of the missing class stub
+//            let className = "_UITextLayoutView"
+//
+//            // try to get the class
+//            var cls = objc_getClass(className)
+//
+//            // check if class is available
+//            if cls == nil {
+//
+//                // it's not available, so create a replacement and register it
+//                cls = objc_allocateClassPair(UIView.self, className, 0)
+//                objc_registerClassPair(cls as! AnyClass)
+//
+//                #if DEBUG
+//                NSLog("UITextViewWorkaround.unique.executeWorkaround(): added \(className) dynamically")
+//               #endif
+//           }
+//        }
+//    }
+//}

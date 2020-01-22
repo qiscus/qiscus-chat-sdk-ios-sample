@@ -42,7 +42,7 @@ class ProfileVC: UIViewController {
     
     func setupProfile(){
         //load fromDB
-        if let profile = QiscusCore.getUserData(){
+        if let profile = QiscusCoreManager.qiscusCore1.getUserData(){
             self.lbName.text = profile.name
             self.lbUniqueID.text = profile.id
             self.ivAvatar.af_setImage(withURL: profile.avatarUrl)
@@ -50,7 +50,7 @@ class ProfileVC: UIViewController {
         }
         
         //load from server
-        QiscusCore.shared.getUserData(onSuccess: { (profile) in
+        QiscusCoreManager.qiscusCore1.shared.getUserData(onSuccess: { (profile) in
             self.lbName.text = profile.name
             self.lbUniqueID.text = profile.id
             self.ivAvatar.af_setImage(withURL: profile.avatarUrl)
@@ -110,14 +110,14 @@ class ProfileVC: UIViewController {
     
     @IBAction func logout(_ sender: Any) {
         if let deviceToken = UserDefaults.standard.getDeviceToken(){
-            QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (success) in
+            QiscusCoreManager.qiscusCore1.shared.removeDeviceToken(token: deviceToken, onSuccess: { (success) in
                 //success
             }) { (error) in
                 
             }
         }
         
-        QiscusCore.clearUser { (error) in
+        QiscusCoreManager.qiscusCore1.clearUser { (error) in
             let app = UIApplication.shared.delegate as! AppDelegate
             app.auth()
         }
@@ -385,8 +385,8 @@ extension ProfileVC : UIImagePickerControllerDelegate, UINavigationControllerDel
                 file.data = data!
                 file.name = imageName
                 
-                QiscusCore.shared.upload(file: file, onSuccess: { (fileURL) in
-                    QiscusCore.shared.updateUser(name: (QiscusCore.getUserData()?.name)!, avatarURL: fileURL.url, extras: nil, onSuccess: { (userModel) in
+                QiscusCoreManager.qiscusCore1.shared.upload(file: file, onSuccess: { (fileURL) in
+                    QiscusCoreManager.qiscusCore1.shared.updateUser(name: (QiscusCoreManager.qiscusCore1.getUserData()?.name)!, avatarURL: fileURL.url, extras: nil, onSuccess: { (userModel) in
                         self.loadingIndicator.stopAnimating()
                         self.loadingIndicator.isHidden = true
                         self.ivAvatar.af_setImage(withURL: userModel.avatarUrl)

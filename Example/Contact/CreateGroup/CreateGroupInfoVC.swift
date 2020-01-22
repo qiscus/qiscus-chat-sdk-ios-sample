@@ -139,7 +139,7 @@ class CreateGroupInfoVC: UIViewController, UITextFieldDelegate {
             let title: String = self.nameTextField.text!
             
             if avatarURL?.isEmpty == true {
-                QiscusCore.shared.createGroupChat(name: title, userIds: participantsId, avatarURL: nil, extras: nil, onSuccess: { (room) in
+                QiscusCoreManager.qiscusCore1.shared.createGroupChat(name: title, userIds: participantsId, avatarURL: nil, extras: nil, onSuccess: { (room) in
                     let target = UIChatViewController()
                     target.room = room
                     self.navigationController?.pushIgnorePreviousVC(to: target, except: UIChatListViewController.self)
@@ -147,7 +147,7 @@ class CreateGroupInfoVC: UIViewController, UITextFieldDelegate {
                     print("error create group =\(error.message)")
                 }
             }else{
-                QiscusCore.shared.createGroupChat(name: title, userIds: participantsId, avatarURL: URL(string: self.avatarURL!), extras: nil, onSuccess: { (room) in
+                QiscusCoreManager.qiscusCore1.shared.createGroupChat(name: title, userIds: participantsId, avatarURL: URL(string: self.avatarURL!), extras: nil, onSuccess: { (room) in
                     let target = UIChatViewController()
                     target.room = room
                     self.navigationController?.pushIgnorePreviousVC(to: target, except: UIChatListViewController.self)
@@ -507,7 +507,7 @@ extension CreateGroupInfoVC : UIImagePickerControllerDelegate, UINavigationContr
                 file.data = data!
                 file.name = imageName
                 
-                QiscusCore.shared.upload(file: file, onSuccess: { (fileURL) in
+                QiscusCoreManager.qiscusCore1.shared.upload(file: file, onSuccess: { (fileURL) in
                     self.progressRing.isHidden = true
                     self.avatarURL = fileURL.url.absoluteString
                     self.iconAvatarGroup.isHidden = false

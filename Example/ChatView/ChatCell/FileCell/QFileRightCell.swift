@@ -63,7 +63,7 @@ class QFileRightCell: UIBaseChatCell {
         if let fileName = payload["file_name"] as? String{
             self.tvContent.text = fileName
             if let url = payload["url"] as? String {
-                QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
+                QiscusCoreManager.qiscusCore1.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
                     
                 }) { (progress) in
                     
@@ -76,7 +76,7 @@ class QFileRightCell: UIBaseChatCell {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
-                QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
+                QiscusCoreManager.qiscusCore1.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
                     self.save(fileName: fileName, tempLocalUrl: urlLocal)
                 }) { (progress) in
                     

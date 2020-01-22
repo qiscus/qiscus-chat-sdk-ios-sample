@@ -57,7 +57,7 @@ class NewConversationVC: UIViewController {
             return
         }
         
-        QiscusCore.shared.getUsers(searchUsername: keywordSearch, page: page, limit: 20, onSuccess: { (contacts, metaData) in
+        QiscusCoreManager.qiscusCore1.shared.getUsers(searchUsername: keywordSearch, page: page, limit: 20, onSuccess: { (contacts, metaData) in
             
             if (metaData.currentPage! >= self.page){
                 
@@ -173,7 +173,7 @@ extension NewConversationVC: UITableViewDelegate {
         self.tableView.deselectRow(at: indexPath, animated: true)
         if let contact = self.contactAll{
             let userId = contact[indexPath.row].id
-            QiscusCore.shared.chatUser(userId: userId, onSuccess: { (room, comments) in
+            QiscusCoreManager.qiscusCore1.shared.chatUser(userId: userId, onSuccess: { (room, comments) in
                  self.chat(withRoom: room)
             }) { (error) in
                 print("error chat: \(error.message)")

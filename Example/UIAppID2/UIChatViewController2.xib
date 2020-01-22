@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIChatViewController" customModule="Qiscus" customModuleProvider="target">
+            <connections>
+                <outlet property="constraintViewInputBottom" destination="AVd-I5-3cz" id="5XK-Jf-2YL"/>
+                <outlet property="constraintViewInputHeight" destination="JR1-fH-mcK" id="xAU-8d-HkN"/>
+                <outlet property="emptyMessageView" destination="fvK-Gz-gWg" id="rzr-mU-9cn"/>
+                <outlet property="heightProgressBar" destination="433-nc-tbg" id="Dz6-aU-Pbe"/>
+                <outlet property="progressBar" destination="2TZ-HA-VEY" id="hBB-EM-irO"/>
+                <outlet property="tableViewConversation" destination="DF6-Lu-tNz" id="n8q-S5-uDs"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewChatInput" destination="XjR-Mj-c6H" id="7c0-sB-u7H"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2TZ-HA-VEY">
+                    <rect key="frame" x="0.0" y="65" width="375" height="0.0"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" id="433-nc-tbg"/>
+                    </constraints>
+                    <color key="progressTintColor" red="0.58039215690000001" green="0.79215686269999996" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </progressView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XjR-Mj-c6H">
+                    <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="JR1-fH-mcK"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidths">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="topBorderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvK-Gz-gWg">
+                    <rect key="frame" x="0.0" y="65" width="375" height="552"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send a message!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCm-Qx-TqW">
+                            <rect key="frame" x="118" y="293.5" width="139" height="21"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <color key="textColor" red="0.32549019607843138" green="0.32549019607843138" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great discussion start from greeting each others first" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ne-es-v2Y">
+                            <rect key="frame" x="40" y="322.5" width="295" height="41"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_send_message" translatesAutoresizingMaskIntoConstraints="NO" id="Bb8-5U-ENo">
+                            <rect key="frame" x="87.5" y="70.5" width="200" height="200"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="200" id="bih-Sm-hHq"/>
+                                <constraint firstAttribute="width" constant="200" id="eaD-F4-wyw"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="0ne-es-v2Y" firstAttribute="leading" secondItem="eEe-ot-zp1" secondAttribute="leading" constant="40" id="4WH-Mx-caL"/>
+                        <constraint firstItem="0ne-es-v2Y" firstAttribute="top" secondItem="oCm-Qx-TqW" secondAttribute="bottom" constant="8" id="5sZ-VE-I2h"/>
+                        <constraint firstItem="oCm-Qx-TqW" firstAttribute="centerX" secondItem="eEe-ot-zp1" secondAttribute="centerX" id="HIS-ly-q1U"/>
+                        <constraint firstItem="oCm-Qx-TqW" firstAttribute="centerY" secondItem="eEe-ot-zp1" secondAttribute="centerY" constant="28" id="SWT-ow-rdZ"/>
+                        <constraint firstItem="Bb8-5U-ENo" firstAttribute="centerX" secondItem="oCm-Qx-TqW" secondAttribute="centerX" id="aKU-uK-vC6"/>
+                        <constraint firstItem="oCm-Qx-TqW" firstAttribute="top" secondItem="Bb8-5U-ENo" secondAttribute="bottom" constant="23" id="pwC-EK-EsE"/>
+                        <constraint firstItem="eEe-ot-zp1" firstAttribute="trailing" secondItem="0ne-es-v2Y" secondAttribute="trailing" constant="40" id="ush-bE-PaS"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="eEe-ot-zp1"/>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DF6-Lu-tNz">
+                    <rect key="frame" x="0.0" y="65" width="375" height="552"/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="XjR-Mj-c6H" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="AVd-I5-3cz"/>
+                <constraint firstAttribute="trailing" secondItem="2TZ-HA-VEY" secondAttribute="trailing" id="D0D-MW-7xh"/>
+                <constraint firstItem="2TZ-HA-VEY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="65" id="JIu-Oe-fde"/>
+                <constraint firstItem="XjR-Mj-c6H" firstAttribute="top" secondItem="DF6-Lu-tNz" secondAttribute="bottom" id="Jrg-op-IQh"/>
+                <constraint firstItem="fvK-Gz-gWg" firstAttribute="top" secondItem="2TZ-HA-VEY" secondAttribute="bottom" id="KRQ-q5-MRE"/>
+                <constraint firstItem="fvK-Gz-gWg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="NVJ-DC-8d8"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XjR-Mj-c6H" secondAttribute="trailing" id="Pnc-wO-kV5"/>
+                <constraint firstItem="DF6-Lu-tNz" firstAttribute="top" secondItem="2TZ-HA-VEY" secondAttribute="bottom" id="Sqt-gY-mh1"/>
+                <constraint firstItem="DF6-Lu-tNz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="X7e-vI-QbR"/>
+                <constraint firstItem="DF6-Lu-tNz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Z7V-uh-0bT"/>
+                <constraint firstItem="fvK-Gz-gWg" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="cly-wV-6UB"/>
+                <constraint firstItem="XjR-Mj-c6H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="db4-PW-nUe"/>
+                <constraint firstItem="XjR-Mj-c6H" firstAttribute="top" secondItem="fvK-Gz-gWg" secondAttribute="bottom" id="gWz-WG-Wu8"/>
+                <constraint firstItem="2TZ-HA-VEY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pDR-f8-WFw"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="800.79999999999995" y="472.71364317841085"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="img_send_message" width="181" height="155"/>
+    </resources>
+</document>
