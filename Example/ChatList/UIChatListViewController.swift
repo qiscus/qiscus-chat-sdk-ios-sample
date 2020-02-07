@@ -143,30 +143,31 @@ class UIChatListViewController: UIViewController {
         }
 
         let buttonThree = DefaultButton(title: "CHANGE APPID2", height: 60, dismissOnTap: true) {
-            print("Ah, maybe next time :)")
-            QiscusCoreManager.qiscusCore2.setUser(userId: "arief92", userKey: "arief92", onSuccess: { (qAccount) in
-                
+            //check was isLogin or not
+            if QiscusCoreManager.qiscusCore2.hasSetupUser(){
+                QiscusCoreManager.qiscusCore2.connect(delegate: nil)
                 QiscusCoreManager.qiscusCore2.shared.getChatRooms(roomIds: ["115384"], onSuccess: { (qChatRooms) in
                     let target = UIChatViewController2()
                     target.room = qChatRooms.first
                     self.navigationController?.pushViewController(target, animated: true)
                 }) { (error) in
-                    
+                    //error getRoom
                 }
-                
-//                QiscusCoreManager.qiscusCore2.shared.getAllChatRooms(page: 1, limit: 100, onSuccess: { (qRooms, meta) in
-//                    print("arief check appId2 \(qRooms.first)")
-//                    let target = UIChatViewController2()
-//                    target.room = room
-//                    self.navigationController?.pushViewController(target, animated: true)
-//
-//                    //"115384"
-//                }) { (error) in
-//
-//                }
-            }) { (error) in
-                
+            }else{
+                QiscusCoreManager.qiscusCore2.setUser(userId: "arief92", userKey: "arief92", onSuccess: { (qAccount) in
+                    QiscusCoreManager.qiscusCore2.connect(delegate: nil)
+                    QiscusCoreManager.qiscusCore2.shared.getChatRooms(roomIds: ["115384"], onSuccess: { (qChatRooms) in
+                        let target = UIChatViewController2()
+                        target.room = qChatRooms.first
+                        self.navigationController?.pushViewController(target, animated: true)
+                    }) { (error) in
+                        //error getRoom
+                    }
+                }) { (error) in
+                    //error loginUser
+                }
             }
+            
         }
 
         // Add buttons to dialog

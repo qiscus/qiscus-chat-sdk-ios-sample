@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D19064923D8408A00425A92 /* UIChatNavigation2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19064723D8408900425A92 /* UIChatNavigation2.swift */; };
+		3D19064A23D8408A00425A92 /* UIChatNavigation2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D19064823D8408A00425A92 /* UIChatNavigation2.xib */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
 		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
@@ -97,6 +99,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D19064723D8408900425A92 /* UIChatNavigation2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation2.swift; sourceTree = "<group>"; };
+		3D19064823D8408A00425A92 /* UIChatNavigation2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatNavigation2.xib; sourceTree = "<group>"; };
 		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
 		3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
 		3D3854A021B4DE6600435B31 /* UIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatViewController.swift; sourceTree = "<group>"; };
@@ -463,6 +467,8 @@
 		3DFA437923D5621300FD8505 /* UIAppID2 */ = {
 			isa = PBXGroup;
 			children = (
+				3D19064723D8408900425A92 /* UIChatNavigation2.swift */,
+				3D19064823D8408A00425A92 /* UIChatNavigation2.xib */,
 				3DFA438323D5681A00FD8505 /* ChatInput2 */,
 				3DFA438023D5681900FD8505 /* ChatUpload2 */,
 				3DFA437A23D562F900FD8505 /* UIChatViewController2.swift */,
@@ -588,6 +594,7 @@
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
 				3DFA438823D5681A00FD8505 /* QiscusUploaderVC2.xib in Resources */,
+				3D19064A23D8408A00425A92 /* UIChatNavigation2.xib in Resources */,
 				3D40B8D72192E20C00FE7228 /* QSystemCell.xib in Resources */,
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
@@ -697,6 +704,7 @@
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
 				3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */,
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
+				3D19064923D8408A00425A92 /* UIChatNavigation2.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3D8F0D6122684130000135CA /* UserDefault.swift in Sources */,

@@ -53,7 +53,7 @@ class UIChatViewController2: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var heightProgressBar: NSLayoutConstraint!
     
-    var chatTitleView : UIChatNavigation = UIChatNavigation()
+    var chatTitleView : UIChatNavigation2 = UIChatNavigation2()
     var chatInput : CustomChatInput2 = CustomChatInput2()
     private var presenter: UIChatPresenter2 = UIChatPresenter2()
     
@@ -193,7 +193,7 @@ class UIChatViewController2: UIViewController {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
         
-        self.chatTitleView = UIChatNavigation(frame: self.navigationController?.navigationBar.frame ?? CGRect.zero)
+        self.chatTitleView = UIChatNavigation2(frame: self.navigationController?.navigationBar.frame ?? CGRect.zero)
         self.navigationItem.titleView = chatTitleView
         self.chatTitleView.room = room
         
