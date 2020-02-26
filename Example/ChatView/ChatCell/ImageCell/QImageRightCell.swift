@@ -155,7 +155,7 @@ class QImageRightCell: UIBaseChatCell {
     
     func setupBalon(){
         //self.ivBaloonLeft.applyShadow()
-        self.ivBaloonLeft.image = self.getBallon()
+        self.ivBaloonLeft.image = self.getBallonRight()
         self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
     }
     

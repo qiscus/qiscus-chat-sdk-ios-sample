@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateChatViewController" customModule="Qiscus" customModuleProvider="target">
+            <connections>
+                <outlet property="btStartChat" destination="0Kd-my-QrX" id="cQh-Al-6dJ"/>
+                <outlet property="lbUser" destination="HCh-2H-TSD" id="Egu-H8-Ikb"/>
+                <outlet property="tfUserID" destination="Lam-S2-ecc" id="7aG-Zg-idL"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="DOw-6g-981">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Kd-my-QrX">
+                    <rect key="frame" x="157" y="433" width="100" height="40"/>
+                    <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="F9F-hF-fvN"/>
+                        <constraint firstAttribute="height" constant="40" id="bvt-bi-9fB"/>
+                    </constraints>
+                    <state key="normal" title="Start Chat">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="startChat:" destination="-1" eventType="touchUpInside" id="Yl5-8a-ODH"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email / id user target" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lam-S2-ecc">
+                    <rect key="frame" x="50" y="355" width="314" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="IMw-Ux-IhG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You login with the user" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCh-2H-TSD">
+                    <rect key="frame" x="20" y="255" width="374" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="WWo-4S-2xa"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DOw-6g-981" secondAttribute="trailing" id="2uY-lU-HbS"/>
+                <constraint firstItem="0Kd-my-QrX" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="6Uy-wv-tjt"/>
+                <constraint firstItem="Lam-S2-ecc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="50" id="6oA-A3-vwF"/>
+                <constraint firstItem="HCh-2H-TSD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="79R-Yp-qhh"/>
+                <constraint firstItem="0Kd-my-QrX" firstAttribute="top" secondItem="Lam-S2-ecc" secondAttribute="bottom" constant="38" id="9ZF-tC-ASz"/>
+                <constraint firstItem="DOw-6g-981" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Ebq-ct-IUB"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="DOw-6g-981" secondAttribute="bottom" id="Mht-ki-82B"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Lam-S2-ecc" secondAttribute="trailing" constant="50" id="QcI-1h-wPc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="HCh-2H-TSD" secondAttribute="trailing" constant="20" id="SjW-Px-s2h"/>
+                <constraint firstItem="DOw-6g-981" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="TuO-q0-3Tv"/>
+                <constraint firstItem="0Kd-my-QrX" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="awk-3P-tG9"/>
+                <constraint firstItem="Lam-S2-ecc" firstAttribute="top" secondItem="HCh-2H-TSD" secondAttribute="bottom" constant="50" id="pH3-MP-9nk"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="137.68115942028987" y="95.758928571428569"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="background" width="160" height="284"/>
+    </resources>
+</document>

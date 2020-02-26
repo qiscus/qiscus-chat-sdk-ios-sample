@@ -24,17 +24,21 @@ enum QReplyType:Int{
 
 extension UIBaseChatCell {
     
-    func getBallon()->UIImage?{
+    func getBallonRight()->UIImage?{
         var balloonImage:UIImage? = nil
-        var edgeInset = UIEdgeInsets(top: 13, left: 13, bottom: 13, right: 28)
+        let edgeInset = UIEdgeInsets(top: 13, left: 13, bottom: 13, right: 28)
         
-        if (self.comment?.isMyComment() == true){
-            balloonImage = AssetsConfiguration.rightBallonLast
-        }else{
-            edgeInset = UIEdgeInsets(top: 13, left: 28, bottom: 13, right: 13)
-            balloonImage = AssetsConfiguration.leftBallonLast
-        }
+        balloonImage = AssetsConfiguration.rightBallonLast
         
         return balloonImage?.resizableImage(withCapInsets: edgeInset, resizingMode: .stretch).withRenderingMode(.alwaysTemplate)
     }
+    
+    func getBallonLeft()->UIImage?{
+           var balloonImage:UIImage? = nil
+           var edgeInset = UIEdgeInsets(top: 13, left: 28, bottom: 13, right: 13)
+           balloonImage = AssetsConfiguration.leftBallonLast
+        
+           return balloonImage?.resizableImage(withCapInsets: edgeInset, resizingMode: .stretch).withRenderingMode(.alwaysTemplate)
+       }
+    
 }

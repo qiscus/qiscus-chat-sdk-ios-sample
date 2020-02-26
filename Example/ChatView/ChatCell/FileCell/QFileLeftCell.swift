@@ -168,7 +168,7 @@ class QFileLeftCell: UIBaseChatCell {
     
     func setupBalon(){
         self.ivBaloonLeft.applyShadow()
-        self.ivBaloonLeft.image = self.getBallon()
+        self.ivBaloonLeft.image = self.getBallonLeft()
         self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
     }
     

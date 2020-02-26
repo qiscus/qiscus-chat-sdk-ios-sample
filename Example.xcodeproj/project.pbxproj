@@ -79,6 +79,10 @@
 		3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */; };
 		3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */; };
 		3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */; };
+		3DB8E9842408BDF200D766B9 /* LoginViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8E9822408BDF200D766B9 /* LoginViewController2.swift */; };
+		3DB8E9852408BDF200D766B9 /* LoginViewController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB8E9832408BDF200D766B9 /* LoginViewController2.xib */; };
+		3DB8E9892408BE9800D766B9 /* CreateChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8E9872408BE9800D766B9 /* CreateChatViewController.swift */; };
+		3DB8E98A2408BE9800D766B9 /* CreateChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB8E9882408BE9800D766B9 /* CreateChatViewController.xib */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
@@ -172,6 +176,10 @@
 		3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomInfoVC.xib; sourceTree = "<group>"; };
 		3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRoomNameVC.swift; sourceTree = "<group>"; };
 		3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditRoomNameVC.xib; sourceTree = "<group>"; };
+		3DB8E9822408BDF200D766B9 /* LoginViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController2.swift; sourceTree = "<group>"; };
+		3DB8E9832408BDF200D766B9 /* LoginViewController2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController2.xib; sourceTree = "<group>"; };
+		3DB8E9872408BE9800D766B9 /* CreateChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatViewController.swift; sourceTree = "<group>"; };
+		3DB8E9882408BE9800D766B9 /* CreateChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateChatViewController.xib; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -386,6 +394,24 @@
 			path = RoomInfo;
 			sourceTree = "<group>";
 		};
+		3DB8E9812408BDC800D766B9 /* Login2 */ = {
+			isa = PBXGroup;
+			children = (
+				3DB8E9822408BDF200D766B9 /* LoginViewController2.swift */,
+				3DB8E9832408BDF200D766B9 /* LoginViewController2.xib */,
+			);
+			path = Login2;
+			sourceTree = "<group>";
+		};
+		3DB8E9862408BE7300D766B9 /* CreateChat */ = {
+			isa = PBXGroup;
+			children = (
+				3DB8E9872408BE9800D766B9 /* CreateChatViewController.swift */,
+				3DB8E9882408BE9800D766B9 /* CreateChatViewController.xib */,
+			);
+			path = CreateChat;
+			sourceTree = "<group>";
+		};
 		3DCF6A37219926F800C108E6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -467,6 +493,8 @@
 		3DFA437923D5621300FD8505 /* UIAppID2 */ = {
 			isa = PBXGroup;
 			children = (
+				3DB8E9862408BE7300D766B9 /* CreateChat */,
+				3DB8E9812408BDC800D766B9 /* Login2 */,
 				3D19064723D8408900425A92 /* UIChatNavigation2.swift */,
 				3D19064823D8408A00425A92 /* UIChatNavigation2.xib */,
 				3DFA438323D5681A00FD8505 /* ChatInput2 */,
@@ -590,6 +618,7 @@
 				3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */,
 				3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */,
 				3DFA438C23D5681A00FD8505 /* UIChatInput2.xib in Resources */,
+				3DB8E9852408BDF200D766B9 /* LoginViewController2.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
@@ -610,6 +639,7 @@
 				3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */,
 				3DFA438D23D5681A00FD8505 /* CustomChatInput2.xib in Resources */,
 				3DFA437D23D562F900FD8505 /* UIChatViewController2.xib in Resources */,
+				3DB8E98A2408BE9800D766B9 /* CreateChatViewController.xib in Resources */,
 				3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
@@ -696,6 +726,7 @@
 				3DFA438B23D5681A00FD8505 /* UIChatInput2.swift in Sources */,
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */,
+				3DB8E9892408BE9800D766B9 /* CreateChatViewController.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* QMessage.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
@@ -703,6 +734,7 @@
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
 				3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */,
+				3DB8E9842408BDF200D766B9 /* LoginViewController2.swift in Sources */,
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3D19064923D8408A00425A92 /* UIChatNavigation2.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
@@ -798,13 +830,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -853,12 +885,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

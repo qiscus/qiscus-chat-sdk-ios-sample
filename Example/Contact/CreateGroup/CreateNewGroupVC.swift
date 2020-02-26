@@ -54,16 +54,16 @@ class CreateNewGroupVC: UIViewController {
         if self.stopLoad == true{
             return
         }
+
         QiscusCoreManager.qiscusCore1.shared.getUsers(searchUsername: keywordSearch, page: page, limit: 20,onSuccess: { (contacts, metaData) in
             if (metaData.currentPage! >= self.page){
                 
-                if metaData.currentPage! == self.page {
+                if contacts.count != 0 {
+                   self.page += 1
+                   self.loadContactsDidSucceed(contacts: contacts)
+                } else {
                     self.stopLoad = true
-                }else{
-                    self.page += 1
                 }
-                
-                self.loadContactsDidSucceed(contacts: contacts)
             }
         }) { (error) in
             self.loadContactsDidFailed(message: error.message)

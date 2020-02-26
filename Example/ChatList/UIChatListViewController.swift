@@ -124,8 +124,8 @@ class UIChatListViewController: UIViewController {
     
     func showPopup(){
         // Prepare the popup assets
-        let title = "THIS IS THE DIALOG TITLE"
-        let message = "This is the message section of the popup dialog default view"
+        let title = "WHAT YOU WANT??"
+        let message = "You can click 1 menu like Profile, Change APPID2, or cancel"
         let image = UIImage(named: "logo_without_text")
 
         // Create the dialog
@@ -133,7 +133,7 @@ class UIChatListViewController: UIViewController {
 
         // Create buttons
         let buttonOne = CancelButton(title: "CANCEL") {
-            print("You canceled the car dialog.")
+            //
         }
 
         // This button will not the dismiss the dialog
@@ -145,27 +145,12 @@ class UIChatListViewController: UIViewController {
         let buttonThree = DefaultButton(title: "CHANGE APPID2", height: 60, dismissOnTap: true) {
             //check was isLogin or not
             if QiscusCoreManager.qiscusCore2.hasSetupUser(){
-                QiscusCoreManager.qiscusCore2.connect(delegate: nil)
-                QiscusCoreManager.qiscusCore2.shared.getChatRooms(roomIds: ["115384"], onSuccess: { (qChatRooms) in
-                    let target = UIChatViewController2()
-                    target.room = qChatRooms.first
-                    self.navigationController?.pushViewController(target, animated: true)
-                }) { (error) in
-                    //error getRoom
-                }
+               let target = CreateChatViewController()
+               self.navigationController?.pushViewController(target, animated: true)
             }else{
-                QiscusCoreManager.qiscusCore2.setUser(userId: "arief92", userKey: "arief92", onSuccess: { (qAccount) in
-                    QiscusCoreManager.qiscusCore2.connect(delegate: nil)
-                    QiscusCoreManager.qiscusCore2.shared.getChatRooms(roomIds: ["115384"], onSuccess: { (qChatRooms) in
-                        let target = UIChatViewController2()
-                        target.room = qChatRooms.first
-                        self.navigationController?.pushViewController(target, animated: true)
-                    }) { (error) in
-                        //error getRoom
-                    }
-                }) { (error) in
-                    //error loginUser
-                }
+                let target = LoginViewController2()
+                target.navigationController?.isNavigationBarHidden = false
+                self.navigationController?.pushViewController(target, animated: true)
             }
             
         }

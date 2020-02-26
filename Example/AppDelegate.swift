@@ -56,22 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         
-        // This is the workaround for Xcode 11.2
-        //UITextViewWorkaround.unique.executeWorkaround()
-        
-//        let URL =  getDocumentsDirectory()
-//        print("arief cek\(URL)")
-        
         return true
     }
     
-//    func getDocumentsDirectory() -> URL {
-//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        let documentsDirectory = paths[0]
-//        return documentsDirectory
-//    }
-//
-//
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         var tokenString: String = ""
@@ -83,6 +70,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if QiscusCoreManager.qiscusCore1.hasSetupUser() {
             //change isDevelopment to false for production and true for development
             QiscusCoreManager.qiscusCore1.shared.registerDeviceToken(token: tokenString, onSuccess: { (response) in
+                print("success register device token =\(tokenString)")
+            }) { (error) in
+                print("failed register device token = \(error.message)")
+            }
+        }
+        
+        if QiscusCoreManager.qiscusCore2.hasSetupUser() {
+            //change isDevelopment to false for production and true for development
+            QiscusCoreManager.qiscusCore2.shared.registerDeviceToken(token: tokenString, onSuccess: { (response) in
                 print("success register device token =\(tokenString)")
             }) { (error) in
                 print("failed register device token = \(error.message)")
@@ -232,47 +228,3 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler()
     }
 }
-//// [END ios_10_message_handling]
-//
-////******************************************************************
-//// MARK: - Workaround for the Xcode 11.2 bug
-////******************************************************************
-//class UITextViewWorkaround: NSObject {
-//
-//    // --------------------------------------------------------------------
-//    // MARK: Singleton
-//    // --------------------------------------------------------------------
-//    // make it a singleton
-//    static let unique = UITextViewWorkaround()
-//
-//    // --------------------------------------------------------------------
-//    // MARK: executeWorkaround()
-//    // --------------------------------------------------------------------
-//    func executeWorkaround() {
-//
-//        if #available(iOS 13.2, *) {
-//
-//            NSLog("UITextViewWorkaround.unique.executeWorkaround(): we are on iOS 13.2+ no need for a workaround")
-//
-//        } else {
-//
-//            // name of the missing class stub
-//            let className = "_UITextLayoutView"
-//
-//            // try to get the class
-//            var cls = objc_getClass(className)
-//
-//            // check if class is available
-//            if cls == nil {
-//
-//                // it's not available, so create a replacement and register it
-//                cls = objc_allocateClassPair(UIView.self, className, 0)
-//                objc_registerClassPair(cls as! AnyClass)
-//
-//                #if DEBUG
-//                NSLog("UITextViewWorkaround.unique.executeWorkaround(): added \(className) dynamically")
-//               #endif
-//           }
-//        }
-//    }
-//}
