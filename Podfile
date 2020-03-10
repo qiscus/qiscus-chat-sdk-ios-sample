@@ -6,8 +6,7 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  pod 'QiscusCore', :path => '../QiscusCore'
-  pod 'QiscusRealtime', :path => '../QiscusRealtime'
+  pod 'QiscusCore', '3.0.0-alpha.5'
   pod 'PopupDialog'
 
     # 3rd party
