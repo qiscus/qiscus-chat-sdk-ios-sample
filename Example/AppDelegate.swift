@@ -25,17 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         QiscusCoreManager.qiscusCore1.enableDebugMode(value : true)
         QiscusCoreManager.qiscusCore1.setup(AppID: "sdksample")
-        //QiscusCoreManager.qiscusCore2.setup(AppID: "dragongo")
         QiscusCoreManager.qiscusCore2.setupWithCustomServer(AppID: "dragongo", baseUrl: URL(string: "https://dragongo.qiscus.com")!, brokerUrl: "realtime-stage.qiscus.com", brokerLBUrl: nil)
         QiscusCoreManager.qiscusCore2.enableDebugMode(value : true)
-      // QiscusCore.setup(WithAppID: "dinosauru-nqmxcraaqm1", server: QiscusServer(url:URL(string: "https://qiscus-lb.stage.halodoc.com")!, realtimeURL: "qiscus-mqtt.stage.halodoc.com", realtimePort: 1885,brokerLBUrl: "https://qiscus-mqtt-lb.stage.halodoc.com"))
-        //QiscusCore.setup(WithAppID: APP_ID, server: QiscusServer(url:URL(string: "https://qiscus-lb.stage.halodoc.com")!, realtimeURL: "qiscus-mqtt.stage.halodoc.com", realtimePort: 1885,brokerLBUrl: nil))
+     
         
-        //QiscusCore.setupWithCustomServer(AppID: APP_ID, baseUrl: URL(string: "https://qiscus-lb.stage.halodoc.com")!, brokerUrl: "qiscus-mqtt.stage.halodoc.com", brokerLBUrl: nil)an
-        //QiscusCore.setupWithCustomServer(AppID: APP_ID, baseUrl: URL(string: "https://qiscus-lb.api.halodoc.com")!, brokerUrl: "qiscus-mqtt.api.halodoc.com", brokerLBUrl: nil)
         
-       // QiscusCore.setup(WithAppID: "sdksample", server: QiscusServer(url:URL(string: "https://api.qiscus.com")!, realtimeURL: "mqtt.qiscus.com", realtimePort: 1885))
-        //QiscusCore.setupWithCustomServer(AppID: "dragongo", baseUrl: URL(string: "https://dragongo.qiscus.com")!, brokerUrl: "mqtt.qiscus.com", brokerLBUrl: nil)
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().tintColor = UIColor.white
         self.auth()
