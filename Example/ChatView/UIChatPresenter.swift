@@ -130,7 +130,6 @@ class UIChatPresenter: UIChatUserInteraction {
                 guard let lastGroup = instance.comments.last else { return }
                 guard let lastComment = lastGroup.last else { return }
                 guard let roomId = instance.room?.id else { return }
-                guard let lastCommentId = Int(lastComment.id) else { return }
                 
                 // make sure that last comment's id isn't empty or load more for current id is still in process to prevent duplicate message
                 if lastComment.id.isEmpty || instance.lastIdToLoad == lastComment.id {
@@ -139,7 +138,7 @@ class UIChatPresenter: UIChatUserInteraction {
                 
                 // update lastIdToLoad value
                 instance.lastIdToLoad = lastComment.id
-                 QiscusCoreManager.qiscusCore1.shared.getPreviousMessagesById(roomID: roomId,limit: 10,messageId: lastCommentId, onSuccess: { (comments) in
+                 QiscusCoreManager.qiscusCore1.shared.getPreviousMessagesById(roomID: roomId,limit: 10,messageId: lastComment.id, onSuccess: { (comments) in
                     
                     // notify the dispatch group that the current process is complete and able to continue to the next load more process
                     instance.loadMoreDispatchGroup.leave()
