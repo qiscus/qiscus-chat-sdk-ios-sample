@@ -229,6 +229,21 @@ extension UIChatViewController : CustomChatInputDelegate {
         })
     }
     
+    func showLocationAccessAlert(){
+        DispatchQueue.main.async{autoreleasepool{
+            let text = TextConfiguration.sharedInstance.locationAccessAlertText
+            let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
+            let settingTxt = TextConfiguration.sharedInstance.alertSettingText
+            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+                                 doneAction: {
+                                    self.goToIPhoneSetting()
+            },
+                                 cancelAction: {}
+            )
+            }}
+    }
+
+    
     func sendMessage(message: CommentModel) {
         let postedComment = message
 
@@ -259,6 +274,12 @@ extension UIChatViewController : CustomChatInputDelegate {
             self.uploadFile()
         })
         optionMenu.addAction(fileAction)
+        
+        let sendLocation = UIAlertAction(title: "Share Location", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.getLocation()
+        })
+        optionMenu.addAction(sendLocation)
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -670,4 +691,3 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true, completion: nil)
     }
 }
-

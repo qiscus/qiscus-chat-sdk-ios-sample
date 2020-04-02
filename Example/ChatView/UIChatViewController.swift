@@ -9,6 +9,8 @@ import UIKit
 import ContactsUI
 import SwiftyJSON
 import QiscusCore
+import MobileCoreServices
+import CoreLocation
 
 // Chat view blue print or function
 protocol UIChatView {
@@ -88,6 +90,10 @@ class UIChatViewController: UIViewController {
     open func getProgressBarHeight() ->  NSLayoutConstraint{
         return heightProgressBar
     }
+    
+    //share location
+    var didFindLocation = true
+    var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -238,6 +244,9 @@ class UIChatViewController: UIViewController {
          self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
         self.registerClass(nib: UINib(nibName: "QImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageLeftCell")
         self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
+        //ShareLocation
+        self.registerClass(nib: UINib(nibName: "QLocationLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qLocationLeftCell")
+        self.registerClass(nib: UINib(nibName: "QLocationRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qLocationRightCell")
         
     }
     
@@ -332,7 +341,7 @@ class UIChatViewController: UIViewController {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
                     return cell
             }
-                
+            
             if let url = payload["url"] as? String {
                 let ext = message.fileExtension(fromURL:url)
                 if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
@@ -388,6 +397,23 @@ class UIChatViewController: UIViewController {
                     cell.cellMenu = self
                     return cell
                 }
+            }
+        } else if message.type == "location" {
+            if (message.isMyComment() == true){
+                let cell =  tableView.dequeueReusableCell(withIdentifier: "qLocationRightCell", for: indexPath) as! QLocationRightCell
+                cell.menuConfig = menuConfig
+                cell.cellMenu = self
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qLocationLeftCell", for: indexPath) as! QLocationLeftCell
+                if self.room?.type == .group {
+                    cell.colorName = colorName
+                    cell.isPublic = true
+                }else {
+                    cell.isPublic = false
+                }
+                cell.cellMenu = self
+                return cell
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
@@ -679,3 +705,120 @@ extension UIChatViewController : UIBaseChatCellDelegate {
         }
     }
 }
+
+extension UIChatViewController: CLLocationManagerDelegate {
+    
+    func getLocation() {
+           self.locationManager.requestWhenInUseAuthorization()
+           
+           if CLLocationManager.locationServicesEnabled() {
+               switch CLLocationManager.authorizationStatus() {
+               case .authorizedAlways, .authorizedWhenInUse:
+                   self.showLoading(withText: "Loading...")
+                   
+                   locationManager.delegate = self
+                   locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                   self.didFindLocation = false
+                   self.locationManager.startUpdatingLocation()
+                   break
+               case .denied:
+                   self.showLocationAccessAlert()
+                   break
+               case .restricted:
+                   self.showLocationAccessAlert()
+                   break
+               case .notDetermined:
+                   self.showLocationAccessAlert()
+                   break
+               }
+           }else{
+               self.showLocationAccessAlert()
+           }
+       }
+    
+    func newLocationComment(latitude:Double, longitude:Double, title:String?=nil, address:String?=nil)->CommentModel{
+        let comment = CommentModel()
+        var locTitle = title
+        var locAddress = ""
+        if address != nil {
+            locAddress = address!
+        }
+        if title == nil {
+            var newLat = latitude
+            var newLong = longitude
+            var latString = "N"
+            var longString = "E"
+            if latitude < 0 {
+                latString = "S"
+                newLat = 0 - latitude
+            }
+            if longitude < 0 {
+                longString = "W"
+                newLong = 0 - longitude
+            }
+            let intLat = Int(newLat)
+            let intLong = Int(newLong)
+            let subLat = Int((newLat - Double(intLat)) * 100)
+            let subLong = Int((newLong - Double(intLong)) * 100)
+            let subSubLat = Int((newLat - Double(intLat) - Double(Double(subLat)/100)) * 10000)
+            let subSubLong = Int((newLong - Double(intLong) - Double(Double(subLong)/100)) * 10000)
+            let pLat = Int((newLat - Double(intLat) - Double(Double(subLat)/100) - Double(Double(subSubLat)/10000)) * 100000)
+            let pLong = Int((newLong - Double(intLong) - Double(Double(subLong)/100) - Double(Double(subSubLong)/10000)) * 100000)
+            
+            locTitle = "\(intLat)º\(subLat)\'\(subSubLat).\(pLat)\"\(latString) \(intLong)º\(subLong)\'\(subSubLong).\(pLong)\"\(longString)"
+        }
+        let url = "http://maps.google.com/maps?daddr=\(latitude),\(longitude)"
+        
+        let payload = "{ \"name\": \"\(locTitle!)\", \"address\": \"\(locAddress)\", \"latitude\": \(latitude), \"longitude\": \(longitude), \"map_url\": \"\(url)\"}"
+        
+        
+        comment.type = "location"
+        comment.payload = JSON(parseJSON: payload).dictionaryObject
+      
+        return comment
+    }
+    
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        DispatchQueue.global(qos: .background).async {
+            manager.stopUpdatingLocation()
+            if !self.didFindLocation {
+                if let currentLocation = manager.location {
+                    let geoCoder = CLGeocoder()
+                    let latitude = currentLocation.coordinate.latitude
+                    let longitude = currentLocation.coordinate.longitude
+                    var address:String?
+                    var title:String?
+                    
+                    geoCoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) in
+                        if error == nil {
+                            let placeArray = placemarks
+                            var placeMark: CLPlacemark!
+                            placeMark = placeArray?[0]
+                            
+                            if let addressDictionary = placeMark.addressDictionary{
+                                if let addressArray = addressDictionary["FormattedAddressLines"] as? [String] {
+                                    address = addressArray.joined(separator: ", ")
+                                }
+                                title = addressDictionary["Name"] as? String
+                                DispatchQueue.main.async { autoreleasepool{
+                                    let message = self.newLocationComment(latitude: latitude, longitude: longitude, title: title, address: address)
+                                    message.message = "Send Location"
+                                    self.send(message: message, onSuccess: { (comment) in
+                                        //success
+                                    }, onError: { (error) in
+                                        //error
+                                    })
+                                }}
+                            }
+                        }
+                    })
+                    
+                }
+                self.dismissLoading()
+                self.didFindLocation = true
+            }
+        }
+        
+    }
+}
+
