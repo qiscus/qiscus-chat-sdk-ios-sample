@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import SwiftyJSON
-import Qiscus
 
 class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
