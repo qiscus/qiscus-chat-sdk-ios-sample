@@ -195,35 +195,35 @@ extension AppDelegate {
 }
 
 extension AppDelegate : QiscusConnectionDelegate {
-    func disconnect(withError err: QError?) {
-        //
+    func connectionState(change state: QiscusConnectionState) {
+        
     }
     
-    func connected() {
+    func onConnected() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reSubscribeRoom"), object: nil)
     }
     
-    func connectionState(change state: QiscusConnectionState) {
-        if (state == .disconnected){
-            var roomsId = [String]()
+    func onReconnecting() {
+        
+    }
+    
+    func onDisconnected(withError err: QError?) {
+        var roomsId = [String]()
+        
+        let rooms = QiscusCore.database.room.all()
+        
+        if rooms.count != 0{
             
-            let rooms = QiscusCore.database.room.all()
-            
-            if rooms.count != 0{
-                
-                for room in rooms {
-                    roomsId.append(room.id)
-                }
-                
-                QiscusCore.shared.getRooms(withId: roomsId, onSuccess: { (rooms) in
-                    //brodcast rooms to your update ui ex in ui listRoom
-                }) { (error) in
-                    print("error = \(error.message)")
-                }
+            for room in rooms {
+                roomsId.append(room.id)
             }
             
+            QiscusCore.shared.getRooms(withId: roomsId, onSuccess: { (rooms) in
+                //brodcast rooms to your update ui ex in ui listRoom
+            }) { (error) in
+                print("error = \(error.message)")
+            }
         }
-
     }
     
 }

@@ -6,17 +6,17 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  pod 'QiscusCore', '~> 0.3.0'
+  pod 'QiscusCore'
   #pod 'QiscusCore', :path => '../QiscusCore'
 
     # 3rd party
   pod 'SDWebImage'
   pod 'SimpleImageViewer', :git => 'https://github.com/aFrogleap/SimpleImageViewer'
   pod 'SwiftyJSON'
-  pod 'Alamofire'
-  pod 'AlamofireImage'
+  pod 'Alamofire', '4.9'
+  pod 'AlamofireImage', '3.6.0'
   pod 'UICircularProgressRing'
   pod 'XLPagerTabStrip', '~> 9.0'
   pod 'ExpandingMenu', '~> 0.4'
-  pod 'BottomPopup'
+  pod 'BottomPopup', '0.5.1'
 end

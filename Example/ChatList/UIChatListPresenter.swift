@@ -155,6 +155,7 @@ class UIChatListPresenter {
     public func loadFromServer() {
         // check update from server
         QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
+                self.page = 1
                 self.rooms = self.filterRoom(data: results)
                 if self.typeTab == .ALL {
                 //no action
@@ -170,9 +171,70 @@ class UIChatListPresenter {
         }
     }
     
+    public func loadMoreFromServer() {
+        if self.page == 1 {
+            self.page = 2
+        }
+        QiscusCore.shared.getAllRoom(limit: 100, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
+            if results.count != 0 {
+                self.page += 1
+                
+                self.rooms.append(contentsOf: results)
+                
+                self.rooms = self.filterRoom(data: self.rooms)
+                if self.typeTab == .ALL {
+                    //no action
+                }else if self.typeTab == .ONGOING {
+                    self.rooms = self.filterTypeOnGoing(data:  self.rooms)
+                }else if self.typeTab == .RESOLVED {
+                    self.rooms = self.filterTypeResolved(data:  self.rooms)
+                }
+                
+                self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+            }else{
+                if self.typeTab == .ALL {
+                    //no action
+                }else if self.typeTab == .ONGOING {
+                    self.rooms = self.filterTypeOnGoing(data:  self.rooms)
+                }else if self.typeTab == .RESOLVED {
+                    self.rooms = self.filterTypeResolved(data:  self.rooms)
+                }
+                
+                self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+            }
+            
+           
+        }) { (error) in
+            self.viewPresenter?.setEmptyData(message: "")
+        }
+    }
+    
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
+    func onRoomMessageReceived(_ room: RoomModel, message: CommentModel) {
+        // show in app notification
+        print("got new comment: \(message.message)")
+        //patch hack, something presenter not working
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadCell"), object: nil)
+    }
+    
+    func onRoomMessageDeleted(room: RoomModel, message: CommentModel) {
+         self.loadFromLocal()
+    }
+    
+    func onRoomMessageDelivered(message: CommentModel) {
+        
+    }
+    
+    func onRoomMessageRead(message: CommentModel) {
+        
+    }
+    
+    func onChatRoomCleared(roomId: String) {
+        
+    }
+    
     func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
         print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
     }
@@ -182,17 +244,6 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     }
     func onRoom(update room: RoomModel) {
         self.loadFromLocal()
-    }
-    
-    func onRoom(_ room: RoomModel, didDeleteComment comment: CommentModel) {
-        //
-    }
-    
-    func onRoom(_ room: RoomModel, gotNewComment comment: CommentModel) {
-        // show in app notification
-        print("got new comment: \(comment.message)")
-        //patch hack, something presenter not working
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadCell"), object: nil)
     }
 
     func gotNew(room: RoomModel) {

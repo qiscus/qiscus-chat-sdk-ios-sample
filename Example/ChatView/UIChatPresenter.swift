@@ -77,18 +77,13 @@ class UIChatPresenter: UIChatUserInteraction {
     /// Update room
     func loadRoom() {
         guard let _room = self.room else { return }
-        QiscusCore.shared.getRoom(withID: _room.id, onSuccess: { [weak self] (room,comments) in
+        QiscusCore.shared.getChatRoomWithMessages(roomId: _room.id, onSuccess: { [weak self] (room,comments) in
             guard let instance = self else { return }
             if comments.isEmpty {
                 instance.viewPresenter?.onLoadMessageFailed(message: "no message")
                 return
             }
-            // MARK: TODO improve and grouping
-           // instance.comments.removeAll()
-           // instance.comments = instance.groupingComments(comments)
-            // MARK : TODO improve and compare with local data, reduce flicker effect
-
-           // instance.viewPresenter?.onLoadMessageFinished()
+            instance.loadComments(withID: room.id)
         }) { [weak self] (error) in
             guard let instance = self else { return }
             instance.viewPresenter?.onLoadMessageFailed(message: error.message)
@@ -102,9 +97,9 @@ class UIChatPresenter: UIChatUserInteraction {
                 guard let lastComment = _comments.last else { return }
                 // read comment
                 if let lastComment = room.lastComment {
-                     QiscusCore.shared.updateCommentRead(roomId: roomId, lastCommentReadId: lastComment.id)
+                    QiscusCore.shared.markAsRead(roomId: roomId, commentId: lastComment.id)
                 }
-               
+                
                 self.comments = self.groupingComments(_comments)
                 self.viewPresenter?.onLoadMessageFinished()
             }
@@ -126,16 +121,10 @@ class UIChatPresenter: UIChatUserInteraction {
                 guard let lastGroup = instance.comments.last else { return }
                 guard let lastComment = lastGroup.last else { return }
                 guard let roomId = instance.room?.id else { return }
-                guard let lastCommentId = Int(lastComment.id) else { return }
-                
-                // make sure that last comment's id isn't empty or load more for current id is still in process to prevent duplicate message
-                if lastComment.id.isEmpty || instance.lastIdToLoad == lastComment.id {
-                    return
-                }
                 
                 // update lastIdToLoad value
                 instance.lastIdToLoad = lastComment.id
-                QiscusCore.shared.loadMore(roomID: roomId, lastCommentID: lastCommentId, limit: 10, onSuccess: { (comments) in
+                QiscusCore.shared.loadMore(roomID: roomId, lastCommentID: lastComment.id, limit: 10, onSuccess: { (comments) in
                     
                     // notify the dispatch group that the current process is complete and able to continue to the next load more process
                     instance.loadMoreDispatchGroup.leave()
@@ -288,26 +277,10 @@ class UIChatPresenter: UIChatUserInteraction {
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
-    func didDelete(Comment comment: CommentModel) {
-        for (group,var c) in comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
-                c.remove(at: index)
-                self.comments = groupingComments(c)
-                self.lastIdToLoad = ""
-                self.loadMoreAvailable = true
-                self.viewPresenter?.onReloadComment()
-            }
-        }
-    }
-    
-    func onRoom(update room: RoomModel) {
-        // 
-    }
-    
-    func gotNewComment(comment: CommentModel) {
+    func onMessageReceived(message: CommentModel) {
         // 2check comment already in ui?
-        if (self.getIndexPath(comment: comment) == nil) {
-            self.addNewCommentUI(comment, isIncoming: true)
+        if (self.getIndexPath(comment: message) == nil) {
+            self.addNewCommentUI(message, isIncoming: true)
         }
     }
     
@@ -321,17 +294,57 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         }
     }
     
-    func onRoom(thisParticipant user: MemberModel, isTyping typing: Bool) {
-        self.viewPresenter?.onUser(name: user.username, typing: typing)
-    }
-    
-    func onChangeUser(_ user: MemberModel, onlineStatus status: Bool, whenTime time: Date) {
-        if let room = self.room {
-            if room.type != .group {
-                let message = time.timeAgoSinceDate(numericDates: false)
-                self.viewPresenter?.onUser(name: user.username, isOnline: status, message: message)
+    func onMessageDelivered(message: CommentModel) {
+        // check comment already exist in view
+        for (group,c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+                comments[group][index] = message
+                self.viewPresenter?.onUpdateComment(comment: message, indexpath: IndexPath(row: index, section: group))
             }
         }
+    }
+    
+    func onMessageRead(message: CommentModel) {
+        // check comment already exist in view
+        for (group,c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+                comments[group][index] = message
+                self.viewPresenter?.onUpdateComment(comment: message, indexpath: IndexPath(row: index, section: group))
+            }
+        }
+    }
+    
+    func onMessageDeleted(message: CommentModel) {
+        for (group,var c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == message.uniqId }) {
+                c.remove(at: index)
+                self.comments = groupingComments(c)
+                self.lastIdToLoad = ""
+                self.loadMoreAvailable = true
+                self.viewPresenter?.onReloadComment()
+            }
+        }
+    }
+    
+    func onUserTyping(userId: String, roomId: String, typing: Bool) {
+        if let user = QiscusCore.database.member.find(byUserId : userId){
+            self.viewPresenter?.onUser(name: user.username, typing: typing)
+        }
+    }
+    
+    func onUserOnlinePresence(userId: String, isOnline: Bool, lastSeen: Date) {
+        if let room = self.room {
+            if room.type != .group {
+                let message = lastSeen.timeAgoSinceDate(numericDates: false)
+                if let user = QiscusCore.database.member.find(byUserId : userId){
+                    self.viewPresenter?.onUser(name: user.username, isOnline: isOnline, message: message)
+                }
+            }
+        }
+    }
+    
+    func onRoom(update room: RoomModel) {
+        
     }
 }
 

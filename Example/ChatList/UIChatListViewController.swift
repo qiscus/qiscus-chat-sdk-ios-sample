@@ -39,6 +39,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         }
     }
     
+    fileprivate var activityIndicator: LoadMoreActivityIndicator!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -64,6 +65,8 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         }
         refreshControl.addTarget(self, action: #selector(reloadData(_:)), for: .valueChanged)
         
+        activityIndicator = LoadMoreActivityIndicator(scrollView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,6 +88,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         self.presenter.loadChat()
         self.tabBarController?.tabBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -157,6 +161,13 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
         }
         return nil
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        activityIndicator.start {
+            //loadMore
+            self.presenter.loadMoreFromServer()
+        }
+    }
 }
 
 extension UIChatListViewController : UIChatListView {
@@ -205,6 +216,7 @@ extension UIChatListViewController : UIChatListView {
             //}
            
         }
+        self.activityIndicator.stop()
        
     }
     
@@ -217,9 +229,12 @@ extension UIChatListViewController : UIChatListView {
     }
     
     func setEmptyData(message: String) {
-        //
-        self.emptyRoomView.isHidden = false
-        self.tableView.isHidden = true
+        if rooms.count == 0 {
+            //
+            self.emptyRoomView.isHidden = false
+            self.tableView.isHidden = true
+        }
         self.refreshControl.endRefreshing()
+        self.activityIndicator.stop()
     }
 }

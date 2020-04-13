@@ -40,6 +40,8 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
         }
     }
     
+    fileprivate var activityIndicator: LoadMoreActivityIndicator!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -63,6 +65,7 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(reloadData(_:)), for: .valueChanged)
+        activityIndicator = LoadMoreActivityIndicator(scrollView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
         
     }
     
@@ -158,6 +161,13 @@ extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewData
         }
         return nil
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        activityIndicator.start {
+            //loadMore
+            self.presenter.loadMoreFromServer()
+        }
+    }
 }
 
 extension UIChatListOngoingViewController : UIChatListView {
@@ -197,6 +207,8 @@ extension UIChatListOngoingViewController : UIChatListView {
             lastRoomCount = self.rooms.count
         }
         
+         self.activityIndicator.stop()
+        
     }
     
     func startLoading(message: String) {
@@ -208,9 +220,12 @@ extension UIChatListOngoingViewController : UIChatListView {
     }
     
     func setEmptyData(message: String) {
-        //
-        self.emptyRoomView.isHidden = false
-        self.tableView.isHidden = true
+        if rooms.count == 0 {
+            //
+            self.emptyRoomView.isHidden = false
+            self.tableView.isHidden = true
+        }
         self.refreshControl.endRefreshing()
+         self.activityIndicator.stop()
     }
 }
