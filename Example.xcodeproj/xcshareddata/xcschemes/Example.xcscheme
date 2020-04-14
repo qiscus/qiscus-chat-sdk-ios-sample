@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3DDEFB602192D35600484795"
-               BuildableName = "Qiscus.app"
+               BuildableName = "Qiscus Multichannel.app"
                BlueprintName = "Example"
                ReferencedContainer = "container:Example.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3DDEFB602192D35600484795"
-            BuildableName = "Qiscus.app"
+            BuildableName = "Qiscus Multichannel.app"
             BlueprintName = "Example"
             ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
@@ -59,7 +59,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3DDEFB602192D35600484795"
-            BuildableName = "Qiscus.app"
+            BuildableName = "Qiscus Multichannel.app"
             BlueprintName = "Example"
             ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3DDEFB602192D35600484795"
-            BuildableName = "Qiscus.app"
+            BuildableName = "Qiscus Multichannel.app"
             BlueprintName = "Example"
             ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
