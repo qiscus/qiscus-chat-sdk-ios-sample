@@ -163,9 +163,11 @@ extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewData
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        activityIndicator.start {
-            //loadMore
-            self.presenter.loadMoreFromServer()
+        if activityIndicator.isLoading() == false {
+            activityIndicator.start {
+                //loadMore
+                self.presenter.loadMoreFromServer()
+            }
         }
     }
 }
