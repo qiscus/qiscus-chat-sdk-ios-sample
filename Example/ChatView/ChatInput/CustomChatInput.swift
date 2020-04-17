@@ -13,7 +13,7 @@ import QiscusCore
 import SwiftyJSON
 
 protocol CustomChatInputDelegate {
-    func sendAttachment()
+    func sendAttachment(button : UIButton)
     func sendMessage(message: CommentModel)
 }
 
@@ -36,8 +36,13 @@ class CustomChatInput: UIChatInput {
         textView.text = TextConfiguration.sharedInstance.textPlaceholder
         textView.textColor = UIColor.lightGray
         textView.font = ChatConfig.chatFont
-        //self.textView.layer.cornerRadius = self.textView.frame.size.height / 2
+        textView.backgroundColor = UIColor.white
+        self.textView.layer.cornerRadius = 8
         //self.textView.clipsToBounds = true
+        
+        self.textView.layer.borderWidth = 1
+        self.textView.layer.borderColor = UIColor.lightGray.cgColor
+        
         self.textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
         self.sendButton.tintColor = ColorConfiguration.sendButtonColor
@@ -61,7 +66,7 @@ class CustomChatInput: UIChatInput {
     }
     
     @IBAction func clickAttachment(_ sender: Any) {
-         self.chatInputDelegate?.sendAttachment()
+        self.chatInputDelegate?.sendAttachment(button: self.attachButton)
     }
 }
 
@@ -239,7 +244,7 @@ extension UIChatViewController : CustomChatInputDelegate {
         }
     }
 
-    func sendAttachment() {
+    func sendAttachment(button buttonAttachment : UIButton) {
         let optionMenu = UIAlertController()
         let cameraAction = UIAlertAction(title: "Take Camera", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -266,6 +271,13 @@ extension UIChatViewController : CustomChatInputDelegate {
         })
 
         optionMenu.addAction(cancelAction)
+        
+        
+        if let presenter = optionMenu.popoverPresentationController {
+            presenter.sourceView = buttonAttachment
+            presenter.sourceRect = buttonAttachment.bounds
+        }
+        
         self.present(optionMenu, animated: true, completion: nil)
     }
 

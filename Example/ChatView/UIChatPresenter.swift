@@ -232,7 +232,7 @@ class UIChatPresenter: UIChatUserInteraction {
         
         // choose uidelegate
         if isIncoming {
-            QiscusCore.shared.updateCommentRead(roomId: message.roomId, lastCommentReadId: message.id)
+            QiscusCore.shared.markAsRead(roomId: message.roomId, commentId: message.id)
             self.viewPresenter?.onGotNewComment(newSection: section)
         }else {
             self.viewPresenter?.onSendingComment(comment: message, newSection: section)
@@ -277,24 +277,14 @@ class UIChatPresenter: UIChatUserInteraction {
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
-    func onMessageReceived(message: CommentModel) {
+    func onMessageReceived(message: CommentModel){
         // 2check comment already in ui?
         if (self.getIndexPath(comment: message) == nil) {
             self.addNewCommentUI(message, isIncoming: true)
         }
     }
     
-    func didComment(comment: CommentModel, changeStatus status: CommentStatus) {
-        // check comment already exist in view
-        for (group,c) in comments.enumerated() {
-            if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
-                comments[group][index] = comment
-                self.viewPresenter?.onUpdateComment(comment: comment, indexpath: IndexPath(row: index, section: group))
-            }
-        }
-    }
-    
-    func onMessageDelivered(message: CommentModel) {
+    func onMessageDelivered(message : CommentModel){
         // check comment already exist in view
         for (group,c) in comments.enumerated() {
             if let index = c.index(where: { $0.uniqId == message.uniqId }) {
@@ -304,7 +294,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         }
     }
     
-    func onMessageRead(message: CommentModel) {
+    func onMessageRead(message : CommentModel){
         // check comment already exist in view
         for (group,c) in comments.enumerated() {
             if let index = c.index(where: { $0.uniqId == message.uniqId }) {
@@ -314,25 +304,30 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         }
     }
     
-    func onMessageDeleted(message: CommentModel) {
+    func onMessageDeleted(message: CommentModel){
         for (group,var c) in comments.enumerated() {
             if let index = c.index(where: { $0.uniqId == message.uniqId }) {
                 c.remove(at: index)
                 self.comments = groupingComments(c)
                 self.lastIdToLoad = ""
-                self.loadMoreAvailable = true
-                self.viewPresenter?.onReloadComment()
+                self.loadMoreAvailable = false
+                if let room = self.room {
+                    self.loadComments(withID: room.id)
+                }else {
+                    self.loadRoom()
+                }
+                
             }
         }
     }
     
-    func onUserTyping(userId: String, roomId: String, typing: Bool) {
+    func onUserTyping(userId : String, roomId : String, typing: Bool){
         if let user = QiscusCore.database.member.find(byUserId : userId){
             self.viewPresenter?.onUser(name: user.username, typing: typing)
         }
     }
     
-    func onUserOnlinePresence(userId: String, isOnline: Bool, lastSeen: Date) {
+    func onUserOnlinePresence(userId: String, isOnline: Bool, lastSeen: Date){
         if let room = self.room {
             if room.type != .group {
                 let message = lastSeen.timeAgoSinceDate(numericDates: false)
@@ -343,8 +338,33 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
         }
     }
     
+    //this func was deprecated
+    func didDelete(Comment comment: CommentModel) {
+        for (group,var c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
+                c.remove(at: index)
+                self.comments = groupingComments(c)
+                self.lastIdToLoad = ""
+                self.loadMoreAvailable = true
+                self.viewPresenter?.onReloadComment()
+            }
+        }
+    }
+    
+    //this func was deprecated
     func onRoom(update room: RoomModel) {
-        
+        //
+    }
+    
+     //this func was deprecated
+    func didComment(comment: CommentModel, changeStatus status: CommentStatus) {
+       // check comment already exist in view
+       for (group,c) in comments.enumerated() {
+           if let index = c.index(where: { $0.uniqId == comment.uniqId }) {
+               comments[group][index] = comment
+               self.viewPresenter?.onUpdateComment(comment: comment, indexpath: IndexPath(row: index, section: group))
+           }
+       }
     }
 }
 

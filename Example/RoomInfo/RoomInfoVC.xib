@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RoomInfoVC" customModule="Qiscus" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RoomInfoVC" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <connections>
                 <outlet property="btIconAvatar" destination="3fV-iX-3re" id="CFS-5t-zfO"/>
                 <outlet property="btIconEditName" destination="YwS-lE-sIK" id="SgS-vB-JXH"/>
@@ -28,14 +26,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G9X-1d-jNW">
-                    <rect key="frame" x="0.0" y="64" width="320" height="200"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="200"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="200" id="2hk-nn-Uib"/>
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YwS-lE-sIK">
-                    <rect key="frame" x="280" y="264" width="40" height="40"/>
+                    <rect key="frame" x="280" y="244" width="40" height="40"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="pgJ-EH-h44"/>
@@ -48,7 +46,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PARTICIPANTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mnZ-iG-PQv">
-                    <rect key="frame" x="15" y="414" width="97.5" height="50"/>
+                    <rect key="frame" x="15" y="394" width="97.5" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Bd7-cV-Xnk"/>
                     </constraints>
@@ -57,12 +55,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cV3-u6-4en">
-                    <rect key="frame" x="0.0" y="464" width="320" height="104"/>
+                    <rect key="frame" x="0.0" y="444" width="320" height="124"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="la8-eA-PHO">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="124"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="separatorInset" minX="50" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -74,7 +73,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3fV-iX-3re">
-                    <rect key="frame" x="280" y="224" width="40" height="40"/>
+                    <rect key="frame" x="280" y="204" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="6yU-JN-0LR"/>
                         <constraint firstAttribute="height" constant="40" id="KUm-G1-fIc"/>
@@ -87,11 +86,11 @@
                     </connections>
                 </button>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="vMr-xx-DDu">
-                    <rect key="frame" x="141.5" y="145.5" width="37" height="37"/>
+                    <rect key="frame" x="141.5" y="125.5" width="37" height="37"/>
                     <color key="color" red="0.58039215690000001" green="0.79215686269999996" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </activityIndicatorView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qiscus Family" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WeZ-ju-Ybn">
-                    <rect key="frame" x="15" y="264" width="260" height="50"/>
+                    <rect key="frame" x="15" y="244" width="260" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="atX-Vz-LO9"/>
                     </constraints>
@@ -100,7 +99,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P3l-Yn-lwX">
-                    <rect key="frame" x="285" y="324" width="30" height="30"/>
+                    <rect key="frame" x="285" y="304" width="30" height="30"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="hR4-0D-l7k"/>
@@ -113,7 +112,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADDITIONAL INFORMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcu-Vr-Flg">
-                    <rect key="frame" x="15" y="314" width="182" height="50"/>
+                    <rect key="frame" x="15" y="294" width="182" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="odp-5x-tmc"/>
                     </constraints>
@@ -122,7 +121,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Fd-Qb-nnf">
-                    <rect key="frame" x="252" y="324" width="30" height="30"/>
+                    <rect key="frame" x="252" y="304" width="30" height="30"/>
                     <color key="backgroundColor" red="0.1529411765" green="0.71372549019999998" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="17n-o9-3Sq"/>
@@ -133,7 +132,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WH2-z6-o8R">
-                    <rect key="frame" x="285" y="374" width="30" height="30"/>
+                    <rect key="frame" x="285" y="354" width="30" height="30"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="01B-b9-84M"/>
@@ -146,7 +145,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1G-gl-7pJ">
-                    <rect key="frame" x="15" y="364" width="57" height="50"/>
+                    <rect key="frame" x="15" y="344" width="57" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="57" id="0gz-3F-dZl"/>
                         <constraint firstAttribute="height" constant="50" id="rty-aV-7bi"/>
@@ -156,7 +155,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7l-r7-U6D" userLabel="btAdditonal">
-                    <rect key="frame" x="0.0" y="314" width="320" height="50"/>
+                    <rect key="frame" x="0.0" y="294" width="320" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="gBZ-Oy-kBM"/>
                     </constraints>
@@ -165,7 +164,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qge-HT-FSe" userLabel="btNotes">
-                    <rect key="frame" x="0.0" y="364" width="320" height="50"/>
+                    <rect key="frame" x="0.0" y="344" width="320" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="u9M-1T-XXr"/>
                     </constraints>
@@ -174,7 +173,7 @@
                     </connections>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MDh-ds-p8q">
-                    <rect key="frame" x="0.0" y="224" width="40" height="40"/>
+                    <rect key="frame" x="0.0" y="204" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="7OQ-Vq-Ved"/>
                         <constraint firstAttribute="width" constant="40" id="n2x-Qq-b9u"/>
@@ -187,7 +186,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="WeZ-ju-Ybn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="0sz-xF-MI8"/>
                 <constraint firstItem="Qge-HT-FSe" firstAttribute="top" secondItem="I7l-r7-U6D" secondAttribute="bottom" id="10r-2y-sbO"/>

@@ -142,6 +142,12 @@ class ProfileVC: UIViewController {
         })
         
         optionMenu.addAction(cancelAction)
+        
+        if let presenter = optionMenu.popoverPresentationController {
+            presenter.sourceView = btIconAvatar
+            presenter.sourceRect = btIconAvatar.bounds
+        }
+        
         self.present(optionMenu, animated: true, completion: nil)
     }
     

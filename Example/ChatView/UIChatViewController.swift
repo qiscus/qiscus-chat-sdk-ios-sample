@@ -183,7 +183,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     private func setupPopupResolved(){
         self.tvNotes.layer.borderWidth = 1
         self.tvNotes.layer.borderColor = UIColor(red:222/255, green:225/255, blue:227/255, alpha: 1).cgColor
-        
+        self.tvNotes.backgroundColor = UIColor.white
         self.tvNotes.delegate = self
         placeholderLabel = UILabel()
         placeholderLabel.text = "Add Notes"

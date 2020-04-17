@@ -79,6 +79,8 @@ class LoadMoreActivityIndicator {
                     }
                 }
             }
+        }else{
+            stop()
         }
     }
 

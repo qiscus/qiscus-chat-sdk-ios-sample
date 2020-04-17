@@ -75,6 +75,11 @@ class RoomInfoVC: UIViewController {
             
         })
         
+        if let presenter = optionMenu.popoverPresentationController {
+            presenter.sourceView = btIconAvatar
+            presenter.sourceRect = btIconAvatar.bounds
+        }
+        
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
