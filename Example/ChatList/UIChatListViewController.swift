@@ -19,6 +19,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     public var labelProfile = UILabel()
     private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
+    var isLoadingLoadMore : Bool = false
     var lastRoomCount: Int = 0
     var rooms : [RoomModel] {
         get {
@@ -131,7 +132,7 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = self.rooms[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
-        cell.data = data
+        cell.setupUI(data: data)
         return cell
     }
     
@@ -163,9 +164,10 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.isBouncingBottom == true {
+        if scrollView.isBouncingBottom == true && isLoadingLoadMore == false {
             activityIndicator.start {
                 //loadMore
+                self.isLoadingLoadMore == true
                 self.presenter.loadMoreFromServer()
             }
         }
@@ -205,21 +207,23 @@ extension UIChatListViewController : UIChatListView {
             self.tableView.isHidden = false
             self.refreshControl.endRefreshing()
             
+            self.isLoadingLoadMore == false
+            self.activityIndicator.stop()
             // 1st time load data
             self.tableView.reloadData()
             
             //for room in rooms {
-            //    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
-            //        QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
-            //            if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
-            //                self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
-            //            }
-            //        }
-            //    })
+//                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+//                    QiscusCore.shared.subscribeTyping(roomID: room.id) { (roomTyping) in
+//                        if let room = QiscusCore.database.room.find(id: roomTyping.roomID){
+//                            self.didUpdate(user: roomTyping.user, isTyping: roomTyping.typing, in: room)
+//                        }
+//                    }
+//                })
             //}
            
         }
-        self.activityIndicator.stop()
+       
        
     }
     
@@ -238,6 +242,7 @@ extension UIChatListViewController : UIChatListView {
             self.tableView.isHidden = true
         }
         self.refreshControl.endRefreshing()
+        self.isLoadingLoadMore == false
         self.activityIndicator.stop()
     }
 }

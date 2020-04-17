@@ -16,13 +16,7 @@ class UIChatListViewCell: UITableViewCell {
     static var nib:UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
-    var data : RoomModel? {
-        didSet {
-            if data != nil {
-                self.setupUI()
-            }
-        }
-    }
+    var data : RoomModel? = nil
     static var identifier: String {
         return String(describing: self)
     }
@@ -83,73 +77,71 @@ class UIChatListViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
-    func setupUI() {
-        
-        if let data = data {
-            if let option = data.options {
-                if !option.isEmpty{
-                    let json = JSON.init(parseJSON: option)
-                    let channelType = json["channel"].string ?? "qiscus"
-                    let is_resolved = json["is_resolved"].bool ?? false
-                    let is_handled_by_bot = json["is_handled_by_bot"].bool ?? false
-                    if channelType.lowercased() == "qiscus"{
-                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
-                    }else if channelType.lowercased() == "telegram"{
-                        self.ivTypeChannel.image = UIImage(named: "ic_telegram")
-                    }else if channelType.lowercased() == "line"{
-                        self.ivTypeChannel.image = UIImage(named: "ic_line")
-                    }else if channelType.lowercased() == "fb"{
-                        self.ivTypeChannel.image = UIImage(named: "ic_fb")
-                    }else if channelType.lowercased() == "wa"{
-                        self.ivTypeChannel.image = UIImage(named: "ic_wa")
-                    }else{
-                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
-                    }
-                    
-                    
-                    if is_resolved == true {
-                        self.ic_isResolved.isHidden = false
-                    }else{
-                        self.ic_isResolved.isHidden = true
-                    }
-                    
-                    if is_handled_by_bot == true {
-                        self.ivBot.isHidden = false
-                    }else{
-                        self.ivBot.isHidden = true
-                    }
+
+    func setupUI(data : RoomModel) {
+    self.data = data
+       if let option = data.options {
+            if !option.isEmpty{
+                let json = JSON.init(parseJSON: option)
+                let channelType = json["channel"].string ?? "qiscus"
+                let is_resolved = json["is_resolved"].bool ?? false
+                let is_handled_by_bot = json["is_handled_by_bot"].bool ?? false
+                if channelType.lowercased() == "qiscus"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                }else if channelType.lowercased() == "telegram"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_telegram")
+                }else if channelType.lowercased() == "line"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_line")
+                }else if channelType.lowercased() == "fb"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_fb")
+                }else if channelType.lowercased() == "wa"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_wa")
+                }else{
+                    self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                }
+                
+                
+                if is_resolved == true {
+                    self.ic_isResolved.isHidden = false
+                }else{
+                    self.ic_isResolved.isHidden = true
+                }
+                
+                if is_handled_by_bot == true {
+                    self.ivBot.isHidden = false
+                }else{
+                    self.ivBot.isHidden = true
                 }
             }
-            
-            
-            if !data.name.isEmpty {
-                self.labelName.text = data.name
-            }else { self.labelName.text = "Room" }
-            self.labelDate.text = lastMessageCreateAt
+        }
+        
+        
+        if !data.name.isEmpty {
+            self.labelName.text = data.name
+        }else { self.labelName.text = "Room" }
+        self.labelDate.text = lastMessageCreateAt
 
-            if let avatar = data.avatarUrl {
-                self.imageViewRoom.af_setImage(withURL: avatar)
-            }
-            if(data.unreadCount == 0){
-                self.hiddenBadge()
-            }else{
-                self.showBadge()
-                self.labelBadge.text = "\(data.unreadCount)"
-            }
-            
-            var message = ""
-            guard let lastComment = data.lastComment else { return }
-            if lastComment.type == ""{
-                message = "File Attachment"
-            }else {
-                message = lastComment.message
-            }
-            if(data.type != .single){
-                self.labelLastMessage.text  =  "\(lastComment.username) :\n\(message)"
-            }else{
-                self.labelLastMessage.text  = message // single
-            }
+        if let avatar = data.avatarUrl {
+            self.imageViewRoom.af_setImage(withURL: avatar)
+        }
+        if(data.unreadCount == 0){
+            self.hiddenBadge()
+        }else{
+            self.showBadge()
+            self.labelBadge.text = "\(data.unreadCount)"
+        }
+        
+        var message = ""
+        guard let lastComment = data.lastComment else { return }
+        if lastComment.type == ""{
+            message = "File Attachment"
+        }else {
+            message = lastComment.message
+        }
+        if(data.type != .single){
+            self.labelLastMessage.text  =  "\(lastComment.username) :\n\(message)"
+        }else{
+            self.labelLastMessage.text  = message // single
         }
     }
     

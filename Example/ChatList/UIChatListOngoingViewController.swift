@@ -17,7 +17,7 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
     
     
     public var labelProfile = UILabel()
-    
+    var isLoadingLoadMore : Bool = false
     private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
     var lastRoomCount: Int = 0
@@ -121,7 +121,7 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
 extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rooms.count
+        return self.rooms.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -131,7 +131,7 @@ extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = self.rooms[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
-        cell.data = data
+        cell.setupUI(data: data)
         return cell
     }
     
@@ -163,9 +163,10 @@ extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewData
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.isBouncingBottom == true {
+        if scrollView.isBouncingBottom == true && isLoadingLoadMore == false {
             activityIndicator.start {
                 //loadMore
+                self.isLoadingLoadMore = true
                 self.presenter.loadMoreFromServer()
             }
         }
@@ -209,7 +210,8 @@ extension UIChatListOngoingViewController : UIChatListView {
             lastRoomCount = self.rooms.count
         }
         
-         self.activityIndicator.stop()
+        self.isLoadingLoadMore = false
+        self.activityIndicator.stop()
         
     }
     
@@ -228,6 +230,7 @@ extension UIChatListOngoingViewController : UIChatListView {
             self.tableView.isHidden = true
         }
         self.refreshControl.endRefreshing()
-         self.activityIndicator.stop()
+        self.isLoadingLoadMore = false
+        self.activityIndicator.stop()
     }
 }
