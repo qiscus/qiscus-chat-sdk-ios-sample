@@ -8,7 +8,7 @@
 
 import UIKit
 import QiscusCore
-
+import AlamofireImage
 struct DocumentsDirectory {
     static let localDocumentsURL: NSURL? = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask).last! as NSURL
     static let iCloudDocumentsURL: NSURL? = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") as! NSURL
@@ -66,15 +66,7 @@ class QFileLeftCell: UIBaseChatCell {
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true
         
-        QiscusCore.shared.download(url: message.userAvatarUrl!, onSuccess: { (urlFile) in
-            let data = NSData(contentsOf: urlFile)
-            
-            DispatchQueue.main.async {
-                self.ivAvatarUser.image = UIImage(data: data as! Data)
-            }
-        }, onProgress: { (progress) in
-            
-        })
+        self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
         
         if(isPublic == true){
             self.lbName.text = message.username

@@ -7,7 +7,7 @@
 
 import UIKit
 import QiscusCore
-
+import AlamofireImage
 import Alamofire
 import SimpleImageViewer
 import SDWebImage
@@ -75,15 +75,9 @@ class QImageLeftCell: UIBaseChatCell {
                 if self.ivComment.image == nil {
                     self.showLoading()
                     self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
-                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlFile) in
-                        let data = NSData(contentsOf: urlFile)
-                        DispatchQueue.main.async {
-                             self.hideLoading()
-                             self.ivComment.image = UIImage(data: data as! Data)
-                        }
-                    }, onProgress: { (progress) in
-                        
-                    })
+                    
+                    self.ivComment.af_setImage(withURL:  URL(string: url) ?? URL(string: "http://")!)
+                    self.hideLoading()
                 }
             }
         }
@@ -91,14 +85,7 @@ class QImageLeftCell: UIBaseChatCell {
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true
         
-        QiscusCore.shared.download(url: message.userAvatarUrl!, onSuccess: { (urlFile) in
-            let data = NSData(contentsOf: urlFile)
-            DispatchQueue.main.async {
-                self.ivAvatarUser.image = UIImage(data: data as! Data)
-            }
-        }, onProgress: { (progress) in
-            
-        })
+        self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
         
         if(isPublic == true){
             self.lbName.text = message.username

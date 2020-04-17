@@ -8,6 +8,7 @@
 import UIKit
 import QiscusCore
 import SwiftyJSON
+import AlamofireImage
 
 class QPostbackLeftCell: UIBaseChatCell {
     let maxWidth:CGFloat = 0.7 * QiscusHelper.screenWidth()
@@ -56,14 +57,7 @@ class QPostbackLeftCell: UIBaseChatCell {
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true
         
-        QiscusCore.shared.download(url: message.userAvatarUrl!, onSuccess: { (urlFile) in
-            let data = NSData(contentsOf: urlFile)
-            DispatchQueue.main.async {
-                self.ivAvatarUser.image = UIImage(data: data as! Data)
-            }
-        }, onProgress: { (progress) in
-            
-        })
+        self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
         
         balloonView.image = getBallon()
         
