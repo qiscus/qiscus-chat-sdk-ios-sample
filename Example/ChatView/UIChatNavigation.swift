@@ -72,6 +72,8 @@ class UIChatNavigation: UIView {
         if self.imageViewAvatar != nil {
             self.imageViewAvatar.widthAnchor.constraint(equalToConstant: 30).isActive = true
             self.imageViewAvatar.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            self.imageViewAvatar.frame.size.width = 30
+            self.imageViewAvatar.frame.size.height = 30
             self.imageViewAvatar.layer.cornerRadius = self.imageViewAvatar.frame.height/2
         }
     }
