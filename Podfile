@@ -6,8 +6,8 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  pod 'QiscusCore'
-  #pod 'QiscusCore', :path => '../QiscusCore'
+  #pod 'QiscusCore'
+  pod 'QiscusCore', :path => '../QiscusCore'
 
     # 3rd party
   pod 'SDWebImage'
@@ -15,7 +15,7 @@ target 'Example' do
   pod 'SwiftyJSON'
   pod 'Alamofire', '4.9'
   pod 'AlamofireImage', '3.6.0'
-  pod 'UICircularProgressRing'
+  pod 'UICircularProgressRing', :git => 'https://github.com/luispadron/UICircularProgressRing'
   pod 'XLPagerTabStrip', '~> 9.0'
   pod 'ExpandingMenu', '~> 0.4'
   pod 'BottomPopup', '0.5.1'

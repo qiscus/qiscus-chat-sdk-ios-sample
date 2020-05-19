@@ -184,11 +184,15 @@ class UIChatPresenter: UIChatUserInteraction {
     }
     
     func sendMessage(withComment comment: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
-        addNewCommentUI(comment, isIncoming: false)
         QiscusCore.shared.sendMessage(roomID: (self.room?.id)!, comment: comment, onSuccess: { [weak self] (comment) in
-            self?.didComment(comment: comment, changeStatus: comment.status)
+            if self?.getIndexPath(comment: comment) == nil{
+                 self?.addNewCommentUI(comment, isIncoming: false)
+            }
+           
             onSuccess(comment)
         }) { (error) in
+            comment.status = .pending
+            self.addNewCommentUI(comment, isIncoming: false)
             onError(error.message)
         }
     }
@@ -199,11 +203,14 @@ class UIChatPresenter: UIChatUserInteraction {
         let message = CommentModel()
         message.message = text
         message.type    = "text"
-        addNewCommentUI(message, isIncoming: false)
+        
         QiscusCore.shared.sendMessage(roomID: (self.room?.id)!, comment: message, onSuccess: { [weak self] (comment) in
-            self?.didComment(comment: comment, changeStatus: comment.status)
+            if self?.getIndexPath(comment: comment) == nil{
+                self?.addNewCommentUI(comment, isIncoming: false)
+            }
         }) { (error) in
-            //
+            message.status = .pending
+            self.addNewCommentUI(message, isIncoming: false)
         }
     }
     

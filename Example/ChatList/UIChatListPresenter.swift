@@ -80,9 +80,12 @@ class UIChatListPresenter {
             self.rooms = filterTypeResolved(data:  self.rooms)
         }
         
-        if refresh {
-            self.viewPresenter?.didFinishLoadChat(rooms:self.rooms)
-        }
+//        if refresh {
+//            self.viewPresenter?.didFinishLoadChat(rooms:self.rooms)
+//        }
+        
+        loadFromServer()
+        
     }
     
     

@@ -25,7 +25,7 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>$(PRODUCT_NAME) Use media library for access to play music</string>
 	<key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) Use camera access for update avatar profile and send image</string>
+	<string>$(PRODUCT_NAME) Use camera access for update avatar profile and send image</string>
 	<key>NSContactsUsageDescription</key>
 	<string>App will continuously upload your contacts to its heavily cloud servers to let you connect with your friends accross all your device in App</string>
 	<key>NSLocationAlwaysUsageDescription</key>
