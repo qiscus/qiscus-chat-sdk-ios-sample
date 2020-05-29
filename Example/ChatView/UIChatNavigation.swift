@@ -7,7 +7,6 @@
 
 import UIKit
 import QiscusCore
-import SVGKit
 
 class UIChatNavigation: UIView {
     var contentsView            : UIView!
@@ -86,11 +85,8 @@ class UIChatNavigation: UIView {
             self.labelTitle.text = room.name
 
             if let avatar = room.avatarUrl {
-                if avatar.absoluteString.contains(".svg") == true{
-                    let svg = avatar
-                    let data = try? Data(contentsOf: svg)
-                    let receivedimage: SVGKImage = SVGKImage(data: data)
-                    self.imageViewAvatar.image = receivedimage.uiImage
+                if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                    self.imageViewAvatar.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
                 }else{
                     self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
                 }

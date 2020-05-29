@@ -13,7 +13,6 @@ import MobileCoreServices
 import Alamofire
 import AlamofireImage
 import SwiftyJSON
-import SVGKit
 
 class RoomInfoVC: UIViewController {
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -98,11 +97,8 @@ class RoomInfoVC: UIViewController {
                 self.lbRoomName.text = room.name
                 
                 if let avatar = room.avatarUrl {
-                    if avatar.absoluteString.contains(".svg") == true{
-                        let svg = avatar
-                        let data = try? Data(contentsOf: svg)
-                        let receivedimage: SVGKImage = SVGKImage(data: data)
-                        self.ivAvatar.image = receivedimage.uiImage
+                    if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                        self.ivAvatar.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
                     }else{
                         self.ivAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
                     }

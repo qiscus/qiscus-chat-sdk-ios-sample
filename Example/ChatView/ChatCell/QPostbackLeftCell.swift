@@ -9,7 +9,6 @@ import UIKit
 import QiscusCore
 import SwiftyJSON
 import AlamofireImage
-import SVGKit
 
 class QPostbackLeftCell: UIBaseChatCell {
     let maxWidth:CGFloat = 0.7 * QiscusHelper.screenWidth()
@@ -59,11 +58,8 @@ class QPostbackLeftCell: UIBaseChatCell {
         self.ivAvatarUser.clipsToBounds = true
         
         if let avatar = message.userAvatarUrl {
-            if avatar.absoluteString.contains(".svg") == true{
-                let svg = avatar
-                let data = try? Data(contentsOf: svg)
-                let receivedimage: SVGKImage = SVGKImage(data: data)
-                self.ivAvatarUser.image = receivedimage.uiImage
+            if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+               self.ivAvatarUser.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
             }else{
                 self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
             }

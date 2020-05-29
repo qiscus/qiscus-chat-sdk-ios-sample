@@ -10,7 +10,6 @@ import UIKit
 import QiscusCore
 import AlamofireImage
 import SwiftyJSON
-import SVGKit
 
 class UIChatListViewCell: UITableViewCell {
 
@@ -124,11 +123,9 @@ class UIChatListViewCell: UITableViewCell {
         self.labelDate.text = lastMessageCreateAt
         
         if let avatar = data.avatarUrl {
-            if avatar.absoluteString.contains(".svg") == true{
-                let svg = avatar
-                let data = try? Data(contentsOf: svg)
-                let receivedimage: SVGKImage = SVGKImage(data: data)
-                self.imageViewRoom.image = receivedimage.uiImage
+            if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                self.imageViewRoom.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
+               
             }else{
                 self.imageViewRoom.af_setImage(withURL: avatar)
             }
@@ -224,11 +221,9 @@ class UIChatListViewCell: UITableViewCell {
         
         
         if let avatar = data.avatarUrl {
-            if avatar.contains(".svg") == true{
-                let svg = URL(string: avatar)!
-                let data = try? Data(contentsOf: svg)
-                let receivedimage: SVGKImage = SVGKImage(data: data)
-                self.imageViewRoom.image = receivedimage.uiImage
+            if avatar.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                self.imageViewRoom.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
+               
             }else if avatar.contains(".png") == true || avatar.contains(".jpg") == true || avatar.contains(".jpeg") == true{
                 self.imageViewRoom.af_setImage(withURL: URL(string: avatar)!)
             }else{
