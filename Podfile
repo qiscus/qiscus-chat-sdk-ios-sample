@@ -6,8 +6,8 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  #pod 'QiscusCore'
-  pod 'QiscusCore', :path => '../QiscusCore'
+  pod 'QiscusCore'
+  #pod 'QiscusCore', :path => '../QiscusCore'
 
     # 3rd party
   pod 'SDWebImage'
@@ -19,4 +19,5 @@ target 'Example' do
   pod 'XLPagerTabStrip', '~> 9.0'
   pod 'ExpandingMenu', '~> 0.4'
   pod 'BottomPopup', '0.5.1'
+  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '3.x'
 end

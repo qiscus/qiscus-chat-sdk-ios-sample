@@ -7,6 +7,7 @@
 
 import UIKit
 import QiscusCore
+import SVGKit
 
 class UIChatNavigation: UIView {
     var contentsView            : UIView!
@@ -83,7 +84,20 @@ class UIChatNavigation: UIView {
         //always check room localDB
         if let room = QiscusCore.database.room.find(id: room.id){
             self.labelTitle.text = room.name
-            self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+
+            if let avatar = room.avatarUrl {
+                if avatar.absoluteString.contains(".svg") == true{
+                    let svg = avatar
+                    let data = try? Data(contentsOf: svg)
+                    let receivedimage: SVGKImage = SVGKImage(data: data)
+                    self.imageViewAvatar.image = receivedimage.uiImage
+                }else{
+                    self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+                }
+            }else{
+                 self.imageViewAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+            }
+           
             if room.type == .group {
                 if let participant = room.participants{
                     self.labelSubtitle.text = getParticipant(participants: participant)

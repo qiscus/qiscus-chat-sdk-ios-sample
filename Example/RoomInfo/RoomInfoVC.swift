@@ -13,6 +13,7 @@ import MobileCoreServices
 import Alamofire
 import AlamofireImage
 import SwiftyJSON
+import SVGKit
 
 class RoomInfoVC: UIViewController {
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -95,7 +96,19 @@ class RoomInfoVC: UIViewController {
             //always check from local db
             if let room = QiscusCore.database.room.find(id: room.id){
                 self.lbRoomName.text = room.name
-                self.ivAvatar.af_setImage(withURL: room.avatarUrl!)
+                
+                if let avatar = room.avatarUrl {
+                    if avatar.absoluteString.contains(".svg") == true{
+                        let svg = avatar
+                        let data = try? Data(contentsOf: svg)
+                        let receivedimage: SVGKImage = SVGKImage(data: data)
+                        self.ivAvatar.image = receivedimage.uiImage
+                    }else{
+                        self.ivAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+                    }
+                }else{
+                    self.ivAvatar.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+                }
                 
                 if let participants = room.participants{
                     self.participants = participants

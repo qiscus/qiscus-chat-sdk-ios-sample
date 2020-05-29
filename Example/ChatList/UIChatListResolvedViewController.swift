@@ -12,7 +12,7 @@ import XLPagerTabStrip
 import Alamofire
 import SwiftyJSON
 
-class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
+class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var btStartChat: UIButton!
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -20,28 +20,13 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
     
     public var labelProfile = UILabel()
     var isLoadingLoadMore : Bool = false
-    private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
-    var lastRoomCount: Int = 0
-    var rooms : [RoomModel] {
-        get {
-            return presenter.rooms
-        }
-    }
     
     var customerRooms = [CustomerRoom]()
-    
+    var metaAfter :String? = nil
     // MARK: - IndicatorInfoProvider
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        if let userType = UserDefaults.standard.getUserType(){
-            if userType == 2 {
-                return IndicatorInfo(title: "RESOLVED")
-            }else{
-                return IndicatorInfo(title: "ONGOING")
-            }
-        }else{
-            return IndicatorInfo(title: "ONGOING")
-        }
+         return IndicatorInfo(title: "Resolved")
     }
     
     fileprivate var activityIndicator: LoadMoreActivityIndicator!
@@ -49,11 +34,6 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        //self.presenter.loadFromServer()
-    }
-    
-    @objc func onDidReceiveData(_ notification:Notification) {
-        //self.presenter.loadChat()
     }
     
     func setupUI(){
@@ -80,30 +60,18 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let userType = UserDefaults.standard.getUserType(){
-            if userType == 2 {
-                self.presenter.attachView(view: self,typeTab: .RESOLVED)
-            }else{
-                self.presenter.attachView(view: self,typeTab: .ONGOING)
-            }
-        }else{
-            self.presenter.attachView(view: self, typeTab: .ONGOING)
-        }
-        //self.presenter.loadChat()
-        self.getList()
-        NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
+        QiscusCore.delegate = self
+        self.throttleGetList()
         self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.presenter.detachView()
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
 
     }
     
     @objc private func reloadData(_ sender: Any) {
-       // self.presenter.reLoadChat()
+        self.throttleGetList()
     }
     
     @objc func profileButtonPressed() {
@@ -122,15 +90,19 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
         self.navigationController?.pushViewController(target, animated: true)
     }
     
-    func getList(roleAdmin : Bool = true){
+    @objc func getList(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
         
         let header = ["Authorization": token] as [String : String]
-        let param = ["status": "resolved",
-                     "limit": "100",
+        var param = ["status": "resolved",
+                     "limit": "50",
                     ] as [String : String]
+        
+        if let meta = metaAfter {
+            param["cursor_after"] = meta
+        }
         
         Alamofire.request("https://multichannel.qiscus.com/api/v2/customer_rooms", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
@@ -159,7 +131,20 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
                             let data = CustomerRoom(json: room)
                             results.append(data)
                         }
-                        self.customerRooms = results
+                        if results.count != 0 {
+                            if self.metaAfter != nil {
+                                self.customerRooms.append(contentsOf: results)
+                            }else{
+                                 self.customerRooms = results
+                            }
+                        }
+                        
+                    }
+                    
+                    if let meta = payload["meta"]["cursor_after"].string{
+                        self.metaAfter = meta
+                    }else{
+                        self.metaAfter = nil
                     }
                     
                     if self.customerRooms.count == 0 {
@@ -215,7 +200,7 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
     
 }
 
-extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewDataSource {
+extension UIChatListResolvedViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.customerRooms.count
@@ -255,9 +240,9 @@ extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewData
         return UITableView.automaticDimension
     }
     
-    private func getIndexpath(byRoom data: RoomModel) -> IndexPath? {
+    private func getIndexpath(byRoom data: CustomerRoom) -> IndexPath? {
         // get current index
-        for (i,r) in self.rooms.enumerated() {
+        for (i,r) in self.customerRooms.enumerated() {
             if r.id == data.id {
                 return IndexPath(row: i, section: 0)
             }
@@ -270,70 +255,63 @@ extension UIChatListOngoingViewController : UITableViewDelegate, UITableViewData
             activityIndicator.start {
                 //loadMore
                 self.isLoadingLoadMore = true
-                //self.presenter.loadMoreFromServer()
+                self.throttleGetList(firstPage: false)
             }
+        }else if self.customerRooms.count <= 6 && isLoadingLoadMore == false{
+            //loadMore
+            self.isLoadingLoadMore = true
+            self.throttleGetList(firstPage: false)
         }
+    }
+    
+    func throttleGetList(firstPage : Bool = true) {
+        if firstPage == true{
+            self.metaAfter = nil
+        }
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.getList), object: nil)
+        perform(#selector(self.getList), with: nil, afterDelay: 1)
     }
 }
 
-extension UIChatListOngoingViewController : UIChatListView {
-    func didUpdate(user: MemberModel, isTyping typing: Bool, in room: RoomModel) {
-        let indexPath = getIndexpath(byRoom: room)
-        let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
-        if let v = isVisible, let index = indexPath, v == true {
-            if let cell: UIChatListViewCell = self.tableView.cellForRow(at: index) as? UIChatListViewCell{
-                if typing == true{
-                    if(room.type == .group){
-                        cell.labelLastMessage.text = "\(user.username) isTyping..."
-                    }else{
-                        cell.labelLastMessage.text = "isTyping..."
-                    }
-                }else{
-                    cell.labelLastMessage.text = room.lastComment?.message
-                }
-            }
-        }
+extension UIChatListResolvedViewController : QiscusCoreDelegate {
+    func onRoomMessageReceived(_ room: RoomModel, message: CommentModel) {
+        // show in app notification
+        print("got new comment: \(message.message)")
+        self.throttleGetList()
+    }
+    
+    func onRoomMessageDeleted(room: RoomModel, message: CommentModel) {
+         
+    }
+    
+    func onRoomMessageDelivered(message: CommentModel) {
+        
+    }
+    
+    func onRoomMessageRead(message: CommentModel) {
+        
+    }
+    
+    func onChatRoomCleared(roomId: String) {
+        
+    }
+    
+    func onRoomDidChangeComment(comment: CommentModel, changeStatus status: CommentStatus) {
+        print("check commentDidChange = \(comment.message) status = \(status.rawValue)")
+    }
+    
+    func onRoom(deleted room: RoomModel) {
+        
+    }
+    func onRoom(update room: RoomModel) {
+        
     }
 
-    func updateRooms(data: RoomModel) {
-        self.tableView.reloadData()
+    func gotNew(room: RoomModel) {
+        
     }
 
-    func didFinishLoadChat(rooms: [RoomModel]) {
-        if rooms.count == 0 {
-            self.emptyRoomView.isHidden = false
-            self.tableView.isHidden = true
-        }else{
-            self.emptyRoomView.isHidden = true
-            self.tableView.isHidden = false
-
-            // 1st time load data
-            self.refreshControl.endRefreshing()
-            self.tableView.reloadData()
-            lastRoomCount = self.rooms.count
-        }
-
-        self.isLoadingLoadMore = false
-        self.activityIndicator.stop()
-
-    }
-
-    func startLoading(message: String) {
+    func remove(room: RoomModel) {
         //
-    }
-
-    func finishLoading(message: String) {
-        //
-    }
-
-    func setEmptyData(message: String) {
-        if rooms.count == 0 {
-            //
-            self.emptyRoomView.isHidden = false
-            self.tableView.isHidden = true
-        }
-        self.refreshControl.endRefreshing()
-        self.isLoadingLoadMore = false
-        self.activityIndicator.stop()
     }
 }

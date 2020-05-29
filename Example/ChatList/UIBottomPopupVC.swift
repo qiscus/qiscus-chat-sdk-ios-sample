@@ -65,8 +65,12 @@ class UIBottomPopupVC: BottomPopupViewController {
         }
         
         let header = ["Authorization": token] as [String : String]
+        var role = "agent"
+        if roleAdmin == true {
+            role = "admin"
+        }
         
-        Alamofire.request("https://multichannel.qiscus.com/api/v2/agent/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("https://multichannel.qiscus.com/api/v2/\(role)/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     if roleAdmin{

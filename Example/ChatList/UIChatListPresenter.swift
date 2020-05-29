@@ -59,31 +59,28 @@ class UIChatListPresenter {
     }
     
     private func loadFromLocal(refresh: Bool = true) {
-        var localdb = QiscusCore.database.room.all()
-        
-        var roomsDB : [RoomModel] = [RoomModel]()
-        
-        for (index, db) in localdb.enumerated(){
-            if localdb[index].id != ""{
-                roomsDB.append(db)
-            }
-        }
-        
-        self.rooms = roomsDB
-        self.rooms = filterRoom(data:  self.rooms)
-        
-        if typeTab == .ALL {
-            //no action
-        }else if typeTab == .ONGOING {
-            self.rooms = filterTypeOnGoing(data:  self.rooms)
-        }else if typeTab == .RESOLVED {
-            self.rooms = filterTypeResolved(data:  self.rooms)
-        }
-        
-//        if refresh {
-//            self.viewPresenter?.didFinishLoadChat(rooms:self.rooms)
+//        var localdb = QiscusCore.database.room.all()
+//
+//        var roomsDB : [RoomModel] = [RoomModel]()
+//
+//        for (index, db) in localdb.enumerated(){
+//            if localdb[index].id != ""{
+//                roomsDB.append(db)
+//            }
 //        }
-        
+//
+//        self.rooms = roomsDB
+//        self.rooms = filterRoom(data:  self.rooms)
+//
+//        if typeTab == .ALL {
+//            //no action
+//        }else if typeTab == .ONGOING {
+//            self.rooms = filterTypeOnGoing(data:  self.rooms)
+//        }else if typeTab == .RESOLVED {
+//            self.rooms = filterTypeResolved(data:  self.rooms)
+//        }
+//
+
         loadFromServer()
         
     }

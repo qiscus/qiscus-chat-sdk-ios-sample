@@ -11,6 +11,7 @@ import AlamofireImage
 import Alamofire
 import SimpleImageViewer
 import SDWebImage
+import SVGKit
 
 class QImageLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
@@ -80,12 +81,32 @@ class QImageLeftCell: UIBaseChatCell {
                     self.hideLoading()
                 }
             }
+        }else{
+            let fileImage = message.getAttachmentURL(message: message.message)
+            if self.ivComment.image == nil {
+                self.showLoading()
+                self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+                
+                self.ivComment.af_setImage(withURL:  URL(string: fileImage) ?? URL(string: "http://")!)
+                self.hideLoading()
+            }
         }
         
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true
         
-        self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+        if let avatar = message.userAvatarUrl {
+            if avatar.absoluteString.contains(".svg") == true{
+                let svg = avatar
+                let data = try? Data(contentsOf: svg)
+                let receivedimage: SVGKImage = SVGKImage(data: data)
+                self.ivAvatarUser.image = receivedimage.uiImage
+            }else{
+                self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+            }
+        }else{
+            self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+        }
         
         if(isPublic == true){
             self.lbName.text = message.username

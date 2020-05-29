@@ -1,18 +1,19 @@
 //
-//  QImageRightCell.swift
+//  QImageLeftCell.swift
 //  Qiscus
 //
-//  Created by asharijuang on 05/09/18.
+//  Created by asharijuang on 04/09/18.
 //
 
 import UIKit
 import QiscusCore
-
 import AlamofireImage
 import Alamofire
 import SimpleImageViewer
+import SDWebImage
+import SVGKit
 
-class QImageRightCell: UIBaseChatCell {
+class QReplyImageLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
@@ -20,29 +21,35 @@ class QImageRightCell: UIBaseChatCell {
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var ivStatus: UIImageView!
     @IBOutlet weak var ivComment: UIImageView!
-    
-    @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
-    @IBOutlet weak var lbNameTrailing: NSLayoutConstraint!
-    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
-    var menuConfig = enableMenuConfig()
     @IBOutlet weak var ivLoading: UIImageView!
     @IBOutlet weak var lbLoading: UILabel!
+    @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
+    @IBOutlet weak var lbNameLeading: NSLayoutConstraint!
+    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var ivAvatarUser: UIImageView!
+    @IBOutlet weak var lbReplySender: UILabel!
+    var isPublic: Bool = false
+    var menuConfig = enableMenuConfig()
+    var colorName : UIColor = UIColor.black
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.setMenu()
         self.ivComment.contentMode = .scaleAspectFill
         self.ivComment.clipsToBounds = true
+         self.ivComment.layer.cornerRadius = 8
         self.ivComment.backgroundColor = UIColor.black
-        self.ivComment.layer.cornerRadius = 8
         self.ivComment.isUserInteractionEnabled = true
-        let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QImageRightCell.imageDidTap))
+        let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QReplyImageLeftCell.imageDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         self.setMenu()
+        // Configure the view for the selected state
     }
     
     override func present(message: CommentModel) {
@@ -55,17 +62,23 @@ class QImageRightCell: UIBaseChatCell {
     
     func bindData(message: CommentModel){
         self.setupBalon()
-        self.status(message: message)
-        // get image
-        self.lbName.text = "You"
-        self.lbTime.text = self.hour(date: message.date())
-        guard let payload = message.payload else { return }
-        let caption = payload["caption"] as? String
         
-        self.tvContent.text = caption
-        self.tvContent.textColor = ColorConfiguration.rightBaloonTextColor
-        if let url = payload["url"] as? String {
-            if let url = payload["url"] as? String {
+        // get image
+        self.lbTime.text = self.hour(date: message.date())
+        self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
+        guard let payload = message.payload else { return }
+        
+        if let caption = payload["text"] as? String {
+            self.tvContent.text = caption
+        }
+        
+        if let replied_comment_type = payload ["replied_comment_sender_username"] as? String {
+            self.lbReplySender.text = replied_comment_type
+        }
+        
+        self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
+        if let url = payload["replied_comment_payload"] as? [String:Any] {
+            if let url = url["url"] as? String {
                 
                 if self.ivComment.image == nil {
                     self.showLoading()
@@ -79,10 +92,34 @@ class QImageRightCell: UIBaseChatCell {
             if self.ivComment.image == nil {
                 self.showLoading()
                 self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
-                
                 self.ivComment.af_setImage(withURL:  URL(string: fileImage) ?? URL(string: "http://")!)
                 self.hideLoading()
             }
+        }
+        
+        self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
+        self.ivAvatarUser.clipsToBounds = true
+        
+        if let avatar = message.userAvatarUrl {
+            if avatar.absoluteString.contains(".svg") == true{
+                let svg = avatar
+                let data = try? Data(contentsOf: svg)
+                let receivedimage: SVGKImage = SVGKImage(data: data)
+                self.ivAvatarUser.image = receivedimage.uiImage
+            }else{
+                self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+            }
+        }else{
+            self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+        }
+        
+        if(isPublic == true){
+            self.lbName.text = message.username
+            self.lbName.textColor = colorName
+            lbNameHeight.constant = 21
+        }else{
+            self.lbName.text = ""
+            lbNameHeight.constant = 0
         }
         
     }
@@ -97,19 +134,20 @@ class QImageRightCell: UIBaseChatCell {
         self.ivLoading.isHidden = false
     }
     
+    
     @objc func imageDidTap() {
+        
         guard let selectedImage = self.ivComment.image else {
             print("Image not found!")
             return
         }
-        
         //active this code for detail image
         let configuration = ImageViewerConfiguration { config in
             config.imageView = ivComment
         }
 
-    self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
-        
+        let imageViewerController = ImageViewerController(configuration: configuration)
+        self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
     }
     
     //MARK: - Add image to Library
@@ -155,48 +193,9 @@ class QImageRightCell: UIBaseChatCell {
     }
     
     func setupBalon(){
-        //self.ivBaloonLeft.applyShadow()
+        self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
-        self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
-    }
-    
-    func status(message: CommentModel){
-        
-        switch message.status {
-        case .deleted:
-            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
-            break
-        case .sending, .pending:
-            lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
-            lbTime.text = TextConfiguration.sharedInstance.sendingText
-            ivStatus.image = UIImage(named: "ic_info_time")?.withRenderingMode(.alwaysTemplate)
-            break
-        case .sent:
-            lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
-            ivStatus.image = UIImage(named: "ic_sending")?.withRenderingMode(.alwaysTemplate)
-            break
-        case .delivered:
-            lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.readMessageColor
-            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
-            break
-        case .read:
-            lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.readMessageColor
-            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
-            break
-        case . failed:
-            lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            lbTime.text = TextConfiguration.sharedInstance.failedText
-            ivStatus.image = UIImage(named: "ic_warning")?.withRenderingMode(.alwaysTemplate)
-            ivStatus.tintColor = ColorConfiguration.failToSendColor
-            break
-        case .deleting:
-            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
-            break
-        }
+        self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
     }
     
     func hour(date: Date?) -> String {

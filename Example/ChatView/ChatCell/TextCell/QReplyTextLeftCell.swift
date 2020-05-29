@@ -2,7 +2,7 @@
 //  QTextLeftCell.swift
 //  Qiscus
 //
-//  Created by asharijuang on 04/09/18.
+//  Created by arief nur putranto on 04/09/18.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import AlamofireImage
 import QiscusCore
 import SVGKit
 
-class QTextLeftCell: UIBaseChatCell {
+class QReplyTextLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
@@ -25,6 +25,9 @@ class QTextLeftCell: UIBaseChatCell {
     var colorName : UIColor = UIColor.black
     
     @IBOutlet weak var ivAvatarUser: UIImageView!
+    
+    @IBOutlet weak var lbReplyName: UILabel!
+    @IBOutlet weak var tvReplyContent: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -55,6 +58,17 @@ class QTextLeftCell: UIBaseChatCell {
         self.tvContent.text = message.message
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         
+        if let messageReply = message.payload?["replied_comment_message"] as? String {
+            self.tvReplyContent.text = messageReply
+        }else{
+           self.tvReplyContent.text = "unknow"
+        }
+        
+        if let senderReply = message.payload?["replied_comment_sender_username"] as? String {
+             self.lbReplyName.text = senderReply
+        }else{
+            self.lbReplyName.text = ""
+        }
         
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true

@@ -73,6 +73,21 @@
 		3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */; };
 		3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A30221E656C00F1B7CA /* QFileRightCell.xib */; };
 		3D8F0D6122684130000135CA /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F0D6022684130000135CA /* UserDefault.swift */; };
+		3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E1248024DD00CEF339 /* CustomerRoom.swift */; };
+		3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */; };
+		3DA788E62480406C00CEF339 /* UIChatListUnservedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */; };
+		3DA788E92480613E00CEF339 /* UIChatListServedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E72480613E00CEF339 /* UIChatListServedViewController.swift */; };
+		3DA788EA2480613E00CEF339 /* UIChatListServedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788E82480613E00CEF339 /* UIChatListServedViewController.xib */; };
+		3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788EB2480623000CEF339 /* UIChatListResolvedViewController.swift */; };
+		3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788EC2480623000CEF339 /* UIChatListResolvedViewController.xib */; };
+		3DA788F12480719D00CEF339 /* QReplyTextRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788EF2480719D00CEF339 /* QReplyTextRightCell.swift */; };
+		3DA788F22480719D00CEF339 /* QReplyTextRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788F02480719D00CEF339 /* QReplyTextRightCell.xib */; };
+		3DA788F52480A5B800CEF339 /* QReplyTextLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788F32480A5B800CEF339 /* QReplyTextLeftCell.swift */; };
+		3DA788F62480A5B800CEF339 /* QReplyTextLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788F42480A5B800CEF339 /* QReplyTextLeftCell.xib */; };
+		3DA788F92480BFFC00CEF339 /* QReplyImageRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788F72480BFFC00CEF339 /* QReplyImageRightCell.swift */; };
+		3DA788FA2480BFFC00CEF339 /* QReplyImageRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788F82480BFFC00CEF339 /* QReplyImageRightCell.xib */; };
+		3DA788FD2480D84A00CEF339 /* QReplyImageLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788FB2480D84900CEF339 /* QReplyImageLeftCell.swift */; };
+		3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788FC2480D84900CEF339 /* QReplyImageLeftCell.xib */; };
 		3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA7C699221A68A20018A94F /* NewConversationVC.swift */; };
 		3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA7C69A221A68A20018A94F /* NewConversationVC.xib */; };
 		3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */; };
@@ -174,6 +189,21 @@
 		3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QFileRightCell.swift; sourceTree = "<group>"; };
 		3D819A30221E656C00F1B7CA /* QFileRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileRightCell.xib; sourceTree = "<group>"; };
 		3D8F0D6022684130000135CA /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserDefault.swift; path = Example/UserDefault.swift; sourceTree = SOURCE_ROOT; };
+		3DA788E1248024DD00CEF339 /* CustomerRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRoom.swift; sourceTree = "<group>"; };
+		3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListUnservedViewController.swift; sourceTree = "<group>"; };
+		3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListUnservedViewController.xib; sourceTree = "<group>"; };
+		3DA788E72480613E00CEF339 /* UIChatListServedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListServedViewController.swift; sourceTree = "<group>"; };
+		3DA788E82480613E00CEF339 /* UIChatListServedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListServedViewController.xib; sourceTree = "<group>"; };
+		3DA788EB2480623000CEF339 /* UIChatListResolvedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListResolvedViewController.swift; sourceTree = "<group>"; };
+		3DA788EC2480623000CEF339 /* UIChatListResolvedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListResolvedViewController.xib; sourceTree = "<group>"; };
+		3DA788EF2480719D00CEF339 /* QReplyTextRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QReplyTextRightCell.swift; sourceTree = "<group>"; };
+		3DA788F02480719D00CEF339 /* QReplyTextRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QReplyTextRightCell.xib; sourceTree = "<group>"; };
+		3DA788F32480A5B800CEF339 /* QReplyTextLeftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QReplyTextLeftCell.swift; sourceTree = "<group>"; };
+		3DA788F42480A5B800CEF339 /* QReplyTextLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QReplyTextLeftCell.xib; sourceTree = "<group>"; };
+		3DA788F72480BFFC00CEF339 /* QReplyImageRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QReplyImageRightCell.swift; sourceTree = "<group>"; };
+		3DA788F82480BFFC00CEF339 /* QReplyImageRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QReplyImageRightCell.xib; sourceTree = "<group>"; };
+		3DA788FB2480D84900CEF339 /* QReplyImageLeftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QReplyImageLeftCell.swift; sourceTree = "<group>"; };
+		3DA788FC2480D84900CEF339 /* QReplyImageLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QReplyImageLeftCell.xib; sourceTree = "<group>"; };
 		3DA7C699221A68A20018A94F /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
 		3DA7C69A221A68A20018A94F /* NewConversationVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewConversationVC.xib; sourceTree = "<group>"; };
 		3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QPostbackLeftCell.swift; sourceTree = "<group>"; };
@@ -239,6 +269,7 @@
 				3DA824552301C2DA0054D92F /* QCard.swift */,
 				3DA824542301C2DA0054D92F /* QCardAction.swift */,
 				3D40B8542192E20900FE7228 /* CommentModel.swift */,
+				3DA788E1248024DD00CEF339 /* CustomerRoom.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -311,6 +342,12 @@
 				3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */,
 				3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */,
 				3DB437FF2322448A007BE03F /* UIBottomPopupVC.xib */,
+				3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */,
+				3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */,
+				3DA788E72480613E00CEF339 /* UIChatListServedViewController.swift */,
+				3DA788E82480613E00CEF339 /* UIChatListServedViewController.xib */,
+				3DA788EB2480623000CEF339 /* UIChatListResolvedViewController.swift */,
+				3DA788EC2480623000CEF339 /* UIChatListResolvedViewController.xib */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -377,6 +414,10 @@
 				3D40B87C2192E20A00FE7228 /* QTextRightCell.xib */,
 				3D40B87E2192E20A00FE7228 /* QTextLeftCell.swift */,
 				3D40B8952192E20A00FE7228 /* QTextRightCell.swift */,
+				3DA788EF2480719D00CEF339 /* QReplyTextRightCell.swift */,
+				3DA788F02480719D00CEF339 /* QReplyTextRightCell.xib */,
+				3DA788F32480A5B800CEF339 /* QReplyTextLeftCell.swift */,
+				3DA788F42480A5B800CEF339 /* QReplyTextLeftCell.xib */,
 			);
 			path = TextCell;
 			sourceTree = "<group>";
@@ -388,6 +429,10 @@
 				3D40B87D2192E20A00FE7228 /* QImageLeftCell.xib */,
 				3D40B8912192E20A00FE7228 /* QImageRightCell.xib */,
 				3D40B8982192E20A00FE7228 /* QImageRightCell.swift */,
+				3DA788F72480BFFC00CEF339 /* QReplyImageRightCell.swift */,
+				3DA788F82480BFFC00CEF339 /* QReplyImageRightCell.xib */,
+				3DA788FB2480D84900CEF339 /* QReplyImageLeftCell.swift */,
+				3DA788FC2480D84900CEF339 /* QReplyImageLeftCell.xib */,
 			);
 			path = ImageCell;
 			sourceTree = "<group>";
@@ -611,13 +656,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DA788E62480406C00CEF339 /* UIChatListUnservedViewController.xib in Resources */,
 				3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */,
 				3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */,
 				3DA8244C2301B3980054D92F /* QCardRightCell.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
+				3DA788F22480719D00CEF339 /* QReplyTextRightCell.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
 				3D40B8D72192E20C00FE7228 /* QSystemCell.xib in Resources */,
+				3DA788EA2480613E00CEF339 /* UIChatListServedViewController.xib in Resources */,
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
@@ -630,11 +678,14 @@
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
 				3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */,
+				3DA788F62480A5B800CEF339 /* QReplyTextLeftCell.xib in Resources */,
 				3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */,
 				3D40B8D42192E20C00FE7228 /* QTextRightCell.xib in Resources */,
 				3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */,
 				3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */,
+				3DA788FA2480BFFC00CEF339 /* QReplyImageRightCell.xib in Resources */,
 				3DB438012322448A007BE03F /* UIBottomPopupVC.xib in Resources */,
+				3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
 				3D40B8C72192E20C00FE7228 /* ChatPreviewDocVC.xib in Resources */,
@@ -644,6 +695,7 @@
 				3DA824502301B3980054D92F /* QPostbackLeftCell.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
+				3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */,
 				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
 				3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */,
 				3D40B8CA2192E20C00FE7228 /* CustomChatInput.xib in Resources */,
@@ -696,19 +748,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DA788F52480A5B800CEF339 /* QReplyTextLeftCell.swift in Sources */,
 				3D40B8B52192E20C00FE7228 /* ViewController.swift in Sources */,
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
+				3DA788F12480719D00CEF339 /* QReplyTextRightCell.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
 				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
 				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
 				3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
+				3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
 				3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */,
+				3DA788F92480BFFC00CEF339 /* QReplyImageRightCell.swift in Sources */,
 				3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
 				3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */,
@@ -736,12 +792,16 @@
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
 				3DA8244F2301B3980054D92F /* QCardLeftCell.swift in Sources */,
+				3DA788E92480613E00CEF339 /* UIChatListServedViewController.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
+				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
+				3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */,
 				3D8F0D6122684130000135CA /* UserDefault.swift in Sources */,
 				3D819A26221D0BFB00F1B7CA /* UITextField.swift in Sources */,
 				3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */,
 				3D80B2B4221BB75A0053280C /* ContactSelectCollCell.swift in Sources */,
 				3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */,
+				3DA788FD2480D84A00CEF339 /* QReplyImageLeftCell.swift in Sources */,
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,

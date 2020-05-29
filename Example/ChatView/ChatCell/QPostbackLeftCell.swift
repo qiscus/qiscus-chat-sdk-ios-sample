@@ -9,6 +9,7 @@ import UIKit
 import QiscusCore
 import SwiftyJSON
 import AlamofireImage
+import SVGKit
 
 class QPostbackLeftCell: UIBaseChatCell {
     let maxWidth:CGFloat = 0.7 * QiscusHelper.screenWidth()
@@ -57,7 +58,18 @@ class QPostbackLeftCell: UIBaseChatCell {
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true
         
-        self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+        if let avatar = message.userAvatarUrl {
+            if avatar.absoluteString.contains(".svg") == true{
+                let svg = avatar
+                let data = try? Data(contentsOf: svg)
+                let receivedimage: SVGKImage = SVGKImage(data: data)
+                self.ivAvatarUser.image = receivedimage.uiImage
+            }else{
+                self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+            }
+        }else{
+            self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+        }
         
         balloonView.image = getBallon()
         

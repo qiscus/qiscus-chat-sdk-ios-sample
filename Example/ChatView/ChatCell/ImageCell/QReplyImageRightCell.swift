@@ -2,7 +2,7 @@
 //  QImageRightCell.swift
 //  Qiscus
 //
-//  Created by asharijuang on 05/09/18.
+//  Created by arief nur putranto on 05/09/18.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import AlamofireImage
 import Alamofire
 import SimpleImageViewer
 
-class QImageRightCell: UIBaseChatCell {
+class QReplyImageRightCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
@@ -27,6 +27,7 @@ class QImageRightCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     @IBOutlet weak var ivLoading: UIImageView!
     @IBOutlet weak var lbLoading: UILabel!
+    @IBOutlet weak var lbReplySender: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -36,7 +37,7 @@ class QImageRightCell: UIBaseChatCell {
         self.ivComment.backgroundColor = UIColor.black
         self.ivComment.layer.cornerRadius = 8
         self.ivComment.isUserInteractionEnabled = true
-        let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QImageRightCell.imageDidTap))
+        let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QReplyImageRightCell.imageDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
     }
 
@@ -60,13 +61,18 @@ class QImageRightCell: UIBaseChatCell {
         self.lbName.text = "You"
         self.lbTime.text = self.hour(date: message.date())
         guard let payload = message.payload else { return }
-        let caption = payload["caption"] as? String
+        if let caption = payload["text"] as? String {
+            self.tvContent.text = caption
+        }
         
-        self.tvContent.text = caption
+        if let replied_comment_type = payload ["replied_comment_sender_username"] as? String {
+             self.lbReplySender.text = replied_comment_type
+        }
+       
+        
         self.tvContent.textColor = ColorConfiguration.rightBaloonTextColor
-        if let url = payload["url"] as? String {
-            if let url = payload["url"] as? String {
-                
+        if let url = payload["replied_comment_payload"] as? [String:Any] {
+            if let url = url["url"] as? String {
                 if self.ivComment.image == nil {
                     self.showLoading()
                     self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)

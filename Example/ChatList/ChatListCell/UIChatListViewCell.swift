@@ -10,6 +10,7 @@ import UIKit
 import QiscusCore
 import AlamofireImage
 import SwiftyJSON
+import SVGKit
 
 class UIChatListViewCell: UITableViewCell {
 
@@ -17,6 +18,7 @@ class UIChatListViewCell: UITableViewCell {
         return UINib(nibName: identifier, bundle: nil)
     }
     var data : RoomModel? = nil
+    var dataCustomerRoom : CustomerRoom? = nil
     static var identifier: String {
         return String(describing: self)
     }
@@ -120,10 +122,20 @@ class UIChatListViewCell: UITableViewCell {
             self.labelName.text = data.name
         }else { self.labelName.text = "Room" }
         self.labelDate.text = lastMessageCreateAt
-
+        
         if let avatar = data.avatarUrl {
-            self.imageViewRoom.af_setImage(withURL: avatar)
+            if avatar.absoluteString.contains(".svg") == true{
+                let svg = avatar
+                let data = try? Data(contentsOf: svg)
+                let receivedimage: SVGKImage = SVGKImage(data: data)
+                self.imageViewRoom.image = receivedimage.uiImage
+            }else{
+                self.imageViewRoom.af_setImage(withURL: avatar)
+            }
+        }else{
+            self.imageViewRoom.af_setImage(withURL: URL(string:"https://")!)
         }
+        
         if(data.unreadCount == 0){
             self.hiddenBadge()
         }else{
@@ -143,6 +155,100 @@ class UIChatListViewCell: UITableViewCell {
         }else{
             self.labelLastMessage.text  = message // single
         }
+    }
+    
+    func setupUICustomerRoom(data : CustomerRoom) {
+        self.dataCustomerRoom = data
+        let channelType = data.source
+        let is_resolved = data.isResolved
+        let is_handled_by_bot = data.isHandledByBot
+        if channelType.lowercased() == "qiscus"{
+            self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+        }else if channelType.lowercased() == "telegram"{
+            self.ivTypeChannel.image = UIImage(named: "ic_telegram")
+        }else if channelType.lowercased() == "line"{
+            self.ivTypeChannel.image = UIImage(named: "ic_line")
+        }else if channelType.lowercased() == "fb"{
+            self.ivTypeChannel.image = UIImage(named: "ic_fb")
+        }else if channelType.lowercased() == "wa"{
+            self.ivTypeChannel.image = UIImage(named: "ic_wa")
+        }else{
+            self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+        }
+        
+        
+        if is_resolved == true {
+            self.ic_isResolved.isHidden = false
+        }else{
+            self.ic_isResolved.isHidden = true
+        }
+        
+        if is_handled_by_bot == true {
+            self.ivBot.isHidden = false
+        }else{
+            self.ivBot.isHidden = true
+        }
+        
+        self.labelName.text = data.name
+        
+        self.labelDate.text = data.lastCommentTimestamp
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"
+        if let date = dateFormatter.date(from: data.lastCommentTimestamp) {
+            let dateFormatter2 = DateFormatter()
+            dateFormatter2.dateFormat = "d/MM"
+            let dateString = dateFormatter2.string(from: date)
+            
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "h:mm a"
+            let timeString = timeFormatter.string(from: date)
+            
+            var result = ""
+            
+            if Calendar.current.isDateInToday(date){
+                result = "Today, \(timeString)"
+            }
+            else if Calendar.current.isDateInYesterday(date) {
+                result = "Yesterday"
+            }else{
+                result = "\(dateString)"
+            }
+            
+            
+            self.labelDate.text = result
+        }else{
+            self.labelDate.text = ""
+        }
+       
+        
+        
+        if let avatar = data.avatarUrl {
+            if avatar.contains(".svg") == true{
+                let svg = URL(string: avatar)!
+                let data = try? Data(contentsOf: svg)
+                let receivedimage: SVGKImage = SVGKImage(data: data)
+                self.imageViewRoom.image = receivedimage.uiImage
+            }else if avatar.contains(".png") == true || avatar.contains(".jpg") == true || avatar.contains(".jpeg") == true{
+                self.imageViewRoom.af_setImage(withURL: URL(string: avatar)!)
+            }else{
+                self.imageViewRoom.af_setImage(withURL: URL(string: avatar) ?? URL(string:"https://")!)
+            }
+        }else{
+            self.imageViewRoom.af_setImage(withURL: URL(string:"https://")!)
+        }
+        
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                self.hiddenBadge()
+            }else{
+                self.hiddenBadge()
+            }
+        }else{
+            self.hiddenBadge()
+        }
+        
+        self.labelLastMessage.text  =  "\(data.lastComment)"
     }
     
     func hiddenBadge(){

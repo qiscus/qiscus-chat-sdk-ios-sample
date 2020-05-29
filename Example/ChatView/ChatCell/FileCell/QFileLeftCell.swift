@@ -9,6 +9,8 @@
 import UIKit
 import QiscusCore
 import AlamofireImage
+import SVGKit
+
 struct DocumentsDirectory {
     static let localDocumentsURL: NSURL? = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask).last! as NSURL
     static let iCloudDocumentsURL: NSURL? = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") as! NSURL
@@ -66,7 +68,18 @@ class QFileLeftCell: UIBaseChatCell {
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true
         
-        self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+        if let avatar = message.userAvatarUrl {
+            if avatar.absoluteString.contains(".svg") == true{
+                let svg = avatar
+                let data = try? Data(contentsOf: svg)
+                let receivedimage: SVGKImage = SVGKImage(data: data)
+                self.ivAvatarUser.image = receivedimage.uiImage
+            }else{
+                self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+            }
+        }else{
+            self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
+        }
         
         if(isPublic == true){
             self.lbName.text = message.username

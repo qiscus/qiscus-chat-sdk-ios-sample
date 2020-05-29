@@ -195,23 +195,62 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         let child_1 = UIChatListViewController()
-        let child_2 = UIChatListOngoingViewController()
+        //let child_2 = UIChatListOngoingViewController() ignored
+        let child_3 = UIChatListUnservedViewController()
+        let child_4 = UIChatListServedViewController()
+        let child_5 = UIChatListResolvedViewController()
         
-        guard isReload else {
-            return [child_1, child_2]
-        }
-        
-        var childViewControllers = [child_1, child_2]
-        
-        for index in childViewControllers.indices {
-            let nElements = childViewControllers.count - index
-            let n = (Int(arc4random()) % nElements) + index
-            if n != index {
-                childViewControllers.swapAt(index, n)
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                guard isReload else {
+                    return [child_1, child_5]
+                }
+                
+                var childViewControllers = [child_1, child_5]
+                
+                for index in childViewControllers.indices {
+                    let nElements = childViewControllers.count - index
+                    let n = (Int(arc4random()) % nElements) + index
+                    if n != index {
+                        childViewControllers.swapAt(index, n)
+                    }
+                }
+                let nItems = 1 + (arc4random() % 8)
+                return Array(childViewControllers.prefix(Int(nItems)))
+            }else{
+                guard isReload else {
+                    return [child_1, child_3, child_4, child_5]
+                }
+                
+                var childViewControllers = [child_1, child_3, child_4, child_5]
+                
+                for index in childViewControllers.indices {
+                    let nElements = childViewControllers.count - index
+                    let n = (Int(arc4random()) % nElements) + index
+                    if n != index {
+                        childViewControllers.swapAt(index, n)
+                    }
+                }
+                let nItems = 1 + (arc4random() % 8)
+                return Array(childViewControllers.prefix(Int(nItems)))
             }
+        }else{
+            guard isReload else {
+                return [child_1, child_5]
+            }
+            
+            var childViewControllers = [child_1, child_5]
+            
+            for index in childViewControllers.indices {
+                let nElements = childViewControllers.count - index
+                let n = (Int(arc4random()) % nElements) + index
+                if n != index {
+                    childViewControllers.swapAt(index, n)
+                }
+            }
+            let nItems = 1 + (arc4random() % 8)
+            return Array(childViewControllers.prefix(Int(nItems)))
         }
-        let nItems = 1 + (arc4random() % 8)
-        return Array(childViewControllers.prefix(Int(nItems)))
     }
     
     override func reloadPagerTabStripView() {
