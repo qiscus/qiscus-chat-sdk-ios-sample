@@ -31,7 +31,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 2 {
-                return IndicatorInfo(title: "ONGOING")
+                return IndicatorInfo(title: "Ongoing")
             }else{
                  return IndicatorInfo(title: "ALL")
             }
