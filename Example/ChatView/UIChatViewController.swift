@@ -657,7 +657,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
             
         } else if message.type == "reply" {
             if let typeReply = message.payload?["replied_comment_type"] as? String {
-                if typeReply == "text"{
+                if typeReply == "text" || typeReply == "reply"{
                     if (message.isMyComment() == true){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyTextRightCell", for: indexPath) as! QReplyTextRightCell
                         cell.menuConfig = menuConfig
