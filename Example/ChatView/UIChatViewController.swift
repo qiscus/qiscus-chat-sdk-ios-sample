@@ -61,6 +61,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var btCancelSubmit: UIButton!
     var placeholderLabel : UILabel!
     
+    @IBOutlet weak var tableViewChatTemplate: UITableView!
     
     var chatTitleView : UIChatNavigation = UIChatNavigation()
     var chatInput : CustomChatInput = CustomChatInput()
@@ -90,6 +91,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    var chatTemplates = [ChatTemplate]()
+    var chatTemplatesKeyword = ""
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -116,6 +120,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         view.endEditing(true)
         
         self.navigationController?.navigationBar.barTintColor = UIColor.white
+        
+        self.tableViewChatTemplate.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -282,6 +288,16 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         return UIBarButtonItem(customView: backButton)
     }
     
+    func qiscusAutoHideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.qiscusDismissKeyboard))
+        tap.delegate = self
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func qiscusDismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     private func setupTableView() {
         let rotate = CGAffineTransform(rotationAngle: .pi)
         self.tableViewConversation.transform = rotate
@@ -291,6 +307,14 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.tableViewConversation.delegate = self
         self.tableViewConversation.scrollsToTop = false
         self.tableViewConversation.allowsSelection = false
+        
+        self.tableViewChatTemplate.rowHeight = UITableView.automaticDimension
+        self.tableViewChatTemplate.dataSource = self
+        self.tableViewChatTemplate.delegate = self
+        self.tableViewConversation.allowsSelection = true
+        self.tableViewChatTemplate.register(ChatTemplateCell.nib, forCellReuseIdentifier: ChatTemplateCell.identifier)
+        
+        
         self.chatDelegate = self
         
         // support variation comment type
@@ -413,6 +437,81 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
+    }
+    
+    @objc func throthleChatTemplate(){
+        var keyword = chatTemplatesKeyword
+        if keyword.prefix(1) == "/" {
+            self.tableViewChatTemplate.isHidden = false
+        }else{
+            self.tableViewChatTemplate.isHidden = true
+        }
+        
+        if keyword.count == 1 {
+            keyword = ""
+        }
+        
+        
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        var appID = ""
+        if let dataAppID = UserDefaults.standard.getAppID(){
+            appID = dataAppID
+        }
+        let header = ["Authorization": token,
+                      "Qiscus-App-Id" : appID] as [String : String]
+        print("arief check =\(keyword)")
+        Alamofire.request("https://qismo.qiscus.com/api/v1/chat_templates?q=\(keyword)&limit=100", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if self.chatTemplates.count == 0 {
+                        self.tableViewChatTemplate.isHidden = true
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    var resultsChatTemplate = [ChatTemplate]()
+                    self.chatTemplates.removeAll()
+                    print("response.result.value =\(json)")
+                    if let chatTemplates = json["data"]["data"].array {
+                        for chatTemplate in chatTemplates {
+                            let chatTemplate = ChatTemplate.init(json: chatTemplate)
+                            resultsChatTemplate.append(chatTemplate)
+                        }
+                    }
+                    
+                    self.chatTemplates = resultsChatTemplate
+                    
+                    self.tableViewChatTemplate.reloadData()
+                    
+                    if self.chatTemplates.count == 0 {
+                        self.tableViewChatTemplate.isHidden = true
+                    }
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                if self.chatTemplates.count == 0 {
+                    self.tableViewChatTemplate.isHidden = true
+                }
+            } else {
+                //failed
+                if self.chatTemplates.count == 0 {
+                    self.tableViewChatTemplate.isHidden = true
+                }
+            }
+        }
+    }
+    
+    func getChatTemplate(keyword : String){
+        self.chatTemplatesKeyword = keyword
+        NSObject.cancelPreviousPerformRequests(withTarget: self,
+                                               selector: #selector(self.throthleChatTemplate),
+                                               object: nil)
+        
+        perform(#selector(self.throthleChatTemplate),
+                with: nil, afterDelay: 0.5)
     }
     
     // MARK: - Keyboard Methode
@@ -888,16 +987,25 @@ extension UIChatViewController: UIChatViewDelegate {
 
 extension UIChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionCount = self.presenter.comments.count
-        let rowCount = self.presenter.comments[section].count
-        if sectionCount == 0 {
-            return 0
+        if tableView == self.tableViewChatTemplate {
+            return self.chatTemplates.count
+        } else {
+            let sectionCount = self.presenter.comments.count
+            let rowCount = self.presenter.comments[section].count
+            if sectionCount == 0 {
+                return 0
+            }
+            return rowCount
         }
-        return rowCount
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.presenter.comments.count
+        if tableView == self.tableViewChatTemplate {
+            return 1
+        } else {
+            return self.presenter.comments.count
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -911,18 +1019,28 @@ extension UIChatViewController: UITableViewDataSource {
     // MARK: table cell confi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // get mesage at indexpath
-        let comment = self.presenter.getMessage(atIndexPath: indexPath)
-        var cell = self.cellFor(message: comment, at: indexPath, in: tableView)
-        cell.comment = comment
-        cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.main.scale
         
-        // Load More
-        let comments = self.presenter.comments
-        if indexPath.section == comments.count - 1 && indexPath.row > comments[indexPath.section].count - 10 {
-            presenter.loadMore()
+        if tableView == self.tableViewChatTemplate {
+            let cell = tableViewChatTemplate.dequeueReusableCell(withIdentifier: ChatTemplateCell.identifier, for: indexPath) as! ChatTemplateCell
+
+            cell.lbCommand.text = self.chatTemplates[indexPath.row].command
+            cell.lbMessageTemplate.text = self.chatTemplates[indexPath.row].message
+            return cell
+        } else {
+            let comment = self.presenter.getMessage(atIndexPath: indexPath)
+            var cell = self.cellFor(message: comment, at: indexPath, in: tableView)
+            cell.comment = comment
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
+            
+            // Load More
+            let comments = self.presenter.comments
+            if indexPath.section == comments.count - 1 && indexPath.row > comments[indexPath.section].count - 10 {
+                presenter.loadMore()
+            }
+            return cell
         }
-        return cell
+       
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -930,57 +1048,96 @@ extension UIChatViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20
+        if tableView == self.tableViewChatTemplate {
+            return 0.01
+        } else {
+            return 20
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if let firstMessageInSection = self.presenter.comments[section].first {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "E, d MMM"
-            let dateString = dateFormatter.string(from: firstMessageInSection.date)
-            
-            let label = DateHeaderLabel()
-            label.text = dateString
-            
-            let containerView = UIView()
-            containerView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            containerView.addSubview(label)
-            label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-            label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-            
-            return containerView
-            
+        if tableView == self.tableViewChatTemplate {
+            return nil
+        } else {
+           if let firstMessageInSection = self.presenter.comments[section].first {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "E, d MMM"
+                let dateString = dateFormatter.string(from: firstMessageInSection.date)
+                
+                let label = DateHeaderLabel()
+                label.text = dateString
+                
+                let containerView = UIView()
+                containerView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                containerView.addSubview(label)
+                label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+                label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+                
+                return containerView
+                
+            }
+            return nil
         }
-        return nil
     }
     
 }
 
 extension UIChatViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
-        return true
+        if tableView == self.tableViewChatTemplate {
+            return false
+        } else {
+            return true
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        // get mesage at indexpath
-        let comment = self.presenter.getMessage(atIndexPath: indexPath)
-        self.chatDelegate?.uiChat(viewController: self, didSelectMessage: comment)
+        if tableView == self.tableViewChatTemplate {
+            self.chatInput.textView.text = self.chatTemplates[indexPath.row].message
+            self.tableViewChatTemplate.isHidden = true
+            
+            var maximumLabelSize: CGSize = CGSize(width: self.chatInput.textView.frame.size.width, height: 170)
+            var expectedLabelSize: CGSize = self.chatInput.textView.sizeThatFits(maximumLabelSize)
+          
+            if expectedLabelSize.height >= 170 {
+                 self.constraintViewInputHeight.constant = 170
+            } else if expectedLabelSize.height <= 48 {
+                self.constraintViewInputHeight.constant = 48
+            } else {
+                self.constraintViewInputHeight.constant = expectedLabelSize.height
+            }
+            
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            // get mesage at indexpath
+            let comment = self.presenter.getMessage(atIndexPath: indexPath)
+            self.chatDelegate?.uiChat(viewController: self, didSelectMessage: comment)
+        }
     }
     
     
     func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        let comment = self.presenter.getMessage(atIndexPath: indexPath)
-        if let response = self.chatDelegate?.uiChat(viewController: self, canPerformAction: action, forRowAtmessage: comment, withSender: sender) {
-            return response
-        }else {
+        if tableView == self.tableViewChatTemplate {
             return false
+        } else {
+            let comment = self.presenter.getMessage(atIndexPath: indexPath)
+            if let response = self.chatDelegate?.uiChat(viewController: self, canPerformAction: action, forRowAtmessage: comment, withSender: sender) {
+                return response
+            }else {
+                return false
+            }
         }
+       
     }
     
     func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
-        let comment = self.presenter.getMessage(atIndexPath: indexPath)
-        self.chatDelegate?.uiChat(viewController: self, performAction: action, forRowAt: comment, withSender: sender)
+        if tableView == self.tableViewChatTemplate {
+            
+        } else {
+            let comment = self.presenter.getMessage(atIndexPath: indexPath)
+            self.chatDelegate?.uiChat(viewController: self, performAction: action, forRowAt: comment, withSender: sender)
+        }
     }
     
 }
@@ -1018,8 +1175,12 @@ extension UIChatViewController : UIChatInputDelegate {
         self.constraintViewInputHeight.constant = height
     }
     
-    func typing(_ value: Bool) {
+    func typing(_ value: Bool, query : String) {
         self.presenter.isTyping(value)
+        if value == true {
+            self.getChatTemplate(keyword: query)
+        }
+        
     }
     
     func send(message: CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
@@ -1045,5 +1206,14 @@ extension UIChatViewController : UIBaseChatCellDelegate {
         }) { (error) in
             print("failed delete comment for everyone")
         }
+    }
+}
+
+extension UIChatViewController : UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view?.isDescendant(of: self.tableViewChatTemplate) == true {
+            return false
+        }
+        return true
     }
 }

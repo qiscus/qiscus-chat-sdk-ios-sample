@@ -83,22 +83,44 @@ extension CustomChatInput : UITextViewDelegate {
             textView.text = TextConfiguration.sharedInstance.textPlaceholder
             textView.textColor = UIColor.lightGray
         }
-        self.typing(false)
+        self.typing(false, query: textView.text)
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.typing(true)
+        self.typing(true, query: textView.text)
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSize.init(width: fixedWidth, height: CGFloat(MAXFLOAT)))
-        if (newSize.height >= 35 && newSize.height <= 100) {
+        if (newSize.height >= 35 && newSize.height <= 170) {
             self.heightTextViewCons.constant = newSize.height
             self.heightView.constant = newSize.height + 10.0
             self.setHeight(self.heightView.constant)
         }
         
-        if (newSize.height >= 100) {
+        if (newSize.height >= 170) {
             self.textView.isScrollEnabled = true
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == UIPasteboard.general.string){
+            self.typing(true, query: text)
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+               var maximumLabelSize: CGSize = CGSize(width: self.textView.frame.size.width, height: 170)
+                var expectedLabelSize: CGSize = self.textView.sizeThatFits(maximumLabelSize)
+
+                if expectedLabelSize.height >= 170 {
+                    self.setHeight(170)
+                } else if expectedLabelSize.height <= 48 {
+                    self.setHeight(48)
+                } else {
+                    self.setHeight(expectedLabelSize.height)
+                }
+            })
+            
+        }else{
+            //User did input by keypad
+        }
+        return true
     }
 }
 

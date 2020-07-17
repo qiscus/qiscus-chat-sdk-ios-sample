@@ -10,14 +10,15 @@ import UIKit
 
 extension UIViewController {
 
-    func qiscusAutoHideKeyboard() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.qiscusDismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func qiscusDismissKeyboard() {
-        view.endEditing(true)
-    }
+//    func qiscusAutoHideKeyboard() {
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.qiscusDismissKeyboard))
+//        tap.delegate = self
+//        view.addGestureRecognizer(tap)
+//    }
+//    
+//    @objc func qiscusDismissKeyboard() {
+//        view.endEditing(true)
+//    }
 
     func showLoading(withText text: String = "Please wait...") {
         let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)

@@ -11,14 +11,14 @@ import QiscusCore
 // Blueprint method
 protocol UIChatInputAction {
     func send(message : CommentModel)
-    func typing(_ value: Bool)
+    func typing(_ value: Bool, query : String)
     func setHeight(_ value: CGFloat)
 }
 
 // internal function
 protocol UIChatInputDelegate {
     func send(message : CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void)
-    func typing(_ value: Bool)
+    func typing(_ value: Bool,  query : String)
     func onHeightChanged(height: CGFloat)
 }
 
@@ -92,8 +92,8 @@ extension UIChatInput : UIChatInputAction {
         self._delegate?.onHeightChanged(height: value)
     }
     
-    func typing(_ value: Bool) {
-        self._delegate?.typing(value)
+    func typing(_ value: Bool,  query : String) {
+        self._delegate?.typing(value, query : query)
     }
     
     func send(message : CommentModel) {

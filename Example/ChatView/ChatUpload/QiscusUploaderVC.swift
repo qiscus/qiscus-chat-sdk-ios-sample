@@ -87,6 +87,15 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         }
     }
     
+    func qiscusAutoHideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.qiscusDismissKeyboard))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func qiscusDismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     func setupUI(){
         self.labelTitle.text = "Image"
         self.hiddenProgress()

@@ -104,6 +104,9 @@
 		3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824542301C2DA0054D92F /* QCardAction.swift */; };
 		3DA824572301C2DA0054D92F /* QCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824552301C2DA0054D92F /* QCard.swift */; };
 		3DA824592301C35B0054D92F /* QCardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA824582301C35A0054D92F /* QCardButton.swift */; };
+		3DAB890224C0E2040046E5DE /* ChatTemplateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB890024C0E2030046E5DE /* ChatTemplateCell.swift */; };
+		3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAB890124C0E2040046E5DE /* ChatTemplateCell.xib */; };
+		3DAB890724C0FDE40046E5DE /* ChatTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB890624C0FDE40046E5DE /* ChatTemplate.swift */; };
 		3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */; };
 		3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */; };
 		3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */; };
@@ -220,6 +223,9 @@
 		3DA824542301C2DA0054D92F /* QCardAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardAction.swift; sourceTree = "<group>"; };
 		3DA824552301C2DA0054D92F /* QCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCard.swift; sourceTree = "<group>"; };
 		3DA824582301C35A0054D92F /* QCardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardButton.swift; sourceTree = "<group>"; };
+		3DAB890024C0E2030046E5DE /* ChatTemplateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTemplateCell.swift; sourceTree = "<group>"; };
+		3DAB890124C0E2040046E5DE /* ChatTemplateCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTemplateCell.xib; sourceTree = "<group>"; };
+		3DAB890624C0FDE40046E5DE /* ChatTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTemplate.swift; sourceTree = "<group>"; };
 		3DAF2A36222E62850002B4E3 /* RoomInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomInfoVC.swift; sourceTree = "<group>"; };
 		3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomInfoVC.xib; sourceTree = "<group>"; };
 		3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRoomNameVC.swift; sourceTree = "<group>"; };
@@ -270,6 +276,7 @@
 				3DA824542301C2DA0054D92F /* QCardAction.swift */,
 				3D40B8542192E20900FE7228 /* CommentModel.swift */,
 				3DA788E1248024DD00CEF339 /* CustomerRoom.swift */,
+				3DAB890624C0FDE40046E5DE /* ChatTemplate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -479,6 +486,15 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		3DAB88FF24C0E1640046E5DE /* ChatTemplateCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DAB890024C0E2030046E5DE /* ChatTemplateCell.swift */,
+				3DAB890124C0E2040046E5DE /* ChatTemplateCell.xib */,
+			);
+			path = ChatTemplateCell;
+			sourceTree = "<group>";
+		};
 		3DAF2A35222E62330002B4E3 /* RoomInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -502,6 +518,7 @@
 		3DCF6A3E2199562700C108E6 /* ChatView */ = {
 			isa = PBXGroup;
 			children = (
+				3DAB88FF24C0E1640046E5DE /* ChatTemplateCell */,
 				3DCF6A3F2199581200C108E6 /* ChatUpload */,
 				3D40B8712192E20A00FE7228 /* ChatCell */,
 				3D40B86E2192E20A00FE7228 /* ChatInput */,
@@ -673,6 +690,7 @@
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
+				3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
@@ -788,6 +806,7 @@
 				3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */,
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
+				3DAB890224C0E2040046E5DE /* ChatTemplateCell.swift in Sources */,
 				3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */,
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
@@ -796,6 +815,7 @@
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
 				3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */,
+				3DAB890724C0FDE40046E5DE /* ChatTemplate.swift in Sources */,
 				3D8F0D6122684130000135CA /* UserDefault.swift in Sources */,
 				3D819A26221D0BFB00F1B7CA /* UITextField.swift in Sources */,
 				3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */,
@@ -962,7 +982,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -970,7 +990,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
@@ -987,7 +1007,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -995,7 +1015,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dist";
