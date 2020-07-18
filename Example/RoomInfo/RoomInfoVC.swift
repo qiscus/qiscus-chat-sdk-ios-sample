@@ -19,13 +19,13 @@ class RoomInfoVC: UIViewController {
     @IBOutlet weak var lbRoomName: UILabel!
     @IBOutlet weak var btIconEditName: UIButton!
     @IBOutlet weak var btIconAvatar: UIButton!
-    
+    @IBOutlet weak var lbChannelType: UILabel!
     @IBOutlet weak var lbAdditionalInformationCount: UILabel!
+    @IBOutlet weak var lbUserID: UILabel!
     @IBOutlet weak var ivAvatar: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     var lastAvatarURL: URL? = nil
-    
     var room : RoomModel? = nil
     var participants = [MemberModel]()
     override func viewDidLoad() {
@@ -130,16 +130,22 @@ class RoomInfoVC: UIViewController {
                 let channelType = json["channel"].string ?? "qiscus"
                 if channelType.lowercased() == "qiscus"{
                     self.btIconAvatar.setImage(UIImage(named: "ic_qiscus"), for: .normal)
+                    self.lbChannelType.text = "Qiscus Widget"
                 }else if channelType.lowercased() == "telegram"{
                     self.btIconAvatar.setImage(UIImage(named: "ic_telegram"), for: .normal)
+                    self.lbChannelType.text = "Telegram"
                 }else if channelType.lowercased() == "line"{
                     self.btIconAvatar.setImage(UIImage(named: "ic_line"), for: .normal)
+                    self.lbChannelType.text = "Line"
                 }else if channelType.lowercased() == "fb"{
                     self.btIconAvatar.setImage(UIImage(named: "ic_fb"), for: .normal)
+                     self.lbChannelType.text = "Facebook"
                 }else if channelType.lowercased() == "wa"{
                     self.btIconAvatar.setImage(UIImage(named: "ic_wa"), for: .normal)
+                    self.lbChannelType.text = "WhatsApp"
                 }else{
                     self.btIconAvatar.setImage(UIImage(named: "ic_qiscus"), for: .normal)
+                    self.lbChannelType.text = "Qiscus Widget"
                 }
                 
             }
@@ -168,6 +174,13 @@ class RoomInfoVC: UIViewController {
                     let json = JSON(response.result.value)
                     print("response.result.value =\(json)")
                     var data = json["data"]["extras"].dictionary
+                    var userID = json["data"]["user_id"].string ?? ""
+                    var channelName = json["data"]["channel_name"].string ?? ""
+                    self.lbUserID.text = userID
+                    if !channelName.isEmpty && self.lbChannelType.text != nil {
+                         self.lbChannelType.text = "\(self.lbChannelType.text!) - \(channelName)"
+                    }
+                   
                     
                     if let dataUser = data {
                         let userProperties = dataUser["user_properties"]?.array
