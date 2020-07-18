@@ -142,8 +142,8 @@ class UIChatListViewCell: UITableViewCell {
         
         var message = ""
         guard let lastComment = data.lastComment else { return }
-        if lastComment.type == ""{
-            message = "File Attachment"
+        if lastComment.type == "" || lastComment.type == "file_attachment"{
+            message = "Send File Attachment"
         }else {
             message = lastComment.message
         }

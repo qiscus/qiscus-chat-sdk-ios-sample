@@ -461,7 +461,6 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         }
         let header = ["Authorization": token,
                       "Qiscus-App-Id" : appID] as [String : String]
-        print("arief check =\(keyword)")
         Alamofire.request("https://qismo.qiscus.com/api/v1/chat_templates?q=\(keyword)&limit=100", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {

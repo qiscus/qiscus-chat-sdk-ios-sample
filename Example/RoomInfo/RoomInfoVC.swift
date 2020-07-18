@@ -28,6 +28,8 @@ class RoomInfoVC: UIViewController {
     var lastAvatarURL: URL? = nil
     var room : RoomModel? = nil
     var participants = [MemberModel]()
+    var isChannelWA : Bool = false
+    var isPhoneNumberWa : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -142,6 +144,7 @@ class RoomInfoVC: UIViewController {
                      self.lbChannelType.text = "Facebook"
                 }else if channelType.lowercased() == "wa"{
                     self.btIconAvatar.setImage(UIImage(named: "ic_wa"), for: .normal)
+                    self.isChannelWA = true
                     self.lbChannelType.text = "WhatsApp"
                 }else{
                     self.btIconAvatar.setImage(UIImage(named: "ic_qiscus"), for: .normal)
@@ -176,12 +179,27 @@ class RoomInfoVC: UIViewController {
                     var data = json["data"]["extras"].dictionary
                     var userID = json["data"]["user_id"].string ?? ""
                     var channelName = json["data"]["channel_name"].string ?? ""
-                    self.lbUserID.text = userID
+                    
+                    if let userType = UserDefaults.standard.getUserType(){
+                        if userType == 2 {
+                            if self.isChannelWA == true {
+                                self.isPhoneNumberWa = userID
+                                self.lbUserID.text = self.starifyNumber(number: userID)
+                            }else{
+                                self.lbUserID.text = userID
+                            }
+                            
+                            self.tableView.reloadData()
+                        }else{
+                            //admin / supervisor
+                            self.lbUserID.text = userID
+                        }
+                    }
+                   
                     if !channelName.isEmpty && self.lbChannelType.text != nil {
                          self.lbChannelType.text = "\(self.lbChannelType.text!) - \(channelName)"
                     }
                    
-                    
                     if let dataUser = data {
                         let userProperties = dataUser["user_properties"]?.array
                         var count = 0
@@ -200,6 +218,19 @@ class RoomInfoVC: UIViewController {
                 //failed
             }
         }
+    }
+    
+    func starifyNumber(number: String) -> String {
+        let intLetters = number.prefix(number.count - 5)
+        let endLetters = number.suffix(0)
+        
+        let numberOfStars = number.count - (intLetters.count + endLetters.count)
+        var starString = ""
+        for _ in 1...numberOfStars {
+            starString += "*"
+        }
+        let finalNumberToShow: String = intLetters + starString + endLetters
+        return finalNumberToShow
     }
     
     func setupUI(){
@@ -382,7 +413,7 @@ extension RoomInfoVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellIdentifire", for: indexPath) as! ContactCell
         
         let contact = self.participants[indexPath.row]
-        cell.configureWithData(contact: contact)
+        cell.configureWithData(contact: contact, isPhoneNumberWa: self.isPhoneNumberWa)
         
         let image = UIImage(named: "ar_cancel")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         cell.ivCheck.image = image

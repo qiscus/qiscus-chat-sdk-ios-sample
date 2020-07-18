@@ -40,7 +40,7 @@ open class ContactCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureWithData(contact data: MemberModel, searchText: String = "") {
+    func configureWithData(contact data: MemberModel, searchText: String = "", isPhoneNumberWa : String = "") {
         self.contact = data
         let fullName: String            = data.username
         let avatarURL: URL              = data.avatarUrl!
@@ -56,7 +56,12 @@ open class ContactCell: UITableViewCell {
         accessoryType = .none
         
         nameLabel.text                  = fullName
-        userIDLabel.text                = data.email
+        if !isPhoneNumberWa.isEmpty && isPhoneNumberWa == data.email {
+            userIDLabel.text                = self.starifyNumber(number: data.email)
+        } else {
+             userIDLabel.text                = data.email
+        }
+       
         profileImageView.clipsToBounds  = true
         profileImageView.contentMode    = .scaleAspectFill
         
@@ -71,6 +76,19 @@ open class ContactCell: UITableViewCell {
         ivCheck.addGestureRecognizer(tapGestureRecognizer)
         
         makeMatchingPartBold(searchText: searchText)
+    }
+    
+    func starifyNumber(number: String) -> String {
+        let intLetters = number.prefix(number.count - 5)
+        let endLetters = number.suffix(0)
+        
+        let numberOfStars = number.count - (intLetters.count + endLetters.count)
+        var starString = ""
+        for _ in 1...numberOfStars {
+            starString += "*"
+        }
+        let finalNumberToShow: String = intLetters + starString + endLetters
+        return finalNumberToShow
     }
     
     @objc func removeParticipant(tapGestureRecognizer: UITapGestureRecognizer){
