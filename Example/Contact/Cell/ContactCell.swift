@@ -19,6 +19,7 @@ open class ContactCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet var profileImageView: UIImageView!
     
+    @IBOutlet weak var userIDLabel: UILabel!
     @IBOutlet weak var ivCheck: UIImageView!
     var contact: MemberModel?
     var roomId : String? = ""
@@ -55,9 +56,15 @@ open class ContactCell: UITableViewCell {
         accessoryType = .none
         
         nameLabel.text                  = fullName
+        userIDLabel.text                = data.email
         profileImageView.clipsToBounds  = true
         profileImageView.contentMode    = .scaleAspectFill
-        profileImageView.af_setImage(withURL: avatarURL, placeholderImage: placeHolderImage, filter: nil)
+        
+        if avatarURL.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+             profileImageView.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!, placeholderImage: placeHolderImage, filter: nil)
+        }else{
+          profileImageView.af_setImage(withURL: avatarURL, placeholderImage: placeHolderImage, filter: nil)
+        }
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(removeParticipant(tapGestureRecognizer:)))
         ivCheck.isUserInteractionEnabled = true

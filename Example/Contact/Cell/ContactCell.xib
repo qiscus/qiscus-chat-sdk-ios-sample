@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,8 +27,8 @@
                             <constraint firstAttribute="width" secondItem="n3w-uh-8iZ" secondAttribute="height" multiplier="1:1" id="jTw-w9-e6u"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="nameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAl-vs-xCw" userLabel="label1">
-                        <rect key="frame" x="65" y="21.5" width="210" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalCompressionResistancePriority="749" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAl-vs-xCw" userLabel="label1">
+                        <rect key="frame" x="65" y="10" width="210" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -44,16 +44,26 @@
                             <constraint firstAttribute="height" constant="20" id="fQB-Cu-FGD"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="userID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9PH-bI-cSC" userLabel="label1">
+                        <rect key="frame" x="65" y="33" width="210" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="eAl-vs-xCw" firstAttribute="centerY" secondItem="n3w-uh-8iZ" secondAttribute="centerY" id="51t-Ff-6cZ"/>
-                    <constraint firstItem="n3w-uh-8iZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="52L-BM-Jjy"/>
+                    <constraint firstItem="eAl-vs-xCw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="2XE-TH-I0S"/>
+                    <constraint firstItem="9PH-bI-cSC" firstAttribute="leading" secondItem="n3w-uh-8iZ" secondAttribute="trailing" constant="10" id="5tJ-mQ-ChD"/>
                     <constraint firstItem="yas-i3-whx" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="79e-ls-VZf"/>
-                    <constraint firstItem="yas-i3-whx" firstAttribute="centerY" secondItem="eAl-vs-xCw" secondAttribute="centerY" id="9cK-f7-AMU"/>
+                    <constraint firstItem="eAl-vs-xCw" firstAttribute="leading" secondItem="n3w-uh-8iZ" secondAttribute="trailing" constant="10" id="M9l-pv-nds"/>
+                    <constraint firstItem="yas-i3-whx" firstAttribute="centerY" secondItem="n3w-uh-8iZ" secondAttribute="centerY" id="NCb-NP-nA2"/>
+                    <constraint firstItem="n3w-uh-8iZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Qym-4s-fpn"/>
+                    <constraint firstItem="yas-i3-whx" firstAttribute="leading" secondItem="9PH-bI-cSC" secondAttribute="trailing" constant="10" id="RAw-Cm-Jx3"/>
                     <constraint firstItem="n3w-uh-8iZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Z1f-cu-z6h"/>
-                    <constraint firstItem="yas-i3-whx" firstAttribute="leading" secondItem="eAl-vs-xCw" secondAttribute="trailing" constant="10" id="uYa-75-Lxt"/>
-                    <constraint firstItem="eAl-vs-xCw" firstAttribute="leading" secondItem="n3w-uh-8iZ" secondAttribute="trailing" constant="10" id="xrh-d4-8cB"/>
+                    <constraint firstAttribute="bottom" secondItem="9PH-bI-cSC" secondAttribute="bottom" constant="10" id="dCR-l8-Jre"/>
+                    <constraint firstItem="yas-i3-whx" firstAttribute="leading" secondItem="eAl-vs-xCw" secondAttribute="trailing" constant="10" id="qhl-l3-fmc"/>
+                    <constraint firstItem="9PH-bI-cSC" firstAttribute="top" secondItem="eAl-vs-xCw" secondAttribute="bottom" constant="3" id="zPM-Dt-8aU"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -61,6 +71,7 @@
                 <outlet property="ivCheck" destination="yas-i3-whx" id="aoJ-Jk-gTB"/>
                 <outlet property="nameLabel" destination="eAl-vs-xCw" id="C3x-at-D0U"/>
                 <outlet property="profileImageView" destination="n3w-uh-8iZ" id="3cu-ts-Pvh"/>
+                <outlet property="userIDLabel" destination="9PH-bI-cSC" id="bmh-QU-Yah"/>
             </connections>
             <point key="canvasLocation" x="52.5" y="43.309859154929576"/>
         </tableViewCell>
