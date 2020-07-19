@@ -154,7 +154,7 @@ class UIChatListPresenter {
     
     public func loadFromServer() {
         // check update from server
-        QiscusCore.shared.getAllRoom(limit: 100, page: 1, showEmpty: false, onSuccess: { (results, meta) in
+        QiscusCore.shared.getAllRoom(limit: 15, page: 1, showEmpty: false, onSuccess: { (results, meta) in
                 self.page = 1
                 self.rooms = self.filterRoom(data: results)
                 if self.typeTab == .ALL {
@@ -175,7 +175,7 @@ class UIChatListPresenter {
         if self.page == 1 {
             self.page = 2
         }
-        QiscusCore.shared.getAllRoom(limit: 100, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
+        QiscusCore.shared.getAllRoom(limit: 15, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
             if results.count != 0 {
                 self.page += 1
                 

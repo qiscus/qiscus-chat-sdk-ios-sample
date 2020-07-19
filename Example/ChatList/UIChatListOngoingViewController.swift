@@ -129,7 +129,7 @@ class UIChatListOngoingViewController: UIViewController, IndicatorInfoProvider {
         
         let header = ["Authorization": token] as [String : String]
         let param = ["status": "resolved",
-                     "limit": "100",
+                     "limit": "15",
                     ] as [String : String]
         
         Alamofire.request("https://multichannel.qiscus.com/api/v2/customer_rooms", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
