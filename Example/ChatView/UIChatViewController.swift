@@ -445,12 +445,19 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
             self.tableViewChatTemplate.isHidden = false
         }else{
             self.tableViewChatTemplate.isHidden = true
+            return
         }
         
-        if keyword.count == 1 {
+        if keyword.count == 1 && keyword.prefix(1) == "/"{
             keyword = ""
         }
         
+        if keyword.count >= 2 {
+            keyword.removeFirst()
+            self.chatTemplatesKeyword = keyword
+        }else{
+             self.chatTemplatesKeyword = keyword
+        }
         
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
