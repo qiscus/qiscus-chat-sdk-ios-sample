@@ -97,7 +97,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         
         let header = ["Authorization": token] as [String : String]
         var param = ["status": "resolved",
-                     "limit": "15",
+                     "limit": "50",
                     ] as [String : String]
         
         if let meta = metaAfter {

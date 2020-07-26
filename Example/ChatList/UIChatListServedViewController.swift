@@ -97,7 +97,7 @@ class UIChatListServedViewController: UIViewController, IndicatorInfoProvider {
         
         let header = ["Authorization": token] as [String : String]
         var param = ["serve_status": "served",
-                     "limit": "15",
+                     "limit": "50",
                     ] as [String : String]
         
         if let meta = metaAfter {
