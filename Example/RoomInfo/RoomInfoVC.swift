@@ -181,19 +181,19 @@ class RoomInfoVC: UIViewController {
                     var channelName = json["data"]["channel_name"].string ?? ""
                     
                     if let userType = UserDefaults.standard.getUserType(){
-                        if userType == 2 {
-                            if self.isChannelWA == true {
-                                self.isPhoneNumberWa = userID
-                                self.lbUserID.text = self.starifyNumber(number: userID)
-                            }else{
-                                self.lbUserID.text = userID
-                            }
-                            
-                            self.tableView.reloadData()
-                        }else{
+//                        if userType == 2 {
+//                            if self.isChannelWA == true {
+//                                self.isPhoneNumberWa = userID
+//                                self.lbUserID.text = self.starifyNumber(number: userID)
+//                            }else{
+//                                self.lbUserID.text = userID
+//                            }
+//
+//                            self.tableView.reloadData()
+//                        }else{
                             //admin / supervisor
                             self.lbUserID.text = userID
-                        }
+                        //}
                     }
                    
                     if !channelName.isEmpty && self.lbChannelType.text != nil {
