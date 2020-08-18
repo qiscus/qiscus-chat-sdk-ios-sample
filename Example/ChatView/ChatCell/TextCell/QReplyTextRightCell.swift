@@ -24,17 +24,17 @@ class QReplyTextRightCell: UIBaseChatCell {
     
     @IBOutlet weak var lbReplyName: UILabel!
     @IBOutlet weak var tvReplyContent: UILabel!
-    
+    var isQiscus : Bool = false
     var menuConfig = enableMenuConfig()
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-         self.setMenu()
+         self.setMenu(isQiscus: isQiscus)
         // Configure the view for the selected state
     }
     

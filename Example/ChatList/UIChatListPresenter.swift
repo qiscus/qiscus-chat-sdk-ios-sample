@@ -175,11 +175,11 @@ class UIChatListPresenter {
         if self.page == 1 {
             self.page = 2
         }
-        QiscusCore.shared.getAllRoom(limit: 15, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
+        QiscusCore.shared.getAllRoom(limit: 50, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
             if results.count != 0 {
                 self.page += 1
-                
                 self.rooms.append(contentsOf: results)
+                
                 self.rooms = self.filterRoom(data: self.rooms)
                 if self.typeTab == .ALL {
                     //no action

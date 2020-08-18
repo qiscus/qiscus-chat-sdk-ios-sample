@@ -83,15 +83,16 @@ extension UIBaseChatCell {
         }
     }
     
-    func setMenu() {
-        
+    func setMenu(isQiscus : Bool = false) {
         let delete = UIMenuItem(title: "Delete", action: #selector(deleteComment(_:)))
         
         var menuItems: [UIMenuItem] = [UIMenuItem]()
         if let myComment = self.comment?.isMyComment() {
             if(myComment){
-                menuItems.append(delete)
-                UIMenuController.shared.menuItems = menuItems
+                if isQiscus == true {
+                    menuItems.append(delete)
+                    UIMenuController.shared.menuItems = menuItems
+                }
             }else{
                 //UIMenuController.shared.menuItems = [reply,share,forwardMessage,deleteForMe]
                 UIMenuController.shared.menuItems = menuItems

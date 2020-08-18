@@ -24,15 +24,16 @@ class QFileRightCell: UIBaseChatCell {
     
     @IBOutlet weak var ivFIle: UIImageView!
     var menuConfig = enableMenuConfig()
+    var isQiscus : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
         // Configure the view for the selected state
     }
     

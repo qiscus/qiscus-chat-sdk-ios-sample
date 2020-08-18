@@ -93,6 +93,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     
     var chatTemplates = [ChatTemplate]()
     var chatTemplatesKeyword = ""
+    var isQiscus : Bool = false
     
     open func getProgressBar() -> UIProgressView {
         return progressBar
@@ -184,6 +185,19 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.chatInput.chatInputDelegate = self
         self.setupInputBar(self.chatInput)
         self.setupPopupResolved()
+        self.setupIsQiscus()
+    }
+    
+    func setupIsQiscus(){
+        if let option = self.room?.options {
+            if !option.isEmpty{
+                let json = JSON.init(parseJSON: option)
+                let channelType = json["channel"].string ?? "qiscus"
+                if channelType.lowercased() == "qiscus"{
+                    self.isQiscus = true
+                }
+            }
+        }
     }
     
     private func setupPopupResolved(){
@@ -591,17 +605,20 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
                         return cell
                     }else{
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
                         return cell
                     }
                 }else{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                     cell.menuConfig = menuConfig
                     cell.cellMenu = self
+                    cell.isQiscus = self.isQiscus
                     return cell
                 }
             }else{
@@ -656,6 +673,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
                         return cell
                     }else{
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
@@ -673,6 +691,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
                         return cell
                     }
                     else{
@@ -692,6 +711,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                     cell.menuConfig = menuConfig
                     cell.cellMenu = self
+                    cell.isQiscus = self.isQiscus
                     return cell
                 }else{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
@@ -767,6 +787,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyTextRightCell", for: indexPath) as! QReplyTextRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
                         return cell
                     }else{
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyTextLeftCell", for: indexPath) as! QReplyTextLeftCell
@@ -793,6 +814,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                                     let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyImageRightCell", for: indexPath) as! QReplyImageRightCell
                                     cell.menuConfig = menuConfig
                                     cell.cellMenu = self
+                                    cell.isQiscus = self.isQiscus
                                     return cell
                                 }else{
                                     let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyImageLeftCell", for: indexPath) as! QReplyImageLeftCell
@@ -810,6 +832,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                                     cell.menuConfig = menuConfig
                                     cell.cellMenu = self
+                                    cell.isQiscus = self.isQiscus
                                     return cell
                                     //noted will support reply type file in next release
 //                                    let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
@@ -848,6 +871,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                             let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                             cell.menuConfig = menuConfig
                             cell.cellMenu = self
+                            cell.isQiscus = self.isQiscus
                             return cell
                         }else{
                             let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell

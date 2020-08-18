@@ -31,16 +31,22 @@ class QFileLeftCell: UIBaseChatCell {
     var colorName : UIColor = UIColor.black
     @IBOutlet weak var ivFIle: UIImageView!
     @IBOutlet weak var ivAvatarUser: UIImageView!
+    var isQiscus : Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu()
+        if isQiscus == true {
+             self.setMenu()
+        }
+       
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.setMenu()
+        if isQiscus == true {
+            self.setMenu()
+        }
         // Configure the view for the selected state
     }
     

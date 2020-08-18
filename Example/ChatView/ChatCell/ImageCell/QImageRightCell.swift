@@ -27,10 +27,11 @@ class QImageRightCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     @IBOutlet weak var ivLoading: UIImageView!
     @IBOutlet weak var lbLoading: UILabel!
+    var isQiscus : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
         self.ivComment.contentMode = .scaleAspectFill
         self.ivComment.clipsToBounds = true
         self.ivComment.backgroundColor = UIColor.black
@@ -42,7 +43,7 @@ class QImageRightCell: UIBaseChatCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
     }
     
     override func present(message: CommentModel) {
