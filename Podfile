@@ -6,8 +6,8 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  pod 'QiscusCore'
-  #pod 'QiscusCore', :path => '../QiscusCore'
+  #pod 'QiscusCore'
+  pod 'QiscusCore', :path => '../QiscusCore'
 
     # 3rd party
   pod 'SDWebImage'
