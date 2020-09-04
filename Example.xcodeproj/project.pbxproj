@@ -73,6 +73,7 @@
 		3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */; };
 		3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A30221E656C00F1B7CA /* QFileRightCell.xib */; };
 		3D8F0D6122684130000135CA /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F0D6022684130000135CA /* UserDefault.swift */; };
+		3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D97780B24FA225000D083D6 /* GoogleService-Info.plist */; };
 		3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E1248024DD00CEF339 /* CustomerRoom.swift */; };
 		3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */; };
 		3DA788E62480406C00CEF339 /* UIChatListUnservedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */; };
@@ -192,6 +193,7 @@
 		3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QFileRightCell.swift; sourceTree = "<group>"; };
 		3D819A30221E656C00F1B7CA /* QFileRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileRightCell.xib; sourceTree = "<group>"; };
 		3D8F0D6022684130000135CA /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserDefault.swift; path = Example/UserDefault.swift; sourceTree = SOURCE_ROOT; };
+		3D97780B24FA225000D083D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3DA788E1248024DD00CEF339 /* CustomerRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRoom.swift; sourceTree = "<group>"; };
 		3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListUnservedViewController.swift; sourceTree = "<group>"; };
 		3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListUnservedViewController.xib; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 				3DDEFB6B2192D35D00484795 /* Assets.xcassets */,
 				3DDEFB6D2192D35D00484795 /* LaunchScreen.storyboard */,
 				3DDEFB702192D35D00484795 /* Info.plist */,
+				3D97780B24FA225000D083D6 /* GoogleService-Info.plist */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -614,6 +617,7 @@
 				3DDEFB5E2192D35600484795 /* Frameworks */,
 				3DDEFB5F2192D35600484795 /* Resources */,
 				3C29835F5DE0C6DC65FB7414 /* [CP] Embed Pods Frameworks */,
+				3DD3CAC924ED936A00F848ED /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -692,6 +696,7 @@
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
 				3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
+				3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
@@ -758,6 +763,25 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3DD3CAC924ED936A00F848ED /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -982,7 +1006,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 4;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -990,7 +1015,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
@@ -1007,7 +1032,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1015,7 +1040,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dist";

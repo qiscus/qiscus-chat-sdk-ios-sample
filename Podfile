@@ -19,4 +19,6 @@ target 'Example' do
   pod 'XLPagerTabStrip', '~> 9.0'
   pod 'ExpandingMenu', '~> 0.4'
   pod 'BottomPopup', '0.5.1'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
 end

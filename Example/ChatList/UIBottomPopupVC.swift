@@ -48,6 +48,7 @@ class UIBottomPopupVC: BottomPopupViewController {
                 
                 self.lblUnserverOrGetCustomer.text = "Get Customer"
                 self.lblDescription.text = "There is 0 customers is not served by an agent. It can be taken by an Agent one by one"
+                self.getAgentTakeOver()
                 self.getCSApi(roleAdmin: false)
                 self.btGetCustomer.isHidden = false
             }else{
@@ -143,6 +144,41 @@ class UIBottomPopupVC: BottomPopupViewController {
             } else {
                 //failed
                 self.showAlert("Failed Get Customer")
+            }
+        }
+    }
+    
+    func getAgentTakeOver(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token] as [String : String]
+        Alamofire.request("https://qismo.qiscus.com/api/v1/app/config/agent_takeover", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    let payload = JSON(response.result.value)
+                    let errors = payload["errors"].string ?? "Failed Get Agent Take Over"
+                    self.showAlert(errors)
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let isAgentTakeOverEnable = payload["data"]["is_agent_takeover_enabled"].bool ?? false
+                    print("check payload ini =\(isAgentTakeOverEnable)")
+                    print("check payload ini2 =\(payload)")
+                    
+                    if isAgentTakeOverEnable == false {
+                        self.btGetCustomer.isHidden = true
+                    }
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.showAlert("Failed Failed Get Agent Take Over")
+            } else {
+                //failed
+                self.showAlert("Failed Failed Get Agent Take Over")
             }
         }
     }

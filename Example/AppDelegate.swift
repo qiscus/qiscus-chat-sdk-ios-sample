@@ -12,6 +12,7 @@ import Foundation
 import UserNotifications
 import SwiftyJSON
 import Alamofire
+import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().tintColor = UIColor.white
+        FirebaseApp.configure()
         self.auth()
         
         if #available(iOS 10.0, *) {
@@ -38,7 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-        
         return true
     }
     
