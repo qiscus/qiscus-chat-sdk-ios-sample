@@ -154,13 +154,13 @@ extension AppDelegate {
         
         QiscusCore.login(withIdentityToken: identityToken, onSuccess: { (user) in
             
-            let header = ["Authorization": user.token] as [String : String]
+            let header = ["Authorization": user.token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
             
             let params = ["app_id": appId,
                           "qismo_key": qismo_key] as [String : Any]
             
             
-            Alamofire.request("https://qismo.qiscus.com/api/v1/auth/get_token_by_qismo_key", method: .post, parameters: params, headers: header as! HTTPHeaders).responseJSON { (response) in
+            Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/auth/get_token_by_qismo_key", method: .post, parameters: params, headers: header as! HTTPHeaders).responseJSON { (response) in
                 print("response call \(response)")
                 if response.result.value != nil {
                     if (response.response?.statusCode)! >= 300 {
@@ -176,7 +176,6 @@ extension AppDelegate {
                         let userType = json["data"]["type"].intValue
                         let bubbleColor = json["data"]["bubble_color"].stringValue
                         
-                        UserDefaults.standard.setAuthenticationToken(value: token)
                         UserDefaults.standard.setUserType(value: userType)
                         UserDefaults.standard.setBubbleColor(value: bubbleColor)
                         

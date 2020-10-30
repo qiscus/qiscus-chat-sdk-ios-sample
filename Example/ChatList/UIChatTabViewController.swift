@@ -53,12 +53,22 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
             return
         }
         
-        let header = ["Authorization": token] as [String : String]
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
         
-        Alamofire.request("https://qismo.qiscus.com/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                    self.createFloatingButton(count: 0)
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCountCustomer()
+                            } else {
+                                return
+                            }
+                        }
+                    }
                 } else {
                     //success
                     let payload = JSON(response.result.value)

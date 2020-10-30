@@ -419,7 +419,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                           "notes": notes,
                           "last_comment_id": roomLocal.lastComment?.id] as [String : Any]
             
-            let header = ["Authorization": token] as [String : String]
+            let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
             
             
             var adminOrAgent = "agent"
@@ -428,12 +428,21 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
             }
         
             
-            Alamofire.request("https://qismo.qiscus.com/api/v1/\(adminOrAgent)/service/mark_as_resolved", method: .post, parameters: params, headers: header as! HTTPHeaders).responseJSON { (response) in
+            Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/\(adminOrAgent)/service/mark_as_resolved", method: .post, parameters: params, headers: header as! HTTPHeaders).responseJSON { (response) in
                 print("response call \(response)")
                 if response.result.value != nil {
                     if (response.response?.statusCode)! >= 300 {
                         //failed
                         self.viewResloved.isHidden = true
+                        if response.response?.statusCode == 401 {
+                            RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                if success == true {
+                                    self.asAdminOrAgent(value: value)
+                                } else {
+                                    return
+                                }
+                            }
+                        }
                     } else {
                        //success
                         
@@ -482,12 +491,22 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         }
         let header = ["Authorization": token,
                       "Qiscus-App-Id" : appID] as [String : String]
-        Alamofire.request("https://qismo.qiscus.com/api/v1/chat_templates?q=\(keyword)&limit=100", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/chat_templates?q=\(keyword)&limit=100", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //failed
                     if self.chatTemplates.count == 0 {
                         self.tableViewChatTemplate.isHidden = true
+                    }
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.throthleChatTemplate()
+                            } else {
+                                return
+                            }
+                        }
                     }
                 } else {
                     //success

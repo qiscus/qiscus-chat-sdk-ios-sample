@@ -54,6 +54,18 @@ extension UserDefaults{
         return integer(forKey: "userType")
     }
     
+    //MARK: Retrieve User Data
+    func getLongLivedToken() -> String{
+        return string(forKey: "longlivedtoken") ?? ""
+    }
+    
+    //user type 1 = admin
+    //MARK: Save authentication_token
+    func setLongLivedToken(value: String){
+        set(value, forKey: "longlivedtoken")
+        //synchronize()
+    }
+    
     //MARK: Save bubble color
     func setBubbleColor(value: String){
         set(value, forKey: "bubble")

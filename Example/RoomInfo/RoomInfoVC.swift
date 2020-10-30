@@ -165,13 +165,21 @@ class RoomInfoVC: UIViewController {
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
-        let header = ["Authorization": token] as [String : String]
-        Alamofire.request("https://qismo.qiscus.com/api/v1/qiscus/room/\(room!.id)/user_info", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/qiscus/room/\(room!.id)/user_info", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             print("response call \(response)")
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //failed
-
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCustomerInfo()
+                            } else {
+                                return
+                            }
+                        }
+                    }
                 } else {
                     //success
                     let json = JSON(response.result.value)

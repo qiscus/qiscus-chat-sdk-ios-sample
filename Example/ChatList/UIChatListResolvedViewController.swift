@@ -95,7 +95,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
             return
         }
         
-        let header = ["Authorization": token] as [String : String]
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
         var param = ["status": "resolved",
                      "limit": "50",
                     ] as [String : String]
@@ -104,7 +104,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
             param["cursor_after"] = meta
         }
         
-        Alamofire.request("https://multichannel.qiscus.com/api/v2/customer_rooms", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
@@ -122,6 +122,16 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
                     
                     self.isLoadingLoadMore = false
                     self.activityIndicator.stop()
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getList()
+                            } else {
+                                return
+                            }
+                        }
+                    }
                 } else {
                     //success
                     let payload = JSON(response.result.value)

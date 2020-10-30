@@ -112,10 +112,21 @@ class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     }
     
     func found(code: String) {
+        ///{"data":{"identity_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInZlciI6InYyIn0.eyJpc3MiOiJha28tOXRweW51Nmt4YWxhazFoZ3giLCJwcm4iOiJha28tOXRweW51Nmt4YWxhazFoZ3hfYWRtaW5AcWlzbW8uY29tIiwiaWF0IjoxNjAzODQ2MTU1LCJuYmYiOjE2MDM4NDYxNTUsImV4cCI6MTYwMzg0NjI3NSwibmNlIjoid0VlYmxKT25BUE95aWFtZXA0OWNBMGxqalhqd1hrWThEM1A3ekxaOSIsIm5hbWUiOiJRaXNjdXMgU3VwcG9ydCIsImF2YXRhcl91cmwiOiIifQ.bV-wSTrzeO2obc6I2sIp03HcQ7olf-gaYtXi-HmWdQU","qismo_key":"cmBmUg"}}}
+        //let payload = JSON.init(parseJSON: code)
+//        let appId = "ako-9tpynu6kxalak1hgx"//payload["app_id"].stringValue
+//        let identityToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInZlciI6InYyIn0.eyJpc3MiOiJha28tOXRweW51Nmt4YWxhazFoZ3giLCJwcm4iOiJha28tOXRweW51Nmt4YWxhazFoZ3hfYWRtaW5AcWlzbW8uY29tIiwiaWF0IjoxNjAzODQ2MTU1LCJuYmYiOjE2MDM4NDYxNTUsImV4cCI6MTYwMzg0NjI3NSwibmNlIjoid0VlYmxKT25BUE95aWFtZXA0OWNBMGxqalhqd1hrWThEM1A3ekxaOSIsIm5hbWUiOiJRaXNjdXMgU3VwcG9ydCIsImF2YXRhcl91cmwiOiIifQ.bV-wSTrzeO2obc6I2sIp03HcQ7olf-gaYtXi-HmWdQU"//payload["identity_token"].stringValue
+//        let qismo_key = "cmBmUg"//payload["qismo_key"].stringValue
+//        let longLiveToken = ""//payload["long_lived_token"].stringValue
+        
         let payload = JSON.init(parseJSON: code)
         let appId = payload["app_id"].stringValue
         let identityToken = payload["identity_token"].stringValue
         let qismo_key = payload["qismo_key"].stringValue
+        let longLiveToken = payload["long_lived_token"].string ?? ""
+        let qismoToken = payload["qismo_token"].string ?? ""
+        UserDefaults.standard.setLongLivedToken(value: longLiveToken)
+        UserDefaults.standard.setAuthenticationToken(value: qismoToken)
         let app = UIApplication.shared.delegate as! AppDelegate
         app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
     }

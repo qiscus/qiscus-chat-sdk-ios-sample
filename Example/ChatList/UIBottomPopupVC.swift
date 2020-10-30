@@ -65,19 +65,29 @@ class UIBottomPopupVC: BottomPopupViewController {
             return
         }
         
-        let header = ["Authorization": token] as [String : String]
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
         var role = "agent"
         if roleAdmin == true {
             role = "admin"
         }
         
-        Alamofire.request("https://multichannel.qiscus.com/api/v2/\(role)/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(role)/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     if roleAdmin{
                          self.lblCount.text = "0 Person"
                     }else{
                          self.lblCount.text = "0 Customer"
+                    }
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCSApi(roleAdmin: roleAdmin)
+                            } else {
+                                return
+                            }
+                        }
                     }
                   
                 } else {
@@ -119,18 +129,34 @@ class UIBottomPopupVC: BottomPopupViewController {
     }
     
     @IBAction func getCustomer(_ sender: Any) {
+        getCustomer()
+    }
+    
+    func getCustomer(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
         
-        let header = ["Authorization": token] as [String : String]
-        Alamofire.request("https://qismo.qiscus.com/api/v1/agent/service/takeover_unresolved_room", method: .post, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/agent/service/takeover_unresolved_room", method: .post, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //failed
                     let payload = JSON(response.result.value)
                     let errors = payload["errors"].string ?? "Failed Get Customer"
-                    self.showAlert(errors)
+                    
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCustomer()
+                            } else {
+                                return
+                            }
+                        }
+                    }else{
+                        self.showAlert(errors)
+                    }
                 } else {
                     //success
                     let payload = JSON(response.result.value)
@@ -153,14 +179,24 @@ class UIBottomPopupVC: BottomPopupViewController {
             return
         }
         
-        let header = ["Authorization": token] as [String : String]
-        Alamofire.request("https://qismo.qiscus.com/api/v1/app/config/agent_takeover", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/app/config/agent_takeover", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //failed
                     let payload = JSON(response.result.value)
                     let errors = payload["errors"].string ?? "Failed Get Agent Take Over"
-                    self.showAlert(errors)
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getAgentTakeOver()
+                            } else {
+                                return
+                            }
+                        }
+                    } else {
+                        self.showAlert(errors)
+                    }
                 } else {
                     //success
                     let payload = JSON(response.result.value)

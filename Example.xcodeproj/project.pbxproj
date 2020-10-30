@@ -118,6 +118,7 @@
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
+		3DD017CD254858030031FF46 /* RefreshToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD017CC254858030031FF46 /* RefreshToken.swift */; };
 		3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDEFB642192D35600484795 /* AppDelegate.swift */; };
 		3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB682192D35600484795 /* Main.storyboard */; };
 		3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6B2192D35D00484795 /* Assets.xcassets */; };
@@ -238,6 +239,7 @@
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		3DD017CC254858030031FF46 /* RefreshToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshToken.swift; sourceTree = "<group>"; };
 		3DDEFB612192D35600484795 /* Qiscus Multichannel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Qiscus Multichannel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DDEFB642192D35600484795 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DDEFB692192D35600484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -484,6 +486,7 @@
 			children = (
 				3DA824522301B5680054D92F /* QiscusHelper.swift */,
 				3DB1BF162444420D00F732B4 /* LoadMoreActivityIndicator.swift */,
+				3DD017CC254858030031FF46 /* RefreshToken.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */,
 				3D3854B621B4E34800435B31 /* UIChatListViewCell.swift in Sources */,
 				3DA824572301C2DA0054D92F /* QCard.swift in Sources */,
+				3DD017CD254858030031FF46 /* RefreshToken.swift in Sources */,
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
@@ -1006,7 +1010,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
@@ -1032,7 +1036,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
