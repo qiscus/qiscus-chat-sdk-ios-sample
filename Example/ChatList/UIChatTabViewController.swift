@@ -54,37 +54,76 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
         }
         
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
-            if response.result.value != nil {
-                if (response.response?.statusCode)! >= 300 {
-                   self.createFloatingButton(count: 0)
-                    
-                    if response.response?.statusCode == 401 {
-                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
-                            if success == true {
-                                self.getCountCustomer()
-                            } else {
-                                return
+       // var agentOrAdmin = "agent"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agentOrAdmin = "agent"
+                Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/agent/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                    if response.result.value != nil {
+                        if (response.response?.statusCode)! >= 300 {
+                           self.createFloatingButton(count: 0)
+                            print(" response.response?.statusCode \( response.response?.statusCode)")
+                            if response.response?.statusCode == 401 {
+                                RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                    if success == true {
+                                        self.getCountCustomer()
+                                    } else {
+                                        return
+                                    }
+                                }
                             }
+                        } else {
+                            //success
+                            let payload = JSON(response.result.value)
+                            let count = payload["data"]["total_unresolved"].int ?? 0
+                            
+                            self.createFloatingButton(count: count)
+                            
                         }
+                    } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                        //failed
+                        self.createFloatingButton(count: 0)
+                    } else {
+                        //failed
+                       self.createFloatingButton(count: 0)
                     }
-                } else {
-                    //success
-                    let payload = JSON(response.result.value)
-                    let count = payload["data"]["total_unresolved"].int ?? 0
-                    
-                    self.createFloatingButton(count: count)
-                    
                 }
-            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
-                //failed
-                self.createFloatingButton(count: 0)
-            } else {
-                //failed
-               self.createFloatingButton(count: 0)
+            }else{
+                //agentOrAdmin = "admin"
+                Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                    if response.result.value != nil {
+                        if (response.response?.statusCode)! >= 300 {
+                           self.createFloatingButton(count: 0)
+                            print(" response.response?.statusCode \( response.response?.statusCode)")
+                            if response.response?.statusCode == 401 {
+                                RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                    if success == true {
+                                        self.getCountCustomer()
+                                    } else {
+                                        return
+                                    }
+                                }
+                            }
+                        } else {
+                            //success
+                            let payload = JSON(response.result.value)
+                            let count = payload["data"]["total_unresolved"].int ?? 0
+                            
+                            self.createFloatingButton(count: count)
+                            
+                        }
+                    } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                        //failed
+                        self.createFloatingButton(count: 0)
+                    } else {
+                        //failed
+                       self.createFloatingButton(count: 0)
+                    }
+                }
             }
         }
+        
+        
     }
     
     func createFloatingButton(count: Int){

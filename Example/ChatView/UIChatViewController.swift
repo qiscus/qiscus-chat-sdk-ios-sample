@@ -256,11 +256,30 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                     let is_resolved = json["is_resolved"].bool ?? false
                     
                     if is_resolved == false {
+                        self.chatInput.textView.isEditable = true
+                        self.chatInput.sendButton.isEnabled = true
+                        self.chatInput.attachButton.isEnabled = true
                         let resolveButton = self.resolveButton(self, action:  #selector(UIChatViewController.goResolve))
                         self.navigationItem.rightBarButtonItems = [resolveButton]
+                    } else {
+                        if let userType = UserDefaults.standard.getUserType(){
+                            if userType == 2 {
+                                self.chatInput.textView.text = "Text is disable"
+                                self.chatInput.textView.isEditable = false
+                                self.chatInput.sendButton.isEnabled = false
+                                self.chatInput.attachButton.isEnabled = false
+                            } else {
+                                enableSendMessage()
+                            }
+                        }
+                        
                     }
                 }
+            }else{
+                enableSendMessage()
             }
+        }else{
+           enableSendMessage()
         }
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
@@ -270,6 +289,12 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.titleView = chatTitleView
         self.chatTitleView.room = room
         
+    }
+    
+    func enableSendMessage(){
+        self.chatInput.textView.isEditable = true
+        self.chatInput.sendButton.isEnabled = true
+        self.chatInput.attachButton.isEnabled = true
     }
     
     private func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
