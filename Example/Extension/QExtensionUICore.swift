@@ -10,18 +10,6 @@ import Foundation
 import QiscusCore
 import SwiftyJSON
 
-enum QReplyType:Int{
-    case text
-    case image
-    case video
-    case audio
-    case document
-    case location
-    case contact
-    case file
-    case other
-}
-
 extension UIBaseChatCell {
     
     func getBallon()->UIImage?{

@@ -108,5 +108,9 @@ class ColorConfiguration: NSObject {
         }
     }
     
+    static var isOnlineColor = UIColor(red: 0/255.0, green: 159/255.0, blue: 97/255.0, alpha:1.0)
+    
+    static var isOfflineColor = UIColor(red: 180/255.0, green: 180/255.0, blue: 180/255.0, alpha:1.0)
+    
     fileprivate override init(){}
 }

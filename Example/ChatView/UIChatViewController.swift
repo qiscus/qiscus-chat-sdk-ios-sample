@@ -158,6 +158,7 @@ class UIChatViewController: UIViewController {
         self.setupTableView()
         self.chatInput.chatInputDelegate = self
         self.setupInputBar(self.chatInput)
+        self.chatInput.hidePreviewReply()
         
     }
     
@@ -238,6 +239,8 @@ class UIChatViewController: UIViewController {
          self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
         self.registerClass(nib: UINib(nibName: "QImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageLeftCell")
         self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
+        self.registerClass(nib: UINib(nibName: "QReplyLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "qReplyLeftCell")
+        self.registerClass(nib: UINib(nibName: "QReplyRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qReplyRightCell")
         
     }
     
@@ -389,6 +392,27 @@ class UIChatViewController: UIViewController {
                     return cell
                 }
             }
+        } else if message.type == "reply" {
+            if (message.isMyComment() == true){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyRightCell", for: indexPath) as! QReplyRightCell
+                cell.menuConfig = menuConfig
+                cell.cellMenu = self
+                cell.delegateChat = self
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyLeftCell", for: indexPath) as! QReplyLeftCell
+                if self.room?.type == .group {
+                    cell.isPublic = true
+                    cell.colorName = colorName
+                }else {
+                    cell.isPublic = false
+                }
+                cell.cellMenu = self
+                cell.delegateChat = self
+                cell.menuConfig = menuConfig
+                return cell
+            }
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
             return cell
@@ -628,6 +652,10 @@ extension UIChatViewController : UIChatView {
             return true
         case "deleteComment:":
             return true
+        case "replyComment:":
+            return true
+        case "forwardComment:":
+            return true
         default:
             return false
         }
@@ -678,4 +706,21 @@ extension UIChatViewController : UIBaseChatCellDelegate {
             print("failed delete comment for everyone")
         }
     }
+    
+    func didTap(reply comment: CommentModel) {
+        self.chatInput.replyData = comment
+        if usersColor.count != 0{
+            if let email = self.chatInput.replyData?.userEmail, let color = usersColor[email] {
+                self.chatInput.colorName = color
+            }
+        }
+        self.chatInput.showPreviewReply()
+    }
+    
+    func didTap(forward comment: CommentModel) {
+        let target = ForwardViewController()
+        target.selectedMessage = [comment]
+        self.navigationController?.pushViewController(target, animated: true)
+    }
+    
 }
