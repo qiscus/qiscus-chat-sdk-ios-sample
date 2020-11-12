@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,14 +15,15 @@
                 <outlet property="heightView" destination="9Gk-gy-9FX" id="2ND-F2-rHB"/>
                 <outlet property="sendButton" destination="KIv-HR-J1D" id="zYB-tv-zsb"/>
                 <outlet property="textView" destination="Vuj-gV-0ov" id="3wf-0l-RDP"/>
+                <outlet property="viewRecord" destination="uoH-2B-uu0" id="cKg-yi-WwS"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7R-ZU-AZb">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KIv-HR-J1D">
-                    <rect key="frame" x="325" y="6.5" width="50" height="50"/>
+                    <rect key="frame" x="325" y="17.5" width="50" height="50"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="dO6-to-wpg"/>
@@ -35,7 +36,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eX8-dS-8SK">
-                    <rect key="frame" x="0.0" y="6.5" width="50" height="50"/>
+                    <rect key="frame" x="0.0" y="17.5" width="50" height="50"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="BWF-iV-nYy"/>
@@ -48,7 +49,7 @@
                     </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vuj-gV-0ov">
-                    <rect key="frame" x="50" y="8" width="275" height="47"/>
+                    <rect key="frame" x="50" y="8" width="275" height="69"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="1uw-f4-jxK"/>
@@ -81,15 +82,23 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </textView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoH-2B-uu0">
+                    <rect key="frame" x="0.0" y="0.0" width="325" height="85"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="9Gk-gy-9FX"/>
+                <constraint firstItem="uoH-2B-uu0" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="G4V-hS-XJc"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="Vuj-gV-0ov" secondAttribute="trailing" id="MqH-nR-qm0"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="Okz-vH-BXh"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="SiA-rY-7RG"/>
+                <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="uoH-2B-uu0" secondAttribute="bottom" id="TMh-VH-0Pi"/>
                 <constraint firstItem="Vuj-gV-0ov" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" constant="8" id="ZRL-8e-F1T"/>
+                <constraint firstItem="uoH-2B-uu0" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" id="aAl-gq-pv2"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="Vuj-gV-0ov" secondAttribute="bottom" constant="8" id="bTd-G3-sYf"/>
+                <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="uoH-2B-uu0" secondAttribute="trailing" id="cft-9j-2Jh"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="gOG-2e-H61"/>
                 <constraint firstAttribute="trailing" secondItem="KIv-HR-J1D" secondAttribute="trailing" id="zAX-l7-ZVv"/>
                 <constraint firstItem="Vuj-gV-0ov" firstAttribute="leading" secondItem="eX8-dS-8SK" secondAttribute="trailing" id="zkU-TJ-URL"/>
@@ -107,7 +116,7 @@
                     <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
-            <point key="canvasLocation" x="192.80000000000001" y="-595.05247376311854"/>
+            <point key="canvasLocation" x="192.80000000000001" y="-586.95652173913049"/>
         </view>
     </objects>
     <resources>

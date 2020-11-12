@@ -112,13 +112,14 @@ class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     }
     
     func found(code: String) {
-        ///{"data":{"identity_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInZlciI6InYyIn0.eyJpc3MiOiJha28tOXRweW51Nmt4YWxhazFoZ3giLCJwcm4iOiJha28tOXRweW51Nmt4YWxhazFoZ3hfYWRtaW5AcWlzbW8uY29tIiwiaWF0IjoxNjAzODQ2MTU1LCJuYmYiOjE2MDM4NDYxNTUsImV4cCI6MTYwMzg0NjI3NSwibmNlIjoid0VlYmxKT25BUE95aWFtZXA0OWNBMGxqalhqd1hrWThEM1A3ekxaOSIsIm5hbWUiOiJRaXNjdXMgU3VwcG9ydCIsImF2YXRhcl91cmwiOiIifQ.bV-wSTrzeO2obc6I2sIp03HcQ7olf-gaYtXi-HmWdQU","qismo_key":"cmBmUg"}}}
+        //{"app_id":"karm-gzu41e4e4dv9fu3f","identity_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInZlciI6InYyIn0.eyJpc3MiOiJrYXJtLWd6dTQxZTRlNGR2OWZ1M2YiLCJwcm4iOiJrYXJtLWd6dTQxZTRlNGR2OWZ1M2ZfYWRtaW5AcWlzbW8uY29tIiwiaWF0IjoxNjA1MTE1MTE0LCJuYmYiOjE2MDUxMTUxMTQsImV4cCI6MTYwNTExNTIzNCwibmNlIjoibUpnd29HOFlLTjBxSHdNZXhKakZFZHZkMldQODZ2UTE3YUx4a1BxVyIsIm5hbWUiOiJLZXkgQWNjb3V0IFFpc2N1cyIsImF2YXRhcl91cmwiOiIifQ.4DOKMJ7VQ-18i8RyAr8uxgOxSKkvFs9ANmNM03_ixqc","qismo_key":"rWmq7a","qismo_url":"https://multichannel.qiscus.com/","qismo_token":"A5wmVwtjhD3CIiIlQVCA","user_type":"1","long_lived_token": "A5wmVwtjhD3CIiIlQVCA"}
         //let payload = JSON.init(parseJSON: code)
-//        let appId = "ako-9tpynu6kxalak1hgx"//payload["app_id"].stringValue
-//        let identityToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInZlciI6InYyIn0.eyJpc3MiOiJha28tOXRweW51Nmt4YWxhazFoZ3giLCJwcm4iOiJha28tOXRweW51Nmt4YWxhazFoZ3hfYWRtaW5AcWlzbW8uY29tIiwiaWF0IjoxNjAzODQ2MTU1LCJuYmYiOjE2MDM4NDYxNTUsImV4cCI6MTYwMzg0NjI3NSwibmNlIjoid0VlYmxKT25BUE95aWFtZXA0OWNBMGxqalhqd1hrWThEM1A3ekxaOSIsIm5hbWUiOiJRaXNjdXMgU3VwcG9ydCIsImF2YXRhcl91cmwiOiIifQ.bV-wSTrzeO2obc6I2sIp03HcQ7olf-gaYtXi-HmWdQU"//payload["identity_token"].stringValue
-//        let qismo_key = "cmBmUg"//payload["qismo_key"].stringValue
-//        let longLiveToken = ""//payload["long_lived_token"].stringValue
-        
+//        let appId = "karm-gzu41e4e4dv9fu3f"//payload["app_id"].stringValue
+//        let identityToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInZlciI6InYyIn0.eyJpc3MiOiJrYXJtLWd6dTQxZTRlNGR2OWZ1M2YiLCJwcm4iOiJrYXJtLWd6dTQxZTRlNGR2OWZ1M2ZfYWRtaW5AcWlzbW8uY29tIiwiaWF0IjoxNjA1MTE1MTE0LCJuYmYiOjE2MDUxMTUxMTQsImV4cCI6MTYwNTExNTIzNCwibmNlIjoibUpnd29HOFlLTjBxSHdNZXhKakZFZHZkMldQODZ2UTE3YUx4a1BxVyIsIm5hbWUiOiJLZXkgQWNjb3V0IFFpc2N1cyIsImF2YXRhcl91cmwiOiIifQ.4DOKMJ7VQ-18i8RyAr8uxgOxSKkvFs9ANmNM03_ixqc"//payload["identity_token"].stringValue
+//        let qismo_key = "rWmq7a"//payload["qismo_key"].stringValue
+//        let longLiveToken = "A5wmVwtjhD3CIiIlQVCA"//payload["long_lived_token"].stringValue
+//        let qismoToken = "A5wmVwtjhD3CIiIlQVCA"
+//
         let payload = JSON.init(parseJSON: code)
         let appId = payload["app_id"].stringValue
         let identityToken = payload["identity_token"].stringValue

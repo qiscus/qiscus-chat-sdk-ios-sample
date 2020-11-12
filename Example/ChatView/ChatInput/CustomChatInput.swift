@@ -11,6 +11,7 @@ import Photos
 import MobileCoreServices
 import QiscusCore
 import SwiftyJSON
+import AVFoundation
 
 protocol CustomChatInputDelegate {
     func sendAttachment(button : UIButton)
@@ -19,6 +20,7 @@ protocol CustomChatInputDelegate {
 
 class CustomChatInput: UIChatInput {
     
+    @IBOutlet weak var viewRecord: UIView!
     @IBOutlet weak var heightView: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var attachButton: UIButton!
@@ -28,6 +30,15 @@ class CustomChatInput: UIChatInput {
     var defaultInputBarHeight: CGFloat = 34.0
     var customInputBarHeight: CGFloat = 34.0
     var colorName : UIColor = UIColor.black
+    
+    //rec audio
+    var isRecording = false
+    var recordingURL:URL?
+    var recorder:AVAudioRecorder?
+    var recordingSession = AVAudioSession.sharedInstance()
+    var recordTimer:Timer?
+    var recordDuration:Int = 0
+    var processingAudio = false
     
     override func commonInit(nib: UINib) {
         let nib = UINib(nibName: "CustomChatInput", bundle: nil)
@@ -49,29 +60,238 @@ class CustomChatInput: UIChatInput {
         self.attachButton.tintColor = ColorConfiguration.attachmentButtonColor
         self.attachButton.setImage(UIImage(named: "ic_attachment")?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.sendButton.setImage(UIImage(named: "ic_send")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.sendButton.isHidden = true
+        self.viewRecord.alpha = 0
     }
     
     @IBAction func clickSend(_ sender: Any) {
-        guard let text = self.textView.text else {return}
-        if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
-            var payload:JSON? = nil
-            let comment = CommentModel()
-            comment.type = "text"
-            comment.message = text
-            self.chatInputDelegate?.sendMessage(message: comment)
+        if(self.isRecording == true){
+            if !self.processingAudio {
+                self.processingAudio = true
+                self.finishRecording()
+            }
+        } else {
+            guard let text = self.textView.text else {return}
+            if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
+                var payload:JSON? = nil
+                let comment = CommentModel()
+                comment.type = "text"
+                comment.message = text
+                self.chatInputDelegate?.sendMessage(message: comment)
+            }
         }
-        
         self.textView.text = ""
         self.setHeight(50)
+        
     }
     
     @IBAction func clickAttachment(_ sender: Any) {
         self.chatInputDelegate?.sendAttachment(button: self.attachButton)
     }
+    
+    
+    func cancelRecord(){
+        self.viewRecord.alpha = 0
+        UIView.animate(withDuration: 0.5, animations: {
+            self.inputView?.layoutIfNeeded()
+        }) { (_) in
+            self.sendButton.isHidden = true
+            if self.recordTimer != nil {
+                self.recordTimer?.invalidate()
+                self.recordTimer = nil
+                self.recordDuration = 0
+            }
+            self.isRecording = false
+        }
+    }
+    
+    func onFinishRecording(){
+        if(self.isRecording == true){
+            if !self.processingAudio {
+                self.processingAudio = true
+                self.finishRecording()
+            }
+        }
+    }
+    
+    func finishRecording(){
+        self.recorder?.stop()
+        self.recorder = nil
+         self.viewRecord.alpha = 0
+        UIView.animate(withDuration: 0.5, animations: {
+            self.inputView?.layoutIfNeeded()
+        }) { (_) in
+            self.sendButton.isHidden = true
+            if self.recordTimer != nil {
+                self.recordTimer?.invalidate()
+                self.recordTimer = nil
+                self.recordDuration = 0
+            }
+            self.isRecording = false
+            self.processingAudio = false
+        }
+        
+        if let audioURL = self.recordingURL {
+            var fileContent: Data?
+            fileContent = try! Data(contentsOf: audioURL)
+            let fileName = audioURL.lastPathComponent
+            
+            QiscusCore.shared.upload(data: fileContent!, filename: fileName, onSuccess: { (file) in
+                
+                let message = CommentModel()
+                message.type = "file_attachment"
+                message.payload = [
+                    "url"       : file.url.absoluteString,
+                    "file_name" : file.name,
+                    "size"      : file.size,
+                    "caption"   : ""
+                ]
+                message.message = "Send Audio"
+                
+                self.chatInputDelegate?.sendMessage(message: message)
+            }, onError: { (error) in
+                print("Error: \(error)")
+            }) { (progress) in
+                
+            }
+            
+        }
+    }
+    
+    func startRecording(){
+        
+        self.viewRecord.alpha = 1
+        
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let time = Double(Date().timeIntervalSince1970)
+        let timeToken = UInt64(time * 10000)
+        let fileName = "audio-\(timeToken).m4a"
+        let audioURL = documentsPath.appendingPathComponent(fileName)
+        print ("audioURL: \(audioURL)")
+        self.recordingURL = audioURL
+        let settings:[String : Any] = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: Float(44100),
+            AVNumberOfChannelsKey: Int(2),
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.inputView?.layoutIfNeeded()
+        }, completion: { success in
+            
+            do {
+                self.recorder = nil
+                if self.recorder == nil {
+                    self.recorder = try AVAudioRecorder(url: audioURL, settings: settings)
+                }
+                self.recorder?.prepareToRecord()
+                self.recorder?.isMeteringEnabled = true
+                self.recorder?.record()
+                self.sendButton.isEnabled = true
+                self.recordDuration = 0
+                if self.recordTimer != nil {
+                    self.recordTimer?.invalidate()
+                    self.recordTimer = nil
+                }
+                self.recordTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CustomChatInput.updateTimer), userInfo: nil, repeats: true)
+                self.isRecording = true
+                let displayLink = CADisplayLink(target: self, selector: #selector(CustomChatInput.updateAudioMeter))
+                displayLink.add(to: RunLoop.current, forMode: RunLoop.Mode.common)
+            } catch {
+                print("error recording")
+            }
+        })
+    }
+    
+    @objc func updateTimer(){
+       self.recordDuration += 1
+        let minutes = Int(self.recordDuration / 60)
+        let seconds = self.recordDuration % 60
+        var minutesString = "\(minutes)"
+        if minutes < 10 {
+            minutesString = "0\(minutes)"
+        }
+        var secondsString = "\(seconds)"
+        if seconds < 10 {
+            secondsString = "0\(seconds)"
+        }
+        //tvTimeRecord.text = "\(minutesString):\(secondsString)"
+    }
+    @objc func updateAudioMeter(){
+        if let audioRecorder = self.recorder{
+            audioRecorder.updateMeters()
+            let normalizedValue:CGFloat = pow(10.0, CGFloat(audioRecorder.averagePower(forChannel: 0)) / 20)
+            if let waveView = self.viewRecord as? QSiriWaveView {
+                waveView.update(withLevel: normalizedValue)
+            }
+        }
+    }
+    
+    func prepareRecording(){
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                if allowed {
+                    self.startRecording()
+                } else {
+                    self.showMicrophoneAccessAlert()
+                }
+            }
+        } catch {
+            self.showMicrophoneAccessAlert()
+        }
+    }
+    
+    func showMicrophoneAccessAlert(){
+        DispatchQueue.main.async(execute: {
+            let text = TextConfiguration.sharedInstance.microphoneAccessAlertText
+            let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
+            let settingTxt = TextConfiguration.sharedInstance.alertSettingText
+            QPopUpView.showAlert(withTarget: (self.currentViewController()?.navigationController)!, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+                                 doneAction: {
+                                    self.goToIPhoneSetting()
+            },
+                                 cancelAction: {}
+            )
+        })
+    }
+    
+    func goToIPhoneSetting(){
+        UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
+        let _ = self.currentViewController()?.navigationController?.popViewController(animated: true)
+    }
+    
+    func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        
+        if let nav = base as? UINavigationController {
+            return currentViewController(base: nav.visibleViewController)
+        }
+        
+        if let tab = base as? UITabBarController {
+            let moreNavigationController = tab.moreNavigationController
+            
+            if let top = moreNavigationController.topViewController, top.view.window != nil {
+                return currentViewController(base: top)
+            } else if let selected = tab.selectedViewController {
+                return currentViewController(base: selected)
+            }
+        }
+        
+        if let presented = base?.presentedViewController {
+            return currentViewController(base: presented)
+        }
+        
+        return base
+    }
 }
 
 extension CustomChatInput : UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
+        self.sendButton.isHidden = false
+        self.viewRecord.alpha = 0
+        self.hideUIRecord(isHidden: true)
         if(textView.text == TextConfiguration.sharedInstance.textPlaceholder){
             textView.text = ""
             textView.textColor = UIColor.black
@@ -82,6 +302,9 @@ extension CustomChatInput : UITextViewDelegate {
         if(textView.text.isEmpty){
             textView.text = TextConfiguration.sharedInstance.textPlaceholder
             textView.textColor = UIColor.lightGray
+            self.sendButton.isHidden = true
+            self.viewRecord.alpha = 0
+            self.hideUIRecord(isHidden: false)
         }
         self.typing(false, query: textView.text)
     }

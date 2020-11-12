@@ -40,8 +40,18 @@ class QSystemCell:  UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
-        lbComment.text = message.message
+        lbComment.text = "\(self.hour(date: message.date())) - \(message.message)"
     }
     
+    func hour(date: Date?) -> String {
+        guard let date = date else {
+            return "-"
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone      = TimeZone.current
+        let defaultTimeZoneStr = formatter.string(from: date);
+        return defaultTimeZoneStr
+    }
     
 }

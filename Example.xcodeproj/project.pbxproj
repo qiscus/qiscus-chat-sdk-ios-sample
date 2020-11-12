@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */; };
+		3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B8B13255D6D3F002A484F /* RemoveAgentVC.xib */; };
+		3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B17255D8325002A484F /* TagsVC.swift */; };
+		3D0B8B1A255D8325002A484F /* TagsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B8B18255D8325002A484F /* TagsVC.xib */; };
+		3D0B8B1D255D88CA002A484F /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B1C255D88CA002A484F /* TagListView.swift */; };
+		3D0B8B1F255D88F2002A484F /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B1E255D88F2002A484F /* TagView.swift */; };
+		3D0B8B21255D890E002A484F /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B20255D890D002A484F /* CloseButton.swift */; };
+		3D0B8B23255D981C002A484F /* TagsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B22255D981C002A484F /* TagsModel.swift */; };
+		3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */; };
+		3D0B8B28255DA619002A484F /* TagsSuggestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */; };
 		3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
@@ -115,6 +125,12 @@
 		3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF162444420D00F732B4 /* LoadMoreActivityIndicator.swift */; };
 		3DB438002322448A007BE03F /* UIBottomPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */; };
 		3DB438012322448A007BE03F /* UIBottomPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB437FF2322448A007BE03F /* UIBottomPopupVC.xib */; };
+		3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */; };
+		3DC51C22255D08D0008BE893 /* AddAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC51C20255D08CF008BE893 /* AddAgentVC.swift */; };
+		3DC51C23255D08D0008BE893 /* AddAgentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC51C21255D08CF008BE893 /* AddAgentVC.xib */; };
+		3DC51C27255D0EA9008BE893 /* AgentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC51C25255D0EA9008BE893 /* AgentCell.swift */; };
+		3DC51C28255D0EA9008BE893 /* AgentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC51C26255D0EA9008BE893 /* AgentCell.xib */; };
+		3DC51C2A255D14A7008BE893 /* AgentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC51C29255D14A7008BE893 /* AgentModel.swift */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
@@ -127,6 +143,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAgentVC.swift; sourceTree = "<group>"; };
+		3D0B8B13255D6D3F002A484F /* RemoveAgentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RemoveAgentVC.xib; sourceTree = "<group>"; };
+		3D0B8B17255D8325002A484F /* TagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsVC.swift; sourceTree = "<group>"; };
+		3D0B8B18255D8325002A484F /* TagsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagsVC.xib; sourceTree = "<group>"; };
+		3D0B8B1C255D88CA002A484F /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
+		3D0B8B1E255D88F2002A484F /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		3D0B8B20255D890D002A484F /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		3D0B8B22255D981C002A484F /* TagsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsModel.swift; sourceTree = "<group>"; };
+		3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSuggestionCell.swift; sourceTree = "<group>"; };
+		3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagsSuggestionCell.xib; sourceTree = "<group>"; };
 		3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatTabViewController.swift; sourceTree = "<group>"; };
 		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
 		3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
@@ -236,6 +262,12 @@
 		3DB1BF162444420D00F732B4 /* LoadMoreActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreActivityIndicator.swift; sourceTree = "<group>"; };
 		3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBottomPopupVC.swift; sourceTree = "<group>"; };
 		3DB437FF2322448A007BE03F /* UIBottomPopupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIBottomPopupVC.xib; sourceTree = "<group>"; };
+		3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QSiriWaveView.swift; sourceTree = "<group>"; };
+		3DC51C20255D08CF008BE893 /* AddAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAgentVC.swift; sourceTree = "<group>"; };
+		3DC51C21255D08CF008BE893 /* AddAgentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddAgentVC.xib; sourceTree = "<group>"; };
+		3DC51C25255D0EA9008BE893 /* AgentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentCell.swift; sourceTree = "<group>"; };
+		3DC51C26255D0EA9008BE893 /* AgentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AgentCell.xib; sourceTree = "<group>"; };
+		3DC51C29255D14A7008BE893 /* AgentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentModel.swift; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -264,6 +296,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D0B8B10255D6D08002A484F /* RemoveAgent */ = {
+			isa = PBXGroup;
+			children = (
+				3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */,
+				3D0B8B13255D6D3F002A484F /* RemoveAgentVC.xib */,
+			);
+			path = RemoveAgent;
+			sourceTree = "<group>";
+		};
+		3D0B8B11255D6D16002A484F /* AddAgent */ = {
+			isa = PBXGroup;
+			children = (
+				3DC51C20255D08CF008BE893 /* AddAgentVC.swift */,
+				3DC51C21255D08CF008BE893 /* AddAgentVC.xib */,
+			);
+			path = AddAgent;
+			sourceTree = "<group>";
+		};
+		3D0B8B16255D8307002A484F /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				3D0B8B24255DA5EE002A484F /* TagsCell */,
+				3D0B8B17255D8325002A484F /* TagsVC.swift */,
+				3D0B8B18255D8325002A484F /* TagsVC.xib */,
+			);
+			path = Tags;
+			sourceTree = "<group>";
+		};
+		3D0B8B1B255D88AC002A484F /* TagsListView */ = {
+			isa = PBXGroup;
+			children = (
+				3D0B8B1C255D88CA002A484F /* TagListView.swift */,
+				3D0B8B1E255D88F2002A484F /* TagView.swift */,
+				3D0B8B20255D890D002A484F /* CloseButton.swift */,
+			);
+			path = TagsListView;
+			sourceTree = "<group>";
+		};
+		3D0B8B24255DA5EE002A484F /* TagsCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */,
+				3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */,
+			);
+			path = TagsCell;
+			sourceTree = "<group>";
+		};
 		3D3854B821B534A500435B31 /* ChatListCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,6 +360,8 @@
 				3D40B8542192E20900FE7228 /* CommentModel.swift */,
 				3DA788E1248024DD00CEF339 /* CustomerRoom.swift */,
 				3DAB890624C0FDE40046E5DE /* ChatTemplate.swift */,
+				3DC51C29255D14A7008BE893 /* AgentModel.swift */,
+				3D0B8B22255D981C002A484F /* TagsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -304,9 +385,11 @@
 		3D40B85D2192E20900FE7228 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				3D0B8B1B255D88AC002A484F /* TagsListView */,
 				3DA824582301C35A0054D92F /* QCardButton.swift */,
 				3D40B85E2192E20900FE7228 /* QPopUpView.swift */,
 				3D40B8622192E20900FE7228 /* QPopUpView.xib */,
+				3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -511,6 +594,25 @@
 			path = RoomInfo;
 			sourceTree = "<group>";
 		};
+		3DC51C1F255D0890008BE893 /* AddRemoveAgent */ = {
+			isa = PBXGroup;
+			children = (
+				3D0B8B11255D6D16002A484F /* AddAgent */,
+				3D0B8B10255D6D08002A484F /* RemoveAgent */,
+				3DC51C24255D0E8A008BE893 /* AgentCell */,
+			);
+			path = AddRemoveAgent;
+			sourceTree = "<group>";
+		};
+		3DC51C24255D0E8A008BE893 /* AgentCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DC51C25255D0EA9008BE893 /* AgentCell.swift */,
+				3DC51C26255D0EA9008BE893 /* AgentCell.xib */,
+			);
+			path = AgentCell;
+			sourceTree = "<group>";
+		};
 		3DCF6A37219926F800C108E6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +625,8 @@
 		3DCF6A3E2199562700C108E6 /* ChatView */ = {
 			isa = PBXGroup;
 			children = (
+				3D0B8B16255D8307002A484F /* Tags */,
+				3DC51C1F255D0890008BE893 /* AddRemoveAgent */,
 				3DAB88FF24C0E1640046E5DE /* ChatTemplateCell */,
 				3DCF6A3F2199581200C108E6 /* ChatUpload */,
 				3D40B8712192E20A00FE7228 /* ChatCell */,
@@ -683,6 +787,7 @@
 				3DA788E62480406C00CEF339 /* UIChatListUnservedViewController.xib in Resources */,
 				3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */,
 				3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */,
+				3D0B8B1A255D8325002A484F /* TagsVC.xib in Resources */,
 				3DA8244C2301B3980054D92F /* QCardRightCell.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3DA788F22480719D00CEF339 /* QReplyTextRightCell.xib in Resources */,
@@ -700,6 +805,7 @@
 				3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */,
+				3DC51C23255D08D0008BE893 /* AddAgentVC.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
@@ -710,6 +816,7 @@
 				3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */,
 				3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */,
 				3DA788FA2480BFFC00CEF339 /* QReplyImageRightCell.xib in Resources */,
+				3D0B8B28255DA619002A484F /* TagsSuggestionCell.xib in Resources */,
 				3DB438012322448A007BE03F /* UIBottomPopupVC.xib in Resources */,
 				3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
@@ -721,9 +828,11 @@
 				3DA824502301B3980054D92F /* QPostbackLeftCell.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
+				3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */,
 				3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */,
 				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
 				3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */,
+				3DC51C28255D0EA9008BE893 /* AgentCell.xib in Resources */,
 				3D40B8CA2192E20C00FE7228 /* CustomChatInput.xib in Resources */,
 				3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */,
 			);
@@ -799,8 +908,13 @@
 				3DA788F12480719D00CEF339 /* QReplyTextRightCell.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
 				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
+				3D0B8B21255D890E002A484F /* CloseButton.swift in Sources */,
 				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
+				3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */,
+				3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */,
+				3DC51C2A255D14A7008BE893 /* AgentModel.swift in Sources */,
+				3D0B8B1D255D88CA002A484F /* TagListView.swift in Sources */,
 				3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
 				3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */,
@@ -825,13 +939,17 @@
 				3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */,
 				3D3854B621B4E34800435B31 /* UIChatListViewCell.swift in Sources */,
 				3DA824572301C2DA0054D92F /* QCard.swift in Sources */,
+				3DC51C27255D0EA9008BE893 /* AgentCell.swift in Sources */,
 				3DD017CD254858030031FF46 /* RefreshToken.swift in Sources */,
+				3DC51C22255D08D0008BE893 /* AddAgentVC.swift in Sources */,
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
+				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
 				3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */,
+				3D0B8B1F255D88F2002A484F /* TagView.swift in Sources */,
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
 				3DAB890224C0E2040046E5DE /* ChatTemplateCell.swift in Sources */,
@@ -842,6 +960,7 @@
 				3DA788E92480613E00CEF339 /* UIChatListServedViewController.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
+				3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */,
 				3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */,
 				3DAB890724C0FDE40046E5DE /* ChatTemplate.swift in Sources */,
 				3D8F0D6122684130000135CA /* UserDefault.swift in Sources */,
@@ -857,6 +976,7 @@
 				3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */,
 				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
 				3DA824592301C35B0054D92F /* QCardButton.swift in Sources */,
+				3D0B8B23255D981C002A484F /* TagsModel.swift in Sources */,
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
 				3D40B8B72192E20C00FE7228 /* Background.swift in Sources */,
 				3DA824482301B3980054D92F /* QCarouselCardCell.swift in Sources */,
@@ -1019,7 +1139,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
@@ -1044,7 +1164,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dist";

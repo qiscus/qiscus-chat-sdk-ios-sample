@@ -112,10 +112,15 @@ class ProfileVC: UIViewController {
     }
     
     @IBAction func logout(_ sender: Any) {
+        if let deviceToken = UserDefaults.standard.getDeviceToken(){
+            QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (isSuccess) in
+                
+            }) { (error) in
+                
+            }
+        }
+        
         QiscusCore.logout { (error) in
-//            let local = UserDefaults.standard
-//            local.removeObject(forKey: "AppID")
-//            local.synchronize()
             let app = UIApplication.shared.delegate as! AppDelegate
             app.auth()
         }

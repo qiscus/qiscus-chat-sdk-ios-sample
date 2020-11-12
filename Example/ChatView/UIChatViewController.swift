@@ -10,6 +10,7 @@ import ContactsUI
 import SwiftyJSON
 import QiscusCore
 import Alamofire
+import iRecordView
 
 // Chat view blue print or function
 protocol UIChatView {
@@ -94,6 +95,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     var chatTemplates = [ChatTemplate]()
     var chatTemplatesKeyword = ""
     var isQiscus : Bool = false
+    
+    var recordButton:RecordButton = RecordButton()
+    var recordView:RecordView = RecordView()
     
     open func getProgressBar() -> UIProgressView {
         return progressBar
@@ -186,6 +190,34 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.setupInputBar(self.chatInput)
         self.setupPopupResolved()
         self.setupIsQiscus()
+        self.setupRecordAudio()
+    }
+    
+    func setupRecordAudio(){
+        
+        recordButton.translatesAutoresizingMaskIntoConstraints = false
+        recordView.translatesAutoresizingMaskIntoConstraints = false
+        recordButton.tintColor = ColorConfiguration.sendButtonColor
+        recordButton.setImage(UIImage(named: "ic_rec_black")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        view.addSubview(recordButton)
+        view.addSubview(recordView)
+
+        recordButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        recordButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+
+        recordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
+        recordButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -8).isActive = true
+        
+
+        recordView.trailingAnchor.constraint(equalTo: recordButton.leadingAnchor, constant: -20).isActive = true
+        recordView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        recordView.bottomAnchor.constraint(equalTo: recordButton.bottomAnchor).isActive = true
+        recordButton.recordView = recordView
+        
+        //record
+        recordView.delegate = self
+        //IMPORTANT
+        recordButton.recordView = recordView
     }
     
     func setupIsQiscus(){
@@ -260,7 +292,17 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         self.chatInput.sendButton.isEnabled = true
                         self.chatInput.attachButton.isEnabled = true
                         let resolveButton = self.resolveButton(self, action:  #selector(UIChatViewController.goResolve))
-                        self.navigationItem.rightBarButtonItems = [resolveButton]
+                        let actionButton = self.actionButton(self, action:  #selector(UIChatViewController.goActionButton))
+                        
+                        if let userType = UserDefaults.standard.getUserType(){
+                            if userType == 2 {
+                                self.navigationItem.rightBarButtonItems = [resolveButton]
+                            }else{
+                                self.navigationItem.rightBarButtonItems = [actionButton, resolveButton]
+                            }
+                        }
+                        
+                        
                     } else {
                         if let userType = UserDefaults.standard.getUserType(){
                             if userType == 2 {
@@ -325,6 +367,22 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         backButton.backgroundColor  = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
         backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
         return UIBarButtonItem(customView: backButton)
+    }
+    
+    private func actionButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
+        let menuIcon = UIImageView()
+        menuIcon.contentMode = .scaleAspectFit
+        
+        let image = UIImage(named: "ic_dot_menu")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        menuIcon.image = image
+        menuIcon.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        
+        menuIcon.frame = CGRect(x: 0,y: 0,width: 30,height: 30)
+        
+        let actionButton = UIButton(frame:CGRect(x: 0,y: 0,width: 30,height: 30))
+        actionButton.addSubview(menuIcon)
+        actionButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
+        return UIBarButtonItem(customView: actionButton)
     }
     
     func qiscusAutoHideKeyboard() {
@@ -413,6 +471,43 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     
     @objc func goResolve() {
         self.viewResloved.isHidden = false
+    }
+    
+    @objc func goActionButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Add Agent", style: .default , handler:{ (UIAlertAction)in
+            let vc = AddAgentVC()
+            vc.roomName = self.room?.name ?? ""
+            vc.roomID = self.room?.id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Remove Agent", style: .default , handler:{ (UIAlertAction)in
+            let vc = RemoveAgentVC()
+            vc.roomName = self.room?.name ?? ""
+            vc.roomID = self.room?.id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Tags", style: .default , handler:{ (UIAlertAction)in
+            let vc = TagsVC()
+            vc.roomName = self.room?.name ?? ""
+            vc.roomID = self.room?.id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler:{ (UIAlertAction)in
+            
+        }))
+        
+        
+        //uncomment for iPad Support
+        alert.popoverPresentationController?.sourceView = self.view
+        
+        self.present(alert, animated: true, completion: {
+            print("completion block")
+        })
     }
     
     func asAdminOrAgent(value : Int){
@@ -1272,6 +1367,10 @@ extension UIChatViewController : UIChatInputDelegate {
             onError(error)
         }
     }
+    
+    func hideUIRecord(isHidden : Bool){
+         recordButton.isHidden = isHidden
+    }
 }
 
 //// MARK: Handle Cell Menu
@@ -1308,5 +1407,28 @@ extension UITableView {
             }
         }
         return false
+    }
+}
+
+// MARK: - iRecordView
+extension UIChatViewController: RecordViewDelegate{
+    func onStart() {
+        print("onStart")
+        self.chatInput.startRecording()
+    }
+    
+    func onCancel() {
+        self.chatInput.cancelRecord()
+        print("onCancel")
+    }
+    
+    func onFinished(duration: CGFloat) {
+        print("onFinished \(duration)")
+        self.chatInput.onFinishRecording()
+        
+    }
+    
+    func onAnimationEnd() {
+        print("onAnimationEnd")
     }
 }

@@ -13,6 +13,7 @@ protocol UIChatInputAction {
     func send(message : CommentModel)
     func typing(_ value: Bool, query : String)
     func setHeight(_ value: CGFloat)
+    func hideUIRecord(isHidden: Bool)
 }
 
 // internal function
@@ -20,6 +21,7 @@ protocol UIChatInputDelegate {
     func send(message : CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void)
     func typing(_ value: Bool,  query : String)
     func onHeightChanged(height: CGFloat)
+    func hideUIRecord(isHidden: Bool)
 }
 
 class UIChatInput: UIView {
@@ -102,5 +104,9 @@ extension UIChatInput : UIChatInputAction {
         }, onError: { (error) in
             //error
         })
+    }
+    
+    func hideUIRecord(isHidden : Bool) {
+        self._delegate?.hideUIRecord(isHidden: isHidden)
     }
 }

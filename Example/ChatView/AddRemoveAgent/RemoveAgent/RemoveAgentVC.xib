@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RemoveAgentVC" customModule="Qiscus_Multichannel" customModuleProvider="target">
+            <connections>
+                <outlet property="btCancel" destination="hBQ-te-ywc" id="zTz-AE-zKe"/>
+                <outlet property="btRemove" destination="qGm-f2-1FI" id="EsR-pD-eQh"/>
+                <outlet property="tableView" destination="LCE-BG-Fjf" id="uL4-lo-uxz"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LCE-BG-Fjf">
+                    <rect key="frame" x="0.0" y="44" width="414" height="738"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iq9-c6-Ci0">
+                    <rect key="frame" x="0.0" y="787" width="414" height="75"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBQ-te-ywc">
+                            <rect key="frame" x="50" y="12" width="100" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="Mng-re-6c8"/>
+                                <constraint firstAttribute="height" constant="50" id="qbb-6Y-OD0"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="16"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="cancelAction:" destination="-1" eventType="touchUpInside" id="0qb-Zy-Bet"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-f2-1FI">
+                            <rect key="frame" x="234" y="12" width="130" height="50"/>
+                            <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="bcf-Ad-cdo"/>
+                                <constraint firstAttribute="width" constant="130" id="j2G-ac-MRX"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="16"/>
+                            <state key="normal" title="Remove">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="removeAction:" destination="-1" eventType="touchUpInside" id="yMx-E1-Squ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="qGm-f2-1FI" firstAttribute="centerY" secondItem="hBQ-te-ywc" secondAttribute="centerY" id="1Mf-4s-gfA"/>
+                        <constraint firstItem="hBQ-te-ywc" firstAttribute="leading" secondItem="Iq9-c6-Ci0" secondAttribute="leading" constant="50" id="5hu-QK-XE8"/>
+                        <constraint firstAttribute="height" constant="75" id="CbA-qW-J5t"/>
+                        <constraint firstAttribute="trailing" secondItem="qGm-f2-1FI" secondAttribute="trailing" constant="50" id="Ljg-Oq-TRv"/>
+                        <constraint firstAttribute="bottom" secondItem="hBQ-te-ywc" secondAttribute="bottom" constant="13" id="psg-CI-cN2"/>
+                        <constraint firstAttribute="bottom" secondItem="qGm-f2-1FI" secondAttribute="bottom" constant="13" id="vip-Dw-Ajb"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="Iq9-c6-Ci0" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="0iG-Zj-icQ"/>
+                <constraint firstItem="Iq9-c6-Ci0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Pi3-nR-N86"/>
+                <constraint firstItem="Iq9-c6-Ci0" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="UgJ-dR-JZa"/>
+                <constraint firstItem="LCE-BG-Fjf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="eAj-dp-9sV"/>
+                <constraint firstItem="LCE-BG-Fjf" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="heE-lU-fX1"/>
+                <constraint firstItem="Iq9-c6-Ci0" firstAttribute="top" secondItem="LCE-BG-Fjf" secondAttribute="bottom" constant="5" id="pFA-0V-954"/>
+                <constraint firstItem="LCE-BG-Fjf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="tFK-DU-8he"/>
+                <constraint firstItem="Iq9-c6-Ci0" firstAttribute="top" secondItem="LCE-BG-Fjf" secondAttribute="bottom" constant="5" id="uWW-kl-Ixk"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
+        </view>
+    </objects>
+</document>

@@ -21,4 +21,5 @@ target 'Example' do
   pod 'BottomPopup', '0.5.1'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'iRecordView'
 end

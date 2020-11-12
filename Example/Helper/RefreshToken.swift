@@ -14,7 +14,7 @@ import QiscusCore
 public class RefreshToken: NSObject {
     
     public class func getRefreshToken(response : JSON, onSuccess: @escaping (Bool) -> Void){
-        
+        onSuccess(false)
         let longLiveToken = UserDefaults.standard.getLongLivedToken()
         
         let errorMessage = response["errors"].string ?? ""
