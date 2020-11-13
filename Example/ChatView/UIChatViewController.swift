@@ -1414,7 +1414,7 @@ extension UITableView {
 extension UIChatViewController: RecordViewDelegate{
     func onStart() {
         print("onStart")
-        self.chatInput.startRecording()
+        self.chatInput.prepareRecording()
     }
     
     func onCancel() {
