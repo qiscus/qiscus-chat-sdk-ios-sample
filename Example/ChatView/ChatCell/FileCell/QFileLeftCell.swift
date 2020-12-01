@@ -114,14 +114,26 @@ class QFileLeftCell: UIBaseChatCell {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
-                let preview = ChatPreviewDocVC()
-                preview.fileName = fileName
-                preview.url = url
-                preview.roomName = "Document Preview"
-                let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
                 
-                self.currentViewController()?.navigationItem.backBarButtonItem = backButton
-                self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
+                if url.contains(".oga") == true {
+                    let preview = PlayOgaVC()
+                    preview.mediaURL = url
+                    let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
+                    self.currentViewController()?.navigationItem.backBarButtonItem = backButton
+                    self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
+                } else {
+                    let preview = ChatPreviewDocVC()
+                    preview.fileName = fileName
+                    preview.url = url
+                    preview.roomName = "Document Preview"
+                    let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                    
+                    self.currentViewController()?.navigationItem.backBarButtonItem = backButton
+                    self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
+                }
+                
+               
             }
         }
     }

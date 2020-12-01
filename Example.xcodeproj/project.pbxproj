@@ -18,6 +18,8 @@
 		3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */; };
 		3D0B8B28255DA619002A484F /* TagsSuggestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */; };
 		3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */; };
+		3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */; };
+		3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
 		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
@@ -154,6 +156,8 @@
 		3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSuggestionCell.swift; sourceTree = "<group>"; };
 		3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagsSuggestionCell.xib; sourceTree = "<group>"; };
 		3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatTabViewController.swift; sourceTree = "<group>"; };
+		3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayOgaVC.swift; sourceTree = "<group>"; };
+		3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayOgaVC.xib; sourceTree = "<group>"; };
 		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
 		3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
 		3D3854A021B4DE6600435B31 /* UIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatViewController.swift; sourceTree = "<group>"; };
@@ -638,6 +642,8 @@
 				3D3854A121B4DE6600435B31 /* UIChatViewController.xib */,
 				3D40B86B2192E20A00FE7228 /* ChatPreviewDocVC.swift */,
 				3D40B86C2192E20A00FE7228 /* ChatPreviewDocVC.xib */,
+				3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */,
+				3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */,
 			);
 			path = ChatView;
 			sourceTree = "<group>";
@@ -792,6 +798,7 @@
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3DA788F22480719D00CEF339 /* QReplyTextRightCell.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
+				3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
 				3D40B8D72192E20C00FE7228 /* QSystemCell.xib in Resources */,
 				3DA788EA2480613E00CEF339 /* UIChatListServedViewController.xib in Resources */,
@@ -969,6 +976,7 @@
 				3D80B2B4221BB75A0053280C /* ContactSelectCollCell.swift in Sources */,
 				3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */,
 				3DA788FD2480D84A00CEF339 /* QReplyImageLeftCell.swift in Sources */,
+				3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */,
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
@@ -1130,16 +1138,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.7;
+				MARKETING_VERSION = 1.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
@@ -1156,15 +1165,17 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.7;
+				MARKETING_VERSION = 1.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dist";

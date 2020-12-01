@@ -22,4 +22,6 @@ target 'Example' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
   pod 'iRecordView'
+  pod 'MobileVLCKit', '~>3.3.0'
+  
 end

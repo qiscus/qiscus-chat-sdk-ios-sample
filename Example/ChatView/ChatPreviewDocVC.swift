@@ -9,6 +9,9 @@
 import UIKit
 import WebKit
 import SwiftyJSON
+import QiscusCore
+
+
 
 class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegate {
     
@@ -74,6 +77,9 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         if !self.accountLinking{
             if let openURL = URL(string: self.url.replacingOccurrences(of: " ", with: "%20")){
                 self.webView.load(URLRequest(url: openURL))
+                
+                
+                
             }
         }else{
             if let openURL = URL(string:  self.accountLinkURL.replacingOccurrences(of: " ", with: "%20")) {
