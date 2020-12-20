@@ -55,15 +55,21 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var heightProgressBar: NSLayoutConstraint!
     
+    @IBOutlet weak var scrollViewResolved: UIScrollView!
+    @IBOutlet weak var viewPopupResolvedBottomConst: NSLayoutConstraint!
+    @IBOutlet weak var viewResolved: UIView!
+    @IBOutlet weak var lbNameResolved: UILabel!
+    @IBOutlet weak var ivAvatarResolved: UIImageView!
     @IBOutlet weak var viewResloved: UIView!
     @IBOutlet weak var tvNotes: UITextView!
     @IBOutlet weak var btCheckBox: UIButton!
+    @IBOutlet weak var btCheckBoxSendNote: UIButton!
     @IBOutlet weak var btSubmitResolved: UIButton!
     @IBOutlet weak var btCancelSubmit: UIButton!
     var placeholderLabel : UILabel!
     
     @IBOutlet weak var tableViewChatTemplate: UITableView!
-    
+    @IBOutlet weak var topProgressBar: NSLayoutConstraint!
     var chatTitleView : UIChatNavigation = UIChatNavigation()
     var chatInput : CustomChatInput = CustomChatInput()
     private var presenter: UIChatPresenter = UIChatPresenter()
@@ -123,8 +129,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                                                name: UIApplication.didBecomeActiveNotification, object: nil)
 
         view.endEditing(true)
-        
-        self.navigationController?.navigationBar.barTintColor = UIColor.white
+
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.barTintColor = ColorConfiguration.defaultColorTosca
         
         self.tableViewChatTemplate.isHidden = true
     }
@@ -165,9 +172,35 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func tapFunction(sender:UITapGestureRecognizer) {
-        if self.room != nil {
-            let vc = RoomInfoVC()
+        if let room = self.room {
+            var channelTypeString = ""
+            let vc = ChatAndCustomerInfoVC()
             vc.room = room
+            
+            if !room.options!.isEmpty{
+                let json = JSON.init(parseJSON: room.options!)
+                let channelType = json["channel"].string ?? "qiscus"
+                if channelType.lowercased() == "qiscus"{
+                    channelTypeString = "Qiscus Widget"
+                }else if channelType.lowercased() == "telegram"{
+                    channelTypeString = "Telegram"
+                }else if channelType.lowercased() == "line"{
+                    channelTypeString = "Line"
+                }else if channelType.lowercased() == "fb"{
+                    channelTypeString = "Facebook"
+                }else if channelType.lowercased() == "wa"{
+                    channelTypeString = "WhatsApp"
+                }else{
+                    channelTypeString = "Qiscus Widget"
+                }
+                
+                if channelTypeString == "WhatsApp" {
+                     vc.isTypeWA = true
+                } else {
+                     vc.isTypeWA = false
+                }
+            }
+            
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -191,13 +224,38 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.setupPopupResolved()
         self.setupIsQiscus()
         self.setupRecordAudio()
+        
+//        if hasTopNotch() == true {
+//            self.topProgressBar.constant = 0
+//        } else {
+//            self.topProgressBar.constant = 65
+//        }
+        
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.keyWindow
+            let topPadding = window?.safeAreaInsets.top
+            
+            print("arief check topPadding =\(topPadding)")
+            self.topProgressBar.constant = 0
+        }else {
+            self.topProgressBar.constant = 65
+        }
+    }
+    
+    func hasTopNotch()-> Bool {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            // with notch: 44.0 on iPhone X, XS, XS Max, XR.
+            // without notch: 24.0 on iPad Pro 12.9" 3rd generation, 20.0 on iPhone 8 on iOS 12+.
+            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 24
+        }
+        return false
     }
     
     func setupRecordAudio(){
         
         recordButton.translatesAutoresizingMaskIntoConstraints = false
         recordView.translatesAutoresizingMaskIntoConstraints = false
-        recordButton.tintColor = ColorConfiguration.sendButtonColor
+        recordButton.tintColor = ColorConfiguration.defaultColorTosca
         recordButton.setImage(UIImage(named: "ic_rec_black")?.withRenderingMode(.alwaysTemplate), for: .normal)
         view.addSubview(recordButton)
         view.addSubview(recordView)
@@ -234,6 +292,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     
     private func setupPopupResolved(){
         self.tvNotes.layer.borderWidth = 1
+        self.tvNotes.layer.cornerRadius = 8
         self.tvNotes.layer.borderColor = UIColor(red:222/255, green:225/255, blue:227/255, alpha: 1).cgColor
         self.tvNotes.backgroundColor = UIColor.white
         self.tvNotes.delegate = self
@@ -245,6 +304,22 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (self.tvNotes.font?.pointSize)! / 2)
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !self.tvNotes.text.isEmpty
+        
+        self.viewResolved.layer.cornerRadius = 8
+        self.scrollViewResolved.layer.cornerRadius = 8
+        self.btSubmitResolved.layer.cornerRadius = self.btSubmitResolved.frame.height / 2
+        self.btCancelSubmit.layer.cornerRadius = self.btCancelSubmit.frame.height / 2
+        
+        self.btCancelSubmit.layer.borderWidth = 2
+        self.btCancelSubmit.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
+        
+        self.ivAvatarResolved.layer.cornerRadius = self.ivAvatarResolved.frame.height / 2
+        
+        self.btCheckBoxSendNote.setImage(UIImage(named: "ic_uncheck")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.btCheckBox.setImage(UIImage(named: "ic_uncheck")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        
+        self.btCheckBoxSendNote.tintColor = ColorConfiguration.defaultColorTosca
+        self.btCheckBox.tintColor = ColorConfiguration.defaultColorTosca
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -296,13 +371,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         
                         if let userType = UserDefaults.standard.getUserType(){
                             if userType == 2 {
-                                self.navigationItem.rightBarButtonItems = [resolveButton]
+                                self.navigationItem.rightBarButtonItems = [actionButton, resolveButton]
                             }else{
                                 self.navigationItem.rightBarButtonItems = [actionButton, resolveButton]
                             }
                         }
-                        
-                        
                     } else {
                         if let userType = UserDefaults.standard.getUserType(){
                             if userType == 2 {
@@ -331,6 +404,21 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.titleView = chatTitleView
         self.chatTitleView.room = room
         
+        
+        if let room = QiscusCore.database.room.find(id: room?.id ?? ""){
+            self.lbNameResolved.text = room.name
+            
+            if let avatar = room.avatarUrl {
+                if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                    self.ivAvatarResolved.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
+                }else{
+                    self.ivAvatarResolved.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+                }
+            }else{
+                self.ivAvatarResolved.af_setImage(withURL: room.avatarUrl ?? URL(string: "http://")!)
+            }
+        }
+        
     }
     
     func enableSendMessage(){
@@ -345,7 +433,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        backIcon.tintColor = UIColor.white
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
             backIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)
@@ -362,9 +450,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     private func resolveButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
         let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 80,height: 30))
         backButton.setTitle("Resolve", for: .normal)
-        backButton.tintColor        = UIColor.white
-        backButton.layer.cornerRadius = 8
-        backButton.backgroundColor  = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        backButton.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+        backButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        backButton.tintColor        = ColorConfiguration.defaultColorTosca
+        backButton.layer.cornerRadius = 15
+        backButton.backgroundColor  = UIColor.white
         backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
         return UIBarButtonItem(customView: backButton)
     }
@@ -375,7 +465,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         
         let image = UIImage(named: "ic_dot_menu")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         menuIcon.image = image
-        menuIcon.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        menuIcon.tintColor = UIColor.white
         
         menuIcon.frame = CGRect(x: 0,y: 0,width: 30,height: 30)
         
@@ -397,6 +487,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     
     private func setupTableView() {
         let rotate = CGAffineTransform(rotationAngle: .pi)
+        self.tableViewConversation.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         self.tableViewConversation.transform = rotate
         self.tableViewConversation.scrollIndicatorInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: UIScreen.main.bounds.width - 8)
         self.tableViewConversation.rowHeight = UITableView.automaticDimension
@@ -445,13 +536,28 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func btCheckBoxClick(_ sender: Any) {
         if (btCheckBox.isSelected == true){
-            btCheckBox.setBackgroundImage(UIImage(named: "ic_uncheck_button"), for: UIControl.State.normal)
+            self.btCheckBox.setImage(UIImage(named: "ic_uncheck")?.withRenderingMode(.alwaysTemplate), for: .normal)
             btCheckBox.isSelected = false
         } else {
-            btCheckBox.setBackgroundImage(UIImage(named: "ic_check_button"), for: UIControl.State.normal)
+             self.btCheckBox.setImage(UIImage(named: "ic_check_button")?.withRenderingMode(.alwaysTemplate), for: .selected)
             btCheckBox.isSelected = true
         }
+        
+         self.btCheckBox.tintColor = ColorConfiguration.defaultColorTosca
     }
+    
+    @IBAction func btCheckBoxClickSendNote(_ sender: Any) {
+        if (btCheckBoxSendNote.isSelected == true){
+             self.btCheckBoxSendNote.setImage(UIImage(named: "ic_uncheck")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            btCheckBoxSendNote.isSelected = false
+        } else {
+             self.btCheckBoxSendNote.setImage(UIImage(named: "ic_check_button")?.withRenderingMode(.alwaysTemplate), for: .selected)
+            btCheckBoxSendNote.isSelected = true
+        }
+        self.btCheckBoxSendNote.tintColor = ColorConfiguration.defaultColorTosca
+    }
+    
+    
     @IBAction func submitResolved(_ sender: Any) {
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 1 {
@@ -470,6 +576,15 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func goResolve() {
+        if let room = QiscusCore.database.room.find(id: self.room?.id ?? ""){
+            if !room.options!.isEmpty{
+                let json = JSON.init(parseJSON: room.options!)
+                let notesData = json["notes"].string ?? ""
+                
+                self.tvNotes.text = notesData
+                placeholderLabel.isHidden = !self.tvNotes.text.isEmpty
+            }
+        }
         self.viewResloved.isHidden = false
     }
     
@@ -483,19 +598,27 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }))
         
-        alert.addAction(UIAlertAction(title: "Remove Agent", style: .default , handler:{ (UIAlertAction)in
-            let vc = RemoveAgentVC()
-            vc.roomName = self.room?.name ?? ""
-            vc.roomID = self.room?.id ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
-        }))
         
-        alert.addAction(UIAlertAction(title: "Tags", style: .default , handler:{ (UIAlertAction)in
-            let vc = TagsVC()
-            vc.roomName = self.room?.name ?? ""
-            vc.roomID = self.room?.id ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
-        }))
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+               alert.addAction(UIAlertAction(title: "Assign Chat To", style: .default , handler:{ (UIAlertAction)in
+                   let vc = AddAgentVC()
+                   vc.roomName = self.room?.name ?? ""
+                   vc.roomID = self.room?.id ?? ""
+                   vc.isAssignFromAgent = true
+                   self.navigationController?.pushViewController(vc, animated: true)
+               }))
+            }else{
+                alert.addAction(UIAlertAction(title: "Remove Agent", style: .default , handler:{ (UIAlertAction)in
+                    let vc = RemoveAgentVC()
+                    vc.roomName = self.room?.name ?? ""
+                    vc.roomID = self.room?.id ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }))
+            }
+        }
+        
+       
         
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler:{ (UIAlertAction)in
             
@@ -534,8 +657,14 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                 sendEmail = true
             }
             
+            var sendNotes = false
+            if self.btCheckBoxSendNote.isSelected == true{
+                sendNotes = true
+            }
+            
             let params = ["room_id": roomLocal.id,
                           "is_send_email": sendEmail,
+                          "is_send_notes" : sendNotes,
                           "notes": notes,
                           "last_comment_id": roomLocal.lastComment?.id] as [String : Any]
             
@@ -679,6 +808,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         
         let animateDuration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         self.constraintViewInputBottom.constant = 0
+        self.viewPopupResolvedBottomConst.constant = 0
         UIView.animate(withDuration: animateDuration, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -692,6 +822,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         let animateDuration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         
         self.constraintViewInputBottom.constant = 0 - keyboardHeight
+        self.viewPopupResolvedBottomConst.constant = 0 + keyboardHeight
         UIView.animate(withDuration: animateDuration, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -1143,14 +1274,16 @@ extension UIChatViewController: UIChatViewDelegate {
             if newSection {
                 self.tableViewConversation.beginUpdates()
                 self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
-                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
                 self.tableViewConversation.endUpdates()
+                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                
             } else {
                 let indexPath = IndexPath(row: 0, section: 0)
                 self.tableViewConversation.beginUpdates()
                 self.tableViewConversation.insertRows(at: [indexPath], with: .right)
-                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
                 self.tableViewConversation.endUpdates()
+                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                
             }
         }
     }

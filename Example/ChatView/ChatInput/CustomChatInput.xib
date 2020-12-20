@@ -29,7 +29,7 @@
                         <constraint firstAttribute="height" constant="50" id="dO6-to-wpg"/>
                         <constraint firstAttribute="width" constant="50" id="ty3-9h-BCL"/>
                     </constraints>
-                    <color key="tintColor" red="0.51764705879999995" green="0.76078431369999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="tintColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" image="ic_send"/>
                     <connections>
                         <action selector="clickSend:" destination="-1" eventType="touchUpInside" id="npz-r2-1Hv"/>
@@ -43,7 +43,8 @@
                         <constraint firstAttribute="height" constant="50" id="IuH-vd-Pvb"/>
                     </constraints>
                     <color key="tintColor" red="0.51764705879999995" green="0.76078431369999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" image="ic_attachment"/>
+                    <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                    <state key="normal" image="ic_circle_plus"/>
                     <connections>
                         <action selector="clickAttachment:" destination="-1" eventType="touchUpInside" id="kun-jy-4MV"/>
                     </connections>
@@ -120,7 +121,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_attachment" width="24" height="24"/>
+        <image name="ic_circle_plus" width="128" height="128"/>
         <image name="ic_send" width="24" height="24"/>
     </resources>
 </document>

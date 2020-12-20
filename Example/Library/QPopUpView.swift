@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QiscusCore
 
 class QPopUpView: UIViewController {
     
@@ -28,6 +29,7 @@ class QPopUpView: UIViewController {
     var topColor = ChatConfig.baseColor
     var bottomColor = ChatConfig.baseColor
     
+    @IBOutlet weak var ivFileAttachment: UIImageView!
     @IBOutlet weak var containerHeight: NSLayoutConstraint!
     @IBOutlet weak var containerView: UIView!
     
@@ -42,6 +44,12 @@ class QPopUpView: UIViewController {
     
     @IBOutlet weak var imageViewHeight: NSLayoutConstraint!
     @IBOutlet weak var textViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var lbProgress: UILabel!
+    @IBOutlet weak var progressView: UIView!
+    @IBOutlet weak var heightProgressViewCons: NSLayoutConstraint!
+    let maxProgressHeight:Double = 40.0
+    var hiddenIconFileAttachment = true
     
     fileprivate init() {
         super.init(nibName: "QPopUpView", bundle:nil)
@@ -75,7 +83,16 @@ class QPopUpView: UIViewController {
             self.imageView.image = self.image
             self.imageViewHeight.constant = 120
         }else{
-            self.imageViewHeight.constant = 0
+            self.imageView.image = nil
+            if hiddenIconFileAttachment == false {
+                self.ivFileAttachment.alpha = 1
+            } else {
+                self.ivFileAttachment.alpha = 0
+            }
+            
+            self.imageViewHeight.constant = 120
+            self.ivFileAttachment.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(.alwaysTemplate)
+            self.ivFileAttachment.tintColor = ColorConfiguration.defaultColorTosca
         }
         self.containerView.layer.cornerRadius = 10
         
@@ -94,9 +111,9 @@ class QPopUpView: UIViewController {
             self.containerHeight.constant = newSize.height + 50
         }
         
-        self.firstButton.verticalGradientColor(topColor, bottomColor: bottomColor)
-        self.secondButton.verticalGradientColor(topColor, bottomColor: bottomColor)
-        self.singleButton.verticalGradientColor(topColor, bottomColor: bottomColor)
+        self.firstButton.backgroundColor = ColorConfiguration.defaultColorTosca
+        self.secondButton.backgroundColor = ColorConfiguration.defaultColorTosca
+        self.singleButton.backgroundColor = ColorConfiguration.defaultColorTosca
         
         if oneButton {
             self.firstButton.isHidden = true
@@ -142,7 +159,7 @@ class QPopUpView: UIViewController {
     }
     
     // MARK: - Class methode to show popUp
-    class func showAlert(withTarget target:UIViewController,image:UIImage? = nil,message:String = "", attributedText:NSMutableAttributedString? = nil, firstActionTitle:String = "OK", secondActionTitle:String = "CANCEL",isVideoImage:Bool = false, doneAction:@escaping ()->Void = {}, cancelAction:@escaping ()->Void = {}){
+    class func showAlert(withTarget target:UIViewController,image:UIImage? = nil,message:String = "", attributedText:NSMutableAttributedString? = nil, firstActionTitle:String = "OK", secondActionTitle:String = "CANCEL",isVideoImage:Bool = false, hiddenIconFileAttachment : Bool = true, doneAction:@escaping ()->Void = { }, cancelAction:@escaping ()->Void = {}){
         let alert = QPopUpView.sharedInstance
         if alert.isPresent{
             alert.dismiss(animated: false, completion: nil)
@@ -152,6 +169,7 @@ class QPopUpView: UIViewController {
         }
         
         alert.secondAction = cancelAction
+        
         alert.firstAction = doneAction
         alert.image = image
         alert.isVideo = isVideoImage
@@ -161,9 +179,24 @@ class QPopUpView: UIViewController {
             alert.text = message
         }
         alert.oneButton = false
+        alert.hiddenIconFileAttachment = hiddenIconFileAttachment
         alert.modalTransitionStyle = .crossDissolve
         alert.modalPresentationStyle = .overCurrentContext
         alert.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {})
+    }
+
+    func hiddenProgress(){
+        self.lbProgress.isHidden = true
+        self.progressView.isHidden = true
+        self.secondButton.isEnabled = true
+    }
+    
+    func showProgress(progress: Double){
+        self.progressView.layer.cornerRadius =  self.progressView.frame.height / 2
+        self.secondButton.isEnabled = false
+        self.lbProgress.isHidden = false
+        self.progressView.isHidden = false
+        self.lbProgress.text = "\(Int(progress * 100)) %"
     }
 }

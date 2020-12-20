@@ -37,8 +37,8 @@ class QCardLeftCell: UIBaseChatCell {
         super.awakeFromNib()
         // Initialization code
         self.containerArea.layer.cornerRadius = 10.0
-        self.containerArea.layer.borderWidth = 0.5
-        self.containerArea.layer.borderColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1).cgColor
+        //self.containerArea.layer.borderWidth = 0.5
+        //self.containerArea.layer.borderColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1).cgColor
         self.containerArea.clipsToBounds = true
         self.containerArea.layer.zPosition = 999
         self.displayImageView.contentMode = .scaleAspectFill
@@ -65,7 +65,7 @@ class QCardLeftCell: UIBaseChatCell {
     }
     
     func setupBalon(){
-        self.containerArea.backgroundColor = UIColor.clear
+        self.containerArea.backgroundColor = ColorConfiguration.defaultColorTosca
     }
     
     func bindData(message: CommentModel){

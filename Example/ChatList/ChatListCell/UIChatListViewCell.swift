@@ -54,12 +54,11 @@ class UIChatListViewCell: UITableViewCell {
                 let timeString = timeFormatter.string(from: date)
                 
                 if Calendar.current.isDateInToday(date){
-                    result = "\(timeString)"
-                }
-                else if Calendar.current.isDateInYesterday(date) {
-                    result = "Yesterday"
+                    result = "Today, \(timeString)"
+                }else if Calendar.current.isDateInYesterday(date) {
+                    result = "Yesterday, \(timeString)"
                 }else{
-                    result = "\(dateString)"
+                    result = "\(dateString), \(timeString)"
                 }
                 
                 return result
@@ -143,6 +142,19 @@ class UIChatListViewCell: UITableViewCell {
         }else{
             self.labelLastMessage.text  = message // single
         }
+        
+        if let avatar = data.avatarUrl {
+            if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                self.imageViewRoom.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
+               
+            }else if avatar.absoluteString.contains(".png") == true || avatar.absoluteString.contains(".jpg") == true || avatar.absoluteString.contains(".jpeg") == true{
+                self.imageViewRoom.af_setImage(withURL: avatar)
+            }else{
+                self.imageViewRoom.af_setImage(withURL: avatar ?? URL(string:"https://")!)
+            }
+        }else{
+            self.imageViewRoom.af_setImage(withURL: URL(string:"https://")!)
+        }
     }
     
     func setupUICustomerRoom(data : CustomerRoom) {
@@ -198,9 +210,9 @@ class UIChatListViewCell: UITableViewCell {
                 result = "Today, \(timeString)"
             }
             else if Calendar.current.isDateInYesterday(date) {
-                result = "Yesterday"
+                result = "Yesterday, \(timeString)"
             }else{
-                result = "\(dateString)"
+                result = "\(dateString), \(timeString)"
             }
             
             

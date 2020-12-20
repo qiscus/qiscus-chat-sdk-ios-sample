@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileVC" customModule="Qiscus" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileVC" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <connections>
                 <outlet property="btIconAvatar" destination="3fV-iX-3re" id="CFS-5t-zfO"/>
                 <outlet property="btIconEditName" destination="0Y0-7U-D5m" id="PC0-PV-fGF"/>
@@ -30,14 +28,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G9X-1d-jNW">
-                    <rect key="frame" x="0.0" y="64" width="320" height="200"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="200"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="200" id="2hk-nn-Uib"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INFORMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mnZ-iG-PQv">
-                    <rect key="frame" x="15" y="292" width="95" height="20"/>
+                    <rect key="frame" x="15" y="272" width="95" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="Bd7-cV-Xnk"/>
                     </constraints>
@@ -46,7 +44,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cV3-u6-4en">
-                    <rect key="frame" x="0.0" y="321" width="320" height="100"/>
+                    <rect key="frame" x="0.0" y="301" width="320" height="100"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBr-Q1-YP4">
                             <rect key="frame" x="55" y="21.5" width="210" height="17"/>
@@ -105,8 +103,8 @@
                         <constraint firstItem="h7y-GI-P6W" firstAttribute="leading" secondItem="cV3-u6-4en" secondAttribute="leading" constant="15" id="qVD-rc-n7e"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xe8-t5-dUO">
-                    <rect key="frame" x="0.0" y="471" width="320" height="97"/>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xe8-t5-dUO">
+                    <rect key="frame" x="0.0" y="451" width="320" height="117"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdK-OW-5W5">
                             <rect key="frame" x="55" y="20" width="45.5" height="20"/>
@@ -146,7 +144,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3fV-iX-3re">
-                    <rect key="frame" x="280" y="224" width="40" height="40"/>
+                    <rect key="frame" x="280" y="204" width="40" height="40"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="0.41103916952054792" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="6yU-JN-0LR"/>
@@ -161,7 +159,7 @@
                     </connections>
                 </button>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="vMr-xx-DDu">
-                    <rect key="frame" x="141.5" y="145.5" width="37" height="37"/>
+                    <rect key="frame" x="141.5" y="125.5" width="37" height="37"/>
                     <color key="color" red="0.58039215690000001" green="0.79215686269999996" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </activityIndicatorView>
             </subviews>

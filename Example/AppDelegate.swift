@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
+        UIApplication.shared.applicationIconBadgeNumber = 0
         return true
     }
     
@@ -125,8 +126,7 @@ extension AppDelegate {
             if let appID = UserDefaults.standard.getAppID(){
                 QiscusCore.setup(WithAppID: appID)
             }
-            
-            target = UIChatTabViewController()//UIChatListViewController()
+            target = HomeVC()//UIChatTabViewController()//UIChatListViewController()
             _ = QiscusCore.connect(delegate: self)
         }else {
             target = LoginViewController()
@@ -178,6 +178,7 @@ extension AppDelegate {
                         
                         UserDefaults.standard.setUserType(value: userType)
                         UserDefaults.standard.setBubbleColor(value: bubbleColor)
+                        UserDefaults.standard.setAfterLogin(value: true)
                         
                         self.auth()
                        

@@ -56,9 +56,9 @@ class CustomChatInput: UIChatInput {
         
         self.textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
-        self.sendButton.tintColor = ColorConfiguration.sendButtonColor
-        self.attachButton.tintColor = ColorConfiguration.attachmentButtonColor
-        self.attachButton.setImage(UIImage(named: "ic_attachment")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.sendButton.tintColor = ColorConfiguration.defaultColorTosca
+        self.attachButton.tintColor = ColorConfiguration.defaultColorTosca
+        self.attachButton.setImage(UIImage(named: "ic_circle_plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.sendButton.setImage(UIImage(named: "ic_send")?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.sendButton.isHidden = true
         self.viewRecord.alpha = 0
@@ -552,7 +552,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
             do{
                 var data:Data = try Data(contentsOf: dataURL, options: NSData.ReadingOptions.mappedIfSafe)
                 let mediaSize = Double(data.count) / 1024.0
-                
+                var hiddenIconFileAttachment = true
                 if mediaSize > self.maxUploadSizeInKB {
                     self.showFileTooBigAlert()
                     return
@@ -600,6 +600,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                     }
                     data = image.jpegData(compressionQuality:compressVal)!
                     thumb = UIImage(data: data)
+                    usePopup = false
                 }else if isPDF{
                     usePopup = true
                     popupText = "Are you sure to send this document?"
@@ -661,56 +662,32 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                     }
                     usePopup = true
                 }else{
+                    hiddenIconFileAttachment = false
                     usePopup = true
-                    let textFirst = TextConfiguration.sharedInstance.confirmationFileUploadText
+                    let textFirst = "Are you sure to send this file?"
                     let textMiddle = "\(fileName as String)"
                     let textLast = TextConfiguration.sharedInstance.questionMark
-                    popupText = "\(textFirst) \(textMiddle) \(textLast)"
+                    popupText = "\(textFirst) \(textMiddle)"
                     fileType = QiscusFileType.file
+                    thumb = nil
                 }
                 
                 if usePopup {
-                    QPopUpView.showAlert(withTarget: self, image: thumb, message:popupText, isVideoImage: video,
-                                         doneAction: {
-                                            QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
-                                                self.getProgressBarHeight().constant = 0.0
-                                                let message = CommentModel()
-                                                message.type = "file_attachment"
-                                                message.payload = [
-                                                    "url"       : file.url.absoluteString,
-                                                    "file_name" : file.name,
-                                                    "size"      : file.size,
-                                                    "caption"   : ""
-                                                ]
-                                                message.message = "Send Attachment"
-                                                self.send(message: message, onSuccess: { (comment) in
-                                                    //success
-                                                }, onError: { (error) in
-                                                    //error
-                                                    self.getProgressBarHeight().constant = 0
-                                                })
-                                            }, onError: { (error) in
-                                                self.getProgressBarHeight().constant = 0
-                                            }) { (progress) in
-                                                print("upload progress :\(progress)")
-                                                self.getProgressBarHeight().constant = 2
-                                                self.getProgressBar().progress = Float(progress)
-                                                if(progress == 1){
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                                        self.getProgressBarHeight().constant = 2
-                                                        self.getProgressBar().progress = 0.0
-                                                    }
-                                                }
-                                            }
+                    var message = CommentModel()
+                    
+                    QPopUpView.showAlert(withTarget: self, image: thumb, message:popupText, isVideoImage: video, hiddenIconFileAttachment: hiddenIconFileAttachment,
+                    doneAction: {
+                        self.send(message: message, onSuccess: { (comment) in
+                        //success
+                    }, onError: { (error) in
+                        //error
+                    })
                     },
-                                         cancelAction: {
-                                            
-                    }
-                    )
-                }else{
+                    cancelAction: {
+                        //cancel upload
+                    })
+                    
                     QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
-                        self.getProgressBarHeight().constant = 0.0
-                        let message = CommentModel()
                         message.type = "file_attachment"
                         message.payload = [
                             "url"       : file.url.absoluteString,
@@ -719,24 +696,21 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                             "caption"   : ""
                         ]
                         message.message = "Send Attachment"
-                        self.send(message: message, onSuccess: { (comment) in
-                            //success
-                        }, onError: { (error) in
-                            self.getProgressBarHeight().constant = 0.0
-                        })
+                        
+                        QPopUpView.sharedInstance.hiddenProgress()
+                        
                     }, onError: { (error) in
-                        self.getProgressBarHeight().constant = 0.0
+                        //
                     }) { (progress) in
-                        print("upload progress: \(progress)")
-                        self.getProgressBar().progress = Float(progress)
-                        self.getProgressBarHeight().constant = 2
-                        if(progress == 1){
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                self.getProgressBarHeight().constant = 0
-                                self.getProgressBar().progress = 0.0
-                            }
-                        }
+                        print("progress =\(progress)")
+                        QPopUpView.sharedInstance.showProgress(progress: progress)
                     }
+                }else{
+                    let uploader = QiscusUploaderVC(nibName: "QiscusUploaderVC", bundle: nil)
+                    uploader.chatView = self
+                    uploader.data = data
+                    uploader.fileName = fileName
+                    self.navigationController?.pushViewController(uploader, animated: true)
                 }
                 
             }catch _{
@@ -880,33 +854,40 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                 let thumbRef = try thumbGenerator.copyCGImage(at: thumbTime, actualTime: nil)
                 let thumbImage = UIImage(cgImage: thumbRef)
                 
+                var message = CommentModel()
+                
+                
                 QPopUpView.showAlert(withTarget: self, image: thumbImage, message:"Are you sure to send this video?", isVideoImage: true,
                                      doneAction: {
-                                        QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
-                                            let message = CommentModel()
-                                            message.type = "file_attachment"
-                                            message.payload = [
-                                                "url"       : file.url.absoluteString,
-                                                "file_name" : file.name,
-                                                "size"      : file.size,
-                                                "caption"   : ""
-                                            ]
-                                            message.message = "Send Attachment"
-                                            self.send(message: message, onSuccess: { (comment) in
-                                                //success
-                                            }, onError: { (error) in
-                                                //error
-                                            })
+                                        self.send(message: message, onSuccess: { (comment) in
+                                            //success
                                         }, onError: { (error) in
-                                            //
-                                        }) { (progress) in
-                                            print("progress =\(progress)")
-                                        }
+                                            //error
+                                        })
                 },
                                      cancelAction: {
                                         //cancel upload
+                })
+                
+                QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
+                    message.type = "file_attachment"
+                    message.payload = [
+                        "url"       : file.url.absoluteString,
+                        "file_name" : file.name,
+                        "size"      : file.size,
+                        "caption"   : ""
+                    ]
+                    message.message = "Send Attachment"
+                    
+                    QPopUpView.sharedInstance.hiddenProgress()
+                    
+                }, onError: { (error) in
+                    //
+                }) { (progress) in
+                    print("progress =\(progress)")
+                    QPopUpView.sharedInstance.showProgress(progress: progress)
                 }
-                )
+                
             }catch{
                 print("error creating thumb image")
             }

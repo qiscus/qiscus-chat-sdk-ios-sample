@@ -16,12 +16,13 @@ class AddAgentVC: UIViewController {
     @IBOutlet weak var btCancel: UIButton!
     @IBOutlet weak var btCheckBox: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var lbReplaceExistingAgent: UILabel!
     
     var agentData : [AgentModel] = [AgentModel]()
     var roomName : String = ""
     var roomID : String = ""
     var selectedIndexPath : IndexPath?
-    
+    var isAssignFromAgent = false
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -47,7 +48,19 @@ class AddAgentVC: UIViewController {
     }
     
     @IBAction func assignAction(_ sender: Any) {
-       assignAgent()
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                if isAssignFromAgent == true {
+                     assignAgent()
+                }else{
+                     addAgent()
+                }
+               
+            } else {
+                assignAgent()
+            }
+        }
+      
     }
     
     
@@ -66,6 +79,13 @@ class AddAgentVC: UIViewController {
         
         self.btCancel.layer.cornerRadius = 16
         self.btAssign.layer.cornerRadius = 16
+        
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                self.lbReplaceExistingAgent.isHidden = true
+                self.btCheckBox.isHidden = true
+            }
+        }
     }
     
     private func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
@@ -97,12 +117,21 @@ class AddAgentVC: UIViewController {
             return
         }
         
+        var adminOrAgent = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                adminOrAgent = "agent"
+            } else if userType == 3 {
+                adminOrAgent = "spv"
+            }
+        }
+        
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
         let param = ["room_id": roomID,
                      "limit": "100",
                     ] as [String : String]
         
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/admin/service/other_agents", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(adminOrAgent)/service/other_agents", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
@@ -148,13 +177,25 @@ class AddAgentVC: UIViewController {
             return
         }
         
+        
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        let param = ["room_id": roomID,
-                     "replace_latest_agent": self.btCheckBox.isSelected,
+        var param = ["room_id": roomID,
                      "agent_id" : self.agentData[indexPath.row].id
             ] as [String : Any]
         
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/service/assign_agent", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+        var adminOrAgent = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                adminOrAgent = "agent"
+            } else {
+                param["replace_latest_agent"] =  self.btCheckBox.isSelected
+            }
+            //else if userType == 3 {
+            //                adminOrAgent = "spv"
+            //            }
+        }
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/\(adminOrAgent)/service/assign_agent", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
@@ -180,6 +221,59 @@ class AddAgentVC: UIViewController {
                     }
                     ))
 
+                    // show the alert
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    //for agent
+    func addAgent(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        guard let indexPath = selectedIndexPath else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["room_id": roomID,
+                     "agent_id" : self.agentData[indexPath.row].id
+            ] as [String : Any]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/agent/service/add_agent", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getList()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    // create the alert
+                    let alert = UIAlertController(title: "Success", message: "Assign to agent has been succeeded.", preferredStyle: UIAlertController.Style.alert)
+                    
+                    // add an action (button)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                        //success
+                        self.goBack()
+                    }
+                    ))
+                    
                     // show the alert
                     self.present(alert, animated: true, completion: nil)
                     

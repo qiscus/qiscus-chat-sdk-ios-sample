@@ -27,7 +27,7 @@ class TextConfiguration: NSObject {
     var readOnlyText = "Archieved message: This message was locked. Click the key to the conversation."
     
     /// Your text placeholder if you want to send any message, Default value : "Text a message here ..."
-    var textPlaceholder = "Type your message"
+    var textPlaceholder = "Send a message..."
     
     var captionPlaceholder = "Add caption to your image"
     /// Your text to show as title alert when you access gallery but you not allow gallery access, Default value : "Important"
@@ -43,10 +43,10 @@ class TextConfiguration: NSObject {
     var confirmationTitle = "CONFIRMATION"//.getLocalize()
     
     /// Your text to show as content confirmation when you want to upload image, Default value : "Are you sure to send this image?"
-    var confirmationImageUploadText = "UPLOAD_IMAGE_CONFIRMATION"//.getLocalize()
+    var confirmationImageUploadText = "Upload Image Confirmation"//.getLocalize()
     
     /// Your text to show as content confirmation when you want to upload file, Default value : "Are you sure to send"
-    var confirmationFileUploadText = "UPLOAD_FILE_CONFIRMATION"//.getLocalize()
+    var confirmationFileUploadText = "Upload File Confirmation"//.getLocalize()
     
     /// Your text in back action, Default value : ""
     var backText = ""

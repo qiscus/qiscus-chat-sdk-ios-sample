@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,8 +12,12 @@
                 <outlet property="containerHeight" destination="IUU-QA-pip" id="bGd-4z-Ofp"/>
                 <outlet property="containerView" destination="f6X-S8-dnq" id="aBV-a6-d2T"/>
                 <outlet property="firstButton" destination="SUs-dd-wOW" id="bFX-2f-2fS"/>
+                <outlet property="heightProgressViewCons" destination="8Gs-Su-9dF" id="g5I-UC-ktq"/>
                 <outlet property="imageView" destination="Euz-cZ-Zxh" id="kDJ-4H-565"/>
                 <outlet property="imageViewHeight" destination="Ajj-dZ-Up6" id="faE-r2-vih"/>
+                <outlet property="ivFileAttachment" destination="PYr-Eb-Tnr" id="Pi0-Xf-51Y"/>
+                <outlet property="lbProgress" destination="N7z-Aa-Zvu" id="4mf-1U-AJA"/>
+                <outlet property="progressView" destination="Qnp-zh-yEm" id="uH8-nG-oME"/>
                 <outlet property="secondButton" destination="B3N-9P-MCF" id="PGC-95-lqd"/>
                 <outlet property="singleButton" destination="9xO-jF-Xcn" id="WT8-Ic-WoM"/>
                 <outlet property="textView" destination="7Fg-vv-cjj" id="7uH-Jg-T4O"/>
@@ -34,8 +36,16 @@
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Euz-cZ-Zxh">
                             <rect key="frame" x="0.0" y="0.0" width="240" height="100"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="Ajj-dZ-Up6"/>
+                            </constraints>
+                        </imageView>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_file_attachment" translatesAutoresizingMaskIntoConstraints="NO" id="PYr-Eb-Tnr">
+                            <rect key="frame" x="90" y="20" width="60" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="R7U-Fx-5E0"/>
+                                <constraint firstAttribute="height" constant="60" id="usU-sf-OoE"/>
                             </constraints>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello World... how are you?" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Fg-vv-cjj">
@@ -75,8 +85,8 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xO-jF-Xcn">
-                            <rect key="frame" x="-0.5" y="159.5" width="240" height="40"/>
-                            <color key="backgroundColor" red="0.28627450980000002" green="0.71372549019999998" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <rect key="frame" x="0.0" y="160" width="240" height="40"/>
+                            <color key="backgroundColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="iKL-01-hYJ"/>
                             </constraints>
@@ -95,6 +105,26 @@
                                 <constraint firstAttribute="height" constant="40" id="rp5-df-XGu"/>
                             </constraints>
                         </imageView>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qnp-zh-yEm" userLabel="progressView">
+                            <rect key="frame" x="100" y="30" width="40" height="40"/>
+                            <subviews>
+                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7z-Aa-Zvu">
+                                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.14316189230000001" green="0.78178174079999996" blue="0.53946288170000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="N7z-Aa-Zvu" secondAttribute="trailing" id="2a7-zi-ECR"/>
+                                <constraint firstItem="N7z-Aa-Zvu" firstAttribute="top" secondItem="Qnp-zh-yEm" secondAttribute="top" id="5kN-hG-sZP"/>
+                                <constraint firstAttribute="height" constant="40" id="8Gs-Su-9dF"/>
+                                <constraint firstAttribute="bottom" secondItem="N7z-Aa-Zvu" secondAttribute="bottom" id="Hsg-0j-nuV"/>
+                                <constraint firstAttribute="width" constant="40" id="gfP-0h-aHQ"/>
+                                <constraint firstItem="N7z-Aa-Zvu" firstAttribute="leading" secondItem="Qnp-zh-yEm" secondAttribute="leading" id="gul-IY-6Im"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <constraints>
@@ -102,17 +132,21 @@
                         <constraint firstItem="7Fg-vv-cjj" firstAttribute="width" secondItem="f6X-S8-dnq" secondAttribute="width" constant="-20" id="6cx-ms-9Jc"/>
                         <constraint firstItem="9xO-jF-Xcn" firstAttribute="centerX" secondItem="f6X-S8-dnq" secondAttribute="centerX" id="7Mj-As-mVu"/>
                         <constraint firstItem="Euz-cZ-Zxh" firstAttribute="centerX" secondItem="f6X-S8-dnq" secondAttribute="centerX" id="8sC-a2-tKW"/>
+                        <constraint firstItem="PYr-Eb-Tnr" firstAttribute="centerY" secondItem="Euz-cZ-Zxh" secondAttribute="centerY" id="Duo-ey-m7T"/>
                         <constraint firstAttribute="height" secondItem="Euz-cZ-Zxh" secondAttribute="height" constant="100" id="IUU-QA-pip"/>
                         <constraint firstAttribute="bottom" secondItem="SUs-dd-wOW" secondAttribute="bottom" id="IgN-iy-X1h"/>
                         <constraint firstItem="Euz-cZ-Zxh" firstAttribute="width" secondItem="f6X-S8-dnq" secondAttribute="width" id="Odw-Lw-OpB"/>
                         <constraint firstItem="7Fg-vv-cjj" firstAttribute="top" secondItem="Euz-cZ-Zxh" secondAttribute="bottom" constant="3" id="Uo9-jL-4x9"/>
                         <constraint firstItem="SUs-dd-wOW" firstAttribute="width" secondItem="f6X-S8-dnq" secondAttribute="width" multiplier="0.5" id="ctw-Tg-k4D"/>
+                        <constraint firstItem="PYr-Eb-Tnr" firstAttribute="centerX" secondItem="Euz-cZ-Zxh" secondAttribute="centerX" id="eax-iw-amY"/>
+                        <constraint firstItem="Qnp-zh-yEm" firstAttribute="centerX" secondItem="Euz-cZ-Zxh" secondAttribute="centerX" id="fK1-7w-WMs"/>
                         <constraint firstItem="7Fg-vv-cjj" firstAttribute="centerX" secondItem="f6X-S8-dnq" secondAttribute="centerX" id="kJ1-33-8yg"/>
                         <constraint firstItem="SUs-dd-wOW" firstAttribute="leading" secondItem="f6X-S8-dnq" secondAttribute="leading" id="lBn-ju-GBs"/>
                         <constraint firstItem="9xO-jF-Xcn" firstAttribute="width" secondItem="f6X-S8-dnq" secondAttribute="width" id="lOO-zm-NFX"/>
                         <constraint firstAttribute="trailing" secondItem="B3N-9P-MCF" secondAttribute="trailing" id="msV-eJ-BFF"/>
                         <constraint firstAttribute="width" constant="240" id="oty-ee-gTJ"/>
                         <constraint firstItem="D73-aF-aNf" firstAttribute="centerY" secondItem="Euz-cZ-Zxh" secondAttribute="centerY" id="q5i-ht-loi"/>
+                        <constraint firstItem="Qnp-zh-yEm" firstAttribute="centerY" secondItem="Euz-cZ-Zxh" secondAttribute="centerY" id="s3x-m6-GL5"/>
                         <constraint firstItem="B3N-9P-MCF" firstAttribute="width" secondItem="f6X-S8-dnq" secondAttribute="width" multiplier="0.5" constant="-1" id="sYl-nA-i0C"/>
                         <constraint firstAttribute="bottom" secondItem="B3N-9P-MCF" secondAttribute="bottom" id="sYx-6B-6ZH"/>
                         <constraint firstItem="D73-aF-aNf" firstAttribute="centerX" secondItem="Euz-cZ-Zxh" secondAttribute="centerX" id="uOi-Fp-UzX"/>
@@ -125,9 +159,11 @@
                 <constraint firstItem="f6X-S8-dnq" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Stx-UZ-IMY"/>
                 <constraint firstItem="f6X-S8-dnq" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="kW4-Dj-utR"/>
             </constraints>
+            <point key="canvasLocation" x="142" y="154"/>
         </view>
     </objects>
     <resources>
+        <image name="ic_file_attachment" width="24" height="24"/>
         <image name="play_button" width="30" height="30"/>
     </resources>
 </document>

@@ -14,10 +14,10 @@ class AssetsConfiguration: NSObject {
     var emptyChat:UIImage = UIImage(named: "empty-chat")!.withRenderingMode(.alwaysTemplate)
     
     // MARK: - Chat balloon
-    static var leftBallonLast:UIImage? = UIImage(named: "text_balloon_last_l")
-    static var leftBallonNormal:UIImage? = UIImage(named: "text_balloon_left")
-    static var rightBallonLast:UIImage? = UIImage(named: "text_balloon_last_r")
-    static var rightBallonNormal:UIImage? = UIImage(named: "text_balloon_right")
+    static var leftBallonLast:UIImage? = UIImage(named: "ic_buble_left")
+    static var leftBallonNormal:UIImage? = UIImage(named: "ic_buble_left")
+    static var rightBallonLast:UIImage? = UIImage(named: "ic_buble_right")
+    static var rightBallonNormal:UIImage? = UIImage(named: "ic_buble_right")
     static var backgroundChat:UIImage? = UIImage(named: "chat_bg")
 }
 

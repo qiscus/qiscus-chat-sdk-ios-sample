@@ -421,7 +421,7 @@ extension RoomInfoVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellIdentifire", for: indexPath) as! ContactCell
         
         let contact = self.participants[indexPath.row]
-        cell.configureWithData(contact: contact, isPhoneNumberWa: self.isPhoneNumberWa)
+        cell.configureWithData(contact: contact, isPhoneNumberWa: "self.isPhoneNumberWa")
         
         let image = UIImage(named: "ar_cancel")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         cell.ivCheck.image = image

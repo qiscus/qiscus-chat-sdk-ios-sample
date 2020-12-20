@@ -55,6 +55,11 @@ class QReplyImageRightCell: UIBaseChatCell {
         self.bindData(message: message)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        ivComment.image = nil // or place holder image
+    }
+    
     func bindData(message: CommentModel){
         self.setupBalon()
         self.status(message: message)
@@ -74,22 +79,18 @@ class QReplyImageRightCell: UIBaseChatCell {
         self.tvContent.textColor = ColorConfiguration.rightBaloonTextColor
         if let url = payload["replied_comment_payload"] as? [String:Any] {
             if let url = url["url"] as? String {
-                if self.ivComment.image == nil {
                     self.showLoading()
                     self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
                     self.ivComment.af_setImage(withURL:  URL(string: url) ?? URL(string: "http://")!)
                     self.hideLoading()
-                }
             }
         }else{
             let fileImage = message.getAttachmentURL(message: message.message)
-            if self.ivComment.image == nil {
                 self.showLoading()
                 self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
-                
+
                 self.ivComment.af_setImage(withURL:  URL(string: fileImage) ?? URL(string: "http://")!)
                 self.hideLoading()
-            }
         }
         
     }

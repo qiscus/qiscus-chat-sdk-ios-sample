@@ -123,17 +123,17 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         self.scrollView.maximumZoomScale = 4.0
         let sendImage = UIImage(named: "send")?.withRenderingMode(.alwaysTemplate)
         self.sendButton.setImage(sendImage, for: .normal)
-        self.sendButton.tintColor = ColorConfiguration.topColor
+        self.sendButton.tintColor = ColorConfiguration.defaultColorTosca
         self.cancelButton.setTitle("Cancel", for: .normal)
         self.mediaCaption.font = ChatConfig.chatFont
         
         self.sendButton.isEnabled = false
         self.sendButton.isHidden = true
         
-        self.sendButton.tintColor = ColorConfiguration.sendButtonColor
+        self.sendButton.tintColor = ColorConfiguration.defaultColorTosca
         self.sendButton.setImage(UIImage(named: "ic_send")?.withRenderingMode(.alwaysTemplate), for: .normal)
         
-        self.cancelButton.tintColor = ColorConfiguration.sendButtonColor
+        self.cancelButton.tintColor = ColorConfiguration.defaultColorTosca
         self.cancelButton.setImage(UIImage(named: "ic_back")?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     

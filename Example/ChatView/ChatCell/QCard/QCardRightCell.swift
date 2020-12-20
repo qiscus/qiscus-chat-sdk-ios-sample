@@ -30,8 +30,8 @@ class QCardRightCell: UIBaseChatCell {
         super.awakeFromNib()
         // Initialization code
         self.containerArea.layer.cornerRadius = 10.0
-        self.containerArea.layer.borderWidth = 0.5
-        self.containerArea.layer.borderColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1).cgColor
+        //self.containerArea.layer.borderWidth = 0.5
+        //self.containerArea.layer.borderColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1).cgColor
         self.containerArea.clipsToBounds = true
         self.containerArea.layer.zPosition = 999
         self.displayImageView.contentMode = .scaleAspectFill
@@ -57,7 +57,7 @@ class QCardRightCell: UIBaseChatCell {
     }
     
     func setupBalon(){
-        self.containerArea.backgroundColor = UIColor.white
+        self.containerArea.backgroundColor = ColorConfiguration.defaultColorTosca
     }
     
     func bindData(message: CommentModel){
@@ -89,7 +89,7 @@ class QCardRightCell: UIBaseChatCell {
         }
         self.buttons = [UIButton]()
         var yPos = CGFloat(0)
-        let titleColor = UIColor(red: 101/255, green: 119/255, blue: 183/255, alpha: 1)
+        let titleColor = UIColor.white//UIColor(red: 101/255, green: 119/255, blue: 183/255, alpha: 1)
         var i = 0
         let buttonWidth = QiscusHelper.screenWidth() * 0.70
         for action in buttonsData{

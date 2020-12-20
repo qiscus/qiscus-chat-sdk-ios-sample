@@ -14,13 +14,11 @@ class QFileRightCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
-    
+    @IBOutlet weak var lbFileSizeExtension: UILabel!
     @IBOutlet weak var ivStatus: UIImageView!
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
-    @IBOutlet weak var lbNameLeading: NSLayoutConstraint!
-    @IBOutlet weak var lbNameTrailing: NSLayoutConstraint!
     
     @IBOutlet weak var ivFIle: UIImageView!
     var menuConfig = enableMenuConfig()
@@ -66,15 +64,40 @@ class QFileRightCell: UIBaseChatCell {
                 self.tvContent.text = fileName
             }
             if let url = payload["url"] as? String {
+                let ext = message.fileExtension(fromURL:url)
                 QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
-                    
+                    do {
+                        let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
+                        let fileSize = resources.fileSize!
+                        self.lbFileSizeExtension.text = "\(self.getMb(size: fileSize)) Mb - \(ext.uppercased()) file"
+                    } catch {
+                        self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+                    }
                 }) { (progress) in
                     
                 }
+                
+                if let size = payload["size"] as? Int {
+                    if size != 0 {
+                         self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
+                    }
+                }
             }
+           
         }
        
     }
+    
+    func getMb(size : Int)-> String {
+        let bcf = ByteCountFormatter()
+        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+        bcf.countStyle = .file
+        let string = bcf.string(fromByteCount: Int64(size))
+
+        let updateMb = string.replacingOccurrences(of: "MB", with: "Mb")
+        return updateMb
+    }
+    
     @IBAction func saveFile(_ sender: Any) {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{

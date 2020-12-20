@@ -1,62 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="qCardRightCell" rowHeight="324" id="KGk-i7-Jjw" customClass="QCardRightCell" customModule="Qiscus" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="qCardRightCell" rowHeight="324" id="KGk-i7-Jjw" customClass="QCardRightCell" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="381" height="324"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="381" height="323.5"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="381" height="324"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KUm-Zr-L8t">
+                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KUm-Zr-L8t">
                         <rect key="frame" x="46" y="28" width="325" height="285"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fVi-Fy-oTA">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fVi-Fy-oTA">
                                 <rect key="frame" x="0.0" y="0.0" width="325" height="150"/>
                                 <color key="backgroundColor" red="0.2185778022" green="0.30266010760000001" blue="0.3991364241" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="yjn-T7-eHY"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kyT-YE-gUw">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kyT-YE-gUw">
                                 <rect key="frame" x="0.0" y="149.5" width="325" height="0.5"/>
                                 <color key="backgroundColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="0.5" id="pwq-Co-UYk"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voucher Belanja Voucher " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kix-b8-Lxb">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Voucher Belanja Voucher " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kix-b8-Lxb">
                                 <rect key="frame" x="8" y="155" width="309" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="You get discount from bliaja.com. Visit our page to claim your voucher" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="g2d-Hf-ZzS">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="You get discount from bliaja.com. Visit our page to claim your voucher" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="g2d-Hf-ZzS">
                                 <rect key="frame" x="4" y="172" width="317" height="68"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="srr-2U-SMW">
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="srr-2U-SMW">
                                 <rect key="frame" x="0.0" y="240" width="325" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="Rnf-Cc-CL2"/>
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fVi-Fy-oTA" firstAttribute="leading" secondItem="KUm-Zr-L8t" secondAttribute="leading" id="1Zn-xE-UT8"/>
                             <constraint firstAttribute="trailing" secondItem="kyT-YE-gUw" secondAttribute="trailing" id="BQW-sV-Cka"/>
@@ -67,6 +65,7 @@
                             <constraint firstItem="srr-2U-SMW" firstAttribute="width" secondItem="KUm-Zr-L8t" secondAttribute="width" id="Kqr-g9-xGO"/>
                             <constraint firstItem="srr-2U-SMW" firstAttribute="centerX" secondItem="KUm-Zr-L8t" secondAttribute="centerX" id="QTs-V9-fxa"/>
                             <constraint firstItem="fVi-Fy-oTA" firstAttribute="top" secondItem="KUm-Zr-L8t" secondAttribute="top" id="RB1-UH-JGf"/>
+                            <constraint firstItem="fVi-Fy-oTA" firstAttribute="top" secondItem="KUm-Zr-L8t" secondAttribute="top" id="VYf-5N-Ixy"/>
                             <constraint firstItem="g2d-Hf-ZzS" firstAttribute="trailing" secondItem="fVi-Fy-oTA" secondAttribute="trailing" constant="-4" id="ci1-Bi-IOW"/>
                             <constraint firstItem="g2d-Hf-ZzS" firstAttribute="bottom" secondItem="srr-2U-SMW" secondAttribute="top" id="fdF-VF-o4R"/>
                             <constraint firstItem="g2d-Hf-ZzS" firstAttribute="top" secondItem="Kix-b8-Lxb" secondAttribute="bottom" id="iJN-fj-EJr"/>

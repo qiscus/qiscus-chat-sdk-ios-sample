@@ -77,4 +77,14 @@ extension UserDefaults{
        return string(forKey: "bubble")
     }
     
+    func setAfterLogin(value: Bool){
+        set(value, forKey: "afterlogin")
+        //synchronize()
+    }
+    
+    //MARK: Retrieve User Data
+    func getAfterLogin() -> Bool{
+        return bool(forKey: "afterlogin")
+    }
+    
 }

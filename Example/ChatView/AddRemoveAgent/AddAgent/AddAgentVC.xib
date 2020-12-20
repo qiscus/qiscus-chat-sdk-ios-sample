@@ -13,6 +13,7 @@
                 <outlet property="btAssign" destination="qGm-f2-1FI" id="BwU-Cq-Lfy"/>
                 <outlet property="btCancel" destination="hBQ-te-ywc" id="zTz-AE-zKe"/>
                 <outlet property="btCheckBox" destination="2Nj-OQ-d8d" id="4Sr-ge-ssk"/>
+                <outlet property="lbReplaceExistingAgent" destination="8Wa-TJ-oBo" id="LPs-uJ-K9i"/>
                 <outlet property="tableView" destination="LCE-BG-Fjf" id="uL4-lo-uxz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

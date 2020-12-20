@@ -16,10 +16,10 @@ class ColorConfiguration: NSObject {
     static var alertTextColor = UIColor(red: 155/255.0, green: 155/255.0, blue: 155/255.0, alpha:1.0)
     
     /// Your left baloon color, using UIColor class, Default value : UIColor(red: 0/255.0, green: 187/255.0, blue: 150/255.0, alpha: 1.0)
-    static var leftBaloonColor = UIColor.white
+    static var leftBaloonColor =  UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
-    static var rightBaloonColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+    static var rightBaloonColor = UIColor(red: 39/255, green: 177/255, blue: 153/255, alpha: 1)
     
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
     static var systemBalloonColor = UIColor(red: 201/255, green: 229/255, blue: 215/255, alpha: 1)
@@ -70,6 +70,8 @@ class ColorConfiguration: NSObject {
     
     /// postback button color, using UIColor class, Default value: UIColor(red: 1, green: 1, blue: 1, alpha: 0.7)
     static var postBackButtonColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.7)
+    
+    static var defaultColorTosca = UIColor(red: 39/255, green: 177/255, blue: 153/255, alpha: 1)
     
     static var avatarBackgroundColor:[UIColor] = [
         UIColor(red: 1, green: 23/255, blue: 68/255, alpha: 1),

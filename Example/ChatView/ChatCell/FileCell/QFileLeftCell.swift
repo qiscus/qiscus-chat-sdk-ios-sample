@@ -23,8 +23,7 @@ class QFileLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
-    @IBOutlet weak var lbNameLeading: NSLayoutConstraint!
-    @IBOutlet weak var lbNameTrailing: NSLayoutConstraint!
+    @IBOutlet weak var lbFileSizeExtension: UILabel!
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
     var isPublic: Bool = false
     var menuConfig = enableMenuConfig()
@@ -68,7 +67,7 @@ class QFileLeftCell: UIBaseChatCell {
         self.tvContent.text = message.message
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         self.ivFIle.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(.alwaysTemplate)
-        self.ivFIle.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        self.ivFIle.tintColor = ColorConfiguration.leftBaloonTextColor
         
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
         self.ivAvatarUser.clipsToBounds = true
@@ -101,13 +100,36 @@ class QFileLeftCell: UIBaseChatCell {
             }
             
             if let url = payload["url"] as? String {
+                let ext = message.fileExtension(fromURL:url)
                 QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
-                    
+                    do {
+                        let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
+                        let fileSize = resources.fileSize!
+                        self.lbFileSizeExtension.text = "\(self.getMb(size: fileSize)) Mb - \(ext.uppercased()) file"
+                    } catch {
+                        self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+                    }
                 }) { (progress) in
                     
                 }
+                
+                if let size = payload["size"] as? Int {
+                    if size != 0 {
+                        self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
+                    }
+                }
             }
         }
+    }
+    
+    func getMb(size : Int)-> String {
+        let bcf = ByteCountFormatter()
+        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+        bcf.countStyle = .file
+        let string = bcf.string(fromByteCount: Int64(size))
+        
+        let updateMb = string.replacingOccurrences(of: "MB", with: "Mb")
+        return updateMb
     }
     
     @IBAction func saveFile(_ sender: Any) {
