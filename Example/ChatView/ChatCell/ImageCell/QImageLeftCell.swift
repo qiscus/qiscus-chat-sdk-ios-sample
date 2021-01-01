@@ -154,7 +154,6 @@ class QImageLeftCell: UIBaseChatCell {
                 
                 self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
                 self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: placeHolder, options: .highPriority) { (uiImage, error, cache, urlPath) in
-                    print("check arief =\(uiImage) && urlPath = \(urlPath)")
                     if urlPath != nil && uiImage != nil{
                         self.ivComment.af_setImage(withURL: urlPath!)
                     }

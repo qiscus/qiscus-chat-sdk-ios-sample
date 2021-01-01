@@ -197,6 +197,11 @@
 		3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A2C221E655800F1B7CA /* QFileLeftCell.xib */; };
 		3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */; };
 		3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A30221E656C00F1B7CA /* QFileRightCell.xib */; };
+		3D85D934274696F10057ECCF /* InstagramChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85D932274696F10057ECCF /* InstagramChannelCell.swift */; };
+		3D85D935274696F10057ECCF /* InstagramChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D85D933274696F10057ECCF /* InstagramChannelCell.xib */; };
+		3D85D93727469B700057ECCF /* InstagramChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85D93627469B700057ECCF /* InstagramChannelModel.swift */; };
+		3D85D93A27469C290057ECCF /* FilterChannelMultipleInstagramCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85D93827469C290057ECCF /* FilterChannelMultipleInstagramCell.swift */; };
+		3D85D93B27469C290057ECCF /* FilterChannelMultipleInstagramCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D85D93927469C290057ECCF /* FilterChannelMultipleInstagramCell.xib */; };
 		3D8A397626412118001CE15D /* FilterByTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A397426412118001CE15D /* FilterByTagCell.swift */; };
 		3D8A397726412118001CE15D /* FilterByTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8A397526412118001CE15D /* FilterByTagCell.xib */; };
 		3D8A397D2644DF93001CE15D /* FilterByAgentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A397B2644DF93001CE15D /* FilterByAgentCell.swift */; };
@@ -540,6 +545,11 @@
 		3D819A2C221E655800F1B7CA /* QFileLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileLeftCell.xib; sourceTree = "<group>"; };
 		3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QFileRightCell.swift; sourceTree = "<group>"; };
 		3D819A30221E656C00F1B7CA /* QFileRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileRightCell.xib; sourceTree = "<group>"; };
+		3D85D932274696F10057ECCF /* InstagramChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramChannelCell.swift; sourceTree = "<group>"; };
+		3D85D933274696F10057ECCF /* InstagramChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InstagramChannelCell.xib; sourceTree = "<group>"; };
+		3D85D93627469B700057ECCF /* InstagramChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramChannelModel.swift; sourceTree = "<group>"; };
+		3D85D93827469C290057ECCF /* FilterChannelMultipleInstagramCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleInstagramCell.swift; sourceTree = "<group>"; };
+		3D85D93927469C290057ECCF /* FilterChannelMultipleInstagramCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleInstagramCell.xib; sourceTree = "<group>"; };
 		3D8A397426412118001CE15D /* FilterByTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterByTagCell.swift; sourceTree = "<group>"; };
 		3D8A397526412118001CE15D /* FilterByTagCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterByTagCell.xib; sourceTree = "<group>"; };
 		3D8A397B2644DF93001CE15D /* FilterByAgentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterByAgentCell.swift; sourceTree = "<group>"; };
@@ -819,6 +829,7 @@
 				3D1282CB2649187A009F201E /* FeaturesModel.swift */,
 				3DBBF0DE266DE152005FBDAE /* WAChannelResolveModel.swift */,
 				3DE66999271D4C0E0064B545 /* SubmitTicketModel.swift */,
+				3D85D93627469B700057ECCF /* InstagramChannelModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1289,6 +1300,10 @@
 				3D3BE50926293BB60026A63C /* TelegramChannelCell.xib */,
 				3D3BE5102629407C0026A63C /* FilterByChannelCell.swift */,
 				3D3BE5112629407C0026A63C /* FilterByChannelCell.xib */,
+				3D85D932274696F10057ECCF /* InstagramChannelCell.swift */,
+				3D85D933274696F10057ECCF /* InstagramChannelCell.xib */,
+				3D85D93827469C290057ECCF /* FilterChannelMultipleInstagramCell.swift */,
+				3D85D93927469C290057ECCF /* FilterChannelMultipleInstagramCell.xib */,
 			);
 			path = FilterByChannel;
 			sourceTree = "<group>";
@@ -1634,6 +1649,7 @@
 				3D7A39562577A328005E7FAE /* ChatAndCustomerInfoVC.xib in Resources */,
 				3D0EAE7225E8E90100481198 /* AlertAMFailedUpdate.xib in Resources */,
 				3D7A397C25793960005E7FAE /* DetailAdditionalInformationCell.xib in Resources */,
+				3D85D935274696F10057ECCF /* InstagramChannelCell.xib in Resources */,
 				3D3BE4E926287A190026A63C /* FBChannelCell.xib in Resources */,
 				3D3BE506262934240026A63C /* QiscusWidgetChannelCell.xib in Resources */,
 				3D0EAE6D25E8D35300481198 /* AccountManagementSPVVC.xib in Resources */,
@@ -1768,6 +1784,7 @@
 				3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */,
 				3DAF553526254CE500208B99 /* FilterChannelMultipleWACell.xib in Resources */,
 				3D76774F25D2B1F2004C26DC /* AMEmailAddressCell.xib in Resources */,
+				3D85D93B27469C290057ECCF /* FilterChannelMultipleInstagramCell.xib in Resources */,
 				3D12875925FB4F5B001A5962 /* QLocationLeftCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1905,6 +1922,7 @@
 				3D8CA6C3268DC1EE00176F80 /* AnalyticsAnotherAgent.swift in Sources */,
 				3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */,
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
+				3D85D934274696F10057ECCF /* InstagramChannelCell.swift in Sources */,
 				3D3BE4F526288C360026A63C /* CustomCHChannelCell.swift in Sources */,
 				3D76776025D2DD66004C26DC /* AlertAMSuccessUpdate.swift in Sources */,
 				3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */,
@@ -1963,6 +1981,7 @@
 				3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */,
 				3DAF5527262533BD00208B99 /* FilterVC.swift in Sources */,
 				3D0B8B1F255D88F2002A484F /* TagView.swift in Sources */,
+				3D85D93A27469C290057ECCF /* FilterChannelMultipleInstagramCell.swift in Sources */,
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
 				3DAF553826256C9900208B99 /* WAChannelModel.swift in Sources */,
@@ -1981,6 +2000,7 @@
 				3D3BE4D12626EEEE0026A63C /* UIChatListALLViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
 				3D0EAE6C25E8D35300481198 /* AccountManagementSPVVC.swift in Sources */,
+				3D85D93727469B700057ECCF /* InstagramChannelModel.swift in Sources */,
 				3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */,
 				3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */,
 				3DAB890724C0FDE40046E5DE /* ChatTemplate.swift in Sources */,
@@ -2179,7 +2199,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2191,7 +2211,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
@@ -2210,7 +2230,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2220,7 +2240,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.9.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";

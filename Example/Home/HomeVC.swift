@@ -233,8 +233,6 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     let forceUpdate = data["force_update"].bool ?? false
                     let version = data["version"].string ?? ""
                     
-                    print("arief check payload =\(payload)")
-                    
                     if let versionApp = Bundle.main.infoDictionary!["CFBundleShortVersionString"]{
                         if versionApp as! String != version {
                             //show
@@ -536,7 +534,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             if userType != 2{
                 //admin //spv
                 if defaults.bool(forKey: "ic_resolved_all_WA_active") != false{
-                   //self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+                  // self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }else{
                     self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
