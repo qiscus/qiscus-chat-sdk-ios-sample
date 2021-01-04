@@ -11,6 +11,7 @@ import AlamofireImage
 import Alamofire
 import SimpleImageViewer
 import SDWebImage
+import SDWebImageWebPCoder
 
 class QImageLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
@@ -76,19 +77,65 @@ class QImageLeftCell: UIBaseChatCell {
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         if let url = payload["url"] as? String {
             if let url = payload["url"] as? String {
-                    self.showLoading()
-                    self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
-                    
-                    self.ivComment.af_setImage(withURL:  URL(string: url) ?? URL(string: "http://")!)
-                    self.hideLoading()
-            }
-        }else{
-            let fileImage = message.getAttachmentURL(message: message.message)
-                self.showLoading()
+                //self.showLoading()
+                var fileImage = url
+                if fileImage.isEmpty {
+                    fileImage = "https://"
+                }
+                
                 self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
                 
-                self.ivComment.af_setImage(withURL:  URL(string: fileImage) ?? URL(string: "http://")!)
-                self.hideLoading()
+                self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
+                self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                    if urlPath != nil && uiImage != nil{
+                        self.ivComment.af_setImage(withURL: urlPath!)
+                    }
+                }
+                
+                self.ivComment.af_setImage(withURL:  URL(string: url) ?? URL(string: "http://")!)
+                //self.hideLoading()
+            }
+        }else{
+            if message.message.contains("[sticker]"){
+                var fileImage = message.getStickerURL(message: message.message)
+                self.showLoading()
+                self.ivComment.image = nil
+                self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+                
+                
+                if fileImage.isEmpty == true {
+                    fileImage = "https://"
+                }
+                
+                let webPCoder = SDImageWebPCoder.shared
+                SDImageCodersManager.shared.addCoder(webPCoder)
+                guard let webpURL = URL(string: fileImage)  else {return}
+                
+                self.ivComment.sd_setImage(with: webpURL) { (uiImage, error, cache, urlPath) in
+                    if urlPath != nil && uiImage != nil{
+                        self.ivComment.af_setImage(withURL: urlPath!)
+                        self.hideLoading()
+                    }
+                    
+                }
+            }else{
+                var fileImage = message.getAttachmentURL(message: message.message)
+                
+                if fileImage.isEmpty {
+                    fileImage = "https://"
+                }
+                
+                //self.showLoading()
+                self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+                
+                self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
+                self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                    if urlPath != nil && uiImage != nil{
+                        self.ivComment.af_setImage(withURL: urlPath!)
+                    }
+                }
+                //self.hideLoading()
+            }
         }
         
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2

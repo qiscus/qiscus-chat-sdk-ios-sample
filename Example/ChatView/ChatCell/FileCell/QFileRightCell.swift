@@ -64,24 +64,29 @@ class QFileRightCell: UIBaseChatCell {
                 self.tvContent.text = fileName
             }
             if let url = payload["url"] as? String {
-                let ext = message.fileExtension(fromURL:url)
-                QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
-                    do {
-                        let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
-                        let fileSize = resources.fileSize!
-                        self.lbFileSizeExtension.text = "\(self.getMb(size: fileSize)) Mb - \(ext.uppercased()) file"
-                    } catch {
-                        self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+                if !url.isEmpty {
+                    let ext = message.fileExtension(fromURL:url)
+                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
+                        DispatchQueue.main.async {
+                            do {
+                                let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
+                                let fileSize = resources.fileSize!
+                                self.lbFileSizeExtension.text = "\(self.getMb(size: fileSize)) - \(ext.uppercased()) file"
+                            } catch {
+                                self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+                            }
+                        }
+                    }) { (progress) in
+                        
                     }
-                }) { (progress) in
                     
-                }
-                
-                if let size = payload["size"] as? Int {
-                    if size != 0 {
-                         self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
+                    if let size = payload["size"] as? Int {
+                        if size != 0 {
+                             self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
+                        }
                     }
                 }
+               
             }
            
         }

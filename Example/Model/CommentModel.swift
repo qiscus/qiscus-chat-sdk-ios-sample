@@ -121,6 +121,13 @@ extension CommentModel {
         return mediaUrlString!
     }
     
+    func getStickerURL(message: String) -> String {
+        let component1 = message.components(separatedBy: "[sticker]")
+        let component2 = component1.last!.components(separatedBy: "[/sticker]")
+        let mediaUrlString = component2.first?.trimmingCharacters(in: CharacterSet.whitespaces).replacingOccurrences(of: " ", with: "%20")
+        return mediaUrlString!
+    }
+    
     func fileExtension(fromURL url:String) -> String{
         var ext = ""
         if url.range(of: ".") != nil{

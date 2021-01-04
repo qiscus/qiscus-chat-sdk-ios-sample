@@ -75,7 +75,11 @@ class QCardRightCell: UIBaseChatCell {
         
         if imageURL != "" {
             self.displayImageView.sd_imageIndicator = SDWebImageActivityIndicator.whiteLarge
-            self.displayImageView.sd_setImage(with: URL(string: imageURL)!)
+            self.displayImageView.sd_setImage(with: URL(string: imageURL) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                if urlPath != nil && uiImage != nil{
+                    self.displayImageView.af_setImage(withURL: urlPath!)
+                }
+            }
         }else{
             self.displayImageView.image = nil
         }

@@ -11,6 +11,8 @@ import QiscusCore
 import AlamofireImage
 import Photos
 import MobileCoreServices
+import AVFoundation
+import PhotosUI
 
 class ProfileVC: UIViewController {
 
@@ -242,14 +244,24 @@ class ProfileVC: UIViewController {
     }
     
     func goToGaleryPicker(){
+        
         DispatchQueue.main.async(execute: {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.allowsEditing = false
-            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            picker.mediaTypes = [kUTTypeImage as String]
-            picker.navigationBar.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
-            self.present(picker, animated: true, completion: nil)
+            if #available(iOS 14, *) {
+                var configuration = PHPickerConfiguration()
+                configuration.selectionLimit = 1
+                configuration.filter = .images
+                let picker = PHPickerViewController(configuration: configuration)
+                picker.delegate = self
+                self.present(picker, animated: true, completion: nil)
+            } else {
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.allowsEditing = false
+                picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+                picker.mediaTypes = [kUTTypeImage as String]
+                picker.navigationBar.tintColor = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+                self.present(picker, animated: true, completion: nil)
+            }
         })
     }
     
@@ -258,7 +270,7 @@ class ProfileVC: UIViewController {
             let text = TextConfiguration.sharedInstance.galeryAccessAlertText
             let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
             let settingTxt = TextConfiguration.sharedInstance.alertSettingText
-            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt, hiddenIconFileAttachment: true, isAlert: true,
                                  doneAction: {
                                     self.goToIPhoneSetting()
             },
@@ -278,13 +290,91 @@ class ProfileVC: UIViewController {
             let text = TextConfiguration.sharedInstance.cameraAccessAlertText
             let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
             let settingTxt = TextConfiguration.sharedInstance.alertSettingText
-            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt, hiddenIconFileAttachment: true, isAlert: true,
                                  doneAction: {
                                     self.goToIPhoneSetting()
             },
                                  cancelAction: {}
             )
         })
+    }
+}
+
+extension ProfileVC: PHPickerViewControllerDelegate {
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        guard !results.isEmpty else { return }
+        
+        var imageName:String = "\(NSDate().timeIntervalSince1970 * 1000).jpg"
+        
+        let itemProviders = results.map(\.itemProvider)
+        
+        for item in itemProviders {
+            if item.canLoadObject(ofClass: UIImage.self) {
+                item.loadObject(ofClass: UIImage.self) { (image, error) in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+                            var data = image.pngData()
+                            
+                            let imageSize = image.size
+                            var bigPart = CGFloat(0)
+                            if(imageSize.width > imageSize.height){
+                                bigPart = imageSize.width
+                            }else{
+                                bigPart = imageSize.height
+                            }
+                            
+                            var compressVal = CGFloat(1)
+                            if(bigPart > 2000){
+                                compressVal = 2000 / bigPart
+                            }
+                            
+                            data = image.jpegData(compressionQuality:compressVal)
+                            
+                            if data != nil {
+                                let mediaSize = Double(data!.count) / 1024.0
+                                if mediaSize > self.maxUploadSizeInKB {
+                                    picker.dismiss(animated: true, completion: {
+                                        self.showFileTooBigAlert()
+                                    })
+                                    return
+                                }
+                                
+                                self.dismiss(animated:true, completion: nil)
+                                
+                                picker.dismiss(animated: true, completion: {
+                                    
+                                })
+                                
+                                self.ivAvatar.image = image
+                                self.loadingIndicator.isHidden = false
+                                self.loadingIndicator.startAnimating()
+                                QiscusCore.shared.upload(data: data!, filename: imageName, onSuccess: { (fileURL) in
+                                    QiscusCore.shared.updateProfile(username: (QiscusCore.getProfile()?.username)!, avatarUrl: fileURL.url, onSuccess: { (userModel) in
+                                        self.loadingIndicator.stopAnimating()
+                                        self.loadingIndicator.isHidden = true
+                                        self.ivAvatar.af_setImage(withURL: userModel.avatarUrl)
+                                    }, onError: { (error) in
+                                        //error
+                                        self.ivAvatar.af_setImage(withURL: self.lastAvatarURL!)
+                                        self.loadingIndicator.stopAnimating()
+                                        self.loadingIndicator.isHidden = true
+                                    })
+                                }, onError: { (error) in
+                                    self.ivAvatar.af_setImage(withURL: self.lastAvatarURL!)
+                                    self.loadingIndicator.stopAnimating()
+                                    self.loadingIndicator.isHidden = true
+                                    print("error upload avatar =\(error.message)")
+                                }) { (progress) in
+                                    print("progress upload =\(progress)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

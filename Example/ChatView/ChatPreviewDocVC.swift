@@ -49,9 +49,9 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
             self.navigationItem.setTitleWithSubtitle(title: self.roomName, subtitle: self.fileName)
         }else{
             if let data = accountData {
-                self.title = data["params"]["view_title"].stringValue
-                self.accountLinkURL = data["url"].stringValue
-                self.accountRedirectURL = data["redirect_url"].stringValue
+                self.title = data["params"]["view_title"].string ?? ""
+                self.accountLinkURL = data["url"].string ?? "https://"
+                self.accountRedirectURL = data["redirect_url"].string ?? "https://"
             }
         }
         self.webView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +73,10 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         view.layoutIfNeeded()
         
         //self.webView.backgroundColor = UIColor.red
+        
+        if self.url.isEmpty == true {
+            self.url = "https://"
+        }
         
         if !self.accountLinking{
             if let openURL = URL(string: self.url.replacingOccurrences(of: " ", with: "%20")){

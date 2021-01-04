@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,10 +18,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5hh-dE-BIu">
-                        <rect key="frame" x="0.0" y="0.0" width="237" height="123.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="237" height="86"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="249" image="text_balloon_last_l" translatesAutoresizingMaskIntoConstraints="NO" id="Iu0-VT-qD4">
-                                <rect key="frame" x="45" y="28" width="50" height="90.5"/>
+                                <rect key="frame" x="45" y="28" width="50" height="53"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiuss">
                                         <real key="value" value="6"/>
@@ -38,7 +38,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="b" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ok4-GL-9Bo">
-                                <rect key="frame" x="48" y="90.5" width="36" height="18"/>
+                                <rect key="frame" x="48" y="41" width="36" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="JiN-Fj-DKN"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="15" id="fPY-7d-fHJ"/>
@@ -57,7 +57,7 @@
                                 <color key="textColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qiscus" translatesAutoresizingMaskIntoConstraints="NO" id="xQS-Lp-Vtn">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qiscus" translatesAutoresizingMaskIntoConstraints="NO" id="xQS-Lp-Vtn">
                                 <rect key="frame" x="5" y="28" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="35" id="Bs2-s8-oAc"/>
@@ -65,7 +65,7 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZ8-xF-dak">
-                                <rect key="frame" x="48" y="36" width="44" height="49.5"/>
+                                <rect key="frame" x="48" y="36" width="44" height="0.0"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="reply" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tr0-3J-ygg">
                                         <rect key="frame" x="10" y="24.5" width="31" height="20"/>
@@ -90,7 +90,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L6o-8o-ZTK">
-                                        <rect key="frame" x="0.0" y="0.0" width="4" height="49.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="4" height="0.0"/>
                                         <color key="backgroundColor" red="0.51764705879999995" green="0.76470588240000004" blue="0.30980392159999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="4" id="XIH-gt-Nfg"/>
@@ -150,8 +150,8 @@
                     <constraint firstItem="5hh-dE-BIu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="eL2-S3-Mjq"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="ivAvatarUser" destination="xQS-Lp-Vtn" id="7Hp-ZP-sps"/>
                 <outlet property="ivBaloonLeft" destination="Iu0-VT-qD4" id="422-cT-RKi"/>

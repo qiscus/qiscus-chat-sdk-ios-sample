@@ -487,7 +487,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     
     private func setupTableView() {
         let rotate = CGAffineTransform(rotationAngle: .pi)
-        self.tableViewConversation.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        //self.tableViewConversation.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         self.tableViewConversation.transform = rotate
         self.tableViewConversation.scrollIndicatorInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: UIScreen.main.bounds.width - 8)
         self.tableViewConversation.rowHeight = UITableView.automaticDimension
@@ -884,6 +884,12 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         cell.isQiscus = self.isQiscus
                         return cell
                     }
+                }else if message.message.contains("[/sticker]") == true{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
+                    cell.menuConfig = menuConfig
+                    cell.cellMenu = self
+                    cell.isQiscus = self.isQiscus
+                    return cell
                 }else{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                     cell.menuConfig = menuConfig
@@ -915,6 +921,16 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         cell.cellMenu = self
                         return cell
                     }
+                }else if message.message.contains("[/sticker]") == true{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                    if self.room?.type == .group {
+                        cell.colorName = colorName
+                        cell.isPublic = true
+                    }else {
+                        cell.isPublic = false
+                    }
+                    cell.cellMenu = self
+                    return cell
                 }else{
                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
                     if self.room?.type == .group {

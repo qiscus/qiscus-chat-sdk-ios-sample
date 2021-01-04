@@ -134,7 +134,9 @@ class UIChatListViewCell: UITableViewCell {
         guard let lastComment = data.lastComment else { return }
         if lastComment.type == "" || lastComment.type == "file_attachment"{
             message = "Send File Attachment"
-        }else {
+        } else if lastComment.type == "text" && lastComment.message.contains("[sticker]") == true{
+            message = "Send Sticker"
+        } else {
             message = lastComment.message
         }
         if(data.type != .single){

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,7 +39,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="halo" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MsS-mP-HBr">
-                                <rect key="frame" x="57" y="238" width="215" height="19"/>
+                                <rect key="frame" x="57" y="237.5" width="215" height="19"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -60,7 +60,7 @@
                                     <constraint firstAttribute="width" id="wPZ-04-giO"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qiscus" translatesAutoresizingMaskIntoConstraints="NO" id="5W5-10-hdo">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qiscus" translatesAutoresizingMaskIntoConstraints="NO" id="5W5-10-hdo">
                                 <rect key="frame" x="5" y="26" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="2ga-co-qSh"/>
@@ -170,8 +170,8 @@
                     <constraint firstItem="fbA-Kr-gQb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="yEt-3l-VC1"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="ivAvatarUser" destination="5W5-10-hdo" id="Dwv-BP-iXj"/>
                 <outlet property="ivBaloonLeft" destination="VY1-Tj-fZi" id="aQE-Yx-aC2"/>
@@ -191,7 +191,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_image" width="128" height="128"/>
+        <image name="ic_image" width="64" height="64"/>
         <image name="ic_qiscus" width="60" height="60"/>
         <image name="ic_read" width="72" height="72"/>
     </resources>

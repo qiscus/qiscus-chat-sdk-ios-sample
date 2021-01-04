@@ -58,7 +58,11 @@ public class QCarouselCardCell: UICollectionViewCell {
     func cardChanged(){
         if self.card!.displayURL != "" {
             self.displayImageView.sd_imageIndicator = SDWebImageActivityIndicator.whiteLarge
-            self.displayImageView.sd_setImage(with: URL(string: self.card!.displayURL)!)
+            self.displayImageView.sd_setImage(with: URL(string: self.card!.displayURL) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                if urlPath != nil && uiImage != nil{
+                    self.displayImageView.af_setImage(withURL: urlPath!)
+                }
+            }
         }else{
             self.displayImageView.image = nil
         }

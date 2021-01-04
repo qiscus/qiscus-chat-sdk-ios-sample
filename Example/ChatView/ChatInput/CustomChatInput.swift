@@ -12,6 +12,7 @@ import MobileCoreServices
 import QiscusCore
 import SwiftyJSON
 import AVFoundation
+import PhotosUI
 
 protocol CustomChatInputDelegate {
     func sendAttachment(button : UIButton)
@@ -249,7 +250,7 @@ class CustomChatInput: UIChatInput {
             let text = TextConfiguration.sharedInstance.microphoneAccessAlertText
             let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
             let settingTxt = TextConfiguration.sharedInstance.alertSettingText
-            QPopUpView.showAlert(withTarget: (self.currentViewController()?.navigationController)!, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+            QPopUpView.showAlert(withTarget: (self.currentViewController()?.navigationController)!, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,  hiddenIconFileAttachment: true, isAlert: true,
                                  doneAction: {
                                     self.goToIPhoneSetting()
             },
@@ -397,28 +398,45 @@ extension UIChatViewController : CustomChatInputDelegate {
         }
     }
     
-    func uploadGalery() {
+    func uploadGalery(isFoto : Bool = true) {
+        if #available(iOS 11.0, *) {
+            self.latestNavbarTint = self.currentNavbarTint
+            UINavigationBar.appearance().tintColor = UIColor.blue
+        }
+        
         self.view.endEditing(true)
         let photoPermissions = PHPhotoLibrary.authorizationStatus()
         
         if(photoPermissions == PHAuthorizationStatus.authorized){
-            self.goToGaleryPicker()
+            self.goToGaleryPicker(isFoto : isFoto)
         }else if(photoPermissions == PHAuthorizationStatus.notDetermined){
             PHPhotoLibrary.requestAuthorization({(status:PHAuthorizationStatus) in
                 switch status{
                 case .authorized:
-                    self.goToGaleryPicker()
+                    self.goToGaleryPicker(isFoto: isFoto)
                     break
                 case .denied:
                     self.showPhotoAccessAlert()
+                    if #available(iOS 11.0, *) {
+                        UINavigationBar.appearance().tintColor = self.latestNavbarTint
+                        self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+                    }
                     break
                 default:
                     self.showPhotoAccessAlert()
+                    if #available(iOS 11.0, *) {
+                        UINavigationBar.appearance().tintColor = self.latestNavbarTint
+                        self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+                    }
                     break
                 }
             })
         }else{
             self.showPhotoAccessAlert()
+            if #available(iOS 11.0, *) {
+                UINavigationBar.appearance().tintColor = self.latestNavbarTint
+                self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+            }
         }
     }
     
@@ -428,20 +446,38 @@ extension UIChatViewController : CustomChatInputDelegate {
             UINavigationBar.appearance().tintColor = UIColor.blue
         }
         
-        let documentPicker = UIDocumentPickerViewController(documentTypes: self.UTIs, in: UIDocumentPickerMode.import)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: UIDocumentPickerMode.import)
         documentPicker.delegate = self
         documentPicker.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         self.present(documentPicker, animated: true, completion: nil)
     }
     
-    func goToGaleryPicker(){
+    func goToGaleryPicker(isFoto : Bool = true){
         DispatchQueue.main.async(execute: {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.allowsEditing = false
-            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            picker.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
-            self.present(picker, animated: true, completion: nil)
+            if isFoto == false {
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.allowsEditing = false
+                picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+                picker.mediaTypes = [kUTTypeMovie as String]
+                self.present(picker, animated: true, completion: nil)
+            } else {
+                if #available(iOS 14, *) {
+                    var configuration = PHPickerConfiguration()
+                    configuration.selectionLimit = 1
+                    configuration.filter = .images
+                    let picker = PHPickerViewController(configuration: configuration)
+                    picker.delegate = self
+                    self.present(picker, animated: true, completion: nil)
+                } else {
+                    let picker = UIImagePickerController()
+                    picker.delegate = self
+                    picker.allowsEditing = false
+                    picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+                    picker.mediaTypes = [kUTTypeImage as String]
+                    self.present(picker, animated: true, completion: nil)
+                }
+            }
         })
     }
     
@@ -450,7 +486,7 @@ extension UIChatViewController : CustomChatInputDelegate {
             let text = TextConfiguration.sharedInstance.galeryAccessAlertText
             let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
             let settingTxt = TextConfiguration.sharedInstance.alertSettingText
-            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt, hiddenIconFileAttachment: true, isAlert : true,
                                  doneAction: {
                                     self.goToIPhoneSetting()
             },
@@ -470,7 +506,7 @@ extension UIChatViewController : CustomChatInputDelegate {
             let text = TextConfiguration.sharedInstance.cameraAccessAlertText
             let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
             let settingTxt = TextConfiguration.sharedInstance.alertSettingText
-            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt, hiddenIconFileAttachment: true, isAlert: true,
                                  doneAction: {
                                     self.goToIPhoneSetting()
             },
@@ -503,6 +539,12 @@ extension UIChatViewController : CustomChatInputDelegate {
             self.uploadGalery()
         })
         optionMenu.addAction(galleryAction)
+        
+        let galleryVideoAction = UIAlertAction(title: "Video from Gallery", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.uploadGalery(isFoto : false)
+        })
+        optionMenu.addAction(galleryVideoAction)
         
         let fileAction = UIAlertAction(title: "File / Document", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -620,6 +662,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                     context.restoreGState()
                                     if let pdfImage:UIImage = UIGraphicsGetImageFromCurrentImageContext() {
                                         thumb = pdfImage
+                                        hiddenIconFileAttachment = true
                                     }
                                 }
                                 UIGraphicsEndImageContext()
@@ -661,6 +704,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                         print("error creating thumb image")
                     }
                     usePopup = true
+                    hiddenIconFileAttachment = true
                 }else{
                     hiddenIconFileAttachment = false
                     usePopup = true
@@ -716,6 +760,80 @@ extension UIChatViewController: UIDocumentPickerDelegate{
             }catch _{
                 //finish loading
                 //self.dismissLoading()
+            }
+        }
+    }
+}
+
+extension UIChatViewController: PHPickerViewControllerDelegate {
+    
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        if #available(iOS 11.0, *) {
+            UINavigationBar.appearance().tintColor = self.latestNavbarTint
+            self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+        }
+        
+        guard !results.isEmpty else {
+            self.dismiss(animated:true, completion: nil)
+            return
+        }
+        
+        var imageName:String = "\(NSDate().timeIntervalSince1970 * 1000).jpg"
+        
+        let itemProviders = results.map(\.itemProvider)
+        
+        if itemProviders.count == 0{
+            self.dismiss(animated:true, completion: nil)
+            return
+        }
+        
+        for item in itemProviders {
+            if item.canLoadObject(ofClass: UIImage.self) {
+                item.loadObject(ofClass: UIImage.self) { (image, error) in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+                            var data = image.pngData()
+                            
+                            let imageSize = image.size
+                            var bigPart = CGFloat(0)
+                            if(imageSize.width > imageSize.height){
+                                bigPart = imageSize.width
+                            }else{
+                                bigPart = imageSize.height
+                            }
+                            
+                            var compressVal = CGFloat(1)
+                            if(bigPart > 2000){
+                                compressVal = 2000 / bigPart
+                            }
+                            
+                            data = image.jpegData(compressionQuality:compressVal)
+                            
+                            if data != nil {
+                                let mediaSize = Double(data!.count) / 1024.0
+                                if mediaSize > self.maxUploadSizeInKB {
+                                    picker.dismiss(animated: true, completion: {
+                                        self.showFileTooBigAlert()
+                                    })
+                                    return
+                                } else {
+                                    self.dismiss(animated:true, completion: nil)
+                                    
+                                    picker.dismiss(animated: true, completion: {
+                                        
+                                    })
+                                    
+                                    let uploader = QiscusUploaderVC(nibName: "QiscusUploaderVC", bundle: nil)
+                                    uploader.chatView = self
+                                    uploader.data = data
+                                    uploader.fileName = imageName
+                                    self.navigationController?.pushViewController(uploader, animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -87,6 +87,7 @@
                             </constraints>
                         </imageView>
                     </subviews>
+                    <viewLayoutGuide key="safeArea" id="eEe-ot-zp1"/>
                     <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="0ne-es-v2Y" firstAttribute="leading" secondItem="eEe-ot-zp1" secondAttribute="leading" constant="40" id="4WH-Mx-caL"/>
@@ -97,11 +98,11 @@
                         <constraint firstItem="oCm-Qx-TqW" firstAttribute="top" secondItem="Bb8-5U-ENo" secondAttribute="bottom" constant="23" id="pwC-EK-EsE"/>
                         <constraint firstItem="eEe-ot-zp1" firstAttribute="trailing" secondItem="0ne-es-v2Y" secondAttribute="trailing" constant="40" id="ush-bE-PaS"/>
                     </constraints>
-                    <viewLayoutGuide key="safeArea" id="eEe-ot-zp1"/>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DF6-Lu-tNz" userLabel="TableViewChat">
                     <rect key="frame" x="0.0" y="44" width="414" height="768"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NCb-aW-vqQ" userLabel="TableViewChatTemplate">
                     <rect key="frame" x="0.0" y="642" width="414" height="170"/>
@@ -157,7 +158,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wAG-7x-atv">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wAG-7x-atv">
                                             <rect key="frame" x="234" y="615" width="120" height="50"/>
                                             <color key="backgroundColor" red="0.1529411765" green="0.71372549019999998" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -179,7 +180,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9B-R7-Z0u">
-                                            <rect key="frame" x="80" y="76" width="45" height="21"/>
+                                            <rect key="frame" x="80" y="76" width="44.5" height="21"/>
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -212,7 +213,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtc-Ui-7sa">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtc-Ui-7sa">
                                             <rect key="frame" x="20" y="615" width="120" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="hRh-33-0Mz"/>
@@ -270,6 +271,7 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <viewLayoutGuide key="safeArea" id="dX4-0K-Y6v"/>
                     <color key="backgroundColor" white="0.0" alpha="0.4062232448630137" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="bDm-4K-iKf" firstAttribute="top" secondItem="SQr-XG-a6c" secondAttribute="topMargin" constant="70" id="07W-iG-EhW"/>
@@ -277,9 +279,9 @@
                         <constraint firstItem="dX4-0K-Y6v" firstAttribute="bottom" secondItem="bDm-4K-iKf" secondAttribute="bottom" constant="50" id="Wor-Dt-gZK"/>
                         <constraint firstItem="bDm-4K-iKf" firstAttribute="centerX" secondItem="SQr-XG-a6c" secondAttribute="centerX" id="dn5-g1-nU6"/>
                     </constraints>
-                    <viewLayoutGuide key="safeArea" id="dX4-0K-Y6v"/>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="XjR-Mj-c6H" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="AVd-I5-3cz"/>
@@ -304,7 +306,6 @@
                 <constraint firstItem="SQr-XG-a6c" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="pey-fM-nK6"/>
                 <constraint firstItem="XjR-Mj-c6H" firstAttribute="top" secondItem="NCb-aW-vqQ" secondAttribute="bottom" id="q4e-wn-wDa"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="800.00000000000011" y="472.09821428571428"/>
         </view>
     </objects>

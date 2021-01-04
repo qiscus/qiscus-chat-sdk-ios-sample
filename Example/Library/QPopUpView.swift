@@ -50,6 +50,7 @@ class QPopUpView: UIViewController {
     @IBOutlet weak var heightProgressViewCons: NSLayoutConstraint!
     let maxProgressHeight:Double = 40.0
     var hiddenIconFileAttachment = true
+    var isAlert = false
     
     fileprivate init() {
         super.init(nibName: "QPopUpView", bundle:nil)
@@ -82,6 +83,7 @@ class QPopUpView: UIViewController {
         if self.image != nil {
             self.imageView.image = self.image
             self.imageViewHeight.constant = 120
+            self.ivFileAttachment.alpha = 0
         }else{
             self.imageView.image = nil
             if hiddenIconFileAttachment == false {
@@ -90,7 +92,12 @@ class QPopUpView: UIViewController {
                 self.ivFileAttachment.alpha = 0
             }
             
-            self.imageViewHeight.constant = 120
+            if isAlert == true {
+                self.imageViewHeight.constant = 0
+            } else {
+                self.imageViewHeight.constant = 120
+            }
+            
             self.ivFileAttachment.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(.alwaysTemplate)
             self.ivFileAttachment.tintColor = ColorConfiguration.defaultColorTosca
         }
@@ -159,7 +166,7 @@ class QPopUpView: UIViewController {
     }
     
     // MARK: - Class methode to show popUp
-    class func showAlert(withTarget target:UIViewController,image:UIImage? = nil,message:String = "", attributedText:NSMutableAttributedString? = nil, firstActionTitle:String = "OK", secondActionTitle:String = "CANCEL",isVideoImage:Bool = false, hiddenIconFileAttachment : Bool = true, doneAction:@escaping ()->Void = { }, cancelAction:@escaping ()->Void = {}){
+    class func showAlert(withTarget target:UIViewController,image:UIImage? = nil,message:String = "", attributedText:NSMutableAttributedString? = nil, firstActionTitle:String = "OK", secondActionTitle:String = "CANCEL",isVideoImage:Bool = false, hiddenIconFileAttachment : Bool = true, isAlert : Bool = false, doneAction:@escaping ()->Void = { }, cancelAction:@escaping ()->Void = {}){
         let alert = QPopUpView.sharedInstance
         if alert.isPresent{
             alert.dismiss(animated: false, completion: nil)
@@ -178,6 +185,7 @@ class QPopUpView: UIViewController {
         }else{
             alert.text = message
         }
+        alert.isAlert = isAlert
         alert.oneButton = false
         alert.hiddenIconFileAttachment = hiddenIconFileAttachment
         alert.modalTransitionStyle = .crossDissolve
