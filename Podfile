@@ -7,7 +7,7 @@ target 'Example' do
 
   # Pods for Example
   #pod 'QiscusCore'
-  pod 'QiscusCore', :path => '../QiscusCore'
+  pod 'QiscusCore', :path => '../NewSDK/QiscusCore-ios'
 
     # 3rd party
   pod 'SDWebImage'
@@ -21,7 +21,10 @@ target 'Example' do
   pod 'BottomPopup', '0.5.1'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'Firebase/Installations'
   pod 'iRecordView'
   pod 'MobileVLCKit', '~>3.3.0'
+  pod 'SDWebImageWebPCoder'
+  
   
 end
