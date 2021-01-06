@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,6 +14,8 @@
                 <outlet property="btAssign" destination="qGm-f2-1FI" id="BwU-Cq-Lfy"/>
                 <outlet property="btCancel" destination="hBQ-te-ywc" id="zTz-AE-zKe"/>
                 <outlet property="btCheckBox" destination="2Nj-OQ-d8d" id="4Sr-ge-ssk"/>
+                <outlet property="lbNoAgentSubtitle" destination="br9-5b-YrF" id="vBP-Qr-Bz1"/>
+                <outlet property="lbNoAgentTitle" destination="rEe-xo-3d1" id="ama-Lw-rh3"/>
                 <outlet property="lbReplaceExistingAgent" destination="8Wa-TJ-oBo" id="LPs-uJ-K9i"/>
                 <outlet property="tableView" destination="LCE-BG-Fjf" id="uL4-lo-uxz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -25,8 +28,14 @@
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LCE-BG-Fjf">
                     <rect key="frame" x="0.0" y="44" width="414" height="713"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No agent available" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rEe-xo-3d1">
+                    <rect key="frame" x="20" y="388.5" width="374" height="24"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iq9-c6-Ci0">
                     <rect key="frame" x="0.0" y="762" width="414" height="100"/>
                     <subviews>
@@ -42,7 +51,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Replace Existing Agent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Wa-TJ-oBo">
-                            <rect key="frame" x="53" y="8" width="175" height="30"/>
+                            <rect key="frame" x="53" y="8" width="174" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="cvb-rV-sld"/>
                             </constraints>
@@ -50,7 +59,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBQ-te-ywc">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBQ-te-ywc">
                             <rect key="frame" x="50" y="43" width="100" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="Mng-re-6c8"/>
@@ -64,7 +73,7 @@
                                 <action selector="cancelAction:" destination="-1" eventType="touchUpInside" id="0qb-Zy-Bet"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-f2-1FI">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-f2-1FI">
                             <rect key="frame" x="234" y="43" width="130" height="50"/>
                             <color key="backgroundColor" red="0.0" green="0.71764705882352942" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -80,7 +89,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="qGm-f2-1FI" firstAttribute="centerY" secondItem="hBQ-te-ywc" secondAttribute="centerY" id="1Mf-4s-gfA"/>
                         <constraint firstItem="hBQ-te-ywc" firstAttribute="leading" secondItem="Iq9-c6-Ci0" secondAttribute="leading" constant="50" id="5hu-QK-XE8"/>
@@ -95,23 +104,39 @@
                         <constraint firstItem="2Nj-OQ-d8d" firstAttribute="top" secondItem="Iq9-c6-Ci0" secondAttribute="top" constant="8" id="vtP-Hc-Wsu"/>
                     </constraints>
                 </view>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No agent qualified for the assigned channel" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="br9-5b-YrF">
+                    <rect key="frame" x="20" y="427.5" width="374" height="24"/>
+                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="0iG-Zj-icQ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="br9-5b-YrF" secondAttribute="trailing" constant="20" id="1F7-15-cTS"/>
+                <constraint firstItem="br9-5b-YrF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="4HA-gn-dBn"/>
+                <constraint firstItem="rEe-xo-3d1" firstAttribute="centerY" secondItem="LCE-BG-Fjf" secondAttribute="centerY" id="9MA-1o-E5z"/>
+                <constraint firstItem="rEe-xo-3d1" firstAttribute="centerX" secondItem="LCE-BG-Fjf" secondAttribute="centerX" id="CLx-2i-cyD"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Pi3-nR-N86"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="UgJ-dR-JZa"/>
+                <constraint firstItem="rEe-xo-3d1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Yif-kR-7TS"/>
                 <constraint firstItem="LCE-BG-Fjf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="eAj-dp-9sV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="rEe-xo-3d1" secondAttribute="trailing" constant="20" id="gfN-Dz-WQo"/>
                 <constraint firstItem="LCE-BG-Fjf" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="heE-lU-fX1"/>
+                <constraint firstItem="br9-5b-YrF" firstAttribute="top" secondItem="rEe-xo-3d1" secondAttribute="bottom" constant="15" id="jKk-IH-w37"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="top" secondItem="LCE-BG-Fjf" secondAttribute="bottom" constant="5" id="pFA-0V-954"/>
                 <constraint firstItem="LCE-BG-Fjf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="tFK-DU-8he"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="top" secondItem="LCE-BG-Fjf" secondAttribute="bottom" constant="5" id="uWW-kl-Ixk"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
         </view>
     </objects>
     <resources>
         <image name="ic_uncheck" width="60" height="60"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

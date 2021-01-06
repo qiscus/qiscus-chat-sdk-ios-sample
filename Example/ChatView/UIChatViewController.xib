@@ -17,13 +17,18 @@
                 <outlet property="constraintViewInputBottom" destination="AVd-I5-3cz" id="5XK-Jf-2YL"/>
                 <outlet property="constraintViewInputHeight" destination="JR1-fH-mcK" id="xAU-8d-HkN"/>
                 <outlet property="emptyMessageView" destination="fvK-Gz-gWg" id="rzr-mU-9cn"/>
+                <outlet property="heightBtCheckBoxSendNote" destination="zyM-ga-JBm" id="eGy-US-isR"/>
+                <outlet property="heightBtCheckboxCons" destination="u93-MA-c0p" id="TDG-ru-6Xa"/>
                 <outlet property="heightProgressBar" destination="433-nc-tbg" id="Dz6-aU-Pbe"/>
                 <outlet property="ivAvatarResolved" destination="hcd-DH-ALo" id="jcP-3Z-CAE"/>
                 <outlet property="lbNameResolved" destination="g9B-R7-Z0u" id="9L3-3H-LTz"/>
+                <outlet property="lbSendChatHistoryToCustomer" destination="X2p-cx-DA3" id="QWp-l2-7s4"/>
+                <outlet property="lbSendNoteToCustomer" destination="P7N-Zt-ebE" id="aMo-yo-gmR"/>
                 <outlet property="progressBar" destination="2TZ-HA-VEY" id="hBB-EM-irO"/>
                 <outlet property="scrollViewResolved" destination="b6V-nf-ooM" id="MPK-Nv-tDy"/>
                 <outlet property="tableViewChatTemplate" destination="NCb-aW-vqQ" id="3K9-gS-Kmu"/>
                 <outlet property="tableViewConversation" destination="DF6-Lu-tNz" id="n8q-S5-uDs"/>
+                <outlet property="topHeightSubmitNoteCons" destination="1Xw-YI-eDp" id="mZz-RL-A8U"/>
                 <outlet property="topProgressBar" destination="PGC-9T-4UG" id="7hz-ng-gLr"/>
                 <outlet property="tvNotes" destination="ieT-CR-AVV" id="I7s-dP-FmI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

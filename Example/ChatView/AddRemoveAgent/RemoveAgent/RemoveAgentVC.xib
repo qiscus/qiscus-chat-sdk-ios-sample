@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,6 +13,7 @@
             <connections>
                 <outlet property="btCancel" destination="hBQ-te-ywc" id="zTz-AE-zKe"/>
                 <outlet property="btRemove" destination="qGm-f2-1FI" id="EsR-pD-eQh"/>
+                <outlet property="lbNoAgentSubtitle" destination="nXe-KS-MDv" id="Sr3-0w-Ifb"/>
                 <outlet property="tableView" destination="LCE-BG-Fjf" id="uL4-lo-uxz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -23,12 +25,12 @@
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LCE-BG-Fjf">
                     <rect key="frame" x="0.0" y="44" width="414" height="738"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iq9-c6-Ci0">
                     <rect key="frame" x="0.0" y="787" width="414" height="75"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBQ-te-ywc">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBQ-te-ywc">
                             <rect key="frame" x="50" y="12" width="100" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="Mng-re-6c8"/>
@@ -42,9 +44,9 @@
                                 <action selector="cancelAction:" destination="-1" eventType="touchUpInside" id="0qb-Zy-Bet"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-f2-1FI">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGm-f2-1FI">
                             <rect key="frame" x="234" y="12" width="130" height="50"/>
-                            <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" systemColor="systemRedColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="bcf-Ad-cdo"/>
                                 <constraint firstAttribute="width" constant="130" id="j2G-ac-MRX"/>
@@ -58,7 +60,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="qGm-f2-1FI" firstAttribute="centerY" secondItem="hBQ-te-ywc" secondAttribute="centerY" id="1Mf-4s-gfA"/>
                         <constraint firstItem="hBQ-te-ywc" firstAttribute="leading" secondItem="Iq9-c6-Ci0" secondAttribute="leading" constant="50" id="5hu-QK-XE8"/>
@@ -68,20 +70,38 @@
                         <constraint firstAttribute="bottom" secondItem="qGm-f2-1FI" secondAttribute="bottom" constant="13" id="vip-Dw-Ajb"/>
                     </constraints>
                 </view>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No agent available in the room. You  might need to add agent first, so that they might appear here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nXe-KS-MDv">
+                    <rect key="frame" x="20" y="377" width="374" height="72"/>
+                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="0iG-Zj-icQ"/>
+                <constraint firstItem="nXe-KS-MDv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="9GT-fY-g3k"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Pi3-nR-N86"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="UgJ-dR-JZa"/>
                 <constraint firstItem="LCE-BG-Fjf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="eAj-dp-9sV"/>
+                <constraint firstItem="nXe-KS-MDv" firstAttribute="centerY" secondItem="LCE-BG-Fjf" secondAttribute="centerY" id="hZS-pE-9eD"/>
                 <constraint firstItem="LCE-BG-Fjf" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="heE-lU-fX1"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nXe-KS-MDv" secondAttribute="trailing" constant="20" id="itg-0c-qjw"/>
+                <constraint firstItem="nXe-KS-MDv" firstAttribute="centerX" secondItem="LCE-BG-Fjf" secondAttribute="centerX" id="n1t-yO-F1C"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="top" secondItem="LCE-BG-Fjf" secondAttribute="bottom" constant="5" id="pFA-0V-954"/>
                 <constraint firstItem="LCE-BG-Fjf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="tFK-DU-8he"/>
                 <constraint firstItem="Iq9-c6-Ci0" firstAttribute="top" secondItem="LCE-BG-Fjf" secondAttribute="bottom" constant="5" id="uWW-kl-Ixk"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

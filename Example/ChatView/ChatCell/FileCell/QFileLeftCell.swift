@@ -106,8 +106,11 @@ class QFileLeftCell: UIBaseChatCell {
                         DispatchQueue.main.async {
                             do {
                                 let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
-                                let fileSize = resources.fileSize!
-                                self.lbFileSizeExtension.text = "\(self.getMb(size: fileSize)) - \(ext.uppercased()) file"
+                                if let size = resources.fileSize {
+                                    self.lbFileSizeExtension.text = "\(self.getMb(size: size)) - \(ext.uppercased()) file"
+                                } else {
+                                    self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+                                }
                             } catch {
                                 self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
                             }

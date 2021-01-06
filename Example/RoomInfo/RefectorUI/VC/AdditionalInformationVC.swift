@@ -96,6 +96,8 @@ class AdditionalInformationVC: UIViewController {
     @IBAction func createNewAddInformation(_ sender: Any) {
         self.lbEmptyAdditionalInformation.alpha = 0
         self.viewEditAdditional.alpha = 1
+        self.tfTitle.text = ""
+        self.tfDescription.text = ""
     }
     
     @IBAction func actionSave(_ sender: Any) {
@@ -141,6 +143,7 @@ class AdditionalInformationVC: UIViewController {
                     } else {
                         //show alert title same
                         self.viewAlert.alpha = 1
+                        self.lbAlertText.text = "Additional Information already exists"
                         self.lbEmptyAdditionalInformation.alpha = 0
                     }
                 }
@@ -175,6 +178,7 @@ class AdditionalInformationVC: UIViewController {
                     } else {
                         //show alert title same
                         self.viewAlert.alpha = 1
+                        self.lbAlertText.text = "Additional Information already exists"
                         self.lbEmptyAdditionalInformation.alpha = 0
                     }
                 }
@@ -183,7 +187,7 @@ class AdditionalInformationVC: UIViewController {
             //show alert empty
             self.lbEmptyAdditionalInformation.alpha = 0
             self.viewAlert.alpha = 1
-            //self.lbAlertText.text = "Title and Description must not empty"
+            self.lbAlertText.text = "Title and Description must not empty"
         }
     }
     

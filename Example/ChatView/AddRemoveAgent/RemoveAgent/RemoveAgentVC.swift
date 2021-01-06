@@ -15,6 +15,7 @@ class RemoveAgentVC: UIViewController {
     @IBOutlet weak var btRemove: UIButton!
     @IBOutlet weak var btCancel: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var lbNoAgentSubtitle: UILabel!
     
     var agentData : [AgentModel] = [AgentModel]()
     var roomName : String = ""
@@ -49,7 +50,7 @@ class RemoveAgentVC: UIViewController {
         let backButton = self.backButton(self, action: #selector(RemoveAgentVC.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
         
         self.tableView.delegate = self
@@ -67,7 +68,7 @@ class RemoveAgentVC: UIViewController {
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        backIcon.tintColor = UIColor.white
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
             backIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)
@@ -142,16 +143,29 @@ class RemoveAgentVC: UIViewController {
                             self.tableView.reloadData()
                         }
                     }
+                    
+                    self.showHideLbNoAgent()
+                   
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
                 self.isLoading = false
                 self.stopLoad = true
+                self.showHideLbNoAgent()
             } else {
                 //failed
                 self.isLoading = false
                 self.stopLoad = true
+                self.showHideLbNoAgent()
             }
+        }
+    }
+    
+    func showHideLbNoAgent() {
+        if self.agentData.count == 0 {
+            self.lbNoAgentSubtitle.isHidden = false
+        } else {
+            self.lbNoAgentSubtitle.isHidden = true
         }
     }
     
@@ -177,7 +191,7 @@ class RemoveAgentVC: UIViewController {
                     if response.response?.statusCode == 401 {
                         RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
                             if success == true {
-                                self.getList()
+                                self.removeAgent()
                             } else {
                                 return
                             }

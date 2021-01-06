@@ -17,6 +17,8 @@ class AddAgentVC: UIViewController {
     @IBOutlet weak var btCheckBox: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lbReplaceExistingAgent: UILabel!
+    @IBOutlet weak var lbNoAgentTitle: UILabel!
+    @IBOutlet weak var lbNoAgentSubtitle: UILabel!
     
     var agentData : [AgentModel] = [AgentModel]()
     var roomName : String = ""
@@ -69,7 +71,7 @@ class AddAgentVC: UIViewController {
         let backButton = self.backButton(self, action: #selector(AddAgentVC.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
         
         self.tableView.delegate = self
@@ -94,7 +96,7 @@ class AddAgentVC: UIViewController {
         
         let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         backIcon.image = image
-        backIcon.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
+        backIcon.tintColor = UIColor.white//UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
         
         if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
             backIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)
@@ -159,12 +161,26 @@ class AddAgentVC: UIViewController {
                     }
                     
                     self.tableView.reloadData()
+                    
+                    self.showHideLbNoAgent()
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
+                self.showHideLbNoAgent()
             } else {
                 //failed
+                self.showHideLbNoAgent()
             }
+        }
+    }
+    
+    func showHideLbNoAgent() {
+        if self.agentData.count == 0 {
+            self.lbNoAgentTitle.isHidden = false
+            self.lbNoAgentSubtitle.isHidden = false
+        } else {
+            self.lbNoAgentTitle.isHidden = true
+            self.lbNoAgentSubtitle.isHidden = true
         }
     }
     

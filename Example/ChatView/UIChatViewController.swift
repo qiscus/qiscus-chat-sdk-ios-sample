@@ -64,6 +64,12 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var tvNotes: UITextView!
     @IBOutlet weak var btCheckBox: UIButton!
     @IBOutlet weak var btCheckBoxSendNote: UIButton!
+    @IBOutlet weak var heightBtCheckBoxSendNote: NSLayoutConstraint!
+    @IBOutlet weak var heightBtCheckboxCons: NSLayoutConstraint!
+    @IBOutlet weak var topHeightSubmitNoteCons: NSLayoutConstraint!
+    @IBOutlet weak var lbSendNoteToCustomer: UILabel!
+    @IBOutlet weak var lbSendChatHistoryToCustomer: UILabel!
+    
     @IBOutlet weak var btSubmitResolved: UIButton!
     @IBOutlet weak var btCancelSubmit: UIButton!
     var placeholderLabel : UILabel!
@@ -320,6 +326,38 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         
         self.btCheckBoxSendNote.tintColor = ColorConfiguration.defaultColorTosca
         self.btCheckBox.tintColor = ColorConfiguration.defaultColorTosca
+        
+        var isQiscusWidgetRoom = false
+        
+        if let room = self.room{
+            if !room.options!.isEmpty{
+                let json = JSON.init(parseJSON: room.options!)
+                let channelType = json["channel"].string ?? "qiscus"
+                
+                if channelType.lowercased() == "qiscus"{
+                    isQiscusWidgetRoom = true
+                }else if channelType.lowercased() == "telegram"{
+                    isQiscusWidgetRoom = false
+                }else if channelType.lowercased() == "line"{
+                    isQiscusWidgetRoom = false
+                }else if channelType.lowercased() == "fb"{
+                    isQiscusWidgetRoom = false
+                }else if channelType.lowercased() == "wa"{
+                    isQiscusWidgetRoom = false
+                }else{
+                    isQiscusWidgetRoom = true
+                }
+            }
+        }
+        
+        if isQiscusWidgetRoom == false {
+            self.heightBtCheckBoxSendNote.constant = 0
+            self.heightBtCheckboxCons.constant = 0
+            self.topHeightSubmitNoteCons.constant = 0
+            self.lbSendNoteToCustomer.isHidden = true
+            self.lbSendChatHistoryToCustomer.isHidden = true
+        }
+        
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -620,7 +658,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         
        
         
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler:{ (UIAlertAction)in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
             
         }))
         
