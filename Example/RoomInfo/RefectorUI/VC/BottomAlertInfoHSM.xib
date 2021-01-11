@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BottomAlertInfoHSM" customModule="Qiscus_Multichannel" customModuleProvider="target">
+            <connections>
+                <outlet property="btClose" destination="Jcg-X5-4R4" id="OMF-lf-Eed"/>
+                <outlet property="lbSubtitle" destination="GTn-Wk-5Xv" id="aTm-Sm-ROC"/>
+                <outlet property="lbTitle" destination="cYk-3U-nYn" id="9ps-HH-zZt"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="210"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Has expired" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYk-3U-nYn">
+                    <rect key="frame" x="30" y="54" width="94.5" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="3xa-Ei-OXI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTn-Wk-5Xv">
+                    <rect key="frame" x="30" y="84" width="354" height="106"/>
+                    <string key="text">The session has expired since it's over 24-hours after the customer's last message. If you wish to re-initiate a conversation after that time period, you need to send a paid message template. Please click the "Send Message Template"</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jcg-X5-4R4">
+                    <rect key="frame" x="364" y="59" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="KJI-hj-TTV"/>
+                        <constraint firstAttribute="height" constant="20" id="bfJ-3v-kMT"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="ic_close"/>
+                    <connections>
+                        <action selector="dismissButtonTapped:" destination="-1" eventType="touchUpInside" id="zLh-h3-9uo"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="GTn-Wk-5Xv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="Faf-dS-TtF"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="GTn-Wk-5Xv" secondAttribute="bottom" constant="20" id="Koe-X9-Mur"/>
+                <constraint firstItem="cYk-3U-nYn" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="aoR-wj-xns"/>
+                <constraint firstItem="Jcg-X5-4R4" firstAttribute="centerY" secondItem="cYk-3U-nYn" secondAttribute="centerY" id="exB-Ua-rqe"/>
+                <constraint firstAttribute="trailing" secondItem="GTn-Wk-5Xv" secondAttribute="trailing" constant="30" id="pfq-bK-0G3"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Jcg-X5-4R4" secondAttribute="trailing" constant="30" id="rCL-fe-92D"/>
+                <constraint firstItem="cYk-3U-nYn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="rHr-C6-0RL"/>
+                <constraint firstItem="GTn-Wk-5Xv" firstAttribute="top" secondItem="cYk-3U-nYn" secondAttribute="bottom" id="tWi-Sf-ntH"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="82.608695652173921" y="66.964285714285708"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_close" width="24" height="24"/>
+    </resources>
+</document>

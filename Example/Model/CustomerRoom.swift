@@ -17,6 +17,7 @@ public class CustomerRoom : NSObject {
     var lastComment : String = ""
     var lastCommentSender: String = ""
     var lastCommentTimestamp : String = ""
+    var lastCustomerTimestamp : String = ""
     var isResolved : Bool = false
     var isHandledByBot : Bool = false
     var badge: String? = nil
@@ -30,6 +31,7 @@ public class CustomerRoom : NSObject {
         self.lastComment    = json["last_comment_text"].string ?? ""
         self.lastCommentSender = json["last_comment_sender"].string ?? ""
         self.lastCommentTimestamp   = json["last_comment_timestamp"].string ?? ""
+        self.lastCustomerTimestamp = json["last_customer_timestamp"].string ?? ""
         self.isResolved     = json["is_resolved"].bool ?? false
         self.isHandledByBot  = json["is_handled_by_bot"].bool ?? false
         self.badge          = json["room_badge"].string ?? nil

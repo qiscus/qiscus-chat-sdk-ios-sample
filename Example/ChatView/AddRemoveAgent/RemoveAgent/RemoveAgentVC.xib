@@ -70,7 +70,7 @@
                         <constraint firstAttribute="bottom" secondItem="qGm-f2-1FI" secondAttribute="bottom" constant="13" id="vip-Dw-Ajb"/>
                     </constraints>
                 </view>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No agent available in the room. You  might need to add agent first, so that they might appear here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nXe-KS-MDv">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No agent available in the room. You  might need to add agent first, so that they might appear here." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nXe-KS-MDv">
                     <rect key="frame" x="20" y="377" width="374" height="72"/>
                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

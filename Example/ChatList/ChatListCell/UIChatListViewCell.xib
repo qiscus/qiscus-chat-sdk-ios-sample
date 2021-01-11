@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -110,6 +110,13 @@
                             <constraint firstAttribute="height" constant="25" id="tIK-LR-Kim"/>
                         </constraints>
                     </imageView>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_wa_message_expired" translatesAutoresizingMaskIntoConstraints="NO" id="qxm-tO-F4l" userLabel="profileImageView">
+                        <rect key="frame" x="45" y="38" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="UhH-vY-ohX"/>
+                            <constraint firstAttribute="height" constant="20" id="iXC-Zl-0zw"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
@@ -137,6 +144,8 @@
                     <constraint firstItem="yl6-x1-Ho1" firstAttribute="top" secondItem="UC3-pb-PeH" secondAttribute="top" id="p3U-hN-pWQ"/>
                     <constraint firstItem="GcT-oK-RZz" firstAttribute="top" secondItem="3dO-lh-ltC" secondAttribute="bottom" constant="5" id="pz2-1I-OjZ"/>
                     <constraint firstItem="aYr-1A-NvS" firstAttribute="top" secondItem="73m-0b-2Yc" secondAttribute="bottom" constant="4" id="qPF-An-hCE"/>
+                    <constraint firstItem="qxm-tO-F4l" firstAttribute="bottom" secondItem="UC3-pb-PeH" secondAttribute="bottom" id="sZL-Kn-trd"/>
+                    <constraint firstItem="qxm-tO-F4l" firstAttribute="leading" secondItem="UC3-pb-PeH" secondAttribute="leading" id="wis-eC-3eZ"/>
                     <constraint firstItem="TuX-OW-oJJ" firstAttribute="top" relation="lessThanOrEqual" secondItem="GcT-oK-RZz" secondAttribute="bottom" constant="25" id="yDc-lj-MRt"/>
                 </constraints>
             </tableViewCellContentView>
@@ -148,6 +157,7 @@
                 <outlet property="imageViewRoom" destination="UC3-pb-PeH" id="nmZ-Ao-O5F"/>
                 <outlet property="ivBot" destination="Z5o-nh-2oh" id="Hje-qd-GVK"/>
                 <outlet property="ivTypeChannel" destination="yUy-XR-s6h" id="c8V-VV-kiI"/>
+                <outlet property="ivWaMessageExpired" destination="qxm-tO-F4l" id="HyX-tR-drt"/>
                 <outlet property="labelBadge" destination="vd9-lp-FVL" id="D8l-Eo-UQD"/>
                 <outlet property="labelDate" destination="73m-0b-2Yc" id="xrU-h0-85F"/>
                 <outlet property="labelLastMessage" destination="GcT-oK-RZz" id="kpc-28-Ylc"/>
@@ -162,5 +172,6 @@
         <image name="ic_bot" width="60" height="60"/>
         <image name="ic_check" width="60" height="60"/>
         <image name="ic_qiscus" width="60" height="60"/>
+        <image name="ic_wa_message_expired" width="16" height="16"/>
     </resources>
 </document>

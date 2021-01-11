@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import QiscusCore
 
-class ChatAndCustomerInfoVC: UIViewController {
+class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var bottomTableViewCons: NSLayoutConstraint!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -25,6 +25,7 @@ class ChatAndCustomerInfoVC: UIViewController {
     var room : RoomModel? = nil
     var agents : [AgentModel]? = nil
     var broadCastHistory = [BroadCastHistoryModel]()
+    var dataHSMTemplate = [HSMTemplateModel]()
     var additionalInformationCount = 0
     var broadcastHistoryCount = 0
     var channelTypeString = ""
@@ -38,6 +39,21 @@ class ChatAndCustomerInfoVC: UIViewController {
     var dataAddtionalInformation = [AdditionalInformationModel]()
     var isCreateTags = true
     var isTypeWA :Bool = false
+    var isWAExpired : Bool = false //expired after 24 hours
+    var isWAWillExpired : Bool = false //will expire after 16 hours
+    var lastCommentCustomerDate : Date? = nil
+    
+   
+    
+    //template 24 hsm
+    @IBOutlet weak var viewBGTemplateHSM: UIView!
+    @IBOutlet weak var viewTemplateHSM: UIView!
+    @IBOutlet weak var textViewContentTemplateHSM: UITextView!
+    @IBOutlet weak var tfSelectTemplateLanguage: UITextField!
+    @IBOutlet weak var btSendTemplateHSM: UIButton!
+    @IBOutlet weak var btCancelTemplateHSM: UIButton!
+    
+    var dataLanguage = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -64,6 +80,41 @@ class ChatAndCustomerInfoVC: UIViewController {
         }) { (error) in
             self.setupRoomInfo()
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isTypeWA == true && isWAWillExpired == true {
+            let nc = NotificationCenter.default
+            nc.post(name: Notification.Name("invalidateCounter"), object: nil)
+        }
+    }
+    
+    @objc func buttonSendWaTemplate(sender: UIButton!) {
+        self.viewBGTemplateHSM.alpha = 1
+    }
+    
+    @objc func buttonWAInfoAction(sender: UIButton!) {
+        let popupVC = BottomAlertInfoHSM()
+        popupVC.isExpired = self.isWAExpired
+        popupVC.width = self.view.frame.size.width
+        popupVC.topCornerRadius = 15
+        popupVC.presentDuration = 0.30
+        popupVC.dismissDuration = 0.30
+        popupVC.shouldDismissInteractivelty = true
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    @objc func buttonWAInfoWillExpireAction(sender: UIButton!) {
+        let popupVC = BottomAlertInfoHSM()
+        popupVC.isExpired = self.isWAExpired
+        popupVC.width = self.view.frame.size.width
+        popupVC.topCornerRadius = 15
+        popupVC.presentDuration = 0.30
+        popupVC.dismissDuration = 0.30
+        popupVC.shouldDismissInteractivelty = true
+        self.present(popupVC, animated: true, completion: nil)
     }
     
     @IBAction func saveNotesAction(_ sender: Any) {
@@ -122,7 +173,9 @@ class ChatAndCustomerInfoVC: UIViewController {
         self.tableView.register(UINib(nibName: "NotesCell", bundle: nil), forCellReuseIdentifier: "NotesCellIdentifire")
         self.tableView.register(UINib(nibName: "TagsCustomerInfoCell", bundle: nil), forCellReuseIdentifier: "TagsCustomerInfoCellIdentifire")
         self.tableView.register(UINib(nibName: "AgentCustomerInfoCell", bundle: nil), forCellReuseIdentifier: "AgentCustomerInfoCellIdentifire")
-         self.tableView.register(UINib(nibName: "BroadcastHistoryCell", bundle: nil), forCellReuseIdentifier: "BroadcastHistoryCellIdentifire")
+        self.tableView.register(UINib(nibName: "BroadcastHistoryCell", bundle: nil), forCellReuseIdentifier: "BroadcastHistoryCellIdentifire")
+        self.tableView.register(UINib(nibName: "HSMCell", bundle: nil), forCellReuseIdentifier: "HSMCellIdentifire")
+        self.tableView.register(UINib(nibName: "HSMWillExpireSoonCell", bundle: nil), forCellReuseIdentifier: "HSMWillExpireSoonCellIdentifire")
         
         
         self.tableView.tableFooterView = UIView()
@@ -138,6 +191,21 @@ class ChatAndCustomerInfoVC: UIViewController {
         self.tvNotes.layer.cornerRadius = 8
         self.tvNotes.layer.borderWidth = 1
         self.tvNotes.layer.borderColor = UIColor.lightGray.cgColor
+        
+        
+        //setup template HSM
+        self.btSendTemplateHSM.layer.cornerRadius = self.btSendTemplateHSM.frame.height / 2
+        self.btCancelTemplateHSM.layer.cornerRadius = self.btCancelTemplateHSM.frame.height / 2
+        
+        self.btCancelTemplateHSM.layer.borderWidth = 2
+        self.btCancelTemplateHSM.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
+        
+        self.viewTemplateHSM.layer.cornerRadius = 8
+        
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        
+        tfSelectTemplateLanguage.inputView = pickerView
         
     }
     
@@ -222,6 +290,75 @@ class ChatAndCustomerInfoVC: UIViewController {
                         self.setupRoomInfo()
                     }) { (error) in
                         
+                    }
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func getTemplateHSM(channelID: Int){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["channel_id": channelID,
+                     "approved" : true
+        ] as [String : Any]
+        
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/admin/hsm_24", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getTemplateHSM(channelID: channelID)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let arrayTemplate = payload["data"]["hsm_template"]["hsm_details"].array
+                    
+                    if arrayTemplate?.count != 0 {
+                        var results = [HSMTemplateModel]()
+                        for dataTemplate in arrayTemplate! {
+                            let data = HSMTemplateModel(json: dataTemplate)
+                            results.append(data)
+                        }
+                        self.dataHSMTemplate = results
+                        
+                        for i in results {
+                            
+                            if !i.countryName.isEmpty{
+                                self.dataLanguage.append(i.countryName)
+                            }
+                        }
+                        
+                        if self.dataLanguage.count != 0 {
+                            self.tfSelectTemplateLanguage.text = self.dataLanguage.first
+                            
+                            let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == self.dataLanguage.first!.lowercased() }
+                            
+                            if let data = filterData.first{
+                                self.textViewContentTemplateHSM.text = data.content
+                            }else{
+                                self.textViewContentTemplateHSM.text = ""
+                            }
+                            
+                        }
                     }
                     
                 }
@@ -470,9 +607,67 @@ class ChatAndCustomerInfoVC: UIViewController {
                     var data = json["data"]["extras"].dictionary
                     var userID = json["data"]["user_id"].string ?? ""
                     var channelName = json["data"]["channel_name"].string ?? ""
+                    var channelID = json["data"]["channel_id"].int ?? 0
+                    
+                    if channelID != 0 {
+                        self.getTemplateHSM(channelID: channelID)
+                    }
                     
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
+                        
+                        //get lastComment from customer
+                        if self.isTypeWA {
+                            if let room = self.room{
+                                if let comments = QiscusCore.database.comment.find(roomId: room.id) {
+                                    let commentsFilterCustomer = comments.filter{ $0.username.lowercased() == room.name.lowercased() }
+                                    if let commentLast = commentsFilterCustomer.first{
+                                        let diff = commentLast.date.differentTime()
+                                        if diff >= 16 && diff <= 23 {
+                                            self.isWAWillExpired = true
+                                        } else if diff > 23 {
+                                            self.isWAExpired = true
+                                        } else {
+                                            self.isWAWillExpired = false
+                                            self.isWAExpired = false
+                                        }
+                                        
+                                        self.lastCommentCustomerDate = commentLast.date
+                                        
+                                    }else{
+                                        //check again, maybe roomname was changed
+                                        var customerEmail = ""
+                                        if let participants = room.participants {
+                                            for participant in participants.enumerated(){
+                                                if participant.element.extras != nil {
+                                                    let dataJson = JSON(participant.element.extras)
+                                                    let customer = dataJson["is_customer"].bool ?? false
+                                                    if customer == true {
+                                                        customerEmail = participant.element.email
+                                                    }
+                                                }
+                                            }
+                                            
+                                            if !customerEmail.isEmpty {
+                                                let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
+                                                if let commentLast = commentsFilterCustomer.first{
+                                                    let diff = commentLast.date.differentTime()
+                                                    if diff >= 16 && diff <= 23 {
+                                                        self.isWAWillExpired = true
+                                                    } else if diff > 23 {
+                                                        self.isWAExpired = true
+                                                    } else {
+                                                        self.isWAWillExpired = false
+                                                        self.isWAExpired = false
+                                                    }
+                                                    self.lastCommentCustomerDate = commentLast.date
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     
                     if !channelName.isEmpty && !self.channelTypeString.isEmpty {
@@ -560,7 +755,104 @@ class ChatAndCustomerInfoVC: UIViewController {
         
         self.viewNotes.alpha = 1
     }
-
+    
+    //template 24 HSM
+    
+    // Sets number of columns in picker view
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // Sets the number of rows in the picker view
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
+        return self.dataLanguage.count
+    }
+    
+    // This function sets the text of the picker view to the content of the "salutations" array
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.dataLanguage[row]
+    }
+    
+    // When user selects an option, this function will set the text of the text field to reflect
+    // the selected option.
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        tfSelectTemplateLanguage.text = dataLanguage[row]
+        
+        let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == tfSelectTemplateLanguage.text?.lowercased() }
+        
+        if let data = filterData.first{
+            self.textViewContentTemplateHSM.text = data.content
+        }else{
+            self.textViewContentTemplateHSM.text = ""
+        }
+    }
+    
+    @IBAction func sendTemplateHSM(_ sender: Any) {
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == tfSelectTemplateLanguage.text?.lowercased() }
+        
+        var templateID = 0
+        if let data = filterData.first{
+            templateID = data.id
+        }else{
+            return
+        }
+        
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        var param: [String: Any] = [
+            "room_id": self.room?.id,
+            "template_detail_id" : templateID
+        ]
+        
+        var dataRole = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agent
+                dataRole = "agent"
+            } else if userType == 1 {
+                 dataRole = "admin"
+            } else {
+                dataRole = "admin"
+            }
+        }
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(dataRole)/broadcast/send_hsm24", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.sendTemplateHSM(sender)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.viewBGTemplateHSM.alpha = 0
+            } else {
+                //failed
+                self.viewBGTemplateHSM.alpha = 0
+            }
+        }
+    }
+    
+    @IBAction func cancelTemplateHSM(_ sender: Any) {
+        self.viewBGTemplateHSM.alpha = 0
+    }
 }
 
 extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
@@ -619,13 +911,33 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    private func HSMCell(indexPath: IndexPath)-> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HSMCellIdentifire", for: indexPath) as! HSMCell
+        cell.btShowAlertInfo.addTarget(self, action: #selector(buttonWAInfoAction), for: .touchUpInside)
+        cell.btSendMessageTemplate.addTarget(self, action: #selector(buttonSendWaTemplate), for: .touchUpInside)
+        return cell
+    }
+    
+    private func HSMWillExpireSoonCell(indexPath: IndexPath)-> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HSMWillExpireSoonCellIdentifire", for: indexPath) as! HSMWillExpireSoonCell
+        cell.setupData(lastCommentCustomerDate: self.lastCommentCustomerDate)
+        cell.btAlertInfoExpireSoon.addTarget(self, action: #selector(buttonWAInfoWillExpireAction), for: .touchUpInside)
+        return cell
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isTypeWA == true {
-            return 7
+            if isWAExpired == true {
+                return 8
+            } else if isWAWillExpired == true {
+                return 8
+            } else {
+                return 7
+            }
         } else {
             return 6
         }
@@ -634,20 +946,58 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isTypeWA == true {
-            if indexPath.row == 0 {
-                return customerInfoCell(indexPath: indexPath)
-            } else if indexPath.row == 1 {
-                return completeTaskCell(indexPath: indexPath)
-            } else if indexPath.row == 2 {
-                return additionalInformationCell(indexPath: indexPath)
-            }  else if indexPath.row == 3 {
-                return broadcastHistoryCell(indexPath: indexPath)
-            } else if indexPath.row == 4 {
-                return noteCell(indexPath: indexPath)
-            } else if indexPath.row == 5 {
-                return customerTagsInfoCell(indexPath: indexPath)
-            } else if indexPath.row == 6 {
-                return agentCustomerInfoCell(indexPath: indexPath)
+            if isWAExpired == true {
+                if indexPath.row == 0 {
+                    return customerInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 1 {
+                    return HSMCell(indexPath: indexPath)
+                } else if indexPath.row == 2 {
+                    return completeTaskCell(indexPath: indexPath)
+                } else if indexPath.row == 3 {
+                    return additionalInformationCell(indexPath: indexPath)
+                }  else if indexPath.row == 4 {
+                    return broadcastHistoryCell(indexPath: indexPath)
+                } else if indexPath.row == 5 {
+                    return noteCell(indexPath: indexPath)
+                } else if indexPath.row == 6 {
+                    return customerTagsInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 7 {
+                    return agentCustomerInfoCell(indexPath: indexPath)
+                }
+            }else if isWAWillExpired == true {
+                if indexPath.row == 0 {
+                    return customerInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 1 {
+                    return HSMWillExpireSoonCell(indexPath: indexPath)
+                } else if indexPath.row == 2 {
+                    return completeTaskCell(indexPath: indexPath)
+                } else if indexPath.row == 3 {
+                    return additionalInformationCell(indexPath: indexPath)
+                }  else if indexPath.row == 4 {
+                    return broadcastHistoryCell(indexPath: indexPath)
+                } else if indexPath.row == 5 {
+                    return noteCell(indexPath: indexPath)
+                } else if indexPath.row == 6 {
+                    return customerTagsInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 7 {
+                    return agentCustomerInfoCell(indexPath: indexPath)
+                }
+            } else {
+                if indexPath.row == 0 {
+                    return customerInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 1 {
+                    return completeTaskCell(indexPath: indexPath)
+                } else if indexPath.row == 2 {
+                    return additionalInformationCell(indexPath: indexPath)
+                }  else if indexPath.row == 3 {
+                    return broadcastHistoryCell(indexPath: indexPath)
+                } else if indexPath.row == 4 {
+                    return noteCell(indexPath: indexPath)
+                } else if indexPath.row == 5 {
+                    return customerTagsInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 6 {
+                    return agentCustomerInfoCell(indexPath: indexPath)
+                }
             }
         } else {
             if indexPath.row == 0 {
@@ -670,15 +1020,39 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isTypeWA == true {
-            if indexPath.row == 2 {
-                self.tableView.deselectRow(at: indexPath, animated: true)
-                self.pushToAdditonalInformation()
-            } else if indexPath.row == 3 {
-                self.tableView.deselectRow(at: indexPath, animated: true)
-                self.pushToBroadcastHistory()
-            }else if indexPath.row == 4 {
-                self.showForNotes()
-                self.tableView.deselectRow(at: indexPath, animated: true)
+            if isWAExpired == true {
+                if indexPath.row == 3 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToAdditonalInformation()
+                } else if indexPath.row == 4 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToBroadcastHistory()
+                }else if indexPath.row == 5 {
+                    self.showForNotes()
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                }
+            } else if isWAWillExpired == true {
+                if indexPath.row == 3 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToAdditonalInformation()
+                } else if indexPath.row == 4 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToBroadcastHistory()
+                }else if indexPath.row == 5 {
+                    self.showForNotes()
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                }
+            } else {
+                if indexPath.row == 2 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToAdditonalInformation()
+                } else if indexPath.row == 3 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToBroadcastHistory()
+                }else if indexPath.row == 4 {
+                    self.showForNotes()
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                }
             }
         } else {
             if indexPath.row == 2 {

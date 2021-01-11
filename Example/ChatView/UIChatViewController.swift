@@ -196,8 +196,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                     channelTypeString = "Facebook"
                 }else if channelType.lowercased() == "wa"{
                     channelTypeString = "WhatsApp"
+                }else if channelType.lowercased() == "twitter" {
+                    channelTypeString = "Twitter"
                 }else{
-                    channelTypeString = "Qiscus Widget"
+                    channelTypeString = "Custom Channel"
                 }
                 
                 if channelTypeString == "WhatsApp" {
@@ -241,7 +243,6 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
             let window = UIApplication.shared.keyWindow
             let topPadding = window?.safeAreaInsets.top
             
-            print("arief check topPadding =\(topPadding)")
             self.topProgressBar.constant = 0
         }else {
             self.topProgressBar.constant = 65
@@ -344,8 +345,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                     isQiscusWidgetRoom = false
                 }else if channelType.lowercased() == "wa"{
                     isQiscusWidgetRoom = false
+                }else if channelType.lowercased() == "twitter"{
+                    isQiscusWidgetRoom = false
                 }else{
-                    isQiscusWidgetRoom = true
+                    isQiscusWidgetRoom = false
                 }
             }
         }

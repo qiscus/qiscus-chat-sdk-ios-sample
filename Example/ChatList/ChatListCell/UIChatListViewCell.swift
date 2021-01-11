@@ -34,7 +34,7 @@ class UIChatListViewCell: UITableViewCell {
     
     @IBOutlet weak var ic_isResolved: UIImageView!
     @IBOutlet weak var ivTypeChannel: UIImageView!
-    
+    @IBOutlet weak var ivWaMessageExpired: UIImageView!
     @IBOutlet weak var ivBot: UIImageView!
     var lastMessageCreateAt:String{
         get{
@@ -47,10 +47,12 @@ class UIChatListViewCell: UITableViewCell {
                 let date = Date(timeIntervalSince1970: Double(createAt/1000000000))
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "d/MM"
+                dateFormatter.timeZone = .current
                 let dateString = dateFormatter.string(from: date)
                 
                 let timeFormatter = DateFormatter()
                 timeFormatter.dateFormat = "h:mm a"
+                timeFormatter.timeZone = .current
                 let timeString = timeFormatter.string(from: date)
                 
                 if Calendar.current.isDateInToday(date){
@@ -77,11 +79,62 @@ class UIChatListViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    func loadDataMessage(data : RoomModel){
+        if let comments = QiscusCore.database.comment.find(roomId: data.id) {
+            let commentsFilterCustomer = comments.filter{ $0.username.lowercased() == data.name.lowercased() }
+            if let commentLast = commentsFilterCustomer.first{
+                
+                let diff = commentLast.date.differentTime()
+                if  diff >= 16 {
+                    self.ivWaMessageExpired.isHidden = false
+                } else {
+                    self.ivWaMessageExpired.isHidden = true
+                }
+            } else {
+                var customerEmail = ""
+                //check again, maybe roomName was changed
+                if let participants = data.participants {
+                    for participant in participants.enumerated(){
+                        if participant.element.extras != nil {
+                            let dataJson = JSON(participant.element.extras)
+                            let customer = dataJson["is_customer"].bool ?? false
+                            if customer == true {
+                                customerEmail = participant.element.email
+                            }
+                        }
+                    }
+                    
+                    let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
+                    if let commentLast = commentsFilterCustomer.first{
+                        
+                        let diff = commentLast.date.differentTime()
+                        if  diff >= 16 {
+                            self.ivWaMessageExpired.isHidden = false
+                        } else {
+                            self.ivWaMessageExpired.isHidden = true
+                        }
+                    }else{
+                        self.ivWaMessageExpired.isHidden = true
+                    }
+                    
+                }else{
+                    self.ivWaMessageExpired.isHidden = true
+                }
+                
+                
+                
+            }
+        } else {
+            self.ivWaMessageExpired.isHidden = true
+        }
+    }
 
     func setupUI(data : RoomModel) {
     self.data = data
        if let option = data.options {
             if !option.isEmpty{
+                self.ivWaMessageExpired.isHidden = true
                 let json = JSON.init(parseJSON: option)
                 let channelType = json["channel"].string ?? "qiscus"
                 let is_resolved = json["is_resolved"].bool ?? false
@@ -96,8 +149,21 @@ class UIChatListViewCell: UITableViewCell {
                     self.ivTypeChannel.image = UIImage(named: "ic_fb")
                 }else if channelType.lowercased() == "wa"{
                     self.ivTypeChannel.image = UIImage(named: "ic_wa")
+                    if let comment = QiscusCore.database.comment.find(roomId: data.id){
+                        self.loadDataMessage(data : data)
+                    } else {
+                        self.ivWaMessageExpired.isHidden = true
+                    }
                 }else{
-                    self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                    let badge = json["room_badge"].string ?? "https://"
+                    if badge.contains("/custom.svg") == true {
+                        self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
+                    }else if  badge.contains("/twitter.svg") == true {
+                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                    }else{
+                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                    }
+                   
                 }
                 
                 
@@ -113,7 +179,9 @@ class UIChatListViewCell: UITableViewCell {
                     self.ivBot.isHidden = true
                 }
             }
-        }
+       }else{
+            self.ivWaMessageExpired.isHidden = true
+       }
         
         
         if !data.name.isEmpty {
@@ -134,7 +202,7 @@ class UIChatListViewCell: UITableViewCell {
         guard let lastComment = data.lastComment else { return }
         if lastComment.type == "" || lastComment.type == "file_attachment"{
             message = "Send File Attachment"
-        } else if lastComment.type == "text" && lastComment.message.contains("[sticker]") == true{
+        } else if lastComment.type == "text" && lastComment.message.hasPrefix("[sticker]") == true{
             message = "Send Sticker"
         } else {
             message = lastComment.message
@@ -159,8 +227,21 @@ class UIChatListViewCell: UITableViewCell {
         }
     }
     
+    func getDate(timestamp : String) -> Date {
+        //let timezone = TimeZone.current.identifier
+        let formatter = DateFormatter()
+        formatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ssZ"
+        formatter.timeZone = .current
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        let date = formatter.date(from: timestamp)
+        return date ?? Date()
+    }
+    
+    
+    
     func setupUICustomerRoom(data : CustomerRoom) {
         self.dataCustomerRoom = data
+        self.ivWaMessageExpired.isHidden = true
         let channelType = data.source
         let is_resolved = data.isResolved
         let is_handled_by_bot = data.isHandledByBot
@@ -174,8 +255,19 @@ class UIChatListViewCell: UITableViewCell {
             self.ivTypeChannel.image = UIImage(named: "ic_fb")
         }else if channelType.lowercased() == "wa"{
             self.ivTypeChannel.image = UIImage(named: "ic_wa")
-        }else{
+            
+            let date = self.getDate(timestamp: data.lastCustomerTimestamp)
+            let diff = date.differentTime()
+
+            if  diff >= 16 {
+                self.ivWaMessageExpired.isHidden = false
+            } else {
+                self.ivWaMessageExpired.isHidden = true
+            }
+        }else if channelType.lowercased() == "twitter"{
             self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+        }else{
+            self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
         }
         
         
@@ -197,6 +289,7 @@ class UIChatListViewCell: UITableViewCell {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"
+        dateFormatter.timeZone = .current
         if let date = dateFormatter.date(from: data.lastCommentTimestamp) {
             let dateFormatter2 = DateFormatter()
             dateFormatter2.dateFormat = "d/MM"
@@ -247,8 +340,48 @@ class UIChatListViewCell: UITableViewCell {
         }else{
             self.hiddenBadge()
         }
+        var message = ""
+        if let room = QiscusCore.database.room.find(id: data.roomId){
+            if let lastComment = room.lastComment{
+                if lastComment.message.hasPrefix("[file]"){
+                    message = "Send File Attachment"
+                } else if lastComment.message.hasPrefix("[sticker]") == true{
+                    message = "Send Sticker"
+                } else {
+                    message = lastComment.message
+                }
+                
+                if(room.type != .single){
+                    self.labelLastMessage.text  =  "\(lastComment.username) :\n\(message)"
+                }else{
+                    self.labelLastMessage.text  = message // single
+                }
+            }else{
+                let lastComment = data.lastComment
+              
+                if lastComment.hasPrefix("[file]"){
+                    message = "Send File Attachment"
+                } else if lastComment.hasPrefix("[sticker]") == true{
+                    message = "Send Sticker"
+                } else {
+                    message = lastComment
+                }
+                self.labelLastMessage.text  = message
+            }
+            
+        } else {
+            let lastComment = data.lastComment
+          
+            if lastComment.hasPrefix("[file]"){
+                message = "Send File Attachment"
+            } else if lastComment.hasPrefix("[sticker]") == true{
+                message = "Send Sticker"
+            } else {
+                message = lastComment
+            }
+            self.labelLastMessage.text  = message
+        }
         
-        self.labelLastMessage.text  =  "\(data.lastComment)"
     }
     
     func hiddenBadge(){
