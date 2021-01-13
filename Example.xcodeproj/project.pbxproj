@@ -184,6 +184,11 @@
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
 		3DD017CD254858030031FF46 /* RefreshToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD017CC254858030031FF46 /* RefreshToken.swift */; };
+		3DD6E59025AD664800BF96AD /* QVideoRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD6E58E25AD664800BF96AD /* QVideoRightCell.swift */; };
+		3DD6E59125AD664800BF96AD /* QVideoRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6E58F25AD664800BF96AD /* QVideoRightCell.xib */; };
+		3DD6E59325AD6FE300BF96AD /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD6E59225AD6FE300BF96AD /* URLExtension.swift */; };
+		3DD6E59625AD9BA700BF96AD /* QVideoLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD6E59425AD9BA700BF96AD /* QVideoLeftCell.swift */; };
+		3DD6E59725AD9BA700BF96AD /* QVideoLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6E59525AD9BA700BF96AD /* QVideoLeftCell.xib */; };
 		3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDEFB642192D35600484795 /* AppDelegate.swift */; };
 		3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB682192D35600484795 /* Main.storyboard */; };
 		3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6B2192D35D00484795 /* Assets.xcassets */; };
@@ -370,6 +375,11 @@
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		3DD017CC254858030031FF46 /* RefreshToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshToken.swift; sourceTree = "<group>"; };
+		3DD6E58E25AD664800BF96AD /* QVideoRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QVideoRightCell.swift; sourceTree = "<group>"; };
+		3DD6E58F25AD664800BF96AD /* QVideoRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QVideoRightCell.xib; sourceTree = "<group>"; };
+		3DD6E59225AD6FE300BF96AD /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
+		3DD6E59425AD9BA700BF96AD /* QVideoLeftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QVideoLeftCell.swift; sourceTree = "<group>"; };
+		3DD6E59525AD9BA700BF96AD /* QVideoLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QVideoLeftCell.xib; sourceTree = "<group>"; };
 		3DDEFB612192D35600484795 /* Qiscus Multichannel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Qiscus Multichannel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DDEFB642192D35600484795 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DDEFB692192D35600484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -477,6 +487,7 @@
 				3DCF6A3C2199545100C108E6 /* Date.swift */,
 				3D819A25221D0BFB00F1B7CA /* UITextField.swift */,
 				3D8F0D6022684130000135CA /* UserDefault.swift */,
+				3DD6E59225AD6FE300BF96AD /* URLExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -507,6 +518,7 @@
 		3D40B8712192E20A00FE7228 /* ChatCell */ = {
 			isa = PBXGroup;
 			children = (
+				3DD6E58925AD655D00BF96AD /* video */,
 				3DA824412301B3980054D92F /* QCard */,
 				3DA8243C2301B3980054D92F /* QCarouselCell */,
 				3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */,
@@ -845,6 +857,17 @@
 			path = ChatUpload;
 			sourceTree = "<group>";
 		};
+		3DD6E58925AD655D00BF96AD /* video */ = {
+			isa = PBXGroup;
+			children = (
+				3DD6E58E25AD664800BF96AD /* QVideoRightCell.swift */,
+				3DD6E58F25AD664800BF96AD /* QVideoRightCell.xib */,
+				3DD6E59425AD9BA700BF96AD /* QVideoLeftCell.swift */,
+				3DD6E59525AD9BA700BF96AD /* QVideoLeftCell.xib */,
+			);
+			path = video;
+			sourceTree = "<group>";
+		};
 		3DDEFB582192D35600484795 = {
 			isa = PBXGroup;
 			children = (
@@ -1009,6 +1032,7 @@
 				3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */,
+				3DD6E59725AD9BA700BF96AD /* QVideoLeftCell.xib in Resources */,
 				3DC51C23255D08D0008BE893 /* AddAgentVC.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3DB48BAC25A7590900B5D760 /* HSMCell.xib in Resources */,
@@ -1043,6 +1067,7 @@
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
 				3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */,
 				3D7A396E25789B0E005E7FAE /* AgentCustomerInfoCell.xib in Resources */,
+				3DD6E59125AD664800BF96AD /* QVideoRightCell.xib in Resources */,
 				3D7A397825793100005E7FAE /* AdditionalInformationVC.xib in Resources */,
 				3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */,
 				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
@@ -1146,6 +1171,7 @@
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3DC7FDCF2585342400CCA763 /* BroadCastHistoryModel.swift in Sources */,
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
+				3DD6E59025AD664800BF96AD /* QVideoRightCell.swift in Sources */,
 				3D7A397725793100005E7FAE /* AdditionalInformationVC.swift in Sources */,
 				3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */,
 				3DA788F92480BFFC00CEF339 /* QReplyImageRightCell.swift in Sources */,
@@ -1172,6 +1198,7 @@
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
 				3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */,
 				3D3854B621B4E34800435B31 /* UIChatListViewCell.swift in Sources */,
+				3DD6E59325AD6FE300BF96AD /* URLExtension.swift in Sources */,
 				3DA824572301C2DA0054D92F /* QCard.swift in Sources */,
 				3DC51C27255D0EA9008BE893 /* AgentCell.swift in Sources */,
 				3DD017CD254858030031FF46 /* RefreshToken.swift in Sources */,
@@ -1221,6 +1248,7 @@
 				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
 				3DA824592301C35B0054D92F /* QCardButton.swift in Sources */,
 				3D0B8B23255D981C002A484F /* TagsModel.swift in Sources */,
+				3DD6E59625AD9BA700BF96AD /* QVideoLeftCell.swift in Sources */,
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
 				3D40B8B72192E20C00FE7228 /* Background.swift in Sources */,
 				3DA824482301B3980054D92F /* QCarouselCardCell.swift in Sources */,
@@ -1374,7 +1402,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1402,7 +1430,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
