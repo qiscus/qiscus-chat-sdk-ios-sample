@@ -46,7 +46,7 @@ class DateHeaderLabel: UILabel {
     
 }
 
-class UIChatViewController: UIViewController, UITextViewDelegate {
+class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     @IBOutlet weak var tableViewConversation: UITableView!
     @IBOutlet weak var viewChatInput: UIView!
     @IBOutlet weak var constraintViewInputBottom: NSLayoutConstraint!
@@ -111,6 +111,22 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
     var recordButton:RecordButton = RecordButton()
     var recordView:RecordView = RecordView()
     
+    //24 HSM template
+    @IBOutlet weak var viewAlertHSMTemplate: UIView!
+    @IBOutlet weak var btAlertInfoHSM: UIButton!
+    @IBOutlet weak var btCloseAlertHSM: UIButton!
+    @IBOutlet weak var btSendHSM: UIButton!
+    @IBOutlet weak var lbAlertCreditCountHSM: UILabel!
+    var dataHSMTemplate = [HSMTemplateModel]()
+    
+    @IBOutlet weak var viewBGTemplateHSM: UIView!
+    @IBOutlet weak var viewTemplateHSM: UIView!
+    @IBOutlet weak var textViewContentTemplateHSM: UITextView!
+    @IBOutlet weak var tfSelectTemplateLanguage: UITextField!
+    @IBOutlet weak var btSendTemplateHSM: UIButton!
+    @IBOutlet weak var btCancelTemplateHSM: UIButton!
+    var dataLanguage = [String]()
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -140,6 +156,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.navigationController?.navigationBar.barTintColor = ColorConfiguration.defaultColorTosca
         
         self.tableViewChatTemplate.isHidden = true
+        
+        self.checkIFTypeWAExpired()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -232,6 +250,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         self.setupPopupResolved()
         self.setupIsQiscus()
         self.setupRecordAudio()
+        self.setupHSM()
         
 //        if hasTopNotch() == true {
 //            self.topProgressBar.constant = 0
@@ -247,6 +266,149 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         }else {
             self.topProgressBar.constant = 65
         }
+    }
+    
+    func setupHSM(){
+        //setup template HSM
+        self.btSendHSM.layer.cornerRadius = self.btSendTemplateHSM.frame.height / 2
+        self.btAlertInfoHSM.setImage(UIImage(named: "ic_warning_alert")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
+        self.btAlertInfoHSM.tintColor = UIColor.red
+        self.btSendTemplateHSM.layer.cornerRadius = self.btSendTemplateHSM.frame.height / 2
+        self.btCancelTemplateHSM.layer.cornerRadius = self.btCancelTemplateHSM.frame.height / 2
+        
+        self.btCancelTemplateHSM.layer.borderWidth = 2
+        self.btCancelTemplateHSM.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
+        
+        self.viewTemplateHSM.layer.cornerRadius = 8
+        
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        
+        tfSelectTemplateLanguage.inputView = pickerView
+    }
+    
+    //template 24 HSM
+    
+    // Sets number of columns in picker view
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // Sets the number of rows in the picker view
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
+        return self.dataLanguage.count
+    }
+    
+    // This function sets the text of the picker view to the content of the "salutations" array
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.dataLanguage[row]
+    }
+    
+    // When user selects an option, this function will set the text of the text field to reflect
+    // the selected option.
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        tfSelectTemplateLanguage.text = dataLanguage[row]
+        
+        let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == tfSelectTemplateLanguage.text?.lowercased() }
+        
+        if let data = filterData.first{
+            self.textViewContentTemplateHSM.text = data.content
+        }else{
+            self.textViewContentTemplateHSM.text = ""
+        }
+    }
+    
+    //Alert template hsm
+    
+    @IBAction func btActionAlertHSMInfo(_ sender: Any) {
+        let popupVC = BottomAlertInfoHSM()
+        popupVC.isExpired = true
+        popupVC.width = self.view.frame.size.width
+        popupVC.topCornerRadius = 15
+        popupVC.presentDuration = 0.30
+        popupVC.dismissDuration = 0.30
+        popupVC.shouldDismissInteractivelty = true
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    @IBAction func btActionAlertHSMClose(_ sender: Any) {
+        self.settingTableViewNormal()
+        self.hideUIRecord(isHidden: false)
+        self.viewAlertHSMTemplate.alpha = 0
+    }
+    @IBAction func btActionSendHSM(_ sender: Any) {
+        self.viewAlertHSMTemplate.alpha = 0
+        self.viewBGTemplateHSM.alpha = 1
+    }
+    
+    @IBAction func sendTemplateHSM(_ sender: Any) {
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == tfSelectTemplateLanguage.text?.lowercased() }
+        
+        var templateID = 0
+        if let data = filterData.first{
+            templateID = data.id
+        }else{
+            return
+        }
+        
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        var param: [String: Any] = [
+            "room_id": self.room?.id,
+            "template_detail_id" : templateID
+        ]
+        
+        var dataRole = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agent
+                dataRole = "agent"
+            } else if userType == 1 {
+                 dataRole = "admin"
+            } else {
+                dataRole = "admin"
+            }
+        }
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(dataRole)/broadcast/send_hsm24", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.sendTemplateHSM(sender)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    self.viewBGTemplateHSM.alpha = 0
+                    self.settingTableViewNormal()
+                    self.hideUIRecord(isHidden: false)
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.viewBGTemplateHSM.alpha = 0
+            } else {
+                //failed
+                self.viewBGTemplateHSM.alpha = 0
+            }
+        }
+    }
+    
+    @IBAction func cancelTemplateHSM(_ sender: Any) {
+        self.viewBGTemplateHSM.alpha = 0
+        self.settingTableViewNormal()
+        self.hideUIRecord(isHidden: false)
     }
     
     func hasTopNotch()-> Bool {
@@ -462,6 +624,162 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
         
     }
     
+    func checkIFTypeWAExpired(){
+        if let room = self.room{
+            if !room.options!.isEmpty{
+                let json = JSON.init(parseJSON: room.options!)
+                let channelType = json["channel"].string ?? "qiscus"
+                
+                if channelType.lowercased() == "wa"{
+                    //call api
+                    getCustomerInfo()
+                }
+            }
+        }
+    }
+    
+    func getCustomerInfo(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/qiscus/room/\(room!.id)/user_info", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCustomerInfo()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    let channelID = json["data"]["channel_id"].int ?? 0
+                    
+                    if channelID != 0 {
+                        self.getTemplateHSM(channelID: channelID)
+                    }
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func getTemplateHSM(channelID: Int){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["channel_id": channelID,
+                     "approved" : true
+        ] as [String : Any]
+        
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/admin/hsm_24", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getTemplateHSM(channelID: channelID)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let arrayTemplate = payload["data"]["hsm_template"]["hsm_details"].array
+                    let enableSendHSM = payload["data"]["enabled"].bool ?? false
+                    let hsmQuota = payload["data"]["hsm_quota"].int ?? 0
+                    
+                    self.lbAlertCreditCountHSM.text = "Credit Message Template remaining : \(hsmQuota) Messages"
+                    
+                    if arrayTemplate?.count != 0 {
+                        var results = [HSMTemplateModel]()
+                        for dataTemplate in arrayTemplate! {
+                            let data = HSMTemplateModel(json: dataTemplate)
+                            results.append(data)
+                        }
+                        self.dataHSMTemplate = results
+                        self.dataLanguage.removeAll()
+                        for i in results {
+                            
+                            if !i.countryName.isEmpty{
+                                self.dataLanguage.append(i.countryName)
+                            }
+                        }
+                        
+                        if self.dataLanguage.count != 0 {
+                            self.tfSelectTemplateLanguage.text = self.dataLanguage.first
+                            
+                            let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == self.dataLanguage.first!.lowercased() }
+                            
+                            if let data = filterData.first{
+                                self.textViewContentTemplateHSM.text = data.content
+                            }else{
+                                self.textViewContentTemplateHSM.text = ""
+                            }
+                            
+                        }
+                    }
+                    
+                    if enableSendHSM == true {
+                        self.qiscusAutoHideKeyboard()
+                        if let room = QiscusCore.database.room.find(id: self.room!.id){
+                            let lastComment = room.lastComment
+                            
+                            if lastComment?.message.contains("Message failed to send because more than 24 hours") == true {
+                                self.viewAlertHSMTemplate.alpha = 1
+                                self.hideUIRecord(isHidden: true)
+                                self.settingTableViewHeightUP()
+                            }else{
+                                self.settingTableViewNormal()
+                                self.hideUIRecord(isHidden: false)
+                                self.viewAlertHSMTemplate.alpha = 0
+                            }
+                        }else{
+                            self.settingTableViewNormal()
+                            self.hideUIRecord(isHidden: false)
+                        }
+                    }else{
+                        self.hideUIRecord(isHidden: false)
+                    }
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.hideUIRecord(isHidden: false)
+            } else {
+                //failed
+                self.hideUIRecord(isHidden: false)
+            }
+        }
+    }
+    
+    func settingTableViewHeightUP(){
+        self.constraintViewInputBottom.constant = 0 - 100
+        self.viewPopupResolvedBottomConst.constant = 0 + 100
+    }
+    
+    func settingTableViewNormal(){
+        self.constraintViewInputBottom.constant = 0
+        self.viewPopupResolvedBottomConst.constant = 0
+    }
+    
     func enableSendMessage(){
         self.chatInput.textView.isEditable = true
         self.chatInput.sendButton.isEnabled = true
@@ -567,6 +885,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
          self.registerClass(nib: UINib(nibName: "QReplyImageRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyImageRightCell")
          self.registerClass(nib: UINib(nibName: "QReplyImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyImageLeftCell")
         
+        self.registerClass(nib: UINib(nibName: "QVideoRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qVideoRightCell")
+        self.registerClass(nib: UINib(nibName: "QVideoLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qVideoLeftCell")
     }
     
     @objc func goBack() {
@@ -995,6 +1315,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
             
             if let url = payload["url"] as? String {
                 let ext = message.fileExtension(fromURL:url)
+                let urlFile = URL(string: url) ?? URL(string: "https://")
                 if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
                     if (message.isMyComment() == true){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
@@ -1004,6 +1325,25 @@ class UIChatViewController: UIViewController, UITextViewDelegate {
                         return cell
                     }else{
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.cellMenu = self
+                        return cell
+                    }
+                }else if(urlFile?.containsVideo == true) {
+                    if (message.isMyComment() == true){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoRightCell", for: indexPath) as! QVideoRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
+                        return cell
+                    }
+                    else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoLeftCell", for: indexPath) as! QVideoLeftCell
                         if self.room?.type == .group {
                             cell.colorName = colorName
                             cell.isPublic = true

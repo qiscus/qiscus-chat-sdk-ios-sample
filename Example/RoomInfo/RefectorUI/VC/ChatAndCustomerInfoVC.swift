@@ -331,6 +331,12 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     //success
                     let payload = JSON(response.result.value)
                     let arrayTemplate = payload["data"]["hsm_template"]["hsm_details"].array
+                    let enableSendHSM = payload["data"]["enabled"].bool ?? false
+                    
+                    if (enableSendHSM == false){
+                        self.isWAExpired = false
+                        self.isWAWillExpired = false
+                    }
                     
                     if arrayTemplate?.count != 0 {
                         var results = [HSMTemplateModel]()
@@ -339,7 +345,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                             results.append(data)
                         }
                         self.dataHSMTemplate = results
-                        
+                        self.dataLanguage.removeAll()
                         for i in results {
                             
                             if !i.countryName.isEmpty{
@@ -609,10 +615,6 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     var channelName = json["data"]["channel_name"].string ?? ""
                     var channelID = json["data"]["channel_id"].int ?? 0
                     
-                    if channelID != 0 {
-                        self.getTemplateHSM(channelID: channelID)
-                    }
-                    
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
                         
@@ -636,37 +638,26 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                                         
                                     }else{
                                         //check again, maybe roomname was changed
-                                        var customerEmail = ""
                                         if let participants = room.participants {
-                                            for participant in participants.enumerated(){
-                                                if participant.element.extras != nil {
-                                                    let dataJson = JSON(participant.element.extras)
-                                                    let customer = dataJson["is_customer"].bool ?? false
-                                                    if customer == true {
-                                                        customerEmail = participant.element.email
-                                                    }
+                                            if participants.count == 0 {
+                                                QiscusCore.shared.getParticipants(roomUniqueId: self.room?.uniqueId ?? "") { (dataParticipants, meta) in
+                                                    self.setLastCommentCustomer(comments : comments, participants: dataParticipants)
+                                                } onError: { (error) in
+                                                    
                                                 }
+
                                             }
                                             
-                                            if !customerEmail.isEmpty {
-                                                let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
-                                                if let commentLast = commentsFilterCustomer.first{
-                                                    let diff = commentLast.date.differentTime()
-                                                    if diff >= 16 && diff <= 23 {
-                                                        self.isWAWillExpired = true
-                                                    } else if diff > 23 {
-                                                        self.isWAExpired = true
-                                                    } else {
-                                                        self.isWAWillExpired = false
-                                                        self.isWAExpired = false
-                                                    }
-                                                    self.lastCommentCustomerDate = commentLast.date
-                                                }
-                                            }
+                                            self.setLastCommentCustomer(comments : comments, participants: participants)
                                         }
                                     }
                                 }
                             }
+                            
+                            if channelID != 0 {
+                                self.getTemplateHSM(channelID: channelID)
+                            }
+                            
                         }
                     }
                     
@@ -706,6 +697,35 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                 //failed
             } else {
                 //failed
+            }
+        }
+    }
+    
+    func setLastCommentCustomer(comments : [CommentModel], participants: [MemberModel]){
+        var customerEmail = ""
+        for participant in participants.enumerated(){
+            if participant.element.extras != nil {
+                let dataJson = JSON(participant.element.extras)
+                let customer = dataJson["is_customer"].bool ?? false
+                if customer == true {
+                    customerEmail = participant.element.email
+                }
+            }
+        }
+        
+        if !customerEmail.isEmpty {
+            let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
+            if let commentLast = commentsFilterCustomer.first{
+                let diff = commentLast.date.differentTime()
+                if diff >= 16 && diff <= 23 {
+                    self.isWAWillExpired = true
+                } else if diff > 23 {
+                    self.isWAExpired = true
+                } else {
+                    self.isWAWillExpired = false
+                    self.isWAExpired = false
+                }
+                self.lastCommentCustomerDate = commentLast.date
             }
         }
     }
