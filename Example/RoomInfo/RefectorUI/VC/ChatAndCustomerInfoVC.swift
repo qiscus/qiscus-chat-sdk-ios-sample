@@ -52,12 +52,37 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     @IBOutlet weak var tfSelectTemplateLanguage: UITextField!
     @IBOutlet weak var btSendTemplateHSM: UIButton!
     @IBOutlet weak var btCancelTemplateHSM: UIButton!
-    
+    var hsmQuota = 0
+    var enableHSM = false
     var dataLanguage = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.setupUI()
+        self.loadMoreIFtypeWa()
+    }
+    
+    func loadMoreIFtypeWa(){
+       
+        if let room = self.room {
+            if let comments = QiscusCore.database.comment.find(roomId: room.id){
+                if !room.options!.isEmpty{
+                    let json = JSON.init(parseJSON: room.options!)
+                    let channelType = json["channel"].string ?? "qiscus"
+                   
+                    if channelType.lowercased() == "wa"{
+                        QiscusCore.shared.loadMore(roomID: room.id, lastCommentID: comments.last!.id, limit: 100) { (comments) in
+                            if comments.count == 0 {
+                                return
+                            }
+                        } onError: { (error) in
+                            
+                        }
+                    }
+                }
+            }
+        }
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,7 +97,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                 
             }
         }
-       
+        
         //success
         QiscusCore.shared.getChatRoomWithMessages(roomId: self.room?.id ?? "", onSuccess: { (roomModel, comments) in
             self.room = roomModel
@@ -97,6 +122,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     
     @objc func buttonWAInfoAction(sender: UIButton!) {
         let popupVC = BottomAlertInfoHSM()
+        popupVC.enableHSM = self.enableHSM
         popupVC.isExpired = self.isWAExpired
         popupVC.width = self.view.frame.size.width
         popupVC.topCornerRadius = 15
@@ -332,11 +358,10 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     let payload = JSON(response.result.value)
                     let arrayTemplate = payload["data"]["hsm_template"]["hsm_details"].array
                     let enableSendHSM = payload["data"]["enabled"].bool ?? false
+                    let hsmQuotaData = payload["data"]["hsm_quota"].int ?? 0
                     
-                    if (enableSendHSM == false){
-                        self.isWAExpired = false
-                        self.isWAWillExpired = false
-                    }
+                    self.hsmQuota = hsmQuotaData
+                    self.enableHSM = enableSendHSM
                     
                     if arrayTemplate?.count != 0 {
                         var results = [HSMTemplateModel]()
@@ -614,6 +639,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     var userID = json["data"]["user_id"].string ?? ""
                     var channelName = json["data"]["channel_name"].string ?? ""
                     var channelID = json["data"]["channel_id"].int ?? 0
+                    let enableSendHSM = json["data"]["enabled"].bool ?? false
                     
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
@@ -729,6 +755,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
             }
         }
     }
+    
     
     func pushToAdditonalInformation(){
         let vc = AdditionalInformationVC()
@@ -935,6 +962,13 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HSMCellIdentifire", for: indexPath) as! HSMCell
         cell.btShowAlertInfo.addTarget(self, action: #selector(buttonWAInfoAction), for: .touchUpInside)
         cell.btSendMessageTemplate.addTarget(self, action: #selector(buttonSendWaTemplate), for: .touchUpInside)
+        
+        if self.enableHSM == false || self.hsmQuota == 0 {
+            cell.btSendMessageTemplateHeightCons.constant = 0
+            cell.topButtonSendMessageTemplateCons.constant = 0
+            cell.btSendMessageTemplate.isHidden = true
+        }
+        
         return cell
     }
     

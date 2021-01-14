@@ -10,6 +10,8 @@ import UIKit
 
 class HSMCell: UITableViewCell {
 
+    @IBOutlet weak var topButtonSendMessageTemplateCons: NSLayoutConstraint!
+    @IBOutlet weak var btSendMessageTemplateHeightCons: NSLayoutConstraint!
     @IBOutlet weak var btShowAlertInfo: UIButton!
     @IBOutlet weak var btSendMessageTemplate: UIButton!
     override func awakeFromNib() {

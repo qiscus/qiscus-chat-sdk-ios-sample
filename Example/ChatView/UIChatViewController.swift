@@ -125,6 +125,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     @IBOutlet weak var tfSelectTemplateLanguage: UITextField!
     @IBOutlet weak var btSendTemplateHSM: UIButton!
     @IBOutlet weak var btCancelTemplateHSM: UIButton!
+    
+    @IBOutlet weak var tvAlertMessageHSMDisable: UITextView!
+    @IBOutlet weak var viewExpiredQuota0: UIView!
+    @IBOutlet weak var viewExpiredHSMDisable: UIView!
     var dataLanguage = [String]()
     
     open func getProgressBar() -> UIProgressView {
@@ -285,10 +289,33 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         pickerView.delegate = self
         
         tfSelectTemplateLanguage.inputView = pickerView
+        
+        let messge = "Please enable 24 Hours Message Template first in WhatsApp integration and learn more in this documentation."
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 10
+        style.alignment = .center
+        let attributes = [NSAttributedString.Key.paragraphStyle : style]
+        
+        let attributedString = NSMutableAttributedString(string: messge, attributes: attributes)
+        let linkRange = (attributedString.string as NSString).range(of: "documentation.")
+        attributedString.addAttribute(NSAttributedString.Key.link, value: "https://documentation.qiscus.com/multichannel-customer-service/channel-integration#hsm-template-after-24-hours-in-whatsapp", range: linkRange)
+        let linkAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,
+        ]
+
+        // textView is a UITextView
+        tvAlertMessageHSMDisable.linkTextAttributes = linkAttributes
+        tvAlertMessageHSMDisable.attributedText = attributedString
+        tvAlertMessageHSMDisable.font = .systemFont(ofSize: 14)
     }
     
     //template 24 HSM
     
+    @IBAction func contactUSAction(_ sender: Any) {
+        if let url = URL(string: "https://www.qiscus.com/contact") {
+            UIApplication.shared.open(url)
+        }
+    }
     // Sets number of columns in picker view
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -624,7 +651,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         
     }
     
-    func checkIFTypeWAExpired(){
+    @objc func checkIFTypeWAExpired(){
         if let room = self.room{
             if !room.options!.isEmpty{
                 let json = JSON.init(parseJSON: room.options!)
@@ -738,25 +765,33 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         }
                     }
                     
-                    if enableSendHSM == true {
-                        self.qiscusAutoHideKeyboard()
-                        if let room = QiscusCore.database.room.find(id: self.room!.id){
-                            let lastComment = room.lastComment
-                            
-                            if lastComment?.message.contains("Message failed to send because more than 24 hours") == true {
-                                self.viewAlertHSMTemplate.alpha = 1
-                                self.hideUIRecord(isHidden: true)
-                                self.settingTableViewHeightUP()
+                    //self.qiscusAutoHideKeyboard()
+                    self.view.endEditing(true)
+                    if let room = QiscusCore.database.room.find(id: self.room!.id){
+                        let lastComment = room.lastComment
+                        
+                        if lastComment?.message.contains("Message failed to send because more than 24 hours") == true {
+                            if enableSendHSM == true{
+                                if hsmQuota == 0 {
+                                    self.viewExpiredQuota0.isHidden = false
+                                }else{
+                                    self.viewExpiredQuota0.isHidden = true
+                                }
+                                self.viewExpiredHSMDisable.isHidden = true
                             }else{
-                                self.settingTableViewNormal()
-                                self.hideUIRecord(isHidden: false)
-                                self.viewAlertHSMTemplate.alpha = 0
+                                self.viewExpiredQuota0.isHidden = true
+                                self.viewExpiredHSMDisable.isHidden = false
                             }
+                            self.viewAlertHSMTemplate.alpha = 1
+                            self.hideUIRecord(isHidden: true)
+                            self.settingTableViewHeightUP()
                         }else{
                             self.settingTableViewNormal()
                             self.hideUIRecord(isHidden: false)
+                            self.viewAlertHSMTemplate.alpha = 0
                         }
                     }else{
+                        self.settingTableViewNormal()
                         self.hideUIRecord(isHidden: false)
                     }
                 }
@@ -1681,6 +1716,21 @@ extension UIChatViewController: UIChatViewDelegate {
                 self.tableViewConversation.endUpdates()
                 self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
                 
+            }
+        }
+        
+        
+        if let room = QiscusCore.database.room.find(id: self.room!.id){
+            let lastComment = room.lastComment
+            
+            if lastComment?.message.contains("Message failed to send because more than 24 hours") == true {
+                //call throthle
+                NSObject.cancelPreviousPerformRequests(withTarget: self,
+                                                       selector: #selector(self.checkIFTypeWAExpired),
+                                                       object: nil)
+                
+                perform(#selector(self.checkIFTypeWAExpired),
+                        with: nil, afterDelay: 1)
             }
         }
     }

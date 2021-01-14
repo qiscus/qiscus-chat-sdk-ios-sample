@@ -59,7 +59,9 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="btSendMessageTemplate" destination="OMO-Jp-lf0" id="GSb-Xk-j5z"/>
+                <outlet property="btSendMessageTemplateHeightCons" destination="j67-aL-rKf" id="n42-zy-d2j"/>
                 <outlet property="btShowAlertInfo" destination="ROG-kD-kLL" id="8Kp-VZ-s0x"/>
+                <outlet property="topButtonSendMessageTemplateCons" destination="vC3-ug-oJm" id="IjF-H5-1ti"/>
             </connections>
             <point key="canvasLocation" x="82.608695652173921" y="83.035714285714278"/>
         </tableViewCell>

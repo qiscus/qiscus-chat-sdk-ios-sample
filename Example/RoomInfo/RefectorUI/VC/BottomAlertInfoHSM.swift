@@ -22,8 +22,9 @@ class BottomAlertInfoHSM: BottomPopupViewController {
     var titleAlertWillExpireSoon = "Will expire soon"
     var subtitleAlertExpired = #"The session has expired since it's over 24-hours after the customer's last message. If you wish to re-initiate a conversation after that time period, you need to send a paid message template. Please click the "Send Message Template" button"#
     var subtitleAlertWillExpireSoon = "After 24-hours since the customer's last message, the session will be expired. You can re-initiate a conversation after that time period with a paid message template."
-    
+    var subtitleAlertDisableHSM = "The session has expired since it's over 24-hours after the customer's last message. If you wish to re-initiate a conversation after that time period, you need to send a paid message template."
     var isExpired : Bool = false
+    var enableHSM: Bool = true
     @IBOutlet weak var btClose: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +38,18 @@ class BottomAlertInfoHSM: BottomPopupViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if isExpired == true {
+        if enableHSM == false{
             self.lbTitle.text = self.titleAlertExpired
-            self.lbSubtitle.text = self.subtitleAlertExpired
-        } else {
-            self.lbTitle.text = self.titleAlertWillExpireSoon
-            self.lbSubtitle.text = self.subtitleAlertWillExpireSoon
+            self.lbSubtitle.text = self.subtitleAlertDisableHSM
+        }else{
+            if isExpired == true {
+                self.lbTitle.text = self.titleAlertExpired
+                self.lbSubtitle.text = self.subtitleAlertExpired
+            } else {
+                self.lbTitle.text = self.titleAlertWillExpireSoon
+                self.lbSubtitle.text = self.subtitleAlertWillExpireSoon
+            }
         }
-       
     }
 
     @IBAction func dismissButtonTapped(_ sender: UIButton) {
