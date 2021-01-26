@@ -207,6 +207,14 @@ class UIChatPresenter2: UIChatUserInteraction2 {
         }
     }
     
+    func editMessage(withComment comment: QMessage, onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void) {
+        QiscusCoreManager.qiscusCore2.shared.updateMessage(message: comment, onSuccess: { [weak self] (comment) in
+            onSuccess(comment)
+        }) { (error) in
+            onError(error.message)
+        }
+    }
+    
     func sendMessage(withText text: String) {
         // create object comment
         // MARK: TODO improve object generator
@@ -303,6 +311,15 @@ class UIChatPresenter2: UIChatUserInteraction2 {
 
 // MARK: Core Delegate
 extension UIChatPresenter2 : QiscusCoreRoomDelegate {
+    func onMessageUpdated(message: QMessage) {
+        for (group,c) in comments.enumerated() {
+            if let index = c.index(where: { $0.uniqueId == message.uniqueId }) {
+                comments[group][index] = message
+                self.viewPresenter?.onUpdateComment(comment: message, indexpath: IndexPath(row: index, section: group))
+            }
+        }
+    }
+    
     func onMessageReceived(message: QMessage){
         // 2check comment already in ui?
         if (self.getIndexPath(comment: message) == nil) {

@@ -628,6 +628,8 @@ extension UIChatViewController : UIChatView {
             return true
         case "deleteComment:":
             return true
+        case "editComment:":
+            return true
         default:
             return false
         }
@@ -673,6 +675,16 @@ extension UIChatViewController : UIChatInputDelegate {
             onError(error)
         }
     }
+    
+    func updateMessageSend(message: QMessage,onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void) {
+        
+        self.presenter.editMessage(withComment: message, onSuccess: { (comment) in
+            onSuccess(comment)
+        }) { (error) in
+            onError(error)
+        }
+    }
+
 }
 
 //// MARK: Handle Cell Menu
@@ -684,4 +696,11 @@ extension UIChatViewController : UIBaseChatCellDelegate {
             print("failed delete comment for everyone")
         }
     }
+    
+    func didTap(edit comment: QMessage) {
+        self.chatInput.isEditMessage = true
+        self.chatInput.editMessage = comment
+        self.chatInput.textView.text = comment.message
+    }
+
 }

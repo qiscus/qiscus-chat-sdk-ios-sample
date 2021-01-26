@@ -15,6 +15,8 @@ import SwiftyJSON
 protocol CustomChatInputDelegate {
     func sendAttachment()
     func sendMessage(message: QMessage)
+    func updateMessage(message: QMessage)
+
 }
 
 class CustomChatInput: UIChatInput {
@@ -28,6 +30,9 @@ class CustomChatInput: UIChatInput {
     var defaultInputBarHeight: CGFloat = 34.0
     var customInputBarHeight: CGFloat = 34.0
     var colorName : UIColor = UIColor.black
+    
+    var isEditMessage : Bool = false
+    var editMessage:QMessage?
     
     override func commonInit(nib: UINib) {
         let nib = UINib(nibName: "CustomChatInput", bundle: nil)
@@ -49,11 +54,23 @@ class CustomChatInput: UIChatInput {
     @IBAction func clickSend(_ sender: Any) {
         guard let text = self.textView.text else {return}
         if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
-            var payload:JSON? = nil
-            let comment = QMessage()
-            comment.type = "text"
-            comment.message = text
-            self.chatInputDelegate?.sendMessage(message: comment)
+            if isEditMessage == false {
+                var payload:JSON? = nil
+                let comment = QMessage()
+                comment.type = "text"
+                comment.message = text
+                
+                self.chatInputDelegate?.sendMessage(message: comment)
+            } else {
+                
+                if let updateMessage = editMessage {
+                    updateMessage.message = text
+                    self.chatInputDelegate?.updateMessage(message: updateMessage)
+                }
+                
+                self.editMessage = nil
+                self.isEditMessage = false
+            }
         }
         
         self.textView.text = ""
@@ -233,6 +250,16 @@ extension UIChatViewController : CustomChatInputDelegate {
         let postedComment = message
 
         self.send(message: postedComment, onSuccess: { (comment) in
+            //success
+        }) { (error) in
+            //error
+        }
+    }
+    
+    func updateMessage(message: QMessage) {
+        let postedComment = message
+
+        self.updateMessageSend(message: postedComment, onSuccess: { (comment) in
             //success
         }) { (error) in
             //error

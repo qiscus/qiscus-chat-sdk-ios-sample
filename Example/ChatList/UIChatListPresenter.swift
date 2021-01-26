@@ -92,6 +92,11 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
+    func onRoomMessageUpdated(_ room: QChatRoom, message: QMessage) {
+        loadFromLocal(refresh: false)
+        self.viewPresenter?.updateRooms(data: room)
+    }
+
     func onRoomMessageReceived(_ room: QChatRoom, message: QMessage){
         // show in app notification
         print("got new comment: \(message.message)")

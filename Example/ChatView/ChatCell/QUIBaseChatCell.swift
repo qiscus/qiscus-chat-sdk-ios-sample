@@ -14,6 +14,8 @@ class enableMenuConfig : NSObject {
 
 protocol UIBaseChatCellDelegate {
     func didTap(delete comment: QMessage)
+    func didTap(edit comment: QMessage)
+
 }
 
 class UIBaseChatCell: UITableViewCell {
@@ -86,11 +88,14 @@ extension UIBaseChatCell {
     func setMenu() {
         
         let delete = UIMenuItem(title: "Delete", action: #selector(deleteComment(_:)))
+        let edit = UIMenuItem(title: "Edit", action: #selector(editComment(_:)))
+
         
         var menuItems: [UIMenuItem] = [UIMenuItem]()
         if let myComment = self.comment?.isMyComment() {
             if(myComment){
                 menuItems.append(delete)
+                menuItems.append(edit)
                 UIMenuController.shared.menuItems = menuItems
             }else{
                 //UIMenuController.shared.menuItems = [reply,share,forwardMessage,deleteForMe]
@@ -106,6 +111,12 @@ extension UIBaseChatCell {
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(delete: _comment)
     }
+    
+    @objc func editComment(_ send:AnyObject){
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(edit: _comment)
+    }
+
 }
 
 extension Array {

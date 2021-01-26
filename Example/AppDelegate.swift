@@ -13,8 +13,6 @@ import UserNotifications
 import SwiftyJSON
 
 //let APP_ID : String = "sdksample"
-//let APP_ID : String = "dinosauru-nqmxcraaqm1"//stag
-let APP_ID : String = "dinosauru-l88z1enpnz4"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,8 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        QiscusCoreManager.qiscusCore1.enableDebugMode(value : true)
+       
         QiscusCoreManager.qiscusCore1.setup(AppID: "sdksample")
+        QiscusCoreManager.qiscusCore1.enableDebugMode(value : true)
         QiscusCoreManager.qiscusCore2.setupWithCustomServer(AppID: "dragongo", baseUrl: URL(string: "https://dragongo.qiscus.com")!, brokerUrl: "realtime-stage.qiscus.com", brokerLBUrl: nil)
         QiscusCoreManager.qiscusCore2.enableDebugMode(value : true)
      
