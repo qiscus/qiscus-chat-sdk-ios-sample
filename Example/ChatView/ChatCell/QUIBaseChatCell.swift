@@ -15,6 +15,7 @@ class enableMenuConfig : NSObject {
 protocol UIBaseChatCellDelegate {
     func didTap(delete comment: CommentModel)
     func didTap(reply comment: CommentModel)
+    func didTap(edit comment: CommentModel)
     func didTap(forward comment: CommentModel)
 }
 
@@ -90,11 +91,13 @@ extension UIBaseChatCell {
         let reply = UIMenuItem(title: "Reply", action: #selector(replyComment(_:)))
         let forward = UIMenuItem(title: "Forward", action: #selector(forwardComment(_:)))
         let delete = UIMenuItem(title: "Delete", action: #selector(deleteComment(_:)))
+        let edit = UIMenuItem(title: "Edit", action: #selector(editComment(_:)))
         
         var menuItems: [UIMenuItem] = [reply]
         if let myComment = self.comment?.isMyComment() {
             if myComment {
                 menuItems.append(delete)
+                menuItems.append(edit)
             }
             UIMenuController.shared.menuItems = menuItems
             UIMenuController.shared.update()
@@ -105,6 +108,11 @@ extension UIBaseChatCell {
     @objc func replyComment(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(reply: _comment)
+    }
+    
+    @objc func editComment(_ send:AnyObject){
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(edit: _comment)
     }
     
     @objc func forwardComment(_ send:AnyObject){

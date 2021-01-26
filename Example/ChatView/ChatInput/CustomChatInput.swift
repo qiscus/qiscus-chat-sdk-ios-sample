@@ -15,6 +15,7 @@ import SwiftyJSON
 protocol CustomChatInputDelegate {
     func sendAttachment()
     func sendMessage(message: CommentModel)
+    func updateMessage(message: CommentModel)
 }
 
 class CustomChatInput: UIChatInput {
@@ -29,7 +30,8 @@ class CustomChatInput: UIChatInput {
     var customInputBarHeight: CGFloat = 34.0
     var colorName : UIColor = UIColor.black
     var replyData:CommentModel?
-    
+    var isEditMessage : Bool = false
+    var editMessage:CommentModel?
     //reply
     
     @IBOutlet weak var viewReply: UIView!
@@ -63,30 +65,40 @@ class CustomChatInput: UIChatInput {
     @IBAction func clickSend(_ sender: Any) {
         guard let text = self.textView.text else {return}
         if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
-            var payload:JSON? = nil
-            let comment = CommentModel()
-            if(replyData != nil){
-                var senderName = replyData?.username
-                comment.type = "reply"
-                comment.message = text
-                comment.payload = [
-                    "replied_comment_sender_email"       : replyData?.userEmail,
-                    "replied_comment_id" : Int((replyData?.id)!),
-                    "text"      : text,
-                    "replied_comment_message"   : replyData?.message,
-                    "replied_comment_sender_username" : senderName,
-                    "replied_comment_payload" : replyData?.payload,
-                    "replied_comment_type" : replyData?.type
-                ]
-                self.replyData = nil
-            }else{
+            if isEditMessage == false {
+                var payload:JSON? = nil
+                let comment = CommentModel()
+                if(replyData != nil){
+                    var senderName = replyData?.username
+                    comment.type = "reply"
+                    comment.message = text
+                    comment.payload = [
+                        "replied_comment_sender_email"       : replyData?.userEmail,
+                        "replied_comment_id" : Int((replyData?.id)!),
+                        "text"      : text,
+                        "replied_comment_message"   : replyData?.message,
+                        "replied_comment_sender_username" : senderName,
+                        "replied_comment_payload" : replyData?.payload,
+                        "replied_comment_type" : replyData?.type
+                    ]
+                    self.replyData = nil
+                }else{
+                    
+                    comment.type = "text"
+                    comment.message = text
+                    
+                }
+                self.chatInputDelegate?.sendMessage(message: comment)
+            } else {
                 
-                comment.type = "text"
-                comment.message = text
+                if let updateMessage = editMessage {
+                    updateMessage.message = text
+                    self.chatInputDelegate?.updateMessage(message: updateMessage)
+                }
                 
+                self.editMessage = nil
+                self.isEditMessage = false
             }
-            self.chatInputDelegate?.sendMessage(message: comment)
-            
         }
         
         self.textView.text = ""
@@ -340,6 +352,16 @@ extension UIChatViewController : CustomChatInputDelegate {
         let postedComment = message
 
         self.send(message: postedComment, onSuccess: { (comment) in
+            //success
+        }) { (error) in
+            //error
+        }
+    }
+    
+    func updateMessage(message: CommentModel) {
+        let postedComment = message
+
+        self.updateMessageSend(message: postedComment, onSuccess: { (comment) in
             //success
         }) { (error) in
             //error

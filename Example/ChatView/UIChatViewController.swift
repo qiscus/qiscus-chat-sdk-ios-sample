@@ -654,6 +654,8 @@ extension UIChatViewController : UIChatView {
             return true
         case "replyComment:":
             return true
+        case "editComment:":
+            return true
         case "forwardComment:":
             return true
         default:
@@ -695,6 +697,15 @@ extension UIChatViewController : UIChatInputDelegate {
             onError(error)
         }
     }
+    
+    func updateMessageSend(message: CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+        
+        self.presenter.editMessage(withComment: message, onSuccess: { (comment) in
+            onSuccess(comment)
+        }) { (error) in
+            onError(error)
+        }
+    }
 }
 
 //// MARK: Handle Cell Menu
@@ -715,6 +726,12 @@ extension UIChatViewController : UIBaseChatCellDelegate {
             }
         }
         self.chatInput.showPreviewReply()
+    }
+    
+    func didTap(edit comment: CommentModel) {
+        self.chatInput.isEditMessage = true
+        self.chatInput.editMessage = comment
+        self.chatInput.textView.text = comment.message
     }
     
     func didTap(forward comment: CommentModel) {
