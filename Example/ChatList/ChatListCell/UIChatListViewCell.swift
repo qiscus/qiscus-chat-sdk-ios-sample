@@ -80,53 +80,82 @@ class UIChatListViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    func showExpired(){
+        self.ivWaMessageExpired.image = UIImage(named: "ic_wa_message_expired")
+        self.ivWaMessageExpired.isHidden = false
+    }
+    
+    func showExpire(){
+        self.ivWaMessageExpired.image = UIImage(named: "ic_wa_message_expired_in")
+        self.ivWaMessageExpired.isHidden = false
+    }
+    
+    func hideExpiredOrExpire(){
+        self.ivWaMessageExpired.image = UIImage(named: "ic_wa_message_expired")
+        self.ivWaMessageExpired.isHidden = true
+    }
+    
     func loadDataMessage(data : RoomModel){
-        if let comments = QiscusCore.database.comment.find(roomId: data.id) {
-            let commentsFilterCustomer = comments.filter{ $0.username.lowercased() == data.name.lowercased() }
-            if let commentLast = commentsFilterCustomer.first{
-                
-                let diff = commentLast.date.differentTime()
-                if  diff >= 16 {
-                    self.ivWaMessageExpired.isHidden = false
-                } else {
-                    self.ivWaMessageExpired.isHidden = true
-                }
-            } else {
-                var customerEmail = ""
-                //check again, maybe roomName was changed
-                if let participants = data.participants {
-                    for participant in participants.enumerated(){
-                        if participant.element.extras != nil {
-                            let dataJson = JSON(participant.element.extras)
-                            let customer = dataJson["is_customer"].bool ?? false
-                            if customer == true {
-                                customerEmail = participant.element.email
-                            }
-                        }
+        if data.lastComment?.message.contains("Message failed to send because more than 24 hours") == true{
+            self.showExpired()
+        }else{
+            if let comments = QiscusCore.database.comment.find(roomId: data.id) {
+                if comments.count <= 1 {
+                    QiscusCore.shared.getChatRoomWithMessages(roomId: data.id) { (room, comments) in
+                        self.loadDataMessage(data: data)
+                    } onError: { (error) in
+                        
                     }
-                    
-                    let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
+
+                }else{
+                    let commentsFilterCustomer = comments.filter{ $0.username.lowercased() == data.name.lowercased() }
                     if let commentLast = commentsFilterCustomer.first{
                         
                         let diff = commentLast.date.differentTime()
-                        if  diff >= 16 {
-                            self.ivWaMessageExpired.isHidden = false
+                        if  diff >= 16 && diff <= 23 {
+                            self.showExpire()
+                        } else if diff >= 16  {
+                            self.showExpired()
                         } else {
-                            self.ivWaMessageExpired.isHidden = true
+                            self.hideExpiredOrExpire()
                         }
-                    }else{
-                        self.ivWaMessageExpired.isHidden = true
+                    } else {
+                        var customerEmail = ""
+                        //check again, maybe roomName was changed
+                        if let participants = data.participants {
+                            for participant in participants.enumerated(){
+                                if participant.element.extras != nil {
+                                    let dataJson = JSON(participant.element.extras)
+                                    let customer = dataJson["is_customer"].bool ?? false
+                                    if customer == true {
+                                        customerEmail = participant.element.email
+                                    }
+                                }
+                            }
+                            
+                            let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
+                            if let commentLast = commentsFilterCustomer.first{
+                                
+                                let diff = commentLast.date.differentTime()
+                                if  diff >= 16 && diff <= 23 {
+                                    self.showExpire()
+                                } else if diff >= 16  {
+                                    self.showExpired()
+                                } else {
+                                    self.hideExpiredOrExpire()
+                                }
+                            }else{
+                                self.hideExpiredOrExpire()
+                            }
+                            
+                        }else{
+                            self.hideExpiredOrExpire()
+                        }
                     }
-                    
-                }else{
-                    self.ivWaMessageExpired.isHidden = true
                 }
-                
-                
-                
+            } else {
+                self.hideExpiredOrExpire()
             }
-        } else {
-            self.ivWaMessageExpired.isHidden = true
         }
     }
 
@@ -154,16 +183,12 @@ class UIChatListViewCell: UITableViewCell {
                     } else {
                         self.ivWaMessageExpired.isHidden = true
                     }
+                }else if channelType.lowercased() == "twitter"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                }else if channelType.lowercased() == "custom"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
                 }else{
-                    let badge = json["room_badge"].string ?? "https://"
-                    if badge.contains("/custom.svg") == true {
-                        self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
-                    }else if  badge.contains("/twitter.svg") == true {
-                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
-                    }else{
-                        self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
-                    }
-                   
+                    self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
                 }
                 
                 
@@ -241,7 +266,7 @@ class UIChatListViewCell: UITableViewCell {
     
     func setupUICustomerRoom(data : CustomerRoom) {
         self.dataCustomerRoom = data
-        self.ivWaMessageExpired.isHidden = true
+        self.hideExpiredOrExpire()
         let channelType = data.source
         let is_resolved = data.isResolved
         let is_handled_by_bot = data.isHandledByBot
@@ -259,13 +284,17 @@ class UIChatListViewCell: UITableViewCell {
             let date = self.getDate(timestamp: data.lastCustomerTimestamp)
             let diff = date.differentTime()
 
-            if  diff >= 16 {
-                self.ivWaMessageExpired.isHidden = false
+            if  diff >= 16 && diff <= 23 {
+                self.showExpire()
+            } else if diff >= 16  {
+                self.showExpired()
             } else {
-                self.ivWaMessageExpired.isHidden = true
+                self.hideExpiredOrExpire()
             }
         }else if channelType.lowercased() == "twitter"{
             self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+        }else if channelType.lowercased() == "custom"{
+            self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
         }else{
             self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
         }

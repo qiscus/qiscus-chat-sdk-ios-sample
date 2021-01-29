@@ -73,6 +73,8 @@ class ColorConfiguration: NSObject {
     
     static var defaultColorTosca = UIColor(red: 39/255, green: 177/255, blue: 153/255, alpha: 1)
     
+    static var alertTextColorHSM = UIColor(red: 85/255.0, green: 85/255.0, blue: 85/255.0, alpha:1.0)
+    
     static var avatarBackgroundColor:[UIColor] = [
         UIColor(red: 1, green: 23/255, blue: 68/255, alpha: 1),
         UIColor(red: 61/255, green: 90/255, blue: 254/255, alpha: 1),

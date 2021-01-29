@@ -179,7 +179,6 @@ extension AppDelegate {
                         let userType = json["data"]["type"].intValue
                         let bubbleColor = json["data"]["bubble_color"].stringValue
                         
-                        UserDefaults.standard.setUserType(value: userType)
                         UserDefaults.standard.setBubbleColor(value: bubbleColor)
                         UserDefaults.standard.setAfterLogin(value: true)
                         

@@ -65,7 +65,33 @@ class HSMWillExpireSoonCell: UITableViewCell {
     }
     
     func secondsToHoursMinutesSeconds (seconds : Int) {
-        self.lbCountDownTimer.text = "\(seconds / 3600):\((seconds % 3600) / 60):\((seconds % 3600) % 60)"
+        let hoursInt = seconds / 3600
+        let minutesInt = (seconds % 3600) / 60
+        let secondsInt = (seconds % 3600) % 60
+        
+        var hoursString = "00"
+        var minutesString = "00"
+        var secondsString = "00"
+        
+        if hoursInt < 10 {
+            hoursString = "0\(hoursInt)"
+        }else{
+            hoursString = "\(hoursInt)"
+        }
+        
+        if minutesInt < 10 {
+            minutesString = "0\(minutesInt)"
+        }else{
+            minutesString = "\(minutesInt)"
+        }
+        
+        if secondsInt < 10 {
+            secondsString = "0\(secondsInt)"
+        }else{
+            secondsString = "\(secondsInt)"
+        }
+        
+        self.lbCountDownTimer.text = "\(hoursString):\(minutesString):\(secondsString)"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

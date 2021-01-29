@@ -76,6 +76,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     
     @IBOutlet weak var tableViewChatTemplate: UITableView!
     @IBOutlet weak var topProgressBar: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottomUIPopupBGResolved: NSLayoutConstraint!
+    
+    
     var chatTitleView : UIChatNavigation = UIChatNavigation()
     var chatInput : CustomChatInput = CustomChatInput()
     private var presenter: UIChatPresenter = UIChatPresenter()
@@ -127,6 +131,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     @IBOutlet weak var btCancelTemplateHSM: UIButton!
     
     @IBOutlet weak var tvAlertMessageHSMDisable: UITextView!
+    @IBOutlet weak var tvAlertMessageHSMQuota0: UITextView!
     @IBOutlet weak var viewExpiredQuota0: UIView!
     @IBOutlet weak var viewExpiredHSMDisable: UIView!
     var dataLanguage = [String]()
@@ -220,6 +225,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     channelTypeString = "WhatsApp"
                 }else if channelType.lowercased() == "twitter" {
                     channelTypeString = "Twitter"
+                }else if channelType.lowercased() == "custom" {
+                    channelTypeString = "Custom Channel"
                 }else{
                     channelTypeString = "Custom Channel"
                 }
@@ -255,6 +262,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         self.setupIsQiscus()
         self.setupRecordAudio()
         self.setupHSM()
+        self.setupHSMAlertMessage()
         
 //        if hasTopNotch() == true {
 //            self.topProgressBar.constant = 0
@@ -289,33 +297,81 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         pickerView.delegate = self
         
         tfSelectTemplateLanguage.inputView = pickerView
+    }
+    
+    func setupHSMAlertMessage(){
+        let messageHSMQuota0Admin = "and your Message Template credit already empty. If you want add some Message Template Credit, please contact us."
+        let messageHSMQuota0Agent = "and your Message Template credit already empty. If you want add some Message Template Credit, please contact Your Admin."
+        let messageHSMQuota0SPV = "and your Message Template credit already empty. If you want add some Message Template Credit, please contact Your Admin."
         
-        let messge = "Please enable 24 Hours Message Template first in WhatsApp integration and learn more in this documentation."
+        var messageHSMDisable = "Please enable 24 Hours Message Template first in WhatsApp integration and learn more in this documentation."
+        let messageHSMDisableAgent = "24 Hours Message Template is disabled. Please contact Your Admin"
+        
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 10
         style.alignment = .center
-        let attributes = [NSAttributedString.Key.paragraphStyle : style]
+        let attributes = [NSAttributedString.Key.paragraphStyle : style, NSAttributedString.Key.foregroundColor : ColorConfiguration.alertTextColorHSM]
         
-        let attributedString = NSMutableAttributedString(string: messge, attributes: attributes)
-        let linkRange = (attributedString.string as NSString).range(of: "documentation.")
-        attributedString.addAttribute(NSAttributedString.Key.link, value: "https://documentation.qiscus.com/multichannel-customer-service/channel-integration#hsm-template-after-24-hours-in-whatsapp", range: linkRange)
-        let linkAttributes: [NSAttributedString.Key : Any] = [
-            NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,
-        ]
+        
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agent
+                
+                //HSMDisable
+                let attributedStringHSMDisable = NSMutableAttributedString(string: messageHSMDisableAgent, attributes: attributes)
 
-        // textView is a UITextView
-        tvAlertMessageHSMDisable.linkTextAttributes = linkAttributes
-        tvAlertMessageHSMDisable.attributedText = attributedString
+                //HSMQuota0
+                let attributedStringHSMQuota0 = NSMutableAttributedString(string: messageHSMQuota0Agent, attributes: attributes)
+               
+                // textView is a UITextView HSM Quota0
+                tvAlertMessageHSMQuota0.attributedText = attributedStringHSMQuota0
+
+                // textView is a UITextView
+                tvAlertMessageHSMDisable.attributedText = attributedStringHSMDisable
+            } else if userType == 1 {
+                //admin
+                
+                //HSMDisable
+                let attributedStringHSMDisable = NSMutableAttributedString(string: messageHSMDisable, attributes: attributes)
+                let linkRange = (attributedStringHSMDisable.string as NSString).range(of: "documentation.")
+                attributedStringHSMDisable.addAttribute(NSAttributedString.Key.link, value: "https://documentation.qiscus.com/multichannel-customer-service/channel-integration#hsm-template-after-24-hours-in-whatsapp", range: linkRange)
+                let linkAttributes: [NSAttributedString.Key : Any] = [
+                    NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,
+                ]
+                
+                //HSMQuota0
+                let attributedStringHSMQuota0 = NSMutableAttributedString(string: messageHSMQuota0Admin, attributes: attributes)
+                let linkRangeHSMQuota0 = (attributedStringHSMQuota0.string as NSString).range(of: "contact us.")
+                attributedStringHSMQuota0.addAttribute(NSAttributedString.Key.link, value: "https://www.qiscus.com/contact", range: linkRangeHSMQuota0)
+                let linkAttributesHSMQuota0: [NSAttributedString.Key : Any] = [
+                    NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,
+                ]
+
+                // textView is a UITextView HSM Quota0
+                tvAlertMessageHSMQuota0.linkTextAttributes = linkAttributesHSMQuota0
+                tvAlertMessageHSMQuota0.attributedText = attributedStringHSMQuota0
+                
+
+                // textView is a UITextView HSM Disable
+                tvAlertMessageHSMDisable.linkTextAttributes = linkAttributes
+                tvAlertMessageHSMDisable.attributedText = attributedStringHSMDisable
+            } else {
+                //spv
+                messageHSMDisable = "24 Hours Message Template is disabled. Please contact Your Admin"
+                let attributedStringHSMDisable = NSMutableAttributedString(string: messageHSMDisable, attributes: attributes)
+                
+                //HSMQuota0
+                let attributedStringHSMQuota0 = NSMutableAttributedString(string: messageHSMQuota0SPV, attributes: attributes)
+               
+                // textView is a UITextView HSM Quota0
+                tvAlertMessageHSMQuota0.attributedText = attributedStringHSMQuota0
+                tvAlertMessageHSMDisable.attributedText = attributedStringHSMDisable
+            }
+        }
+        
         tvAlertMessageHSMDisable.font = .systemFont(ofSize: 14)
     }
     
-    //template 24 HSM
-    
-    @IBAction func contactUSAction(_ sender: Any) {
-        if let url = URL(string: "https://www.qiscus.com/contact") {
-            UIApplication.shared.open(url)
-        }
-    }
     // Sets number of columns in picker view
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -690,6 +746,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     let channelID = json["data"]["channel_id"].int ?? 0
                     
                     if channelID != 0 {
+                        self.setupHSMAlertMessage()
                         self.getTemplateHSM(channelID: channelID)
                     }
                 }
@@ -700,6 +757,59 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             }
         }
     }
+    
+    func handleHSMAlertPending(){
+        
+        if self.room?.lastComment?.message.contains("Message failed to send because more than 24 hours") == true{
+            self.view.endEditing(true)
+            self.viewExpiredHSMDisable.isHidden = false
+            self.viewExpiredQuota0.isHidden = true
+            self.viewAlertHSMTemplate.alpha = 1
+            self.hideUIRecord(isHidden: true)
+            self.settingTableViewHeightUP()
+        }
+    }
+    
+//    func handleHSMAlertPending(){
+//        if let comments = QiscusCore.database.comment.find(roomId: self.room?.id ?? "0") {
+//            var customerEmail = ""
+//
+//            if let participants = self.room?.participants {
+//                for participant in participants.enumerated(){
+//                    if participant.element.extras != nil {
+//                        let dataJson = JSON(participant.element.extras)
+//                        let customer = dataJson["is_customer"].bool ?? false
+//                        if customer == true {
+//                            customerEmail = participant.element.email
+//                        }
+//                    }
+//                }
+//
+//                let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
+//
+//                if commentsFilterCustomer.count == 0 {
+//                    if self.room?.lastComment?.message.contains("Message failed to send because more than 24 hours") == true{
+//                        self.viewExpiredHSMDisable.isHidden = false
+//                        self.viewExpiredQuota0.isHidden = true
+//                        self.viewAlertHSMTemplate.alpha = 1
+//                        self.hideUIRecord(isHidden: true)
+//                        self.settingTableViewHeightUP()
+//                    }
+//                } else {
+//                    if let commentLast = commentsFilterCustomer.first{
+//                        let diff = commentLast.date.differentTime()
+//                        if  diff >= 16 {
+//                            self.viewExpiredHSMDisable.isHidden = false
+//                            self.viewExpiredQuota0.isHidden = true
+//                            self.viewAlertHSMTemplate.alpha = 1
+//                            self.hideUIRecord(isHidden: true)
+//                            self.settingTableViewHeightUP()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     func getTemplateHSM(channelID: Int){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
@@ -724,6 +834,24 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                             } else {
                                 return
                             }
+                        }
+                    } else if response.response?.statusCode == 400 {
+                        if let userType = UserDefaults.standard.getUserType(){
+                            if userType == 3 || userType == 2 {
+                                //spv
+                                let style = NSMutableParagraphStyle()
+                                style.lineSpacing = 14
+                                style.alignment = .center
+                                let attributes = [NSAttributedString.Key.paragraphStyle : style, NSAttributedString.Key.foregroundColor : ColorConfiguration.alertTextColorHSM]
+                                
+                                let messageHSMDisable = "Please contact Your Admin"
+                                let attributedStringHSMDisable = NSMutableAttributedString(string: messageHSMDisable, attributes: attributes)
+                                
+                                // textView is a UITextView HSM Quota0
+                                self.tvAlertMessageHSMDisable.attributedText = attributedStringHSMDisable
+                            }
+                            
+                            self.handleHSMAlertPending()
                         }
                     }
                     
@@ -807,12 +935,12 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     
     func settingTableViewHeightUP(){
         self.constraintViewInputBottom.constant = 0 - 100
-        self.viewPopupResolvedBottomConst.constant = 0 + 100
+        self.bottomUIPopupBGResolved.constant = 50
     }
     
     func settingTableViewNormal(){
+        self.bottomUIPopupBGResolved.constant = 50
         self.constraintViewInputBottom.constant = 0
-        self.viewPopupResolvedBottomConst.constant = 0
     }
     
     func enableSendMessage(){
@@ -964,11 +1092,24 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         }else{
              asAdminOrAgent(value: 0)
         }
+        
+        if  self.viewAlertHSMTemplate.alpha == 1 {
+            self.settingTableViewHeightUP()
+        } else {
+            self.settingTableViewNormal()
+        }
     }
     
     @IBAction func cancelResolved(_ sender: Any) {
          view.endEditing(true)
         self.viewResloved.isHidden = true
+        
+        if  self.viewAlertHSMTemplate.alpha == 1 {
+            self.settingTableViewHeightUP()
+        } else {
+            self.settingTableViewNormal()
+        }
+        
     }
     
     @objc func goResolve() {
@@ -1105,6 +1246,19 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 }
             }
         }
+    }
+    
+    @objc func loadMoreDataMessage(){
+        self.presenter.loadMore()
+    }
+    
+    func throthleLoadMore(){
+        NSObject.cancelPreviousPerformRequests(withTarget: self,
+                                               selector: #selector(self.loadMoreDataMessage),
+                                               object: nil)
+        
+        perform(#selector(self.loadMoreDataMessage),
+                with: nil, afterDelay: 0.5)
     }
     
     @objc func throthleChatTemplate(){
@@ -1787,7 +1941,7 @@ extension UIChatViewController: UITableViewDataSource {
             // Load More
             let comments = self.presenter.comments
             if indexPath.section == comments.count - 1 && indexPath.row > comments[indexPath.section].count - 10 {
-                presenter.loadMore()
+                self.throthleLoadMore()
             }
             return cell
         }

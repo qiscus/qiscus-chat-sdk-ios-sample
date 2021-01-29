@@ -121,13 +121,25 @@ class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
 //        let qismoToken = "A5wmVwtjhD3CIiIlQVCA"
 //
         let payload = JSON.init(parseJSON: code)
+        print("arief check ini \(payload)")
         let appId = payload["app_id"].stringValue
         let identityToken = payload["identity_token"].stringValue
         let qismo_key = payload["qismo_key"].stringValue
         let longLiveToken = payload["long_lived_token"].string ?? ""
         let qismoToken = payload["qismo_token"].string ?? ""
+        let userType = payload["user_type"].string ?? "2"
+        var userTypeInt = 2
+        if userType == "2" {
+            userTypeInt = 2
+        } else if userType == "1"{
+            userTypeInt = 1
+        }else if userType == "3"{
+            userTypeInt = 3
+        }
+        
         UserDefaults.standard.setLongLivedToken(value: longLiveToken)
         UserDefaults.standard.setAuthenticationToken(value: qismoToken)
+        UserDefaults.standard.setUserType(value: userTypeInt)
         let app = UIApplication.shared.delegate as! AppDelegate
         app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
     }

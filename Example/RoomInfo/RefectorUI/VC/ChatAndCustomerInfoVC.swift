@@ -582,13 +582,17 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                 }else if channelType.lowercased() == "telegram"{
                     self.channelTypeString = "Telegram"
                 }else if channelType.lowercased() == "line"{
-                   self.channelTypeString = "Line"
+                    self.channelTypeString = "Line"
                 }else if channelType.lowercased() == "fb"{
                     self.channelTypeString = "Facebook"
                 }else if channelType.lowercased() == "wa"{
                     self.channelTypeString = "WhatsApp"
+                }else if channelType.lowercased() == "twitter" {
+                    self.channelTypeString = "Twitter"
+                }else if channelType.lowercased() == "custom" {
+                    self.channelTypeString = "Custom Channel"
                 }else{
-                    self.channelTypeString = "Qiscus Widget"
+                    self.channelTypeString = "Custom Channel"
                 }
                 
                 let notesData = json["notes"].string ?? ""
