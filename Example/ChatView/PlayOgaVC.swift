@@ -16,7 +16,9 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
     @IBOutlet private weak var togglePlayButton: UIButton!
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var uiVIew: UIView!
-
+    @IBOutlet weak var viewLoading: UIView!
+    @IBOutlet weak var lbLoading: UILabel!
+    
     public var mediaURL = "https://"
     var pathURL : URL = URL(string : "https://")!
     var mediaplayer = VLCMediaPlayer()
@@ -40,6 +42,7 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
         super.viewDidLoad()
         setupUI()
         setupAudio()
+        setupLoading()
     }
     
     func setupUI() {
@@ -50,6 +53,17 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
         
         let shareButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(PlayOgaVC.share))
         self.navigationItem.rightBarButtonItem = shareButton
+    }
+    
+    func setupLoading(){
+        self.uiVIew.isHidden = true
+        self.viewLoading.isHidden = false
+        self.lbLoading.text = "Please wait, still downloading . . ."
+    }
+    
+    func hiddenLoading(){
+        self.uiVIew.isHidden = false
+        self.viewLoading.isHidden = true
     }
 
     func setupAudio() {
@@ -63,10 +77,16 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
 
         QiscusCore.shared.download(url: URL(string: self.mediaURL)!, onSuccess: { (url) in
             self.pathURL = url
-            self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: url.lastPathComponent)
-            self.mediaplayer.media = VLCMedia(url: url)
+            DispatchQueue.main.async {
+                self.hiddenLoading()
+                self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: url.lastPathComponent)
+                self.mediaplayer.media = VLCMedia(url: url)
+            }
         }) { (progress) in
-
+            DispatchQueue.main.async {
+                self.lbLoading.text = "Please wait, still downloading . . . \(Int(progress) * 100) %"
+            }
+            
         }
 
     }

@@ -121,7 +121,6 @@ class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
 //        let qismoToken = "A5wmVwtjhD3CIiIlQVCA"
 //
         let payload = JSON.init(parseJSON: code)
-        print("arief check ini \(payload)")
         let appId = payload["app_id"].stringValue
         let identityToken = payload["identity_token"].stringValue
         let qismo_key = payload["qismo_key"].stringValue

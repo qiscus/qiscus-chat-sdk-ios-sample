@@ -136,6 +136,27 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     @IBOutlet weak var viewExpiredHSMDisable: UIView!
     var dataLanguage = [String]()
     
+    //feature block
+    @IBOutlet weak var bgViewBlockContact: UIView!
+    @IBOutlet weak var alertViewBlockContact: UIView!
+    @IBOutlet weak var btCancelBlockContact: UIButton!
+    @IBOutlet weak var btBlockContact: UIButton!
+    var userID = ""
+    var isWaBlocked = false
+    
+    //feature unblock
+    @IBOutlet weak var bgViewUnBlockContact: UIView!
+    @IBOutlet weak var alertViewUnBlockContact: UIView!
+    @IBOutlet weak var btCancelUnBlockContact: UIButton!
+    @IBOutlet weak var btUnBlockContact: UIButton!
+    
+    //alert success block unblock
+    //feature unblock
+    @IBOutlet weak var bgViewSuccessBlockUnBlockContact: UIView!
+    @IBOutlet weak var alertViewSuccessBlockUnBlockContact: UIView!
+    @IBOutlet weak var btOKSuccessBlockUnBlockContact: UIButton!
+    @IBOutlet weak var lbAlertMessageSuccessBlockUnblockContact: UILabel!
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -208,6 +229,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         if let room = self.room {
             var channelTypeString = ""
             let vc = ChatAndCustomerInfoVC()
+            vc.isWaBlocked = self.isWaBlocked
             vc.room = room
             
             if !room.options!.isEmpty{
@@ -263,13 +285,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         self.setupRecordAudio()
         self.setupHSM()
         self.setupHSMAlertMessage()
+        self.setupBlockContact()
+        self.setupUnBlockContact()
         
-//        if hasTopNotch() == true {
-//            self.topProgressBar.constant = 0
-//        } else {
-//            self.topProgressBar.constant = 65
-//        }
-        
+
         if #available(iOS 11.0, *) {
             let window = UIApplication.shared.keyWindow
             let topPadding = window?.safeAreaInsets.top
@@ -297,6 +316,25 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         pickerView.delegate = self
         
         tfSelectTemplateLanguage.inputView = pickerView
+    }
+    
+    func setupBlockContact(){
+        self.btBlockContact.layer.cornerRadius = self.btBlockContact.frame.height / 2
+        self.btCancelBlockContact.layer.cornerRadius = self.btCancelBlockContact.frame.height / 2
+        self.alertViewBlockContact.layer.cornerRadius = 8
+    }
+    
+    func setupUnBlockContact(){
+        self.btUnBlockContact.layer.cornerRadius = self.btUnBlockContact.frame.height / 2
+        self.btCancelUnBlockContact.layer.cornerRadius = self.btCancelUnBlockContact.frame.height / 2
+        self.alertViewUnBlockContact.layer.cornerRadius = 8
+    }
+    
+    func setupAlertSuccessBlockUnblockContact(message: String){
+        self.bgViewSuccessBlockUnBlockContact.isHidden = false
+        self.btOKSuccessBlockUnBlockContact.layer.cornerRadius = self.btOKSuccessBlockUnBlockContact.frame.height / 2
+        self.alertViewSuccessBlockUnBlockContact.layer.cornerRadius = 8
+        self.lbAlertMessageSuccessBlockUnblockContact.text = message
     }
     
     func setupHSMAlertMessage(){
@@ -399,6 +437,160 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         }else{
             self.textViewContentTemplateHSM.text = ""
         }
+    }
+    
+    //alert ok success block unbloc contact
+    @IBAction func btOKSuccessBlockUnBlockContact(_ sender: Any) {
+        self.bgViewSuccessBlockUnBlockContact.isHidden = true
+        if self.chatInput.textView.text.isEmpty || self.chatInput.textView.text.contains("Send a message...") == true{
+            self.recordButton.isHidden = false
+        }else{
+            self.recordButton.isHidden = true
+        }
+    }
+    
+    //alert block contact
+    @IBAction func btCancelBlockContact(_ sender: Any) {
+        self.bgViewBlockContact.isHidden = true
+        if self.chatInput.textView.text.isEmpty || self.chatInput.textView.text.contains("Send a message...") == true {
+            self.recordButton.isHidden = false
+        }else{
+            self.recordButton.isHidden = true
+        }
+    }
+    
+    @IBAction func btBlockContact(_ sender: Any) {
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        if userID.isEmpty == true {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        var param: [String: Any] = [
+            "room_id": self.room?.id,
+            "source" : "wa",
+            "user_id" : userID
+        ]
+        
+        var dataRole = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agent
+                dataRole = "agent"
+            } else if userType == 1 {
+                 dataRole = "admin"
+            } else {
+                dataRole = "admin"
+            }
+        }
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(dataRole)/customer/block", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.btBlockContact(sender)
+                            } else {
+                                return
+                            }
+                        }
+                    }else{
+                        self.bgViewBlockContact.isHidden = true
+                    }
+                    
+                } else {
+                    //success
+                    self.bgViewBlockContact.isHidden = true
+                    self.setupAlertSuccessBlockUnblockContact(message: "Room chat has been successfully blocked")
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.bgViewBlockContact.isHidden = true
+            } else {
+                //failed
+                self.bgViewBlockContact.isHidden = true
+            }
+        }
+        
+    }
+    
+    //alert unblock contact
+    @IBAction func btCancelUnBlockContact(_ sender: Any) {
+        self.bgViewUnBlockContact.isHidden = true
+        if self.chatInput.textView.text.isEmpty || self.chatInput.textView.text.contains("Send a message...") == true {
+            self.recordButton.isHidden = false
+        }else{
+            self.recordButton.isHidden = true
+        }
+    }
+    
+    @IBAction func btUnBlockContact(_ sender: Any) {
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        if userID.isEmpty == true {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        var param: [String: Any] = [
+            "room_id": self.room?.id,
+            "source" : "wa",
+            "user_id" : userID
+        ]
+        
+        var dataRole = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agent
+                dataRole = "agent"
+            } else if userType == 1 {
+                 dataRole = "admin"
+            } else {
+                dataRole = "admin"
+            }
+        }
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(dataRole)/customer/unblock", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.btUnBlockContact(sender)
+                            } else {
+                                return
+                            }
+                        }
+                    }else{
+                        self.bgViewUnBlockContact.isHidden = true
+                    }
+                    
+                } else {
+                    //success
+                    self.bgViewUnBlockContact.isHidden = true
+                    self.setupAlertSuccessBlockUnblockContact(message: "Room chat has been successfully unblocked")
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.bgViewUnBlockContact.isHidden = true
+            } else {
+                //failed
+                self.bgViewUnBlockContact.isHidden = true
+            }
+        }
+        
     }
     
     //Alert template hsm
@@ -743,8 +935,12 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 } else {
                     //success
                     let json = JSON(response.result.value)
+                    print("arief check ini ya =\(json)")
                     let channelID = json["data"]["channel_id"].int ?? 0
-                    
+                    var userID = json["data"]["user_id"].string ?? ""
+                    var isWaBlocked = json["data"]["is_blocked"].bool ?? false
+                    self.isWaBlocked = isWaBlocked
+                    self.userID = userID
                     if channelID != 0 {
                         self.setupHSMAlertMessage()
                         self.getTemplateHSM(channelID: channelID)
@@ -770,46 +966,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         }
     }
     
-//    func handleHSMAlertPending(){
-//        if let comments = QiscusCore.database.comment.find(roomId: self.room?.id ?? "0") {
-//            var customerEmail = ""
-//
-//            if let participants = self.room?.participants {
-//                for participant in participants.enumerated(){
-//                    if participant.element.extras != nil {
-//                        let dataJson = JSON(participant.element.extras)
-//                        let customer = dataJson["is_customer"].bool ?? false
-//                        if customer == true {
-//                            customerEmail = participant.element.email
-//                        }
-//                    }
-//                }
-//
-//                let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
-//
-//                if commentsFilterCustomer.count == 0 {
-//                    if self.room?.lastComment?.message.contains("Message failed to send because more than 24 hours") == true{
-//                        self.viewExpiredHSMDisable.isHidden = false
-//                        self.viewExpiredQuota0.isHidden = true
-//                        self.viewAlertHSMTemplate.alpha = 1
-//                        self.hideUIRecord(isHidden: true)
-//                        self.settingTableViewHeightUP()
-//                    }
-//                } else {
-//                    if let commentLast = commentsFilterCustomer.first{
-//                        let diff = commentLast.date.differentTime()
-//                        if  diff >= 16 {
-//                            self.viewExpiredHSMDisable.isHidden = false
-//                            self.viewExpiredQuota0.isHidden = true
-//                            self.viewAlertHSMTemplate.alpha = 1
-//                            self.hideUIRecord(isHidden: true)
-//                            self.settingTableViewHeightUP()
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+
     
     func getTemplateHSM(channelID: Int){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
@@ -1128,34 +1285,63 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     @objc func goActionButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Add Agent", style: .default , handler:{ (UIAlertAction)in
-            let vc = AddAgentVC()
-            vc.roomName = self.room?.name ?? ""
-            vc.roomID = self.room?.id ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
-        }))
-        
-        
-        if let userType = UserDefaults.standard.getUserType(){
-            if userType == 2 {
-               alert.addAction(UIAlertAction(title: "Assign Chat To", style: .default , handler:{ (UIAlertAction)in
-                   let vc = AddAgentVC()
-                   vc.roomName = self.room?.name ?? ""
-                   vc.roomID = self.room?.id ?? ""
-                   vc.isAssignFromAgent = true
-                   self.navigationController?.pushViewController(vc, animated: true)
-               }))
-            }else{
-                alert.addAction(UIAlertAction(title: "Remove Agent", style: .default , handler:{ (UIAlertAction)in
-                    let vc = RemoveAgentVC()
-                    vc.roomName = self.room?.name ?? ""
-                    vc.roomID = self.room?.id ?? ""
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }))
+        if self.isWaBlocked == false {
+            alert.addAction(UIAlertAction(title: "Add Agent", style: .default , handler:{ (UIAlertAction)in
+                let vc = AddAgentVC()
+                vc.roomName = self.room?.name ?? ""
+                vc.roomID = self.room?.id ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }))
+            
+            
+            if let userType = UserDefaults.standard.getUserType(){
+                if userType == 2 {
+                   alert.addAction(UIAlertAction(title: "Assign Chat To", style: .default , handler:{ (UIAlertAction)in
+                       let vc = AddAgentVC()
+                       vc.roomName = self.room?.name ?? ""
+                       vc.roomID = self.room?.id ?? ""
+                       vc.isAssignFromAgent = true
+                       self.navigationController?.pushViewController(vc, animated: true)
+                   }))
+                }else{
+                    alert.addAction(UIAlertAction(title: "Remove Agent", style: .default , handler:{ (UIAlertAction)in
+                        let vc = RemoveAgentVC()
+                        vc.roomName = self.room?.name ?? ""
+                        vc.roomID = self.room?.id ?? ""
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }))
+                }
             }
         }
         
-       
+        if let room = self.room{
+            if !room.options!.isEmpty{
+                let json = JSON.init(parseJSON: room.options!)
+                let channelType = json["channel"].string ?? "qiscus"
+                
+                if channelType.lowercased() == "wa"{
+                    if let userType = UserDefaults.standard.getUserType(){
+                        if userType == 2 {
+                           //no action block unblock contact
+                        } else {
+                            if self.isWaBlocked == false {
+                                alert.addAction(UIAlertAction(title: "Block Contact", style: .destructive , handler:{ (UIAlertAction)in
+                                    self.bgViewBlockContact.isHidden = false
+                                    self.view.endEditing(true)
+                                    self.hideUIRecord(isHidden: true)
+                                }))
+                            } else {
+                                alert.addAction(UIAlertAction(title: "Unblock Contact", style: .destructive , handler:{ (UIAlertAction)in
+                                    self.bgViewUnBlockContact.isHidden = false
+                                    self.view.endEditing(true)
+                                    self.hideUIRecord(isHidden: true)
+                                }))
+                            }
+                        }
+                    }
+                }
+            }
+        }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
             
@@ -1885,6 +2071,14 @@ extension UIChatViewController: UIChatViewDelegate {
                 
                 perform(#selector(self.checkIFTypeWAExpired),
                         with: nil, afterDelay: 1)
+            } else if lastComment?.message.contains("Admin unblocked this contact") == true{
+                self.isWaBlocked = false
+                self.setupNavigationTitle()
+                self.setupToolbarHandle()
+            } else if lastComment?.message.contains("Admin blocked this contact") == true{
+                self.isWaBlocked = true
+                self.setupNavigationTitle()
+                self.setupToolbarHandle()
             }
         }
     }

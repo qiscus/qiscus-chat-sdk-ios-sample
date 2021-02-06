@@ -55,6 +55,15 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     var hsmQuota = 0
     var enableHSM = false
     var dataLanguage = [String]()
+    var isWaBlocked : Bool = false
+    
+    //alert failed send hsm 24
+    @IBOutlet weak var bgViewFailedSendHSM: UIView!
+    @IBOutlet weak var alertViewFailedSendHSM: UIView!
+    @IBOutlet weak var btOKFailedSendHSM: UIButton!
+    
+    @IBOutlet weak var viewLoading: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -87,6 +96,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.viewLoading.isHidden = false
         self.loadingIndicator.isHidden = false
         self.loadingIndicator.startAnimating()
         if let userType = UserDefaults.standard.getUserType(){
@@ -202,6 +212,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         self.tableView.register(UINib(nibName: "BroadcastHistoryCell", bundle: nil), forCellReuseIdentifier: "BroadcastHistoryCellIdentifire")
         self.tableView.register(UINib(nibName: "HSMCell", bundle: nil), forCellReuseIdentifier: "HSMCellIdentifire")
         self.tableView.register(UINib(nibName: "HSMWillExpireSoonCell", bundle: nil), forCellReuseIdentifier: "HSMWillExpireSoonCellIdentifire")
+        self.tableView.register(UINib(nibName: "WABlockedCell", bundle: nil), forCellReuseIdentifier: "WABlockedCellIdentifire")
         
         
         self.tableView.tableFooterView = UIView()
@@ -233,6 +244,14 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         
         tfSelectTemplateLanguage.inputView = pickerView
         
+        //setup alert send hsm
+        self.btOKFailedSendHSM.layer.cornerRadius = self.btOKFailedSendHSM.frame.height / 2
+        self.alertViewFailedSendHSM.layer.cornerRadius = 8
+    }
+    
+    //alert ok success block unbloc contact
+    @IBAction func btOKFailedSendHSM(_ sender: Any) {
+        self.bgViewFailedSendHSM.isHidden = true
     }
     
     // MARK: - Keyboard Methode
@@ -313,6 +332,9 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     //success
                     QiscusCore.shared.getChatRoomWithMessages(roomId: roomID, onSuccess: { (roomModel, comments) in
                         self.room = roomModel
+                        self.viewLoading.isHidden = false
+                        self.loadingIndicator.isHidden = false
+                        self.loadingIndicator.startAnimating()
                         self.setupRoomInfo()
                     }) { (error) in
                         
@@ -609,7 +631,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                  self.tableView.isHidden = false
                  self.tableView.reloadData()
-                
+                 self.viewLoading.isHidden = true
                  self.loadingIndicator.stopAnimating()
                  self.loadingIndicator.isHidden = true
             }
@@ -644,6 +666,9 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     var channelName = json["data"]["channel_name"].string ?? ""
                     var channelID = json["data"]["channel_id"].int ?? 0
                     let enableSendHSM = json["data"]["enabled"].bool ?? false
+                    var isWaBlocked = json["data"]["is_blocked"].bool ?? false
+                    self.isWaBlocked = isWaBlocked
+                    
                     
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
@@ -885,6 +910,10 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                                 return
                             }
                         }
+                    }else if response.response?.statusCode == 400 {
+                        self.viewBGTemplateHSM.alpha = 0
+                        //show error send hsm, maybe wa is blocked
+                        self.bgViewFailedSendHSM.isHidden = false
                     }
                     
                 } else {
@@ -907,6 +936,11 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
 }
 
 extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
+    private func waBlockedCell(indexPath: IndexPath)-> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WABlockedCellIdentifire", for: indexPath) as! WABlockedCell
+        return cell
+    }
+    
     private func customerInfoCell(indexPath: IndexPath)-> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerInfoCellIdentifire", for: indexPath) as! CustomerInfoCell
         cell.lbName.text        = self.customerName
@@ -990,11 +1024,23 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isTypeWA == true {
             if isWAExpired == true {
-                return 8
+                if isWaBlocked == true {
+                    return 9
+                } else {
+                    return 8
+                }
             } else if isWAWillExpired == true {
-                return 8
+                if isWaBlocked == true {
+                    return 9
+                } else {
+                    return 8
+                }
             } else {
-                return 7
+                if isWaBlocked == true {
+                    return 8
+                }else{
+                    return 7
+                }
             }
         } else {
             return 6
@@ -1005,56 +1051,121 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isTypeWA == true {
             if isWAExpired == true {
-                if indexPath.row == 0 {
-                    return customerInfoCell(indexPath: indexPath)
-                } else if indexPath.row == 1 {
-                    return HSMCell(indexPath: indexPath)
-                } else if indexPath.row == 2 {
-                    return completeTaskCell(indexPath: indexPath)
-                } else if indexPath.row == 3 {
-                    return additionalInformationCell(indexPath: indexPath)
-                }  else if indexPath.row == 4 {
-                    return broadcastHistoryCell(indexPath: indexPath)
-                } else if indexPath.row == 5 {
-                    return noteCell(indexPath: indexPath)
-                } else if indexPath.row == 6 {
-                    return customerTagsInfoCell(indexPath: indexPath)
-                } else if indexPath.row == 7 {
-                    return agentCustomerInfoCell(indexPath: indexPath)
+                if isWaBlocked == true {
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return waBlockedCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return HSMCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 5 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }else{
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return HSMCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 4 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
                 }
+                
             }else if isWAWillExpired == true {
-                if indexPath.row == 0 {
-                    return customerInfoCell(indexPath: indexPath)
-                } else if indexPath.row == 1 {
-                    return HSMWillExpireSoonCell(indexPath: indexPath)
-                } else if indexPath.row == 2 {
-                    return completeTaskCell(indexPath: indexPath)
-                } else if indexPath.row == 3 {
-                    return additionalInformationCell(indexPath: indexPath)
-                }  else if indexPath.row == 4 {
-                    return broadcastHistoryCell(indexPath: indexPath)
-                } else if indexPath.row == 5 {
-                    return noteCell(indexPath: indexPath)
-                } else if indexPath.row == 6 {
-                    return customerTagsInfoCell(indexPath: indexPath)
-                } else if indexPath.row == 7 {
-                    return agentCustomerInfoCell(indexPath: indexPath)
+                if isWaBlocked == true {
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return waBlockedCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return HSMWillExpireSoonCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 5 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }else{
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return HSMWillExpireSoonCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 4 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
                 }
             } else {
-                if indexPath.row == 0 {
-                    return customerInfoCell(indexPath: indexPath)
-                } else if indexPath.row == 1 {
-                    return completeTaskCell(indexPath: indexPath)
-                } else if indexPath.row == 2 {
-                    return additionalInformationCell(indexPath: indexPath)
-                }  else if indexPath.row == 3 {
-                    return broadcastHistoryCell(indexPath: indexPath)
-                } else if indexPath.row == 4 {
-                    return noteCell(indexPath: indexPath)
-                } else if indexPath.row == 5 {
-                    return customerTagsInfoCell(indexPath: indexPath)
-                } else if indexPath.row == 6 {
-                    return agentCustomerInfoCell(indexPath: indexPath)
+                if isWaBlocked == true {
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return waBlockedCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 4 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }else{
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 3 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
                 }
             }
         } else {
@@ -1079,37 +1190,77 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isTypeWA == true {
             if isWAExpired == true {
-                if indexPath.row == 3 {
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-                    self.pushToAdditonalInformation()
-                } else if indexPath.row == 4 {
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-                    self.pushToBroadcastHistory()
-                }else if indexPath.row == 5 {
-                    self.showForNotes()
-                    self.tableView.deselectRow(at: indexPath, animated: true)
+                if isWaBlocked == true {
+                    if indexPath.row == 4 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 5 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 6 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
+                }else{
+                    if indexPath.row == 3 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 4 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 5 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
                 }
             } else if isWAWillExpired == true {
-                if indexPath.row == 3 {
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-                    self.pushToAdditonalInformation()
-                } else if indexPath.row == 4 {
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-                    self.pushToBroadcastHistory()
-                }else if indexPath.row == 5 {
-                    self.showForNotes()
-                    self.tableView.deselectRow(at: indexPath, animated: true)
+                if isWaBlocked == true {
+                    if indexPath.row == 4 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 5 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 6 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
+                }else{
+                    if indexPath.row == 3 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 4 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 5 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
                 }
+                
             } else {
-                if indexPath.row == 2 {
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-                    self.pushToAdditonalInformation()
-                } else if indexPath.row == 3 {
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-                    self.pushToBroadcastHistory()
-                }else if indexPath.row == 4 {
-                    self.showForNotes()
-                    self.tableView.deselectRow(at: indexPath, animated: true)
+                if isWaBlocked == true {
+                    if indexPath.row == 3 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 4 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 5 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
+                }else{
+                    if indexPath.row == 2 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 3 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 4 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
                 }
             }
         } else {

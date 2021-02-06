@@ -183,6 +183,8 @@ extension AppDelegate {
                         UserDefaults.standard.setAfterLogin(value: true)
                         
                         self.auth()
+                        
+                        self.registerDeviceToken()
                        
                     }
                 } else if (response.response != nil && (response.response?.statusCode)! == 401) {

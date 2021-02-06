@@ -66,6 +66,8 @@
 		3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AB2192E20C00FE7228 /* ChatConfig.swift */; };
 		3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4434E7221A71AF009B5CD0 /* ContactCell.swift */; };
 		3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D4434E8221A71AF009B5CD0 /* ContactCell.xib */; };
+		3D5D071625CA37E300841D1B /* WABlockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D071425CA37E300841D1B /* WABlockedCell.swift */; };
+		3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5D071525CA37E300841D1B /* WABlockedCell.xib */; };
 		3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DD75E222780E300E39C96 /* ProfileVC.swift */; };
 		3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DD75F222780E300E39C96 /* ProfileVC.xib */; };
 		3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DD76222279AA400E39C96 /* EditNameVC.swift */; };
@@ -256,6 +258,8 @@
 		3D40B8AB2192E20C00FE7228 /* ChatConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatConfig.swift; sourceTree = "<group>"; };
 		3D4434E7221A71AF009B5CD0 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		3D4434E8221A71AF009B5CD0 /* ContactCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCell.xib; sourceTree = "<group>"; };
+		3D5D071425CA37E300841D1B /* WABlockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WABlockedCell.swift; sourceTree = "<group>"; };
+		3D5D071525CA37E300841D1B /* WABlockedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WABlockedCell.xib; sourceTree = "<group>"; };
 		3D5DD75E222780E300E39C96 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		3D5DD75F222780E300E39C96 /* ProfileVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
 		3D5DD76222279AA400E39C96 /* EditNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNameVC.swift; sourceTree = "<group>"; };
@@ -628,6 +632,8 @@
 				3DB48BAA25A7590900B5D760 /* HSMCell.xib */,
 				3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */,
 				3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */,
+				3D5D071425CA37E300841D1B /* WABlockedCell.swift */,
+				3D5D071525CA37E300841D1B /* WABlockedCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1040,6 +1046,7 @@
 				3DC7FE112586633800CCA763 /* AvailabilityAgentCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
 				3D7A39622577C7B7005E7FAE /* AdditionalInformationCell.xib in Resources */,
+				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
 				3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */,
 				3DA788F62480A5B800CEF339 /* QReplyTextLeftCell.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
@@ -1169,6 +1176,7 @@
 				3D7A395D2577ADCF005E7FAE /* CompleteTaskCell.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
+				3D5D071625CA37E300841D1B /* WABlockedCell.swift in Sources */,
 				3DC7FDCF2585342400CCA763 /* BroadCastHistoryModel.swift in Sources */,
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
 				3DD6E59025AD664800BF96AD /* QVideoRightCell.swift in Sources */,
@@ -1402,7 +1410,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1412,7 +1420,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.11;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
@@ -1428,9 +1436,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1440,10 +1448,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.11;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
-				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dist";
+				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
