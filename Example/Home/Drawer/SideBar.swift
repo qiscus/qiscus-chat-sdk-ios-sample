@@ -8,6 +8,8 @@
 
 import UIKit
 import AlamofireImage
+import Alamofire
+import SwiftyJSON
 import QiscusCore
 
 class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
@@ -91,6 +93,13 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
     }
     
     @IBAction func logoutAction(_ sender: Any) {
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2{
+                //agent
+                self.forceOffline()
+            }
+        }
+        
         if let deviceToken = UserDefaults.standard.getDeviceToken(){
             QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (isSuccess) in
                 
@@ -102,6 +111,46 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         QiscusCore.logout { (error) in
             let app = UIApplication.shared.delegate as! AppDelegate
             app.auth()
+        }
+    }
+    
+    func forceOffline(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        var param: [String: Any] = [
+            "is_available": false
+        ]
+        
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/set_availability", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.forceOffline()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+                
+            }
         }
     }
     

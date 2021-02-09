@@ -39,8 +39,53 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             UserDefaults.standard.setAfterLogin(value: false)
             if let userType = UserDefaults.standard.getUserType(){
                 if userType == 2 {
-                    changeToOnline()
+                    getProfileInfo()
                 }
+            }
+        }
+    }
+    
+    func getProfileInfo(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/agent/get_profile", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getProfileInfo()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    print("response.result.value =\(json)")
+                    var data = json["data"]["is_available"].bool ?? false
+                    
+                    //show alert
+                    
+                    let vc = AlertOnlineOfflineFirstLoginAgent()
+                    vc.modalPresentationStyle = .overFullScreen
+                    vc.isAvailable = data
+                    
+                    self.navigationController?.present(vc, animated: false, completion: {
+                        
+                    })
+                    
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
             }
         }
     }
@@ -77,9 +122,10 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     //success
                     
                     let vc = AlertAvailabilityAgent()
+                    vc.modalPresentationStyle = .overFullScreen
                     vc.isAvailable = true
                     
-                    self.navigationController?.present(vc, animated: true, completion: {
+                    self.navigationController?.present(vc, animated: false, completion: {
                         
                     })
                 }

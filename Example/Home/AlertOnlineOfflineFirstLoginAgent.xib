@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertOnlineOfflineFirstLoginAgent" customModule="Qiscus_Multichannel" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonOkOffline" destination="PZm-V5-87l" id="kKv-rM-hrz"/>
+                <outlet property="buttonOkOnline" destination="8vN-MZ-8Br" id="SOR-ih-T5T"/>
+                <outlet property="iconAlertOffline" destination="Z3i-hw-rAo" id="FEB-6G-4MO"/>
+                <outlet property="iconAlertOnline" destination="AIB-JZ-15O" id="fl4-PK-pKy"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewPopupOffline" destination="w3j-pj-aL0" id="zen-wD-iof"/>
+                <outlet property="viewPopupOnline" destination="nLl-ff-7QV" id="VT8-Xl-9Df"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nLl-ff-7QV" userLabel="ViewAvailabilityOn">
+                    <rect key="frame" x="25" y="134" width="270" height="300"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_alert" translatesAutoresizingMaskIntoConstraints="NO" id="AIB-JZ-15O">
+                            <rect key="frame" x="100" y="35" width="70" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="70" id="MVV-3c-Iy6"/>
+                                <constraint firstAttribute="height" constant="70" id="wRL-yl-8f1"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your availability is On" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQH-Ts-d9G">
+                            <rect key="frame" x="10" y="120" width="250" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="8on-op-hXV"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You'll be receiving customers to serve in this mode" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Num-MC-V54">
+                            <rect key="frame" x="10" y="175" width="250" height="41"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8vN-MZ-8Br">
+                            <rect key="frame" x="65" y="236" width="140" height="35"/>
+                            <color key="backgroundColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="7p0-nu-qZh"/>
+                                <constraint firstAttribute="width" constant="140" id="po7-3E-6NG"/>
+                            </constraints>
+                            <state key="normal" title="ok">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="actionOKOnline:" destination="-1" eventType="touchUpInside" id="KSI-gY-VUa"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="wQH-Ts-d9G" firstAttribute="centerY" secondItem="nLl-ff-7QV" secondAttribute="centerY" constant="-10" id="9lX-kY-lRV"/>
+                        <constraint firstItem="wQH-Ts-d9G" firstAttribute="leading" secondItem="nLl-ff-7QV" secondAttribute="leading" constant="10" id="FPf-G1-mKR"/>
+                        <constraint firstAttribute="height" constant="300" id="OMQ-7h-lXT"/>
+                        <constraint firstAttribute="trailing" secondItem="Num-MC-V54" secondAttribute="trailing" constant="10" id="VyQ-nS-U7B"/>
+                        <constraint firstItem="8vN-MZ-8Br" firstAttribute="top" secondItem="Num-MC-V54" secondAttribute="bottom" constant="20" id="WK1-85-piJ"/>
+                        <constraint firstItem="wQH-Ts-d9G" firstAttribute="top" secondItem="AIB-JZ-15O" secondAttribute="bottom" constant="15" id="Y8J-Qm-PnN"/>
+                        <constraint firstItem="AIB-JZ-15O" firstAttribute="centerX" secondItem="nLl-ff-7QV" secondAttribute="centerX" id="awQ-J9-9D1"/>
+                        <constraint firstItem="Num-MC-V54" firstAttribute="leading" secondItem="nLl-ff-7QV" secondAttribute="leading" constant="10" id="b35-du-kYl"/>
+                        <constraint firstAttribute="trailing" secondItem="wQH-Ts-d9G" secondAttribute="trailing" constant="10" id="bEQ-T0-Vn7"/>
+                        <constraint firstItem="wQH-Ts-d9G" firstAttribute="centerX" secondItem="nLl-ff-7QV" secondAttribute="centerX" id="qUG-UL-8Gl"/>
+                        <constraint firstItem="8vN-MZ-8Br" firstAttribute="centerX" secondItem="nLl-ff-7QV" secondAttribute="centerX" id="svG-T7-eLi"/>
+                        <constraint firstItem="Num-MC-V54" firstAttribute="top" secondItem="wQH-Ts-d9G" secondAttribute="bottom" constant="15" id="zGy-vX-C3r"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w3j-pj-aL0" userLabel="ViewAvailabilityOff">
+                    <rect key="frame" x="25" y="134" width="270" height="300"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_alert" translatesAutoresizingMaskIntoConstraints="NO" id="Z3i-hw-rAo">
+                            <rect key="frame" x="100" y="23.5" width="70" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="ONe-8k-CcC"/>
+                                <constraint firstAttribute="width" constant="70" id="zB6-0B-7eq"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your availability is Off" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xhx-ps-WXY">
+                            <rect key="frame" x="10" y="108.5" width="250" height="53"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="53" id="rmY-CC-i1D"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You need to set this mode to 'on' to start receiving customers to serve" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJL-gf-Z33">
+                            <rect key="frame" x="10" y="161.5" width="250" height="61"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PZm-V5-87l">
+                            <rect key="frame" x="65" y="242.5" width="140" height="35"/>
+                            <color key="backgroundColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="140" id="hLJ-Gd-eKD"/>
+                                <constraint firstAttribute="height" constant="35" id="rAW-nk-pBr"/>
+                            </constraints>
+                            <state key="normal" title="ok">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="actionOKOffline:" destination="-1" eventType="touchUpInside" id="3Il-34-EPn"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="xhx-ps-WXY" firstAttribute="top" secondItem="Z3i-hw-rAo" secondAttribute="bottom" constant="15" id="2UK-Yf-oeV"/>
+                        <constraint firstItem="xhx-ps-WXY" firstAttribute="leading" secondItem="w3j-pj-aL0" secondAttribute="leading" constant="10" id="4dh-dp-6aS"/>
+                        <constraint firstItem="xhx-ps-WXY" firstAttribute="centerY" secondItem="w3j-pj-aL0" secondAttribute="centerY" constant="-15" id="5PF-MN-uTx"/>
+                        <constraint firstItem="xhx-ps-WXY" firstAttribute="centerX" secondItem="w3j-pj-aL0" secondAttribute="centerX" id="SsU-uu-fFk"/>
+                        <constraint firstItem="PZm-V5-87l" firstAttribute="centerX" secondItem="w3j-pj-aL0" secondAttribute="centerX" id="Vhf-83-TOJ"/>
+                        <constraint firstItem="aJL-gf-Z33" firstAttribute="leading" secondItem="w3j-pj-aL0" secondAttribute="leading" constant="10" id="e0R-bE-2mw"/>
+                        <constraint firstItem="aJL-gf-Z33" firstAttribute="top" secondItem="xhx-ps-WXY" secondAttribute="bottom" id="f5X-pG-a7F"/>
+                        <constraint firstItem="PZm-V5-87l" firstAttribute="top" secondItem="aJL-gf-Z33" secondAttribute="bottom" constant="20" id="gk1-f3-G2w"/>
+                        <constraint firstItem="Z3i-hw-rAo" firstAttribute="centerX" secondItem="w3j-pj-aL0" secondAttribute="centerX" id="hT5-V0-NdP"/>
+                        <constraint firstAttribute="trailing" secondItem="aJL-gf-Z33" secondAttribute="trailing" constant="10" id="nRX-QE-p8M"/>
+                        <constraint firstAttribute="trailing" secondItem="xhx-ps-WXY" secondAttribute="trailing" constant="10" id="rQq-UI-G1L"/>
+                        <constraint firstAttribute="height" constant="300" id="vsp-eu-msU"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="w3j-pj-aL0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="2KC-cX-eAP"/>
+                <constraint firstItem="w3j-pj-aL0" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="M5e-jU-ZIL"/>
+                <constraint firstItem="nLl-ff-7QV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="Rew-Ha-kCK"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="w3j-pj-aL0" secondAttribute="trailing" constant="25" id="RyF-xy-teZ"/>
+                <constraint firstItem="w3j-pj-aL0" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="ZVN-fd-Cx2"/>
+                <constraint firstItem="nLl-ff-7QV" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="s7E-De-iF9"/>
+                <constraint firstItem="nLl-ff-7QV" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="tkg-OM-MzP"/>
+                <constraint firstAttribute="trailing" secondItem="nLl-ff-7QV" secondAttribute="trailing" constant="25" id="zgf-qr-ljB"/>
+            </constraints>
+            <point key="canvasLocation" x="140.57971014492756" y="87.723214285714278"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_alert" width="76" height="76"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

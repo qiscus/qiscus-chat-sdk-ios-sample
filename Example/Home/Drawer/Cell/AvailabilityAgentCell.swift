@@ -116,9 +116,10 @@ class AvailabilityAgentCell: UITableViewCell {
                    
                     
                     let vc = AlertAvailabilityAgent()
+                    vc.modalPresentationStyle = .overFullScreen
                     vc.isAvailable = isAvailable
                     
-                    self.currentViewController()?.navigationController?.present(vc, animated: true, completion: {
+                    self.currentViewController()?.navigationController?.present(vc, animated: false, completion: {
                         
                     })
                     

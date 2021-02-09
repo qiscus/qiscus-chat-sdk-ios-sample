@@ -1241,13 +1241,17 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     
     @IBAction func submitResolved(_ sender: Any) {
         if let userType = UserDefaults.standard.getUserType(){
-            if userType == 1 {
+            if userType == 1  {
+                //admin
                  asAdminOrAgent(value: 1)
+            }else if userType == 2{
+                //agent
+                asAdminOrAgent(value: 0)
             }else{
-                asAdminOrAgent(value: userType)
+                asAdminOrAgent(value: 1)
             }
         }else{
-             asAdminOrAgent(value: 0)
+             asAdminOrAgent(value: 1)
         }
         
         if  self.viewAlertHSMTemplate.alpha == 1 {
