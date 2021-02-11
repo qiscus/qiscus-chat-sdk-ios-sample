@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,6 +16,7 @@
                 <outlet property="lbName" destination="7RK-yY-RTQ" id="8OQ-yQ-lz6"/>
                 <outlet property="tableView" destination="sqo-RS-51O" id="2UL-0M-wIB"/>
                 <outlet property="viewMenuLogout" destination="51B-9t-0SA" id="q89-Wa-mSw"/>
+                <outlet property="viewMenuSetting" destination="OPi-So-FHa" id="UvC-Ql-AvM"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -65,14 +67,44 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sqo-RS-51O">
-                    <rect key="frame" x="0.0" y="244" width="414" height="552"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <rect key="frame" x="0.0" y="244" width="414" height="477"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="31W-HX-hit">
-                    <rect key="frame" x="0.0" y="796" width="414" height="100"/>
+                    <rect key="frame" x="0.0" y="721" width="414" height="175"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="51B-9t-0SA">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPi-So-FHa" userLabel="ViewSetting">
                             <rect key="frame" x="25" y="25" width="364" height="50"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_setting_menu" translatesAutoresizingMaskIntoConstraints="NO" id="P4T-Cc-cWr">
+                                    <rect key="frame" x="25" y="10" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="2g1-IV-vyB"/>
+                                        <constraint firstAttribute="width" constant="30" id="Xq7-Rt-SwB"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVF-nl-jcP">
+                                    <rect key="frame" x="73" y="14.5" width="100" height="21"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="100" id="6T6-d1-kfv"/>
+                                        <constraint firstAttribute="height" constant="21" id="SrZ-aH-f7z"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.15294117647058825" green="0.69411764705882351" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="P4T-Cc-cWr" firstAttribute="centerY" secondItem="OPi-So-FHa" secondAttribute="centerY" id="1sW-dc-Vm6"/>
+                                <constraint firstAttribute="height" constant="50" id="34I-0n-3pe"/>
+                                <constraint firstItem="OVF-nl-jcP" firstAttribute="centerY" secondItem="OPi-So-FHa" secondAttribute="centerY" id="RGZ-SV-owQ"/>
+                                <constraint firstItem="P4T-Cc-cWr" firstAttribute="leading" secondItem="OPi-So-FHa" secondAttribute="leading" constant="25" id="V22-SJ-SLN"/>
+                                <constraint firstItem="OVF-nl-jcP" firstAttribute="leading" secondItem="P4T-Cc-cWr" secondAttribute="trailing" constant="18" id="W7e-Dc-RyF"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="51B-9t-0SA" userLabel="ViewLogout">
+                            <rect key="frame" x="25" y="100" width="364" height="50"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_menu_logout" translatesAutoresizingMaskIntoConstraints="NO" id="Pfs-ep-qOa">
                                     <rect key="frame" x="25" y="10" width="30" height="30"/>
@@ -92,7 +124,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="Mtj-fl-WzW"/>
                                 <constraint firstItem="Pfs-ep-qOa" firstAttribute="centerY" secondItem="51B-9t-0SA" secondAttribute="centerY" id="WWO-Rh-dfm"/>
@@ -101,28 +133,47 @@
                                 <constraint firstItem="dtM-MV-B73" firstAttribute="centerY" secondItem="51B-9t-0SA" secondAttribute="centerY" id="lfZ-Wu-Ozt"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X4W-br-Xow">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eH8-rP-U6V" userLabel="ButtonSetting">
                             <rect key="frame" x="25" y="25" width="364" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="nWa-OR-OxA"/>
+                            </constraints>
+                            <connections>
+                                <action selector="settingAction:" destination="-1" eventType="touchUpInside" id="kT1-SP-Pva"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X4W-br-Xow" userLabel="ButtonLogout">
+                            <rect key="frame" x="25" y="100" width="364" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="zgm-Y1-spn"/>
+                            </constraints>
                             <connections>
                                 <action selector="logoutAction:" destination="-1" eventType="touchUpInside" id="Xp2-mk-Atm"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="eH8-rP-U6V" secondAttribute="trailing" constant="25" id="1Zq-vc-cHX"/>
                         <constraint firstItem="51B-9t-0SA" firstAttribute="leading" secondItem="31W-HX-hit" secondAttribute="leading" constant="25" id="6Ac-Qa-j6A"/>
+                        <constraint firstItem="eH8-rP-U6V" firstAttribute="top" secondItem="31W-HX-hit" secondAttribute="top" constant="25" id="6GV-xj-5Gv"/>
                         <constraint firstAttribute="trailing" secondItem="X4W-br-Xow" secondAttribute="trailing" constant="25" id="C1n-Tx-UC7"/>
-                        <constraint firstItem="X4W-br-Xow" firstAttribute="top" secondItem="31W-HX-hit" secondAttribute="top" constant="25" id="Dul-Hv-abi"/>
+                        <constraint firstAttribute="trailing" secondItem="OPi-So-FHa" secondAttribute="trailing" constant="25" id="CXH-Lj-XCa"/>
+                        <constraint firstItem="OPi-So-FHa" firstAttribute="leading" secondItem="31W-HX-hit" secondAttribute="leading" constant="25" id="GM4-3I-uCe"/>
                         <constraint firstAttribute="trailing" secondItem="51B-9t-0SA" secondAttribute="trailing" constant="25" id="ISZ-dh-ptZ"/>
-                        <constraint firstAttribute="height" constant="100" id="ZPD-OX-qGG"/>
+                        <constraint firstItem="51B-9t-0SA" firstAttribute="top" secondItem="OPi-So-FHa" secondAttribute="bottom" constant="25" id="Txg-Qv-nRA"/>
+                        <constraint firstAttribute="height" constant="175" id="ZPD-OX-qGG"/>
                         <constraint firstItem="X4W-br-Xow" firstAttribute="leading" secondItem="31W-HX-hit" secondAttribute="leading" constant="25" id="bKG-Y1-EOF"/>
                         <constraint firstAttribute="bottom" secondItem="X4W-br-Xow" secondAttribute="bottom" constant="25" id="gs2-wo-hl3"/>
                         <constraint firstAttribute="bottom" secondItem="51B-9t-0SA" secondAttribute="bottom" constant="25" id="n3d-fA-miC"/>
-                        <constraint firstItem="51B-9t-0SA" firstAttribute="top" secondItem="31W-HX-hit" secondAttribute="top" constant="25" id="tNO-J1-O0Q"/>
+                        <constraint firstItem="OPi-So-FHa" firstAttribute="top" secondItem="31W-HX-hit" secondAttribute="top" constant="25" id="p8l-Az-PrQ"/>
+                        <constraint firstItem="51B-9t-0SA" firstAttribute="top" secondItem="eH8-rP-U6V" secondAttribute="bottom" constant="25" id="skc-6o-J20"/>
+                        <constraint firstItem="eH8-rP-U6V" firstAttribute="leading" secondItem="31W-HX-hit" secondAttribute="leading" constant="25" id="tfS-8F-YWS"/>
                         <constraint firstItem="X4W-br-Xow" firstAttribute="leading" secondItem="51B-9t-0SA" secondAttribute="leading" id="x6w-Rw-QQl"/>
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="31W-HX-hit" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="1ch-Yv-Lcd"/>
@@ -137,12 +188,15 @@
                 <constraint firstItem="31W-HX-hit" firstAttribute="top" secondItem="sqo-RS-51O" secondAttribute="bottom" id="w7W-tm-R1L"/>
                 <constraint firstItem="sqo-RS-51O" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="yQu-z3-QLA"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="82.608695652173921" y="152.00892857142856"/>
         </view>
     </objects>
     <resources>
         <image name="ic_menu_logout" width="18" height="18"/>
         <image name="ic_pencil_edit" width="13.5" height="14.5"/>
+        <image name="ic_setting_menu" width="27" height="27"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

@@ -20,6 +20,8 @@
 		3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */; };
 		3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */; };
 		3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */; };
+		3D26D2B825D4325600735B0A /* AlertMenuUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */; };
+		3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D26D2B725D4325600735B0A /* AlertMenuUploadVC.xib */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
 		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
@@ -66,6 +68,8 @@
 		3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B8AB2192E20C00FE7228 /* ChatConfig.swift */; };
 		3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4434E7221A71AF009B5CD0 /* ContactCell.swift */; };
 		3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D4434E8221A71AF009B5CD0 /* ContactCell.xib */; };
+		3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5ABD9B25D37954008ED9E6 /* AMChangePasswordVC.swift */; };
+		3D5ABD9E25D37954008ED9E6 /* AMChangePasswordVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5ABD9C25D37954008ED9E6 /* AMChangePasswordVC.xib */; };
 		3D5D071625CA37E300841D1B /* WABlockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D071425CA37E300841D1B /* WABlockedCell.swift */; };
 		3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5D071525CA37E300841D1B /* WABlockedCell.xib */; };
 		3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DD75E222780E300E39C96 /* ProfileVC.swift */; };
@@ -74,6 +78,22 @@
 		3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DD76322279AA400E39C96 /* EditNameVC.xib */; };
 		3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76772E25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift */; };
 		3D76773125D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76772F25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib */; };
+		3D76773725D2842D004C26DC /* SettingMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76773525D2842C004C26DC /* SettingMenuVC.swift */; };
+		3D76773825D2842D004C26DC /* SettingMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76773625D2842C004C26DC /* SettingMenuVC.xib */; };
+		3D76773D25D28958004C26DC /* AccountManagementAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76773B25D28958004C26DC /* AccountManagementAgentVC.swift */; };
+		3D76773E25D28958004C26DC /* AccountManagementAgentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76773C25D28958004C26DC /* AccountManagementAgentVC.xib */; };
+		3D76774425D29223004C26DC /* AMProfileAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76774225D29223004C26DC /* AMProfileAvatarCell.swift */; };
+		3D76774525D29223004C26DC /* AMProfileAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76774325D29223004C26DC /* AMProfileAvatarCell.xib */; };
+		3D76774925D2ABDA004C26DC /* AMFullNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76774725D2ABDA004C26DC /* AMFullNameCell.swift */; };
+		3D76774A25D2ABDA004C26DC /* AMFullNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76774825D2ABDA004C26DC /* AMFullNameCell.xib */; };
+		3D76774E25D2B1F2004C26DC /* AMEmailAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76774C25D2B1F2004C26DC /* AMEmailAddressCell.swift */; };
+		3D76774F25D2B1F2004C26DC /* AMEmailAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76774D25D2B1F2004C26DC /* AMEmailAddressCell.xib */; };
+		3D76775325D2B57D004C26DC /* AMRoleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76775125D2B57D004C26DC /* AMRoleCell.swift */; };
+		3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76775225D2B57D004C26DC /* AMRoleCell.xib */; };
+		3D76775825D2D723004C26DC /* AMChangePasswordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76775625D2D723004C26DC /* AMChangePasswordCell.swift */; };
+		3D76775925D2D723004C26DC /* AMChangePasswordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76775725D2D723004C26DC /* AMChangePasswordCell.xib */; };
+		3D76776025D2DD66004C26DC /* AlertAMSuccessUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76775E25D2DD66004C26DC /* AlertAMSuccessUpdate.swift */; };
+		3D76776125D2DD66004C26DC /* AlertAMSuccessUpdate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76775F25D2DD66004C26DC /* AlertAMSuccessUpdate.xib */; };
 		3D77A44C22F822E700BDFD51 /* UIChatListOngoingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */; };
 		3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */; };
 		3D7A39552577A328005E7FAE /* ChatAndCustomerInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7A39532577A328005E7FAE /* ChatAndCustomerInfoVC.swift */; };
@@ -113,6 +133,8 @@
 		3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */; };
 		3D8F3E7225869400004434B7 /* AlertAvailabilityAgent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */; };
 		3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D97780B24FA225000D083D6 /* GoogleService-Info.plist */; };
+		3D9A29AE25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9A29AC25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift */; };
+		3D9A29AF25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D9A29AD25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib */; };
 		3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E1248024DD00CEF339 /* CustomerRoom.swift */; };
 		3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */; };
 		3DA788E62480406C00CEF339 /* UIChatListUnservedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */; };
@@ -214,6 +236,8 @@
 		3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatTabViewController.swift; sourceTree = "<group>"; };
 		3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayOgaVC.swift; sourceTree = "<group>"; };
 		3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayOgaVC.xib; sourceTree = "<group>"; };
+		3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMenuUploadVC.swift; sourceTree = "<group>"; };
+		3D26D2B725D4325600735B0A /* AlertMenuUploadVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertMenuUploadVC.xib; sourceTree = "<group>"; };
 		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
 		3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
 		3D3854A021B4DE6600435B31 /* UIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +284,8 @@
 		3D40B8AB2192E20C00FE7228 /* ChatConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatConfig.swift; sourceTree = "<group>"; };
 		3D4434E7221A71AF009B5CD0 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		3D4434E8221A71AF009B5CD0 /* ContactCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactCell.xib; sourceTree = "<group>"; };
+		3D5ABD9B25D37954008ED9E6 /* AMChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMChangePasswordVC.swift; sourceTree = "<group>"; };
+		3D5ABD9C25D37954008ED9E6 /* AMChangePasswordVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMChangePasswordVC.xib; sourceTree = "<group>"; };
 		3D5D071425CA37E300841D1B /* WABlockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WABlockedCell.swift; sourceTree = "<group>"; };
 		3D5D071525CA37E300841D1B /* WABlockedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WABlockedCell.xib; sourceTree = "<group>"; };
 		3D5DD75E222780E300E39C96 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -268,6 +294,22 @@
 		3D5DD76322279AA400E39C96 /* EditNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditNameVC.xib; sourceTree = "<group>"; };
 		3D76772E25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertOnlineOfflineFirstLoginAgent.swift; sourceTree = "<group>"; };
 		3D76772F25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertOnlineOfflineFirstLoginAgent.xib; sourceTree = "<group>"; };
+		3D76773525D2842C004C26DC /* SettingMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuVC.swift; sourceTree = "<group>"; };
+		3D76773625D2842C004C26DC /* SettingMenuVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingMenuVC.xib; sourceTree = "<group>"; };
+		3D76773B25D28958004C26DC /* AccountManagementAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagementAgentVC.swift; sourceTree = "<group>"; };
+		3D76773C25D28958004C26DC /* AccountManagementAgentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountManagementAgentVC.xib; sourceTree = "<group>"; };
+		3D76774225D29223004C26DC /* AMProfileAvatarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMProfileAvatarCell.swift; sourceTree = "<group>"; };
+		3D76774325D29223004C26DC /* AMProfileAvatarCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMProfileAvatarCell.xib; sourceTree = "<group>"; };
+		3D76774725D2ABDA004C26DC /* AMFullNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMFullNameCell.swift; sourceTree = "<group>"; };
+		3D76774825D2ABDA004C26DC /* AMFullNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMFullNameCell.xib; sourceTree = "<group>"; };
+		3D76774C25D2B1F2004C26DC /* AMEmailAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMEmailAddressCell.swift; sourceTree = "<group>"; };
+		3D76774D25D2B1F2004C26DC /* AMEmailAddressCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMEmailAddressCell.xib; sourceTree = "<group>"; };
+		3D76775125D2B57D004C26DC /* AMRoleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMRoleCell.swift; sourceTree = "<group>"; };
+		3D76775225D2B57D004C26DC /* AMRoleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMRoleCell.xib; sourceTree = "<group>"; };
+		3D76775625D2D723004C26DC /* AMChangePasswordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMChangePasswordCell.swift; sourceTree = "<group>"; };
+		3D76775725D2D723004C26DC /* AMChangePasswordCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMChangePasswordCell.xib; sourceTree = "<group>"; };
+		3D76775E25D2DD66004C26DC /* AlertAMSuccessUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAMSuccessUpdate.swift; sourceTree = "<group>"; };
+		3D76775F25D2DD66004C26DC /* AlertAMSuccessUpdate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAMSuccessUpdate.xib; sourceTree = "<group>"; };
 		3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListOngoingViewController.swift; sourceTree = "<group>"; };
 		3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListOngoingViewController.xib; sourceTree = "<group>"; };
 		3D7A39532577A328005E7FAE /* ChatAndCustomerInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAndCustomerInfoVC.swift; sourceTree = "<group>"; };
@@ -308,6 +350,8 @@
 		3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAvailabilityAgent.swift; sourceTree = "<group>"; };
 		3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAvailabilityAgent.xib; sourceTree = "<group>"; };
 		3D97780B24FA225000D083D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3D9A29AC25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAMFailedChangePassword.swift; sourceTree = "<group>"; };
+		3D9A29AD25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAMFailedChangePassword.xib; sourceTree = "<group>"; };
 		3DA788E1248024DD00CEF339 /* CustomerRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRoom.swift; sourceTree = "<group>"; };
 		3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListUnservedViewController.swift; sourceTree = "<group>"; };
 		3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListUnservedViewController.xib; sourceTree = "<group>"; };
@@ -598,6 +642,61 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		3D76773425D283DF004C26DC /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				3D76775D25D2DD2A004C26DC /* AlertVC */,
+				3D76773525D2842C004C26DC /* SettingMenuVC.swift */,
+				3D76773625D2842C004C26DC /* SettingMenuVC.xib */,
+				3D76773B25D28958004C26DC /* AccountManagementAgentVC.swift */,
+				3D76773C25D28958004C26DC /* AccountManagementAgentVC.xib */,
+				3D5ABD9B25D37954008ED9E6 /* AMChangePasswordVC.swift */,
+				3D5ABD9C25D37954008ED9E6 /* AMChangePasswordVC.xib */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		3D76774125D291E8004C26DC /* AccountManagementCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D76774225D29223004C26DC /* AMProfileAvatarCell.swift */,
+				3D76774325D29223004C26DC /* AMProfileAvatarCell.xib */,
+				3D76774725D2ABDA004C26DC /* AMFullNameCell.swift */,
+				3D76774825D2ABDA004C26DC /* AMFullNameCell.xib */,
+				3D76774C25D2B1F2004C26DC /* AMEmailAddressCell.swift */,
+				3D76774D25D2B1F2004C26DC /* AMEmailAddressCell.xib */,
+				3D76775125D2B57D004C26DC /* AMRoleCell.swift */,
+				3D76775225D2B57D004C26DC /* AMRoleCell.xib */,
+				3D76775625D2D723004C26DC /* AMChangePasswordCell.swift */,
+				3D76775725D2D723004C26DC /* AMChangePasswordCell.xib */,
+			);
+			path = AccountManagementCell;
+			sourceTree = "<group>";
+		};
+		3D76775D25D2DD2A004C26DC /* AlertVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D76775E25D2DD66004C26DC /* AlertAMSuccessUpdate.swift */,
+				3D76775F25D2DD66004C26DC /* AlertAMSuccessUpdate.xib */,
+				3D9A29AC25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift */,
+				3D9A29AD25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib */,
+				3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */,
+				3D26D2B725D4325600735B0A /* AlertMenuUploadVC.xib */,
+			);
+			path = AlertVC;
+			sourceTree = "<group>";
+		};
+		3D76776325D2DDC1004C26DC /* AlertVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */,
+				3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */,
+				3D76772E25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift */,
+				3D76772F25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib */,
+			);
+			path = AlertVC;
+			sourceTree = "<group>";
+		};
 		3D7A39522577A2BA005E7FAE /* RefectorUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,30 +894,29 @@
 		3DC7FDFB2586546900CCA763 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				3D76776325D2DDC1004C26DC /* AlertVC */,
 				3DC7FE0D258662F000CCA763 /* Drawer */,
 				3DC7FDFC2586552200CCA763 /* HomeVC.swift */,
 				3DC7FDFD2586552200CCA763 /* HomeVC.xib */,
-				3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */,
-				3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */,
-				3D76772E25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift */,
-				3D76772F25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		3DC7FE0C258662E500CCA763 /* Cell */ = {
+		3DC7FE0C258662E500CCA763 /* DrawerCell */ = {
 			isa = PBXGroup;
 			children = (
 				3DC7FE0E2586633800CCA763 /* AvailabilityAgentCell.swift */,
 				3DC7FE0F2586633800CCA763 /* AvailabilityAgentCell.xib */,
 			);
-			path = Cell;
+			path = DrawerCell;
 			sourceTree = "<group>";
 		};
 		3DC7FE0D258662F000CCA763 /* Drawer */ = {
 			isa = PBXGroup;
 			children = (
-				3DC7FE0C258662E500CCA763 /* Cell */,
+				3D76773425D283DF004C26DC /* VC */,
+				3D76774125D291E8004C26DC /* AccountManagementCell */,
+				3DC7FE0C258662E500CCA763 /* DrawerCell */,
 				3DC7FE082586590300CCA763 /* SideBar.swift */,
 				3DC7FE092586590300CCA763 /* SideBar.xib */,
 				3DC7FE022586589800CCA763 /* RDNavigation.swift */,
@@ -1023,6 +1121,7 @@
 				3D7A397C25793960005E7FAE /* DetailAdditionalInformationCell.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
+				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
 				3D7A39722578A43F005E7FAE /* NoAgentsCell.xib in Resources */,
 				3DA788F22480719D00CEF339 /* QReplyTextRightCell.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
@@ -1040,16 +1139,19 @@
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
 				3D7A395E2577ADCF005E7FAE /* CompleteTaskCell.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
+				3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */,
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
 				3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */,
 				3D76773125D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib in Resources */,
 				3DD6E59725AD9BA700BF96AD /* QVideoLeftCell.xib in Resources */,
+				3D76773825D2842D004C26DC /* SettingMenuVC.xib in Resources */,
 				3DC51C23255D08D0008BE893 /* AddAgentVC.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3DB48BAC25A7590900B5D760 /* HSMCell.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
+				3D76774A25D2ABDA004C26DC /* AMFullNameCell.xib in Resources */,
 				3DC7FE112586633800CCA763 /* AvailabilityAgentCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
 				3D7A39622577C7B7005E7FAE /* AdditionalInformationCell.xib in Resources */,
@@ -1069,16 +1171,22 @@
 				3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */,
 				3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
+				3D9A29AF25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
+				3D5ABD9E25D37954008ED9E6 /* AMChangePasswordVC.xib in Resources */,
 				3D40B8C72192E20C00FE7228 /* ChatPreviewDocVC.xib in Resources */,
 				3DB48BB825A807EE00B5D760 /* HSMWillExpireSoonCell.xib in Resources */,
 				3DC7FDFF2586552200CCA763 /* HomeVC.xib in Resources */,
+				3D76775925D2D723004C26DC /* AMChangePasswordCell.xib in Resources */,
 				3D3854B721B4E34800435B31 /* UIChatListViewCell.xib in Resources */,
 				3D3854A721B4DE6600435B31 /* UIChatNavigation.xib in Resources */,
 				3D3854BB21B6409A00435B31 /* EmptyCell.xib in Resources */,
 				3DA824502301B3980054D92F /* QPostbackLeftCell.xib in Resources */,
+				3D76776125D2DD66004C26DC /* AlertAMSuccessUpdate.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
+				3D76773E25D28958004C26DC /* AccountManagementAgentVC.xib in Resources */,
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
+				3D76774525D29223004C26DC /* AMProfileAvatarCell.xib in Resources */,
 				3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */,
 				3D7A396E25789B0E005E7FAE /* AgentCustomerInfoCell.xib in Resources */,
 				3DD6E59125AD664800BF96AD /* QVideoRightCell.xib in Resources */,
@@ -1090,6 +1198,7 @@
 				3DC7FDD72585C71700CCA763 /* DetailBroadcastHistoryCell.xib in Resources */,
 				3D40B8CA2192E20C00FE7228 /* CustomChatInput.xib in Resources */,
 				3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */,
+				3D76774F25D2B1F2004C26DC /* AMEmailAddressCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1161,11 +1270,15 @@
 				3D40B8B52192E20C00FE7228 /* ViewController.swift in Sources */,
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
 				3DA788F12480719D00CEF339 /* QReplyTextRightCell.swift in Sources */,
+				3D76775825D2D723004C26DC /* AMChangePasswordCell.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
 				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
 				3DB48BAF25A76F5700B5D760 /* BottomAlertInfoHSM.swift in Sources */,
+				3D76774E25D2B1F2004C26DC /* AMEmailAddressCell.swift in Sources */,
 				3DB48BAB25A7590900B5D760 /* HSMCell.swift in Sources */,
+				3D76773D25D28958004C26DC /* AccountManagementAgentVC.swift in Sources */,
 				3DC7FDD62585C71700CCA763 /* DetailBroadcastHistoryCell.swift in Sources */,
+				3D76774925D2ABDA004C26DC /* AMFullNameCell.swift in Sources */,
 				3D0B8B21255D890E002A484F /* CloseButton.swift in Sources */,
 				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
@@ -1194,7 +1307,9 @@
 				3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
 				3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */,
+				3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */,
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
+				3D76776025D2DD66004C26DC /* AlertAMSuccessUpdate.swift in Sources */,
 				3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */,
 				3D80B2B7221BDBE80053280C /* CreateGroupInfoVC.swift in Sources */,
 				3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */,
@@ -1206,11 +1321,13 @@
 				3D7A397B25793960005E7FAE /* DetailAdditionalInformationCell.swift in Sources */,
 				3DC7FE062586589900CCA763 /* RDNavigation.swift in Sources */,
 				3DC7FE0A2586590300CCA763 /* SideBar.swift in Sources */,
+				3D76774425D29223004C26DC /* AMProfileAvatarCell.swift in Sources */,
 				3DC7FE072586589900CCA763 /* RDNavigationDrawer.swift in Sources */,
 				3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */,
 				3D77A44C22F822E700BDFD51 /* UIChatListOngoingViewController.swift in Sources */,
 				3D7A39692577E153005E7FAE /* TagsCustomerInfoCell.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
+				3D26D2B825D4325600735B0A /* AlertMenuUploadVC.swift in Sources */,
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
 				3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */,
 				3D3854B621B4E34800435B31 /* UIChatListViewCell.swift in Sources */,
@@ -1257,17 +1374,20 @@
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
+				3D76773725D2842D004C26DC /* SettingMenuVC.swift in Sources */,
 				3D40B8F12192E20C00FE7228 /* QiscusUploaderVC.swift in Sources */,
 				3DC7FDFE2586552200CCA763 /* HomeVC.swift in Sources */,
 				3DC7FE042586589900CCA763 /* RDNavigationDrawerGestures.swift in Sources */,
 				3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */,
 				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
+				3D76775325D2B57D004C26DC /* AMRoleCell.swift in Sources */,
 				3DA824592301C35B0054D92F /* QCardButton.swift in Sources */,
 				3D0B8B23255D981C002A484F /* TagsModel.swift in Sources */,
 				3DD6E59625AD9BA700BF96AD /* QVideoLeftCell.swift in Sources */,
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
 				3D40B8B72192E20C00FE7228 /* Background.swift in Sources */,
 				3DA824482301B3980054D92F /* QCarouselCardCell.swift in Sources */,
+				3D9A29AE25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift in Sources */,
 				3DB438002322448A007BE03F /* UIBottomPopupVC.swift in Sources */,
 				3D819A2D221E655800F1B7CA /* QFileLeftCell.swift in Sources */,
 			);
@@ -1329,7 +1449,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1418,8 +1538,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Example/Info.plist;
@@ -1428,7 +1548,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.13;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
@@ -1446,7 +1566,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1456,7 +1576,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.13;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";

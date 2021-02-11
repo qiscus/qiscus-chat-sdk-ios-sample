@@ -18,6 +18,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var btEditProfile: UIButton!
     @IBOutlet weak var viewMenuLogout: UIView!
+    @IBOutlet weak var viewMenuSetting: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var ivProfile: UIImageView!
@@ -47,6 +48,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         self.setupHeader()
         self.setupTableView()
         self.setupMenuLogout()
+        self.setupMenuSetting()
         self.setupEditProfile()
     }
     
@@ -75,6 +77,14 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         viewMenuLogout.layer.cornerRadius = 8
     }
     
+    func setupMenuSetting(){
+        viewMenuSetting.layer.shadowColor = UIColor.black.cgColor
+        viewMenuSetting.layer.shadowOffset = CGSize(width: 1, height: 1)
+        viewMenuSetting.layer.shadowOpacity = 0.3
+        viewMenuSetting.layer.shadowRadius = 1.0
+        viewMenuSetting.layer.cornerRadius = 8
+    }
+    
     func setupEditProfile(){
         self.btEditProfile.layer.cornerRadius = self.btEditProfile.frame.size.height/2
                
@@ -88,8 +98,20 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         if RDNavigationDrawer.isOpen == true {
             RDNavigationDrawer.sideToggle()
         }
-        let vc = ProfileVC()
-        self.currentViewController()?.navigationController?.pushViewController(vc, animated: true)
+        
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1  {
+                //admin
+                //coming soon
+            }else if userType == 2{
+                //agent
+                let vc = AccountManagementAgentVC()
+                self.currentViewController()?.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                //spv
+                //coming soon
+            }
+        }
     }
     
     @IBAction func logoutAction(_ sender: Any) {
@@ -112,6 +134,14 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
             let app = UIApplication.shared.delegate as! AppDelegate
             app.auth()
         }
+    }
+    
+    @IBAction func settingAction(_ sender: Any) {
+        if RDNavigationDrawer.isOpen == true {
+            RDNavigationDrawer.sideToggle()
+        }
+        let vc = SettingMenuVC()
+        self.currentViewController()?.navigationController?.pushViewController(vc, animated: true)
     }
     
     func forceOffline(){
