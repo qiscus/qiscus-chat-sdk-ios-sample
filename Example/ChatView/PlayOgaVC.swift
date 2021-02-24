@@ -50,10 +50,26 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
         self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: "")
-        
-        let shareButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(PlayOgaVC.share))
-        self.navigationItem.rightBarButtonItem = shareButton
+        let actionButton = self.actionButton(self, action:  #selector(PlayOgaVC.goActionButton))
+        self.navigationItem.rightBarButtonItem = actionButton
     }
+    
+    private func actionButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
+        let menuIcon = UIImageView()
+        menuIcon.contentMode = .scaleAspectFit
+        
+        let image = UIImage(named: "ic_dot_menu")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        menuIcon.image = image
+        menuIcon.tintColor = UIColor.white
+        
+        menuIcon.frame = CGRect(x: 0,y: 0,width: 30,height: 30)
+        
+        let actionButton = UIButton(frame:CGRect(x: 0,y: 0,width: 30,height: 30))
+        actionButton.addSubview(menuIcon)
+        actionButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
+        return UIBarButtonItem(customView: actionButton)
+    }
+    
     
     func setupLoading(){
         self.uiVIew.isHidden = true
@@ -98,6 +114,70 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
             activityViewController.popoverPresentationController?.sourceView = self.view
             self.present(activityViewController, animated: true, completion: nil)
         }
+
+    }
+    
+    func download(){
+        if let url = URL(string: mediaURL) {
+            QiscusCore.shared.download(url: url) { (urlLocal) in
+                self.showAlertWith(title: "Saved!", message: "File has been saved to your document in folder Qiscus Multichannel.")
+            } onProgress: { (progress) in
+
+            }
+        }
+    }
+    
+    func showAlertWith(title: String, message: String){
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        self.navigationController?.present(ac, animated: true, completion: {
+            //success
+        })
+        
+    }
+        
+    
+    @objc func goActionButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Share Audio", style: .default , handler:{ (UIAlertAction)in
+            self.share()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Download Audio", style: .default , handler:{ (UIAlertAction)in
+            self.download()
+        }))
+        
+//        alert.addAction(UIAlertAction(title: "Play Audio in VLC APP", style: .default , handler:{ (UIAlertAction)in
+//            let appURL = URL(string: "vlc-x-callback://x-callback-url/stream?url=\(self.mediaURL)")!
+//            let application = UIApplication.shared
+//
+//            if application.canOpenURL(appURL) {
+//                application.open(appURL)
+//            } else {
+//                let urlStr = "itms-apps://itunes.apple.com/app/apple-store/id650377962"
+//                if #available(iOS 10.0, *) {
+//                    UIApplication.shared.open(URL(string: urlStr)!, options: [:]) { (isSuccess) in
+//
+//                    }
+//
+//                } else {
+//                    UIApplication.shared.openURL(URL(string: urlStr)!)
+//                }
+//            }
+//        }))
+//
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
+            
+        }))
+        
+        
+        //uncomment for iPad Support
+        alert.popoverPresentationController?.sourceView = self.view
+        
+        self.present(alert, animated: true, completion: {
+            print("completion block")
+        })
     }
 
     override func viewWillDisappear(_ animated: Bool) {
