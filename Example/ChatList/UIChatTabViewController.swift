@@ -88,7 +88,7 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
                        self.createFloatingButton(count: 0)
                     }
                 }
-            }else{
+            }else if userType == 1{
                 //agentOrAdmin = "admin"
                 Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
                     if response.result.value != nil {
@@ -120,10 +120,40 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
                        self.createFloatingButton(count: 0)
                     }
                 }
+            }else {
+                //agentOrAdmin = "spv"
+                Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/spv/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                    if response.result.value != nil {
+                        if (response.response?.statusCode)! >= 300 {
+                           self.createFloatingButton(count: 0)
+                            print(" response.response?.statusCode \( response.response?.statusCode)")
+                            if response.response?.statusCode == 401 {
+                                RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                    if success == true {
+                                        self.getCountCustomer()
+                                    } else {
+                                        return
+                                    }
+                                }
+                            }
+                        } else {
+                            //success
+                            let payload = JSON(response.result.value)
+                            let count = payload["data"]["total_unserved"].int ?? 0
+                            
+                            self.createFloatingButton(count: count)
+                            
+                        }
+                    } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                        //failed
+                        self.createFloatingButton(count: 0)
+                    } else {
+                        //failed
+                       self.createFloatingButton(count: 0)
+                    }
+                }
             }
         }
-        
-        
     }
     
     func createFloatingButton(count: Int){

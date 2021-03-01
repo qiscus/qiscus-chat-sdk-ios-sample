@@ -18,6 +18,26 @@
 		3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */; };
 		3D0B8B28255DA619002A484F /* TagsSuggestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */; };
 		3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */; };
+		3D0EAE4125E5FC9A00481198 /* AccountManagementAdminVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE3F25E5FC9A00481198 /* AccountManagementAdminVC.swift */; };
+		3D0EAE4225E5FC9A00481198 /* AccountManagementAdminVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE4025E5FC9A00481198 /* AccountManagementAdminVC.xib */; };
+		3D0EAE4625E6040C00481198 /* AMCompanyNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE4425E6040C00481198 /* AMCompanyNameCell.swift */; };
+		3D0EAE4725E6040C00481198 /* AMCompanyNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE4525E6040C00481198 /* AMCompanyNameCell.xib */; };
+		3D0EAE4B25E6071500481198 /* AMAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE4925E6071500481198 /* AMAddressCell.swift */; };
+		3D0EAE4C25E6071500481198 /* AMAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE4A25E6071500481198 /* AMAddressCell.xib */; };
+		3D0EAE5025E60C4700481198 /* AMPhoneNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE4E25E60C4700481198 /* AMPhoneNumberCell.swift */; };
+		3D0EAE5125E60C4700481198 /* AMPhoneNumberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE4F25E60C4700481198 /* AMPhoneNumberCell.xib */; };
+		3D0EAE5525E60FCF00481198 /* AMAlterBillEmailSatuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE5325E60FCF00481198 /* AMAlterBillEmailSatuCell.swift */; };
+		3D0EAE5625E60FCF00481198 /* AMAlterBillEmailSatuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE5425E60FCF00481198 /* AMAlterBillEmailSatuCell.xib */; };
+		3D0EAE5A25E618F900481198 /* AMAlterBillEmailDuaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE5825E618F900481198 /* AMAlterBillEmailDuaCell.swift */; };
+		3D0EAE5B25E618F900481198 /* AMAlterBillEmailDuaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE5925E618F900481198 /* AMAlterBillEmailDuaCell.xib */; };
+		3D0EAE5F25E6199800481198 /* AMAlterBillEmailTigaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE5D25E6199800481198 /* AMAlterBillEmailTigaCell.swift */; };
+		3D0EAE6025E6199800481198 /* AMAlterBillEmailTigaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE5E25E6199800481198 /* AMAlterBillEmailTigaCell.xib */; };
+		3D0EAE6425E63C5D00481198 /* AMIndustryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE6225E63C5D00481198 /* AMIndustryCell.swift */; };
+		3D0EAE6525E63C5D00481198 /* AMIndustryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE6325E63C5D00481198 /* AMIndustryCell.xib */; };
+		3D0EAE6C25E8D35300481198 /* AccountManagementSPVVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE6A25E8D35300481198 /* AccountManagementSPVVC.swift */; };
+		3D0EAE6D25E8D35300481198 /* AccountManagementSPVVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE6B25E8D35300481198 /* AccountManagementSPVVC.xib */; };
+		3D0EAE7125E8E90100481198 /* AlertAMFailedUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE6F25E8E90100481198 /* AlertAMFailedUpdate.swift */; };
+		3D0EAE7225E8E90100481198 /* AlertAMFailedUpdate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE7025E8E90100481198 /* AlertAMFailedUpdate.xib */; };
 		3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */; };
 		3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */; };
 		3D26D2B825D4325600735B0A /* AlertMenuUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */; };
@@ -234,6 +254,26 @@
 		3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSuggestionCell.swift; sourceTree = "<group>"; };
 		3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagsSuggestionCell.xib; sourceTree = "<group>"; };
 		3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatTabViewController.swift; sourceTree = "<group>"; };
+		3D0EAE3F25E5FC9A00481198 /* AccountManagementAdminVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagementAdminVC.swift; sourceTree = "<group>"; };
+		3D0EAE4025E5FC9A00481198 /* AccountManagementAdminVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountManagementAdminVC.xib; sourceTree = "<group>"; };
+		3D0EAE4425E6040C00481198 /* AMCompanyNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMCompanyNameCell.swift; sourceTree = "<group>"; };
+		3D0EAE4525E6040C00481198 /* AMCompanyNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMCompanyNameCell.xib; sourceTree = "<group>"; };
+		3D0EAE4925E6071500481198 /* AMAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMAddressCell.swift; sourceTree = "<group>"; };
+		3D0EAE4A25E6071500481198 /* AMAddressCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMAddressCell.xib; sourceTree = "<group>"; };
+		3D0EAE4E25E60C4700481198 /* AMPhoneNumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMPhoneNumberCell.swift; sourceTree = "<group>"; };
+		3D0EAE4F25E60C4700481198 /* AMPhoneNumberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMPhoneNumberCell.xib; sourceTree = "<group>"; };
+		3D0EAE5325E60FCF00481198 /* AMAlterBillEmailSatuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMAlterBillEmailSatuCell.swift; sourceTree = "<group>"; };
+		3D0EAE5425E60FCF00481198 /* AMAlterBillEmailSatuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMAlterBillEmailSatuCell.xib; sourceTree = "<group>"; };
+		3D0EAE5825E618F900481198 /* AMAlterBillEmailDuaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMAlterBillEmailDuaCell.swift; sourceTree = "<group>"; };
+		3D0EAE5925E618F900481198 /* AMAlterBillEmailDuaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMAlterBillEmailDuaCell.xib; sourceTree = "<group>"; };
+		3D0EAE5D25E6199800481198 /* AMAlterBillEmailTigaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMAlterBillEmailTigaCell.swift; sourceTree = "<group>"; };
+		3D0EAE5E25E6199800481198 /* AMAlterBillEmailTigaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMAlterBillEmailTigaCell.xib; sourceTree = "<group>"; };
+		3D0EAE6225E63C5D00481198 /* AMIndustryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMIndustryCell.swift; sourceTree = "<group>"; };
+		3D0EAE6325E63C5D00481198 /* AMIndustryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMIndustryCell.xib; sourceTree = "<group>"; };
+		3D0EAE6A25E8D35300481198 /* AccountManagementSPVVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagementSPVVC.swift; sourceTree = "<group>"; };
+		3D0EAE6B25E8D35300481198 /* AccountManagementSPVVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountManagementSPVVC.xib; sourceTree = "<group>"; };
+		3D0EAE6F25E8E90100481198 /* AlertAMFailedUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAMFailedUpdate.swift; sourceTree = "<group>"; };
+		3D0EAE7025E8E90100481198 /* AlertAMFailedUpdate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAMFailedUpdate.xib; sourceTree = "<group>"; };
 		3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayOgaVC.swift; sourceTree = "<group>"; };
 		3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayOgaVC.xib; sourceTree = "<group>"; };
 		3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMenuUploadVC.swift; sourceTree = "<group>"; };
@@ -652,6 +692,10 @@
 				3D76773C25D28958004C26DC /* AccountManagementAgentVC.xib */,
 				3D5ABD9B25D37954008ED9E6 /* AMChangePasswordVC.swift */,
 				3D5ABD9C25D37954008ED9E6 /* AMChangePasswordVC.xib */,
+				3D0EAE3F25E5FC9A00481198 /* AccountManagementAdminVC.swift */,
+				3D0EAE4025E5FC9A00481198 /* AccountManagementAdminVC.xib */,
+				3D0EAE6A25E8D35300481198 /* AccountManagementSPVVC.swift */,
+				3D0EAE6B25E8D35300481198 /* AccountManagementSPVVC.xib */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -669,6 +713,20 @@
 				3D76775225D2B57D004C26DC /* AMRoleCell.xib */,
 				3D76775625D2D723004C26DC /* AMChangePasswordCell.swift */,
 				3D76775725D2D723004C26DC /* AMChangePasswordCell.xib */,
+				3D0EAE4425E6040C00481198 /* AMCompanyNameCell.swift */,
+				3D0EAE4525E6040C00481198 /* AMCompanyNameCell.xib */,
+				3D0EAE4925E6071500481198 /* AMAddressCell.swift */,
+				3D0EAE4A25E6071500481198 /* AMAddressCell.xib */,
+				3D0EAE4E25E60C4700481198 /* AMPhoneNumberCell.swift */,
+				3D0EAE4F25E60C4700481198 /* AMPhoneNumberCell.xib */,
+				3D0EAE5325E60FCF00481198 /* AMAlterBillEmailSatuCell.swift */,
+				3D0EAE5425E60FCF00481198 /* AMAlterBillEmailSatuCell.xib */,
+				3D0EAE5825E618F900481198 /* AMAlterBillEmailDuaCell.swift */,
+				3D0EAE5925E618F900481198 /* AMAlterBillEmailDuaCell.xib */,
+				3D0EAE5D25E6199800481198 /* AMAlterBillEmailTigaCell.swift */,
+				3D0EAE5E25E6199800481198 /* AMAlterBillEmailTigaCell.xib */,
+				3D0EAE6225E63C5D00481198 /* AMIndustryCell.swift */,
+				3D0EAE6325E63C5D00481198 /* AMIndustryCell.xib */,
 			);
 			path = AccountManagementCell;
 			sourceTree = "<group>";
@@ -682,6 +740,8 @@
 				3D9A29AD25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib */,
 				3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */,
 				3D26D2B725D4325600735B0A /* AlertMenuUploadVC.xib */,
+				3D0EAE6F25E8E90100481198 /* AlertAMFailedUpdate.swift */,
+				3D0EAE7025E8E90100481198 /* AlertAMFailedUpdate.xib */,
 			);
 			path = AlertVC;
 			sourceTree = "<group>";
@@ -1118,7 +1178,9 @@
 				3D0B8B1A255D8325002A484F /* TagsVC.xib in Resources */,
 				3DA8244C2301B3980054D92F /* QCardRightCell.xib in Resources */,
 				3D7A39562577A328005E7FAE /* ChatAndCustomerInfoVC.xib in Resources */,
+				3D0EAE7225E8E90100481198 /* AlertAMFailedUpdate.xib in Resources */,
 				3D7A397C25793960005E7FAE /* DetailAdditionalInformationCell.xib in Resources */,
+				3D0EAE6D25E8D35300481198 /* AccountManagementSPVVC.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
 				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
@@ -1134,9 +1196,11 @@
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
+				3D0EAE5B25E618F900481198 /* AMAlterBillEmailDuaCell.xib in Resources */,
 				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
 				3DC7FDCD25850E5A00CCA763 /* BroadcastHistoryCell.xib in Resources */,
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
+				3D0EAE4225E5FC9A00481198 /* AccountManagementAdminVC.xib in Resources */,
 				3D7A395E2577ADCF005E7FAE /* CompleteTaskCell.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
 				3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */,
@@ -1151,10 +1215,13 @@
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3DB48BAC25A7590900B5D760 /* HSMCell.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
+				3D0EAE4C25E6071500481198 /* AMAddressCell.xib in Resources */,
 				3D76774A25D2ABDA004C26DC /* AMFullNameCell.xib in Resources */,
 				3DC7FE112586633800CCA763 /* AvailabilityAgentCell.xib in Resources */,
+				3D0EAE5625E60FCF00481198 /* AMAlterBillEmailSatuCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
 				3D7A39622577C7B7005E7FAE /* AdditionalInformationCell.xib in Resources */,
+				3D0EAE6025E6199800481198 /* AMAlterBillEmailTigaCell.xib in Resources */,
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
 				3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */,
 				3DA788F62480A5B800CEF339 /* QReplyTextLeftCell.xib in Resources */,
@@ -1163,11 +1230,13 @@
 				3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */,
 				3D40B8D42192E20C00FE7228 /* QTextRightCell.xib in Resources */,
 				3D40B8BF2192E20C00FE7228 /* QPopUpView.xib in Resources */,
+				3D0EAE5125E60C4700481198 /* AMPhoneNumberCell.xib in Resources */,
 				3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */,
 				3DA788FA2480BFFC00CEF339 /* QReplyImageRightCell.xib in Resources */,
 				3DC7FE0B2586590300CCA763 /* SideBar.xib in Resources */,
 				3D0B8B28255DA619002A484F /* TagsSuggestionCell.xib in Resources */,
 				3DB438012322448A007BE03F /* UIBottomPopupVC.xib in Resources */,
+				3D0EAE4725E6040C00481198 /* AMCompanyNameCell.xib in Resources */,
 				3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */,
 				3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
@@ -1181,6 +1250,7 @@
 				3D3854B721B4E34800435B31 /* UIChatListViewCell.xib in Resources */,
 				3D3854A721B4DE6600435B31 /* UIChatNavigation.xib in Resources */,
 				3D3854BB21B6409A00435B31 /* EmptyCell.xib in Resources */,
+				3D0EAE6525E63C5D00481198 /* AMIndustryCell.xib in Resources */,
 				3DA824502301B3980054D92F /* QPostbackLeftCell.xib in Resources */,
 				3D76776125D2DD66004C26DC /* AlertAMSuccessUpdate.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
@@ -1266,9 +1336,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D0EAE7125E8E90100481198 /* AlertAMFailedUpdate.swift in Sources */,
 				3DA788F52480A5B800CEF339 /* QReplyTextLeftCell.swift in Sources */,
 				3D40B8B52192E20C00FE7228 /* ViewController.swift in Sources */,
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
+				3D0EAE5F25E6199800481198 /* AMAlterBillEmailTigaCell.swift in Sources */,
 				3DA788F12480719D00CEF339 /* QReplyTextRightCell.swift in Sources */,
 				3D76775825D2D723004C26DC /* AMChangePasswordCell.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
@@ -1289,11 +1361,13 @@
 				3DC51C2A255D14A7008BE893 /* AgentModel.swift in Sources */,
 				3D0B8B1D255D88CA002A484F /* TagListView.swift in Sources */,
 				3DC7FDCC25850E5A00CCA763 /* BroadcastHistoryCell.swift in Sources */,
+				3D0EAE4B25E6071500481198 /* AMAddressCell.swift in Sources */,
 				3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
 				3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
 				3D7A395D2577ADCF005E7FAE /* CompleteTaskCell.swift in Sources */,
+				3D0EAE4125E5FC9A00481198 /* AccountManagementAdminVC.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3D5D071625CA37E300841D1B /* WABlockedCell.swift in Sources */,
@@ -1311,12 +1385,14 @@
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
 				3D76776025D2DD66004C26DC /* AlertAMSuccessUpdate.swift in Sources */,
 				3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */,
+				3D0EAE5A25E618F900481198 /* AMAlterBillEmailDuaCell.swift in Sources */,
 				3D80B2B7221BDBE80053280C /* CreateGroupInfoVC.swift in Sources */,
 				3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */,
 				3DC7FE052586589900CCA763 /* RDNavigationDrawerDelegate.swift in Sources */,
 				3DA824532301B5690054D92F /* QiscusHelper.swift in Sources */,
 				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */,
+				3D0EAE6425E63C5D00481198 /* AMIndustryCell.swift in Sources */,
 				3DB36C1625AB70A70086F05F /* HSMTemplateModel.swift in Sources */,
 				3D7A397B25793960005E7FAE /* DetailAdditionalInformationCell.swift in Sources */,
 				3DC7FE062586589900CCA763 /* RDNavigation.swift in Sources */,
@@ -1326,6 +1402,7 @@
 				3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */,
 				3D77A44C22F822E700BDFD51 /* UIChatListOngoingViewController.swift in Sources */,
 				3D7A39692577E153005E7FAE /* TagsCustomerInfoCell.swift in Sources */,
+				3D0EAE5525E60FCF00481198 /* AMAlterBillEmailSatuCell.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
 				3D26D2B825D4325600735B0A /* AlertMenuUploadVC.swift in Sources */,
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
@@ -1339,6 +1416,7 @@
 				3D7A397E25793C16005E7FAE /* AdditionalInformationModel.swift in Sources */,
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */,
+				3D0EAE4625E6040C00481198 /* AMCompanyNameCell.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
 				3D7A39652577CA0C005E7FAE /* NotesCell.swift in Sources */,
 				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
@@ -1357,11 +1435,13 @@
 				3DB48BB725A807EE00B5D760 /* HSMWillExpireSoonCell.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
+				3D0EAE6C25E8D35300481198 /* AccountManagementSPVVC.swift in Sources */,
 				3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */,
 				3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */,
 				3DAB890724C0FDE40046E5DE /* ChatTemplate.swift in Sources */,
 				3D8F0D6122684130000135CA /* UserDefault.swift in Sources */,
 				3D819A26221D0BFB00F1B7CA /* UITextField.swift in Sources */,
+				3D0EAE5025E60C4700481198 /* AMPhoneNumberCell.swift in Sources */,
 				3D7A39612577C7B7005E7FAE /* AdditionalInformationCell.swift in Sources */,
 				3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */,
 				3D7A39592577A701005E7FAE /* CustomerInfoCell.swift in Sources */,
@@ -1538,7 +1618,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1566,7 +1646,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

@@ -33,6 +33,7 @@ class AMChangePasswordVC: UIViewController {
     @IBOutlet weak var alertSuccessViewPopup: UIView!
     @IBOutlet weak var alertSuccessButtonLogout: UIButton!
     
+    @IBOutlet weak var lbAlertMessageSuccess: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -141,24 +142,47 @@ class AMChangePasswordVC: UIViewController {
     
     @IBAction func actionLogoutAlert(_ sender: Any) {
         if let userType = UserDefaults.standard.getUserType(){
-            if userType == 2{
+            if userType == 1  {
+                //admin
+                self.alertSuccessViewPopup.isHidden = true
+                self.dismiss(animated: false) {
+                    
+                }
+            }else if userType == 2{
                 //agent
                 self.forceOffline()
+                
+                if let deviceToken = UserDefaults.standard.getDeviceToken(){
+                    QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (isSuccess) in
+                        
+                    }) { (error) in
+                        
+                    }
+                }
+                
+                QiscusCore.logout { (error) in
+                    let app = UIApplication.shared.delegate as! AppDelegate
+                    app.auth()
+                }
+            }else{
+                //spv
+                
+                if let deviceToken = UserDefaults.standard.getDeviceToken(){
+                    QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (isSuccess) in
+                        
+                    }) { (error) in
+                        
+                    }
+                }
+                
+                QiscusCore.logout { (error) in
+                    let app = UIApplication.shared.delegate as! AppDelegate
+                    app.auth()
+                }
             }
         }
         
-        if let deviceToken = UserDefaults.standard.getDeviceToken(){
-            QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (isSuccess) in
-                
-            }) { (error) in
-                
-            }
-        }
         
-        QiscusCore.logout { (error) in
-            let app = UIApplication.shared.delegate as! AppDelegate
-            app.auth()
-        }
     }
     
     func forceOffline(){
@@ -217,8 +241,23 @@ class AMChangePasswordVC: UIViewController {
             "new_password" : newPassword
         ]
         
+        var agentAdminSpv = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1  {
+                //admin
+                agentAdminSpv = "admin"
+            }else if userType == 2{
+                //agent
+                agentAdminSpv = "agent"
+            }else{
+                //spv
+                agentAdminSpv = "agent" //using this baseURL
+            }
+        }
+        
+        
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/agent/change_password", method: .post, parameters: param,  encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/\(agentAdminSpv)/change_password", method: .post, parameters: param,  encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
             print("response call \(response)")
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
@@ -251,7 +290,17 @@ class AMChangePasswordVC: UIViewController {
                     
                     //show alert success
                     self.viewPopup.isHidden = true
+                    
+                    if let userType = UserDefaults.standard.getUserType(){
+                        if userType == 1  {
+                            //admin
+                            self.lbAlertMessageSuccess.text = "Your password has been updated"
+                            self.alertSuccessButtonLogout.setTitle("OK", for: .normal)
+                        }
+                    }
+                    
                     self.alertSuccessViewPopup.isHidden = false
+                    
                     
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {

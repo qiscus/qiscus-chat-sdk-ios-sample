@@ -28,14 +28,16 @@ class SettingMenuVC: UIViewController {
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 1  {
                 //admin
-                //coming soon
+                let vc = AccountManagementAdminVC()
+                self.navigationController?.pushViewController(vc, animated: true)
             }else if userType == 2{
                 //agent
                 let vc = AccountManagementAgentVC()
                 self.navigationController?.pushViewController(vc, animated: true)
             }else{
                 //spv
-                //coming soon
+                let vc = AccountManagementSPVVC()
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

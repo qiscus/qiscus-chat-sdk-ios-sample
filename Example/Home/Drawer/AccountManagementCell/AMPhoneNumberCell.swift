@@ -1,5 +1,5 @@
 //
-//  AMFullNameCell.swift
+//  AMPhoneNumberCell.swift
 //  Example
 //
 //  Created by Qiscus on 09/02/21.
@@ -8,24 +8,24 @@
 
 import UIKit
 
-class AMFullNameCell: UITableViewCell {
+class AMPhoneNumberCell: UITableViewCell {
 
-    @IBOutlet weak var lbNotifEmptyFullName: UILabel!
-    @IBOutlet weak var tfFullname: UITextField!
-    var fullName = ""
+    @IBOutlet weak var lbNotifEmptyPhoneNumber: UILabel!
+    @IBOutlet weak var tfPhoneNumber: UITextField!
+    var dataPhoneNumber = ""
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         var bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: tfFullname.frame.height - 1, width: tfFullname.frame.width, height: 1.0)
+        bottomLine.frame = CGRect(x: 0.0, y: tfPhoneNumber.frame.height - 1, width: tfPhoneNumber.frame.width, height: 1.0)
         bottomLine.backgroundColor = UIColor.lightGray.cgColor
-        tfFullname.borderStyle = UITextField.BorderStyle.none
-        tfFullname.layer.addSublayer(bottomLine)
+        tfPhoneNumber.borderStyle = UITextField.BorderStyle.none
+        tfPhoneNumber.layer.addSublayer(bottomLine)
         
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(updateUI), name: Notification.Name("AMFullnameChanged"), object: nil)
+        nc.addObserver(self, selector: #selector(updateUI), name: Notification.Name("AMPhoneNumberChanged"), object: nil)
         
-        self.tfFullname.delegate = self
+        self.tfPhoneNumber.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -34,24 +34,25 @@ class AMFullNameCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(fullname : String = ""){
-        if self.fullName.isEmpty == true {
-            self.fullName = fullname
-            self.tfFullname.text = fullname
+    func setupData(phoneNumber : String = ""){
+        if dataPhoneNumber.isEmpty == true {
+            self.dataPhoneNumber = phoneNumber
+            self.tfPhoneNumber.text = phoneNumber
         }
+        
     }
     
     @objc func updateUI(){
-        if self.tfFullname.text?.isEmpty == true {
-            self.lbNotifEmptyFullName.isHidden = false
+        if self.tfPhoneNumber.text?.isEmpty == true {
+            self.lbNotifEmptyPhoneNumber.isHidden = false
         } else {
-            self.lbNotifEmptyFullName.isHidden = true
+            self.lbNotifEmptyPhoneNumber.isHidden = true
         }
     }
     
 }
 
-extension AMFullNameCell : UITextFieldDelegate {
+extension AMPhoneNumberCell : UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
        
     }
@@ -70,8 +71,8 @@ extension AMFullNameCell : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) { () -> Void in
-            if self.tfFullname.text?.isEmpty == false {
-                self.lbNotifEmptyFullName.isHidden = true
+            if self.tfPhoneNumber.text?.isEmpty == false {
+                self.lbNotifEmptyPhoneNumber.isHidden = true
             }
         }
         
@@ -83,3 +84,4 @@ extension AMFullNameCell : UITextFieldDelegate {
     }
     
 }
+

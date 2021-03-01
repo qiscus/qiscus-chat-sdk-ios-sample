@@ -49,41 +49,38 @@ class UIBottomPopupVC: BottomPopupViewController {
                 self.lblUnserverOrGetCustomer.text = "Get Customer"
                 self.lblDescription.text = "There is 0 customers is not served by an agent. It can be taken by an Agent one by one"
                 self.getAgentTakeOver()
-                self.getCSApi(roleAdmin: false)
+                self.getCSApiAgent()
                 self.btGetCustomer.isHidden = false
             }else{
                 self.lblUnserverOrGetCustomer.text = "Unserved Customer"
                 self.lblDescription.text = "Unserved customer is the number of customers who have not been served by an agent"
-                self.getCSApi(roleAdmin: true)
+                if userType == 1 {
+                    self.getCSApiAdmin()
+                } else {
+                    self.getCSApiSPV()
+                }
+                
                 self.btGetCustomer.isHidden = true
             }
         }
     }
     
-    func getCSApi(roleAdmin : Bool = true){
+    func getCSApiAgent(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
         
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
         var role = "agent"
-        if roleAdmin == true {
-            role = "admin"
-        }
-        
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(role)/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/agent/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
-                    if roleAdmin{
-                         self.lblCount.text = "0 Person"
-                    }else{
-                         self.lblCount.text = "0 Customer"
-                    }
+                    self.lblCount.text = "0 Customer"
                     
                     if response.response?.statusCode == 401 {
                         RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
                             if success == true {
-                                self.getCSApi(roleAdmin: roleAdmin)
+                                self.getCSApiAgent()
                             } else {
                                 return
                             }
@@ -95,35 +92,110 @@ class UIBottomPopupVC: BottomPopupViewController {
                     let payload = JSON(response.result.value)
                     let count = payload["data"]["total_unresolved"].int ?? 0
                     
-                    if roleAdmin{
-                        self.lblCount.text = "\(count) Person"
-                    }else{
-                        self.lblCount.text = "\(count) Customer"
-                        
-                        let main_string = "There is \(count) customers is not served by an agent. It can be taken by an Agent one by one"
-                        let string_to_color = "\(count) customers"
-                        
-                        let range = (main_string as NSString).range(of: string_to_color)
-                        
-                        let attribute = NSMutableAttributedString.init(string: main_string)
-                        attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(red: 35/255, green: 176/255, blue: 152/255, alpha: 1) , range: range)
-                        self.lblDescription.attributedText = attribute
-                    }
+                    self.lblCount.text = "\(count) Customer"
+                    
+                    let main_string = "There is \(count) customer is not served by an agent. It can be taken by an Agent one by one"
+                    let string_to_color = "\(count) customers"
+                    
+                    let range = (main_string as NSString).range(of: string_to_color)
+                    
+                    let attribute = NSMutableAttributedString.init(string: main_string)
+                    attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(red: 35/255, green: 176/255, blue: 152/255, alpha: 1) , range: range)
+                    self.lblDescription.attributedText = attribute
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
-                if roleAdmin{
-                    self.lblCount.text = "0 Person"
-                }else{
-                    self.lblCount.text = "0 Customer"
-                }
+                self.lblCount.text = "0 Customer"
             } else {
                 //failed
-                if roleAdmin{
-                    self.lblCount.text = "0 Person"
-                }else{
+                self.lblCount.text = "0 Customer"
+            }
+        }
+    }
+    
+    func getCSApiSPV(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/spv/service/total_unserved", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
                     self.lblCount.text = "0 Customer"
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCSApiSPV()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                  
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let count = payload["data"]["total_unserved"].int ?? 0
+                    
+                    self.lblCount.text = "\(count) Customer"
+                    
+                    let main_string = "There is \(count) customer is not served by an agent. It can be taken by an Agent one by one"
+                    let string_to_color = "\(count) customers"
+                    
+                    let range = (main_string as NSString).range(of: string_to_color)
+                    
+                    let attribute = NSMutableAttributedString.init(string: main_string)
+                    attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(red: 35/255, green: 176/255, blue: 152/255, alpha: 1) , range: range)
+                    self.lblDescription.attributedText = attribute
                 }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.lblCount.text = "0 Customer"
+            } else {
+                //failed
+                self.lblCount.text = "0 Customer"
+            }
+        }
+    }
+    
+    func getCSApiAdmin(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    self.lblCount.text = "0 Person"
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCSApiAdmin()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                  
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let count = payload["data"]["total_unresolved"].int ?? 0
+                    
+                    self.lblCount.text = "\(count) Person"
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.lblCount.text = "0 Person"
+            } else {
+                //failed
+                self.lblCount.text = "0 Person"
             }
         }
     }

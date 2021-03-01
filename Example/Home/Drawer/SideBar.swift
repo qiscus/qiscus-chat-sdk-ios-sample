@@ -15,7 +15,7 @@ import QiscusCore
 class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
 
     var viewModel: String!
-    
+    @IBOutlet weak public var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var btEditProfile: UIButton!
     @IBOutlet weak var viewMenuLogout: UIView!
     @IBOutlet weak var viewMenuSetting: UIView!
@@ -54,19 +54,84 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
     
     func setupHeader(){
         self.ivProfile.layer.cornerRadius = self.ivProfile.frame.size.height/2
-        
-        if let profile = QiscusCore.getProfile(){
-            self.lbName.text = profile.username
-            self.ivProfile.af_setImage(withURL: profile.avatarUrl)
+        getProfileApi()
+    }
+    
+    func getProfileApi(){
+        self.loadingIndicator.startAnimating()
+        self.loadingIndicator.isHidden = false
+        var role = "agent"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1  {
+                //admin
+               role = "admin"
+            }else if userType == 2{
+                //agent
+               role = "agent"
+            }else{
+                //spv
+                role = "agent"
+            }
         }
         
-        //load from server
-        QiscusCore.shared.getProfile(onSuccess: { (profile) in
-            self.lbName.text = profile.username
-            self.ivProfile.af_setImage(withURL: profile.avatarUrl)
-        }, onError: { (error) in
-            //error
-        })
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/\(role)/get_profile", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getProfileApi()
+                            } else {
+                                self.loadingIndicator.stopAnimating()
+                                self.loadingIndicator.isHidden = true
+                                return
+                            }
+                        }
+                    }else{
+                        //show error
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        
+                        let error = JSON(response.result.value)["errors"].string ?? "Something wrong"
+                        
+                        let vc = AlertAMFailedUpdate()
+                        vc.errorMessage = error
+                        vc.modalPresentationStyle = .overFullScreen
+                        
+                        self.currentViewController()?.navigationController?.present(vc, animated: false, completion: {
+                            
+                        })
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    let dataAvatarUrl = json["data"]["avatar_url"].string ?? "https://"
+                    let dataName = json["data"]["name"].string ?? ""
+                    
+                    let urlAvatar = URL(string: dataAvatarUrl)!
+                    self.lbName.text = dataName
+                    self.ivProfile.af_setImage(withURL: urlAvatar)
+                   
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.isHidden = true
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+            } else {
+                //failed
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+            }
+        }
     }
     
     func setupMenuLogout(){
@@ -102,14 +167,16 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 1  {
                 //admin
-                //coming soon
+                let vc = AccountManagementAdminVC()
+                self.currentViewController()?.navigationController?.pushViewController(vc, animated: true)
             }else if userType == 2{
                 //agent
                 let vc = AccountManagementAgentVC()
                 self.currentViewController()?.navigationController?.pushViewController(vc, animated: true)
             }else{
                 //spv
-                //coming soon
+                let vc = AccountManagementSPVVC()
+                self.currentViewController()?.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

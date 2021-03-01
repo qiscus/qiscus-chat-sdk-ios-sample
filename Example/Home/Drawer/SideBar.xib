@@ -14,6 +14,7 @@
                 <outlet property="btEditProfile" destination="bgT-Z5-kbz" id="Xgd-8d-k8U"/>
                 <outlet property="ivProfile" destination="pku-Hn-31F" id="bob-S9-ktC"/>
                 <outlet property="lbName" destination="7RK-yY-RTQ" id="8OQ-yQ-lz6"/>
+                <outlet property="loadingIndicator" destination="O0X-4c-zYP" id="A93-3p-Ft3"/>
                 <outlet property="tableView" destination="sqo-RS-51O" id="2UL-0M-wIB"/>
                 <outlet property="viewMenuLogout" destination="51B-9t-0SA" id="q89-Wa-mSw"/>
                 <outlet property="viewMenuSetting" destination="OPi-So-FHa" id="UvC-Ql-AvM"/>
@@ -52,18 +53,28 @@
                                 <action selector="goToEditProfile:" destination="-1" eventType="touchUpInside" id="3Us-Jx-Bo9"/>
                             </connections>
                         </button>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="O0X-4c-zYP">
+                            <rect key="frame" x="192" y="60" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="A5M-mu-r7O"/>
+                                <constraint firstAttribute="height" constant="30" id="nzH-RG-UNO"/>
+                            </constraints>
+                            <color key="color" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.71764705880000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="pku-Hn-31F" firstAttribute="top" secondItem="X5E-fg-V79" secondAttribute="top" constant="25" id="0JX-ob-cce"/>
                         <constraint firstItem="pku-Hn-31F" firstAttribute="centerX" secondItem="X5E-fg-V79" secondAttribute="centerX" id="14r-3S-jUs"/>
                         <constraint firstAttribute="bottom" secondItem="7RK-yY-RTQ" secondAttribute="bottom" constant="17" id="9zv-o1-Sff"/>
+                        <constraint firstItem="O0X-4c-zYP" firstAttribute="centerX" secondItem="pku-Hn-31F" secondAttribute="centerX" id="NqW-j0-Mbi"/>
                         <constraint firstAttribute="trailing" secondItem="7RK-yY-RTQ" secondAttribute="trailing" constant="10" id="QUI-k8-B8P"/>
                         <constraint firstItem="bgT-Z5-kbz" firstAttribute="bottom" secondItem="pku-Hn-31F" secondAttribute="bottom" id="bbO-DJ-tN6"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="d7y-36-TmE"/>
                         <constraint firstItem="7RK-yY-RTQ" firstAttribute="top" secondItem="pku-Hn-31F" secondAttribute="bottom" constant="13" id="fNV-Ht-p4p"/>
                         <constraint firstItem="7RK-yY-RTQ" firstAttribute="leading" secondItem="X5E-fg-V79" secondAttribute="leading" constant="10" id="j5m-zh-kSr"/>
                         <constraint firstItem="bgT-Z5-kbz" firstAttribute="trailing" secondItem="pku-Hn-31F" secondAttribute="trailing" constant="6" id="nwe-69-PLt"/>
+                        <constraint firstItem="O0X-4c-zYP" firstAttribute="centerY" secondItem="pku-Hn-31F" secondAttribute="centerY" id="uc2-SP-a93"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sqo-RS-51O">

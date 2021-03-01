@@ -1,5 +1,5 @@
 //
-//  AMFullNameCell.swift
+//  AMAddressCell.swift
 //  Example
 //
 //  Created by Qiscus on 09/02/21.
@@ -8,24 +8,25 @@
 
 import UIKit
 
-class AMFullNameCell: UITableViewCell {
+class AMAddressCell: UITableViewCell {
 
-    @IBOutlet weak var lbNotifEmptyFullName: UILabel!
-    @IBOutlet weak var tfFullname: UITextField!
-    var fullName = ""
+    @IBOutlet weak var lbNotifEmptyAddress: UILabel!
+    @IBOutlet weak var tfAddress: UITextField!
+    var dataAddress = ""
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         var bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: tfFullname.frame.height - 1, width: tfFullname.frame.width, height: 1.0)
+        bottomLine.frame = CGRect(x: 0.0, y: tfAddress.frame.height - 1, width: tfAddress.frame.width, height: 1.0)
         bottomLine.backgroundColor = UIColor.lightGray.cgColor
-        tfFullname.borderStyle = UITextField.BorderStyle.none
-        tfFullname.layer.addSublayer(bottomLine)
+        tfAddress.borderStyle = UITextField.BorderStyle.none
+        tfAddress.layer.addSublayer(bottomLine)
         
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(updateUI), name: Notification.Name("AMFullnameChanged"), object: nil)
+        nc.addObserver(self, selector: #selector(updateUI), name: Notification.Name("AMAddressChanged"), object: nil)
         
-        self.tfFullname.delegate = self
+        self.tfAddress.delegate = self
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -34,24 +35,24 @@ class AMFullNameCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(fullname : String = ""){
-        if self.fullName.isEmpty == true {
-            self.fullName = fullname
-            self.tfFullname.text = fullname
+    func setupData(address : String = ""){
+        if dataAddress.isEmpty == true {
+            self.dataAddress = address
+            self.tfAddress.text = address
         }
     }
     
     @objc func updateUI(){
-        if self.tfFullname.text?.isEmpty == true {
-            self.lbNotifEmptyFullName.isHidden = false
+        if self.tfAddress.text?.isEmpty == true {
+            self.lbNotifEmptyAddress.isHidden = false
         } else {
-            self.lbNotifEmptyFullName.isHidden = true
+            self.lbNotifEmptyAddress.isHidden = true
         }
     }
     
 }
 
-extension AMFullNameCell : UITextFieldDelegate {
+extension AMAddressCell : UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
        
     }
@@ -70,8 +71,8 @@ extension AMFullNameCell : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) { () -> Void in
-            if self.tfFullname.text?.isEmpty == false {
-                self.lbNotifEmptyFullName.isHidden = true
+            if self.tfAddress.text?.isEmpty == false {
+                self.lbNotifEmptyAddress.isHidden = true
             }
         }
         
@@ -83,3 +84,4 @@ extension AMFullNameCell : UITextFieldDelegate {
     }
     
 }
+

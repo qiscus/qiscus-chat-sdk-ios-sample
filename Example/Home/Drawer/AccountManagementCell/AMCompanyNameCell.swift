@@ -1,5 +1,5 @@
 //
-//  AMFullNameCell.swift
+//  AMCompanyNameCell.swift
 //  Example
 //
 //  Created by Qiscus on 09/02/21.
@@ -8,24 +8,24 @@
 
 import UIKit
 
-class AMFullNameCell: UITableViewCell {
+class AMCompanyNameCell: UITableViewCell {
 
-    @IBOutlet weak var lbNotifEmptyFullName: UILabel!
-    @IBOutlet weak var tfFullname: UITextField!
-    var fullName = ""
+    @IBOutlet weak var lbNotifEmptyCompanyName: UILabel!
+    @IBOutlet weak var tfCompanyname: UITextField!
+    var dataCompany = ""
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         var bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0.0, y: tfFullname.frame.height - 1, width: tfFullname.frame.width, height: 1.0)
+        bottomLine.frame = CGRect(x: 0.0, y: tfCompanyname.frame.height - 1, width: tfCompanyname.frame.width, height: 1.0)
         bottomLine.backgroundColor = UIColor.lightGray.cgColor
-        tfFullname.borderStyle = UITextField.BorderStyle.none
-        tfFullname.layer.addSublayer(bottomLine)
+        tfCompanyname.borderStyle = UITextField.BorderStyle.none
+        tfCompanyname.layer.addSublayer(bottomLine)
         
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(updateUI), name: Notification.Name("AMFullnameChanged"), object: nil)
+        nc.addObserver(self, selector: #selector(updateUI), name: Notification.Name("AMCompanyNameChanged"), object: nil)
         
-        self.tfFullname.delegate = self
+        self.tfCompanyname.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -34,24 +34,24 @@ class AMFullNameCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(fullname : String = ""){
-        if self.fullName.isEmpty == true {
-            self.fullName = fullname
-            self.tfFullname.text = fullname
+    func setupData(companyName : String = ""){
+        if dataCompany.isEmpty == true {
+            self.dataCompany = companyName
+            self.tfCompanyname.text = companyName
         }
     }
     
     @objc func updateUI(){
-        if self.tfFullname.text?.isEmpty == true {
-            self.lbNotifEmptyFullName.isHidden = false
+        if self.tfCompanyname.text?.isEmpty == true {
+            self.lbNotifEmptyCompanyName.isHidden = false
         } else {
-            self.lbNotifEmptyFullName.isHidden = true
+            self.lbNotifEmptyCompanyName.isHidden = true
         }
     }
     
 }
 
-extension AMFullNameCell : UITextFieldDelegate {
+extension AMCompanyNameCell : UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
        
     }
@@ -70,8 +70,8 @@ extension AMFullNameCell : UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) { () -> Void in
-            if self.tfFullname.text?.isEmpty == false {
-                self.lbNotifEmptyFullName.isHidden = true
+            if self.tfCompanyname.text?.isEmpty == false {
+                self.lbNotifEmptyCompanyName.isHidden = true
             }
         }
         

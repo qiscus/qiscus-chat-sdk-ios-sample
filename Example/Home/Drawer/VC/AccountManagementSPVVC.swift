@@ -1,5 +1,5 @@
 //
-//  AccountManagementVC.swift
+//  AccountManagementSPVVC.swift
 //  Example
 //
 //  Created by Qiscus on 09/02/21.
@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITableViewDelegate, AMProfileAvatarCellDelegate {
+class AccountManagementSPVVC: UIViewController,  UITableViewDataSource, UITableViewDelegate, AMProfileAvatarCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak public var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var btSave: UIButton!
@@ -18,7 +18,6 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
     var avatarURL = "https://"
     var fullName = ""
     var emailAddress = ""
-    var role = [String]()
     var tfFullNameDuplicate = UITextField()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,15 +37,15 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
     }
     
     func setupKeyboard(){
-        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementAgentVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementSPVVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementAgentVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementSPVVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setupNavBar(){
         //setup navigationBar
         self.title = "Account Management"
-        let backButton = self.backButton(self, action: #selector(AccountManagementAgentVC.goBack))
+        let backButton = self.backButton(self, action: #selector(AccountManagementSPVVC.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
     }
@@ -209,14 +208,7 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
                     let dataAvatarUrl = json["data"]["avatar_url"].string ?? "https://"
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email"].string ?? ""
-                    let arrayRole = json["data"]["assigned_agent_roles"].array
                     
-                    if arrayRole?.count != 0 {
-                        for data in arrayRole! {
-                            let dataRole = data["name"].string ?? ""
-                            self.role.append(dataRole)
-                        }
-                    }
                     
                     self.emailAddress = dataEmailAdress
                     self.fullName = dataName
@@ -275,7 +267,6 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
         self.tableView.register(UINib(nibName: "AMProfileAvatarCell", bundle: nil), forCellReuseIdentifier: "AMProfileAvatarCellIdentifire")
         self.tableView.register(UINib(nibName: "AMFullNameCell", bundle: nil), forCellReuseIdentifier: "AMFullNameCellIdentifire")
         self.tableView.register(UINib(nibName: "AMEmailAddressCell", bundle: nil), forCellReuseIdentifier: "AMEmailAddressCellIdentifire")
-        self.tableView.register(UINib(nibName: "AMRoleCell", bundle: nil), forCellReuseIdentifier: "AMRoleCellIdentifire")
         self.tableView.register(UINib(nibName: "AMChangePasswordCell", bundle: nil), forCellReuseIdentifier: "AMChangePasswordCellIdentifire")
         
         
@@ -288,7 +279,7 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -309,10 +300,6 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
             cell.setupData(emailAddress: self.emailAddress)
             return cell
         } else if indexPath.row == 3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AMRoleCellIdentifire", for: indexPath) as! AMRoleCell
-            cell.setupData(dataRole: self.role)
-            return cell
-        } else if indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AMChangePasswordCellIdentifire", for: indexPath) as! AMChangePasswordCell
             cell.btChangePassword.addTarget(self, action:#selector(self.changePassword(sender:)), for: .touchUpInside)
             return cell

@@ -10,16 +10,27 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITableViewDelegate, AMProfileAvatarCellDelegate {
+class AccountManagementAdminVC: UIViewController,  UITableViewDataSource, UITableViewDelegate, AMProfileAvatarCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak public var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var btSave: UIButton!
     @IBOutlet weak var bottomTableViewCons: NSLayoutConstraint!
     var avatarURL = "https://"
     var fullName = ""
+    var companyName = ""
     var emailAddress = ""
-    var role = [String]()
+    var address = ""
+    var phoneNumber = ""
+    var industry = ""
+    var alterBillEmail = [String]()
     var tfFullNameDuplicate = UITextField()
+    var tfCompanyNameDuplicate = UITextField()
+    var tfAddressDuplicate = UITextField()
+    var tfIndustryDuplicate = UITextField()
+    var tfPhoneNumberDuplicate = UITextField()
+    var tfAlterBillEmailSatuDuplicate = UITextField()
+    var tfAlterBillEmailDuaDuplicate = UITextField()
+    var tfAlterBillEmailTigaDuplicate = UITextField()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupKeyboard()
@@ -33,20 +44,16 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
         self.btSave.layer.cornerRadius = self.btSave.frame.height/2
     }
     
-    func updateAvatarURL(avatarURL: URL) {
-        self.avatarURL = avatarURL.absoluteString
-    }
-    
     func setupKeyboard(){
-        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementAgentVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementAdminVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementAgentVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountManagementAdminVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setupNavBar(){
         //setup navigationBar
         self.title = "Account Management"
-        let backButton = self.backButton(self, action: #selector(AccountManagementAgentVC.goBack))
+        let backButton = self.backButton(self, action: #selector(AccountManagementAdminVC.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
     }
@@ -80,25 +87,91 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
-        
+        var canProccess = true
         if self.tfFullNameDuplicate.text?.isEmpty == true {
+            
+            canProccess = false
            
             //show alert
             let nc = NotificationCenter.default
             nc.post(name: Notification.Name("AMFullnameChanged"), object: nil)
+        }
+        
+        if self.tfCompanyNameDuplicate.text?.isEmpty == true {
+            canProccess = false
+            
+            //show alert
+            let nc = NotificationCenter.default
+            nc.post(name: Notification.Name("AMCompanyNameChanged"), object: nil)
+        }
+        
+        if self.tfIndustryDuplicate.text?.isEmpty == true {
+            canProccess = false
+            
+            //show alert
+            let nc = NotificationCenter.default
+            nc.post(name: Notification.Name("AMIndustryChanged"), object: nil)
             return
         }
+        
+        if self.tfAddressDuplicate.text?.isEmpty == true {
+            canProccess = false
+            
+            //show alert
+            let nc = NotificationCenter.default
+            nc.post(name: Notification.Name("AMAddressChanged"), object: nil)
+        }
+        
+        if self.tfPhoneNumberDuplicate.text?.isEmpty == true {
+            canProccess = false
+            
+            //show alert
+            let nc = NotificationCenter.default
+            nc.post(name: Notification.Name("AMPhoneNumberChanged"), object: nil)
+        }
+        
+        if canProccess == false {
+            return
+        }
+        
+        
+        var dataAlterBillEmail = [String]()
+        
+        if self.tfAlterBillEmailSatuDuplicate.text?.isEmpty == true {
+            
+        } else {
+            dataAlterBillEmail.append(self.tfAlterBillEmailSatuDuplicate.text ?? "")
+        }
+        
+        if self.tfAlterBillEmailDuaDuplicate.text?.isEmpty == true {
+            
+        } else {
+            dataAlterBillEmail.append(self.tfAlterBillEmailDuaDuplicate.text ?? "")
+        }
+        
+        if self.tfAlterBillEmailTigaDuplicate.text?.isEmpty == true {
+            
+        } else {
+            dataAlterBillEmail.append(self.tfAlterBillEmailTigaDuplicate.text ?? "")
+        }
+        
         
         self.loadingIndicator.startAnimating()
         self.loadingIndicator.isHidden = false
         
         var param: [String: Any] = [
             "name": self.tfFullNameDuplicate.text,
-            "email" : self.emailAddress
+            "email" : self.emailAddress,
+            "company_name" : self.tfCompanyNameDuplicate.text,
+            "address" : self.tfAddressDuplicate.text ?? "",
+            "phone_number" : self.tfPhoneNumberDuplicate.text,
+            "billing_emails" : dataAlterBillEmail,
+            "industry" : self.tfIndustryDuplicate.text ?? ""
+            
         ]
         
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/agent/update_profile", method: .post, parameters: param,  encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/update_profile", method: .post, parameters: param,  encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
             print("response call \(response)")
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
@@ -133,6 +206,13 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
                     self.loadingIndicator.stopAnimating()
                     self.loadingIndicator.isHidden = true
                     self.fullName = self.tfFullNameDuplicate.text ?? ""
+                    self.companyName = self.tfCompanyNameDuplicate.text ?? ""
+                    self.address = self.tfAddressDuplicate.text ?? ""
+                    self.phoneNumber = self.tfPhoneNumberDuplicate.text ?? ""
+                    self.industry = self.tfIndustryDuplicate.text ?? ""
+                    
+                    self.alterBillEmail.removeAll()
+                    self.alterBillEmail.append(contentsOf: dataAlterBillEmail)
                     self.tableView.reloadData()
                     
                     //show alert success
@@ -173,7 +253,7 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
             return
         }
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/agent/get_profile", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/get_profile", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             print("response call \(response)")
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
@@ -208,19 +288,27 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
                     let json = JSON(response.result.value)
                     let dataAvatarUrl = json["data"]["avatar_url"].string ?? "https://"
                     let dataName = json["data"]["name"].string ?? ""
-                    let dataEmailAdress = json["data"]["email"].string ?? ""
-                    let arrayRole = json["data"]["assigned_agent_roles"].array
+                    let dataEmailAdress = json["data"]["email_address"].string ?? ""
+                    let dataPhoneNumber = json["data"]["phone_number"].string ?? ""
+                    let dataAddress = json["data"]["address"].string ?? ""
+                    let dataIndustry = json["data"]["industry"].string ?? ""
+                    let dataCompanyName = json["data"]["company_name"].string ?? ""
+                    let arrayAlterBill = json["data"]["billing_emails"].array
                     
-                    if arrayRole?.count != 0 {
-                        for data in arrayRole! {
-                            let dataRole = data["name"].string ?? ""
-                            self.role.append(dataRole)
+                    if arrayAlterBill?.count != 0 {
+                        for data in arrayAlterBill! {
+                            let dataAlterBillEmail = data["email"].string ?? ""
+                            self.alterBillEmail.append(dataAlterBillEmail)
                         }
                     }
                     
+                    self.industry = dataIndustry
                     self.emailAddress = dataEmailAdress
                     self.fullName = dataName
+                    self.companyName = dataCompanyName
                     self.avatarURL = dataAvatarUrl
+                    self.address = dataAddress
+                    self.phoneNumber = dataPhoneNumber
                     
                     self.tableView.reloadData()
                     self.tableView.isHidden = false
@@ -265,6 +353,10 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
         }, completion: nil)
     }
     
+    func updateAvatarURL(avatarURL: URL) {
+        self.avatarURL = avatarURL.absoluteString
+    }
+    
     
     //tableView
     
@@ -274,11 +366,15 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
         self.tableView.delegate = self
         self.tableView.register(UINib(nibName: "AMProfileAvatarCell", bundle: nil), forCellReuseIdentifier: "AMProfileAvatarCellIdentifire")
         self.tableView.register(UINib(nibName: "AMFullNameCell", bundle: nil), forCellReuseIdentifier: "AMFullNameCellIdentifire")
+        self.tableView.register(UINib(nibName: "AMCompanyNameCell", bundle: nil), forCellReuseIdentifier: "AMCompanyNameCellIdentifire")
         self.tableView.register(UINib(nibName: "AMEmailAddressCell", bundle: nil), forCellReuseIdentifier: "AMEmailAddressCellIdentifire")
-        self.tableView.register(UINib(nibName: "AMRoleCell", bundle: nil), forCellReuseIdentifier: "AMRoleCellIdentifire")
         self.tableView.register(UINib(nibName: "AMChangePasswordCell", bundle: nil), forCellReuseIdentifier: "AMChangePasswordCellIdentifire")
-        
-        
+        self.tableView.register(UINib(nibName: "AMAddressCell", bundle: nil), forCellReuseIdentifier: "AMAddressCellIdentifire")
+        self.tableView.register(UINib(nibName: "AMIndustryCell", bundle: nil), forCellReuseIdentifier: "AMIndustryCellIdentifire")
+        self.tableView.register(UINib(nibName: "AMPhoneNumberCell", bundle: nil), forCellReuseIdentifier: "AMPhoneNumberCellIdentifire")
+        self.tableView.register(UINib(nibName: "AMAlterBillEmailSatuCell", bundle: nil), forCellReuseIdentifier: "AMAlterBillEmailSatuCellIdentifire")
+        self.tableView.register(UINib(nibName: "AMAlterBillEmailDuaCell", bundle: nil), forCellReuseIdentifier: "AMAlterBillEmailDuaCellIdentifire")
+        self.tableView.register(UINib(nibName: "AMAlterBillEmailTigaCell", bundle: nil), forCellReuseIdentifier: "AMAlterBillEmailTigaCellIdentifire")
         
         self.tableView.tableFooterView = UIView()
     }
@@ -288,37 +384,119 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 11
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AMProfileAvatarCellIdentifire", for: indexPath) as! AMProfileAvatarCell
             cell.viewVC = self.view
-            cell.VC = self
             cell.delegate = self
-            cell.setupData(urlImage: URL(string: self.avatarURL)!, dataFullName: self.fullName, dataEmailAddress: self.emailAddress)
+            cell.VC = self
+            cell.setupData(urlImage: URL(string: self.avatarURL)!, dataFullName: self.fullName, dataEmailAddress: self.emailAddress, companyName: self.companyName, address: self.address, phoneNumber: self.phoneNumber, dataAlterBillEmail : self.alterBillEmail)
             return cell
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AMFullNameCellIdentifire", for: indexPath) as! AMFullNameCell
+            
             cell.setupData(fullname : self.fullName)
             self.tfFullNameDuplicate = cell.tfFullname
+            
             return cell
         } else if indexPath.row == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AMCompanyNameCellIdentifire", for: indexPath) as! AMCompanyNameCell
+            
+            cell.setupData(companyName : self.companyName)
+            self.tfCompanyNameDuplicate = cell.tfCompanyname
+            return cell
+        } else if indexPath.row == 3 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AMIndustryCellIdentifire", for: indexPath) as! AMIndustryCell
+            
+            if self.tfIndustryDuplicate.text?.isEmpty == false {
+                self.industry = self.tfIndustryDuplicate.text ?? ""
+            }
+            
+            cell.setupData(industry : self.industry)
+            self.tfIndustryDuplicate = cell.tfIndustry
+            return cell
+        } else if indexPath.row == 4 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AMAddressCellIdentifire", for: indexPath) as! AMAddressCell
+            
+            if self.tfAddressDuplicate.text?.isEmpty == false {
+                self.address = self.tfAddressDuplicate.text ?? ""
+            }
+            
+            cell.setupData(address : self.address)
+            self.tfAddressDuplicate = cell.tfAddress
+            return cell
+        } else if indexPath.row == 5 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AMPhoneNumberCellIdentifire", for: indexPath) as! AMPhoneNumberCell
+            
+            if self.tfPhoneNumberDuplicate.text?.isEmpty == false {
+                self.phoneNumber = self.tfPhoneNumberDuplicate.text ?? ""
+            }
+            
+            cell.setupData(phoneNumber : self.phoneNumber)
+            self.tfPhoneNumberDuplicate = cell.tfPhoneNumber
+            return cell
+        } else if indexPath.row == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AMEmailAddressCellIdentifire", for: indexPath) as! AMEmailAddressCell
             cell.setupData(emailAddress: self.emailAddress)
             return cell
-        } else if indexPath.row == 3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AMRoleCellIdentifire", for: indexPath) as! AMRoleCell
-            cell.setupData(dataRole: self.role)
+        } else if indexPath.row == 7 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AMAlterBillEmailSatuCellIdentifire", for: indexPath) as! AMAlterBillEmailSatuCell
+           
+            if self.tfAlterBillEmailSatuDuplicate.text?.isEmpty == false {
+                cell.setupData(alternatifBillingEmailSatu: self.tfAlterBillEmailSatuDuplicate.text ?? "")
+            } else {
+                if alterBillEmail.count >= 1 {
+                    cell.setupData(alternatifBillingEmailSatu: alterBillEmail[0])
+                } else {
+                    cell.setupData(alternatifBillingEmailSatu: "")
+                }
+            }
+            
+            self.tfAlterBillEmailSatuDuplicate = cell.tfAlterBillEmail
+            
             return cell
-        } else if indexPath.row == 4 {
+        } else if indexPath.row == 8 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AMAlterBillEmailDuaCellIdentifire", for: indexPath) as! AMAlterBillEmailDuaCell
+            
+            if self.tfAlterBillEmailDuaDuplicate.text?.isEmpty == false {
+                cell.setupData(alternatifBillingEmailDua: self.tfAlterBillEmailDuaDuplicate.text ?? "")
+            } else {
+                if alterBillEmail.count >= 2 {
+                    cell.setupData(alternatifBillingEmailDua: alterBillEmail[1])
+                } else {
+                    cell.setupData(alternatifBillingEmailDua: "")
+                }
+            }
+            
+            self.tfAlterBillEmailDuaDuplicate = cell.tfAlterBillEmailDua
+            
+            return cell
+        } else if indexPath.row == 9 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AMAlterBillEmailTigaCellIdentifire", for: indexPath) as! AMAlterBillEmailTigaCell
+            
+            if self.tfAlterBillEmailTigaDuplicate.text?.isEmpty == false {
+                cell.setupData(alternatifBillingEmailTiga: self.tfAlterBillEmailTigaDuplicate.text ?? "")
+            } else {
+                if alterBillEmail.count == 3 {
+                    cell.setupData(alternatifBillingEmailTiga: alterBillEmail[2])
+                } else {
+                  
+                }
+            }
+            
+            self.tfAlterBillEmailTigaDuplicate = cell.tfAlterBillEmailTiga
+            
+            return cell
+        } else if indexPath.row == 10 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AMChangePasswordCellIdentifire", for: indexPath) as! AMChangePasswordCell
             cell.btChangePassword.addTarget(self, action:#selector(self.changePassword(sender:)), for: .touchUpInside)
             return cell
             
         }
-       
+        
         return UITableViewCell()
     }
     

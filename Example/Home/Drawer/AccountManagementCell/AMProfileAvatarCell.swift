@@ -16,6 +16,10 @@ import AVFoundation
 import PhotosUI
 import SwiftyJSON
 
+protocol AMProfileAvatarCellDelegate{
+    func updateAvatarURL(avatarURL: URL)
+}
+
 class AMProfileAvatarCell: UITableViewCell {
     @IBOutlet weak var btIconAvatar: UIButton!
     @IBOutlet weak var ivAvatar: UIImageView!
@@ -26,6 +30,11 @@ class AMProfileAvatarCell: UITableViewCell {
     var lastAvatarURL: URL? = nil
     var fullName : String = ""
     var emailAddress : String = ""
+    var companyName : String = ""
+    var address : String = ""
+    var phoneNumber : String = ""
+    var dataAlterBillEmail = [String]()
+    var delegate: AMProfileAvatarCellDelegate? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -34,7 +43,7 @@ class AMProfileAvatarCell: UITableViewCell {
         self.loadingIndicator.isHidden = true
     }
     
-    func setupData(urlImage : URL, dataFullName : String, dataEmailAddress: String){
+    func setupData(urlImage : URL, dataFullName : String, dataEmailAddress: String, companyName: String = "", address: String = "", phoneNumber: String = "", dataAlterBillEmail : [String] = [""]){
         self.ivAvatar.af_setImage(withURL: urlImage)
         self.lastAvatarURL = urlImage
         self.fullName = dataFullName
@@ -198,8 +207,27 @@ class AMProfileAvatarCell: UITableViewCell {
             "avatar_url": avatarURL.absoluteString
         ]
         
+        var agentAdminSpv = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1  {
+                //admin
+                agentAdminSpv = "admin"
+                
+                param["company_name"] = self.companyName
+                param["address"] = self.address
+                param["phone_number"] = self.phoneNumber
+                param["billing_emails"] = self.dataAlterBillEmail
+            }else if userType == 2{
+                //agent
+                agentAdminSpv = "agent"
+            }else{
+                //spv
+                agentAdminSpv = "agent" // using this base
+            }
+        }
+        
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/agent/update_profile", method: .post, parameters: param,  encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/\(agentAdminSpv)/update_profile", method: .post, parameters: param,  encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
             print("response call \(response)")
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
@@ -207,6 +235,9 @@ class AMProfileAvatarCell: UITableViewCell {
                     if response.response?.statusCode == 401 {
                         RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
                             if success == true {
+                                if let delegate = self.delegate {
+                                    delegate.updateAvatarURL(avatarURL : avatarURL)
+                                }
                                 self.changeProfileAvatar(avatarURL: avatarURL)
                             } else {
                                 self.loadingIndicator.stopAnimating()
