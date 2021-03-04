@@ -46,21 +46,28 @@ class QTextRightCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
-        self.setupBalon()
+        self.setupBalon(message: message)
         self.status(message: message)
         
-        self.lbName.text = "You"
         self.lbTime.text = self.hour(date: message.date())
         self.tvContent.text = message.message
         self.tvContent.textColor = ColorConfiguration.rightBaloonTextColor
         
-        self.lbNameHeight.constant = 0
     }
     
-    func setupBalon(){
+    func setupBalon(message : CommentModel){
         //self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
-        self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
+        if message.isMyComment() {
+            self.lbNameHeight.constant = 0
+            self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
+        } else {
+            self.lbNameHeight.constant = 20
+            self.lbName.text = message.username
+            self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
+            self.ivBaloonLeft.tintColor = ColorConfiguration.otherAgentRightBallonColor
+        }
+        
     }
     
     func status(message: CommentModel){

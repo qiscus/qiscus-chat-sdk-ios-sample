@@ -136,6 +136,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     @IBOutlet weak var viewExpiredHSMDisable: UIView!
     var dataLanguage = [String]()
     
+    var actionButton = UIBarButtonItem()
+    
     //feature block
     @IBOutlet weak var bgViewBlockContact: UIView!
     @IBOutlet weak var alertViewBlockContact: UIView!
@@ -167,7 +169,12 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.getCustomerUser()
         self.setupUI()
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -845,7 +852,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         self.chatInput.sendButton.isEnabled = true
                         self.chatInput.attachButton.isEnabled = true
                         let resolveButton = self.resolveButton(self, action:  #selector(UIChatViewController.goResolve))
-                        let actionButton = self.actionButton(self, action:  #selector(UIChatViewController.goActionButton))
+                        actionButton = self.actionButton(self, action:  #selector(UIChatViewController.goActionButton))
                         
                         if let userType = UserDefaults.standard.getUserType(){
                             if userType == 2 {
@@ -935,7 +942,6 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 } else {
                     //success
                     let json = JSON(response.result.value)
-                    print("arief check ini ya =\(json)")
                     let channelID = json["data"]["channel_id"].int ?? 0
                     var userID = json["data"]["user_id"].string ?? ""
                     var isWaBlocked = json["data"]["is_blocked"].bool ?? false
@@ -945,6 +951,41 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         self.setupHSMAlertMessage()
                         self.getTemplateHSM(channelID: channelID)
                     }
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func getCustomerUser(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/qiscus/room/\(room!.id)/user_info", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getCustomerUser()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    var userID = json["data"]["user_id"].string ?? ""
+                    
+                    self.userID = userID
+                    self.tableViewConversation.reloadData()
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
@@ -1195,6 +1236,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         self.registerClass(nib: UINib(nibName: "QSystemCell", bundle:nil), forMessageCellWithReuseIdentifier: "qSystemCell")
         
         self.registerClass(nib: UINib(nibName: "QPostbackLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBack")
+        self.registerClass(nib: UINib(nibName: "QPostbackRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBackRight")
         self.registerClass(nib: UINib(nibName: "QCarouselCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCarouselCell")
         self.registerClass(nib: UINib(nibName: "QCardRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCardRightCell")
         self.registerClass(nib: UINib(nibName: "QCardLeftCell", bundle: nil ), forMessageCellWithReuseIdentifier: "qCardLeftCell")
@@ -1352,8 +1394,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         }))
         
         
-        //uncomment for iPad Support
-        alert.popoverPresentationController?.sourceView = self.view
+        if let presenter = alert.popoverPresentationController {
+            presenter.barButtonItem = actionButton
+        }
         
         self.present(alert, animated: true, completion: {
             print("completion block")
@@ -1608,7 +1651,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         let menuConfig = enableMenuConfig()
         var colorName:UIColor = UIColor.lightGray
         if message.type == "text" {
-            if (message.isMyComment() == true){
+            if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                 if message.message.contains("[/file]") == true{
                     var ext = message.getAttachmentURL(message: message.message)
                     if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
@@ -1696,7 +1739,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 let ext = message.fileExtension(fromURL:url)
                 let urlFile = URL(string: url) ?? URL(string: "https://")
                 if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
@@ -1714,7 +1757,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         return cell
                     }
                 }else if(urlFile?.containsVideo == true) {
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoRightCell", for: indexPath) as! QVideoRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
@@ -1733,7 +1776,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         return cell
                     }
                 }else{
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
@@ -1753,7 +1796,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     }
                 }
             }else{
-                if (message.isMyComment() == true){
+                if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                     cell.menuConfig = menuConfig
                     cell.cellMenu = self
@@ -1776,15 +1819,27 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             
             return cell
         }else if message.type == "account_linking" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
-            cell.delegateChat = self
-            return cell
+            if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "postBackRight", for: indexPath) as! QPostbackRightCell
+                cell.delegateChat = self
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                cell.delegateChat = self
+                return cell
+            }
         }else if message.type == "buttons" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
-            cell.delegateChat = self
-            return cell
+            if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "postBackRight", for: indexPath) as! QPostbackRightCell
+                cell.delegateChat = self
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                cell.delegateChat = self
+                return cell
+            }
         }else if message.type == "button_postback_response" {
-            if (message.isMyComment() == true){
+            if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                 cell.menuConfig = menuConfig
                 cell.cellMenu = self
@@ -1810,7 +1865,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             }
             return cell
         }else if message.type == "card" {
-            if (message.isMyComment() == true){
+            if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                 let cell =  tableView.dequeueReusableCell(withIdentifier: "qCardRightCell", for: indexPath) as! QCardRightCell
                 cell.delegateChat = self
                 return cell
@@ -1829,7 +1884,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         } else if message.type == "reply" {
             if let typeReply = message.payload?["replied_comment_type"] as? String {
                 if typeReply == "text" || typeReply == "reply"{
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyTextRightCell", for: indexPath) as! QReplyTextRightCell
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
@@ -1856,7 +1911,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         if let url = url["url"] as? String {
                             let ext = message.fileExtension(fromURL:url)
                             if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
-                                if (message.isMyComment() == true){
+                                if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                                     let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyImageRightCell", for: indexPath) as! QReplyImageRightCell
                                     cell.menuConfig = menuConfig
                                     cell.cellMenu = self
@@ -1874,7 +1929,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                                     return cell
                                 }
                             }else{
-                                if (message.isMyComment() == true){
+                                if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                                     cell.menuConfig = menuConfig
                                     cell.cellMenu = self
@@ -1913,7 +1968,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                             return cell
                         }
                     }else{
-                        if (message.isMyComment() == true){
+                        if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                             let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                             cell.menuConfig = menuConfig
                             cell.cellMenu = self
@@ -2146,15 +2201,11 @@ extension UIChatViewController: UITableViewDataSource {
        
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.01
-    }
-    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if tableView == self.tableViewChatTemplate {
             return 0.01
         } else {
-            return 20
+            return 40
         }
     }
     

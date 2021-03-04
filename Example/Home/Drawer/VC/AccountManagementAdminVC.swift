@@ -405,6 +405,10 @@ class AccountManagementAdminVC: UIViewController,  UITableViewDataSource, UITabl
         } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AMCompanyNameCellIdentifire", for: indexPath) as! AMCompanyNameCell
             
+            if self.tfCompanyNameDuplicate.text?.isEmpty == false {
+                self.companyName = self.tfCompanyNameDuplicate.text ?? ""
+            }
+            
             cell.setupData(companyName : self.companyName)
             self.tfCompanyNameDuplicate = cell.tfCompanyname
             return cell

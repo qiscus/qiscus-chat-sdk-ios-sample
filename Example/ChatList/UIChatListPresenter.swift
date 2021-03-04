@@ -88,6 +88,16 @@ class UIChatListPresenter {
     
     func filterRoom(data: [RoomModel]) -> [RoomModel] {
         var source = data
+        
+        source = source.filter({ (room) -> Bool in
+            if room.name.contains("notifications"){
+                return false
+            } else {
+                return true
+            }
+            
+        })
+        
         source.sort { (room1, room2) -> Bool in
             if let comment1 = room1.lastComment, let comment2 = room2.lastComment {
                 return comment1.unixTimestamp > comment2.unixTimestamp
@@ -95,6 +105,7 @@ class UIChatListPresenter {
                 return false
             }
         }
+        
         return source
     }
     

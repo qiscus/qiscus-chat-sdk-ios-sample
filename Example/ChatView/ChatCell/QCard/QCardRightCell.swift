@@ -24,6 +24,8 @@ class QCardRightCell: UIBaseChatCell {
     @IBOutlet weak var cardHeight: NSLayoutConstraint!
     @IBOutlet weak var descriptionHeight: NSLayoutConstraint!
     @IBOutlet weak var cardWidth: NSLayoutConstraint!
+    @IBOutlet weak var ivStatus: UIImageView!
+    @IBOutlet weak var lbTime: UILabel!
     var buttons = [UIButton]()
     var delegateChat : UIChatViewController? = nil
     override func awakeFromNib() {
@@ -56,18 +58,23 @@ class QCardRightCell: UIBaseChatCell {
         self.bindData(message: message)
     }
     
-    func setupBalon(){
-        self.containerArea.backgroundColor = ColorConfiguration.defaultColorTosca
+    func setupBalon(message : CommentModel){
+        
+        if message.isMyComment() {
+            self.userNameHeightCons.constant = 0
+            self.containerArea.backgroundColor = ColorConfiguration.defaultColorTosca
+        } else {
+            self.userNameHeightCons.constant = 20
+            self.userNameLabel.text = message.username
+            self.userNameLabel.textColor = ColorConfiguration.otherAgentRightBallonColor
+            self.containerArea.backgroundColor = ColorConfiguration.otherAgentRightBallonColor
+        }
     }
     
     func bindData(message: CommentModel){
-        self.setupBalon()
-        
-        if (message.isMyComment() == true){
-            self.userNameHeightCons.constant = 0
-            self.userNameLabel.text = ""
-        }
-        
+        self.setupBalon(message: message)
+        self.status(message: message)
+        self.lbTime.text = self.hour(date: message.date())
         let payload = JSON(message.payload)
         let title = payload["title"].string ?? ""
         let description = payload["description"].string ?? ""
@@ -104,7 +111,7 @@ class QCardRightCell: UIBaseChatCell {
             
             let borderFrame = CGRect(x: 0, y: 0, width: buttonWidth, height: 0.5)
             let buttonBorder = UIView(frame: borderFrame)
-            buttonBorder.backgroundColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            buttonBorder.backgroundColor = UIColor.white
             button.setTitleColor(titleColor, for: .normal)
             button.addSubview(buttonBorder)
             self.buttons.append(button)
@@ -195,6 +202,56 @@ class QCardRightCell: UIBaseChatCell {
             
             break
         }
+    }
+    
+    func status(message: CommentModel){
+        
+        switch message.status {
+        case .deleted:
+            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sending, .pending:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            lbTime.text = TextConfiguration.sharedInstance.sendingText
+            ivStatus.image = UIImage(named: "ic_info_time")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sent:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            ivStatus.image = UIImage(named: "ic_sending")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .delivered:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .read:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
+            break
+        case . failed:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            lbTime.text = TextConfiguration.sharedInstance.failedText
+            ivStatus.image = UIImage(named: "ic_warning")?.withRenderingMode(.alwaysTemplate)
+            ivStatus.tintColor = ColorConfiguration.failToSendColor
+            break
+        case .deleting:
+            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
+            break
+        }
+    }
+    
+    func hour(date: Date?) -> String {
+        guard let date = date else {
+            return "-"
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone      = TimeZone.current
+        let defaultTimeZoneStr = formatter.string(from: date);
+        return defaultTimeZoneStr
     }
     
     

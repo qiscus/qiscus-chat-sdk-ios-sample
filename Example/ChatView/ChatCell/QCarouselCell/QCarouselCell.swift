@@ -19,6 +19,10 @@ class QCarouselCell: UIBaseChatCell {
     var sizeCarousel : CGSize = CGSize(width: 0, height: 0)
     var delegateChat : UIChatViewController? = nil
     var isPublic: Bool = false
+    @IBOutlet weak var ivStatus: UIImageView!
+    @IBOutlet weak var lbTime: UILabel!
+    @IBOutlet weak var uiViewBackground: UIView!
+    @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
     public var cards = [QCard](){
         didSet{
             self.carouselView.reloadData()
@@ -26,7 +30,7 @@ class QCarouselCell: UIBaseChatCell {
                 if c.userEmail == QiscusCore.getProfile()?.email {
                     if cards.count > 0 {
                         if cards.count == 1 {
-                            self.carouselLeading.constant = QiscusHelper.screenWidth() - (QiscusHelper.screenWidth() * 0.6 + 32)
+                            self.carouselLeading.constant = QiscusHelper.screenWidth() - (QiscusHelper.screenWidth() * 0.75 + 32)
                         }else{
                             self.carouselLeading.constant = 0
                         }
@@ -50,6 +54,12 @@ class QCarouselCell: UIBaseChatCell {
         carouselView.clipsToBounds = true
         
         self.layer.zPosition = 99
+        
+        self.uiViewBackground.layer.shadowColor = UIColor.black.cgColor
+        self.uiViewBackground.layer.shadowOffset = CGSize(width: 1, height: 1)
+        self.uiViewBackground.layer.shadowOpacity = 0.3
+        self.uiViewBackground.layer.shadowRadius = 1.0
+        self.uiViewBackground.layer.cornerRadius = 8
     }
     
     override public func present(message: CommentModel) {
@@ -62,6 +72,8 @@ class QCarouselCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.status(message: message)
+        self.lbTime.text = self.hour(date: message.date())
         let payload = JSON(message.payload)
         
         var cards = payload["cards"].arrayValue
@@ -92,17 +104,20 @@ class QCarouselCell: UIBaseChatCell {
             self.carouselView.collectionViewLayout = layout
             
             if(self.isPublic == true){
-                if c.userEmail == QiscusCore.getProfile()?.email {
-                    self.userNameLabel.text = "YOU"
-                }else{
+                if c.isMyComment() {
+                    self.lbNameHeight.constant = 0
+                } else {
+                    self.lbNameHeight.constant = 20
                     self.userNameLabel.text = c.username
+                    self.userNameLabel.textColor = ColorConfiguration.otherAgentRightBallonColor
                 }
+                
                 self.userNameLabel.isHidden = false
-                self.topMargin.constant = 20
+               // self.topMargin.constant = 20
             }else{
                 self.userNameLabel.text = ""
                 self.userNameLabel.isHidden = true
-                self.topMargin.constant = 0
+               // self.topMargin.constant = 0
             }
         
             var attributedText = NSMutableAttributedString(string: message.message)
@@ -227,6 +242,56 @@ class QCarouselCell: UIBaseChatCell {
             }
             break
         }
+    }
+    
+    func status(message: CommentModel){
+        
+        switch message.status {
+        case .deleted:
+            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sending, .pending:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            lbTime.text = TextConfiguration.sharedInstance.sendingText
+            ivStatus.image = UIImage(named: "ic_info_time")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sent:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            ivStatus.image = UIImage(named: "ic_sending")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .delivered:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .read:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
+            break
+        case . failed:
+            lbTime.textColor = ColorConfiguration.timeLabelTextColor
+            lbTime.text = TextConfiguration.sharedInstance.failedText
+            ivStatus.image = UIImage(named: "ic_warning")?.withRenderingMode(.alwaysTemplate)
+            ivStatus.tintColor = ColorConfiguration.failToSendColor
+            break
+        case .deleting:
+            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
+            break
+        }
+    }
+    
+    func hour(date: Date?) -> String {
+        guard let date = date else {
+            return "-"
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone      = TimeZone.current
+        let defaultTimeZoneStr = formatter.string(from: date);
+        return defaultTimeZoneStr
     }
     
 }

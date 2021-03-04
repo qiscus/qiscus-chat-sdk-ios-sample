@@ -1,8 +1,9 @@
 //
-//  QPostbackLeftCell.swift
-//  Pods
+//  QPostbackRightCell.swift
+//  Example
 //
-//  Created by asharijuang on 18/10/18.
+//  Created by Qiscus on 01/03/21.
+//  Copyright © 2021 Qiscus. All rights reserved.
 //
 
 import UIKit
@@ -10,21 +11,21 @@ import QiscusCore
 import SwiftyJSON
 import AlamofireImage
 
-class QPostbackLeftCell: UIBaseChatCell {
+class QPostbackRightCell: UIBaseChatCell {
     let maxWidth:CGFloat = 0.7 * QiscusHelper.screenWidth()
     let minWidth:CGFloat = 0.7 * QiscusHelper.screenWidth()
     let buttonWidth:CGFloat = 0.7 * QiscusHelper.screenWidth() + 10
     
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var lbUserNameHeight: NSLayoutConstraint!
     @IBOutlet weak var balloonView: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var buttonsView: UIStackView!
-    
+    @IBOutlet weak var ivStatus: UIImageView!
     @IBOutlet weak var textViewHeight: NSLayoutConstraint!
 //    @IBOutlet weak var textViewWidth: NSLayoutConstraint!
     
-    @IBOutlet weak var ivAvatarUser: UIImageView!
     @IBOutlet weak var buttonsViewHeight: NSLayoutConstraint!
     var delegateChat : UIChatViewController? = nil
     
@@ -50,22 +51,9 @@ class QPostbackLeftCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
-        self.setupBalon()
-        
+        self.setupBalon(message : message)
+        self.status(message: message)
        self.userNameLabel.text = message.username
-        
-        self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
-        self.ivAvatarUser.clipsToBounds = true
-        
-        if let avatar = message.userAvatarUrl {
-            if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
-               self.ivAvatarUser.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
-            }else{
-                self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
-            }
-        }else{
-            self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)
-        }
         
         balloonView.image = getBallon()
         
@@ -75,8 +63,17 @@ class QPostbackLeftCell: UIBaseChatCell {
         
         dateLabel.text = self.hour(date: message.date())
         balloonView.tintColor = ColorConfiguration.rightBaloonColor
-        dateLabel.textColor = UIColor.white
 
+        if message.isMyComment() {
+            self.lbUserNameHeight.constant = 0
+            self.balloonView.tintColor = ColorConfiguration.rightBaloonColor
+        } else {
+            self.lbUserNameHeight.constant = 20
+            self.userNameLabel.text = message.username
+            self.userNameLabel.textColor = ColorConfiguration.otherAgentRightBallonColor
+            self.balloonView.tintColor = ColorConfiguration.otherAgentRightBallonColor
+        }
+        
         if self.comment!.type == "buttons" {
             var i = 0
             
@@ -89,7 +86,7 @@ class QPostbackLeftCell: UIBaseChatCell {
             
             var textAttribute:[NSAttributedString.Key: Any]{
                 get{
-                    var foregroundColorAttributeName = UIColor.white
+                    var foregroundColorAttributeName = ColorConfiguration.rightBaloonTextColor
                     return [
                         NSAttributedString.Key.foregroundColor: foregroundColorAttributeName,
                         NSAttributedString.Key.font: ChatConfig.chatFont
@@ -105,13 +102,17 @@ class QPostbackLeftCell: UIBaseChatCell {
             self.textView.linkTextAttributes = self.linkTextAttributes
             
             let buttonsPayload = data["buttons"].arrayValue
-            self.buttonsViewHeight.constant = CGFloat(buttonsPayload.count * 35)
+            self.buttonsViewHeight.constant = CGFloat(buttonsPayload.count * 40)
             self.layoutIfNeeded()
             for buttonsData in buttonsPayload{
-                let button = UIButton(frame: CGRect(x: 0, y: 0, width: self.buttonWidth, height: 32))
-                button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+                let button = UIButton(frame: CGRect(x: 0, y: 0, width: self.buttonsView.frame.size.width, height: 40))
+                let borderFrame = CGRect(x: 0, y: 0, width: buttonWidth, height: 0.5)
+                let buttonBorder = UIView(frame: borderFrame)
+                buttonBorder.backgroundColor = UIColor.white
+                button.addSubview(buttonBorder)
+                button.backgroundColor = ColorConfiguration.defaultColorTosca
                 button.setTitle(buttonsData["label"].stringValue, for: .normal)
-                button.setTitleColor(.black, for: .normal)
+                button.setTitleColor(UIColor.white, for: .normal)
                 button.tag = i
                 button.addTarget(self, action:#selector(self.postback(sender:)), for: .touchUpInside)
                 self.buttonsView.addArrangedSubview(button)
@@ -125,13 +126,13 @@ class QPostbackLeftCell: UIBaseChatCell {
             let data = JSON(dataPayload)
             let paramData = data["params"]
 
-            self.buttonsViewHeight.constant = CGFloat(35)
+            self.buttonsViewHeight.constant = CGFloat(40)
             self.layoutIfNeeded()
 
-            let button = UIButton(frame: CGRect(x: 0, y: 0, width: self.buttonWidth, height: 32))
-            button.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+            let button = UIButton(frame: CGRect(x: 0, y: 0, width: self.buttonsView.frame.size.width, height: 32))
+            button.backgroundColor = ColorConfiguration.defaultColorTosca
             button.setTitle(paramData["button_text"].stringValue, for: .normal)
-            button.setTitleColor(.black, for: .normal)
+            button.setTitleColor(UIColor.white, for: .normal)
             button.tag = 2222
             button.addTarget(self, action:#selector(self.accountLinking(sender:)), for: .touchUpInside)
 
@@ -139,7 +140,7 @@ class QPostbackLeftCell: UIBaseChatCell {
         }
     }
     
-    func setupBalon(){
+    func setupBalon(message : CommentModel){
         
     }
     
@@ -242,6 +243,45 @@ class QPostbackLeftCell: UIBaseChatCell {
             vc.navigationController?.pushViewController(webView, animated: true)
         }
        
+    }
+    
+    func status(message: CommentModel){
+        
+        switch message.status {
+        case .deleted:
+            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sending, .pending:
+            dateLabel.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            dateLabel.text = TextConfiguration.sharedInstance.sendingText
+            ivStatus.image = UIImage(named: "ic_info_time")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sent:
+            dateLabel.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            ivStatus.image = UIImage(named: "ic_sending")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .delivered:
+            dateLabel.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
+            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
+            break
+        case .read:
+            dateLabel.textColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
+            break
+        case . failed:
+            dateLabel.textColor = ColorConfiguration.timeLabelTextColor
+            dateLabel.text = TextConfiguration.sharedInstance.failedText
+            ivStatus.image = UIImage(named: "ic_warning")?.withRenderingMode(.alwaysTemplate)
+            ivStatus.tintColor = ColorConfiguration.failToSendColor
+            break
+        case .deleting:
+            ivStatus.image = UIImage(named: "ic_deleted")?.withRenderingMode(.alwaysTemplate)
+            break
+        }
     }
     
 }

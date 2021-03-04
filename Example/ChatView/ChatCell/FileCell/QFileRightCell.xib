@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aza-wY-aNQ">
                         <rect key="frame" x="0.0" y="0.0" width="329" height="98"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qrC-l1-YPD">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qrC-l1-YPD">
                                 <rect key="frame" x="171.5" y="29" width="149.5" height="65"/>
                                 <connections>
                                     <action selector="saveFile:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="eV0-8m-y8p"/>
@@ -58,7 +58,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vi-q4-ytq">
-                                <rect key="frame" x="276.5" y="3" width="37.5" height="20"/>
+                                <rect key="frame" x="283.5" y="3" width="37.5" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="iwu-fK-XQt"/>
                                 </constraints>
@@ -98,7 +98,7 @@
                             <constraint firstItem="1G6-V5-pNK" firstAttribute="trailing" secondItem="mmf-nu-Icb" secondAttribute="trailing" id="DKZ-Gg-5l7"/>
                             <constraint firstItem="qrC-l1-YPD" firstAttribute="height" secondItem="Rmt-lx-aOk" secondAttribute="height" id="EJj-R6-0Ms"/>
                             <constraint firstItem="Wng-Z4-gJ3" firstAttribute="top" secondItem="jIZ-bQ-K17" secondAttribute="bottom" constant="2" id="J5C-6u-QUR"/>
-                            <constraint firstAttribute="trailing" secondItem="0vi-q4-ytq" secondAttribute="trailing" constant="15" id="Ka0-WO-Zf3"/>
+                            <constraint firstAttribute="trailing" secondItem="0vi-q4-ytq" secondAttribute="trailing" constant="8" id="Ka0-WO-Zf3"/>
                             <constraint firstItem="qrC-l1-YPD" firstAttribute="width" secondItem="Rmt-lx-aOk" secondAttribute="width" multiplier="0.996667" id="Lni-IR-zPu"/>
                             <constraint firstAttribute="trailing" secondItem="Rmt-lx-aOk" secondAttribute="trailing" constant="7" id="NbN-AH-0ge"/>
                             <constraint firstItem="mmf-nu-Icb" firstAttribute="top" secondItem="Rmt-lx-aOk" secondAttribute="top" constant="1" id="QZJ-gu-Ze0"/>
@@ -126,8 +126,8 @@
                     <constraint firstAttribute="bottom" secondItem="Aza-wY-aNQ" secondAttribute="bottom" id="gpj-uS-fuc"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="ivBaloonLeft" destination="Rmt-lx-aOk" id="Wzz-yd-7ve"/>
                 <outlet property="ivFIle" destination="181-Qj-qzw" id="yj0-g1-dmr"/>

@@ -85,7 +85,7 @@ public class QCarouselCardCell: UICollectionViewCell {
             
             let borderFrame = CGRect(x: 0, y: 0, width: buttonWidth, height: 0.5)
             let buttonBorder = UIView(frame: borderFrame)
-            buttonBorder.backgroundColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            buttonBorder.backgroundColor = UIColor.white//UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
             button.setTitleColor(titleColor, for: .normal)
             button.addSubview(buttonBorder)
             self.buttons.append(button)

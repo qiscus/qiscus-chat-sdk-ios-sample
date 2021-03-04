@@ -62,10 +62,9 @@ class QVideoRightCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
-        self.setupBalon()
+        self.setupBalon(message: message)
         self.status(message: message)
         // get image
-        self.lbName.text = "You"
         self.lbTime.text = self.hour(date: message.date())
         guard let payload = message.payload else { return }
         let caption = payload["caption"] as? String
@@ -164,10 +163,18 @@ class QVideoRightCell: UIBaseChatCell {
         return base
     }
     
-    func setupBalon(){
+    func setupBalon(message : CommentModel){
         //self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
-        self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
+        if message.isMyComment() {
+            self.lbNameHeight.constant = 0
+            self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
+        } else {
+            self.lbNameHeight.constant = 20
+            self.lbName.text = message.username
+            self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
+            self.ivBaloonLeft.tintColor = ColorConfiguration.otherAgentRightBallonColor
+        }
     }
     
     func status(message: CommentModel){

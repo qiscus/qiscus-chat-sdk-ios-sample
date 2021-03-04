@@ -184,8 +184,13 @@ class QImageLeftCell: UIBaseChatCell {
             config.imageView = ivComment
         }
 
-        let imageViewerController = ImageViewerController(configuration: configuration)
-        self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
+        
+        let vc = ImageViewerController(configuration: configuration)
+
+        vc.modalPresentationStyle = .overFullScreen
+        self.currentViewController()?.navigationController?.present(vc, animated: false, completion: {
+            
+        })
     }
     
     //MARK: - Add image to Library

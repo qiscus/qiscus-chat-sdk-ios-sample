@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */; };
+		3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */; };
 		3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */; };
 		3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B8B13255D6D3F002A484F /* RemoveAgentVC.xib */; };
 		3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B17255D8325002A484F /* TagsVC.swift */; };
@@ -243,6 +245,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPostbackRightCell.swift; sourceTree = "<group>"; };
+		3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QPostbackRightCell.xib; sourceTree = "<group>"; };
 		3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAgentVC.swift; sourceTree = "<group>"; };
 		3D0B8B13255D6D3F002A484F /* RemoveAgentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RemoveAgentVC.xib; sourceTree = "<group>"; };
 		3D0B8B17255D8325002A484F /* TagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsVC.swift; sourceTree = "<group>"; };
@@ -496,6 +500,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D0B11EE25ECEE9600F32EDA /* QPostBackCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */,
+				3DA824462301B3980054D92F /* QPostbackLeftCell.xib */,
+				3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */,
+				3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */,
+			);
+			path = QPostBackCell;
+			sourceTree = "<group>";
+		};
 		3D0B8B10255D6D08002A484F /* RemoveAgent */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,11 +625,10 @@
 		3D40B8712192E20A00FE7228 /* ChatCell */ = {
 			isa = PBXGroup;
 			children = (
+				3D0B11EE25ECEE9600F32EDA /* QPostBackCell */,
 				3DD6E58925AD655D00BF96AD /* video */,
 				3DA824412301B3980054D92F /* QCard */,
 				3DA8243C2301B3980054D92F /* QCarouselCell */,
-				3DA8243B2301B3980054D92F /* QPostbackLeftCell.swift */,
-				3DA824462301B3980054D92F /* QPostbackLeftCell.xib */,
 				3D8474E5219D2CA3004877C8 /* TextCell */,
 				3D8474E7219D2CEF004877C8 /* ImageCell */,
 				3D819A28221E574400F1B7CA /* FileCell */,
@@ -1195,6 +1209,7 @@
 				3DA788EA2480613E00CEF339 /* UIChatListServedViewController.xib in Resources */,
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
+				3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
 				3D0EAE5B25E618F900481198 /* AMAlterBillEmailDuaCell.xib in Resources */,
 				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
@@ -1380,6 +1395,7 @@
 				3D7A39552577A328005E7FAE /* ChatAndCustomerInfoVC.swift in Sources */,
 				3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
+				3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */,
 				3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */,
 				3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */,
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
@@ -1618,7 +1634,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1646,7 +1662,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

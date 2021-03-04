@@ -21,6 +21,7 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
     
     public var mediaURL = "https://"
     var pathURL : URL = URL(string : "https://")!
+    var actionButton = UIBarButtonItem()
     var mediaplayer = VLCMediaPlayer()
     var isPause = false
     var isPlaying = false {
@@ -50,7 +51,7 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
         self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: "")
-        let actionButton = self.actionButton(self, action:  #selector(PlayOgaVC.goActionButton))
+        actionButton = self.actionButton(self, action:  #selector(PlayOgaVC.goActionButton))
         self.navigationItem.rightBarButtonItem = actionButton
     }
     
@@ -172,8 +173,9 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
         }))
         
         
-        //uncomment for iPad Support
-        alert.popoverPresentationController?.sourceView = self.view
+        if let presenter = alert.popoverPresentationController {
+            presenter.barButtonItem = actionButton
+        }
         
         self.present(alert, animated: true, completion: {
             print("completion block")
