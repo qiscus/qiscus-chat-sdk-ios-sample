@@ -50,8 +50,37 @@ class QTextRightCell: UIBaseChatCell {
         self.status(message: message)
         
         self.lbTime.text = self.hour(date: message.date())
-        self.tvContent.text = message.message
+        
         self.tvContent.textColor = ColorConfiguration.rightBaloonTextColor
+        
+        if message.message.contains("This message was sent on previous session") == true {
+            
+            let messageALL = message.message
+            let messageALLArr = messageALL.components(separatedBy: "This message was sent on previous session")
+                    
+            if  messageALLArr.count >= 2 {
+                let message1 = messageALLArr[0] + "&#x2015;&#x2015;&#x2015;<br/><br/><small>"
+                let message1Replace = message1.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                
+                let message2 =  "This message was sent on previous session" + messageALLArr[1]
+                let message2Replace = message2.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                let allMesage = message1Replace + message2Replace
+                
+                let attributedStringColor = [NSAttributedString.Key.foregroundColor : UIColor.white];
+                // create the attributed string
+                let attributedString = NSMutableAttributedString(string: allMesage.htmlToString, attributes: attributedStringColor)
+                
+                if let distance = attributedString.string.distance(of: "This message was sent on previous session") {
+                    attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 10), range: NSRange(location: distance , length: attributedString.string.count - distance - 1))
+                }
+                
+                self.tvContent.attributedText = attributedString
+            }else{
+                self.tvContent.text = message.message
+            }
+        }else{
+            self.tvContent.text = message.message
+        }
         
     }
     
@@ -60,12 +89,23 @@ class QTextRightCell: UIBaseChatCell {
         self.ivBaloonLeft.image = self.getBallon()
         if message.isMyComment() {
             self.lbNameHeight.constant = 0
-            self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
+            if message.message.contains("This message was sent on previous session") == true {
+                self.ivBaloonLeft.tintColor = ColorConfiguration.rightLeftBaloonGreyColor
+            } else {
+                self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
+            }
+           
         } else {
             self.lbNameHeight.constant = 20
             self.lbName.text = message.username
-            self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
-            self.ivBaloonLeft.tintColor = ColorConfiguration.otherAgentRightBallonColor
+            if message.message.contains("This message was sent on previous session") == true {
+                self.ivBaloonLeft.tintColor = ColorConfiguration.rightLeftBaloonGreyColor
+                self.lbName.textColor = ColorConfiguration.rightLeftBaloonGreyColor
+            }else{
+                self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
+                self.ivBaloonLeft.tintColor = ColorConfiguration.otherAgentRightBallonColor
+            }
+            
         }
         
     }
@@ -120,4 +160,18 @@ class QTextRightCell: UIBaseChatCell {
         return defaultTimeZoneStr
     }
     
+}
+
+extension String {
+    var htmlToAttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            return nil
+        }
+    }
+    var htmlToString: String {
+        return htmlToAttributedString?.string ?? ""
+    }
 }

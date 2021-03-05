@@ -18,6 +18,7 @@ struct DocumentsDirectory {
 
 class QFileLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
+    @IBOutlet weak var lbCaption: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
     @IBOutlet weak var lbTime: UILabel!
@@ -60,7 +61,7 @@ class QFileLeftCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
-        self.setupBalon()
+        self.setupBalon(message : message)
         
         self.lbTime.text = self.hour(date: message.date())
         self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
@@ -92,6 +93,48 @@ class QFileLeftCell: UIBaseChatCell {
         }
         
         guard let payload = message.payload else { return }
+        
+        let caption = payload["caption"] as? String
+        
+        if let caption = caption {
+            if caption.contains("This message was sent on previous session") == true {
+                
+                let messageALL = caption
+                let messageALLArr = messageALL.components(separatedBy: "This message was sent on previous session")
+                
+                if  messageALLArr.count >= 2 {
+                    let message1 = messageALLArr[0] + "&#x2015;&#x2015;&#x2015;<br/><br/><small>"
+                    let message1Replace = message1.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                    
+                    let message2 =  "This message was sent on previous session" + messageALLArr[1]
+                    let message2Replace = message2.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                    let allMesage = message1Replace + message2Replace
+                    
+                    let attributedStringColor = [NSAttributedString.Key.foregroundColor : UIColor.white];
+                    // create the attributed string
+                    let attributedString = NSMutableAttributedString(string: allMesage.htmlToString, attributes: attributedStringColor)
+                    
+                    if let distance = attributedString.string.distance(of: "This message was sent on previous session") {
+                        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 10), range: NSRange(location: distance , length: attributedString.string.count - distance - 1))
+                    }
+                    
+                    self.lbCaption.attributedText = attributedString
+                    self.lbCaption.textColor = UIColor.white
+                    self.lbFileSizeExtension.textColor  = UIColor.white
+                    self.ivFIle.tintColor = UIColor.white
+                    self.tvContent.textColor = UIColor.white
+                    
+                }else{
+                    self.lbCaption.text = caption
+                }
+            }else{
+                self.lbCaption.text = caption
+            }
+            
+        }else{
+            self.lbCaption.text = ""
+        }
+        
         if let fileName = payload["file_name"] as? String{
             if fileName.isEmpty {
                 self.tvContent.text = message.fileName(text: message.message)
@@ -237,10 +280,28 @@ class QFileLeftCell: UIBaseChatCell {
     }
     
     
-    func setupBalon(){
+    func setupBalon(message: CommentModel){
         self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
-        self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
+       
+        
+        guard let payload = message.payload else {
+            self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
+            return
+        }
+        let caption = payload["caption"] as? String
+        
+        var dataCaption = ""
+        if let caption = caption {
+            dataCaption = caption
+        }
+        
+        if dataCaption.contains("This message was sent on previous session") == true {
+            self.ivBaloonLeft.tintColor = ColorConfiguration.rightLeftBaloonGreyColor
+        } else {
+            self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
+        }
+        
     }
     
     func hour(date: Date?) -> String {

@@ -47,12 +47,40 @@ class QTextLeftCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
-        self.setupBalon()
+        self.setupBalon(message : message)
         
         self.lbTime.text = self.hour(date: message.date())
         self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
-        self.tvContent.text = message.message
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
+        
+        if message.message.contains("This message was sent on previous session") == true {
+            
+            let messageALL = message.message
+            let messageALLArr = messageALL.components(separatedBy: "This message was sent on previous session")
+                    
+            if  messageALLArr.count >= 2 {
+                let message1 = messageALLArr[0] + "&#x2015;&#x2015;&#x2015;<br/><br/><small>"
+                let message1Replace = message1.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                
+                let message2 =  "This message was sent on previous session" + messageALLArr[1]
+                let message2Replace = message2.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                let allMesage = message1Replace + message2Replace
+                
+                let attributedStringColor = [NSAttributedString.Key.foregroundColor : UIColor.white];
+                // create the attributed string
+                let attributedString = NSMutableAttributedString(string: allMesage.htmlToString, attributes: attributedStringColor)
+                
+                if let distance = attributedString.string.distance(of: "This message was sent on previous session") {
+                    attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 10), range: NSRange(location: distance , length: attributedString.string.count - distance - 1))
+                }
+                
+                self.tvContent.attributedText = attributedString
+            }else{
+                self.tvContent.text = message.message
+            }
+        }else{
+            self.tvContent.text = message.message
+        }
         
         
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
@@ -78,10 +106,15 @@ class QTextLeftCell: UIBaseChatCell {
         }
     }
     
-    func setupBalon(){
+    func setupBalon(message: CommentModel){
         self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
-        self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
+        if message.message.contains("This message was sent on previous session") == true {
+            self.ivBaloonLeft.tintColor = ColorConfiguration.rightLeftBaloonGreyColor
+        }else{
+            self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor
+        }
+        
     }
     
     func hour(date: Date?) -> String {

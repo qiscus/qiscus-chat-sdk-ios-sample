@@ -58,7 +58,13 @@ class QReplyTextLeftCell: UIBaseChatCell {
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
         
         if let messageReply = message.payload?["replied_comment_message"] as? String {
-            self.tvReplyContent.text = messageReply
+            if messageReply.contains("This message was sent on previous session") == true {
+                let messageALLArr = messageReply.components(separatedBy: "This message was sent on previous session")
+                let message = messageALLArr[0]
+                self.tvReplyContent.text = message
+            }else{
+                self.tvReplyContent.text = messageReply
+            }
         }else{
            self.tvReplyContent.text = "unknow"
         }
