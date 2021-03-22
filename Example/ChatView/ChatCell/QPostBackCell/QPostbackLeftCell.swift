@@ -27,15 +27,16 @@ class QPostbackLeftCell: UIBaseChatCell {
     @IBOutlet weak var ivAvatarUser: UIImageView!
     @IBOutlet weak var buttonsViewHeight: NSLayoutConstraint!
     var delegateChat : UIChatViewController? = nil
-    
+    var isQiscus : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.setMenu(isQiscus: false)
        textView.contentInset = UIEdgeInsets.zero
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        self.setMenu(isQiscus: false)
         // Configure the view for the selected state
     }
     

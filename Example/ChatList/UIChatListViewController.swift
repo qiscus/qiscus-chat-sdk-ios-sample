@@ -21,6 +21,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     private let refreshControl = UIRefreshControl()
     var isLoadingLoadMore : Bool = false
     var lastRoomCount: Int = 0
+    var needReloadApi: Bool = false
     var rooms : [RoomModel] {
         get {
             return presenter.rooms
@@ -50,7 +51,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     }
     
     @objc func onDidReceiveData(_ notification:Notification) {
-        self.presenter.loadChat()
+        self.tableView.reloadData()
     }
     
     func setupUI(){
@@ -68,6 +69,8 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         
         activityIndicator = LoadMoreActivityIndicator(scrollView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(isChangeTabs(_:)), name: NSNotification.Name(rawValue: "reloadTabs"), object: nil)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,6 +80,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.presenter.setDelegate()
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 2 {
                  self.presenter.attachView(view: self,typeTab: .ONGOING)
@@ -86,16 +90,25 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         }else{
              self.presenter.attachView(view: self, typeTab: .ALL)
         }
-        self.presenter.loadChat()
+        
         self.tabBarController?.tabBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
         
+
+        if needReloadApi == true{
+            self.presenter.loadFromServer()
+            self.needReloadApi = false
+        }
+    }
+    
+    @objc private func isChangeTabs(_ sender: Any) {
+        self.needReloadApi = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.presenter.detachView()
-         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
+       // self.presenter.detachView()
+//         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
     }
     
     @objc private func reloadData(_ sender: Any) {

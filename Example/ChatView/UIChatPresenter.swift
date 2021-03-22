@@ -2,7 +2,7 @@
 //  File.swift
 //  Qiscus
 //
-//  Created by Rahardyan Bisma on 07/05/18.
+//  Created by Qiscus on 07/05/18.
 //
 
 import Foundation
@@ -34,7 +34,7 @@ protocol UIChatViewDelegate {
 
 class UIChatPresenter: UIChatUserInteraction {
     private var viewPresenter: UIChatViewDelegate?
-    var comments: [[CommentModel]]
+var comments: [[CommentModel]]
     var room: RoomModel? 
     var loadMoreAvailable: Bool = true
     var participants : [MemberModel] = [MemberModel]()

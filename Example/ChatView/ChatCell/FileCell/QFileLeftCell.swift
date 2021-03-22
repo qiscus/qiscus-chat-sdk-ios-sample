@@ -32,21 +32,17 @@ class QFileLeftCell: UIBaseChatCell {
     @IBOutlet weak var ivFIle: UIImageView!
     @IBOutlet weak var ivAvatarUser: UIImageView!
     var isQiscus : Bool = false
-    
+    var vc : UIChatViewController? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        if isQiscus == true {
-             self.setMenu()
-        }
+        self.setMenu(isQiscus: isQiscus)
        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        if isQiscus == true {
-            self.setMenu()
-        }
+        self.setMenu(isQiscus: isQiscus)
         // Configure the view for the selected state
     }
     
@@ -188,6 +184,10 @@ class QFileLeftCell: UIBaseChatCell {
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
                 
+                if let vc = self.vc {
+                    vc.view.endEditing(true)
+                }
+                
                 if url.contains(".oga") == true {
                     let preview = PlayOgaVC()
                     preview.mediaURL = url
@@ -281,7 +281,7 @@ class QFileLeftCell: UIBaseChatCell {
     
     
     func setupBalon(message: CommentModel){
-        self.ivBaloonLeft.applyShadow()
+        //self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
        
         

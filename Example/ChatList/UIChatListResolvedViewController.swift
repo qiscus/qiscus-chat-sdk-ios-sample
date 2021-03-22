@@ -24,6 +24,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
     
     var customerRooms = [CustomerRoom]()
     var metaAfter :String? = nil
+    var firstPage : Bool = false
     // MARK: - IndicatorInfoProvider
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
          return IndicatorInfo(title: "Resolved")
@@ -51,6 +52,8 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         refreshControl.addTarget(self, action: #selector(reloadData(_:)), for: .valueChanged)
         activityIndicator = LoadMoreActivityIndicator(scrollView: tableView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(isChangeTabs(_:)), name: NSNotification.Name(rawValue: "reloadTabs"), object: nil)
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -74,6 +77,10 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         self.throttleGetList()
     }
     
+    @objc private func isChangeTabs(_ sender: Any) {
+        self.metaAfter = nil
+    }
+    
     @objc func profileButtonPressed() {
         let vc = ProfileVC()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -90,6 +97,37 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         self.navigationController?.pushViewController(target, animated: true)
     }
     
+    func filterRoom(data: [CustomerRoom]) -> [CustomerRoom] {
+        var source = data
+        
+        source.sort { (room1, room2) -> Bool in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"
+            dateFormatter.timeZone = .current
+            guard let date = dateFormatter.date(from: room1.lastCommentTimestamp) else {
+                return false
+            }
+            
+            let dateFormatter2 = DateFormatter()
+            dateFormatter2.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"
+            dateFormatter2.timeZone = .current
+            guard let date2 = dateFormatter2.date(from: room2.lastCommentTimestamp) else {
+                return false
+            }
+            
+            let timeInterval = date.timeIntervalSince1970
+            let timeInterval2 = date2.timeIntervalSince1970
+
+            // convert to Integer
+            let timeInterInt = Int(timeInterval)
+            let timeInterInt2 = Int(timeInterval2)
+
+            return timeInterInt > timeInterInt2
+        }
+        
+        return source
+    }
+    
     @objc func getList(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
@@ -101,7 +139,9 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
                     ] as [String : String]
         
         if let meta = metaAfter {
-            param["cursor_after"] = meta
+            if self.firstPage == false {
+                param["cursor_after"] = meta
+            }
         }
         
         Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
@@ -143,18 +183,36 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
                         }
                         if results.count != 0 {
                             if self.metaAfter != nil {
-                                self.customerRooms.append(contentsOf: results)
+                                if self.firstPage == true {
+                                    //merge data
+                                    for i in results {
+                                        let checkRoom = self.customerRooms.filter{ $0.id == i.id }
+                                        
+                                        if checkRoom.count == 0 {
+                                            // data not found from last array and next step to append data
+                                            self.customerRooms.append(i)
+                                        }else{
+                                            self.customerRooms = self.customerRooms.map { (room) -> CustomerRoom in
+                                                var room = room
+                                                if room.id == i.id {
+                                                    room = i                                                }
+                                                return room
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    self.customerRooms.append(contentsOf: results)
+                                }
                             }else{
                                  self.customerRooms = results
                             }
+                            
+                            self.customerRooms = self.filterRoom(data:  self.customerRooms)
                         }
-                        
                     }
                     
                     if let meta = payload["meta"]["cursor_after"].string{
                         self.metaAfter = meta
-                    }else{
-                        self.metaAfter = nil
                     }
                     
                     if self.customerRooms.count == 0 {
@@ -275,9 +333,7 @@ extension UIChatListResolvedViewController : UITableViewDelegate, UITableViewDat
     }
     
     func throttleGetList(firstPage : Bool = true) {
-        if firstPage == true{
-            self.metaAfter = nil
-        }
+        self.firstPage = firstPage
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.getList), object: nil)
         perform(#selector(self.getList), with: nil, afterDelay: 1)
     }

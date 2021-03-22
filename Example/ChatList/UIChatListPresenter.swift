@@ -46,6 +46,10 @@ class UIChatListPresenter {
         viewPresenter = view
     }
     
+    func setDelegate(){
+        QiscusCore.delegate = self
+    }
+    
     func detachView() {
         viewPresenter = nil
     }
@@ -229,7 +233,22 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     func onRoomMessageReceived(_ room: RoomModel, message: CommentModel) {
         // show in app notification
         print("got new comment: \(message.message)")
-        //patch hack, something presenter not working
+        
+        let checkRoom = self.rooms.filter{ $0.id == room.id }
+        
+        if checkRoom.count == 0 {
+            self.rooms.append(room)
+        }else{
+            self.rooms = self.rooms.map { (roomArray) -> RoomModel in
+                var roomData = roomArray
+                if roomData.id == room.id {
+                    roomData = room
+                }
+                return roomData
+            }
+        }
+        
+        self.rooms = self.filterRoom(data: self.rooms)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadCell"), object: nil)
     }
     

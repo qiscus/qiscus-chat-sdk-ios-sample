@@ -329,6 +329,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             guard changeCurrentIndex == true else { return }
             oldCell?.label.textColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 0.5)
             newCell?.label.textColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
+            
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadTabs"), object: nil)
         }
     }
     

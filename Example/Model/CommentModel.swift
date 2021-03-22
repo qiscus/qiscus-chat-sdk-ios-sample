@@ -194,6 +194,29 @@ extension CommentModel {
         return data
     }
     
+    func replyType(message:String)-> QReplyType{
+        if self.isAttachment(text: message){
+            let url = getAttachmentURL(message: message)
+            
+            switch self.fileExtension(fromURL: url) {
+            case "jpg","jpg_","png","png_","gif","gif_":
+                return .image
+            case "m4a","m4a_","aac","aac_","mp3","mp3_":
+                return .audio
+            case "mov","mov_","mp4","mp4_":
+                return .video
+            case "pdf","pdf_":
+                return .document
+            case "doc","docx","ppt","pptx","xls","xlsx","txt":
+                return .file
+            default:
+                return .other
+            }
+        }else{
+            return .text
+        }
+    }
+    
     /// Delete message by id
     ///
     /// - Parameters:

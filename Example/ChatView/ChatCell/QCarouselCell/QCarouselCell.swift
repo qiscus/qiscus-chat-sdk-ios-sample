@@ -23,6 +23,7 @@ class QCarouselCell: UIBaseChatCell {
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var uiViewBackground: UIView!
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
+    var isQiscus : Bool = false
     public var cards = [QCard](){
         didSet{
             self.carouselView.reloadData()
@@ -48,6 +49,7 @@ class QCarouselCell: UIBaseChatCell {
     
     override public func awakeFromNib() {
         super.awakeFromNib()
+        self.setMenu(isQiscus: false)
         self.carouselView.register(UINib(nibName: "QCarouselCardCell",bundle: nil), forCellWithReuseIdentifier: "cellCardCarousel")
         carouselView.delegate = self
         carouselView.dataSource = self
@@ -183,7 +185,7 @@ class QCarouselCell: UIBaseChatCell {
 
     override public func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        self.setMenu(isQiscus: false)
         // Configure the view for the selected state
     }
     

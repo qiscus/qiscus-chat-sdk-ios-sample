@@ -32,10 +32,12 @@ class QVideoLeftCell: UIBaseChatCell {
     var isPublic: Bool = false
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
+    var isQiscus : Bool = false
+    var vc : UIChatViewController? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
         self.ivComment.contentMode = .scaleAspectFill
         self.ivComment.clipsToBounds = true
          self.ivComment.layer.cornerRadius = 8
@@ -47,7 +49,7 @@ class QVideoLeftCell: UIBaseChatCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
         // Configure the view for the selected state
     }
     
@@ -188,6 +190,10 @@ class QVideoLeftCell: UIBaseChatCell {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
+                if let vc = self.vc {
+                    vc.view.endEditing(true)
+                }
+                
                 let preview = ChatPreviewDocVC()
                 preview.fileName = fileName
                 preview.url = url
@@ -226,7 +232,7 @@ class QVideoLeftCell: UIBaseChatCell {
     }
     
     func setupBalon(message: CommentModel){
-        self.ivBaloonLeft.applyShadow()
+        //self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
         guard let payload = message.payload else {
             self.ivBaloonLeft.tintColor = ColorConfiguration.leftBaloonColor

@@ -14,6 +14,7 @@ class enableMenuConfig : NSObject {
 
 protocol UIBaseChatCellDelegate {
     func didTap(delete comment: CommentModel)
+    func didTap(reply comment: CommentModel)
 }
 
 class UIBaseChatCell: UITableViewCell {
@@ -85,16 +86,23 @@ extension UIBaseChatCell {
     
     func setMenu(isQiscus : Bool = false) {
         let delete = UIMenuItem(title: "Delete", action: #selector(deleteComment(_:)))
+        let reply = UIMenuItem(title: "Reply", action: #selector(replyComment(_:)))
         
         var menuItems: [UIMenuItem] = [UIMenuItem]()
         if let myComment = self.comment?.isMyComment() {
             if(myComment){
                 if isQiscus == true {
                     menuItems.append(delete)
+                    menuItems.append(reply)
+                    UIMenuController.shared.menuItems = menuItems
+                }else{
                     UIMenuController.shared.menuItems = menuItems
                 }
             }else{
                 //UIMenuController.shared.menuItems = [reply,share,forwardMessage,deleteForMe]
+                if isQiscus == true {
+                    menuItems.append(reply)
+                }
                 UIMenuController.shared.menuItems = menuItems
             }
             
@@ -106,6 +114,11 @@ extension UIBaseChatCell {
     @objc func deleteComment(_ send:AnyObject){
         guard let _comment = self.comment else { return }
         self.cellMenu?.didTap(delete: _comment)
+    }
+    
+    @objc func replyComment(_ send:AnyObject){
+        guard let _comment = self.comment else { return }
+        self.cellMenu?.didTap(reply: _comment)
     }
 }
 

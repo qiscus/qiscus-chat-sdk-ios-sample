@@ -2,7 +2,7 @@
 //  QChatVC.swift
 //  Qiscus
 //
-//  Created by Rahardyan Bisma on 07/05/18.
+//  Created by Qiscus on 07/05/18.
 //
 
 import UIKit
@@ -294,6 +294,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         self.setupHSMAlertMessage()
         self.setupBlockContact()
         self.setupUnBlockContact()
+        self.chatInput.hidePreviewReply()
         
 
         if #available(iOS 11.0, *) {
@@ -734,8 +735,23 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             if !option.isEmpty{
                 let json = JSON.init(parseJSON: option)
                 let channelType = json["channel"].string ?? "qiscus"
+               
                 if channelType.lowercased() == "qiscus"{
                     self.isQiscus = true
+                }else if channelType.lowercased() == "telegram"{
+                    self.isQiscus = false
+                }else if channelType.lowercased() == "line"{
+                    self.isQiscus = false
+                }else if channelType.lowercased() == "fb"{
+                    self.isQiscus = false
+                }else if channelType.lowercased() == "wa"{
+                    self.isQiscus = false
+                }else if channelType.lowercased() == "twitter"{
+                    self.isQiscus = false
+                }else if channelType.lowercased() == "custom"{
+                    self.isQiscus = false
+                }else{
+                    self.isQiscus = false
                 }
             }
         }
@@ -1241,14 +1257,17 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         self.registerClass(nib: UINib(nibName: "QCardRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCardRightCell")
         self.registerClass(nib: UINib(nibName: "QCardLeftCell", bundle: nil ), forMessageCellWithReuseIdentifier: "qCardLeftCell")
         
-        self.registerClass(nib: UINib(nibName: "QReplyTextRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyTextRightCell")
-        self.registerClass(nib: UINib(nibName: "QReplyTextLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyTextLeftCell")
-        
          self.registerClass(nib: UINib(nibName: "QReplyImageRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyImageRightCell")
          self.registerClass(nib: UINib(nibName: "QReplyImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyImageLeftCell")
         
         self.registerClass(nib: UINib(nibName: "QVideoRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qVideoRightCell")
         self.registerClass(nib: UINib(nibName: "QVideoLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qVideoLeftCell")
+        
+        self.registerClass(nib: UINib(nibName: "QReplyRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyRightCell")
+        self.registerClass(nib: UINib(nibName: "QReplyLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyLeftCell")
+        
+        self.registerClass(nib: UINib(nibName: "QLocationLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qLocationLeftCell")
+        self.registerClass(nib: UINib(nibName: "QLocationRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qLocationRightCell")
     }
     
     @objc func goBack() {
@@ -1691,6 +1710,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         }else {
                             cell.isPublic = false
                         }
+                        cell.isQiscus = self.isQiscus
                         cell.cellMenu = self
                         return cell
                     }else{
@@ -1701,6 +1721,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         }else {
                             cell.isPublic = false
                         }
+                        cell.isQiscus = self.isQiscus
                         cell.cellMenu = self
                         return cell
                     }
@@ -1712,6 +1733,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     }else {
                         cell.isPublic = false
                     }
+                    cell.isQiscus = self.isQiscus
                     cell.cellMenu = self
                     return cell
                 }else{
@@ -1722,6 +1744,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     }else {
                         cell.isPublic = false
                     }
+                    cell.isQiscus = self.isQiscus
                     cell.cellMenu = self
                     return cell
                 }
@@ -1753,6 +1776,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         }else {
                             cell.isPublic = false
                         }
+                        cell.isQiscus = self.isQiscus
                         cell.cellMenu = self
                         return cell
                     }
@@ -1762,6 +1786,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
                         cell.isQiscus = self.isQiscus
+                        cell.vc = self
                         return cell
                     }
                     else{
@@ -1772,7 +1797,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         }else {
                             cell.isPublic = false
                         }
+                        cell.isQiscus = self.isQiscus
                         cell.cellMenu = self
+                        cell.vc = self
                         return cell
                     }
                 }else{
@@ -1781,6 +1808,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         cell.menuConfig = menuConfig
                         cell.cellMenu = self
                         cell.isQiscus = self.isQiscus
+                        cell.vc = self
                         return cell
                     }
                     else{
@@ -1791,7 +1819,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         }else {
                             cell.isPublic = false
                         }
+                        cell.isQiscus = self.isQiscus
                         cell.cellMenu = self
+                        cell.vc = self
                         return cell
                     }
                 }
@@ -1810,6 +1840,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     }else {
                         cell.isPublic = false
                     }
+                    cell.isQiscus = self.isQiscus
                     cell.cellMenu = self
                     return cell
                 }
@@ -1822,9 +1853,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "postBackRight", for: indexPath) as! QPostbackRightCell
                 cell.delegateChat = self
+                cell.isQiscus = self.isQiscus
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                cell.isQiscus = self.isQiscus
                 cell.delegateChat = self
                 return cell
             }
@@ -1832,9 +1865,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "postBackRight", for: indexPath) as! QPostbackRightCell
                 cell.delegateChat = self
+                cell.isQiscus = self.isQiscus
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                cell.isQiscus = self.isQiscus
                 cell.delegateChat = self
                 return cell
             }
@@ -1843,6 +1878,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                 cell.menuConfig = menuConfig
                 cell.cellMenu = self
+                cell.isQiscus = self.isQiscus
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
@@ -1852,6 +1888,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 }else {
                     cell.isPublic = false
                 }
+                cell.isQiscus = self.isQiscus
                 cell.cellMenu = self
                 return cell
             }
@@ -1863,11 +1900,13 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             }else {
                 cell.isPublic = false
             }
+            cell.isQiscus = self.isQiscus
             return cell
         }else if message.type == "card" {
             if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                 let cell =  tableView.dequeueReusableCell(withIdentifier: "qCardRightCell", for: indexPath) as! QCardRightCell
                 cell.delegateChat = self
+                cell.isQiscus = self.isQiscus
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qCardLeftCell", for: indexPath) as! QCardLeftCell
@@ -1878,30 +1917,30 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 }else {
                     cell.isPublic = false
                 }
+                cell.isQiscus = self.isQiscus
+                return cell
+            }
+            
+        }else if message.type == "location" {
+            if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
+                let cell =  tableView.dequeueReusableCell(withIdentifier: "qLocationRightCell", for: indexPath) as! QLocationRightCell
+                cell.isQiscus = self.isQiscus
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qLocationLeftCell", for: indexPath) as! QLocationLeftCell
+                if self.room?.type == .group {
+                    cell.isPublic = true
+                    cell.colorName = colorName
+                }else {
+                    cell.isPublic = false
+                }
+                cell.isQiscus = self.isQiscus
                 return cell
             }
             
         } else if message.type == "reply" {
             if let typeReply = message.payload?["replied_comment_type"] as? String {
-                if typeReply == "text" || typeReply == "reply"{
-                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyTextRightCell", for: indexPath) as! QReplyTextRightCell
-                        cell.menuConfig = menuConfig
-                        cell.cellMenu = self
-                        cell.isQiscus = self.isQiscus
-                        return cell
-                    }else{
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyTextLeftCell", for: indexPath) as! QReplyTextLeftCell
-                        if self.room?.type == .group {
-                            cell.colorName = colorName
-                            cell.isPublic = true
-                        }else {
-                            cell.isPublic = false
-                        }
-                        cell.cellMenu = self
-                        return cell
-                    }
-                }else if  typeReply == "file_attachment" {
+                if  typeReply == "file_attachment" ||  typeReply == "location" || typeReply == "text" || typeReply == "reply" || typeReply == "unknown" {
                     guard let payload = message.payload else {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
                         return cell
@@ -1925,47 +1964,54 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                                     }else {
                                         cell.isPublic = false
                                     }
+                                    cell.isQiscus = self.isQiscus
                                     cell.cellMenu = self
                                     return cell
                                 }
                             }else{
                                 if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
-                                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                                    let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyRightCell", for: indexPath) as! QReplyRightCell
                                     cell.menuConfig = menuConfig
                                     cell.cellMenu = self
                                     cell.isQiscus = self.isQiscus
+                                    cell.delegateChat = self
                                     return cell
-                                    //noted will support reply type file in next release
-//                                    let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
-//                                    cell.menuConfig = menuConfig
-//                                    cell.cellMenu = self
-//                                    return cell
                                 }
                                 else{
-                                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
+                                    let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyLeftCell", for: indexPath) as! QReplyLeftCell
                                     if self.room?.type == .group {
                                         cell.colorName = colorName
                                         cell.isPublic = true
                                     }else {
                                         cell.isPublic = false
                                     }
+                                    cell.delegateChat = self
                                     cell.cellMenu = self
+                                    cell.isQiscus = self.isQiscus
                                     return cell
-                                    //noted will support reply type file in next release
-//                                    let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
-//                                    if self.room?.type == .group {
-//                                        cell.colorName = colorName
-//                                        cell.isPublic = true
-//                                    }else {
-//                                        cell.isPublic = false
-//                                    }
-//                                    cell.cellMenu = self
-//                                    return cell
                                 }
                             }
                         }else{
-                            let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
-                            return cell
+                            if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
+                                let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyRightCell", for: indexPath) as! QReplyRightCell
+                                cell.menuConfig = menuConfig
+                                cell.cellMenu = self
+                                cell.isQiscus = self.isQiscus
+                                cell.delegateChat = self
+                                return cell
+                            }else{
+                                let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyLeftCell", for: indexPath) as! QReplyLeftCell
+                                if self.room?.type == .group {
+                                    cell.colorName = colorName
+                                    cell.isPublic = true
+                                }else {
+                                    cell.isPublic = false
+                                }
+                                cell.delegateChat = self
+                                cell.cellMenu = self
+                                cell.isQiscus = self.isQiscus
+                                return cell
+                            }
                         }
                     }else{
                         if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
@@ -1982,13 +2028,32 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                             }else {
                                 cell.isPublic = false
                             }
+                            cell.isQiscus = self.isQiscus
                             cell.cellMenu = self
                             return cell
                         }
                     }
                 }else{
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
-                    return cell
+                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyRightCell", for: indexPath) as! QReplyRightCell
+                        cell.menuConfig = menuConfig
+                        cell.isQiscus = self.isQiscus
+                        cell.cellMenu = self
+                        cell.delegateChat = self
+                        return cell
+                    }else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyLeftCell", for: indexPath) as! QReplyLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.isQiscus = self.isQiscus
+                        cell.delegateChat = self
+                        cell.cellMenu = self
+                        return cell
+                    }
                 }
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
@@ -2314,6 +2379,8 @@ extension UIChatViewController : UIChatView {
             return true
         case "deleteComment:":
             return true
+        case "replyComment:":
+            return true
         default:
             return false
         }
@@ -2364,6 +2431,16 @@ extension UIChatViewController : UIBaseChatCellDelegate {
         }) { (error) in
             print("failed delete comment for everyone")
         }
+    }
+    
+    func didTap(reply comment: CommentModel) {
+        self.chatInput.replyData = comment
+        if usersColor.count != 0{
+            if let email = self.chatInput.replyData?.userEmail, let color = usersColor[email] {
+                self.chatInput.colorName = color
+            }
+        }
+        self.chatInput.showPreviewReply()
     }
 }
 

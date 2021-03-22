@@ -24,6 +24,7 @@ class QFileRightCell: UIBaseChatCell {
     @IBOutlet weak var ivFIle: UIImageView!
     var menuConfig = enableMenuConfig()
     var isQiscus : Bool = false
+    var vc : UIChatViewController? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -150,6 +151,10 @@ class QFileRightCell: UIBaseChatCell {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
+                if let vc = self.vc {
+                    vc.view.endEditing(true)
+                }
+                
                 if url.contains(".oga") == true {
                     let preview = PlayOgaVC()
                     preview.mediaURL = url

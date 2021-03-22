@@ -13,6 +13,8 @@ import QiscusCore
 import SwiftyJSON
 import AVFoundation
 import PhotosUI
+import AlamofireImage
+import Alamofire
 
 protocol CustomChatInputDelegate {
     func sendAttachment(button : UIButton)
@@ -41,6 +43,17 @@ class CustomChatInput: UIChatInput {
     var recordDuration:Int = 0
     var processingAudio = false
     
+    //reply
+    var replyData:CommentModel?
+    @IBOutlet weak var viewReply: UIView!
+    @IBOutlet weak var viewColorReplyPreview: UIView!
+    @IBOutlet weak var lbReplyPreviewSenderName: UILabel!
+    @IBOutlet weak var lbReplyPreview: UILabel!
+    @IBOutlet weak var ivReplyPreviewWidth: NSLayoutConstraint!
+    @IBOutlet weak var ivReplyPreview: UIImageView!
+    @IBOutlet weak var cancelReplyPreviewButton: UIButton!
+    @IBOutlet weak var topReplyPreviewCons: NSLayoutConstraint!
+    @IBOutlet weak var replyPreviewCons: NSLayoutConstraint!
     override func commonInit(nib: UINib) {
         let nib = UINib(nibName: "CustomChatInput", bundle: nil)
         super.commonInit(nib: nib)
@@ -76,13 +89,32 @@ class CustomChatInput: UIChatInput {
             if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
                 var payload:JSON? = nil
                 let comment = CommentModel()
-                comment.type = "text"
-                comment.message = text
+                if(replyData != nil){
+                    var senderName = replyData?.username
+                    comment.type = "reply"
+                    comment.message = text
+                    comment.payload = [
+                        "replied_comment_sender_email"       : replyData?.userEmail,
+                        "replied_comment_id" : Int((replyData?.id)!),
+                        "text"      : text,
+                        "replied_comment_message"   : replyData?.message,
+                        "replied_comment_sender_username" : senderName,
+                        "replied_comment_payload" : replyData?.payload,
+                        "replied_comment_type" : replyData?.type
+                    ]
+                    self.replyData = nil
+                }else{
+                    
+                    comment.type = "text"
+                    comment.message = text
+                    
+                }
                 self.chatInputDelegate?.sendMessage(message: comment)
             }
         }
         self.textView.text = ""
         self.setHeight(50)
+        self.hidePreviewReply()
         
     }
     
@@ -264,6 +296,80 @@ class CustomChatInput: UIChatInput {
         let _ = self.currentViewController()?.navigationController?.popViewController(animated: true)
     }
     
+    func showPreviewReply(){
+        if let data = replyData {
+            self.lbReplyPreviewSenderName.text = data.username
+            self.lbReplyPreviewSenderName.textColor = colorName
+            self.ivReplyPreviewWidth.constant = 45
+            
+            if data.type == "text" || data.type == "reply"{
+                self.lbReplyPreview.text = data.message
+                self.ivReplyPreviewWidth.constant = 0
+            }else if data.type == "file_attachment"{
+                guard let payload = data.payload else {
+                    return
+                }
+                
+                if let url = payload["url"] as? String {
+                    let ext = data.fileExtension(fromURL:url)
+                    if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
+                        // image
+                        guard let payload = data.payload else { return }
+                        let caption = payload["caption"] as? String
+                        self.lbReplyPreview.text = caption
+                        if let url = payload["url"] as? String {
+                            self.ivReplyPreview.af_setImage(withURL: URL(string: url) ?? URL(string: "http://")!)
+                        }
+                    }else{
+                        // file
+                        var filename = data.fileName(text: data.message)
+                        self.lbReplyPreview.text = filename
+                        self.ivReplyPreviewWidth.constant = 0
+                    }
+                }else{
+                    //default reply text
+                    self.lbReplyPreview.text = data.message
+                    self.ivReplyPreviewWidth.constant = 0
+                }
+            }
+            
+            if(self.topReplyPreviewCons.constant != 0){
+                self.viewReply.isHidden = false
+                self.viewReply.alpha = 1
+                self.topReplyPreviewCons.constant = 0
+                if self.heightView.constant <= 50 {
+                    self.customInputBarHeight = self.heightView.constant + 10 + self.replyPreviewCons.constant
+                } else {
+                    self.customInputBarHeight = self.heightView.constant + self.replyPreviewCons.constant
+                }
+               
+                self.setHeight(self.customInputBarHeight)
+            }
+        }else{
+            self.hidePreviewReply()
+        }
+        
+    }
+    
+    func hidePreviewReply(){
+        self.viewReply.isHidden = true
+        self.viewReply.alpha = 0
+        self.topReplyPreviewCons.constant = -50
+        
+        let fixedWidth = textView.frame.size.width
+        let newSize = textView.sizeThatFits(CGSize.init(width: fixedWidth, height: CGFloat(MAXFLOAT)))
+        self.heightTextViewCons.constant = newSize.height
+        self.heightView.constant = newSize.height + 10.0
+        
+        self.customInputBarHeight = self.heightView.constant + 10
+        self.setHeight(self.customInputBarHeight)
+    }
+    
+    @IBAction func cancelReply(_ sender: Any) {
+        self.replyData = nil
+        self.hidePreviewReply()
+    }
+    
     func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         
         if let nav = base as? UINavigationController {
@@ -316,7 +422,12 @@ extension CustomChatInput : UITextViewDelegate {
         let newSize = textView.sizeThatFits(CGSize.init(width: fixedWidth, height: CGFloat(MAXFLOAT)))
         if (newSize.height >= 35 && newSize.height <= 170) {
             self.heightTextViewCons.constant = newSize.height
-            self.heightView.constant = newSize.height + 10.0
+            if self.replyData != nil {
+                self.heightView.constant = newSize.height + 20.0 + self.replyPreviewCons.constant
+            } else {
+                self.heightView.constant = newSize.height + 20.0
+            }
+            
             self.setHeight(self.heightView.constant)
         }
         
@@ -334,8 +445,8 @@ extension CustomChatInput : UITextViewDelegate {
 
                 if expectedLabelSize.height >= 170 {
                     self.setHeight(170)
-                } else if expectedLabelSize.height <= 48 {
-                    self.setHeight(48)
+                } else if expectedLabelSize.height <= 50 {
+                    self.setHeight(50)
                 } else {
                     self.setHeight(expectedLabelSize.height)
                 }

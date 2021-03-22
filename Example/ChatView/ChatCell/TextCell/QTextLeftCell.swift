@@ -13,6 +13,7 @@ class QTextLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
+    @IBOutlet weak var ivAvatarUser: UIImageView!
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
@@ -23,16 +24,16 @@ class QTextLeftCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
     
-    @IBOutlet weak var ivAvatarUser: UIImageView!
+    var isQiscus : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
         // Configure the view for the selected state
     }
     
@@ -107,7 +108,7 @@ class QTextLeftCell: UIBaseChatCell {
     }
     
     func setupBalon(message: CommentModel){
-        self.ivBaloonLeft.applyShadow()
+        //self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
         if message.message.contains("This message was sent on previous session") == true {
             self.ivBaloonLeft.tintColor = ColorConfiguration.rightLeftBaloonGreyColor

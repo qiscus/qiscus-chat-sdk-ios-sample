@@ -33,9 +33,11 @@ class QCardLeftCell: UIBaseChatCell {
     var delegateChat : UIChatViewController? = nil
     var isPublic: Bool = false
     var colorName : UIColor = UIColor.black
+    var isQiscus : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.setMenu(isQiscus: false)
         self.containerArea.layer.cornerRadius = 10.0
         //self.containerArea.layer.borderWidth = 0.5
         //self.containerArea.layer.borderColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1).cgColor
@@ -50,7 +52,7 @@ class QCardLeftCell: UIBaseChatCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        self.setMenu(isQiscus: false)
         // Configure the view for the selected state
     }
     

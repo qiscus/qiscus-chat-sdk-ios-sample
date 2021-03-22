@@ -29,7 +29,7 @@ class QVideoRightCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     @IBOutlet weak var ivPlay: UIImageView!
     var isQiscus : Bool = false
-    
+    var vc : UIChatViewController? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -160,6 +160,10 @@ class QVideoRightCell: UIBaseChatCell {
         guard let payload = self.comment?.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
+                if let vc = self.vc {
+                    vc.view.endEditing(true)
+                }
+                
                 let preview = ChatPreviewDocVC()
                 preview.fileName = fileName
                 preview.url = url

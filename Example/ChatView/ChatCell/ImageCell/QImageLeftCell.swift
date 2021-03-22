@@ -32,10 +32,11 @@ class QImageLeftCell: UIBaseChatCell {
     var isPublic: Bool = false
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
+    var isQiscus : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
         self.ivComment.contentMode = .scaleAspectFill
         self.ivComment.clipsToBounds = true
          self.ivComment.layer.cornerRadius = 8
@@ -47,7 +48,7 @@ class QImageLeftCell: UIBaseChatCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.setMenu()
+        self.setMenu(isQiscus: isQiscus)
         // Configure the view for the selected state
     }
     
@@ -270,7 +271,7 @@ class QImageLeftCell: UIBaseChatCell {
     }
     
     func setupBalon(message: CommentModel){
-        self.ivBaloonLeft.applyShadow()
+        //self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
         
         guard let payload = message.payload else {
