@@ -124,8 +124,6 @@
 		3D76775925D2D723004C26DC /* AMChangePasswordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76775725D2D723004C26DC /* AMChangePasswordCell.xib */; };
 		3D76776025D2DD66004C26DC /* AlertAMSuccessUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76775E25D2DD66004C26DC /* AlertAMSuccessUpdate.swift */; };
 		3D76776125D2DD66004C26DC /* AlertAMSuccessUpdate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D76775F25D2DD66004C26DC /* AlertAMSuccessUpdate.xib */; };
-		3D77A44C22F822E700BDFD51 /* UIChatListOngoingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */; };
-		3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */; };
 		3D7A39552577A328005E7FAE /* ChatAndCustomerInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7A39532577A328005E7FAE /* ChatAndCustomerInfoVC.swift */; };
 		3D7A39562577A328005E7FAE /* ChatAndCustomerInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D7A39542577A328005E7FAE /* ChatAndCustomerInfoVC.xib */; };
 		3D7A39592577A701005E7FAE /* CustomerInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7A39572577A701005E7FAE /* CustomerInfoCell.swift */; };
@@ -199,6 +197,8 @@
 		3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */; };
 		3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */; };
 		3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */; };
+		3DAF5527262533BD00208B99 /* FilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF5525262533BD00208B99 /* FilterVC.swift */; };
+		3DAF5528262533BD00208B99 /* FilterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF5526262533BD00208B99 /* FilterVC.xib */; };
 		3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF162444420D00F732B4 /* LoadMoreActivityIndicator.swift */; };
 		3DB36C1625AB70A70086F05F /* HSMTemplateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB36C1525AB70A70086F05F /* HSMTemplateModel.swift */; };
 		3DB438002322448A007BE03F /* UIBottomPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */; };
@@ -366,8 +366,6 @@
 		3D76775725D2D723004C26DC /* AMChangePasswordCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AMChangePasswordCell.xib; sourceTree = "<group>"; };
 		3D76775E25D2DD66004C26DC /* AlertAMSuccessUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAMSuccessUpdate.swift; sourceTree = "<group>"; };
 		3D76775F25D2DD66004C26DC /* AlertAMSuccessUpdate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAMSuccessUpdate.xib; sourceTree = "<group>"; };
-		3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListOngoingViewController.swift; sourceTree = "<group>"; };
-		3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListOngoingViewController.xib; sourceTree = "<group>"; };
 		3D7A39532577A328005E7FAE /* ChatAndCustomerInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAndCustomerInfoVC.swift; sourceTree = "<group>"; };
 		3D7A39542577A328005E7FAE /* ChatAndCustomerInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatAndCustomerInfoVC.xib; sourceTree = "<group>"; };
 		3D7A39572577A701005E7FAE /* CustomerInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerInfoCell.swift; sourceTree = "<group>"; };
@@ -442,6 +440,8 @@
 		3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomInfoVC.xib; sourceTree = "<group>"; };
 		3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRoomNameVC.swift; sourceTree = "<group>"; };
 		3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditRoomNameVC.xib; sourceTree = "<group>"; };
+		3DAF5525262533BD00208B99 /* FilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVC.swift; sourceTree = "<group>"; };
+		3DAF5526262533BD00208B99 /* FilterVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterVC.xib; sourceTree = "<group>"; };
 		3DB1BF162444420D00F732B4 /* LoadMoreActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreActivityIndicator.swift; sourceTree = "<group>"; };
 		3DB36C1525AB70A70086F05F /* HSMTemplateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSMTemplateModel.swift; sourceTree = "<group>"; };
 		3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBottomPopupVC.swift; sourceTree = "<group>"; };
@@ -680,8 +680,6 @@
 				3D3854AA21B4E03600435B31 /* UIChatListPresenter.swift */,
 				3D3854A821B4E03500435B31 /* UIChatListViewController.swift */,
 				3D3854A921B4E03600435B31 /* UIChatListViewController.xib */,
-				3D77A44A22F822E700BDFD51 /* UIChatListOngoingViewController.swift */,
-				3D77A44B22F822E700BDFD51 /* UIChatListOngoingViewController.xib */,
 				3D0E89E522F94AEF00338B59 /* UIChatTabViewController.swift */,
 				3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */,
 				3DB437FF2322448A007BE03F /* UIBottomPopupVC.xib */,
@@ -974,6 +972,15 @@
 			path = RoomInfo;
 			sourceTree = "<group>";
 		};
+		3DAF55242625338F00208B99 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				3DAF5525262533BD00208B99 /* FilterVC.swift */,
+				3DAF5526262533BD00208B99 /* FilterVC.xib */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
 		3DC51C1F255D0890008BE893 /* AddRemoveAgent */ = {
 			isa = PBXGroup;
 			children = (
@@ -1101,6 +1108,7 @@
 		3DDEFB632192D35600484795 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				3DAF55242625338F00208B99 /* Filter */,
 				3DC7FDFB2586546900CCA763 /* Home */,
 				3DAF2A35222E62330002B4E3 /* RoomInfo */,
 				3D5DD75D2227809100E39C96 /* Profile */,
@@ -1238,6 +1246,7 @@
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
 				3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */,
+				3DAF5528262533BD00208B99 /* FilterVC.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
 				3D0EAE5B25E618F900481198 /* AMAlterBillEmailDuaCell.xib in Resources */,
 				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
@@ -1266,7 +1275,6 @@
 				3D7A39622577C7B7005E7FAE /* AdditionalInformationCell.xib in Resources */,
 				3D0EAE6025E6199800481198 /* AMAlterBillEmailTigaCell.xib in Resources */,
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
-				3D77A44D22F822E700BDFD51 /* UIChatListOngoingViewController.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
 				3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */,
 				3DC7FDD32585A8B400CCA763 /* BroadcastHistoryVC.xib in Resources */,
@@ -1445,7 +1453,6 @@
 				3D76774425D29223004C26DC /* AMProfileAvatarCell.swift in Sources */,
 				3DC7FE072586589900CCA763 /* RDNavigationDrawer.swift in Sources */,
 				3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */,
-				3D77A44C22F822E700BDFD51 /* UIChatListOngoingViewController.swift in Sources */,
 				3D7A39692577E153005E7FAE /* TagsCustomerInfoCell.swift in Sources */,
 				3D0EAE5525E60FCF00481198 /* AMAlterBillEmailSatuCell.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
@@ -1470,6 +1477,7 @@
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
 				3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */,
+				3DAF5527262533BD00208B99 /* FilterVC.swift in Sources */,
 				3D0B8B1F255D88F2002A484F /* TagView.swift in Sources */,
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
@@ -1666,7 +1674,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1676,7 +1684,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
@@ -1694,7 +1702,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1704,7 +1712,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
 				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";

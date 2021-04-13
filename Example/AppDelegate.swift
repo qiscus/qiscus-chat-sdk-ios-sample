@@ -18,7 +18,7 @@ import FirebaseCrashlytics
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var timer : Timer?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UINavigationBar.appearance().barTintColor = UIColor.white
@@ -112,6 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         if QiscusCore.isLogined{
             QiscusCore.connect()
+            setupReachability()
         }
     }
 
@@ -121,17 +122,93 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
+    func setupReachability(){
+        QiscusCore.shared.reachability = QiscusReachability()
+        
+      
+        QiscusCore.shared.reachability?.whenReachable = { reachability in
+            DispatchQueue.main.async {
+                if reachability.isReachableViaWiFi {
+                   //print("connected via wifi")
+                } else {
+                    //print("connected via cellular data")
+                }
+                
+                if reachability.isReachable {
+                    let defaults = UserDefaults.standard
+                    defaults.set(true, forKey: "hasInternet")
+                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
+                    
+                }
+               
+            }
+            
+        }
+        QiscusCore.shared.reachability?.whenUnreachable = { reachability in
+            //print("no internet connection")
+            let defaults = UserDefaults.standard
+            defaults.set(false, forKey: "hasInternet")
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+        }
+        do {
+            try   QiscusCore.shared.reachability?.startNotifier()
+        } catch {
+           // print("Unable to start network notifier")
+        }
+    }
+    
+    func heartBeat(){
+        timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(checkApi), userInfo: nil, repeats: true)
+       
+    }
+    
+    @objc func checkApi() {
+        let startDate = Date()
+        QiscusCore.shared.synchronize { (comments) in
+            let now = startDate
+            
+            let currentDate = Date()
+            let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: currentDate)
+            let seconds = diffComponents.second ?? 0
+            
+            if seconds >= 5 {
+                let defaults = UserDefaults.standard
+                defaults.set(false, forKey: "hasInternet")
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+            }else{
+                let defaults = UserDefaults.standard
+                defaults.set(true, forKey: "hasInternet")
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
+            }
+        } onError: { (error) in
+            let defaults = UserDefaults.standard
+            defaults.set(false, forKey: "hasInternet")
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+        }
+
+    }
+    
     // Auth
     func auth() {
         QiscusCore.enableDebugPrint = true
         let target : UIViewController
         if QiscusCore.isLogined {
+           
             if let appID = UserDefaults.standard.getAppID(){
                 QiscusCore.setup(WithAppID: appID)
             }
             target = HomeVC()//UIChatTabViewController()//UIChatListViewController()
             _ = QiscusCore.connect(delegate: self)
+            DispatchQueue.main.asyncAfter(deadline: .now()+3, execute: {
+                self.setupReachability()
+                self.heartBeat()
+            })
+           
         }else {
+            if self.timer != nil {
+                self.timer?.invalidate()
+                self.timer = nil
+            }
             target = LoginViewController()
         }
         let navbar = UINavigationController()

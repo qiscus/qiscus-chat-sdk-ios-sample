@@ -147,6 +147,22 @@ extension Date {
         
     }
     
+    func differentTimeSeconds() -> Int {
+        let calendar = Calendar.current
+        let now = Date()
+        let earliest = self < now ? self : now
+        let latest =  self > now ? self : now
+        
+        let currentDate = Date()
+        let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: earliest, to: latest)
+        let hours = diffComponents.hour ?? 0
+        let minutes = diffComponents.minute ?? 0
+        let seconds = diffComponents.second ?? 0
+        
+        return seconds
+        
+    }
+    
     private func stringToReturn(flag:Bool, strings: (String, String)) -> String {
         if (flag){
             return "last seen \(strings.0)"

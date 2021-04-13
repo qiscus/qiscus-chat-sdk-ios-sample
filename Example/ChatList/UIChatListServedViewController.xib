@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,8 +12,10 @@
             <connections>
                 <outlet property="btStartChat" destination="fqT-RD-FEd" id="wmP-8o-M12"/>
                 <outlet property="emptyRoomView" destination="vtG-KY-IwS" id="Uq6-WP-st6"/>
+                <outlet property="heightViewUnstableConnectionConst" destination="cFd-d2-hf2" id="x2o-wY-avI"/>
                 <outlet property="tableView" destination="TRn-Cv-g3V" id="Z7V-iR-yQw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewUnstableConnection" destination="czo-6e-Coz" id="34t-ca-KuW"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -48,7 +50,7 @@
                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqT-RD-FEd">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fqT-RD-FEd">
                             <rect key="frame" x="127.5" y="369" width="120" height="35"/>
                             <color key="backgroundColor" red="0.51764705882352935" green="0.76078431372549016" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -60,6 +62,7 @@
                             </state>
                         </button>
                     </subviews>
+                    <viewLayoutGuide key="safeArea" id="XU9-jG-iud"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="fqT-RD-FEd" firstAttribute="top" secondItem="1wW-eU-GWu" secondAttribute="bottom" constant="26.5" id="0GO-xa-vPJ"/>
@@ -73,25 +76,57 @@
                         <constraint firstItem="QmE-kP-C9C" firstAttribute="leading" secondItem="XU9-jG-iud" secondAttribute="leading" constant="61" id="hj6-hE-QdJ"/>
                         <constraint firstItem="fqT-RD-FEd" firstAttribute="centerX" secondItem="QmE-kP-C9C" secondAttribute="centerX" id="wTe-a0-ZNm"/>
                     </constraints>
-                    <viewLayoutGuide key="safeArea" id="XU9-jG-iud"/>
+                </view>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="czo-6e-Coz" userLabel="viewUnstableConnection">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_unstable_connection" translatesAutoresizingMaskIntoConstraints="NO" id="Mko-dr-odO">
+                            <rect key="frame" x="67" y="-12.5" width="25" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="25" id="p7g-DN-XrA"/>
+                                <constraint firstAttribute="height" constant="25" id="ySY-6p-hRx"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unstable connection detected." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erO-yt-9YV">
+                            <rect key="frame" x="102" y="-15" width="211" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="hyN-xh-Hr4"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="0.92549019610000005" blue="0.69019607839999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="erO-yt-9YV" firstAttribute="centerX" secondItem="czo-6e-Coz" secondAttribute="centerX" constant="20" id="8lO-CL-GdI"/>
+                        <constraint firstAttribute="height" id="cFd-d2-hf2"/>
+                        <constraint firstItem="erO-yt-9YV" firstAttribute="leading" secondItem="Mko-dr-odO" secondAttribute="trailing" constant="10" id="leB-qx-YUN"/>
+                        <constraint firstItem="Mko-dr-odO" firstAttribute="centerY" secondItem="czo-6e-Coz" secondAttribute="centerY" id="shX-h6-jjb"/>
+                        <constraint firstItem="erO-yt-9YV" firstAttribute="centerY" secondItem="czo-6e-Coz" secondAttribute="centerY" id="szN-Va-gtA"/>
+                    </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="TRn-Cv-g3V" secondAttribute="bottom" id="9P0-Th-CPs"/>
-                <constraint firstItem="TRn-Cv-g3V" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="BKL-dD-pWw"/>
-                <constraint firstItem="vtG-KY-IwS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="IX0-Kq-1Ba"/>
+                <constraint firstItem="vtG-KY-IwS" firstAttribute="top" secondItem="czo-6e-Coz" secondAttribute="bottom" id="Ciz-5M-gux"/>
                 <constraint firstItem="vtG-KY-IwS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="IjZ-AH-Ksj"/>
                 <constraint firstItem="vtG-KY-IwS" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="XFb-za-fGh"/>
+                <constraint firstItem="TRn-Cv-g3V" firstAttribute="top" secondItem="czo-6e-Coz" secondAttribute="bottom" id="bVY-uI-fMY"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="TRn-Cv-g3V" secondAttribute="trailing" id="dfU-jA-Bol"/>
+                <constraint firstItem="czo-6e-Coz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ghV-cI-DfU"/>
                 <constraint firstItem="vtG-KY-IwS" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="mCN-lM-JU9"/>
+                <constraint firstItem="czo-6e-Coz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="msf-gk-aX4"/>
                 <constraint firstItem="TRn-Cv-g3V" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ttA-PE-h9j"/>
+                <constraint firstAttribute="trailing" secondItem="czo-6e-Coz" secondAttribute="trailing" id="zJN-0g-mI1"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="140" y="142"/>
+            <point key="canvasLocation" x="140" y="141.67916041979012"/>
         </view>
     </objects>
     <resources>
         <image name="emptyRoom" width="156" height="163"/>
+        <image name="ic_unstable_connection" width="24" height="24"/>
     </resources>
 </document>

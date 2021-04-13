@@ -511,7 +511,7 @@ extension UIChatViewController : CustomChatInputDelegate {
     
     func uploadGalery(isFoto : Bool = true) {
         if #available(iOS 11.0, *) {
-            self.latestNavbarTint = self.currentNavbarTint
+            //self.latestNavbarTint = self.currentNavbarTint
             UINavigationBar.appearance().tintColor = UIColor.blue
         }
         
@@ -553,7 +553,7 @@ extension UIChatViewController : CustomChatInputDelegate {
     
     func uploadFile(){
         if #available(iOS 11.0, *) {
-            self.latestNavbarTint = self.currentNavbarTint
+            //self.latestNavbarTint = self.currentNavbarTint
             UINavigationBar.appearance().tintColor = UIColor.blue
         }
         
@@ -828,6 +828,30 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                 }
                 
                 if usePopup {
+                    let startDate = Date()
+                    QiscusCore.shared.synchronize { (comments) in
+                        let now = startDate
+                        
+                        let currentDate = Date()
+                        let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: currentDate)
+                        let seconds = diffComponents.second ?? 0
+                        
+                        if seconds >= 5 {
+                            let defaults = UserDefaults.standard
+                            defaults.set(false, forKey: "hasInternet")
+                            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                        }else{
+                            let defaults = UserDefaults.standard
+                            defaults.set(true, forKey: "hasInternet")
+                            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
+                        }
+                    } onError: { (error) in
+                        let defaults = UserDefaults.standard
+                        defaults.set(false, forKey: "hasInternet")
+                        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                    }
+                    
+                    
                     var message = CommentModel()
                     
                     QPopUpView.showAlert(withTarget: self, image: thumb, message:popupText, isVideoImage: video, hiddenIconFileAttachment: hiddenIconFileAttachment,
@@ -840,6 +864,30 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                     },
                     cancelAction: {
                         //cancel upload
+                    },
+                    retryAction: {
+                        //retry upload
+                        QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
+                            message.type = "file_attachment"
+                            message.payload = [
+                                "url"       : file.url.absoluteString,
+                                "file_name" : file.name,
+                                "size"      : file.size,
+                                "caption"   : ""
+                            ]
+                            message.message = "Send Attachment"
+                            
+                            QPopUpView.sharedInstance.hiddenProgress()
+                            
+                        }, onError: { (error) in
+                            let defaults = UserDefaults.standard
+                            defaults.set(false, forKey: "hasInternet")
+                            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                            QPopUpView.sharedInstance.showRetry()
+                        }) { (progress) in
+                            print("progress =\(progress)")
+                            QPopUpView.sharedInstance.showProgress(progress: progress)
+                        }
                     })
                     
                     QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
@@ -855,7 +903,10 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                         QPopUpView.sharedInstance.hiddenProgress()
                         
                     }, onError: { (error) in
-                        //
+                        let defaults = UserDefaults.standard
+                        defaults.set(false, forKey: "hasInternet")
+                        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                        QPopUpView.sharedInstance.showRetry()
                     }) { (progress) in
                         print("progress =\(progress)")
                         QPopUpView.sharedInstance.showProgress(progress: progress)
@@ -1079,6 +1130,31 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
             picker.dismiss(animated: true, completion: {
                 
             })
+            
+            
+            let startDate = Date()
+            QiscusCore.shared.synchronize { (comments) in
+                let now = startDate
+                
+                let currentDate = Date()
+                let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: currentDate)
+                let seconds = diffComponents.second ?? 0
+                
+                if seconds >= 5 {
+                    let defaults = UserDefaults.standard
+                    defaults.set(false, forKey: "hasInternet")
+                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                }else{
+                    let defaults = UserDefaults.standard
+                    defaults.set(true, forKey: "hasInternet")
+                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
+                }
+            } onError: { (error) in
+                let defaults = UserDefaults.standard
+                defaults.set(false, forKey: "hasInternet")
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+            }
+            
             do{
                 let thumbRef = try thumbGenerator.copyCGImage(at: thumbTime, actualTime: nil)
                 let thumbImage = UIImage(cgImage: thumbRef)
@@ -1093,10 +1169,34 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                                         }, onError: { (error) in
                                             //error
                                         })
-                },
+                                     },
                                      cancelAction: {
                                         //cancel upload
-                })
+                                     }, retryAction: {
+                                        //retry upload
+                                        QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
+                                            message.type = "file_attachment"
+                                            message.payload = [
+                                                "url"       : file.url.absoluteString,
+                                                "file_name" : file.name,
+                                                "size"      : file.size,
+                                                "caption"   : ""
+                                            ]
+                                            message.message = "Send Attachment"
+                                            
+                                            QPopUpView.sharedInstance.hiddenProgress()
+                                            
+                                        }, onError: { (error) in
+                                            
+                                            let defaults = UserDefaults.standard
+                                            defaults.set(false, forKey: "hasInternet")
+                                            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                                            QPopUpView.sharedInstance.showRetry()
+                                        }) { (progress) in
+                                            print("progress =\(progress)")
+                                            QPopUpView.sharedInstance.showProgress(progress: progress)
+                                        }
+                                     })
                 
                 QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
                     message.type = "file_attachment"
@@ -1111,7 +1211,11 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                     QPopUpView.sharedInstance.hiddenProgress()
                     
                 }, onError: { (error) in
-                    //
+                    
+                    let defaults = UserDefaults.standard
+                    defaults.set(false, forKey: "hasInternet")
+                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                    QPopUpView.sharedInstance.showRetry()
                 }) { (progress) in
                     print("progress =\(progress)")
                     QPopUpView.sharedInstance.showProgress(progress: progress)

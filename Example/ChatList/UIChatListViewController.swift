@@ -42,6 +42,11 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     }
     
     fileprivate var activityIndicator: LoadMoreActivityIndicator!
+    
+    //UnStableConnection
+    @IBOutlet weak var viewUnstableConnection: UIView!
+    @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -94,11 +99,43 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         self.tabBarController?.tabBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: NSNotification.Name(rawValue: "reloadCell"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(hideUnstableConnection(_:)), name: NSNotification.Name(rawValue: "stableConnection"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
+        
 
         if needReloadApi == true{
             self.presenter.loadFromServer()
             self.needReloadApi = false
         }
+        self.setupReachability()
+    }
+    
+    func setupReachability(){
+        let defaults = UserDefaults.standard
+        let hasInternet = defaults.bool(forKey: "hasInternet")
+        if hasInternet == true {
+            self.stableConnection()
+        }else{
+            self.unStableConnection()
+        }
+    }
+    
+    @objc func showUnstableConnection(_ notification: Notification){
+        self.unStableConnection()
+    }
+    
+    func unStableConnection(){
+        self.viewUnstableConnection.alpha = 1
+        self.heightViewUnstableConnectionConst.constant = 45
+    }
+    
+    @objc func hideUnstableConnection(_ notification: Notification){
+        self.stableConnection()
+    }
+    
+    func stableConnection(){
+        self.viewUnstableConnection.alpha = 0
+        self.heightViewUnstableConnectionConst.constant = 0
     }
     
     @objc private func isChangeTabs(_ sender: Any) {

@@ -41,6 +41,8 @@ var comments: [[CommentModel]]
     var loadMoreDispatchGroup: DispatchGroup = DispatchGroup()
     var lastIdToLoad: String = ""
     
+    var startDate = Date()
+    var timer : Timer?
     init() {
         self.comments = [[CommentModel]]()
     }
@@ -184,17 +186,47 @@ var comments: [[CommentModel]]
     }
     
     func sendMessage(withComment comment: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+        
+        self.startDate = Date()
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(checkCounterTime), userInfo: nil, repeats: false)
+        
         QiscusCore.shared.sendMessage(roomID: (self.room?.id)!, comment: comment, onSuccess: { [weak self] (comment) in
+            
+            self?.timer?.invalidate()
+            self?.timer = nil
+            
             if self?.getIndexPath(comment: comment) == nil{
                  self?.addNewCommentUI(comment, isIncoming: false)
             }
            
             onSuccess(comment)
         }) { (error) in
+            self.timer?.invalidate()
+            self.timer = nil
+            
+            let defaults = UserDefaults.standard
+            defaults.set(false, forKey: "hasInternet")
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+            
             comment.status = .pending
             self.addNewCommentUI(comment, isIncoming: false)
             onError(error.message)
         }
+    }
+    
+    @objc func checkCounterTime(){
+        if self.timer != nil {
+            let currentDate = Date()
+            let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: self.startDate, to: currentDate)
+            let seconds = diffComponents.second ?? 0
+            
+            if seconds >= 3 {
+                let defaults = UserDefaults.standard
+                defaults.set(false, forKey: "hasInternet")
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+            }
+        }
+       
     }
     
     func sendMessage(withText text: String) {
@@ -284,6 +316,10 @@ var comments: [[CommentModel]]
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
+    func onMessageUpdated(message: CommentModel) {
+        
+    }
+    
     func onMessageReceived(message: CommentModel){
         // 2check comment already in ui?
         if (self.getIndexPath(comment: message) == nil) {

@@ -44,10 +44,46 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
      */
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     
+    //UnStableConnection
+    @IBOutlet weak var viewUnstableConnection: UIView!
+    @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var btRetry: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
        
         self.setupUI()
+        
+        self.upload()
+       
+    }
+    
+    func upload(){
+        self.btRetry.isHidden = true
+        self.btRetry.layer.cornerRadius = self.btRetry.frame.size.width / 2
+        let startDate = Date()
+        QiscusCore.shared.synchronize { (comments) in
+            let now = startDate
+            
+            let currentDate = Date()
+            let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: currentDate)
+            let seconds = diffComponents.second ?? 0
+            
+            if seconds > 5 {
+                let defaults = UserDefaults.standard
+                defaults.set(false, forKey: "hasInternet")
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+            }else{
+                let defaults = UserDefaults.standard
+                defaults.set(true, forKey: "hasInternet")
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
+            }
+        } onError: { (error) in
+            let defaults = UserDefaults.standard
+            defaults.set(false, forKey: "hasInternet")
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+        }
+        let now = startDate
         
         if self.fileName != nil && self.data != nil && self.imageData.count == 0 {
             self.labelTitle.text = self.fileName!
@@ -67,7 +103,11 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 message.message = "Send Image"
                 self.imageData.append(message)
             }, onError: { (error) in
-                //
+                let defaults = UserDefaults.standard
+                defaults.set(false, forKey: "hasInternet")
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                self.btRetry.isHidden = false
+                self.hiddenProgress()
             }) { (progress) in
                 print("upload progress: \(progress)")
                 self.showProgress()
@@ -78,6 +118,20 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 UIView.animate(withDuration: 0.65, animations: {
                     self.progressView.layoutIfNeeded()
                 })
+                
+                let currentDate = Date()
+                let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: currentDate)
+                let seconds = diffComponents.second ?? 0
+                
+                if seconds > 7 {
+                    let defaults = UserDefaults.standard
+                    defaults.set(false, forKey: "hasInternet")
+                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                }else{
+                    let defaults = UserDefaults.standard
+                    defaults.set(true, forKey: "hasInternet")
+                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
+                }
             }
             
         }
@@ -85,6 +139,39 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         for gesture in self.view.gestureRecognizers! {
             self.view.removeGestureRecognizer(gesture)
         }
+    }
+    
+    @IBAction func retry(_ sender: Any) {
+        self.upload()
+    }
+    
+    
+    func setupReachability(){
+        let defaults = UserDefaults.standard
+        let hasInternet = defaults.bool(forKey: "hasInternet")
+        if hasInternet == true {
+            self.stableConnection()
+        }else{
+            self.unStableConnection()
+        }
+    }
+    
+    @objc func showUnstableConnection(_ notification: Notification){
+        self.unStableConnection()
+    }
+    
+    func unStableConnection(){
+        self.viewUnstableConnection.alpha = 1
+        self.heightViewUnstableConnectionConst.constant = 45
+    }
+    
+    @objc func hideUnstableConnection(_ notification: Notification){
+        self.stableConnection()
+    }
+    
+    func stableConnection(){
+        self.viewUnstableConnection.alpha = 0
+        self.heightViewUnstableConnectionConst.constant = 0
     }
     
     func qiscusAutoHideKeyboard() {
@@ -183,6 +270,11 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         center.addObserver(self, selector: #selector(QiscusUploaderVC.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         center.addObserver(self, selector: #selector(QiscusUploaderVC.keyboardChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         self.navigationController?.isNavigationBarHidden = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(hideUnstableConnection(_:)), name: NSNotification.Name(rawValue: "stableConnection"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
+        
+        self.setupReachability()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

@@ -20,6 +20,9 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
     var emailAddress = ""
     var role = [String]()
     var tfFullNameDuplicate = UITextField()
+    //UnStableConnection
+    @IBOutlet weak var viewUnstableConnection: UIView!
+    @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupKeyboard()
@@ -27,6 +30,43 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
         self.setupButtonSave()
         self.setupTableView()
         self.getProfileApi()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(hideUnstableConnection(_:)), name: NSNotification.Name(rawValue: "stableConnection"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
+        
+        self.setupReachability()
+    }
+    
+    func setupReachability(){
+        let defaults = UserDefaults.standard
+        let hasInternet = defaults.bool(forKey: "hasInternet")
+        if hasInternet == true {
+            self.stableConnection()
+        }else{
+            self.unStableConnection()
+        }
+    }
+    
+    @objc func showUnstableConnection(_ notification: Notification){
+        self.unStableConnection()
+    }
+    
+    func unStableConnection(){
+        self.viewUnstableConnection.alpha = 1
+        self.heightViewUnstableConnectionConst.constant = 45
+    }
+    
+    @objc func hideUnstableConnection(_ notification: Notification){
+        self.stableConnection()
+    }
+    
+    func stableConnection(){
+        self.viewUnstableConnection.alpha = 0
+        self.heightViewUnstableConnectionConst.constant = 0
     }
 
     func setupButtonSave(){

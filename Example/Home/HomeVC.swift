@@ -362,7 +362,6 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         let child_1 = UIChatListViewController()
-        //let child_2 = UIChatListOngoingViewController() ignored
         let child_3 = UIChatListUnservedViewController()
         let child_4 = UIChatListServedViewController()
         let child_5 = UIChatListResolvedViewController()

@@ -230,6 +230,9 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
+    func onRoomMessageUpdated(_ room: RoomModel, message: CommentModel) {
+        
+    }
     func onRoomMessageReceived(_ room: RoomModel, message: CommentModel) {
         // show in app notification
         print("got new comment: \(message.message)")

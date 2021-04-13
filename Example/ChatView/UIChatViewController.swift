@@ -159,6 +159,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     @IBOutlet weak var btOKSuccessBlockUnBlockContact: UIButton!
     @IBOutlet weak var lbAlertMessageSuccessBlockUnblockContact: UILabel!
     
+    //UnStableConnection
+    @IBOutlet weak var viewUnstableConnection: UIView!
+    @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -187,6 +191,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         center.addObserver(self, selector: #selector(applicationDidBecomeActive),
                                                name: UIApplication.didBecomeActiveNotification, object: nil)
 
+        center.addObserver(self, selector: #selector(hideUnstableConnection(_:)), name: NSNotification.Name(rawValue: "stableConnection"), object: nil)
+        center.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
         view.endEditing(true)
 
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -195,6 +201,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         self.tableViewChatTemplate.isHidden = true
         
         self.checkIFTypeWAExpired()
+        self.setupReachability()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -206,6 +213,17 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
 
         view.endEditing(true)
+    }
+    
+    func setupReachability(){
+        let defaults = UserDefaults.standard
+        let hasInternet = defaults.bool(forKey: "hasInternet")
+        if hasInternet == true {
+            self.stableConnection()
+        }else{
+            self.unStableConnection()
+        }
+        
     }
     
     @objc func applicationDidBecomeActive() {
@@ -225,6 +243,23 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         self.presenter.attachView(view: self)
     }
 
+    @objc func showUnstableConnection(_ notification: Notification){
+        self.unStableConnection()
+    }
+    
+    func unStableConnection(){
+        self.viewUnstableConnection.alpha = 1
+        self.heightViewUnstableConnectionConst.constant = 45
+    }
+    
+    @objc func hideUnstableConnection(_ notification: Notification){
+        self.stableConnection()
+    }
+    
+    func stableConnection(){
+        self.viewUnstableConnection.alpha = 0
+        self.heightViewUnstableConnectionConst.constant = 0
+    }
     
     func setupToolbarHandle(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction))
