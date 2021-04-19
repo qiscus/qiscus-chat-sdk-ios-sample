@@ -1,9 +1,9 @@
 //
-//  UIChatListViewController.swift
-//  QiscusUI
+//  UIChatListALLViewController.swift
+//  Example
 //
-//  Created by Qiscus on 30/07/18.
-//  Copyright © 2018 Qiscus. All rights reserved.
+//  Created by Qiscus on 14/04/21.
+//  Copyright © 2021 Qiscus. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import XLPagerTabStrip
 import Alamofire
 import SwiftyJSON
 
-class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider {
+class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var btStartChat: UIButton!
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -25,9 +25,10 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
     var customerRooms = [CustomerRoom]()
     var metaAfter :String? = nil
     var firstPage : Bool = false
+    var isChangeTabs : Bool = false
     // MARK: - IndicatorInfoProvider
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-         return IndicatorInfo(title: "Resolved")
+         return IndicatorInfo(title: "ALL")
     }
     
     fileprivate var activityIndicator: LoadMoreActivityIndicator!
@@ -35,6 +36,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
     //UnStableConnection
     @IBOutlet weak var viewUnstableConnection: UIView!
     @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
+    
     var defaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,11 +79,6 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         self.setupReachability()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-    }
-    
     func setupReachability(){
         let defaults = UserDefaults.standard
         let hasInternet = defaults.bool(forKey: "hasInternet")
@@ -110,7 +107,14 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         self.heightViewUnstableConnectionConst.constant = 0
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+    }
+    
     @objc private func reloadData(_ sender: Any) {
+        self.customerRooms.removeAll()
+        self.tableView.reloadData()
         self.throttleGetList()
     }
     
@@ -182,8 +186,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         }
         
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        var param = ["status": "resolved",
-                     "limit": "50",
+        var param = ["limit": "50",
                     ] as [String : Any]
         
         if let meta = metaAfter {
@@ -202,6 +205,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
                 param["status"] = filterSelectedTypeWA
             }
         }
+       
         
         Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
@@ -268,6 +272,7 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
                             
                             self.customerRooms = self.filterRoom(data:  self.customerRooms)
                         }
+                        
                     }
                     
                     if let meta = payload["meta"]["cursor_after"].string{
@@ -325,9 +330,11 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         }
     }
     
+    
+    
 }
 
-extension UIChatListResolvedViewController : UITableViewDelegate, UITableViewDataSource {
+extension UIChatListALLViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.customerRooms.count
@@ -387,7 +394,11 @@ extension UIChatListResolvedViewController : UITableViewDelegate, UITableViewDat
         }else if self.customerRooms.count <= 6 && isLoadingLoadMore == false{
             //loadMore
             self.isLoadingLoadMore = true
-            self.throttleGetList(firstPage: false)
+            if self.customerRooms.count == 0 {
+                self.throttleGetList()
+            }else{
+                self.throttleGetList(firstPage: false)
+            }
         }
     }
     
@@ -398,7 +409,7 @@ extension UIChatListResolvedViewController : UITableViewDelegate, UITableViewDat
     }
 }
 
-extension UIChatListResolvedViewController : QiscusCoreDelegate {
+extension UIChatListALLViewController : QiscusCoreDelegate {
     func onRoomMessageUpdated(_ room: RoomModel, message: CommentModel) {
         
     }
@@ -406,6 +417,11 @@ extension UIChatListResolvedViewController : QiscusCoreDelegate {
     func onRoomMessageReceived(_ room: RoomModel, message: CommentModel) {
         // show in app notification
         print("got new comment: \(message.message)")
+        if message.message.contains("joined this conversation"){
+            let filterData = self.customerRooms.filter{ $0.roomId != room.id }
+            self.customerRooms = self.filterRoom(data: filterData)
+        }
+        
         self.throttleGetList()
     }
     

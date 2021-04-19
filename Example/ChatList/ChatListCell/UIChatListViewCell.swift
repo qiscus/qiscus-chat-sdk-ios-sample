@@ -145,7 +145,22 @@ class UIChatListViewCell: UITableViewCell {
                                     self.hideExpiredOrExpire()
                                 }
                             }else{
-                                self.hideExpiredOrExpire()
+                                let commentsFilterCustomer = comments.filter{
+                                    return ($0.userExtras?.isEmpty ?? false)
+                                }
+                                if let commentLast = commentsFilterCustomer.first{
+                                    
+                                    let diff = commentLast.date.differentTime()
+                                    if  diff >= 16 && diff <= 23 {
+                                        self.showExpire()
+                                    } else if diff >= 16  {
+                                        self.showExpired()
+                                    } else {
+                                        self.hideExpiredOrExpire()
+                                    }
+                                }else{
+                                    self.hideExpiredOrExpire()
+                                }
                             }
                             
                         }else{
@@ -184,7 +199,7 @@ class UIChatListViewCell: UITableViewCell {
                         self.ivWaMessageExpired.isHidden = true
                     }
                 }else if channelType.lowercased() == "twitter"{
-                    self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+                    self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
                 }else if channelType.lowercased() == "custom"{
                     self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
                 }else{
@@ -225,7 +240,7 @@ class UIChatListViewCell: UITableViewCell {
         
         var message = ""
         guard let lastComment = data.lastComment else { return }
-        if lastComment.type == "" || lastComment.type == "file_attachment"{
+        if lastComment.type == "" || lastComment.type == "file_attachment" || lastComment.message.hasPrefix("[file]"){
             message = "Send File Attachment"
         } else if lastComment.type == "text" && lastComment.message.hasPrefix("[sticker]") == true{
             message = "Send Sticker"
@@ -292,7 +307,7 @@ class UIChatListViewCell: UITableViewCell {
                 self.hideExpiredOrExpire()
             }
         }else if channelType.lowercased() == "twitter"{
-            self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
+            self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
         }else if channelType.lowercased() == "custom"{
             self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
         }else{

@@ -647,7 +647,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                 }else if channelType.lowercased() == "wa"{
                     self.channelTypeString = "WhatsApp"
                 }else if channelType.lowercased() == "twitter" {
-                    self.channelTypeString = "Twitter"
+                    self.channelTypeString = "Custom Channel"
                 }else if channelType.lowercased() == "custom" {
                     self.channelTypeString = "Custom Channel"
                 }else{
@@ -807,6 +807,22 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         
         if !customerEmail.isEmpty {
             let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
+            if let commentLast = commentsFilterCustomer.first{
+                let diff = commentLast.date.differentTime()
+                if diff >= 16 && diff <= 23 {
+                    self.isWAWillExpired = true
+                } else if diff > 23 {
+                    self.isWAExpired = true
+                } else {
+                    self.isWAWillExpired = false
+                    self.isWAExpired = false
+                }
+                self.lastCommentCustomerDate = commentLast.date
+            }
+        }else{
+            let commentsFilterCustomer = comments.filter{
+                return ($0.userExtras?.isEmpty ?? false)
+            }
             if let commentLast = commentsFilterCustomer.first{
                 let diff = commentLast.date.differentTime()
                 if diff >= 16 && diff <= 23 {

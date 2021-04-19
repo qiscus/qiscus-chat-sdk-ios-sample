@@ -66,6 +66,33 @@
 		3D3854B721B4E34800435B31 /* UIChatListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854B521B4E34800435B31 /* UIChatListViewCell.xib */; };
 		3D3854BB21B6409A00435B31 /* EmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3854B921B6409A00435B31 /* EmptyCell.xib */; };
 		3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854BA21B6409A00435B31 /* EmptyCell.swift */; };
+		3D3BE4D12626EEEE0026A63C /* UIChatListALLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4CF2626EEEE0026A63C /* UIChatListALLViewController.swift */; };
+		3D3BE4D22626EEEE0026A63C /* UIChatListALLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4D02626EEEE0026A63C /* UIChatListALLViewController.xib */; };
+		3D3BE4D62627DBE40026A63C /* FilterChannelMultipleLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4D42627DBE40026A63C /* FilterChannelMultipleLineCell.swift */; };
+		3D3BE4D72627DBE40026A63C /* FilterChannelMultipleLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4D52627DBE40026A63C /* FilterChannelMultipleLineCell.xib */; };
+		3D3BE4DB2627DD2C0026A63C /* LineChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4D92627DD2C0026A63C /* LineChannelCell.swift */; };
+		3D3BE4DC2627DD2C0026A63C /* LineChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4DA2627DD2C0026A63C /* LineChannelCell.xib */; };
+		3D3BE4DF2627E15E0026A63C /* LineChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4DE2627E15E0026A63C /* LineChannelModel.swift */; };
+		3D3BE4E3262879800026A63C /* FilterChannelMultipleFBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4E12628797F0026A63C /* FilterChannelMultipleFBCell.swift */; };
+		3D3BE4E4262879800026A63C /* FilterChannelMultipleFBCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4E22628797F0026A63C /* FilterChannelMultipleFBCell.xib */; };
+		3D3BE4E826287A190026A63C /* FBChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4E626287A190026A63C /* FBChannelCell.swift */; };
+		3D3BE4E926287A190026A63C /* FBChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4E726287A190026A63C /* FBChannelCell.xib */; };
+		3D3BE4EC26287C720026A63C /* FBChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4EB26287C720026A63C /* FBChannelModel.swift */; };
+		3D3BE4F026288B9F0026A63C /* FilterChannelMultipleCustomCHCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4EE26288B9F0026A63C /* FilterChannelMultipleCustomCHCell.swift */; };
+		3D3BE4F126288B9F0026A63C /* FilterChannelMultipleCustomCHCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4EF26288B9F0026A63C /* FilterChannelMultipleCustomCHCell.xib */; };
+		3D3BE4F526288C360026A63C /* CustomCHChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4F326288C360026A63C /* CustomCHChannelCell.swift */; };
+		3D3BE4F626288C360026A63C /* CustomCHChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4F426288C360026A63C /* CustomCHChannelCell.xib */; };
+		3D3BE4F926288D3D0026A63C /* CustomCHChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4F826288D3D0026A63C /* CustomCHChannelModel.swift */; };
+		3D3BE4FC2629331A0026A63C /* QiscusWidgetChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4FB2629331A0026A63C /* QiscusWidgetChannelModel.swift */; };
+		3D3BE5002629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE4FE2629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.swift */; };
+		3D3BE5012629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE4FF2629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.xib */; };
+		3D3BE505262934240026A63C /* QiscusWidgetChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE503262934240026A63C /* QiscusWidgetChannelCell.swift */; };
+		3D3BE506262934240026A63C /* QiscusWidgetChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE504262934240026A63C /* QiscusWidgetChannelCell.xib */; };
+		3D3BE50A26293BB60026A63C /* TelegramChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE50826293BB60026A63C /* TelegramChannelCell.swift */; };
+		3D3BE50B26293BB60026A63C /* TelegramChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE50926293BB60026A63C /* TelegramChannelCell.xib */; };
+		3D3BE50E26293CC50026A63C /* TelegramChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE50D26293CC50026A63C /* TelegramChannelModel.swift */; };
+		3D3BE5122629407C0026A63C /* FilterByChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BE5102629407C0026A63C /* FilterByChannelCell.swift */; };
+		3D3BE5132629407C0026A63C /* FilterByChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D3BE5112629407C0026A63C /* FilterByChannelCell.xib */; };
 		3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */; };
 		3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */; };
 		3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */; };
@@ -199,6 +226,11 @@
 		3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */; };
 		3DAF5527262533BD00208B99 /* FilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF5525262533BD00208B99 /* FilterVC.swift */; };
 		3DAF5528262533BD00208B99 /* FilterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF5526262533BD00208B99 /* FilterVC.xib */; };
+		3DAF552F26253ED800208B99 /* WhatsAppChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF552D26253ED800208B99 /* WhatsAppChannelCell.swift */; };
+		3DAF553026253ED800208B99 /* WhatsAppChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF552E26253ED800208B99 /* WhatsAppChannelCell.xib */; };
+		3DAF553426254CE500208B99 /* FilterChannelMultipleWACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF553226254CE500208B99 /* FilterChannelMultipleWACell.swift */; };
+		3DAF553526254CE500208B99 /* FilterChannelMultipleWACell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF553326254CE500208B99 /* FilterChannelMultipleWACell.xib */; };
+		3DAF553826256C9900208B99 /* WAChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF553726256C9900208B99 /* WAChannelModel.swift */; };
 		3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF162444420D00F732B4 /* LoadMoreActivityIndicator.swift */; };
 		3DB36C1625AB70A70086F05F /* HSMTemplateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB36C1525AB70A70086F05F /* HSMTemplateModel.swift */; };
 		3DB438002322448A007BE03F /* UIBottomPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */; };
@@ -308,6 +340,33 @@
 		3D3854B521B4E34800435B31 /* UIChatListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatListViewCell.xib; sourceTree = "<group>"; };
 		3D3854B921B6409A00435B31 /* EmptyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyCell.xib; sourceTree = "<group>"; };
 		3D3854BA21B6409A00435B31 /* EmptyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		3D3BE4CF2626EEEE0026A63C /* UIChatListALLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListALLViewController.swift; sourceTree = "<group>"; };
+		3D3BE4D02626EEEE0026A63C /* UIChatListALLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListALLViewController.xib; sourceTree = "<group>"; };
+		3D3BE4D42627DBE40026A63C /* FilterChannelMultipleLineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleLineCell.swift; sourceTree = "<group>"; };
+		3D3BE4D52627DBE40026A63C /* FilterChannelMultipleLineCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleLineCell.xib; sourceTree = "<group>"; };
+		3D3BE4D92627DD2C0026A63C /* LineChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChannelCell.swift; sourceTree = "<group>"; };
+		3D3BE4DA2627DD2C0026A63C /* LineChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChannelCell.xib; sourceTree = "<group>"; };
+		3D3BE4DE2627E15E0026A63C /* LineChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChannelModel.swift; sourceTree = "<group>"; };
+		3D3BE4E12628797F0026A63C /* FilterChannelMultipleFBCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleFBCell.swift; sourceTree = "<group>"; };
+		3D3BE4E22628797F0026A63C /* FilterChannelMultipleFBCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleFBCell.xib; sourceTree = "<group>"; };
+		3D3BE4E626287A190026A63C /* FBChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBChannelCell.swift; sourceTree = "<group>"; };
+		3D3BE4E726287A190026A63C /* FBChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FBChannelCell.xib; sourceTree = "<group>"; };
+		3D3BE4EB26287C720026A63C /* FBChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBChannelModel.swift; sourceTree = "<group>"; };
+		3D3BE4EE26288B9F0026A63C /* FilterChannelMultipleCustomCHCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleCustomCHCell.swift; sourceTree = "<group>"; };
+		3D3BE4EF26288B9F0026A63C /* FilterChannelMultipleCustomCHCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleCustomCHCell.xib; sourceTree = "<group>"; };
+		3D3BE4F326288C360026A63C /* CustomCHChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCHChannelCell.swift; sourceTree = "<group>"; };
+		3D3BE4F426288C360026A63C /* CustomCHChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCHChannelCell.xib; sourceTree = "<group>"; };
+		3D3BE4F826288D3D0026A63C /* CustomCHChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCHChannelModel.swift; sourceTree = "<group>"; };
+		3D3BE4FB2629331A0026A63C /* QiscusWidgetChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusWidgetChannelModel.swift; sourceTree = "<group>"; };
+		3D3BE4FE2629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleQiscusWidgetCell.swift; sourceTree = "<group>"; };
+		3D3BE4FF2629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleQiscusWidgetCell.xib; sourceTree = "<group>"; };
+		3D3BE503262934240026A63C /* QiscusWidgetChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusWidgetChannelCell.swift; sourceTree = "<group>"; };
+		3D3BE504262934240026A63C /* QiscusWidgetChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QiscusWidgetChannelCell.xib; sourceTree = "<group>"; };
+		3D3BE50826293BB60026A63C /* TelegramChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelegramChannelCell.swift; sourceTree = "<group>"; };
+		3D3BE50926293BB60026A63C /* TelegramChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TelegramChannelCell.xib; sourceTree = "<group>"; };
+		3D3BE50D26293CC50026A63C /* TelegramChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelegramChannelModel.swift; sourceTree = "<group>"; };
+		3D3BE5102629407C0026A63C /* FilterByChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterByChannelCell.swift; sourceTree = "<group>"; };
+		3D3BE5112629407C0026A63C /* FilterByChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterByChannelCell.xib; sourceTree = "<group>"; };
 		3D40B84D2192E20800FE7228 /* QExtensionUICore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QExtensionUICore.swift; sourceTree = "<group>"; };
 		3D40B84E2192E20900FE7228 /* QiscusUploaderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusUploaderVC.xib; sourceTree = "<group>"; };
 		3D40B84F2192E20900FE7228 /* QUIBaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QUIBaseChatCell.swift; sourceTree = "<group>"; };
@@ -442,6 +501,11 @@
 		3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditRoomNameVC.xib; sourceTree = "<group>"; };
 		3DAF5525262533BD00208B99 /* FilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVC.swift; sourceTree = "<group>"; };
 		3DAF5526262533BD00208B99 /* FilterVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterVC.xib; sourceTree = "<group>"; };
+		3DAF552D26253ED800208B99 /* WhatsAppChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsAppChannelCell.swift; sourceTree = "<group>"; };
+		3DAF552E26253ED800208B99 /* WhatsAppChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WhatsAppChannelCell.xib; sourceTree = "<group>"; };
+		3DAF553226254CE500208B99 /* FilterChannelMultipleWACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleWACell.swift; sourceTree = "<group>"; };
+		3DAF553326254CE500208B99 /* FilterChannelMultipleWACell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleWACell.xib; sourceTree = "<group>"; };
+		3DAF553726256C9900208B99 /* WAChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WAChannelModel.swift; sourceTree = "<group>"; };
 		3DB1BF162444420D00F732B4 /* LoadMoreActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreActivityIndicator.swift; sourceTree = "<group>"; };
 		3DB36C1525AB70A70086F05F /* HSMTemplateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSMTemplateModel.swift; sourceTree = "<group>"; };
 		3DB437FE2322448A007BE03F /* UIBottomPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBottomPopupVC.swift; sourceTree = "<group>"; };
@@ -608,6 +672,12 @@
 				3D7A397D25793C16005E7FAE /* AdditionalInformationModel.swift */,
 				3DC7FDCE2585342400CCA763 /* BroadCastHistoryModel.swift */,
 				3DB36C1525AB70A70086F05F /* HSMTemplateModel.swift */,
+				3DAF553726256C9900208B99 /* WAChannelModel.swift */,
+				3D3BE4DE2627E15E0026A63C /* LineChannelModel.swift */,
+				3D3BE4EB26287C720026A63C /* FBChannelModel.swift */,
+				3D3BE4F826288D3D0026A63C /* CustomCHChannelModel.swift */,
+				3D3BE4FB2629331A0026A63C /* QiscusWidgetChannelModel.swift */,
+				3D3BE50D26293CC50026A63C /* TelegramChannelModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -689,6 +759,8 @@
 				3DA788E82480613E00CEF339 /* UIChatListServedViewController.xib */,
 				3DA788EB2480623000CEF339 /* UIChatListResolvedViewController.swift */,
 				3DA788EC2480623000CEF339 /* UIChatListResolvedViewController.xib */,
+				3D3BE4CF2626EEEE0026A63C /* UIChatListALLViewController.swift */,
+				3D3BE4D02626EEEE0026A63C /* UIChatListALLViewController.xib */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -975,10 +1047,50 @@
 		3DAF55242625338F00208B99 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				3DAF552B26253E5C00208B99 /* Cell */,
 				3DAF5525262533BD00208B99 /* FilterVC.swift */,
 				3DAF5526262533BD00208B99 /* FilterVC.xib */,
 			);
 			path = Filter;
+			sourceTree = "<group>";
+		};
+		3DAF552B26253E5C00208B99 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				3DAF552C26253E8500208B99 /* FilterByChannel */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		3DAF552C26253E8500208B99 /* FilterByChannel */ = {
+			isa = PBXGroup;
+			children = (
+				3DAF552D26253ED800208B99 /* WhatsAppChannelCell.swift */,
+				3DAF552E26253ED800208B99 /* WhatsAppChannelCell.xib */,
+				3DAF553226254CE500208B99 /* FilterChannelMultipleWACell.swift */,
+				3DAF553326254CE500208B99 /* FilterChannelMultipleWACell.xib */,
+				3D3BE4D42627DBE40026A63C /* FilterChannelMultipleLineCell.swift */,
+				3D3BE4D52627DBE40026A63C /* FilterChannelMultipleLineCell.xib */,
+				3D3BE4D92627DD2C0026A63C /* LineChannelCell.swift */,
+				3D3BE4DA2627DD2C0026A63C /* LineChannelCell.xib */,
+				3D3BE4E12628797F0026A63C /* FilterChannelMultipleFBCell.swift */,
+				3D3BE4E22628797F0026A63C /* FilterChannelMultipleFBCell.xib */,
+				3D3BE4E626287A190026A63C /* FBChannelCell.swift */,
+				3D3BE4E726287A190026A63C /* FBChannelCell.xib */,
+				3D3BE4EE26288B9F0026A63C /* FilterChannelMultipleCustomCHCell.swift */,
+				3D3BE4EF26288B9F0026A63C /* FilterChannelMultipleCustomCHCell.xib */,
+				3D3BE4F326288C360026A63C /* CustomCHChannelCell.swift */,
+				3D3BE4F426288C360026A63C /* CustomCHChannelCell.xib */,
+				3D3BE4FE2629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.swift */,
+				3D3BE4FF2629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.xib */,
+				3D3BE503262934240026A63C /* QiscusWidgetChannelCell.swift */,
+				3D3BE504262934240026A63C /* QiscusWidgetChannelCell.xib */,
+				3D3BE50826293BB60026A63C /* TelegramChannelCell.swift */,
+				3D3BE50926293BB60026A63C /* TelegramChannelCell.xib */,
+				3D3BE5102629407C0026A63C /* FilterByChannelCell.swift */,
+				3D3BE5112629407C0026A63C /* FilterByChannelCell.xib */,
+			);
+			path = FilterByChannel;
 			sourceTree = "<group>";
 		};
 		3DC51C1F255D0890008BE893 /* AddRemoveAgent */ = {
@@ -1230,12 +1342,15 @@
 				3D7A39562577A328005E7FAE /* ChatAndCustomerInfoVC.xib in Resources */,
 				3D0EAE7225E8E90100481198 /* AlertAMFailedUpdate.xib in Resources */,
 				3D7A397C25793960005E7FAE /* DetailAdditionalInformationCell.xib in Resources */,
+				3D3BE4E926287A190026A63C /* FBChannelCell.xib in Resources */,
+				3D3BE506262934240026A63C /* QiscusWidgetChannelCell.xib in Resources */,
 				3D0EAE6D25E8D35300481198 /* AccountManagementSPVVC.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
 				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
 				3D7A39722578A43F005E7FAE /* NoAgentsCell.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
+				3D3BE4DC2627DD2C0026A63C /* LineChannelCell.xib in Resources */,
 				3D7A396A2577E153005E7FAE /* TagsCustomerInfoCell.xib in Resources */,
 				3D8F3E7225869400004434B7 /* AlertAvailabilityAgent.xib in Resources */,
 				3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */,
@@ -1251,8 +1366,11 @@
 				3D0EAE5B25E618F900481198 /* AMAlterBillEmailDuaCell.xib in Resources */,
 				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
 				3DC7FDCD25850E5A00CCA763 /* BroadcastHistoryCell.xib in Resources */,
+				3D3BE4F126288B9F0026A63C /* FilterChannelMultipleCustomCHCell.xib in Resources */,
+				3D3BE5132629407C0026A63C /* FilterByChannelCell.xib in Resources */,
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
 				3D0EAE4225E5FC9A00481198 /* AccountManagementAdminVC.xib in Resources */,
+				3D3BE4D22626EEEE0026A63C /* UIChatListALLViewController.xib in Resources */,
 				3D7A395E2577ADCF005E7FAE /* CompleteTaskCell.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
 				3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */,
@@ -1263,6 +1381,7 @@
 				3D76773125D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib in Resources */,
 				3DD6E59725AD9BA700BF96AD /* QVideoLeftCell.xib in Resources */,
 				3D76773825D2842D004C26DC /* SettingMenuVC.xib in Resources */,
+				3D3BE4E4262879800026A63C /* FilterChannelMultipleFBCell.xib in Resources */,
 				3DC51C23255D08D0008BE893 /* AddAgentVC.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3DB48BAC25A7590900B5D760 /* HSMCell.xib in Resources */,
@@ -1277,6 +1396,7 @@
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
 				3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */,
+				3DAF553026253ED800208B99 /* WhatsAppChannelCell.xib in Resources */,
 				3DC7FDD32585A8B400CCA763 /* BroadcastHistoryVC.xib in Resources */,
 				3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */,
 				3D40B8D42192E20C00FE7228 /* QTextRightCell.xib in Resources */,
@@ -1291,7 +1411,9 @@
 				3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */,
 				3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
+				3D3BE4D72627DBE40026A63C /* FilterChannelMultipleLineCell.xib in Resources */,
 				3D9A29AF25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib in Resources */,
+				3D3BE4F626288C360026A63C /* CustomCHChannelCell.xib in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
 				3D5ABD9E25D37954008ED9E6 /* AMChangePasswordVC.xib in Resources */,
 				3D40B8C72192E20C00FE7228 /* ChatPreviewDocVC.xib in Resources */,
@@ -1311,15 +1433,18 @@
 				3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */,
 				3D7A396E25789B0E005E7FAE /* AgentCustomerInfoCell.xib in Resources */,
 				3DD6E59125AD664800BF96AD /* QVideoRightCell.xib in Resources */,
+				3D3BE50B26293BB60026A63C /* TelegramChannelCell.xib in Resources */,
 				3D7A397825793100005E7FAE /* AdditionalInformationVC.xib in Resources */,
 				3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */,
 				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
 				3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */,
+				3D3BE5012629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.xib in Resources */,
 				3DC51C28255D0EA9008BE893 /* AgentCell.xib in Resources */,
 				3DC7FDD72585C71700CCA763 /* DetailBroadcastHistoryCell.xib in Resources */,
 				3D12875E25FB5EAC001A5962 /* QLocationRightCell.xib in Resources */,
 				3D40B8CA2192E20C00FE7228 /* CustomChatInput.xib in Resources */,
 				3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */,
+				3DAF553526254CE500208B99 /* FilterChannelMultipleWACell.xib in Resources */,
 				3D76774F25D2B1F2004C26DC /* AMEmailAddressCell.xib in Resources */,
 				3D12875925FB4F5B001A5962 /* QLocationLeftCell.xib in Resources */,
 			);
@@ -1394,6 +1519,7 @@
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
 				3D0EAE5F25E6199800481198 /* AMAlterBillEmailTigaCell.swift in Sources */,
 				3D76775825D2D723004C26DC /* AMChangePasswordCell.swift in Sources */,
+				3D3BE4EC26287C720026A63C /* FBChannelModel.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
 				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
 				3DB48BAF25A76F5700B5D760 /* BottomAlertInfoHSM.swift in Sources */,
@@ -1406,6 +1532,7 @@
 				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
 				3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */,
+				3D3BE5122629407C0026A63C /* FilterByChannelCell.swift in Sources */,
 				3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */,
 				3D7A396D25789B0E005E7FAE /* AgentCustomerInfoCell.swift in Sources */,
 				3DC7FE102586633800CCA763 /* AvailabilityAgentCell.swift in Sources */,
@@ -1422,6 +1549,7 @@
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3D5D071625CA37E300841D1B /* WABlockedCell.swift in Sources */,
+				3DAF552F26253ED800208B99 /* WhatsAppChannelCell.swift in Sources */,
 				3DC7FDCF2585342400CCA763 /* BroadCastHistoryModel.swift in Sources */,
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
 				3DD6E59025AD664800BF96AD /* QVideoRightCell.swift in Sources */,
@@ -1432,20 +1560,26 @@
 				3D7A39552577A328005E7FAE /* ChatAndCustomerInfoVC.swift in Sources */,
 				3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
+				3D3BE5002629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.swift in Sources */,
 				3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */,
 				3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */,
+				3D3BE4F026288B9F0026A63C /* FilterChannelMultipleCustomCHCell.swift in Sources */,
 				3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */,
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
+				3D3BE4F526288C360026A63C /* CustomCHChannelCell.swift in Sources */,
 				3D76776025D2DD66004C26DC /* AlertAMSuccessUpdate.swift in Sources */,
 				3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */,
+				3D3BE4F926288D3D0026A63C /* CustomCHChannelModel.swift in Sources */,
 				3D0EAE5A25E618F900481198 /* AMAlterBillEmailDuaCell.swift in Sources */,
 				3D80B2B7221BDBE80053280C /* CreateGroupInfoVC.swift in Sources */,
 				3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */,
+				3D3BE50A26293BB60026A63C /* TelegramChannelCell.swift in Sources */,
 				3DC7FE052586589900CCA763 /* RDNavigationDrawerDelegate.swift in Sources */,
 				3DA824532301B5690054D92F /* QiscusHelper.swift in Sources */,
 				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */,
 				3D0EAE6425E63C5D00481198 /* AMIndustryCell.swift in Sources */,
+				3D3BE4E3262879800026A63C /* FilterChannelMultipleFBCell.swift in Sources */,
 				3DB36C1625AB70A70086F05F /* HSMTemplateModel.swift in Sources */,
 				3D7A397B25793960005E7FAE /* DetailAdditionalInformationCell.swift in Sources */,
 				3DC7FE062586589900CCA763 /* RDNavigation.swift in Sources */,
@@ -1474,6 +1608,7 @@
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
 				3D7A39652577CA0C005E7FAE /* NotesCell.swift in Sources */,
 				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
+				3D3BE505262934240026A63C /* QiscusWidgetChannelCell.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
 				3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */,
@@ -1481,15 +1616,18 @@
 				3D0B8B1F255D88F2002A484F /* TagView.swift in Sources */,
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
+				3DAF553826256C9900208B99 /* WAChannelModel.swift in Sources */,
 				3DAB890224C0E2040046E5DE /* ChatTemplateCell.swift in Sources */,
 				3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */,
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3D12875D25FB5EAC001A5962 /* QLocationRightCell.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
+				3D3BE50E26293CC50026A63C /* TelegramChannelModel.swift in Sources */,
 				3DA8244F2301B3980054D92F /* QCardLeftCell.swift in Sources */,
 				3DA788E92480613E00CEF339 /* UIChatListServedViewController.swift in Sources */,
 				3DB48BB725A807EE00B5D760 /* HSMWillExpireSoonCell.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
+				3D3BE4D12626EEEE0026A63C /* UIChatListALLViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
 				3D0EAE6C25E8D35300481198 /* AccountManagementSPVVC.swift in Sources */,
 				3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */,
@@ -1501,8 +1639,10 @@
 				3D7A39612577C7B7005E7FAE /* AdditionalInformationCell.swift in Sources */,
 				3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */,
 				3D7A39592577A701005E7FAE /* CustomerInfoCell.swift in Sources */,
+				3D3BE4D62627DBE40026A63C /* FilterChannelMultipleLineCell.swift in Sources */,
 				3D80B2B4221BB75A0053280C /* ContactSelectCollCell.swift in Sources */,
 				3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */,
+				3D3BE4FC2629331A0026A63C /* QiscusWidgetChannelModel.swift in Sources */,
 				3D7A39712578A43F005E7FAE /* NoAgentsCell.swift in Sources */,
 				3DA788FD2480D84A00CEF339 /* QReplyImageLeftCell.swift in Sources */,
 				3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */,
@@ -1510,11 +1650,14 @@
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
+				3D3BE4DB2627DD2C0026A63C /* LineChannelCell.swift in Sources */,
 				3D76773725D2842D004C26DC /* SettingMenuVC.swift in Sources */,
 				3D40B8F12192E20C00FE7228 /* QiscusUploaderVC.swift in Sources */,
+				3D3BE4E826287A190026A63C /* FBChannelCell.swift in Sources */,
 				3DC7FDFE2586552200CCA763 /* HomeVC.swift in Sources */,
 				3DC7FE042586589900CCA763 /* RDNavigationDrawerGestures.swift in Sources */,
 				3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */,
+				3D3BE4DF2627E15E0026A63C /* LineChannelModel.swift in Sources */,
 				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
 				3D76775325D2B57D004C26DC /* AMRoleCell.swift in Sources */,
 				3DA824592301C35B0054D92F /* QCardButton.swift in Sources */,
@@ -1523,6 +1666,7 @@
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
 				3D40B8B72192E20C00FE7228 /* Background.swift in Sources */,
 				3DA824482301B3980054D92F /* QCarouselCardCell.swift in Sources */,
+				3DAF553426254CE500208B99 /* FilterChannelMultipleWACell.swift in Sources */,
 				3D9A29AE25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift in Sources */,
 				3DB438002322448A007BE03F /* UIBottomPopupVC.swift in Sources */,
 				3D819A2D221E655800F1B7CA /* QFileLeftCell.swift in Sources */,
@@ -1674,7 +1818,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1702,7 +1846,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

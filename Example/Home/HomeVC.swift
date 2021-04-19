@@ -20,6 +20,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     var isReload = false
     var timer : Timer?
     let sideBar = SideBar(viewModel: "SideBarViewModel")
+    var defaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -346,12 +347,33 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         let barButtonDrawer = UIBarButtonItem(customView: buttonDrawer)
         
+        var buttonFilter = UIButton(type: .custom)
+        buttonFilter.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        buttonFilter.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        buttonFilter.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        if defaults.string(forKey: "filter") != nil{
+            buttonFilter.setImage(UIImage(named: "ic_filter_active"), for: .normal)
+        }else{
+            buttonFilter.setImage(UIImage(named: "ic_filter_no_active"), for: .normal)
+        }
+       
+        buttonFilter.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
+        
+        let barButtonFilter = UIBarButtonItem(customView: buttonFilter)
+        
+        
         //assign button to navigationbar
         self.navigationItem.leftBarButtonItem = barButtonDrawer
+        self.navigationItem.rightBarButtonItem = barButtonFilter
     }
     
     @objc func openMenu() {
         RDNavigationDrawer.sideToggle()
+    }
+    
+    @objc func openFilter() {
+        let vc = FilterVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func profileButtonPressed() {
@@ -361,7 +383,12 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let child_1 = UIChatListViewController()
+        var child_1 = UIViewController()
+        if defaults.string(forKey: "filter") != nil{
+            child_1 = UIChatListALLViewController()
+        }else{
+            child_1 = UIChatListViewController()
+        }
         let child_3 = UIChatListUnservedViewController()
         let child_4 = UIChatListServedViewController()
         let child_5 = UIChatListResolvedViewController()
@@ -433,6 +460,29 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         super.viewWillAppear(true)
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        var buttonFilter = UIButton(type: .custom)
+       
+        if defaults.string(forKey: "filter") != nil{
+            buttonFilter.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            buttonFilter.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            buttonFilter.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            buttonFilter.setImage(UIImage(named: "ic_filter_active"), for: .normal)
+        }else{
+            buttonFilter.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+            buttonFilter.widthAnchor.constraint(equalToConstant: 20).isActive = true
+            buttonFilter.heightAnchor.constraint(equalToConstant: 20).isActive = true
+            buttonFilter.setImage(UIImage(named: "ic_filter_no_active"), for: .normal)
+        }
+       
+        buttonFilter.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
+        
+        let barButtonFilter = UIBarButtonItem(customView: buttonFilter)
+        
+        
+        //assign button to navigationbar
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItem = barButtonFilter
     }
 }
 

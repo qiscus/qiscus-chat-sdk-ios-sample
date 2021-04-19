@@ -288,7 +288,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 }else if channelType.lowercased() == "wa"{
                     channelTypeString = "WhatsApp"
                 }else if channelType.lowercased() == "twitter" {
-                    channelTypeString = "Twitter"
+                    channelTypeString = "Custom Channel"
                 }else if channelType.lowercased() == "custom" {
                     channelTypeString = "Custom Channel"
                 }else{

@@ -192,7 +192,10 @@ class TagsCustomerInfoCell: UITableViewCell {
                         for i in self.tagsData{
                             for (index, tags) in self.tagsSuggestion.enumerated() {
                                 if tags.name.lowercased() == i.name.lowercased() {
-                                    self.tagsSuggestion.remove(at: index)
+                                    if self.tagsSuggestion.count < index {
+                                        self.tagsSuggestion.remove(at: index)
+                                    }
+                                   
                                 }
                             }
                             

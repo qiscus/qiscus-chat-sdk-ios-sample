@@ -37,6 +37,7 @@ class UIChatListUnservedViewController: UIViewController, IndicatorInfoProvider 
     @IBOutlet weak var viewUnstableConnection: UIView!
     @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
     
+    var defaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -168,6 +169,17 @@ class UIChatListUnservedViewController: UIViewController, IndicatorInfoProvider 
         return source
     }
     
+    func convertToDictionary(text: String) -> [[String: Any]]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
     @objc func getList(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
@@ -176,7 +188,7 @@ class UIChatListUnservedViewController: UIViewController, IndicatorInfoProvider 
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
         var param = ["serve_status": "unserved",
                      "limit": "50",
-                    ] as [String : String]
+                    ] as [String : Any]
         
         if let meta = metaAfter {
             if self.firstPage == false {
@@ -184,7 +196,18 @@ class UIChatListUnservedViewController: UIViewController, IndicatorInfoProvider 
             }
         }
         
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+        if let hasFilter = defaults.string(forKey: "filter"){
+            let dict = convertToDictionary(text: hasFilter)
+            param["channels"] = dict
+        }
+        
+        if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+            if !filterSelectedTypeWA.isEmpty{
+                param["status"] = filterSelectedTypeWA
+            }
+        }
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
