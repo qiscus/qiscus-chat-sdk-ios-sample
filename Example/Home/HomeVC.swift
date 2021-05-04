@@ -44,6 +44,10 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 }
             }
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.4) { () -> Void in
+            self.moveToViewController(at: self.defaults.integer(forKey: "lastTab"), animated: false)
+        }
     }
     
     func getProfileInfo(){

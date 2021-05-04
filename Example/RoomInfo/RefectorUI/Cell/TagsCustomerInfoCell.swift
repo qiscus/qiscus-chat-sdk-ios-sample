@@ -124,8 +124,10 @@ class TagsCustomerInfoCell: UITableViewCell {
                             }
                         }
                     } else if response.response?.statusCode == 400 {
+                        let payload = JSON(response.result.value)
+                        let errorMessage = payload["errors"]["message"].string ?? "Tag already exist"
                         // create the alert
-                        let alert = UIAlertController(title: "Failed", message: "Tag already exist", preferredStyle: UIAlertController.Style.alert)
+                        let alert = UIAlertController(title: "Failed", message: "\(errorMessage)", preferredStyle: UIAlertController.Style.alert)
                         
                         // add an action (button)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
@@ -200,11 +202,20 @@ class TagsCustomerInfoCell: UITableViewCell {
                             }
                             
                         }
+                        if tags.count == 0 {
+                            self.heightTableViewCons.constant = 0
+                        }else{
+                            self.heightTableViewCons.constant = 150
+                        }
                         self.tableView.reloadData()
                         
                         self.viewController?.tableView.beginUpdates()
                         self.viewController?.tableView.endUpdates()
                         
+                    }else{
+                        self.heightTableViewCons.constant = 0
+                        self.viewController?.tableView.beginUpdates()
+                        self.viewController?.tableView.endUpdates()
                     }
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {

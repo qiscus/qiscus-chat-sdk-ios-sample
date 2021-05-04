@@ -17,7 +17,6 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    
     public var labelProfile = UILabel()
     var isLoadingLoadMore : Bool = false
     private let refreshControl = UIRefreshControl()
@@ -75,6 +74,20 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         NotificationCenter.default.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
         
         self.setupReachability()
+        
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1  {
+                //admin
+                defaults.setValue(3, forKey: "lastTab")
+            }else if userType == 2{
+                //agent
+                defaults.setValue(1, forKey: "lastTab")
+            }else{
+                //spv
+                defaults.setValue(3, forKey: "lastTab")
+            }
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,7 +96,6 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
     }
     
     func setupReachability(){
-        let defaults = UserDefaults.standard
         let hasInternet = defaults.bool(forKey: "hasInternet")
         if hasInternet == true {
             self.stableConnection()
@@ -194,13 +206,68 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
         
         if let hasFilter = defaults.string(forKey: "filter"){
             let dict = convertToDictionary(text: hasFilter)
-            param["channels"] = dict
-        }
-        
-        if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
-            if !filterSelectedTypeWA.isEmpty{
-                param["status"] = filterSelectedTypeWA
+            if dict?.count != 0 {
+                param["channels"] = dict
+                var countNotWA = 0
+                var countWA = 0
+                if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                    if !filterSelectedTypeWA.isEmpty{
+                        if let dict = dict {
+                            
+                            var arrayALL = [[String: Any]]()
+                            var arrayWA = [[String: Any]]()
+                            var arrayNotWA = [[String: Any]]()
+                            for data in dict{
+                                let jsonSource = JSON(data)
+                                let source = jsonSource["source"].string ?? "empty"
+                                if source.lowercased() == "wa".lowercased(){
+                                    arrayWA.append(data)
+                                    countWA += 1
+                                }else{
+                                    countNotWA += 1
+                                    arrayNotWA.append(data)
+                                }
+                            }
+                            
+                            if filterSelectedTypeWA.lowercased() == "almost_expired".lowercased(){
+                                if countWA >= 1 && countNotWA == 0 {
+                                    self.emptyRoomView.isHidden = false
+                                    self.customerRooms.removeAll()
+                                    self.tableView.reloadData()
+                                    self.tableView.isHidden = true
+                                    self.isLoadingLoadMore = false
+                                    self.activityIndicator.stop()
+                                    return
+                                }else{
+                                    param["channels"] = arrayNotWA
+                                }
+                            }else if filterSelectedTypeWA.lowercased() == "expired".lowercased(){
+                                if countWA >= 1 && countNotWA == 0 {
+                                    self.emptyRoomView.isHidden = false
+                                    self.customerRooms.removeAll()
+                                    self.tableView.reloadData()
+                                    self.tableView.isHidden = true
+                                    self.isLoadingLoadMore = false
+                                    self.activityIndicator.stop()
+                                    return
+                                }else{
+                                    param["channels"] = arrayNotWA
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            }else{
+                self.emptyRoomView.isHidden = false
+                self.customerRooms.removeAll()
+                self.tableView.reloadData()
+                self.tableView.isHidden = true
+                self.isLoadingLoadMore = false
+                self.activityIndicator.stop()
+                return
             }
+           
         }
         
         Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in

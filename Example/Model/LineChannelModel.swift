@@ -15,7 +15,7 @@ public class LineChannelModel : NSObject {
     var isSelected: Bool = false
     init(json: JSON) {
         self.id             = json["id"].int ?? 0
-        self.name           = json["name"].string ?? ""
+        self.name           = json["name"].string ?? "Line"
         self.isSelected     = false
     }
 }

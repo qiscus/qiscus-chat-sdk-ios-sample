@@ -17,7 +17,6 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    
     public var labelProfile = UILabel()
     var isLoadingLoadMore : Bool = false
     private let refreshControl = UIRefreshControl()
@@ -28,7 +27,15 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
     var isChangeTabs : Bool = false
     // MARK: - IndicatorInfoProvider
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-         return IndicatorInfo(title: "ALL")
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                return IndicatorInfo(title: "Ongoing")
+            }else{
+                 return IndicatorInfo(title: "ALL")
+            }
+        }else{
+             return IndicatorInfo(title: "ALL")
+        }
     }
     
     fileprivate var activityIndicator: LoadMoreActivityIndicator!
@@ -77,10 +84,16 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
         NotificationCenter.default.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
         
         self.setupReachability()
+        
+        if defaults.bool(forKey: "isFromFilterVC") == false{
+            defaults.setValue(0, forKey: "lastTab")
+        }else{
+            defaults.setValue(false, forKey: "isFromFilterVC")
+        }
+        
     }
     
     func setupReachability(){
-        let defaults = UserDefaults.standard
         let hasInternet = defaults.bool(forKey: "hasInternet")
         if hasInternet == true {
             self.stableConnection()
@@ -200,9 +213,35 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
             param["channels"] = dict
         }
         
-        if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
-            if !filterSelectedTypeWA.isEmpty{
-                param["status"] = filterSelectedTypeWA
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agent
+                if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                    if !filterSelectedTypeWA.isEmpty{
+                        if filterSelectedTypeWA.lowercased() == "all".lowercased() {
+                            param["status"] = "unresolved"
+                        }else{
+                            param["status"] = filterSelectedTypeWA
+                        }
+                    }else{
+                        param["status"] = "unresolved"
+                    }
+                }else{
+                    param["status"] = "unresolved"
+                }
+               
+            }else{
+                if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                    if !filterSelectedTypeWA.isEmpty{
+                        param["status"] = filterSelectedTypeWA
+                    }
+                }
+            }
+        }else{
+            if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                if !filterSelectedTypeWA.isEmpty{
+                    param["status"] = filterSelectedTypeWA
+                }
             }
         }
        

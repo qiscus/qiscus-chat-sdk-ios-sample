@@ -15,7 +15,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    
+    let defaults = UserDefaults.standard
     public var labelProfile = UILabel()
     private let presenter : UIChatListPresenter = UIChatListPresenter()
     private let refreshControl = UIRefreshControl()
@@ -108,10 +108,15 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
             self.needReloadApi = false
         }
         self.setupReachability()
+        
+        if defaults.bool(forKey: "isFromFilterVC") == false{
+            defaults.setValue(0, forKey: "lastTab")
+        }else{
+            defaults.setValue(false, forKey: "isFromFilterVC")
+        }
     }
     
     func setupReachability(){
-        let defaults = UserDefaults.standard
         let hasInternet = defaults.bool(forKey: "hasInternet")
         if hasInternet == true {
             self.stableConnection()

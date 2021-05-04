@@ -115,8 +115,10 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         //success
         QiscusCore.shared.getChatRoomWithMessages(roomId: self.room?.id ?? "", onSuccess: { (roomModel, comments) in
             self.room = roomModel
+            self.getCustomerRoom()
             self.setupRoomInfo()
         }) { (error) in
+            self.getCustomerRoom()
             self.setupRoomInfo()
         }
         
@@ -372,6 +374,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                         self.viewLoading.isHidden = false
                         self.loadingIndicator.isHidden = false
                         self.loadingIndicator.startAnimating()
+                        self.getCustomerRoom()
                         self.setupRoomInfo()
                     }) { (error) in
                         
@@ -675,6 +678,84 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         }
     }
     
+    func getCustomerRoom(){
+        if self.isTypeWA {
+            if var room = QiscusCore.database.room.find(id: self.room!.id){
+                if var option = room.options{
+                    if !option.isEmpty{
+                        var json = JSON.init(parseJSON: option)
+                        let lastCustommerTimestamp = json["last_customer_message_timestamp"].string ?? ""
+                        
+                        if lastCustommerTimestamp.isEmpty == true {
+                            guard let token = UserDefaults.standard.getAuthenticationToken() else {
+                                return
+                            }
+                            
+                            let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+                            
+                            Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(room.id)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                                if response.result.value != nil {
+                                    if (response.response?.statusCode)! >= 300 {
+                                        //error
+                                        
+                                        if response.response?.statusCode == 401 {
+                                            RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                                if success == true {
+                                                    self.getCustomerRoom()
+                                                } else {
+                                                   return
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        //success
+                                        let payload = JSON(response.result.value)
+                            
+                                        let lastCustomerTimestamp  = payload["data"]["customer_room"]["last_customer_timestamp"].string ??
+                                            ""
+                                        
+                                        var json = JSON.init(parseJSON: option)
+                                        json["last_customer_message_timestamp"] = JSON(lastCustomerTimestamp)
+                                        
+                                        if let rawData = json.rawString() {
+                                            let room = room
+                                            room.options = rawData
+                                            QiscusCore.database.room.save([room])
+                                        }
+                                        
+                                        let date = self.getDate(timestamp: lastCustomerTimestamp)
+                                        let diff = date.differentTime()
+
+                                        if diff >= 16 && diff <= 23 {
+                                            self.isWAWillExpired = true
+                                        } else if diff >= 24 {
+                                            self.isWAExpired = true
+                                        } else {
+                                            self.isWAWillExpired = false
+                                            self.isWAExpired = false
+                                        }
+                                        
+                                        self.lastCommentCustomerDate = date
+                                    }
+                                } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                                    //failed
+                                    self.isWAWillExpired = false
+                                    self.isWAExpired = false
+                                } else {
+                                    //failed
+                                    self.isWAWillExpired = false
+                                    self.isWAExpired = false
+                                }
+                            }
+                        }else{
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func getCustomerInfo(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
@@ -709,47 +790,8 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
-                        
-                        //get lastComment from customer
-                        if self.isTypeWA {
-                            if let room = self.room{
-                                if let comments = QiscusCore.database.comment.find(roomId: room.id) {
-                                    let commentsFilterCustomer = comments.filter{ $0.username.lowercased() == room.name.lowercased() }
-                                    if let commentLast = commentsFilterCustomer.first{
-                                        let diff = commentLast.date.differentTime()
-                                        if diff >= 16 && diff <= 23 {
-                                            self.isWAWillExpired = true
-                                        } else if diff > 23 {
-                                            self.isWAExpired = true
-                                        } else {
-                                            self.isWAWillExpired = false
-                                            self.isWAExpired = false
-                                        }
-                                        
-                                        self.lastCommentCustomerDate = commentLast.date
-                                        
-                                    }else{
-                                        //check again, maybe roomname was changed
-                                        if let participants = room.participants {
-                                            if participants.count == 0 {
-                                                QiscusCore.shared.getParticipants(roomUniqueId: self.room?.uniqueId ?? "") { (dataParticipants, meta) in
-                                                    self.setLastCommentCustomer(comments : comments, participants: dataParticipants)
-                                                } onError: { (error) in
-                                                    
-                                                }
-
-                                            }
-                                            
-                                            self.setLastCommentCustomer(comments : comments, participants: participants)
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            if channelID != 0 {
-                                self.getTemplateHSM(channelID: channelID)
-                            }
-                            
+                        if channelID != 0 {
+                            self.getTemplateHSM(channelID: channelID)
                         }
                     }
                     
@@ -793,51 +835,15 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         }
     }
     
-    func setLastCommentCustomer(comments : [CommentModel], participants: [MemberModel]){
-        var customerEmail = ""
-        for participant in participants.enumerated(){
-            if participant.element.extras != nil {
-                let dataJson = JSON(participant.element.extras)
-                let customer = dataJson["is_customer"].bool ?? false
-                if customer == true {
-                    customerEmail = participant.element.email
-                }
-            }
-        }
-        
-        if !customerEmail.isEmpty {
-            let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
-            if let commentLast = commentsFilterCustomer.first{
-                let diff = commentLast.date.differentTime()
-                if diff >= 16 && diff <= 23 {
-                    self.isWAWillExpired = true
-                } else if diff > 23 {
-                    self.isWAExpired = true
-                } else {
-                    self.isWAWillExpired = false
-                    self.isWAExpired = false
-                }
-                self.lastCommentCustomerDate = commentLast.date
-            }
-        }else{
-            let commentsFilterCustomer = comments.filter{
-                return ($0.userExtras?.isEmpty ?? false)
-            }
-            if let commentLast = commentsFilterCustomer.first{
-                let diff = commentLast.date.differentTime()
-                if diff >= 16 && diff <= 23 {
-                    self.isWAWillExpired = true
-                } else if diff > 23 {
-                    self.isWAExpired = true
-                } else {
-                    self.isWAWillExpired = false
-                    self.isWAExpired = false
-                }
-                self.lastCommentCustomerDate = commentLast.date
-            }
-        }
+    func getDate(timestamp : String) -> Date {
+        //let timezone = TimeZone.current.identifier
+        let formatter = DateFormatter()
+        formatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ssZ"
+        formatter.timeZone = .current
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        let date = formatter.date(from: timestamp)
+        return date ?? Date()
     }
-    
     
     func pushToAdditonalInformation(){
         let vc = AdditionalInformationVC()
@@ -1058,6 +1064,10 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
             cell.btSendMessageTemplateHeightCons.constant = 0
             cell.topButtonSendMessageTemplateCons.constant = 0
             cell.btSendMessageTemplate.isHidden = true
+        }else{
+            cell.btSendMessageTemplateHeightCons.constant = 40
+            cell.topButtonSendMessageTemplateCons.constant = 20
+            cell.btSendMessageTemplate.isHidden = false
         }
         
         return cell

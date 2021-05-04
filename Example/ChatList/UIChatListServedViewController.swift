@@ -17,7 +17,6 @@ class UIChatListServedViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var emptyRoomView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    
     public var labelProfile = UILabel()
     var isLoadingLoadMore : Bool = false
     private let refreshControl = UIRefreshControl()
@@ -74,6 +73,8 @@ class UIChatListServedViewController: UIViewController, IndicatorInfoProvider {
         NotificationCenter.default.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
         
         self.setupReachability()
+        
+        defaults.setValue(2, forKey: "lastTab")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,7 +83,6 @@ class UIChatListServedViewController: UIViewController, IndicatorInfoProvider {
     }
     
     func setupReachability(){
-        let defaults = UserDefaults.standard
         let hasInternet = defaults.bool(forKey: "hasInternet")
         if hasInternet == true {
             self.stableConnection()

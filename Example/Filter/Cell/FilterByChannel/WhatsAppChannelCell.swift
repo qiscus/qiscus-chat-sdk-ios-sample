@@ -53,7 +53,7 @@ class WhatsAppChannelCell: UITableViewCell {
     
     func setupData(data: [WAChannelModel]){
         self.dataWAChannelModel = data
-        
+        var stringSelectedTypeWA = ""
         if let selectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
             if selectedTypeWA == "all" {
                 self.checkUnCheckWA.isSelected = true
@@ -62,19 +62,28 @@ class WhatsAppChannelCell: UITableViewCell {
                 self.checkUnCheckALLWA.isSelected = true
                 self.checkUnCheckALLWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
                 
+                stringSelectedTypeWA = "all"
             } else if (selectedTypeWA == "expired"){
                 self.checkUnCheckWA.isSelected = true
                 self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
                 
                 self.checkUnCheckOngoingWA.isSelected = true
                 self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
+                
+                stringSelectedTypeWA = "expired"
             } else if (selectedTypeWA == "almost_expired"){
                 self.checkUnCheckWA.isSelected = true
                 self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
                 
                 self.checkUnCheckExpiringWA.isSelected = true
                 self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
+                
+                stringSelectedTypeWA = "almost_expired"
             }
+        }
+        
+        if let delegate = delegate {
+            delegate.updateSelectedTypeWA(type: stringSelectedTypeWA)
         }
         
         var counter = 0

@@ -44,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        
+        let defaults = UserDefaults.standard
+        defaults.setValue(0, forKey: "lastTab")
         return true
     }
     

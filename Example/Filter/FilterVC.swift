@@ -161,6 +161,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func goBack() {
+        defaults.setValue(true, forKey: "isFromFilterVC")
         if let navController = self.navigationController {
             let newVC = HomeVC()
 
@@ -332,7 +333,6 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.btApply.isEnabled = false
         var array = [[String : Any]]()
         
-        
         for waChannel in self.channelsModelWA{
             array.append(waChannel.dictio)
         }
@@ -364,7 +364,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         defaults.setValue(representation, forKey: "filter")
         defaults.setValue(self.selectedTypeWA, forKey: "filterSelectedTypeWA")
         
-        
+    
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) { () -> Void in
             self.goBack()
         }

@@ -10,6 +10,7 @@ import UIKit
 import QiscusCore
 import AlamofireImage
 import SwiftyJSON
+import Alamofire
 
 class UIChatListViewCell: UITableViewCell {
 
@@ -95,84 +96,6 @@ class UIChatListViewCell: UITableViewCell {
         self.ivWaMessageExpired.isHidden = true
     }
     
-    func loadDataMessage(data : RoomModel){
-        if data.lastComment?.message.contains("Message failed to send because more than 24 hours") == true{
-            self.showExpired()
-        }else{
-            if let comments = QiscusCore.database.comment.find(roomId: data.id) {
-                if comments.count <= 1 {
-                    QiscusCore.shared.getChatRoomWithMessages(roomId: data.id) { (room, comments) in
-                        self.loadDataMessage(data: data)
-                    } onError: { (error) in
-                        
-                    }
-
-                }else{
-                    let commentsFilterCustomer = comments.filter{ $0.username.lowercased() == data.name.lowercased() }
-                    if let commentLast = commentsFilterCustomer.first{
-                        
-                        let diff = commentLast.date.differentTime()
-                        if  diff >= 16 && diff <= 23 {
-                            self.showExpire()
-                        } else if diff >= 16  {
-                            self.showExpired()
-                        } else {
-                            self.hideExpiredOrExpire()
-                        }
-                    } else {
-                        var customerEmail = ""
-                        //check again, maybe roomName was changed
-                        if let participants = data.participants {
-                            for participant in participants.enumerated(){
-                                if participant.element.extras != nil {
-                                    let dataJson = JSON(participant.element.extras)
-                                    let customer = dataJson["is_customer"].bool ?? false
-                                    if customer == true {
-                                        customerEmail = participant.element.email
-                                    }
-                                }
-                            }
-                            
-                            let commentsFilterCustomer = comments.filter{ $0.userEmail.lowercased() == customerEmail.lowercased() }
-                            if let commentLast = commentsFilterCustomer.first{
-                                
-                                let diff = commentLast.date.differentTime()
-                                if  diff >= 16 && diff <= 23 {
-                                    self.showExpire()
-                                } else if diff >= 16  {
-                                    self.showExpired()
-                                } else {
-                                    self.hideExpiredOrExpire()
-                                }
-                            }else{
-                                let commentsFilterCustomer = comments.filter{
-                                    return ($0.userExtras?.isEmpty ?? false)
-                                }
-                                if let commentLast = commentsFilterCustomer.first{
-                                    
-                                    let diff = commentLast.date.differentTime()
-                                    if  diff >= 16 && diff <= 23 {
-                                        self.showExpire()
-                                    } else if diff >= 16  {
-                                        self.showExpired()
-                                    } else {
-                                        self.hideExpiredOrExpire()
-                                    }
-                                }else{
-                                    self.hideExpiredOrExpire()
-                                }
-                            }
-                            
-                        }else{
-                            self.hideExpiredOrExpire()
-                        }
-                    }
-                }
-            } else {
-                self.hideExpiredOrExpire()
-            }
-        }
-    }
 
     func setupUI(data : RoomModel) {
     self.data = data
@@ -193,10 +116,84 @@ class UIChatListViewCell: UITableViewCell {
                     self.ivTypeChannel.image = UIImage(named: "ic_fb")
                 }else if channelType.lowercased() == "wa"{
                     self.ivTypeChannel.image = UIImage(named: "ic_wa")
-                    if let comment = QiscusCore.database.comment.find(roomId: data.id){
-                        self.loadDataMessage(data : data)
-                    } else {
-                        self.ivWaMessageExpired.isHidden = true
+                    
+                    if var room = QiscusCore.database.room.find(id: data.id){
+                        if var option = room.options{
+                            if !option.isEmpty{
+                                var json = JSON.init(parseJSON: option)
+                                let lastCustommerTimestamp = json["last_customer_message_timestamp"].string ?? ""
+                                
+                                if lastCustommerTimestamp.isEmpty == true {
+                                    guard let token = UserDefaults.standard.getAuthenticationToken() else {
+                                        return
+                                    }
+                                    
+                                    let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+                                    Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(room.id)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                                        if response.result.value != nil {
+                                            if (response.response?.statusCode)! >= 300 {
+                                                //error
+                                                
+                                                if response.response?.statusCode == 401 {
+                                                    RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                                        if success == true {
+                                                            self.setupUI(data: data)
+                                                        } else {
+                                                           return
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                //success
+                                                let payload = JSON(response.result.value)
+                                    
+                                                let lastCustomerTimestamp  = payload["data"]["customer_room"]["last_customer_timestamp"].string ??
+                                                    ""
+                                                
+                                                var json = JSON.init(parseJSON: option)
+                                                json["last_customer_message_timestamp"] = JSON(lastCustomerTimestamp)
+                                                
+                                                if let rawData = json.rawString() {
+                                                    let room = room
+                                                    room.options = rawData
+                                                    QiscusCore.database.room.save([room])
+                                                }
+                                                
+                                                let date = self.getDate(timestamp: lastCustomerTimestamp)
+                                                let diff = date.differentTime()
+
+                                                if  diff >= 16 && diff <= 23 {
+                                                    self.showExpire()
+                                                } else if diff >= 24  {
+                                                    self.showExpired()
+                                                } else {
+                                                    self.hideExpiredOrExpire()
+                                                }
+                                                
+                                            }
+                                        } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                                            //failed
+                                            self.hideExpiredOrExpire()
+                                        } else {
+                                            //failed
+                                            self.hideExpiredOrExpire()
+                                        }
+                                    }
+                                }else{
+                                    let date = self.getDate(timestamp: lastCustommerTimestamp)
+                                    let diff = date.differentTime()
+
+                                    if  diff >= 16 && diff <= 23 {
+                                        self.showExpire()
+                                    } else if diff >= 24  {
+                                        self.showExpired()
+                                    } else {
+                                        self.hideExpiredOrExpire()
+                                    }
+                                    
+                                }
+                            }
+                        }
                     }
                 }else if channelType.lowercased() == "twitter"{
                     self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
@@ -277,8 +274,6 @@ class UIChatListViewCell: UITableViewCell {
         return date ?? Date()
     }
     
-    
-    
     func setupUICustomerRoom(data : CustomerRoom) {
         self.dataCustomerRoom = data
         self.hideExpiredOrExpire()
@@ -301,7 +296,7 @@ class UIChatListViewCell: UITableViewCell {
 
             if  diff >= 16 && diff <= 23 {
                 self.showExpire()
-            } else if diff >= 16  {
+            } else if diff >= 24  {
                 self.showExpired()
             } else {
                 self.hideExpiredOrExpire()

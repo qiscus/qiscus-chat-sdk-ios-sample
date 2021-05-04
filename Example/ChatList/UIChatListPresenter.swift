@@ -9,6 +9,7 @@
 import Foundation
 import QiscusCore
 import SwiftyJSON
+import Alamofire
 
 protocol UIChatListView {
     func setEmptyData(message: String)
@@ -237,6 +238,7 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         // show in app notification
         print("got new comment: \(message.message)")
         
+        
         let checkRoom = self.rooms.filter{ $0.id == room.id }
         
         if checkRoom.count == 0 {
@@ -253,6 +255,8 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         
         self.rooms = self.filterRoom(data: self.rooms)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadCell"), object: nil)
+        
+        self.checkRoomOption(room: room, comment: message)
     }
     
     func onRoomMessageDeleted(room: RoomModel, message: CommentModel) {
@@ -290,4 +294,64 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     func remove(room: RoomModel) {
         //
     }
+    
+    func checkRoomOption(room : RoomModel, comment: CommentModel){
+        if let room = QiscusCore.database.room.find(id: room.id){
+            if let option = room.options{
+                if !option.isEmpty{
+                    var json = JSON.init(parseJSON: option)
+                    let channelType = json["channel"].string ?? "qiscus"
+                    if channelType.lowercased() == "wa"{
+                        let lastCustommerTimestamp = json["last_customer_message_timestamp"].string ?? ""
+                        if comment.username.lowercased() == room.name{
+                            //update db
+                            json["last_customer_message_timestamp"] = JSON(lastCustommerTimestamp)
+                            
+                            if let rawData = json.rawString() {
+                                let room = room
+                                room.options = rawData
+                                QiscusCore.database.room.save([room])
+                            }
+                        }else{
+                            var customerEmail = ""
+                            //check again, maybe roomName was changed
+                            if let participants = room.participants {
+                                for participant in participants.enumerated(){
+                                    if participant.element.extras != nil {
+                                        let dataJson = JSON(participant.element.extras)
+                                        let customer = dataJson["is_customer"].bool ?? false
+                                        if customer == true {
+                                            customerEmail = participant.element.email
+                                        }
+                                    }
+                                }
+                                
+                                if comment.userEmail.lowercased() == customerEmail{
+                                    json["last_customer_message_timestamp"] = JSON(lastCustommerTimestamp)
+                                    if let rawData = json.rawString() {
+                                        let room = room
+                                        room.options = rawData
+                                        QiscusCore.database.room.save([room])
+                                    }else{
+                                        if comment.userExtras?.isEmpty == true {
+                                            //update db
+                                            json["last_customer_message_timestamp"] = JSON(lastCustommerTimestamp)
+                                            
+                                            if let rawData = json.rawString() {
+                                                let room = room
+                                                room.options = rawData
+                                                QiscusCore.database.room.save([room])
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }
