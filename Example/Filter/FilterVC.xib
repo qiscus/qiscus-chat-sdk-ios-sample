@@ -11,12 +11,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterVC" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <connections>
+                <outlet property="bottomTableViewTagHeightConst" destination="A24-04-k2W" id="t1h-HC-gol"/>
                 <outlet property="btApply" destination="BGk-sE-mW3" id="3xm-LO-BN5"/>
                 <outlet property="btSelectFilter" destination="3IB-Ng-qQm" id="XhA-CM-yPK"/>
                 <outlet property="loadingIndicator" destination="SGq-2D-MvK" id="Z3n-GZ-qhD"/>
                 <outlet property="tableViewChannel" destination="PIU-JZ-5Wn" id="XAz-Kr-Ev3"/>
                 <outlet property="tableViewFilter" destination="1TT-J2-ekh" id="r47-3G-1RV"/>
                 <outlet property="tableViewHeightCons" destination="ezW-ED-ARy" id="dJh-xy-tGq"/>
+                <outlet property="tableViewTag" destination="3O4-3s-ohU" id="gBG-EC-KJ6"/>
                 <outlet property="tfFilter" destination="a6G-YK-MrP" id="eoe-Gu-wUX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -43,7 +45,11 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PIU-JZ-5Wn">
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3O4-3s-ohU" userLabel="TableViewTag">
+                    <rect key="frame" x="0.0" y="162" width="414" height="620"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PIU-JZ-5Wn" userLabel="TableViewChannel">
                     <rect key="frame" x="0.0" y="162" width="414" height="620"/>
                     <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="sectionIndexBackgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
@@ -82,10 +88,10 @@
                     <color key="color" red="0.1529411765" green="0.69411764710000001" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                 </activityIndicatorView>
                 <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1TT-J2-ekh" userLabel="tableViewFilter">
-                    <rect key="frame" x="20" y="148" width="374" height="50"/>
+                    <rect key="frame" x="20" y="148" width="374" height="100"/>
                     <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="ezW-ED-ARy"/>
+                        <constraint firstAttribute="height" constant="100" id="ezW-ED-ARy"/>
                     </constraints>
                     <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -114,6 +120,7 @@
             <constraints>
                 <constraint firstItem="3IB-Ng-qQm" firstAttribute="centerY" secondItem="a6G-YK-MrP" secondAttribute="centerY" id="3P9-r1-2Vd"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="aFL-6s-9ig" secondAttribute="trailing" constant="30" id="74h-vX-YbH"/>
+                <constraint firstItem="xQf-Ep-xGz" firstAttribute="top" secondItem="3O4-3s-ohU" secondAttribute="bottom" id="A24-04-k2W"/>
                 <constraint firstItem="a6G-YK-MrP" firstAttribute="top" secondItem="lZz-qP-k7H" secondAttribute="bottom" constant="15" id="BbR-FO-hDQ"/>
                 <constraint firstItem="1TT-J2-ekh" firstAttribute="top" secondItem="a6G-YK-MrP" secondAttribute="bottom" constant="1" id="C30-Rg-sAY"/>
                 <constraint firstItem="3IB-Ng-qQm" firstAttribute="height" secondItem="a6G-YK-MrP" secondAttribute="height" multiplier="0.75" id="DTJ-Dd-rUV"/>
@@ -122,6 +129,7 @@
                 <constraint firstItem="SGq-2D-MvK" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="HhM-XF-eUJ"/>
                 <constraint firstItem="3IB-Ng-qQm" firstAttribute="leading" secondItem="a6G-YK-MrP" secondAttribute="leading" id="I1u-Fn-YQo"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lZz-qP-k7H" secondAttribute="trailing" constant="20" id="Jj4-dW-Lwl"/>
+                <constraint firstItem="3O4-3s-ohU" firstAttribute="top" secondItem="a6G-YK-MrP" secondAttribute="bottom" constant="15" id="Luo-ID-276"/>
                 <constraint firstItem="a6G-YK-MrP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="O0O-lG-nl1"/>
                 <constraint firstItem="PIU-JZ-5Wn" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="OW0-8y-az1"/>
                 <constraint firstItem="3IB-Ng-qQm" firstAttribute="trailing" secondItem="a6G-YK-MrP" secondAttribute="trailing" id="Pxg-Sm-cJH"/>
@@ -130,10 +138,12 @@
                 <constraint firstItem="xQf-Ep-xGz" firstAttribute="top" secondItem="PIU-JZ-5Wn" secondAttribute="bottom" id="Y3w-0a-7Z1"/>
                 <constraint firstItem="SGq-2D-MvK" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="YKD-8l-gdc"/>
                 <constraint firstItem="xQf-Ep-xGz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bhq-ZP-zNF"/>
+                <constraint firstItem="3O4-3s-ohU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="c2T-BE-WpQ"/>
                 <constraint firstItem="PIU-JZ-5Wn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="c2p-qq-52V"/>
                 <constraint firstItem="aFL-6s-9ig" firstAttribute="centerY" secondItem="a6G-YK-MrP" secondAttribute="centerY" id="gNf-EV-goL"/>
                 <constraint firstItem="xQf-Ep-xGz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="qWn-oa-kSc"/>
                 <constraint firstItem="PIU-JZ-5Wn" firstAttribute="top" secondItem="a6G-YK-MrP" secondAttribute="bottom" constant="15" id="sme-1D-O9H"/>
+                <constraint firstItem="3O4-3s-ohU" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="tiO-mz-B83"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="a6G-YK-MrP" secondAttribute="trailing" constant="20" id="u6d-f0-xPF"/>
                 <constraint firstItem="lZz-qP-k7H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="zT3-sQ-iAi"/>
             </constraints>

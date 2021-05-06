@@ -14,9 +14,11 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak public var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableViewChannel: UITableView!
     @IBOutlet weak var tableViewFilter : UITableView!
+    @IBOutlet weak var tableViewTag: UITableView!
     @IBOutlet weak var tfFilter: UITextField!
     @IBOutlet weak var tableViewHeightCons: NSLayoutConstraint!
     @IBOutlet weak var btSelectFilter: UIButton!
+    @IBOutlet weak var bottomTableViewTagHeightConst: NSLayoutConstraint!
     @IBOutlet weak var btApply: UIButton!
     //wa
     var resultsWAChannelModel = [WAChannelModel]()
@@ -38,6 +40,9 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //Telegram channel
     var resultsTelegramChannelModel = [TelegramChannelModel]()
     var channelsModelTelegram = [ChannelsModel]()
+    
+    //tags filter
+    var tagsData = [TagsModel]()
     
     var selectedTypeWA : String = ""
     var defaults = UserDefaults.standard
@@ -75,6 +80,34 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.btApply.layer.cornerRadius = self.btApply.frame.size.height / 2
         self.btApply.isEnabled = false
         self.btApply.backgroundColor =  UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(FilterVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(FilterVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // MARK: - Keyboard Methode
+    @objc func keyboardWillHide(_ notification: Notification){
+        let info: NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        
+        let animateDuration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        self.bottomTableViewTagHeightConst.constant = 0
+        UIView.animate(withDuration: animateDuration, delay: 0, options: UIView.AnimationOptions(), animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification){
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        
+        let keyboardHeight: CGFloat = keyboardSize.height
+        let animateDuration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        
+        self.bottomTableViewTagHeightConst.constant = 0 + keyboardHeight - 100
+        UIView.animate(withDuration: animateDuration, delay: 0, options: UIView.AnimationOptions(), animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     private func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
@@ -119,9 +152,14 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetFilter() {
        //resetFilter
+        self.tfFilter.text = ""
+        self.tableViewFilter.isHidden = true
+        self.tableViewTag.isHidden = true
+        self.tableViewChannel.isHidden = true
         self.navigationItem.rightBarButtonItems = nil
         defaults.removeObject(forKey: "filter")
         defaults.removeObject(forKey: "filterSelectedTypeWA")
+        defaults.removeObject(forKey: "filterTag")
         
        
         self.isWASelected = false
@@ -131,9 +169,8 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.isQiscusWidgetSelected = false
         self.isTelegramSelected = false
         
-        self.checkButtonReset()
-        
-        //todo reset all UI
+
+        // reset all UI
         self.resultsWAChannelModel.removeAll()
         self.resultsLineChannelModel.removeAll()
         self.resultsFBChannelModel.removeAll()
@@ -149,6 +186,10 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.channelsModelTelegram.removeAll()
         self.selectedTypeWA = ""
         
+        self.tagsData.removeAll()
+        
+        self.checkButtonReset()
+        
         //resetUIWA
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIWA"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUILine"), object: nil)
@@ -156,6 +197,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUICustomCH"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIQiscusWidget"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITelegram"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITag"), object: nil)
         
         self.setupData()
     }
@@ -315,7 +357,29 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     
                     self.loadingIndicator.stopAnimating()
                     self.loadingIndicator.isHidden = true
+                    if let hasFilterTag = self.defaults.string(forKey: "filterTag"){
+                        if let dict = self.convertToDictionary(text: hasFilterTag){
+                            if dict.count != 0 {
+                                self.tableViewTag.reloadData()
+                                self.tableViewTag.isHidden = false
+                                self.tableViewFilter.isHidden = true
+                                self.tableViewChannel.isHidden = true
+                                self.tfFilter.text = "Tag"
+                            }
+                        }
+                    }
                     
+                    if let hasFilterChannel = self.defaults.string(forKey: "filter"){
+                        if let dict = self.convertToDictionary(text: hasFilterChannel){
+                            if dict.count != 0 {
+                                self.tableViewChannel.reloadData()
+                                self.tableViewChannel.isHidden = false
+                                self.tableViewTag.isHidden = true
+                                self.tableViewFilter.isHidden = true
+                                self.tfFilter.text = "Channel"
+                            }
+                        }
+                    }
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
@@ -329,42 +393,70 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func convertToDictionary(text: String) -> [[String: Any]]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
     @IBAction func applyAction(_ sender: Any) {
         self.btApply.isEnabled = false
-        var array = [[String : Any]]()
         
-        for waChannel in self.channelsModelWA{
-            array.append(waChannel.dictio)
+        if self.tableViewChannel.isHidden == false {
+            var array = [[String : Any]]()
+            
+            for waChannel in self.channelsModelWA{
+                array.append(waChannel.dictio)
+            }
+            
+            for lineChannel in self.channelsModelLine{
+                array.append(lineChannel.dictio)
+            }
+            
+            for fbChannel in self.channelsModelFB{
+                array.append(fbChannel.dictio)
+            }
+            
+            for customCHChannel in self.channelsModelCustomCH{
+                array.append(customCHChannel.dictio)
+            }
+            
+            for qiscusWidgetChannel in self.channelsModelQiscusWidget{
+                array.append(qiscusWidgetChannel.dictio)
+            }
+            
+            for telegramChannel in self.channelsModelTelegram{
+                array.append(telegramChannel.dictio)
+            }
+            
+            
+            let json = JSON(array)
+            let representation = json.rawString()
+            
+            defaults.setValue(representation, forKey: "filter")
+            defaults.setValue(self.selectedTypeWA, forKey: "filterSelectedTypeWA")
+            defaults.removeObject(forKey: "filterTag")
+            
+        }else if self.tableViewTag.isHidden == false{
+            var array = [[String : Any]]()
+            
+            for tag in self.tagsData{
+                array.append(tag.dictio)
+            }
+            
+            let json = JSON(array)
+            let representation = json.rawString()
+            
+            defaults.setValue(representation, forKey: "filterTag")
+            defaults.removeObject(forKey: "filter")
+            defaults.removeObject(forKey: "filterSelectedTypeWA")
         }
         
-        for lineChannel in self.channelsModelLine{
-            array.append(lineChannel.dictio)
-        }
-        
-        for fbChannel in self.channelsModelFB{
-            array.append(fbChannel.dictio)
-        }
-        
-        for customCHChannel in self.channelsModelCustomCH{
-            array.append(customCHChannel.dictio)
-        }
-        
-        for qiscusWidgetChannel in self.channelsModelQiscusWidget{
-            array.append(qiscusWidgetChannel.dictio)
-        }
-        
-        for telegramChannel in self.channelsModelTelegram{
-            array.append(telegramChannel.dictio)
-        }
-        
-        
-        let json = JSON(array)
-        let representation = json.rawString()
-        
-        defaults.setValue(representation, forKey: "filter")
-        defaults.setValue(self.selectedTypeWA, forKey: "filterSelectedTypeWA")
-        
-    
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) { () -> Void in
             self.goBack()
         }
@@ -374,7 +466,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func checkButtonReset(){
         var resetActive = false
         
-        if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true{
+        if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true || self.tagsData.count != 0{
             resetActive = true
         }
         
@@ -414,6 +506,11 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.tableViewChannel.dataSource = self
         self.tableViewChannel.delegate = self
         
+        self.tableViewTag.dataSource = self
+        self.tableViewTag.delegate = self
+        
+        self.tableViewTag.register(UINib(nibName: "FilterByTagCell", bundle: nil), forCellReuseIdentifier: "FilterByTagCellIdentifire")
+
         self.tableViewFilter.register(UINib(nibName: "FilterByChannelCell", bundle: nil), forCellReuseIdentifier: "FilterByChannelCellIdentifire")
         
         self.tableViewChannel.register(UINib(nibName: "FilterByChannelCell", bundle: nil), forCellReuseIdentifier: "FilterByChannelCellIdentifire")
@@ -430,6 +527,12 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         self.tableViewFilter.translatesAutoresizingMaskIntoConstraints = false
         self.tableViewFilter.tableFooterView = UIView()
+        
+        self.tableViewTag.translatesAutoresizingMaskIntoConstraints = false
+        self.tableViewTag.tableFooterView = UIView()
+        self.tableViewTag.separatorStyle = .none
+        
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -438,19 +541,28 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableViewFilter {
+            return 2
+        }else if tableView == self.tableViewChannel {
+            return 7
+        }else if tableView == self.tableViewTag{
             return 1
         }else{
-            return 7
+            return 1
         }
-       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableViewFilter {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "FilterByChannelCellIdentifire", for: indexPath) as! FilterByChannelCell
-            cell.lbTitle.text = "Channel"
+            if indexPath.row == 0 {
+                cell.lbTitle.text = "Channel"
+            }else{
+                cell.lbTitle.text = "Tag"
+            }
+            
             return cell
-        }else{
+        } else if tableView == self.tableViewChannel {
             if indexPath.row == 0 {
                 return self.filterByChannelCell(tableView: tableView, indexPath: indexPath)
             }else if indexPath.row == 1 {
@@ -466,6 +578,12 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }else if (indexPath.row == 6){
                 return self.filterTelegram(tableView: tableView, indexPath: indexPath)
             }
+        } else if tableView == self.tableViewTag {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FilterByTagCellIdentifire", for: indexPath) as! FilterByTagCell
+            cell.indexPath = indexPath
+            cell.viewController = self
+            cell.delegate = self
+            return cell
         }
         
         
@@ -517,7 +635,22 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 }
                 self.tableViewChannel.reloadData()
                 self.tableViewChannel.isHidden = false
+                self.tableViewTag.isHidden = true
                 self.tableViewFilter.isHidden = true
+                self.tfFilter.text = "Channel"
+                
+            }else if indexPath.row == 1{
+                if let hasFilter = defaults.string(forKey: "filter"){
+                    let resetButton = self.resetButton(self, action: #selector(FilterVC.resetFilter))
+                    self.navigationItem.rightBarButtonItems = nil
+                    self.navigationItem.rightBarButtonItems = [resetButton]
+                }
+                self.tableViewTag.reloadData()
+                self.tableViewTag.isHidden = false
+                self.tableViewFilter.isHidden = true
+                self.tableViewChannel.isHidden = true
+                
+                self.tfFilter.text = "Tag"
             }
         }
     }
@@ -709,6 +842,13 @@ extension FilterVC : TelegramChannelCellDelegate {
             //remove
             channelsModelTelegram.removeAll()
         }
+    }
+}
+
+extension FilterVC : FilterByTagCellDelegate {
+    func updateDataTag(tagsData: [TagsModel]){
+        self.tagsData = tagsData
+        self.checkButtonReset()
     }
 }
 

@@ -211,6 +211,7 @@ extension AppDelegate {
         }else {
             var defaults = UserDefaults.standard
             defaults.removeObject(forKey: "filter")
+            defaults.removeObject(forKey: "filterTag")
             defaults.removeObject(forKey: "filterSelectedTypeWA")
             if self.timer != nil {
                 self.timer?.invalidate()

@@ -198,6 +198,19 @@ class UIChatListServedViewController: UIViewController, IndicatorInfoProvider {
             param["channels"] = dict
         }
         
+        if let hasFilterTag = defaults.string(forKey: "filterTag"){
+            if let dict = convertToDictionary(text: hasFilterTag){
+                var array = [Int]()
+                if dict.count != 0 {
+                    for i in dict{
+                        let json = JSON(i)
+                        array.append(json["id"].int ?? 0)
+                    }
+                    param["tag_ids"] = array
+                }
+            }
+        }
+        
         if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
             if !filterSelectedTypeWA.isEmpty{
                 param["status"] = filterSelectedTypeWA

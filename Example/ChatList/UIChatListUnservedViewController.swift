@@ -196,6 +196,19 @@ class UIChatListUnservedViewController: UIViewController, IndicatorInfoProvider 
             }
         }
         
+        if let hasFilterTag = defaults.string(forKey: "filterTag"){
+            if let dict = convertToDictionary(text: hasFilterTag){
+                var array = [Int]()
+                if dict.count != 0 {
+                    for i in dict{
+                        let json = JSON(i)
+                        array.append(json["id"].int ?? 0)
+                    }
+                    param["tag_ids"] = array
+                }
+            }
+        }
+        
         if let hasFilter = defaults.string(forKey: "filter"){
             let dict = convertToDictionary(text: hasFilter)
             param["channels"] = dict

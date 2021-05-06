@@ -208,6 +208,21 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
             }
         }
         
+        if let hasFilterTag = defaults.string(forKey: "filterTag"){
+            if let dict = convertToDictionary(text: hasFilterTag){
+                var array = [Int]()
+                if dict.count != 0 {
+                    for i in dict{
+                        let json = JSON(i)
+                        array.append(json["id"].int ?? 0)
+                    }
+                    param["tag_ids"] = array
+                }
+            }
+        }
+        
+        
+        
         if let hasFilter = defaults.string(forKey: "filter"){
             let dict = convertToDictionary(text: hasFilter)
             param["channels"] = dict
@@ -245,6 +260,7 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
             }
         }
        
+        print("arief check param ini =\(param)")
         
         Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {

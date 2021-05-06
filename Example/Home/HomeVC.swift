@@ -388,7 +388,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         var child_1 = UIViewController()
-        if defaults.string(forKey: "filter") != nil{
+        if defaults.string(forKey: "filter") != nil || defaults.string(forKey: "filterTag") != nil {
             child_1 = UIChatListALLViewController()
         }else{
             child_1 = UIChatListViewController()
@@ -467,7 +467,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         var buttonFilter = UIButton(type: .custom)
        
-        if defaults.string(forKey: "filter") != nil{
+        if defaults.string(forKey: "filter") != nil || defaults.string(forKey: "filterTag") != nil{
             buttonFilter.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
             buttonFilter.widthAnchor.constraint(equalToConstant: 30).isActive = true
             buttonFilter.heightAnchor.constraint(equalToConstant: 30).isActive = true
