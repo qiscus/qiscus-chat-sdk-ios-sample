@@ -14,12 +14,19 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak public var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableViewChannel: UITableView!
     @IBOutlet weak var tableViewFilter : UITableView!
+    @IBOutlet weak var tableViewAgent : UITableView!
     @IBOutlet weak var tableViewTag: UITableView!
     @IBOutlet weak var tfFilter: UITextField!
     @IBOutlet weak var tableViewHeightCons: NSLayoutConstraint!
     @IBOutlet weak var btSelectFilter: UIButton!
     @IBOutlet weak var bottomTableViewTagHeightConst: NSLayoutConstraint!
     @IBOutlet weak var btApply: UIButton!
+    
+    //feature config
+    var featuresData = [FeaturesModel]()
+    var featureFilterByAgent = 2 // 1 show, 2 hide, 3 disabled
+    var isAdminSPV : Bool = false
+    
     //wa
     var resultsWAChannelModel = [WAChannelModel]()
     var channelsModelWA = [ChannelsModel]()
@@ -44,6 +51,10 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //tags filter
     var tagsData = [TagsModel]()
     
+    //agent filter
+    var agentsData = [AgentModel]()
+    
+    //channel filter
     var selectedTypeWA : String = ""
     var defaults = UserDefaults.standard
     var isWASelected : Bool = false
@@ -59,12 +70,104 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var isShowCustomChannelFilter : Bool = false
     var isShowQiscusWidgetFilter: Bool = false
     var isShowTelegramFilter : Bool = false
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.setupData()
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1  {
+               //admin
+                self.isAdminSPV = true
+            }else if userType == 2{
+                //agent
+                self.isAdminSPV = false
+            }else{
+                //spv
+                self.isAdminSPV = true
+            }
+        }
+        self.getConfigFeature()
         self.setupTableView()
         self.setupUI()
+    }
+    
+    func getConfigFeature(){
+        self.loadingIndicator.startAnimating()
+        self.loadingIndicator.isHidden = false
+        
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/features", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getConfigFeature()
+                            } else {
+                                self.loadingIndicator.stopAnimating()
+                                self.loadingIndicator.isHidden = true
+                                return
+                            }
+                        }
+                    }else{
+                        //show error
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        
+                        let error = JSON(response.result.value)["errors"].string ?? "Something wrong"
+                        
+                        let vc = AlertAMFailedUpdate()
+                        vc.errorMessage = error
+                        vc.modalPresentationStyle = .overFullScreen
+                        
+                        self.navigationController?.present(vc, animated: false, completion: {
+                            
+                        })
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                  
+                    if let features = json["data"]["features"].array {
+                        if features.count != 0 {
+                            for data in features {
+                                let dataFeature = FeaturesModel(json: data)
+                                self.featuresData.append(dataFeature)
+                            }
+                        }
+                    }
+                    
+                    for i in self.featuresData {
+                        if i.name.lowercased() == "INBOX".lowercased(){
+                            for x in i.features {
+                                if x.name.lowercased() == "FILTER_BY_AGENT".lowercased(){
+                                    self.featureFilterByAgent = x.status
+                                    self.tableViewHeightCons.constant = 150
+                                    self.tableViewFilter.reloadData()
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.setupData()
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+                self.setupData()
+            } else {
+                //failed
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+                self.setupData()
+            }
+        }
     }
     
     func setupUI(){
@@ -156,10 +259,12 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.tableViewFilter.isHidden = true
         self.tableViewTag.isHidden = true
         self.tableViewChannel.isHidden = true
+        self.tableViewAgent.isHidden = true
         self.navigationItem.rightBarButtonItems = nil
         defaults.removeObject(forKey: "filter")
         defaults.removeObject(forKey: "filterSelectedTypeWA")
         defaults.removeObject(forKey: "filterTag")
+        defaults.removeObject(forKey: "filterAgent")
         
        
         self.isWASelected = false
@@ -187,6 +292,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.selectedTypeWA = ""
         
         self.tagsData.removeAll()
+        self.agentsData.removeAll()
         
         self.checkButtonReset()
         
@@ -198,6 +304,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIQiscusWidget"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITelegram"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITag"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIAgent"), object: nil)
         
         self.setupData()
     }
@@ -364,6 +471,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                                 self.tableViewTag.isHidden = false
                                 self.tableViewFilter.isHidden = true
                                 self.tableViewChannel.isHidden = true
+                                self.tableViewAgent.isHidden = true
                                 self.tfFilter.text = "Tag"
                             }
                         }
@@ -376,8 +484,20 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                                 self.tableViewChannel.isHidden = false
                                 self.tableViewTag.isHidden = true
                                 self.tableViewFilter.isHidden = true
+                                self.tableViewAgent.isHidden = true
                                 self.tfFilter.text = "Channel"
                             }
+                        }
+                    }
+                    
+                    if let hasFilterAgent = self.defaults.array(forKey: "filterAgent"){
+                        if hasFilterAgent.count != 0 {
+                            self.tableViewAgent.reloadData()
+                            self.tableViewAgent.isHidden = false
+                            self.tableViewTag.isHidden = true
+                            self.tableViewFilter.isHidden = true
+                            self.tableViewChannel.isHidden = true
+                            self.tfFilter.text = "Agent"
                         }
                     }
                 }
@@ -441,6 +561,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             defaults.setValue(representation, forKey: "filter")
             defaults.setValue(self.selectedTypeWA, forKey: "filterSelectedTypeWA")
             defaults.removeObject(forKey: "filterTag")
+            defaults.removeObject(forKey: "filterAgent")
             
         }else if self.tableViewTag.isHidden == false{
             var array = [[String : Any]]()
@@ -453,6 +574,19 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             let representation = json.rawString()
             
             defaults.setValue(representation, forKey: "filterTag")
+            defaults.removeObject(forKey: "filterAgent")
+            defaults.removeObject(forKey: "filter")
+            defaults.removeObject(forKey: "filterSelectedTypeWA")
+        }else if self.tableViewAgent.isHidden == false{
+            var array = [Int]()
+            if self.agentsData.count != 0 {
+                for i in self.agentsData {
+                    array.append(i.id)
+                }
+                
+                defaults.setValue(array, forKey: "filterAgent")
+            }
+            defaults.removeObject(forKey: "filterTag")
             defaults.removeObject(forKey: "filter")
             defaults.removeObject(forKey: "filterSelectedTypeWA")
         }
@@ -463,31 +597,79 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
        
     }
     
+    func disableEnableApply(isEnable: Bool){
+        if isEnable == true{
+            self.btApply.backgroundColor = ColorConfiguration.defaultColorTosca
+            self.btApply.isEnabled = true
+        }else{
+            self.btApply.isEnabled = false
+            self.btApply.backgroundColor = UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1)
+        }
+    }
+    
     func checkButtonReset(){
         var resetActive = false
         
-        if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true || self.tagsData.count != 0{
-            resetActive = true
+        if tableViewChannel.isHidden == false {
+            if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true{
+                resetActive = true
+                self.disableEnableApply(isEnable: true)
+            }else{
+                resetActive = false
+                self.disableEnableApply(isEnable: false)
+            }
+        } else if tableViewAgent.isHidden == false {
+            if self.agentsData.count != 0 {
+                resetActive = true
+                self.disableEnableApply(isEnable: true)
+            } else {
+                resetActive = false
+                self.disableEnableApply(isEnable: false)
+            }
+        } else if tableViewTag.isHidden == false {
+            if self.tagsData.count != 0 {
+                resetActive = true
+                self.disableEnableApply(isEnable: true)
+            }else{
+                resetActive = false
+                self.disableEnableApply(isEnable: false)
+            }
         }
         
-        if resetActive == true {
-            self.btApply.backgroundColor = ColorConfiguration.defaultColorTosca
-            self.btApply.isEnabled = true
+        let hasFilter = self.defaults.string(forKey: "filter")
+        let hasFilterTag = self.defaults.string(forKey: "filterTag")
+        let hasFilterAgent = self.defaults.array(forKey: "filterAgent")
+        
+        if hasFilter != nil || hasFilterTag != nil || hasFilterAgent != nil || resetActive == true {
             let resetButton = self.resetButton(self, action: #selector(FilterVC.resetFilter))
             self.navigationItem.rightBarButtonItems = [resetButton]
-        }else{
-            if let hasFilter = self.defaults.string(forKey: "filter"){
-                self.btApply.backgroundColor = ColorConfiguration.defaultColorTosca
-                self.btApply.isEnabled = true
-                let resetButton = self.resetButton(self, action: #selector(FilterVC.resetFilter))
-                self.navigationItem.rightBarButtonItems = [resetButton]
-            }else{
-                self.btApply.isEnabled = false
-                self.btApply.backgroundColor = UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1)
-                self.navigationItem.rightBarButtonItems = nil
-            }
-            
+        }else {
+            self.navigationItem.rightBarButtonItems = nil
         }
+         
+//        if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true || self.tagsData.count != 0 || self.agentsData.count != 0{
+//            resetActive = true
+//        }
+//
+//        if resetActive == true {
+//            self.btApply.backgroundColor = ColorConfiguration.defaultColorTosca
+//            self.btApply.isEnabled = true
+//            let resetButton = self.resetButton(self, action: #selector(FilterVC.resetFilter))
+//            self.navigationItem.rightBarButtonItems = [resetButton]
+//        }else{
+//            let hasFilter = self.defaults.string(forKey: "filter")
+//            let hasFilterTag = self.defaults.string(forKey: "filterTag")
+//            let hasFilterAgent = self.defaults.array(forKey: "filterAgent")
+//
+//            if hasFilter != nil || hasFilterTag != nil || hasFilterAgent != nil {
+//                let resetButton = self.resetButton(self, action: #selector(FilterVC.resetFilter))
+//                self.navigationItem.rightBarButtonItems = [resetButton]
+//            }else{
+//                self.btApply.isEnabled = false
+//                self.btApply.backgroundColor = UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1)
+//                self.navigationItem.rightBarButtonItems = nil
+//            }
+//        }
     }
 
     //tableView
@@ -509,10 +691,19 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.tableViewTag.dataSource = self
         self.tableViewTag.delegate = self
         
+        self.tableViewAgent.dataSource = self
+        self.tableViewAgent.delegate = self
+        
+        //tag
         self.tableViewTag.register(UINib(nibName: "FilterByTagCell", bundle: nil), forCellReuseIdentifier: "FilterByTagCellIdentifire")
 
+        //filter choice tag, channel, or agent
         self.tableViewFilter.register(UINib(nibName: "FilterByChannelCell", bundle: nil), forCellReuseIdentifier: "FilterByChannelCellIdentifire")
         
+        //tag
+        self.tableViewAgent.register(UINib(nibName: "FilterByAgentCell", bundle: nil), forCellReuseIdentifier: "FilterByAgentCellIdentifire")
+        
+        //channel
         self.tableViewChannel.register(UINib(nibName: "FilterByChannelCell", bundle: nil), forCellReuseIdentifier: "FilterByChannelCellIdentifire")
         self.tableViewChannel.register(UINib(nibName: "WhatsAppChannelCell", bundle: nil), forCellReuseIdentifier: "WhatsAppChannelCellIdentifire")
         self.tableViewChannel.register(UINib(nibName: "LineChannelCell", bundle: nil), forCellReuseIdentifier: "LineChannelCellIdentifire")
@@ -532,6 +723,10 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.tableViewTag.tableFooterView = UIView()
         self.tableViewTag.separatorStyle = .none
         
+        self.tableViewAgent.translatesAutoresizingMaskIntoConstraints = false
+        self.tableViewAgent.tableFooterView = UIView()
+        self.tableViewAgent.separatorStyle = .none
+        
         
     }
     
@@ -541,10 +736,16 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableViewFilter {
-            return 2
+            if self.isAdminSPV == true && self.featureFilterByAgent == 1 {
+                return 3
+            }else{
+                return 2
+            }
         }else if tableView == self.tableViewChannel {
             return 7
         }else if tableView == self.tableViewTag{
+            return 1
+        }else if tableView == self.tableViewAgent{
             return 1
         }else{
             return 1
@@ -555,10 +756,21 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if tableView == self.tableViewFilter {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "FilterByChannelCellIdentifire", for: indexPath) as! FilterByChannelCell
-            if indexPath.row == 0 {
-                cell.lbTitle.text = "Channel"
+            
+            if self.isAdminSPV == true && self.featureFilterByAgent == 1 {
+                if indexPath.row == 0 {
+                    cell.lbTitle.text = "Channel"
+                }else if indexPath.row == 1 {
+                    cell.lbTitle.text = "Agent"
+                }else{
+                    cell.lbTitle.text = "Tag"
+                }
             }else{
-                cell.lbTitle.text = "Tag"
+                if indexPath.row == 0 {
+                    cell.lbTitle.text = "Channel"
+                } else if indexPath.row == 1 {
+                    cell.lbTitle.text = "Tag"
+                }
             }
             
             return cell
@@ -581,6 +793,11 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         } else if tableView == self.tableViewTag {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FilterByTagCellIdentifire", for: indexPath) as! FilterByTagCell
             cell.indexPath = indexPath
+            cell.viewController = self
+            cell.delegate = self
+            return cell
+        } else if tableView == self.tableViewAgent {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FilterByAgentCellIdentifire", for: indexPath) as! FilterByAgentCell
             cell.viewController = self
             cell.delegate = self
             return cell
@@ -627,31 +844,53 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableViewFilter {
-            if indexPath.row == 0{
-                if let hasFilter = defaults.string(forKey: "filter"){
-                    let resetButton = self.resetButton(self, action: #selector(FilterVC.resetFilter))
-                    self.navigationItem.rightBarButtonItems = nil
-                    self.navigationItem.rightBarButtonItems = [resetButton]
+            if self.isAdminSPV == true && self.featureFilterByAgent == 1 {
+                if indexPath.row == 0{
+                    self.tableViewChannel.reloadData()
+                    self.tableViewChannel.isHidden = false
+                    self.tableViewTag.isHidden = true
+                    self.tableViewFilter.isHidden = true
+                    self.tableViewAgent.isHidden = true
+                    self.tfFilter.text = "Channel"
+                    
+                }else if indexPath.row == 1{
+                    self.tableViewAgent.reloadData()
+                    self.tableViewAgent.isHidden = false
+                    self.tableViewFilter.isHidden = true
+                    self.tableViewChannel.isHidden = true
+                    self.tableViewTag.isHidden = true
+                    
+                    self.tfFilter.text = "Agent"
+                }else if indexPath.row == 2{
+                    self.tableViewTag.reloadData()
+                    self.tableViewTag.isHidden = false
+                    self.tableViewFilter.isHidden = true
+                    self.tableViewChannel.isHidden = true
+                    self.tableViewAgent.isHidden = true
+                    
+                    self.tfFilter.text = "Tag"
                 }
-                self.tableViewChannel.reloadData()
-                self.tableViewChannel.isHidden = false
-                self.tableViewTag.isHidden = true
-                self.tableViewFilter.isHidden = true
-                self.tfFilter.text = "Channel"
-                
-            }else if indexPath.row == 1{
-                if let hasFilter = defaults.string(forKey: "filter"){
-                    let resetButton = self.resetButton(self, action: #selector(FilterVC.resetFilter))
-                    self.navigationItem.rightBarButtonItems = nil
-                    self.navigationItem.rightBarButtonItems = [resetButton]
+            }else{
+                if indexPath.row == 0{
+                    self.tableViewChannel.reloadData()
+                    self.tableViewChannel.isHidden = false
+                    self.tableViewTag.isHidden = true
+                    self.tableViewFilter.isHidden = true
+                    self.tableViewAgent.isHidden = true
+                    self.tfFilter.text = "Channel"
+                    
+                }else{
+                    self.tableViewTag.reloadData()
+                    self.tableViewTag.isHidden = false
+                    self.tableViewFilter.isHidden = true
+                    self.tableViewChannel.isHidden = true
+                    self.tableViewAgent.isHidden = true
+                    
+                    self.tfFilter.text = "Tag"
                 }
-                self.tableViewTag.reloadData()
-                self.tableViewTag.isHidden = false
-                self.tableViewFilter.isHidden = true
-                self.tableViewChannel.isHidden = true
-                
-                self.tfFilter.text = "Tag"
             }
+            
+            self.checkButtonReset()
         }
     }
     
@@ -848,6 +1087,13 @@ extension FilterVC : TelegramChannelCellDelegate {
 extension FilterVC : FilterByTagCellDelegate {
     func updateDataTag(tagsData: [TagsModel]){
         self.tagsData = tagsData
+        self.checkButtonReset()
+    }
+}
+
+extension FilterVC : FilterByAgentCellDelegate {
+    func updateSelectAgent(agentsData: [AgentModel]){
+        self.agentsData = agentsData
         self.checkButtonReset()
     }
 }

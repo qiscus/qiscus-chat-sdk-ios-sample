@@ -48,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let defaults = UserDefaults.standard
         defaults.setValue(0, forKey: "lastTab")
+        defaults.removeObject(forKey: "lastSelectedListRoom")
         return true
     }
     
@@ -212,7 +213,9 @@ extension AppDelegate {
             var defaults = UserDefaults.standard
             defaults.removeObject(forKey: "filter")
             defaults.removeObject(forKey: "filterTag")
+            defaults.removeObject(forKey: "filterAgent")
             defaults.removeObject(forKey: "filterSelectedTypeWA")
+            defaults.removeObject(forKey: "lastSelectedListRoom")
             if self.timer != nil {
                 self.timer?.invalidate()
                 self.timer = nil

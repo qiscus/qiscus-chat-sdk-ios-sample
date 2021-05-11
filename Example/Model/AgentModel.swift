@@ -10,16 +10,17 @@ import Foundation
 import SwiftyJSON
 
 public class AgentModel : NSObject {
-    var id : String = ""
+    var id : Int = 0
     var name : String = ""
     var avatarUrl : String? = nil
     var email : String = ""
     var isAvailable : Bool = false
     var currentCustomerCount : Int = 0
     var userRoles : [UserRoles] =  [UserRoles]()
+    var isSelected : Bool = false
     
     init(json: JSON) {
-        self.id             = json["id"].stringValue
+        self.id             = json["id"].int ?? 0
         self.name           = json["name"].stringValue
         self.avatarUrl      = json["avatar_url"].string ?? nil
         self.email         = json["email"].string ?? ""

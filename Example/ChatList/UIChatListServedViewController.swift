@@ -198,6 +198,10 @@ class UIChatListServedViewController: UIViewController, IndicatorInfoProvider {
             param["channels"] = dict
         }
         
+        if let hasFilterAgent = defaults.array(forKey: "filterAgent"){
+            param["user_ids"] = hasFilterAgent
+        }
+        
         if let hasFilterTag = defaults.string(forKey: "filterTag"){
             if let dict = convertToDictionary(text: hasFilterTag){
                 var array = [Int]()
@@ -433,7 +437,6 @@ extension UIChatListServedViewController : QiscusCoreDelegate {
         
         if message.message.contains("Admin removed"){
             self.metaAfter = nil
-            self.throttleGetList()
         }
         self.throttleGetList()
     }

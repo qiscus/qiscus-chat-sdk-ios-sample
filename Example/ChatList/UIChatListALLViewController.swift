@@ -208,6 +208,10 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
             }
         }
         
+        if let hasFilterAgent = defaults.array(forKey: "filterAgent"){
+            param["user_ids"] = hasFilterAgent
+        }
+        
         if let hasFilterTag = defaults.string(forKey: "filterTag"){
             if let dict = convertToDictionary(text: hasFilterTag){
                 var array = [Int]()
@@ -220,8 +224,6 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
                 }
             }
         }
-        
-        
         
         if let hasFilter = defaults.string(forKey: "filter"){
             let dict = convertToDictionary(text: hasFilter)
@@ -259,8 +261,6 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
                 }
             }
         }
-       
-        print("arief check param ini =\(param)")
         
         Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
@@ -475,6 +475,15 @@ extension UIChatListALLViewController : QiscusCoreDelegate {
         if message.message.contains("joined this conversation"){
             let filterData = self.customerRooms.filter{ $0.roomId != room.id }
             self.customerRooms = self.filterRoom(data: filterData)
+        }
+        
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                if message.message.contains("marked this conversation as resolved"){
+                    let filterData = self.customerRooms.filter{ $0.roomId != room.id }
+                    self.customerRooms = self.filterRoom(data: filterData)
+                }
+            }
         }
         
         self.throttleGetList()

@@ -204,6 +204,10 @@ class UIChatListResolvedViewController: UIViewController, IndicatorInfoProvider 
             }
         }
         
+        if let hasFilterAgent = defaults.array(forKey: "filterAgent"){
+            param["user_ids"] = hasFilterAgent
+        }
+        
         if let hasFilterTag = defaults.string(forKey: "filterTag"){
             if let dict = convertToDictionary(text: hasFilterTag){
                 var array = [Int]()

@@ -25,6 +25,7 @@ class UIChatListViewCell: UITableViewCell {
     @IBOutlet weak var badgeWitdh: NSLayoutConstraint!
     
     @IBOutlet weak var viewBadge: UIView!
+    @IBOutlet weak var viewNewUnreadCount: UIView!
     @IBOutlet weak var imageViewPinRoom: UIImageView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelLastMessage: UILabel!
@@ -74,6 +75,8 @@ class UIChatListViewCell: UITableViewCell {
         labelLastMessage.sizeToFit()
         imageViewRoom.layer.cornerRadius = imageViewRoom.frame.width/2
         self.viewBadge.layer.cornerRadius = self.viewBadge.frame.width/2
+        
+        self.viewNewUnreadCount.layer.cornerRadius = self.viewNewUnreadCount.frame.width/2
         self.layoutIfNeeded()
     }
     
@@ -370,17 +373,23 @@ class UIChatListViewCell: UITableViewCell {
             self.imageViewRoom.af_setImage(withURL: URL(string:"https://")!)
         }
         
-        if let userType = UserDefaults.standard.getUserType(){
-            if userType == 2 {
-                self.hiddenBadge()
-            }else{
-                self.hiddenBadge()
-            }
-        }else{
-            self.hiddenBadge()
-        }
         var message = ""
         if let room = QiscusCore.database.room.find(id: data.roomId){
+            if(room.unreadCount == 0){
+//                if let lastComment = room.lastComment{
+//                    if !lastComment.isMyComment() && lastComment.status != .read && data.lastCustomerTimestamp == data.lastCommentTimestamp{
+//                        self.showBadge()
+//                    }else{
+//                        self.hiddenBadge()
+//                    }
+//                }else{
+//                    self.hiddenBadge()
+//                }
+                self.hiddenBadge()
+            }else{
+                self.showBadge()
+            }
+            
             if let lastComment = room.lastComment{
                 if lastComment.message.hasPrefix("[file]"){
                     message = "Send File Attachment"
@@ -419,20 +428,17 @@ class UIChatListViewCell: UITableViewCell {
                 message = lastComment
             }
             self.labelLastMessage.text  = message
+            self.hiddenBadge()
         }
         
     }
     
     func hiddenBadge(){
-        self.viewBadge.isHidden     = true
-        self.badgeWitdh.constant    = 0
-        self.labelBadge.isHidden    = true
+        self.viewNewUnreadCount.isHidden = true
     }
     
     func showBadge(){
-        self.viewBadge.isHidden     = false
-        self.labelBadge.isHidden    = false
-        self.badgeWitdh.constant    = 25
+        self.viewNewUnreadCount.isHidden = false
     }
     
 }

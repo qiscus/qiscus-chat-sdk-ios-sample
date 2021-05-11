@@ -114,6 +114,18 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
         }else{
             defaults.setValue(false, forKey: "isFromFilterVC")
         }
+        
+        if let row = defaults.string(forKey: "lastSelectedListRoom") {
+            if !row.isEmpty{
+                let indexPath = IndexPath(item: Int(row) ?? 0, section: 0)
+                let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
+                if let v = isVisible, v == true {
+                    tableView.reloadRows(at: [indexPath], with: .none)
+                    self.defaults.removeObject(forKey: "lastSelectedListRoom")
+                }
+               
+            }
+        }
     }
     
     func setupReachability(){
@@ -193,6 +205,8 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let room = self.rooms[indexPath.row]
+        
+        defaults.setValue(indexPath.row, forKey: "lastSelectedListRoom")
         self.chat(withRoom: room)
     }
     

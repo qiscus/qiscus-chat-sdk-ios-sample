@@ -15,6 +15,7 @@
                 <outlet property="btApply" destination="BGk-sE-mW3" id="3xm-LO-BN5"/>
                 <outlet property="btSelectFilter" destination="3IB-Ng-qQm" id="XhA-CM-yPK"/>
                 <outlet property="loadingIndicator" destination="SGq-2D-MvK" id="Z3n-GZ-qhD"/>
+                <outlet property="tableViewAgent" destination="rc6-YP-ula" id="Mko-Yw-cTm"/>
                 <outlet property="tableViewChannel" destination="PIU-JZ-5Wn" id="XAz-Kr-Ev3"/>
                 <outlet property="tableViewFilter" destination="1TT-J2-ekh" id="r47-3G-1RV"/>
                 <outlet property="tableViewHeightCons" destination="ezW-ED-ARy" id="dJh-xy-tGq"/>
@@ -49,7 +50,11 @@
                     <rect key="frame" x="0.0" y="162" width="414" height="620"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PIU-JZ-5Wn" userLabel="TableViewChannel">
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rc6-YP-ula" userLabel="TableViewAgent">
+                    <rect key="frame" x="0.0" y="147" width="414" height="635"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PIU-JZ-5Wn" userLabel="TableViewChannel">
                     <rect key="frame" x="0.0" y="162" width="414" height="620"/>
                     <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="sectionIndexBackgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
@@ -125,6 +130,7 @@
                 <constraint firstItem="1TT-J2-ekh" firstAttribute="top" secondItem="a6G-YK-MrP" secondAttribute="bottom" constant="1" id="C30-Rg-sAY"/>
                 <constraint firstItem="3IB-Ng-qQm" firstAttribute="height" secondItem="a6G-YK-MrP" secondAttribute="height" multiplier="0.75" id="DTJ-Dd-rUV"/>
                 <constraint firstItem="1TT-J2-ekh" firstAttribute="trailing" secondItem="a6G-YK-MrP" secondAttribute="trailing" id="G4q-gI-mv4"/>
+                <constraint firstItem="rc6-YP-ula" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Gnj-5A-LJ2"/>
                 <constraint firstItem="1TT-J2-ekh" firstAttribute="leading" secondItem="a6G-YK-MrP" secondAttribute="leading" id="HMN-S6-wTi"/>
                 <constraint firstItem="SGq-2D-MvK" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="HhM-XF-eUJ"/>
                 <constraint firstItem="3IB-Ng-qQm" firstAttribute="leading" secondItem="a6G-YK-MrP" secondAttribute="leading" id="I1u-Fn-YQo"/>
@@ -133,14 +139,17 @@
                 <constraint firstItem="a6G-YK-MrP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="O0O-lG-nl1"/>
                 <constraint firstItem="PIU-JZ-5Wn" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="OW0-8y-az1"/>
                 <constraint firstItem="3IB-Ng-qQm" firstAttribute="trailing" secondItem="a6G-YK-MrP" secondAttribute="trailing" id="Pxg-Sm-cJH"/>
+                <constraint firstItem="xQf-Ep-xGz" firstAttribute="top" secondItem="rc6-YP-ula" secondAttribute="bottom" id="Qfc-Zv-Tck"/>
                 <constraint firstItem="lZz-qP-k7H" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="Vi8-Lc-TVL"/>
                 <constraint firstItem="xQf-Ep-xGz" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="W9D-MO-jdk"/>
                 <constraint firstItem="xQf-Ep-xGz" firstAttribute="top" secondItem="PIU-JZ-5Wn" secondAttribute="bottom" id="Y3w-0a-7Z1"/>
                 <constraint firstItem="SGq-2D-MvK" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="YKD-8l-gdc"/>
+                <constraint firstItem="rc6-YP-ula" firstAttribute="top" secondItem="a6G-YK-MrP" secondAttribute="bottom" id="baU-vZ-6mV"/>
                 <constraint firstItem="xQf-Ep-xGz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bhq-ZP-zNF"/>
                 <constraint firstItem="3O4-3s-ohU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="c2T-BE-WpQ"/>
                 <constraint firstItem="PIU-JZ-5Wn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="c2p-qq-52V"/>
                 <constraint firstItem="aFL-6s-9ig" firstAttribute="centerY" secondItem="a6G-YK-MrP" secondAttribute="centerY" id="gNf-EV-goL"/>
+                <constraint firstItem="rc6-YP-ula" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="hDF-fK-46K"/>
                 <constraint firstItem="xQf-Ep-xGz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="qWn-oa-kSc"/>
                 <constraint firstItem="PIU-JZ-5Wn" firstAttribute="top" secondItem="a6G-YK-MrP" secondAttribute="bottom" constant="15" id="sme-1D-O9H"/>
                 <constraint firstItem="3O4-3s-ohU" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="tiO-mz-B83"/>

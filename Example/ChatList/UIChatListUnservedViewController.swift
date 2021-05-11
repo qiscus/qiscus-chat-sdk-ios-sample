@@ -196,6 +196,10 @@ class UIChatListUnservedViewController: UIViewController, IndicatorInfoProvider 
             }
         }
         
+        if let hasFilterAgent = defaults.array(forKey: "filterAgent"){
+            param["user_ids"] = hasFilterAgent
+        }
+        
         if let hasFilterTag = defaults.string(forKey: "filterTag"){
             if let dict = convertToDictionary(text: hasFilterTag){
                 var array = [Int]()
@@ -433,6 +437,11 @@ extension UIChatListUnservedViewController : QiscusCoreDelegate {
             self.customerRooms = self.filterRoom(data: filterData)
         }
         
+        if message.message.contains("marked this conversation as resolved"){
+            let filterData = self.customerRooms.filter{ $0.roomId != room.id }
+            self.customerRooms = self.filterRoom(data: filterData)
+        }
+        
         self.throttleGetList()
     }
     
@@ -464,7 +473,7 @@ extension UIChatListUnservedViewController : QiscusCoreDelegate {
     }
 
     func gotNew(room: RoomModel) {
-        
+        self.throttleGetList()
     }
 
     func remove(room: RoomModel) {
