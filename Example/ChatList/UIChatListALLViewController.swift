@@ -107,8 +107,10 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
     }
     
     func unStableConnection(){
-        self.viewUnstableConnection.alpha = 1
-        self.heightViewUnstableConnectionConst.constant = 45
+        DispatchQueue.main.async(execute: {
+            self.viewUnstableConnection.alpha = 1
+            self.heightViewUnstableConnectionConst.constant = 45
+        })
     }
     
     @objc func hideUnstableConnection(_ notification: Notification){
@@ -116,8 +118,10 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
     }
     
     func stableConnection(){
-        self.viewUnstableConnection.alpha = 0
-        self.heightViewUnstableConnectionConst.constant = 0
+        DispatchQueue.main.async(execute: {
+            self.viewUnstableConnection.alpha = 0
+            self.heightViewUnstableConnectionConst.constant = 0
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {

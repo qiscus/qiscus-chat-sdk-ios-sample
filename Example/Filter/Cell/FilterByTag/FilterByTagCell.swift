@@ -22,6 +22,9 @@ class FilterByTagCell: UITableViewCell {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var heightTableViewCons: NSLayoutConstraint!
     @IBOutlet weak var heightTVAddNewTagsCons: NSLayoutConstraint!
+    @IBOutlet weak var viewNoTag: UIView!
+    @IBOutlet weak var lbSearchNoTag: UILabel!
+    @IBOutlet weak var heightViewNoTagCons: NSLayoutConstraint!
     var delegate: FilterByTagCellDelegate?
     var viewController : FilterVC? = nil
     var tagsSuggestion : [TagsModel] = [TagsModel]()
@@ -185,7 +188,12 @@ class FilterByTagCell: UITableViewCell {
                         
                         if tags.count == 0 {
                             self.heightTableViewCons.constant = 0
+                            self.viewNoTag.isHidden = false
+                            self.lbSearchNoTag.text = "\"\(self.tvAddNewTags.text ?? "")\""
+                            self.heightViewNoTagCons.constant = 40
                         }else{
+                            self.viewNoTag.isHidden = true
+                            self.heightViewNoTagCons.constant = 0
                             self.heightTableViewCons.constant = 150
                         }
                         self.tableView.reloadData()

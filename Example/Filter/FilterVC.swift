@@ -147,7 +147,12 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             for x in i.features {
                                 if x.name.lowercased() == "FILTER_BY_AGENT".lowercased(){
                                     self.featureFilterByAgent = x.status
-                                    self.tableViewHeightCons.constant = 150
+                                    if self.featureFilterByAgent == 2 {
+                                        self.tableViewHeightCons.constant = 100
+                                    }else{
+                                        self.tableViewHeightCons.constant = 150
+                                    }
+                                   
                                     self.tableViewFilter.reloadData()
                                 }
                             }
@@ -736,7 +741,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableViewFilter {
-            if self.isAdminSPV == true && self.featureFilterByAgent == 1 {
+            if (self.isAdminSPV == true && self.featureFilterByAgent == 1) ||  (self.isAdminSPV == true && self.featureFilterByAgent == 3)  {
                 return 3
             }else{
                 return 2
@@ -757,7 +762,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "FilterByChannelCellIdentifire", for: indexPath) as! FilterByChannelCell
             
-            if self.isAdminSPV == true && self.featureFilterByAgent == 1 {
+            if ( self.isAdminSPV == true && self.featureFilterByAgent == 1) || ( self.isAdminSPV == true && self.featureFilterByAgent == 3) {
                 if indexPath.row == 0 {
                     cell.lbTitle.text = "Channel"
                 }else if indexPath.row == 1 {
@@ -844,7 +849,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableViewFilter {
-            if self.isAdminSPV == true && self.featureFilterByAgent == 1 {
+            if (self.isAdminSPV == true && self.featureFilterByAgent == 1) || ( self.isAdminSPV == true && self.featureFilterByAgent == 3){
                 if indexPath.row == 0{
                     self.tableViewChannel.reloadData()
                     self.tableViewChannel.isHidden = false
@@ -854,13 +859,22 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     self.tfFilter.text = "Channel"
                     
                 }else if indexPath.row == 1{
-                    self.tableViewAgent.reloadData()
-                    self.tableViewAgent.isHidden = false
-                    self.tableViewFilter.isHidden = true
-                    self.tableViewChannel.isHidden = true
-                    self.tableViewTag.isHidden = true
-                    
-                    self.tfFilter.text = "Agent"
+                    if self.featureFilterByAgent == 3 {
+                        let vc = AlertDisableFeatureFilterAgent()
+                        vc.errorMessage = "This feature has been disabled because it is not available in the plan that you are currently using."
+                        vc.modalPresentationStyle = .overFullScreen
+                        
+                        self.navigationController?.present(vc, animated: false, completion: {
+                            
+                        })
+                    }else{
+                        self.tableViewAgent.reloadData()
+                        self.tableViewAgent.isHidden = false
+                        self.tableViewFilter.isHidden = true
+                        self.tableViewChannel.isHidden = true
+                        self.tableViewTag.isHidden = true
+                        self.tfFilter.text = "Agent"
+                    }
                 }else if indexPath.row == 2{
                     self.tableViewTag.reloadData()
                     self.tableViewTag.isHidden = false

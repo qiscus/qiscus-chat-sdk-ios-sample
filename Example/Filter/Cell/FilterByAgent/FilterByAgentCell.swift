@@ -30,7 +30,12 @@ class FilterByAgentCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         super.awakeFromNib()
         // Initialization code
         self.setupUI()
-        self.getListAgentsSuggestion()
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType != 2  {
+                self.getListAgentsSuggestion()
+            }
+        }
+       
     }
     
     func setupUI(){
@@ -102,7 +107,21 @@ class FilterByAgentCell: UITableViewCell, UITableViewDataSource, UITableViewDele
                      "user_type_scope" : "agent"
         ] as [String : Any]
         
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/admin/agents", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+        var isAdminOrSPV = "admin"
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 1  {
+               //admin
+                isAdminOrSPV = "admin"
+            }else if userType == 2{
+                //agent
+                isAdminOrSPV = "admin"
+            }else{
+                //spv
+                isAdminOrSPV = "spv"
+            }
+        }
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/\(isAdminOrSPV)/agents", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
@@ -245,7 +264,10 @@ extension FilterByAgentCell : AgentFilterCellDelegate {
         }else{
             for (index, element) in self.agentsSelectedData.enumerated() {
                 if element.id == agent.id {
-                    self.agentsSelectedData.remove(at: index)
+                    if let checkData = self.agentsSelectedData[safe: index]{
+                        self.agentsSelectedData.remove(at: index)
+                    }
+                   
                 }
             }
         }
@@ -253,6 +275,12 @@ extension FilterByAgentCell : AgentFilterCellDelegate {
         if let delegate = self.delegate {
             delegate.updateSelectAgent(agentsData: self.agentsSelectedData)
         }
+    }
+}
+
+extension Collection where Indices.Iterator.Element == Index {
+    subscript (safe index: Index) -> Iterator.Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
 

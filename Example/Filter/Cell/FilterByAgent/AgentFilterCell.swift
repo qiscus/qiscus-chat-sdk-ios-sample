@@ -48,13 +48,13 @@ class AgentFilterCell: UITableViewCell {
                 dataAgent.isSelected = false
             }
             self.btCheck.isSelected = false
-            self.btCheck.setImage(UIImage(named: "ic_uncheck")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btCheck.setImage(UIImage(named: "ic_rectangle_check"), for: .normal)
         }else{
             if let dataAgent = self.dataAgent {
                 dataAgent.isSelected = true
             }
             self.btCheck.isSelected = true
-            self.btCheck.setImage(UIImage(named: "ic_check_button")?.withRenderingMode(.alwaysTemplate), for: .selected)
+            self.btCheck.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .selected)
         }
         
         if let delegate = self.delegate {
@@ -62,24 +62,22 @@ class AgentFilterCell: UITableViewCell {
                 delegate.updateSelectUnSelect(agent: dataAgent)
             }
         }
-        self.btCheck.tintColor = ColorConfiguration.defaultColorTosca
     }
     
     @IBAction func checkUnCheck(_ sender: Any) {
         if self.btCheck.isSelected == true {
             self.btCheck.isSelected = false
-            self.btCheck.setImage(UIImage(named: "ic_uncheck")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.btCheck.setImage(UIImage(named: "ic_rectangle_check"), for: .normal)
             if let dataAgent = self.dataAgent {
                 dataAgent.isSelected = false
             }
         }else{
             self.btCheck.isSelected = true
-            self.btCheck.setImage(UIImage(named: "ic_check_button")?.withRenderingMode(.alwaysTemplate), for: .selected)
+            self.btCheck.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .selected)
             if let dataAgent = self.dataAgent {
                 dataAgent.isSelected = true
             }
         }
-        self.btCheck.tintColor = ColorConfiguration.defaultColorTosca
         
         if let delegate = self.delegate {
             if let dataAgent = self.dataAgent {

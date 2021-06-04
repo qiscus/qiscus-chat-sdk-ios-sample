@@ -195,6 +195,8 @@
 		3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D97780B24FA225000D083D6 /* GoogleService-Info.plist */; };
 		3D9A29AE25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9A29AC25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift */; };
 		3D9A29AF25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D9A29AD25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib */; };
+		3D9CCD1A26564ACC00CD3D95 /* InboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9CCD1826564ACC00CD3D95 /* InboxCell.swift */; };
+		3D9CCD1B26564ACC00CD3D95 /* InboxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D9CCD1926564ACC00CD3D95 /* InboxCell.xib */; };
 		3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E1248024DD00CEF339 /* CustomerRoom.swift */; };
 		3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */; };
 		3DA788E62480406C00CEF339 /* UIChatListUnservedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */; };
@@ -246,6 +248,8 @@
 		3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB48BAE25A76F5700B5D760 /* BottomAlertInfoHSM.xib */; };
 		3DB48BB725A807EE00B5D760 /* HSMWillExpireSoonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */; };
 		3DB48BB825A807EE00B5D760 /* HSMWillExpireSoonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */; };
+		3DC0D41926674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0D41726674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift */; };
+		3DC0D41A26674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0D41826674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib */; };
 		3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */; };
 		3DC51C22255D08D0008BE893 /* AddAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC51C20255D08CF008BE893 /* AddAgentVC.swift */; };
 		3DC51C23255D08D0008BE893 /* AddAgentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC51C21255D08CF008BE893 /* AddAgentVC.xib */; };
@@ -477,6 +481,8 @@
 		3D97780B24FA225000D083D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D9A29AC25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAMFailedChangePassword.swift; sourceTree = "<group>"; };
 		3D9A29AD25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAMFailedChangePassword.xib; sourceTree = "<group>"; };
+		3D9CCD1826564ACC00CD3D95 /* InboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxCell.swift; sourceTree = "<group>"; };
+		3D9CCD1926564ACC00CD3D95 /* InboxCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InboxCell.xib; sourceTree = "<group>"; };
 		3DA788E1248024DD00CEF339 /* CustomerRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRoom.swift; sourceTree = "<group>"; };
 		3DA788E32480406C00CEF339 /* UIChatListUnservedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIChatListUnservedViewController.swift; sourceTree = "<group>"; };
 		3DA788E42480406C00CEF339 /* UIChatListUnservedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIChatListUnservedViewController.xib; sourceTree = "<group>"; };
@@ -528,6 +534,8 @@
 		3DB48BAE25A76F5700B5D760 /* BottomAlertInfoHSM.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomAlertInfoHSM.xib; sourceTree = "<group>"; };
 		3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSMWillExpireSoonCell.swift; sourceTree = "<group>"; };
 		3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HSMWillExpireSoonCell.xib; sourceTree = "<group>"; };
+		3DC0D41726674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDisableFeatureFilterAgent.swift; sourceTree = "<group>"; };
+		3DC0D41826674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertDisableFeatureFilterAgent.xib; sourceTree = "<group>"; };
 		3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QSiriWaveView.swift; sourceTree = "<group>"; };
 		3DC51C20255D08CF008BE893 /* AddAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAgentVC.swift; sourceTree = "<group>"; };
 		3DC51C21255D08CF008BE893 /* AddAgentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddAgentVC.xib; sourceTree = "<group>"; };
@@ -873,6 +881,8 @@
 				3D26D2B725D4325600735B0A /* AlertMenuUploadVC.xib */,
 				3D0EAE6F25E8E90100481198 /* AlertAMFailedUpdate.swift */,
 				3D0EAE7025E8E90100481198 /* AlertAMFailedUpdate.xib */,
+				3DC0D41726674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift */,
+				3DC0D41826674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib */,
 			);
 			path = AlertVC;
 			sourceTree = "<group>";
@@ -1165,6 +1175,8 @@
 			children = (
 				3DC7FE0E2586633800CCA763 /* AvailabilityAgentCell.swift */,
 				3DC7FE0F2586633800CCA763 /* AvailabilityAgentCell.xib */,
+				3D9CCD1826564ACC00CD3D95 /* InboxCell.swift */,
+				3D9CCD1926564ACC00CD3D95 /* InboxCell.xib */,
 			);
 			path = DrawerCell;
 			sourceTree = "<group>";
@@ -1387,6 +1399,7 @@
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
 				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
 				3D7A39722578A43F005E7FAE /* NoAgentsCell.xib in Resources */,
+				3DC0D41A26674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D3BE4DC2627DD2C0026A63C /* LineChannelCell.xib in Resources */,
 				3D7A396A2577E153005E7FAE /* TagsCustomerInfoCell.xib in Resources */,
@@ -1432,6 +1445,7 @@
 				3D7A39622577C7B7005E7FAE /* AdditionalInformationCell.xib in Resources */,
 				3D0EAE6025E6199800481198 /* AMAlterBillEmailTigaCell.xib in Resources */,
 				3D8A397726412118001CE15D /* FilterByTagCell.xib in Resources */,
+				3D9CCD1B26564ACC00CD3D95 /* InboxCell.xib in Resources */,
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
 				3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */,
@@ -1564,6 +1578,7 @@
 				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
 				3DB48BAF25A76F5700B5D760 /* BottomAlertInfoHSM.swift in Sources */,
 				3D76774E25D2B1F2004C26DC /* AMEmailAddressCell.swift in Sources */,
+				3D9CCD1A26564ACC00CD3D95 /* InboxCell.swift in Sources */,
 				3DB48BAB25A7590900B5D760 /* HSMCell.swift in Sources */,
 				3D76773D25D28958004C26DC /* AccountManagementAgentVC.swift in Sources */,
 				3DC7FDD62585C71700CCA763 /* DetailBroadcastHistoryCell.swift in Sources */,
@@ -1627,6 +1642,7 @@
 				3DC7FE062586589900CCA763 /* RDNavigation.swift in Sources */,
 				3DC7FE0A2586590300CCA763 /* SideBar.swift in Sources */,
 				3D76774425D29223004C26DC /* AMProfileAvatarCell.swift in Sources */,
+				3DC0D41926674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift in Sources */,
 				3DC7FE072586589900CCA763 /* RDNavigationDrawer.swift in Sources */,
 				3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */,
 				3D7A39692577E153005E7FAE /* TagsCustomerInfoCell.swift in Sources */,
@@ -1862,7 +1878,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1893,7 +1909,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

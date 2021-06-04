@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dO-lh-ltC" userLabel="name">
-                        <rect key="frame" x="0.0" y="10" width="373" height="20"/>
+                        <rect key="frame" x="0.0" y="10" width="383" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="1ja-uR-rb2"/>
                         </constraints>
@@ -32,7 +32,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9aG-7h-sV2">
-                        <rect key="frame" x="0.0" y="32" width="373" height="20"/>
+                        <rect key="frame" x="0.0" y="32" width="383" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="Raw-Hb-2qT"/>
                         </constraints>
@@ -50,12 +50,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vOu-1q-kiT">
-                        <rect key="frame" x="381" y="27" width="30" height="30"/>
+                        <rect key="frame" x="391" y="32" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="30" id="6Yp-Lt-yoF"/>
-                            <constraint firstAttribute="height" constant="30" id="Fj5-Uv-3FI"/>
+                            <constraint firstAttribute="width" constant="20" id="6Yp-Lt-yoF"/>
+                            <constraint firstAttribute="height" constant="20" id="Fj5-Uv-3FI"/>
                         </constraints>
-                        <state key="normal" image="ic_uncheck"/>
+                        <state key="normal" image="ic_rectangle_check"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Til-e9-TBo">
                         <rect key="frame" x="0.0" y="10" width="421" height="64"/>
@@ -101,6 +101,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_uncheck" width="60" height="60"/>
+        <image name="ic_rectangle_check" width="30" height="30"/>
     </resources>
 </document>

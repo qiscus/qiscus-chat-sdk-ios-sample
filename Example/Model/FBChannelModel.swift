@@ -15,7 +15,7 @@ public class FBChannelModel : NSObject {
     var isSelected: Bool = false
     init(json: JSON) {
         self.id             = json["id"].int ?? 0
-        self.name           = json["profile_name"].string ?? ""
+        self.name           = json["profile_name"].string ?? "Facebook"
         self.isSelected     = false
     }
 }

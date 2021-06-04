@@ -257,6 +257,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(UINib(nibName: "AvailabilityAgentCell", bundle: nil), forCellReuseIdentifier: "AvailabilityAgentCellIdentifire")
+        self.tableView.register(UINib(nibName: "InboxCell", bundle: nil), forCellReuseIdentifier: "InboxCellIdentifire")
         
         self.tableView.tableFooterView = UIView()
         self.tableView.reloadData()
@@ -268,17 +269,60 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if hideOnlineOfflineAgent == true {
-            return 0
-        } else {
             return 1
+        } else {
+            return 2
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AvailabilityAgentCellIdentifire", for: indexPath) as! AvailabilityAgentCell
-        cell.getProfileInfo()
-        return cell
+        if hideOnlineOfflineAgent == true {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InboxCellIdentifire", for: indexPath) as! InboxCell
+            cell.viewInbox.layer.shadowColor = UIColor.black.cgColor
+            cell.viewInbox.layer.shadowOffset = CGSize(width: 1, height: 1)
+            cell.viewInbox.layer.shadowOpacity = 0.3
+            cell.viewInbox.layer.shadowRadius = 1.0
+            cell.viewInbox.layer.cornerRadius = 8
+            return cell
+        }else{
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AvailabilityAgentCellIdentifire", for: indexPath) as! AvailabilityAgentCell
+                cell.getProfileInfo()
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "InboxCellIdentifire", for: indexPath) as! InboxCell
+                cell.viewInbox.layer.shadowColor = UIColor.black.cgColor
+                cell.viewInbox.layer.shadowOffset = CGSize(width: 1, height: 1)
+                cell.viewInbox.layer.shadowOpacity = 0.3
+                cell.viewInbox.layer.shadowRadius = 1.0
+                cell.viewInbox.layer.cornerRadius = 8
+                return cell
+            }
+        }
+       
+        return UITableViewCell()
         
+    }
+    
+    func goInbox(){
+        if let navController = self.currentViewController()?.navigationController {
+            let newVC = HomeVC()
+
+            var stack = navController.viewControllers
+            stack.remove(at: stack.count - 1)       // remove current VC
+            stack.insert(newVC, at: stack.count) // add the new one
+            navController.setViewControllers(stack, animated: true) // boom!
+         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if hideOnlineOfflineAgent == true {
+            goInbox()
+        }else{
+            if indexPath.row == 1 {
+                goInbox()
+            }
+        }
     }
     
     func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

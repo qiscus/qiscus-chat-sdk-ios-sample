@@ -42,7 +42,7 @@
                         </userDefinedRuntimeAttributes>
                     </textField>
                     <view multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BsM-Pi-NWf" customClass="TagListView" customModule="Qiscus_Multichannel" customModuleProvider="target">
-                        <rect key="frame" x="25" y="105" width="427" height="160"/>
+                        <rect key="frame" x="25" y="110" width="427" height="155"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tagBackgroundColor">
@@ -88,20 +88,54 @@
                             <constraint firstAttribute="height" id="NMu-eD-ffp"/>
                         </constraints>
                     </tableView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JK4-kG-HOx" userLabel="viewNoTag">
+                        <rect key="frame" x="25" y="85" width="432" height="0.0"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No tag for keyword" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W2d-X9-n9i">
+                                <rect key="frame" x="8" y="-10" width="138" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="3az-VW-DV6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;&quot;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bK-U8-pwM">
+                                <rect key="frame" x="156" y="-10" width="15" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="aje-db-G8t"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="8bK-U8-pwM" firstAttribute="centerY" secondItem="W2d-X9-n9i" secondAttribute="centerY" id="DIc-bJ-a40"/>
+                            <constraint firstItem="W2d-X9-n9i" firstAttribute="leading" secondItem="JK4-kG-HOx" secondAttribute="leading" constant="8" id="Pj2-8g-HvJ"/>
+                            <constraint firstItem="8bK-U8-pwM" firstAttribute="leading" secondItem="W2d-X9-n9i" secondAttribute="trailing" constant="10" id="eMG-ix-uQF"/>
+                            <constraint firstAttribute="height" id="gqe-Cr-6Nz"/>
+                            <constraint firstItem="W2d-X9-n9i" firstAttribute="centerY" secondItem="JK4-kG-HOx" secondAttribute="centerY" id="hKF-CP-dVT"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="BsM-Pi-NWf" secondAttribute="trailing" constant="25" id="0s7-on-0hF"/>
-                    <constraint firstItem="BsM-Pi-NWf" firstAttribute="top" secondItem="F76-3s-kHY" secondAttribute="bottom" constant="20" id="6Yx-5s-rR8"/>
                     <constraint firstItem="fKb-Ml-fAx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="7wr-1a-Tjj"/>
                     <constraint firstItem="gD3-AE-WNT" firstAttribute="leading" secondItem="oEX-RI-BPb" secondAttribute="trailing" constant="-35" id="BsR-DA-gQY"/>
-                    <constraint firstItem="F76-3s-kHY" firstAttribute="top" secondItem="oEX-RI-BPb" secondAttribute="bottom" id="EiU-dI-MCR"/>
+                    <constraint firstItem="F76-3s-kHY" firstAttribute="top" secondItem="JK4-kG-HOx" secondAttribute="bottom" id="EiU-dI-MCR"/>
                     <constraint firstItem="F76-3s-kHY" firstAttribute="trailing" secondItem="oEX-RI-BPb" secondAttribute="trailing" id="J88-LM-0D6"/>
                     <constraint firstAttribute="trailingMargin" secondItem="gD3-AE-WNT" secondAttribute="trailing" id="Jek-vA-BCG"/>
+                    <constraint firstItem="BsM-Pi-NWf" firstAttribute="top" secondItem="F76-3s-kHY" secondAttribute="bottom" constant="25" id="P4L-mo-NFY"/>
+                    <constraint firstItem="JK4-kG-HOx" firstAttribute="top" secondItem="gD3-AE-WNT" secondAttribute="bottom" id="P9G-UI-G8j"/>
                     <constraint firstItem="oEX-RI-BPb" firstAttribute="leading" secondItem="fKb-Ml-fAx" secondAttribute="leading" id="bhG-jf-csT"/>
                     <constraint firstItem="oEX-RI-BPb" firstAttribute="top" secondItem="fKb-Ml-fAx" secondAttribute="bottom" constant="15" id="dlX-oC-a5s"/>
+                    <constraint firstItem="JK4-kG-HOx" firstAttribute="trailing" secondItem="gD3-AE-WNT" secondAttribute="trailing" id="f52-Q4-hxa"/>
                     <constraint firstItem="BsM-Pi-NWf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="hjV-kA-HFl"/>
                     <constraint firstAttribute="bottom" secondItem="BsM-Pi-NWf" secondAttribute="bottom" constant="25" id="jnj-8p-isl"/>
                     <constraint firstItem="F76-3s-kHY" firstAttribute="leading" secondItem="oEX-RI-BPb" secondAttribute="leading" id="uuj-ig-MmY"/>
+                    <constraint firstItem="JK4-kG-HOx" firstAttribute="leading" secondItem="oEX-RI-BPb" secondAttribute="leading" id="vXn-lu-j2F"/>
                     <constraint firstItem="fKb-Ml-fAx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="wEe-uS-XVf"/>
                     <constraint firstItem="gD3-AE-WNT" firstAttribute="centerY" secondItem="oEX-RI-BPb" secondAttribute="centerY" id="y3y-ZC-IDJ"/>
                 </constraints>
@@ -111,9 +145,12 @@
                 <outlet property="btAddTags" destination="gD3-AE-WNT" id="QeA-Ga-mfM"/>
                 <outlet property="heightTVAddNewTagsCons" destination="swI-hs-rbs" id="ypP-Gy-LTU"/>
                 <outlet property="heightTableViewCons" destination="NMu-eD-ffp" id="q9J-f4-L9N"/>
+                <outlet property="heightViewNoTagCons" destination="gqe-Cr-6Nz" id="trq-FY-3DN"/>
+                <outlet property="lbSearchNoTag" destination="8bK-U8-pwM" id="m1f-pQ-DY6"/>
                 <outlet property="tableView" destination="F76-3s-kHY" id="KqI-uT-Wz8"/>
                 <outlet property="tagListView" destination="BsM-Pi-NWf" id="QBY-nY-Vqc"/>
                 <outlet property="tvAddNewTags" destination="oEX-RI-BPb" id="F4T-7q-EPN"/>
+                <outlet property="viewNoTag" destination="JK4-kG-HOx" id="VlO-lo-FwF"/>
             </connections>
             <point key="canvasLocation" x="254.34782608695653" y="62.276785714285708"/>
         </tableViewCell>
