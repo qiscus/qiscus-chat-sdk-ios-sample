@@ -248,6 +248,21 @@
 		3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB48BAE25A76F5700B5D760 /* BottomAlertInfoHSM.xib */; };
 		3DB48BB725A807EE00B5D760 /* HSMWillExpireSoonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */; };
 		3DB48BB825A807EE00B5D760 /* HSMWillExpireSoonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */; };
+		3DBBF0D4266DC7BB005FBDAE /* ResolvedALLWAVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBF0D2266DC7BB005FBDAE /* ResolvedALLWAVC.swift */; };
+		3DBBF0D5266DC7BB005FBDAE /* ResolvedALLWAVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBBF0D3266DC7BB005FBDAE /* ResolvedALLWAVC.xib */; };
+		3DBBF0DB266DDA48005FBDAE /* ResolveALLExpiredWACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBF0D9266DDA48005FBDAE /* ResolveALLExpiredWACell.swift */; };
+		3DBBF0DC266DDA48005FBDAE /* ResolveALLExpiredWACell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBBF0DA266DDA48005FBDAE /* ResolveALLExpiredWACell.xib */; };
+		3DBBF0DF266DE152005FBDAE /* WAChannelResolveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBF0DE266DE152005FBDAE /* WAChannelResolveModel.swift */; };
+		3DBBF0E4266DE7E8005FBDAE /* AlertResolveWAChannelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBF0E2266DE7E8005FBDAE /* AlertResolveWAChannelVC.swift */; };
+		3DBBF0E5266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBBF0E3266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib */; };
+		3DBBF0E8266DF50D005FBDAE /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBF0E7266DF50D005FBDAE /* ProgressBar.swift */; };
+		3DBBF0EB266DF54B005FBDAE /* LinearProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBBF0EA266DF54B005FBDAE /* LinearProgressBar.swift */; };
+		3DC02381266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0237F266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.swift */; };
+		3DC02382266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC02380266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.xib */; };
+		3DC02386266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC02384266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.swift */; };
+		3DC02387266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC02385266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib */; };
+		3DC0238B266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC02389266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift */; };
+		3DC0238C266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0238A266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.xib */; };
 		3DC0D41926674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0D41726674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift */; };
 		3DC0D41A26674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0D41826674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib */; };
 		3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */; };
@@ -534,6 +549,21 @@
 		3DB48BAE25A76F5700B5D760 /* BottomAlertInfoHSM.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomAlertInfoHSM.xib; sourceTree = "<group>"; };
 		3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSMWillExpireSoonCell.swift; sourceTree = "<group>"; };
 		3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HSMWillExpireSoonCell.xib; sourceTree = "<group>"; };
+		3DBBF0D2266DC7BB005FBDAE /* ResolvedALLWAVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolvedALLWAVC.swift; sourceTree = "<group>"; };
+		3DBBF0D3266DC7BB005FBDAE /* ResolvedALLWAVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResolvedALLWAVC.xib; sourceTree = "<group>"; };
+		3DBBF0D9266DDA48005FBDAE /* ResolveALLExpiredWACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolveALLExpiredWACell.swift; sourceTree = "<group>"; };
+		3DBBF0DA266DDA48005FBDAE /* ResolveALLExpiredWACell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResolveALLExpiredWACell.xib; sourceTree = "<group>"; };
+		3DBBF0DE266DE152005FBDAE /* WAChannelResolveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WAChannelResolveModel.swift; sourceTree = "<group>"; };
+		3DBBF0E2266DE7E8005FBDAE /* AlertResolveWAChannelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertResolveWAChannelVC.swift; sourceTree = "<group>"; };
+		3DBBF0E3266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertResolveWAChannelVC.xib; sourceTree = "<group>"; };
+		3DBBF0E7266DF50D005FBDAE /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		3DBBF0EA266DF54B005FBDAE /* LinearProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearProgressBar.swift; sourceTree = "<group>"; };
+		3DC0237F266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressResolveALLExpiredWACell.swift; sourceTree = "<group>"; };
+		3DC02380266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InProgressResolveALLExpiredWACell.xib; sourceTree = "<group>"; };
+		3DC02384266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingResolveALLExpiredWACell.swift; sourceTree = "<group>"; };
+		3DC02385266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WaitingResolveALLExpiredWACell.xib; sourceTree = "<group>"; };
+		3DC02389266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertResolveCancelationWAChannelVC.swift; sourceTree = "<group>"; };
+		3DC0238A266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertResolveCancelationWAChannelVC.xib; sourceTree = "<group>"; };
 		3DC0D41726674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDisableFeatureFilterAgent.swift; sourceTree = "<group>"; };
 		3DC0D41826674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertDisableFeatureFilterAgent.xib; sourceTree = "<group>"; };
 		3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QSiriWaveView.swift; sourceTree = "<group>"; };
@@ -701,6 +731,7 @@
 				3D3BE4FB2629331A0026A63C /* QiscusWidgetChannelModel.swift */,
 				3D3BE50D26293CC50026A63C /* TelegramChannelModel.swift */,
 				3D1282CB2649187A009F201E /* FeaturesModel.swift */,
+				3DBBF0DE266DE152005FBDAE /* WAChannelResolveModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -730,6 +761,8 @@
 				3D40B85E2192E20900FE7228 /* QPopUpView.swift */,
 				3D40B8622192E20900FE7228 /* QPopUpView.xib */,
 				3DC51C1B255B8BB2008BE893 /* QSiriWaveView.swift */,
+				3DBBF0E7266DF50D005FBDAE /* ProgressBar.swift */,
+				3DBBF0EA266DF54B005FBDAE /* LinearProgressBar.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -1140,6 +1173,40 @@
 			path = FilterByChannel;
 			sourceTree = "<group>";
 		};
+		3DBBF0D1266DC78E005FBDAE /* ResolvedALLWA */ = {
+			isa = PBXGroup;
+			children = (
+				3DBBF0D8266DDA2A005FBDAE /* Cell */,
+				3DBBF0D2266DC7BB005FBDAE /* ResolvedALLWAVC.swift */,
+				3DBBF0D3266DC7BB005FBDAE /* ResolvedALLWAVC.xib */,
+			);
+			path = ResolvedALLWA;
+			sourceTree = "<group>";
+		};
+		3DBBF0D8266DDA2A005FBDAE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				3DBBF0D9266DDA48005FBDAE /* ResolveALLExpiredWACell.swift */,
+				3DBBF0DA266DDA48005FBDAE /* ResolveALLExpiredWACell.xib */,
+				3DC0237F266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.swift */,
+				3DC02380266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.xib */,
+				3DC02384266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.swift */,
+				3DC02385266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		3DBBF0E1266DE7BF005FBDAE /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				3DBBF0E2266DE7E8005FBDAE /* AlertResolveWAChannelVC.swift */,
+				3DBBF0E3266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib */,
+				3DC02389266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift */,
+				3DC0238A266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.xib */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
 		3DC51C1F255D0890008BE893 /* AddRemoveAgent */ = {
 			isa = PBXGroup;
 			children = (
@@ -1269,6 +1336,8 @@
 		3DDEFB632192D35600484795 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				3DBBF0E1266DE7BF005FBDAE /* Alert */,
+				3DBBF0D1266DC78E005FBDAE /* ResolvedALLWA */,
 				3DAF55242625338F00208B99 /* Filter */,
 				3DC7FDFB2586546900CCA763 /* Home */,
 				3DAF2A35222E62330002B4E3 /* RoomInfo */,
@@ -1394,8 +1463,10 @@
 				3D3BE4E926287A190026A63C /* FBChannelCell.xib in Resources */,
 				3D3BE506262934240026A63C /* QiscusWidgetChannelCell.xib in Resources */,
 				3D0EAE6D25E8D35300481198 /* AccountManagementSPVVC.xib in Resources */,
+				3DBBF0D5266DC7BB005FBDAE /* ResolvedALLWAVC.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D8A397E2644DF93001CE15D /* FilterByAgentCell.xib in Resources */,
+				3DC02387266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib in Resources */,
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
 				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
 				3D7A39722578A43F005E7FAE /* NoAgentsCell.xib in Resources */,
@@ -1410,6 +1481,7 @@
 				3D40B8D72192E20C00FE7228 /* QSystemCell.xib in Resources */,
 				3DA788EA2480613E00CEF339 /* UIChatListServedViewController.xib in Resources */,
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
+				3DC02382266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
 				3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */,
 				3DAF5528262533BD00208B99 /* FilterVC.xib in Resources */,
@@ -1418,11 +1490,13 @@
 				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
 				3DC7FDCD25850E5A00CCA763 /* BroadcastHistoryCell.xib in Resources */,
 				3D3BE4F126288B9F0026A63C /* FilterChannelMultipleCustomCHCell.xib in Resources */,
+				3DC0238C266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.xib in Resources */,
 				3D3BE5132629407C0026A63C /* FilterByChannelCell.xib in Resources */,
 				3D40B8D52192E20C00FE7228 /* QImageLeftCell.xib in Resources */,
 				3D0EAE4225E5FC9A00481198 /* AccountManagementAdminVC.xib in Resources */,
 				3D3BE4D22626EEEE0026A63C /* UIChatListALLViewController.xib in Resources */,
 				3D7A395E2577ADCF005E7FAE /* CompleteTaskCell.xib in Resources */,
+				3DBBF0E5266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
 				3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */,
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
@@ -1492,6 +1566,7 @@
 				3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */,
 				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
 				3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */,
+				3DBBF0DC266DDA48005FBDAE /* ResolveALLExpiredWACell.xib in Resources */,
 				3D3BE5012629338F0026A63C /* FilterChannelMultipleQiscusWidgetCell.xib in Resources */,
 				3DC51C28255D0EA9008BE893 /* AgentCell.xib in Resources */,
 				3DC7FDD72585C71700CCA763 /* DetailBroadcastHistoryCell.xib in Resources */,
@@ -1576,6 +1651,7 @@
 				3D3BE4EC26287C720026A63C /* FBChannelModel.swift in Sources */,
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
 				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
+				3DBBF0DF266DE152005FBDAE /* WAChannelResolveModel.swift in Sources */,
 				3DB48BAF25A76F5700B5D760 /* BottomAlertInfoHSM.swift in Sources */,
 				3D76774E25D2B1F2004C26DC /* AMEmailAddressCell.swift in Sources */,
 				3D9CCD1A26564ACC00CD3D95 /* InboxCell.swift in Sources */,
@@ -1595,10 +1671,12 @@
 				3D0B8B1D255D88CA002A484F /* TagListView.swift in Sources */,
 				3DC7FDCC25850E5A00CCA763 /* BroadcastHistoryCell.swift in Sources */,
 				3D0EAE4B25E6071500481198 /* AMAddressCell.swift in Sources */,
+				3DC02386266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.swift in Sources */,
 				3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
 				3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
+				3DBBF0D4266DC7BB005FBDAE /* ResolvedALLWAVC.swift in Sources */,
 				3D7A395D2577ADCF005E7FAE /* CompleteTaskCell.swift in Sources */,
 				3D0EAE4125E5FC9A00481198 /* AccountManagementAdminVC.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
@@ -1649,13 +1727,16 @@
 				3D0EAE5525E60FCF00481198 /* AMAlterBillEmailSatuCell.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
 				3D26D2B825D4325600735B0A /* AlertMenuUploadVC.swift in Sources */,
+				3DBBF0DB266DDA48005FBDAE /* ResolveALLExpiredWACell.swift in Sources */,
 				3D40B8AF2192E20C00FE7228 /* QUIBaseChatCell.swift in Sources */,
 				3DA8244D2301B3980054D92F /* QCardRightCell.swift in Sources */,
+				3DC02381266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.swift in Sources */,
 				3D12875125FB16FA001A5962 /* QReplyRightCell.swift in Sources */,
 				3D3854B621B4E34800435B31 /* UIChatListViewCell.swift in Sources */,
 				3DD6E59325AD6FE300BF96AD /* URLExtension.swift in Sources */,
 				3DA824572301C2DA0054D92F /* QCard.swift in Sources */,
 				3DC51C27255D0EA9008BE893 /* AgentCell.swift in Sources */,
+				3DBBF0E8266DF50D005FBDAE /* ProgressBar.swift in Sources */,
 				3DD017CD254858030031FF46 /* RefreshToken.swift in Sources */,
 				3DC51C22255D08D0008BE893 /* AddAgentVC.swift in Sources */,
 				3D7A397E25793C16005E7FAE /* AdditionalInformationModel.swift in Sources */,
@@ -1665,6 +1746,7 @@
 				3D0EAE4625E6040C00481198 /* AMCompanyNameCell.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
 				3D7A39652577CA0C005E7FAE /* NotesCell.swift in Sources */,
+				3DC0238B266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift in Sources */,
 				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
 				3D3BE505262934240026A63C /* QiscusWidgetChannelCell.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
@@ -1703,9 +1785,11 @@
 				3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */,
 				3D3BE4FC2629331A0026A63C /* QiscusWidgetChannelModel.swift in Sources */,
 				3D7A39712578A43F005E7FAE /* NoAgentsCell.swift in Sources */,
+				3DBBF0E4266DE7E8005FBDAE /* AlertResolveWAChannelVC.swift in Sources */,
 				3DA788FD2480D84A00CEF339 /* QReplyImageLeftCell.swift in Sources */,
 				3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */,
 				3DC7FDD22585A8B400CCA763 /* BroadcastHistoryVC.swift in Sources */,
+				3DBBF0EB266DF54B005FBDAE /* LinearProgressBar.swift in Sources */,
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
@@ -1878,7 +1962,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1890,7 +1974,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
@@ -1909,7 +1993,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -1919,7 +2003,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";

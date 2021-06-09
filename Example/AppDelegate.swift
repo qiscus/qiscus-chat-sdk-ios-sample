@@ -216,6 +216,7 @@ extension AppDelegate {
             defaults.removeObject(forKey: "filterAgent")
             defaults.removeObject(forKey: "filterSelectedTypeWA")
             defaults.removeObject(forKey: "lastSelectedListRoom")
+            defaults.removeObject(forKey: "ic_resolved_all_WA_active")
             if self.timer != nil {
                 self.timer?.invalidate()
                 self.timer = nil

@@ -398,9 +398,25 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         let actionSearchButton = self.actionSearchButton(self, action: #selector(HomeVC.openSearchUI))
         let actionFilterButton = self.actionFilterButton(self, action: #selector(HomeVC.openFilter))
+        let actionResolvedALLWAButton = self.actionResolvedALLWAButton(self, action: #selector(HomeVC.openResolvedALLWA))
         
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType != 2{
+                //admin //spv
+                if defaults.bool(forKey: "ic_resolved_all_WA_active") != false{
+                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+                }else{
+                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+                }
+            }else{
+                //agent
+                self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+            }
+        }else{
+            self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+        }
         
-        self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+       
         
         //assign button to navigationbar
         self.navigationItem.leftBarButtonItem = barButtonDrawer
@@ -447,12 +463,30 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         return UIBarButtonItem(customView: actionButton)
     }
     
+    private func actionResolvedALLWAButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
+        let menuIcon = UIImageView()
+        menuIcon.contentMode = .scaleAspectFit
+        var image = UIImage(named: "ic_resolved_all_wa")
+        menuIcon.image = image
+        menuIcon.frame = CGRect(x: 0,y: 0,width: 25,height: 30)
+       
+        let actionButton = UIButton(frame:CGRect(x: 0,y: 0,width: 30,height: 30))
+        actionButton.addSubview(menuIcon)
+        actionButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
+        return UIBarButtonItem(customView: actionButton)
+    }
+    
     @objc func openMenu() {
         RDNavigationDrawer.sideToggle()
     }
     
     @objc func openFilter() {
         let vc = FilterVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func openResolvedALLWA() {
+        let vc = ResolvedALLWAVC()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -588,16 +622,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
-        
-        //assign button to navigationbar
-        self.navigationItem.rightBarButtonItem = nil
-        
-        let actionSearchButton = self.actionSearchButton(self, action: #selector(HomeVC.openSearchUI))
-        let actionFilterButton = self.actionFilterButton(self, action: #selector(HomeVC.openFilter))
-        
-        
-        self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+
+        self.getConfigResolvedALLWA()
     }
     
     func throttleGetList() {
@@ -672,6 +698,54 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 self.loadingIndicator.isHidden = true
                 self.tableViewSearch.isHidden = true
                 self.lbRoomsNotFound.isHidden = true
+            }
+        }
+    }
+    
+    func getConfigResolvedALLWA(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/channels", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getConfigResolvedALLWA()
+                            } else {
+                               
+                                return
+                            }
+                        }
+                    }else{
+                        //show error
+                        self.setupUINavBar()
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                  
+                    let waChannels = json["data"]["wa_channels"].array
+                   
+                    
+                    if waChannels?.count != 0 {
+                        self.defaults.setValue(true, forKey: "ic_resolved_all_WA_active")
+                    }else{
+                        self.defaults.setValue(false, forKey: "ic_resolved_all_WA_active")
+                    }
+                    
+                    self.setupUINavBar()
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.setupUINavBar()
+            } else {
+                //failed
+                self.setupUINavBar()
             }
         }
     }
