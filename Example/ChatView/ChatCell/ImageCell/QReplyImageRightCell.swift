@@ -207,7 +207,7 @@ class QReplyImageRightCell: UIBaseChatCell {
             break
         case .delivered:
             lbTime.textColor = ColorConfiguration.timeLabelTextColor
-            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.tintColor = ColorConfiguration.sentOrDeliveredColor
             ivStatus.image = UIImage(named: "ic_read")?.withRenderingMode(.alwaysTemplate)
             break
         case .read:

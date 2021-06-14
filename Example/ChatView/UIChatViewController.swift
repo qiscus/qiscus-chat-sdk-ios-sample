@@ -11,6 +11,7 @@ import SwiftyJSON
 import QiscusCore
 import Alamofire
 import iRecordView
+import AVFoundation
 
 // Chat view blue print or function
 protocol UIChatView {
@@ -1380,6 +1381,20 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             }
         }
         self.viewResloved.isHidden = false
+    }
+    
+    public func datePresentString() -> String {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        let enUSPosixLocale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.locale = enUSPosixLocale
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+        
+        let iso8601String = dateFormatter.string(from: date as Date)
+        
+        return iso8601String
     }
     
     @objc func goActionButton() {

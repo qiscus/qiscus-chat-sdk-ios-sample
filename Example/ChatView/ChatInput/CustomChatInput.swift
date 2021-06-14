@@ -706,6 +706,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                 var data:Data = try Data(contentsOf: dataURL, options: NSData.ReadingOptions.mappedIfSafe)
                 let mediaSize = Double(data.count) / 1024.0
                 var hiddenIconFileAttachment = true
+                var skip = false
                 if mediaSize > self.maxUploadSizeInKB {
                     self.showFileTooBigAlert()
                     return
@@ -799,6 +800,127 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                 }else if video {
                     fileType = .video
                     
+                    if ext == ".mov" || ext == "mov" || ext == "mov_" {
+                        skip = true
+                        
+                        let date = Date()
+                        let formatter = DateFormatter.init()
+                        formatter.dateFormat = "yyyyMMddHHmmss"
+                        let fileName3 = formatter.string(from: date) + ".mp4"
+                        
+                        let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as NSString
+                        let videoSandBoxPath = (docPath as String) + "/albumVideo" + fileName3
+                        
+                        
+                        // Transcoding configuration
+                        let avAsset = AVURLAsset.init(url: fileUrl, options: nil)
+                        
+                        let startDate = Date()
+                        
+                        //Create Export session
+                        guard let exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetPassthrough) else {
+                            return
+                        }
+                        
+                        
+                        exportSession.outputURL = URL.init(fileURLWithPath: videoSandBoxPath)
+                        exportSession.outputFileType = AVFileType.mp4
+                        exportSession.shouldOptimizeForNetworkUse = true
+                        let start = CMTimeMakeWithSeconds(0.0, preferredTimescale: 0)
+                        let range = CMTimeRangeMake(start: start, duration: avAsset.duration)
+                        exportSession.timeRange = range
+                        
+                        exportSession.exportAsynchronously(completionHandler: {() -> Void in
+                            switch exportSession.status {
+                            case .failed:
+                                print(exportSession.error ?? "NO ERROR")
+                            case .cancelled:
+                                print("Export canceled")
+                            case .completed:
+                                //Video conversion finished
+                                let endDate = Date()
+                                
+                                let time = endDate.timeIntervalSince(startDate)
+                                print(time)
+                                print("Successful!")
+                                
+                                let dataurl = URL.init(fileURLWithPath: videoSandBoxPath)
+                                
+                                do {
+                                    let video = try Data(contentsOf: dataurl, options: .mappedIfSafe)
+                                    
+                                    var message = CommentModel()
+                                    
+                                    DispatchQueue.main.sync(execute: {
+                                        QPopUpView.showAlert(withTarget: self, image: thumb, message:"Are you sure to send this video?", isVideoImage: true,
+                                                             doneAction: {
+                                                                self.send(message: message, onSuccess: { (comment) in
+                                                                    //success
+                                                                }, onError: { (error) in
+                                                                    //error
+                                                                })
+                                                             },
+                                                             cancelAction: {
+                                                                //cancel upload
+                                                             }, retryAction: {
+                                                                //retry upload
+                                                                QiscusCore.shared.upload(data: video, filename: fileName3, onSuccess: { (file) in
+                                                                    message.type = "file_attachment"
+                                                                    message.payload = [
+                                                                        "url"       : file.url.absoluteString,
+                                                                        "file_name" : file.name,
+                                                                        "size"      : file.size,
+                                                                        "caption"   : ""
+                                                                    ]
+                                                                    message.message = "Send Attachment"
+                                                                    
+                                                                    QPopUpView.sharedInstance.hiddenProgress()
+                                                                    
+                                                                }, onError: { (error) in
+                                                                    
+                                                                    let defaults = UserDefaults.standard
+                                                                    defaults.set(false, forKey: "hasInternet")
+                                                                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                                                                    QPopUpView.sharedInstance.showRetry()
+                                                                }) { (progress) in
+                                                                    print("progress =\(progress)")
+                                                                    QPopUpView.sharedInstance.showProgress(progress: progress)
+                                                                }
+                                                             })
+                                        
+                                        QiscusCore.shared.upload(data: video, filename: fileName3, onSuccess: { (file) in
+                                            message.type = "file_attachment"
+                                            message.payload = [
+                                                "url"       : file.url.absoluteString,
+                                                "file_name" : file.name,
+                                                "size"      : file.size,
+                                                "caption"   : ""
+                                            ]
+                                            message.message = "Send Attachment"
+                                            
+                                            QPopUpView.sharedInstance.hiddenProgress()
+                                            
+                                        }, onError: { (error) in
+                                            let defaults = UserDefaults.standard
+                                            defaults.set(false, forKey: "hasInternet")
+                                            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                                            QPopUpView.sharedInstance.showRetry()
+                                        }) { (progress) in
+                                            print("progress =\(progress)")
+                                            QPopUpView.sharedInstance.showProgress(progress: progress)
+                                        }
+                                    })
+                                } catch {
+                                    print(error)
+                                    return
+                                }
+                                
+                            default: break
+                            }
+                            
+                        })
+                    }
+                    
                     let assetMedia = AVURLAsset(url: dataURL)
                     let thumbGenerator = AVAssetImageGenerator(asset: assetMedia)
                     thumbGenerator.appliesPreferredTrackTransform = true
@@ -827,46 +949,70 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                     thumb = nil
                 }
                 
-                if usePopup {
-                    let startDate = Date()
-                    QiscusCore.shared.synchronize { (comments) in
-                        let now = startDate
-                        
-                        let currentDate = Date()
-                        let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: currentDate)
-                        let seconds = diffComponents.second ?? 0
-                        
-                        if seconds >= 5 {
+                if skip == false {
+                    if usePopup {
+                        let startDate = Date()
+                        QiscusCore.shared.synchronize { (comments) in
+                            let now = startDate
+                            
+                            let currentDate = Date()
+                            let diffComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: now, to: currentDate)
+                            let seconds = diffComponents.second ?? 0
+                            
+                            if seconds >= 5 {
+                                let defaults = UserDefaults.standard
+                                defaults.set(false, forKey: "hasInternet")
+                                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                            }else{
+                                let defaults = UserDefaults.standard
+                                defaults.set(true, forKey: "hasInternet")
+                                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
+                            }
+                        } onError: { (error) in
                             let defaults = UserDefaults.standard
                             defaults.set(false, forKey: "hasInternet")
                             NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
-                        }else{
-                            let defaults = UserDefaults.standard
-                            defaults.set(true, forKey: "hasInternet")
-                            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "stableConnection"), object: nil)
                         }
-                    } onError: { (error) in
-                        let defaults = UserDefaults.standard
-                        defaults.set(false, forKey: "hasInternet")
-                        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
-                    }
-                    
-                    
-                    var message = CommentModel()
-                    
-                    QPopUpView.showAlert(withTarget: self, image: thumb, message:popupText, isVideoImage: video, hiddenIconFileAttachment: hiddenIconFileAttachment,
-                    doneAction: {
-                        self.send(message: message, onSuccess: { (comment) in
-                        //success
-                    }, onError: { (error) in
-                        //error
-                    })
-                    },
-                    cancelAction: {
-                        //cancel upload
-                    },
-                    retryAction: {
-                        //retry upload
+                        
+                        
+                        var message = CommentModel()
+                        
+                        QPopUpView.showAlert(withTarget: self, image: thumb, message:popupText, isVideoImage: video, hiddenIconFileAttachment: hiddenIconFileAttachment,
+                        doneAction: {
+                            self.send(message: message, onSuccess: { (comment) in
+                            //success
+                        }, onError: { (error) in
+                            //error
+                        })
+                        },
+                        cancelAction: {
+                            //cancel upload
+                        },
+                        retryAction: {
+                            //retry upload
+                            QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
+                                message.type = "file_attachment"
+                                message.payload = [
+                                    "url"       : file.url.absoluteString,
+                                    "file_name" : file.name,
+                                    "size"      : file.size,
+                                    "caption"   : ""
+                                ]
+                                message.message = "Send Attachment"
+                                
+                                QPopUpView.sharedInstance.hiddenProgress()
+                                
+                            }, onError: { (error) in
+                                let defaults = UserDefaults.standard
+                                defaults.set(false, forKey: "hasInternet")
+                                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                                QPopUpView.sharedInstance.showRetry()
+                            }) { (progress) in
+                                print("progress =\(progress)")
+                                QPopUpView.sharedInstance.showProgress(progress: progress)
+                            }
+                        })
+                        
                         QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
                             message.type = "file_attachment"
                             message.payload = [
@@ -888,37 +1034,14 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                             print("progress =\(progress)")
                             QPopUpView.sharedInstance.showProgress(progress: progress)
                         }
-                    })
-                    
-                    QiscusCore.shared.upload(data: data, filename: fileName, onSuccess: { (file) in
-                        message.type = "file_attachment"
-                        message.payload = [
-                            "url"       : file.url.absoluteString,
-                            "file_name" : file.name,
-                            "size"      : file.size,
-                            "caption"   : ""
-                        ]
-                        message.message = "Send Attachment"
-                        
-                        QPopUpView.sharedInstance.hiddenProgress()
-                        
-                    }, onError: { (error) in
-                        let defaults = UserDefaults.standard
-                        defaults.set(false, forKey: "hasInternet")
-                        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
-                        QPopUpView.sharedInstance.showRetry()
-                    }) { (progress) in
-                        print("progress =\(progress)")
-                        QPopUpView.sharedInstance.showProgress(progress: progress)
+                    }else{
+                        let uploader = QiscusUploaderVC(nibName: "QiscusUploaderVC", bundle: nil)
+                        uploader.chatView = self
+                        uploader.data = data
+                        uploader.fileName = fileName
+                        self.navigationController?.pushViewController(uploader, animated: true)
                     }
-                }else{
-                    let uploader = QiscusUploaderVC(nibName: "QiscusUploaderVC", bundle: nil)
-                    uploader.chatView = self
-                    uploader.data = data
-                    uploader.fileName = fileName
-                    self.navigationController?.pushViewController(uploader, animated: true)
                 }
-                
             }catch _{
                 //finish loading
                 //self.dismissLoading()
@@ -1159,68 +1282,193 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                 let thumbRef = try thumbGenerator.copyCGImage(at: thumbTime, actualTime: nil)
                 let thumbImage = UIImage(cgImage: thumbRef)
                 
-                var message = CommentModel()
                 
+                var checkFileName = fileName.replacingOccurrences(of: "%20", with: "_")
+                checkFileName = fileName.replacingOccurrences(of: " ", with: "_")
                 
-                QPopUpView.showAlert(withTarget: self, image: thumbImage, message:"Are you sure to send this video?", isVideoImage: true,
-                                     doneAction: {
-                                        self.send(message: message, onSuccess: { (comment) in
-                                            //success
-                                        }, onError: { (error) in
-                                            //error
-                                        })
-                                     },
-                                     cancelAction: {
-                                        //cancel upload
-                                     }, retryAction: {
-                                        //retry upload
-                                        QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
-                                            message.type = "file_attachment"
-                                            message.payload = [
-                                                "url"       : file.url.absoluteString,
-                                                "file_name" : file.name,
-                                                "size"      : file.size,
-                                                "caption"   : ""
-                                            ]
-                                            message.message = "Send Attachment"
-                                            
-                                            QPopUpView.sharedInstance.hiddenProgress()
-                                            
-                                        }, onError: { (error) in
-                                            
-                                            let defaults = UserDefaults.standard
-                                            defaults.set(false, forKey: "hasInternet")
-                                            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
-                                            QPopUpView.sharedInstance.showRetry()
-                                        }) { (progress) in
-                                            print("progress =\(progress)")
-                                            QPopUpView.sharedInstance.showProgress(progress: progress)
-                                        }
-                                     })
+                let fileNameArr = (checkFileName as String).split(separator: ".")
+                let ext = String(fileNameArr.last!).lowercased()
                 
-                QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
-                    message.type = "file_attachment"
-                    message.payload = [
-                        "url"       : file.url.absoluteString,
-                        "file_name" : file.name,
-                        "size"      : file.size,
-                        "caption"   : ""
-                    ]
-                    message.message = "Send Attachment"
+                if (ext == ".mov" || ext == "mov" || ext == "mov_") {
+                    let date = Date()
+                    let formatter = DateFormatter.init()
+                    formatter.dateFormat = "yyyyMMddHHmmss"
+                    let fileName3 = formatter.string(from: date) + ".mp4"
                     
-                    QPopUpView.sharedInstance.hiddenProgress()
+                    let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as NSString
+                    let videoSandBoxPath = (docPath as String) + "/albumVideo" + fileName3
                     
-                }, onError: { (error) in
                     
-                    let defaults = UserDefaults.standard
-                    defaults.set(false, forKey: "hasInternet")
-                    NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
-                    QPopUpView.sharedInstance.showRetry()
-                }) { (progress) in
-                    print("progress =\(progress)")
-                    QPopUpView.sharedInstance.showProgress(progress: progress)
+                    // Transcoding configuration
+                    let avAsset = AVURLAsset.init(url: mediaURL, options: nil)
+                    
+                    let startDate = Date()
+                    
+                    //Create Export session
+                    guard let exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetPassthrough) else {
+                        return
+                    }
+                    
+                    
+                    exportSession.outputURL = URL.init(fileURLWithPath: videoSandBoxPath)
+                    exportSession.outputFileType = AVFileType.mp4
+                    exportSession.shouldOptimizeForNetworkUse = true
+                    let start = CMTimeMakeWithSeconds(0.0, preferredTimescale: 0)
+                    let range = CMTimeRangeMake(start: start, duration: avAsset.duration)
+                    exportSession.timeRange = range
+                    
+                    exportSession.exportAsynchronously(completionHandler: {() -> Void in
+                        switch exportSession.status {
+                        case .failed:
+                            print(exportSession.error ?? "NO ERROR")
+                        case .cancelled:
+                            print("Export canceled")
+                        case .completed:
+                            //Video conversion finished
+                            let endDate = Date()
+                            
+                            let time = endDate.timeIntervalSince(startDate)
+                            print(time)
+                            print("Successful!")
+                            
+                            let dataurl = URL.init(fileURLWithPath: videoSandBoxPath)
+                            
+                            do {
+                                let video = try Data(contentsOf: dataurl, options: .mappedIfSafe)
+                                
+                                var message = CommentModel()
+                                
+                                DispatchQueue.main.sync(execute: {
+                                    QPopUpView.showAlert(withTarget: self, image: thumbImage, message:"Are you sure to send this video?", isVideoImage: true,
+                                                         doneAction: {
+                                                            self.send(message: message, onSuccess: { (comment) in
+                                                                //success
+                                                            }, onError: { (error) in
+                                                                //error
+                                                            })
+                                                         },
+                                                         cancelAction: {
+                                                            //cancel upload
+                                                         }, retryAction: {
+                                                            //retry upload
+                                                            QiscusCore.shared.upload(data: video, filename: fileName3, onSuccess: { (file) in
+                                                                message.type = "file_attachment"
+                                                                message.payload = [
+                                                                    "url"       : file.url.absoluteString,
+                                                                    "file_name" : file.name,
+                                                                    "size"      : file.size,
+                                                                    "caption"   : ""
+                                                                ]
+                                                                message.message = "Send Attachment"
+                                                                
+                                                                QPopUpView.sharedInstance.hiddenProgress()
+                                                                
+                                                            }, onError: { (error) in
+                                                                
+                                                                let defaults = UserDefaults.standard
+                                                                defaults.set(false, forKey: "hasInternet")
+                                                                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                                                                QPopUpView.sharedInstance.showRetry()
+                                                            }) { (progress) in
+                                                                print("progress =\(progress)")
+                                                                QPopUpView.sharedInstance.showProgress(progress: progress)
+                                                            }
+                                                         })
+                                    
+                                    QiscusCore.shared.upload(data: video, filename: fileName3, onSuccess: { (file) in
+                                        message.type = "file_attachment"
+                                        message.payload = [
+                                            "url"       : file.url.absoluteString,
+                                            "file_name" : file.name,
+                                            "size"      : file.size,
+                                            "caption"   : ""
+                                        ]
+                                        message.message = "Send Attachment"
+                                        
+                                        QPopUpView.sharedInstance.hiddenProgress()
+                                        
+                                    }, onError: { (error) in
+                                        let defaults = UserDefaults.standard
+                                        defaults.set(false, forKey: "hasInternet")
+                                        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                                        QPopUpView.sharedInstance.showRetry()
+                                    }) { (progress) in
+                                        print("progress =\(progress)")
+                                        QPopUpView.sharedInstance.showProgress(progress: progress)
+                                    }
+                                })
+                            } catch {
+                                print(error)
+                                return
+                            }
+                            
+                        default: break
+                        }
+                        
+                    })
+                }else{
+                    var message = CommentModel()
+                    
+                    
+                    QPopUpView.showAlert(withTarget: self, image: thumbImage, message:"Are you sure to send this video?", isVideoImage: true,
+                                         doneAction: {
+                                            self.send(message: message, onSuccess: { (comment) in
+                                                //success
+                                            }, onError: { (error) in
+                                                //error
+                                            })
+                                         },
+                                         cancelAction: {
+                                            //cancel upload
+                                         }, retryAction: {
+                                            //retry upload
+                                            QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
+                                                message.type = "file_attachment"
+                                                message.payload = [
+                                                    "url"       : file.url.absoluteString,
+                                                    "file_name" : file.name,
+                                                    "size"      : file.size,
+                                                    "caption"   : ""
+                                                ]
+                                                message.message = "Send Attachment"
+                                                
+                                                QPopUpView.sharedInstance.hiddenProgress()
+                                                
+                                            }, onError: { (error) in
+                                                
+                                                let defaults = UserDefaults.standard
+                                                defaults.set(false, forKey: "hasInternet")
+                                                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                                                QPopUpView.sharedInstance.showRetry()
+                                            }) { (progress) in
+                                                print("progress =\(progress)")
+                                                QPopUpView.sharedInstance.showProgress(progress: progress)
+                                            }
+                                         })
+                    
+                    QiscusCore.shared.upload(data: mediaData!, filename: fileName, onSuccess: { (file) in
+                        message.type = "file_attachment"
+                        message.payload = [
+                            "url"       : file.url.absoluteString,
+                            "file_name" : file.name,
+                            "size"      : file.size,
+                            "caption"   : ""
+                        ]
+                        message.message = "Send Attachment"
+                        
+                        QPopUpView.sharedInstance.hiddenProgress()
+                        
+                    }, onError: { (error) in
+                        
+                        let defaults = UserDefaults.standard
+                        defaults.set(false, forKey: "hasInternet")
+                        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "unStableConnection"), object: nil)
+                        QPopUpView.sharedInstance.showRetry()
+                    }) { (progress) in
+                        print("progress =\(progress)")
+                        QPopUpView.sharedInstance.showProgress(progress: progress)
+                    }
                 }
-                
             }catch{
                 print("error creating thumb image")
             }
