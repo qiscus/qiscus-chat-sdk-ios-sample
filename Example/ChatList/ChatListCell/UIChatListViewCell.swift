@@ -22,9 +22,9 @@ class UIChatListViewCell: UITableViewCell {
     static var identifier: String {
         return String(describing: self)
     }
-    @IBOutlet weak var badgeWitdh: NSLayoutConstraint!
+    @IBOutlet weak var widthBadgeStatus: NSLayoutConstraint!
     
-    @IBOutlet weak var viewBadge: UIView!
+    @IBOutlet weak var viewStatus: UIView!
     @IBOutlet weak var viewNewUnreadCount: UIView!
     @IBOutlet weak var imageViewPinRoom: UIImageView!
     @IBOutlet weak var labelName: UILabel!
@@ -32,7 +32,7 @@ class UIChatListViewCell: UITableViewCell {
     @IBOutlet weak var imageViewRoom: UIImageView!
     @IBOutlet weak var labelDate: UILabel!
     
-    @IBOutlet weak var labelBadge: UILabel!
+    @IBOutlet weak var labelStatus: UILabel!
     
     @IBOutlet weak var ic_isResolved: UIImageView!
     @IBOutlet weak var ivTypeChannel: UIImageView!
@@ -74,7 +74,6 @@ class UIChatListViewCell: UITableViewCell {
         super.awakeFromNib()
         labelLastMessage.sizeToFit()
         imageViewRoom.layer.cornerRadius = imageViewRoom.frame.width/2
-        self.viewBadge.layer.cornerRadius = self.viewBadge.frame.width/2
         
         self.viewNewUnreadCount.layer.cornerRadius = self.viewNewUnreadCount.frame.width/2
         self.layoutIfNeeded()
@@ -108,6 +107,7 @@ class UIChatListViewCell: UITableViewCell {
                 let json = JSON.init(parseJSON: option)
                 let channelType = json["channel"].string ?? "qiscus"
                 let is_resolved = json["is_resolved"].bool ?? false
+                let is_waiting   = json["is_waiting"].bool ?? false
                 let is_handled_by_bot = json["is_handled_by_bot"].bool ?? false
                 if channelType.lowercased() == "qiscus"{
                     self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
@@ -213,6 +213,26 @@ class UIChatListViewCell: UITableViewCell {
                     self.ic_isResolved.isHidden = true
                 }
                 
+                if is_waiting == true && is_resolved == false {
+                    //unserved
+                    self.labelStatus.text = "Unserved"
+                    self.labelStatus.textColor = UIColor.red
+                    self.widthBadgeStatus.constant = 55
+                } else if (is_waiting == false && is_resolved == false){
+                    // served
+                    self.labelStatus.text = "Served"
+                    self.labelStatus.textColor = ColorConfiguration.defaultColorTosca
+                    self.widthBadgeStatus.constant = 55
+                } else if is_waiting == false && is_resolved == true {
+                    //resolved
+                    self.labelStatus.text = "Served"
+                    self.labelStatus.textColor = ColorConfiguration.defaultColorTosca
+                    self.widthBadgeStatus.constant = 55
+                } else {
+                    self.labelStatus.text = ""
+                    self.widthBadgeStatus.constant = 0
+                }
+                
                 if is_handled_by_bot == true {
                     self.ivBot.isHidden = false
                 }else{
@@ -233,9 +253,10 @@ class UIChatListViewCell: UITableViewCell {
         
         if(data.unreadCount == 0){
             self.hiddenBadge()
+            self.labelLastMessage.font = UIFont.systemFont(ofSize: 12.0)
         }else{
             self.showBadge()
-            self.labelBadge.text = "\(data.unreadCount)"
+            self.labelLastMessage.font = UIFont.boldSystemFont(ofSize: 12.0)
         }
         
         var message = ""
@@ -248,9 +269,9 @@ class UIChatListViewCell: UITableViewCell {
             message = lastComment.message
         }
         if(data.type != .single){
-            self.labelLastMessage.text  =  "\(lastComment.username) :\n\(message)"
+            self.labelLastMessage.text  =  message
         }else{
-            self.labelLastMessage.text  = message // single
+            self.labelLastMessage.text  = message
         }
         
         if let avatar = data.avatarUrl {
@@ -283,6 +304,8 @@ class UIChatListViewCell: UITableViewCell {
         let channelType = data.source
         let is_resolved = data.isResolved
         let is_handled_by_bot = data.isHandledByBot
+        let is_waiting = data.isWaiting
+        
         if channelType.lowercased() == "qiscus"{
             self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
         }else if channelType.lowercased() == "telegram"{
@@ -323,6 +346,26 @@ class UIChatListViewCell: UITableViewCell {
             self.ivBot.isHidden = false
         }else{
             self.ivBot.isHidden = true
+        }
+        
+        if is_waiting == true && is_resolved == false {
+            //unserved
+            self.labelStatus.text = "Unserved"
+            self.widthBadgeStatus.constant = 55
+            self.labelStatus.textColor = UIColor.red
+        } else if (is_waiting == false && is_resolved == false){
+            // served
+            self.labelStatus.text = "Served"
+            self.widthBadgeStatus.constant = 55
+            self.labelStatus.textColor = ColorConfiguration.defaultColorTosca
+        } else if is_waiting == false && is_resolved == true {
+            //resolved
+            self.labelStatus.text = "Served"
+            self.labelStatus.textColor = ColorConfiguration.defaultColorTosca
+            self.widthBadgeStatus.constant = 55
+        } else {
+            self.labelStatus.text = ""
+            self.widthBadgeStatus.constant = 0
         }
         
         self.labelName.text = data.name
@@ -386,8 +429,10 @@ class UIChatListViewCell: UITableViewCell {
 //                    self.hiddenBadge()
 //                }
                 self.hiddenBadge()
+                self.labelLastMessage.font = UIFont.systemFont(ofSize: 12.0)
             }else{
                 self.showBadge()
+                self.labelLastMessage.font = UIFont.boldSystemFont(ofSize: 12.0)
             }
             
             if let lastComment = room.lastComment{
@@ -400,9 +445,9 @@ class UIChatListViewCell: UITableViewCell {
                 }
                 
                 if(room.type != .single){
-                    self.labelLastMessage.text  =  "\(lastComment.username) :\n\(message)"
+                    self.labelLastMessage.text  = message
                 }else{
-                    self.labelLastMessage.text  = message // single
+                    self.labelLastMessage.text  = message
                 }
             }else{
                 let lastComment = data.lastComment
@@ -429,6 +474,8 @@ class UIChatListViewCell: UITableViewCell {
             }
             self.labelLastMessage.text  = message
             self.hiddenBadge()
+            
+            self.labelLastMessage.font = UIFont.systemFont(ofSize: 12.0)
         }
         
     }

@@ -11,6 +11,7 @@ import AlamofireImage
 import Alamofire
 import SimpleImageViewer
 import SDWebImage
+import SwiftyJSON
 
 class QReplyImageLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
@@ -33,6 +34,7 @@ class QReplyImageLeftCell: UIBaseChatCell {
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
     var isQiscus : Bool = false
+    var message: CommentModel? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -44,6 +46,23 @@ class QReplyImageLeftCell: UIBaseChatCell {
         self.ivComment.isUserInteractionEnabled = true
         let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QReplyImageLeftCell.imageDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMassage(_:)),
+                                               name: Notification.Name("selectedCell"),
+                                               object: nil)
+    }
+    
+    @objc func handleMassage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let json = JSON(userInfo)
+            let commentId = json["commentId"].string ?? "0"
+            if let message = self.message {
+                if message.id == commentId {
+                    self.contentView.backgroundColor = UIColor(red:39/255, green:177/255, blue:153/255, alpha: 0.1)
+                }
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -66,6 +85,8 @@ class QReplyImageLeftCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.message = message
+        self.contentView.backgroundColor = UIColor.clear
         self.setupBalon()
         
         // get image

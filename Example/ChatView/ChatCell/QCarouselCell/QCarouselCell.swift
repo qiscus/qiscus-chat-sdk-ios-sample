@@ -24,6 +24,7 @@ class QCarouselCell: UIBaseChatCell {
     @IBOutlet weak var uiViewBackground: UIView!
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
     var isQiscus : Bool = false
+    var message: CommentModel? = nil
     public var cards = [QCard](){
         didSet{
             self.carouselView.reloadData()
@@ -62,6 +63,23 @@ class QCarouselCell: UIBaseChatCell {
         self.uiViewBackground.layer.shadowOpacity = 0.3
         self.uiViewBackground.layer.shadowRadius = 1.0
         self.uiViewBackground.layer.cornerRadius = 8
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMassage(_:)),
+                                               name: Notification.Name("selectedCell"),
+                                               object: nil)
+    }
+    
+    @objc func handleMassage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let json = JSON(userInfo)
+            let commentId = json["commentId"].string ?? "0"
+            if let message = self.message {
+                if message.id == commentId {
+                    self.contentView.backgroundColor = UIColor(red:39/255, green:177/255, blue:153/255, alpha: 0.1)
+                }
+            }
+        }
     }
     
     override public func present(message: CommentModel) {
@@ -74,6 +92,7 @@ class QCarouselCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.message = message
         self.status(message: message)
         self.lbTime.text = self.hour(date: message.date())
         let payload = JSON(message.payload)

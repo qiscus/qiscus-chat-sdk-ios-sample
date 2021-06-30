@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIChatListSearchMessageViewCell" customModule="Qiscus_Multichannel" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="82" id="KGk-i7-Jjw" customClass="UIChatListSearchMessageViewCell" customModule="Qiscus_Multichannel" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="421" height="81"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="421" height="81"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dO-lh-ltC" userLabel="name">
+                        <rect key="frame" x="10" y="10" width="294" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="hB5-RQ-Nrr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GcT-oK-RZz" userLabel="message">
+                        <rect key="frame" x="10" y="40" width="401" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="67S-HL-9dh"/>
+                        </constraints>
+                        <attributedString key="attributedText">
+                            <fragment content="Last message...">
+                                <attributes>
+                                    <color key="NSColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <font key="NSFont" metaFont="cellTitle"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="5" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="today, 15:55" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73m-0b-2Yc">
+                        <rect key="frame" x="314" y="9.5" width="97" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="97" id="OjN-RA-3uy"/>
+                            <constraint firstAttribute="height" constant="21" id="mO4-Pk-0Ni"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TuX-OW-oJJ" userLabel="border">
+                        <rect key="frame" x="10" y="70" width="401" height="0.5"/>
+                        <color key="backgroundColor" red="0.69803921570000005" green="0.69803921570000005" blue="0.69803921570000005" alpha="0.70307707060000002" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="yBq-ot-5vp"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="TuX-OW-oJJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="EBM-b6-wCg"/>
+                    <constraint firstItem="73m-0b-2Yc" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="trailing" constant="10" id="Eqh-PA-l9h"/>
+                    <constraint firstItem="3dO-lh-ltC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Gih-TP-gvI"/>
+                    <constraint firstItem="GcT-oK-RZz" firstAttribute="leading" secondItem="3dO-lh-ltC" secondAttribute="leading" id="HUQ-48-R7c"/>
+                    <constraint firstItem="73m-0b-2Yc" firstAttribute="centerY" secondItem="3dO-lh-ltC" secondAttribute="centerY" id="OeW-li-Hu6"/>
+                    <constraint firstItem="3dO-lh-ltC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="OuL-ht-P4s"/>
+                    <constraint firstAttribute="bottom" secondItem="TuX-OW-oJJ" secondAttribute="bottom" constant="8" id="S6i-al-eDk"/>
+                    <constraint firstAttribute="trailing" secondItem="TuX-OW-oJJ" secondAttribute="trailing" constant="10" id="Z6Z-ju-vMg"/>
+                    <constraint firstAttribute="trailing" secondItem="73m-0b-2Yc" secondAttribute="trailing" constant="10" id="fhb-Dq-XsF"/>
+                    <constraint firstAttribute="trailing" secondItem="GcT-oK-RZz" secondAttribute="trailing" constant="10" id="mzl-Ho-JVc"/>
+                    <constraint firstItem="GcT-oK-RZz" firstAttribute="top" secondItem="3dO-lh-ltC" secondAttribute="bottom" constant="10" id="pz2-1I-OjZ"/>
+                    <constraint firstItem="TuX-OW-oJJ" firstAttribute="top" secondItem="GcT-oK-RZz" secondAttribute="bottom" constant="10" id="yDc-lj-MRt"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <accessibility key="accessibilityConfiguration" identifier="ChatCellIdentifier"/>
+            <connections>
+                <outlet property="lbDate" destination="73m-0b-2Yc" id="rEE-gi-CkL"/>
+                <outlet property="lbMessage" destination="GcT-oK-RZz" id="BpK-NV-kGg"/>
+                <outlet property="lbRoomName" destination="3dO-lh-ltC" id="g4J-vB-Qri"/>
+            </connections>
+            <point key="canvasLocation" x="83.4375" y="121.875"/>
+        </tableViewCell>
+    </objects>
+</document>

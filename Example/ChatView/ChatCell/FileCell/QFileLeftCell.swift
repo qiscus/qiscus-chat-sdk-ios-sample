@@ -9,6 +9,7 @@
 import UIKit
 import QiscusCore
 import AlamofireImage
+import SwiftyJSON
 
 struct DocumentsDirectory {
     static let localDocumentsURL: NSURL? = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask).last! as NSURL
@@ -33,11 +34,28 @@ class QFileLeftCell: UIBaseChatCell {
     @IBOutlet weak var ivAvatarUser: UIImageView!
     var isQiscus : Bool = false
     var vc : UIChatViewController? = nil
+    var message: CommentModel? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.setMenu(isQiscus: isQiscus)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMassage(_:)),
+                                               name: Notification.Name("selectedCell"),
+                                               object: nil)
        
+    }
+    
+    @objc func handleMassage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let json = JSON(userInfo)
+            let commentId = json["commentId"].string ?? "0"
+            if let message = self.message {
+                if message.id == commentId {
+                    self.contentView.backgroundColor = UIColor(red:39/255, green:177/255, blue:153/255, alpha: 0.1)
+                }
+            }
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -57,6 +75,8 @@ class QFileLeftCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.contentView.backgroundColor = UIColor.clear
+        self.message = message
         self.setupBalon(message : message)
         
         self.lbTime.text = self.hour(date: message.date())

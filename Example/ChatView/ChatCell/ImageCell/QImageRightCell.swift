@@ -7,7 +7,7 @@
 
 import UIKit
 import QiscusCore
-
+import SwiftyJSON
 import AlamofireImage
 import Alamofire
 import SimpleImageViewer
@@ -29,6 +29,7 @@ class QImageRightCell: UIBaseChatCell {
     @IBOutlet weak var ivLoading: UIImageView!
     @IBOutlet weak var lbLoading: UILabel!
     var isQiscus : Bool = false
+    var message: CommentModel? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -40,6 +41,23 @@ class QImageRightCell: UIBaseChatCell {
         self.ivComment.isUserInteractionEnabled = true
         let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QImageRightCell.imageDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMassage(_:)),
+                                               name: Notification.Name("selectedCell"),
+                                               object: nil)
+    }
+    
+    @objc func handleMassage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let json = JSON(userInfo)
+            let commentId = json["commentId"].string ?? "0"
+            if let message = self.message {
+                if message.id == commentId {
+                    self.contentView.backgroundColor = UIColor(red:39/255, green:177/255, blue:153/255, alpha: 0.1)
+                }
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -61,6 +79,8 @@ class QImageRightCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.message = message
+        self.contentView.backgroundColor = UIColor.clear
         self.setupBalon(message: message)
         self.status(message: message)
         // get image

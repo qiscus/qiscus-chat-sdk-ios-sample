@@ -52,7 +52,6 @@ var comments: [[CommentModel]]
         if let room = self.room {
             room.delegate = self
             self.loadRoom()
-            self.loadComments(withID: room.id)
             viewPresenter?.onLoadRoomFinished(roomName: room.name, roomAvatarURL: room.avatarUrl)
             if let p = room.participants {
                 self.participants = p
@@ -88,7 +87,7 @@ var comments: [[CommentModel]]
             instance.loadComments(withID: room.id)
         }) { [weak self] (error) in
             guard let instance = self else { return }
-            instance.viewPresenter?.onLoadMessageFailed(message: error.message)
+            instance.loadComments(withID: _room.id)
         }
     }
     

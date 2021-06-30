@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import SwiftyJSON
 import QiscusCore
 
 class QTextRightCell: UIBaseChatCell {
@@ -23,10 +23,28 @@ class QTextRightCell: UIBaseChatCell {
     @IBOutlet weak var lbNameTrailing: NSLayoutConstraint!
     var menuConfig = enableMenuConfig()
     var isQiscus : Bool = false
+    var message: CommentModel? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.setMenu(isQiscus: isQiscus)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMassage(_:)),
+                                               name: Notification.Name("selectedCell"),
+                                               object: nil)
+    }
+    
+    @objc func handleMassage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let json = JSON(userInfo)
+            let commentId = json["commentId"].string ?? "0"
+            if let message = self.message {
+                if message.id == commentId{
+                    self.contentView.backgroundColor = UIColor(red:39/255, green:177/255, blue:153/255, alpha: 0.1)
+                }
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -46,6 +64,8 @@ class QTextRightCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.contentView.backgroundColor = UIColor.clear
+        self.message = message
         self.setupBalon(message: message)
         self.status(message: message)
         

@@ -13,6 +13,7 @@ import Alamofire
 import SimpleImageViewer
 import SDWebImage
 import SDWebImageWebPCoder
+import SwiftyJSON
 
 class QVideoLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
@@ -34,6 +35,7 @@ class QVideoLeftCell: UIBaseChatCell {
     var colorName : UIColor = UIColor.black
     var isQiscus : Bool = false
     var vc : UIChatViewController? = nil
+    var message: CommentModel? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -45,6 +47,23 @@ class QVideoLeftCell: UIBaseChatCell {
         self.ivComment.isUserInteractionEnabled = true
         let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QVideoLeftCell.playDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMassage(_:)),
+                                               name: Notification.Name("selectedCell"),
+                                               object: nil)
+    }
+    
+    @objc func handleMassage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let json = JSON(userInfo)
+            let commentId = json["commentId"].string ?? "0"
+            if let message = self.message {
+                if message.id == commentId {
+                    self.contentView.backgroundColor = UIColor(red:39/255, green:177/255, blue:153/255, alpha: 0.1)
+                }
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -67,6 +86,8 @@ class QVideoLeftCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.message = message
+        self.contentView.backgroundColor = UIColor.clear
         self.setupBalon(message : message)
         
         // get image

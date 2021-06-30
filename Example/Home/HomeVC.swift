@@ -17,20 +17,52 @@ import SwiftyJSON
 
 class HomeVC: ButtonBarPagerTabStripViewController {
     
+    @IBOutlet weak var heightStackView: NSLayoutConstraint!
+    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var viewSearchBar: UIView!
+    @IBOutlet weak var viewNoResultSearchRoomMessage: UIView!
+    @IBOutlet weak var viewAlertSearchRoomMessage: UIView!
+    @IBOutlet weak var lbAlertSearchRoomMessage: UILabel!
+    @IBOutlet weak var viewAlertDisableSearchRoomMessage: UIView!
+    @IBOutlet weak var lbAlertDisableSearchRoomMessage: UILabel!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var lbRoomsNotFound: UILabel!
     @IBOutlet weak var tableViewSearch: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var bottomTableViewTagHeightConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var btTabCustomers: UIButton!
+    @IBOutlet weak var btTabMessages: UIButton!
+    
     var isReload = false
+    var firstTimeLoadSearch = false
+    var isTabCustomerSelected = true
     var timer : Timer?
     let sideBar = SideBar(viewModel: "SideBarViewModel")
     var defaults = UserDefaults.standard
     var searchCustomerRooms = [CustomerRoom]()
+    var searchCustomerComments = [CommentModel]()
     var defaultButtonBarView = CGRect()
     var defaultContainerView = CGRect()
+    
+    //feature config
+    var featuresData = [FeaturesModel]()
+    //1 show, 2 hide, 3 disabled
+    var statusSearchMessageFeature = 1
+    var statusSearchRoomFeature = 1
+    var alertMessageFilterActive = "Cannot perform search message while the filter is active. Please inactive the filter to continue use search messages"
+    var alertMessageOtherAll = "Cannot perform search message while stay on this tab. Please going to All tab to continue use search messages"
+    var alertMessageOtherOngoing = "Cannot perform search message while stay on this tab. Please going to Ongoing tab to continue use search messages"
+    var alertMessageDisable = "This feature has been disabled because it is not available in the plan that you are currently using."
+    
     override func viewDidLoad() {
+        settings.style.selectedBarHeight = 3
+        settings.style.buttonBarItemLeftRightMargin = 0
+        
+        settings.style.buttonBarBackgroundColor = UIColor.white
+        settings.style.buttonBarItemBackgroundColor = UIColor.white
+        settings.style.selectedBarBackgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
+        settings.style.buttonBarItemFont = .boldSystemFont(ofSize: 15)
+        
         super.viewDidLoad()
         self.setupUI()
         self.setupUINavBar()
@@ -268,45 +300,48 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             viewWithTag.removeFromSuperview()
         }
         
-        let button = UIButton()
         
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 1920, 2208:
-                button.frame = CGRect(x: self.view.frame.size.width - 105 , y: self.view.frame.size.height - 105, width: 100, height: 100)
-            default:
-                button.frame = CGRect(x: self.view.frame.size.width - 80 , y: self.view.frame.size.height - 80, width: 75, height: 75)
+        if self.searchBar.isHidden == true {
+            let button = UIButton()
+            
+            if UIDevice().userInterfaceIdiom == .phone {
+                switch UIScreen.main.nativeBounds.height {
+                case 1920, 2208:
+                    button.frame = CGRect(x: self.view.frame.size.width - 105 , y: self.view.frame.size.height - 105, width: 100, height: 100)
+                default:
+                    button.frame = CGRect(x: self.view.frame.size.width - 80 , y: self.view.frame.size.height - 80, width: 75, height: 75)
+                }
             }
-        }
-        
-        if let userType = UserDefaults.standard.getUserType(){
-            if userType == 2 {
-                if (count == 0){
-                    button.setImage(UIImage(named: "ic_agent_floating_no"), for: .normal)
+            
+            if let userType = UserDefaults.standard.getUserType(){
+                if userType == 2 {
+                    if (count == 0){
+                        button.setImage(UIImage(named: "ic_agent_floating_no"), for: .normal)
+                    }else{
+                        button.setImage(UIImage(named: "ic_agent_floating"), for: .normal)
+                    }
                 }else{
-                    button.setImage(UIImage(named: "ic_agent_floating"), for: .normal)
+                    if (count == 0){
+                        button.setImage(UIImage(named: "ic_admin_floating_no"), for: .normal)
+                    }else{
+                        button.setImage(UIImage(named: "ic_admin_floating"), for: .normal)
+                    }
+                    
                 }
             }else{
-                if (count == 0){
-                    button.setImage(UIImage(named: "ic_admin_floating_no"), for: .normal)
-                }else{
-                    button.setImage(UIImage(named: "ic_admin_floating"), for: .normal)
-                }
-                
+                button.setImage(UIImage(named: "ic_agent_floating_no"), for: .normal)
             }
-        }else{
-            button.setImage(UIImage(named: "ic_agent_floating_no"), for: .normal)
-        }
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        button.layer.shadowColor = UIColor(red: 0.35, green: 0.44, blue: 0.25, alpha: 0.25).cgColor
-        button.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        button.layer.shadowOpacity = 1.0
-        button.layer.shadowRadius = 4
-        self.view.addSubview(button)
+            button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+            button.layer.shadowColor = UIColor(red: 0.35, green: 0.44, blue: 0.25, alpha: 0.25).cgColor
+            button.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+            button.layer.shadowOpacity = 1.0
+            button.layer.shadowRadius = 4
+            self.view.addSubview(button)
 
-        button.tag = 222
-        self.view.addSubview(button)
-        self.view.viewWithTag(222)?.bringSubviewToFront(self.view)
+            button.tag = 222
+            self.view.addSubview(button)
+            self.view.viewWithTag(222)?.bringSubviewToFront(self.view)
+        }
     }
     
     @objc func buttonAction(sender: UIButton!) {
@@ -359,16 +394,12 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.searchBar.isHidden = true
         self.viewSearchBar.isHidden = true
         
-        settings.style.selectedBarHeight = 1
-        
-        settings.style.buttonBarBackgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
-        settings.style.buttonBarItemBackgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
-        settings.style.selectedBarBackgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
-        settings.style.buttonBarItemFont = .boldSystemFont(ofSize: 15)
         
         buttonBarView.selectedBar.backgroundColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
-        buttonBarView.backgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
-        self.view.backgroundColor = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
+        buttonBarView.backgroundColor = UIColor.white//UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
+        containerView.bounces = false
+        
+        self.view.backgroundColor = UIColor.white//UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 1)
         if #available(iOS 11.0, *) {
             self.edgesForExtendedLayout = []
         } else {
@@ -377,11 +408,15 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         changeCurrentIndexProgressive = { [weak self] (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
             guard changeCurrentIndex == true else { return }
-            oldCell?.label.textColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 0.5)
+            oldCell?.label.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45)
             newCell?.label.textColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
             
             NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadTabs"), object: nil)
         }
+        
+        let attributedWithTextColor: NSAttributedString = self.alertMessageDisable.attributedStringWithColor(["disabled"], color: UIColor.black, sizeFont : 17)
+
+        self.lbAlertDisableSearchRoomMessage.attributedText = attributedWithTextColor
     }
     
     func setupUINavBar(){
@@ -426,7 +461,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         let menuIcon = UIImageView()
         menuIcon.contentMode = .scaleAspectFit
         
-        let image = UIImage(named: "ic_search")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let image = UIImage(named: "ic_search_normal")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         menuIcon.image = image
         menuIcon.tintColor = UIColor.white
         
@@ -493,31 +528,33 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     @objc func openSearchUI() {
         let buttonBarViewHeight = self.buttonBarView.frame.size.height
         buttonBarView.frame = CGRect(origin: buttonBarView.frame.origin, size: CGSize(width: 0.0, height: 0.0))
-        
+
         var containerViewRect = self.containerView.frame
         containerViewRect.origin = buttonBarView.frame.origin
         containerViewRect.size.height = containerViewRect.size.height + buttonBarViewHeight
         self.containerView.frame = containerViewRect
         self.containerView.isHidden = true
         
+        
         self.title = "Search"
         
-        self.view.viewWithTag(222)?.isHidden = true
-        
         self.tableViewSearch.isHidden = false
+        
         self.searchBar.isHidden = false
         self.viewSearchBar.isHidden = false
+        self.viewSearchBar.addBorderBottom(size: 1, color: UIColor(red: 232/255.0, green: 232/255.0, blue: 232/255.0, alpha:1.0))
         
         //setup search
         self.searchBar.delegate = self
         self.searchBar.backgroundImage = UIImage()
         self.searchBar.backgroundColor = .white
+        self.searchBar.setTextFieldColor(UIColor.white)
         
         self.tableViewSearch.delegate = self
         self.tableViewSearch.dataSource = self
         self.tableViewSearch.register(UIChatListViewCell.nib, forCellReuseIdentifier: UIChatListViewCell.identifier)
-        
-        self.throttleGetList()
+        self.tableViewSearch.register(UIChatListSearchMessageViewCell.nib, forCellReuseIdentifier: UIChatListSearchMessageViewCell.identifier)
+        self.getCustomerRooms()
     }
     
     @objc func profileButtonPressed() {
@@ -619,11 +656,12 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        self.firstTimeLoadSearch = false
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
         self.getConfigResolvedALLWA()
+        self.getConfigFeature()
     }
     
     func throttleGetList() {
@@ -632,6 +670,99 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     }
     
     @objc func getList(){
+        if let searchMessage = searchBar.text{
+            if searchMessage.count <= 2{
+                if self.isTabCustomerSelected == true{
+                    if self.statusSearchRoomFeature == 1 {
+                        //if self.showAlertFilterIsActive() == false {
+                            self.showAlertNoResultSearchRoomMessage()
+                        //}
+                    }
+                } else {
+                    if self.statusSearchMessageFeature == 1 {
+                        if self.showAlertFilterIsActive() == false{
+                            self.showAlertNoResultSearchRoomMessage()
+                        }
+                    }
+                }
+            }else{
+                if self.isTabCustomerSelected == true && self.statusSearchRoomFeature == 3 {
+                    self.showAlertDisable()
+                }else if self.isTabCustomerSelected == true && self.statusSearchRoomFeature == 1{
+                    //if self.showAlertFilterIsActive() == false{
+                        self.getCustomerRooms()
+                    //}
+                }else if self.isTabCustomerSelected == false && self.statusSearchMessageFeature == 3{
+                    self.showAlertDisable()
+                }else if self.isTabCustomerSelected == false && self.statusSearchMessageFeature == 1{
+                    if self.showAlertFilterIsActive() == false{
+                        self.getCustomerMessages()
+                    }
+                }else{
+                    self.showAlertNoResultSearchRoomMessage()
+                }
+            }
+        }else{
+            self.showAlertNoResultSearchRoomMessage()
+        }
+        
+       
+    }
+    
+    func checkSearchBarMessage(){
+        if let searchMessage = searchBar.text{
+            if searchMessage.count <= 2{
+                self.showAlertNoResultSearchRoomMessage()
+            }else{
+                if isTabCustomerSelected == true{
+                    self.getCustomerRooms()
+                }else{
+                    self.getCustomerMessages()
+                }
+            }
+        }
+    }
+    
+    func getCustomerMessages(){
+        if self.searchBar.text == nil || self.searchBar.text?.isEmpty == true {
+            return
+        }else{
+            self.loadingIndicator.startAnimating()
+            self.loadingIndicator.isHidden = false
+            QiscusCore.shared.searchMessage(query: self.searchBar.text ?? "", page: 1, limit: 100) { (comments) in
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+                self.tableViewSearch.isHidden = false
+                self.searchCustomerComments = comments
+                self.searchCustomerRooms.removeAll()
+                if self.searchCustomerComments.count == 0 {
+                    self.showAlertNoResultSearchRoomMessage()
+                }else{
+                    self.hideALLAlertSearchRoomMessage()
+                }
+                self.tableViewSearch.reloadData()
+            } onError: { (error) in
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+                self.tableViewSearch.isHidden = true
+                self.showAlertNoResultSearchRoomMessage()
+            }
+        }
+
+    }
+    
+    func convertToDictionary(text: String) -> [[String: Any]]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
+    func getCustomerRooms(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
@@ -640,6 +771,60 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         var param = ["limit": "50",
                      "name" : self.searchBar.text ?? ""
         ] as [String : Any]
+        
+        if let hasFilterAgent = defaults.array(forKey: "filterAgent"){
+            param["user_ids"] = hasFilterAgent
+        }
+        
+        if let hasFilterTag = defaults.string(forKey: "filterTag"){
+            if let dict = convertToDictionary(text: hasFilterTag){
+                var array = [Int]()
+                if dict.count != 0 {
+                    for i in dict{
+                        let json = JSON(i)
+                        array.append(json["id"].int ?? 0)
+                    }
+                    param["tag_ids"] = array
+                }
+            }
+        }
+        
+        if let hasFilter = defaults.string(forKey: "filter"){
+            let dict = convertToDictionary(text: hasFilter)
+            param["channels"] = dict
+        }
+        
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                //agent
+                if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                    if !filterSelectedTypeWA.isEmpty{
+                        if filterSelectedTypeWA.lowercased() == "all".lowercased() {
+                            param["status"] = "unresolved"
+                        }else{
+                            param["status"] = filterSelectedTypeWA
+                        }
+                    }else{
+                        param["status"] = "unresolved"
+                    }
+                }else{
+                    param["status"] = "unresolved"
+                }
+               
+            }else{
+                if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                    if !filterSelectedTypeWA.isEmpty{
+                        param["status"] = filterSelectedTypeWA
+                    }
+                }
+            }
+        }else{
+            if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                if !filterSelectedTypeWA.isEmpty{
+                    param["status"] = filterSelectedTypeWA
+                }
+            }
+        }
         
         
         self.loadingIndicator.startAnimating()
@@ -657,6 +842,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                             if success == true {
                                 self.getList()
                             } else {
+                                self.showAlertNoResultSearchRoomMessage()
                                 return
                             }
                         }
@@ -676,14 +862,15 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                         
                         
                         self.searchCustomerRooms = results
+                        self.searchCustomerComments.removeAll()
                     }
                     self.tableViewSearch.isHidden = false
                     self.tableViewSearch.reloadData()
                     if self.searchCustomerRooms.count == 0 {
                      // show empty search room
-                        self.lbRoomsNotFound.isHidden = false
+                        self.showAlertNoResultSearchRoomMessage()
                     }else{
-                        self.lbRoomsNotFound.isHidden = true
+                        self.hideALLAlertSearchRoomMessage()
                     }
                     
                 }
@@ -692,12 +879,12 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 self.loadingIndicator.stopAnimating()
                 self.loadingIndicator.isHidden = true
                 self.tableViewSearch.isHidden = true
-                self.lbRoomsNotFound.isHidden = true
+                self.showAlertNoResultSearchRoomMessage()
             } else {
                 self.loadingIndicator.stopAnimating()
                 self.loadingIndicator.isHidden = true
                 self.tableViewSearch.isHidden = true
-                self.lbRoomsNotFound.isHidden = true
+                self.showAlertNoResultSearchRoomMessage()
             }
         }
     }
@@ -749,19 +936,221 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             }
         }
     }
+    
+    func showAlertNoResultSearchRoomMessage(){
+        self.viewAlertDisableSearchRoomMessage.isHidden = true
+        self.viewAlertSearchRoomMessage.isHidden = true
+        self.viewNoResultSearchRoomMessage.isHidden = false
+    }
+    
+    func hideALLAlertSearchRoomMessage(){
+        self.viewAlertSearchRoomMessage.isHidden = true
+        self.viewAlertDisableSearchRoomMessage.isHidden = true
+        self.viewNoResultSearchRoomMessage.isHidden = true
+    }
+    
+    func showAlertDisable(){
+        let attributedWithTextColor: NSAttributedString = self.alertMessageDisable.attributedStringWithColor(["disabled"], color: UIColor.black, sizeFont : 17)
+
+        self.lbAlertDisableSearchRoomMessage.attributedText = attributedWithTextColor
+        
+        self.viewAlertSearchRoomMessage.isHidden = true
+        self.viewNoResultSearchRoomMessage.isHidden = true
+        self.viewAlertDisableSearchRoomMessage.isHidden = false
+    }
+    
+    func showAlertFilterIsActive()-> Bool{
+        if defaults.string(forKey: "filter") != nil || defaults.string(forKey: "filterTag") != nil || defaults.array(forKey: "filterAgent") != nil{
+            let attributedWithTextColor: NSAttributedString = self.alertMessageFilterActive.attributedStringWithColor(["filter is active."], color: UIColor.black, sizeFont : 17)
+            self.lbAlertSearchRoomMessage.attributedText = attributedWithTextColor
+    
+            self.viewAlertDisableSearchRoomMessage.isHidden = true
+            self.viewNoResultSearchRoomMessage.isHidden = true
+            self.viewAlertSearchRoomMessage.isHidden = false
+            return true
+        } else if self.defaults.integer(forKey: "lastTab") != 0 {
+            if let userType = UserDefaults.standard.getUserType(){
+                if userType == 2 {
+                    //agent
+                    let attributedWithTextColor: NSAttributedString = self.alertMessageOtherOngoing.attributedStringWithColor(["Ongoing tab"], color: UIColor.black, sizeFont : 17)
+
+                    self.lbAlertSearchRoomMessage.attributedText = attributedWithTextColor
+                }else{
+                    let attributedWithTextColor: NSAttributedString = self.alertMessageOtherAll.attributedStringWithColor(["All tab"], color: UIColor.black, sizeFont : 17)
+
+                    self.lbAlertSearchRoomMessage.attributedText = attributedWithTextColor
+                }
+            }else{
+                let attributedWithTextColor: NSAttributedString = self.alertMessageOtherAll.attributedStringWithColor(["All tab"], color: UIColor.black, sizeFont : 17)
+                
+                self.lbAlertSearchRoomMessage.attributedText = attributedWithTextColor
+            }
+                
+            self.viewAlertDisableSearchRoomMessage.isHidden = true
+            self.viewNoResultSearchRoomMessage.isHidden = true
+            self.viewAlertSearchRoomMessage.isHidden = false
+            return true
+        }else{
+            return false
+        }
+    }
+    
+    
+    @IBAction func actionBtCustomersClick(_ sender: Any) {
+        self.isTabCustomerSelected = true
+        
+        if self.statusSearchRoomFeature == 3 && self.statusSearchMessageFeature == 3 {
+            self.showAlertDisable()
+            self.showALLTAB()
+        }else if self.statusSearchRoomFeature == 3 && self.statusSearchMessageFeature == 1{
+            self.showAlertDisable()
+            self.showALLTAB()
+        }else if  self.statusSearchRoomFeature == 1 && self.statusSearchMessageFeature == 3 {
+            self.showALLTAB()
+            self.hideALLAlertSearchRoomMessage()
+        }else if  self.statusSearchRoomFeature == 1 && self.statusSearchMessageFeature == 1 {
+            self.showALLTAB()
+            self.hideALLAlertSearchRoomMessage()
+        }
+        
+        if self.statusSearchRoomFeature != 3{
+            self.tableViewSearch.isHidden = true
+            self.throttleGetList()
+        }
+    }
+    
+    @IBAction func actionBtMessagesClick(_ sender: Any) {
+        self.isTabCustomerSelected = false
+        
+        if self.statusSearchRoomFeature == 3 && self.statusSearchMessageFeature == 3 {
+            self.showAlertDisable()
+            
+            self.btTabMessages.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+            self.btTabMessages.addBorderBottom(size: 2, color: ColorConfiguration.defaultColorTosca)
+            self.btTabCustomers.setTitleColor(UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45), for: .normal)
+            self.btTabCustomers.addBorderBottom(size: 2, color: .lightGray)
+        }else if self.statusSearchRoomFeature == 3 && self.statusSearchMessageFeature == 1{
+            self.hideALLAlertSearchRoomMessage()
+            
+            self.btTabMessages.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+            self.btTabMessages.addBorderBottom(size: 2, color: ColorConfiguration.defaultColorTosca)
+            self.btTabCustomers.setTitleColor(UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45), for: .normal)
+            self.btTabCustomers.addBorderBottom(size: 2, color: .lightGray)
+        }else if  self.statusSearchRoomFeature == 1 && self.statusSearchMessageFeature == 3 {
+            self.showAlertDisable()
+            
+            self.btTabMessages.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+            self.btTabMessages.addBorderBottom(size: 2, color: ColorConfiguration.defaultColorTosca)
+            self.btTabCustomers.setTitleColor(UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45), for: .normal)
+            self.btTabCustomers.addBorderBottom(size: 2, color: .lightGray)
+        }else if  self.statusSearchRoomFeature == 1 && self.statusSearchMessageFeature == 1 {
+            self.hideALLAlertSearchRoomMessage()
+            
+            self.btTabMessages.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+            self.btTabMessages.addBorderBottom(size: 2, color: ColorConfiguration.defaultColorTosca)
+            self.btTabCustomers.setTitleColor(UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45), for: .normal)
+            self.btTabCustomers.addBorderBottom(size: 2, color: .lightGray)
+        }
+        
+        if self.statusSearchMessageFeature != 3 {
+            self.tableViewSearch.isHidden = true
+            self.throttleGetList()
+        }
+        
+      
+    }
+    
+    func getConfigFeature(){
+       
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/features", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getConfigFeature()
+                            } else {
+                                return
+                            }
+                        }
+                    }else{
+                        //show error
+                        let error = JSON(response.result.value)["errors"].string ?? "Something wrong"
+                        
+                        let vc = AlertAMFailedUpdate()
+                        vc.errorMessage = error
+                        vc.modalPresentationStyle = .overFullScreen
+                        
+                        self.navigationController?.present(vc, animated: false, completion: {
+                            
+                        })
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                  
+                    if let features = json["data"]["features"].array {
+                        if features.count != 0 {
+                            for data in features {
+                                let dataFeature = FeaturesModel(json: data)
+                                self.featuresData.append(dataFeature)
+                            }
+                        }
+                    }
+                    
+                    
+                    for i in self.featuresData {
+                        if i.name.lowercased() == "INBOX".lowercased(){
+                            for x in i.features {
+                                ////1 show, 2 hide, 3 disabled
+                                if x.name.lowercased() == "SEARCH_MESSAGE".lowercased(){
+                                    self.statusSearchMessageFeature = x.status
+                                }
+                                
+                                if x.name.lowercased() == "SEARCH_CUSTOMER".lowercased(){
+                                    self.statusSearchRoomFeature = x.status
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
 }
 
 extension HomeVC : UITableViewDelegate, UITableViewDataSource {
     
-    func chat(withRoom room: RoomModel){
+    func chat(withRoom room: RoomModel, comment : CommentModel? = nil){
         let target = UIChatViewController()
         target.room = room
+        if let comment = comment {
+            target.scrollToComment = comment
+        }else{
+            target.scrollToComment = nil
+        }
         self.navigationController?.pushViewController(target, animated: true)
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.searchCustomerRooms.count
+        if self.isTabCustomerSelected == true {
+            return self.searchCustomerRooms.count
+        }else{
+            return self.searchCustomerComments.count
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -769,20 +1158,50 @@ extension HomeVC : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = self.searchCustomerRooms[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
-        cell.setupUICustomerRoom(data: data)
-        return cell
+        if self.isTabCustomerSelected == true {
+            if self.searchCustomerRooms.count == 0{
+                return UITableViewCell()
+            }else{
+                let data = self.searchCustomerRooms[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
+                cell.setupUICustomerRoom(data: data)
+                return cell
+            }
+        }else{
+            if self.searchCustomerComments.count == 0 {
+                return UITableViewCell()
+            }else{
+                let data = self.searchCustomerComments[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListSearchMessageViewCell.identifier, for: indexPath) as! UIChatListSearchMessageViewCell
+                cell.setup(data: data, messageSearch : self.searchBar.text ?? "")
+                return cell
+            }
+           
+        }
+        
+        return UITableViewCell()
+       
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let customerRoom = self.searchCustomerRooms[indexPath.row]
-        
-        QiscusCore.shared.getChatRoomWithMessages(roomId: customerRoom.roomId, onSuccess: { (room, comments) in
-            self.chat(withRoom: room)
-        }) { (error) in
-            //error
+        if self.isTabCustomerSelected == true {
+            let customerRoom = self.searchCustomerRooms[indexPath.row]
+            
+            QiscusCore.shared.getChatRoomWithMessages(roomId: customerRoom.roomId, onSuccess: { (room, comments) in
+                self.chat(withRoom: room)
+            }) { (error) in
+                //error
+            }
+        }else{
+            let customerComment = self.searchCustomerComments[indexPath.row]
+            
+            QiscusCore.shared.getChatRoomWithMessages(roomId: customerComment.roomId, onSuccess: { (room, comments) in
+                self.chat(withRoom: room, comment: customerComment)
+            }) { (error) in
+                //error
+            }
         }
+       
         
     }
     
@@ -800,18 +1219,30 @@ extension HomeVC : UITableViewDelegate, UITableViewDataSource {
     
     private func getIndexpath(byRoom data: CustomerRoom) -> IndexPath? {
         // get current index
-        for (i,r) in self.searchCustomerRooms.enumerated() {
-            if r.id == data.id {
-                return IndexPath(row: i, section: 0)
+        if self.isTabCustomerSelected == true {
+            for (i,r) in self.searchCustomerRooms.enumerated() {
+                if r.id == data.id {
+                    return IndexPath(row: i, section: 0)
+                }
             }
+            return nil
+        }else{
+            //TODO change with searchMessageModel
+            for (i,r) in self.searchCustomerComments.enumerated() {
+                if r.id == data.id {
+                    return IndexPath(row: i, section: 0)
+                }
+            }
+            return nil
         }
+    
         return nil
     }
 }
 
 extension HomeVC: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true
+        searchBar.showsCancelButton = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -829,7 +1260,7 @@ extension HomeVC: UISearchBarDelegate {
         self.containerView.frame = self.defaultContainerView
         self.containerView.isHidden = false
         self.tableViewSearch.isHidden = true
-        self.lbRoomsNotFound.isHidden = true
+        self.viewNoResultSearchRoomMessage.isHidden = true
         self.loadingIndicator.isHidden = true
         self.searchBar.isHidden = true
         self.viewSearchBar.isHidden = true
@@ -840,9 +1271,77 @@ extension HomeVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     }
     
+    func showALLTAB(){
+        self.isTabCustomerSelected = true
+        self.btTabCustomers.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+        self.btTabCustomers.addBorderBottom(size: 2, color: ColorConfiguration.defaultColorTosca)
+        
+        self.btTabMessages.setTitleColor(UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45), for: .normal)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.btTabMessages.addBorderBottom(size: 2, color: .lightGray)
+        }
+    }
+    
+    func showTABCustomer(){
+        self.isTabCustomerSelected = true
+        self.btTabMessages.isHidden = true
+        
+        self.btTabCustomers.setTitleColor(UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45), for: .normal)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.btTabCustomers.addBorderBottom(size: 2, color: .lightGray)
+        }
+    }
+    
+    func showTABMessage(){
+        self.isTabCustomerSelected = false
+        self.btTabCustomers.isHidden = true
+        
+        self.btTabMessages.setTitleColor(UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.45), for: .normal)
+        self.btTabMessages.addBorderBottom(size: 2, color: .lightGray)
+    }
+    
     func searchBar(_ owsearchBar: UISearchBar, textDidChange searchText: String) {
+        if let text = owsearchBar.text {
+            if !text.isEmpty {
+                self.stackView.isHidden = false
+                self.heightStackView.constant = 50
+                if firstTimeLoadSearch == false {
+                    self.firstTimeLoadSearch = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        
+                        if self.statusSearchRoomFeature == 3 && self.statusSearchMessageFeature == 3 {
+                            self.showAlertDisable()
+                            self.showALLTAB()
+                        }else if self.statusSearchRoomFeature == 3 && self.statusSearchMessageFeature == 2{
+                            self.showAlertDisable()
+                            self.showTABCustomer()
+                        }else if self.statusSearchRoomFeature == 3 && self.statusSearchMessageFeature == 1{
+                            self.showAlertDisable()
+                            self.showALLTAB()
+                        }else if self.statusSearchRoomFeature == 2 && self.statusSearchMessageFeature == 3 {
+                            self.showAlertDisable()
+                            self.showTABMessage()
+                        }else if self.statusSearchRoomFeature == 2 && self.statusSearchMessageFeature == 2 {
+                            self.heightStackView.constant = 0
+                        }else if  self.statusSearchRoomFeature == 2 && self.statusSearchMessageFeature == 1 {
+                            self.showTABMessage()
+                        }else if  self.statusSearchRoomFeature == 1 && self.statusSearchMessageFeature == 3 {
+                            self.showALLTAB()
+                        }else if  self.statusSearchRoomFeature == 1 && self.statusSearchMessageFeature == 2 {
+                            self.showTABCustomer()
+                        }else if  self.statusSearchRoomFeature == 1 && self.statusSearchMessageFeature == 1 {
+                            self.showALLTAB()
+                        }
+                    }
+                }
+            }
+        }
+        if let viewWithTag = self.view.viewWithTag(222) {
+            viewWithTag.removeFromSuperview()
+        }
         self.throttleGetList()
     }
+    
 }
 
 

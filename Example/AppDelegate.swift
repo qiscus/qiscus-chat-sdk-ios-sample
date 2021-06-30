@@ -202,6 +202,11 @@ extension AppDelegate {
             if let appID = UserDefaults.standard.getAppID(){
                 QiscusCore.setup(WithAppID: appID)
             }
+            
+            let header = ["QISCUS-SDK-PARTNER-KEY": "q1sm0-se4rc#"]
+            
+            QiscusCore.setCustomHeader(values: header)
+            
             target = HomeVC()//UIChatTabViewController()//UIChatListViewController()
             _ = QiscusCore.connect(delegate: self)
             DispatchQueue.main.asyncAfter(deadline: .now()+3, execute: {

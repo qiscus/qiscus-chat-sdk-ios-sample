@@ -164,6 +164,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     @IBOutlet weak var viewUnstableConnection: UIView!
     @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
     
+    //scroll to commentId
+    var scrollToComment : CommentModel? = nil
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -1712,7 +1715,19 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     
     func scrollToComment(comment: CommentModel) {
         if let indexPath = self.presenter.getIndexPath(comment: comment) {
-            self.tableViewConversation.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            
+            self.tableViewConversation.allowsSelection = true
+            
+            if self.scrollToComment != nil {
+                self.scrollToComment = nil
+                self.tableViewConversation.scrollToRow(at: indexPath, at: .middle, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    let userInfo = ["commentId": comment.id]
+                    NotificationCenter.default.post(name: Notification.Name("selectedCell"), object: nil, userInfo : userInfo )
+                }
+            }
+        }else{
+            self.presenter.loadMore()
         }
     }
     
@@ -2187,6 +2202,10 @@ extension UIChatViewController: UIChatViewDelegate {
     
     func onLoadMoreMesageFinished() {
         self.tableViewConversation.reloadData()
+        
+        if let searchComment = scrollToComment{
+            self.scrollToComment(comment: searchComment)
+        }
     }
     
     func onLoadMessageFinished() {
@@ -2199,6 +2218,9 @@ extension UIChatViewController: UIChatViewDelegate {
         }
         
         self.tableViewConversation.reloadData()
+        if let searchComment = scrollToComment{
+            self.scrollToComment(comment: searchComment)
+        }
     }
     
     func onSendMessageFinished(comment: CommentModel) {

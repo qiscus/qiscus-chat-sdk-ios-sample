@@ -34,6 +34,7 @@ class QCardLeftCell: UIBaseChatCell {
     var isPublic: Bool = false
     var colorName : UIColor = UIColor.black
     var isQiscus : Bool = false
+    var message: CommentModel? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -48,6 +49,23 @@ class QCardLeftCell: UIBaseChatCell {
         self.cardWidth.constant = QiscusHelper.screenWidth() * 0.70
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(QCardRightCell.cardTapped))
         self.containerArea.addGestureRecognizer(tapRecognizer)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMassage(_:)),
+                                               name: Notification.Name("selectedCell"),
+                                               object: nil)
+    }
+    
+    @objc func handleMassage(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let json = JSON(userInfo)
+            let commentId = json["commentId"].string ?? "0"
+            if let message = self.message {
+                if message.id == commentId {
+                    self.contentView.backgroundColor = UIColor(red:39/255, green:177/255, blue:153/255, alpha: 0.1)
+                }
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -71,6 +89,7 @@ class QCardLeftCell: UIBaseChatCell {
     }
     
     func bindData(message: CommentModel){
+        self.message = message
         self.setupBalon()
         
         self.ivAvatarUser.layer.cornerRadius = self.ivAvatarUser.frame.size.width / 2
