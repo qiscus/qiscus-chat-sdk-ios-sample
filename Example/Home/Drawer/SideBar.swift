@@ -138,7 +138,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         viewMenuLogout.layer.shadowColor = UIColor.black.cgColor
         viewMenuLogout.layer.shadowOffset = CGSize(width: 1, height: 1)
         viewMenuLogout.layer.shadowOpacity = 0.3
-        viewMenuLogout.layer.shadowRadius = 1.0
+        viewMenuLogout.layer.shadowRadius = 1.5
         viewMenuLogout.layer.cornerRadius = 8
     }
     
@@ -146,7 +146,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         viewMenuSetting.layer.shadowColor = UIColor.black.cgColor
         viewMenuSetting.layer.shadowOffset = CGSize(width: 1, height: 1)
         viewMenuSetting.layer.shadowOpacity = 0.3
-        viewMenuSetting.layer.shadowRadius = 1.0
+        viewMenuSetting.layer.shadowRadius = 1.5
         viewMenuSetting.layer.cornerRadius = 8
     }
     
@@ -156,7 +156,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         btEditProfile.layer.shadowColor = UIColor.black.cgColor
         btEditProfile.layer.shadowOffset = CGSize(width: 1, height: 1)
         btEditProfile.layer.shadowOpacity = 0.3
-        btEditProfile.layer.shadowRadius = 1.0
+        btEditProfile.layer.shadowRadius = 1.5
     }
     
     @IBAction func goToEditProfile(_ sender: Any) {
@@ -258,6 +258,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
         self.tableView.delegate = self
         self.tableView.register(UINib(nibName: "AvailabilityAgentCell", bundle: nil), forCellReuseIdentifier: "AvailabilityAgentCellIdentifire")
         self.tableView.register(UINib(nibName: "InboxCell", bundle: nil), forCellReuseIdentifier: "InboxCellIdentifire")
+        self.tableView.register(UINib(nibName: "AnalyticsCell", bundle: nil), forCellReuseIdentifier: "AnalyticsCellIdentifire")
         
         self.tableView.tableFooterView = UIView()
         self.tableView.reloadData()
@@ -269,33 +270,52 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if hideOnlineOfflineAgent == true {
-            return 1
-        } else {
             return 2
+        } else {
+            return 3
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if hideOnlineOfflineAgent == true {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "InboxCellIdentifire", for: indexPath) as! InboxCell
-            cell.viewInbox.layer.shadowColor = UIColor.black.cgColor
-            cell.viewInbox.layer.shadowOffset = CGSize(width: 1, height: 1)
-            cell.viewInbox.layer.shadowOpacity = 0.3
-            cell.viewInbox.layer.shadowRadius = 1.0
-            cell.viewInbox.layer.cornerRadius = 8
-            return cell
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "InboxCellIdentifire", for: indexPath) as! InboxCell
+                cell.viewInbox.layer.shadowColor = UIColor.black.cgColor
+                cell.viewInbox.layer.shadowOffset = CGSize(width: 1, height: 1)
+                cell.viewInbox.layer.shadowOpacity = 0.3
+                cell.viewInbox.layer.shadowRadius = 1.5
+                cell.viewInbox.layer.cornerRadius = 8
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AnalyticsCellIdentifire", for: indexPath) as! AnalyticsCell
+                cell.viewAnalytic.layer.shadowColor = UIColor.black.cgColor
+                cell.viewAnalytic.layer.shadowOffset = CGSize(width: 1, height: 1)
+                cell.viewAnalytic.layer.shadowOpacity = 0.3
+                cell.viewAnalytic.layer.shadowRadius = 1.5
+                cell.viewAnalytic.layer.cornerRadius = 8
+                return cell
+            }
+            
         }else{
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AvailabilityAgentCellIdentifire", for: indexPath) as! AvailabilityAgentCell
                 cell.getProfileInfo()
                 return cell
-            }else{
+            }else if indexPath.row == 1{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "InboxCellIdentifire", for: indexPath) as! InboxCell
                 cell.viewInbox.layer.shadowColor = UIColor.black.cgColor
                 cell.viewInbox.layer.shadowOffset = CGSize(width: 1, height: 1)
                 cell.viewInbox.layer.shadowOpacity = 0.3
-                cell.viewInbox.layer.shadowRadius = 1.0
+                cell.viewInbox.layer.shadowRadius = 1.5
                 cell.viewInbox.layer.cornerRadius = 8
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AnalyticsCellIdentifire", for: indexPath) as! AnalyticsCell
+                cell.viewAnalytic.layer.shadowColor = UIColor.black.cgColor
+                cell.viewAnalytic.layer.shadowOffset = CGSize(width: 1, height: 1)
+                cell.viewAnalytic.layer.shadowOpacity = 0.3
+                cell.viewAnalytic.layer.shadowRadius = 1.5
+                cell.viewAnalytic.layer.cornerRadius = 8
                 return cell
             }
         }
@@ -315,12 +335,30 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
          }
     }
     
+    func goAnalytics(){
+        if let navController = self.currentViewController()?.navigationController {
+            if RDNavigationDrawer.isOpen == true {
+                RDNavigationDrawer.sideToggle()
+            }
+            
+            let vc = AnalyticsVC()
+            navController.pushViewController(vc, animated: true)
+            
+         }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if hideOnlineOfflineAgent == true {
-            goInbox()
+            if indexPath.row == 0 {
+                goInbox()
+            }else{
+                goAnalytics()
+            }
         }else{
             if indexPath.row == 1 {
                 goInbox()
+            }else if indexPath.row == 2 {
+                goAnalytics()
             }
         }
     }

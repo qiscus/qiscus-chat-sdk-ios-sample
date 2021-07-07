@@ -27,8 +27,10 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     @IBOutlet weak var lbAlertDisableSearchRoomMessage: UILabel!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableViewSearch: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var viewSearch: UIView!
+    @IBOutlet weak var tvSearch: UITextField!
     @IBOutlet weak var bottomTableViewTagHeightConst: NSLayoutConstraint!
+    @IBOutlet weak var btCloseSearch: UIButton!
     
     @IBOutlet weak var btTabCustomers: UIButton!
     @IBOutlet weak var btTabMessages: UIButton!
@@ -65,6 +67,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         super.viewDidLoad()
         self.setupUI()
+        self.setupSearch()
         self.setupUINavBar()
         self.getCountCustomer()
         
@@ -92,6 +95,16 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             self.defaultButtonBarView = self.buttonBarView.frame
             self.defaultContainerView = self.containerView.frame
         }
+    }
+    
+    func setupSearch(){
+        self.viewSearch.layer.borderWidth = 1
+        self.viewSearch.layer.borderColor = UIColor(red: 196/255.0, green: 196/255.0, blue: 196/255.0, alpha:1.0).cgColor
+        self.viewSearch.layer.cornerRadius = 4
+        
+        //textField
+        self.tvSearch.delegate = self
+        self.btCloseSearch.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
     }
     
     func getProfileInfo(){
@@ -301,7 +314,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         }
         
         
-        if self.searchBar.isHidden == true {
+        if self.viewSearch.isHidden == true {
             let button = UIButton()
             
             if UIDevice().userInterfaceIdiom == .phone {
@@ -354,6 +367,27 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         //popupVC.popupDelegate = self
         self.present(popupVC, animated: true, completion: nil)
     }
+    @IBAction func closeSearchAction(_ sender: Any) {
+        self.viewSearch.isHidden = true
+        self.tvSearch.text = ""
+        self.tvSearch.endEditing(true)
+        self.stackView.isHidden = true
+        self.heightStackView.constant = 0
+        self.firstTimeLoadSearch = false
+        
+        self.searchCustomerRooms.removeAll()
+        self.tableViewSearch.reloadData()
+        
+        buttonBarView.frame = self.defaultButtonBarView
+        self.containerView.frame = self.defaultContainerView
+        self.containerView.isHidden = false
+        self.tableViewSearch.isHidden = true
+        self.viewNoResultSearchRoomMessage.isHidden = true
+        self.loadingIndicator.isHidden = true
+        self.viewSearchBar.isHidden = true
+        self.title = "Inbox"
+        self.view.viewWithTag(222)?.isHidden = false
+    }
     
     func showAlert(_ title: String) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
@@ -391,7 +425,6 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(HomeVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         self.tableViewSearch.isHidden = true
-        self.searchBar.isHidden = true
         self.viewSearchBar.isHidden = true
         
         
@@ -539,16 +572,11 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.title = "Search"
         
         self.tableViewSearch.isHidden = false
-        
-        self.searchBar.isHidden = false
         self.viewSearchBar.isHidden = false
         self.viewSearchBar.addBorderBottom(size: 1, color: UIColor(red: 232/255.0, green: 232/255.0, blue: 232/255.0, alpha:1.0))
+        self.tvSearch.text = ""
+        self.viewSearch.isHidden = false
         
-        //setup search
-        self.searchBar.delegate = self
-        self.searchBar.backgroundImage = UIImage()
-        self.searchBar.backgroundColor = .white
-        self.searchBar.setTextFieldColor(UIColor.white)
         
         self.tableViewSearch.delegate = self
         self.tableViewSearch.dataSource = self
@@ -670,7 +698,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     }
     
     @objc func getList(){
-        if let searchMessage = searchBar.text{
+        if let searchMessage = tvSearch.text{
             if searchMessage.count <= 2{
                 if self.isTabCustomerSelected == true{
                     if self.statusSearchRoomFeature == 1 {
@@ -710,7 +738,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     }
     
     func checkSearchBarMessage(){
-        if let searchMessage = searchBar.text{
+        if let searchMessage = tvSearch.text{
             if searchMessage.count <= 2{
                 self.showAlertNoResultSearchRoomMessage()
             }else{
@@ -724,12 +752,12 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     }
     
     func getCustomerMessages(){
-        if self.searchBar.text == nil || self.searchBar.text?.isEmpty == true {
+        if self.tvSearch.text == nil || self.tvSearch.text?.isEmpty == true {
             return
         }else{
             self.loadingIndicator.startAnimating()
             self.loadingIndicator.isHidden = false
-            QiscusCore.shared.searchMessage(query: self.searchBar.text ?? "", page: 1, limit: 100) { (comments) in
+            QiscusCore.shared.searchMessage(query: self.tvSearch.text ?? "", page: 1, limit: 100) { (comments) in
                 self.loadingIndicator.stopAnimating()
                 self.loadingIndicator.isHidden = true
                 self.tableViewSearch.isHidden = false
@@ -769,7 +797,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
         var param = ["limit": "50",
-                     "name" : self.searchBar.text ?? ""
+                     "name" : self.tvSearch.text ?? ""
         ] as [String : Any]
         
         if let hasFilterAgent = defaults.array(forKey: "filterAgent"){
@@ -1118,6 +1146,26 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                                 }
                             }
                         }
+                        
+                        if i.name.lowercased() == "ANALYTICS".lowercased(){
+                            for x in i.features {
+                                ////1 show, 2 hide, 3 disabled
+                                if x.name.lowercased() == "AGENT_ANALYTICS".lowercased(){
+                                    UserDefaults.standard.setStatusFeatureOverallAgentAnalytics(value: x.status)
+                                    
+                                    for y in x.features {
+                                        if y.name.lowercased() == "AGENT_ANALYTICS_WA".lowercased(){
+                                            UserDefaults.standard.setStatusFeatureAnalyticsWA(value: y.status)
+                                        }
+                                    }
+                                    
+                                }
+                                
+                                if x.name.lowercased() == "CUSTOM_ANALYTICS".lowercased(){
+                                    UserDefaults.standard.setStatusFeatureCustomAnalytics(value: x.status)
+                                }
+                            }
+                        }
                     }
                     
                 }
@@ -1173,7 +1221,7 @@ extension HomeVC : UITableViewDelegate, UITableViewDataSource {
             }else{
                 let data = self.searchCustomerComments[indexPath.row]
                 let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListSearchMessageViewCell.identifier, for: indexPath) as! UIChatListSearchMessageViewCell
-                cell.setup(data: data, messageSearch : self.searchBar.text ?? "")
+                cell.setup(data: data, messageSearch : self.tvSearch.text ?? "")
                 return cell
             }
            
@@ -1240,37 +1288,7 @@ extension HomeVC : UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension HomeVC: UISearchBarDelegate {
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-       
-        searchBar.text = ""
-        searchBar.endEditing(true)
-        
-        self.searchCustomerRooms.removeAll()
-        self.tableViewSearch.reloadData()
-        
-        buttonBarView.frame = self.defaultButtonBarView
-        self.containerView.frame = self.defaultContainerView
-        self.containerView.isHidden = false
-        self.tableViewSearch.isHidden = true
-        self.viewNoResultSearchRoomMessage.isHidden = true
-        self.loadingIndicator.isHidden = true
-        self.searchBar.isHidden = true
-        self.viewSearchBar.isHidden = true
-        self.title = "Inbox"
-        self.view.viewWithTag(222)?.isHidden = false
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    }
-    
+extension HomeVC : UITextFieldDelegate {
     func showALLTAB(){
         self.isTabCustomerSelected = true
         self.btTabCustomers.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
@@ -1300,8 +1318,29 @@ extension HomeVC: UISearchBarDelegate {
         self.btTabMessages.addBorderBottom(size: 2, color: .lightGray)
     }
     
-    func searchBar(_ owsearchBar: UISearchBar, textDidChange searchText: String) {
-        if let text = owsearchBar.text {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true;
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return true;
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true;
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if let text = textField.text {
             if !text.isEmpty {
                 self.stackView.isHidden = false
                 self.heightStackView.constant = 50
@@ -1340,8 +1379,12 @@ extension HomeVC: UISearchBarDelegate {
             viewWithTag.removeFromSuperview()
         }
         self.throttleGetList()
+        
+        return true;
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder();
+        return true;
     }
     
 }
-
-

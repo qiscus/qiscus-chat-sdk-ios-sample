@@ -222,6 +222,9 @@ extension AppDelegate {
             defaults.removeObject(forKey: "filterSelectedTypeWA")
             defaults.removeObject(forKey: "lastSelectedListRoom")
             defaults.removeObject(forKey: "ic_resolved_all_WA_active")
+            defaults.removeObject(forKey: "featureOverallAgentAnalytics")
+            defaults.removeObject(forKey: "featureCustomAnalytics")
+            defaults.removeObject(forKey: "featureAnalyticsWA")
             if self.timer != nil {
                 self.timer?.invalidate()
                 self.timer = nil
@@ -272,7 +275,9 @@ extension AppDelegate {
                         let token = json["data"]["authentication_token"].stringValue
                         let userType = json["data"]["type"].intValue
                         let bubbleColor = json["data"]["bubble_color"].stringValue
+                        let accountId = json["data"]["id"].int ?? 0
                         
+                        UserDefaults.standard.setAccountId(value: accountId)
                         UserDefaults.standard.setBubbleColor(value: bubbleColor)
                         UserDefaults.standard.setAfterLogin(value: true)
                         

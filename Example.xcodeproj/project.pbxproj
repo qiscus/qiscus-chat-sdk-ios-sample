@@ -173,6 +173,14 @@
 		3D7A397B25793960005E7FAE /* DetailAdditionalInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7A397925793960005E7FAE /* DetailAdditionalInformationCell.swift */; };
 		3D7A397C25793960005E7FAE /* DetailAdditionalInformationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D7A397A25793960005E7FAE /* DetailAdditionalInformationCell.xib */; };
 		3D7A397E25793C16005E7FAE /* AdditionalInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7A397D25793C16005E7FAE /* AdditionalInformationModel.swift */; };
+		3D7ADB68268DF8AF00DB214D /* PerformanceAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7ADB66268DF8AF00DB214D /* PerformanceAgentVC.swift */; };
+		3D7ADB69268DF8AF00DB214D /* PerformanceAgentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D7ADB67268DF8AF00DB214D /* PerformanceAgentVC.xib */; };
+		3D7ADB6D268DFED400DB214D /* ChatAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7ADB6B268DFED300DB214D /* ChatAgentVC.swift */; };
+		3D7ADB6E268DFED400DB214D /* ChatAgentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D7ADB6C268DFED300DB214D /* ChatAgentVC.xib */; };
+		3D7ADB72268E00A900DB214D /* OtherAnalyticsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7ADB70268E00A900DB214D /* OtherAnalyticsVC.swift */; };
+		3D7ADB73268E00A900DB214D /* OtherAnalyticsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D7ADB71268E00A900DB214D /* OtherAnalyticsVC.xib */; };
+		3D7ADB78268EE6AF00DB214D /* SelectAnalyticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7ADB76268EE6AF00DB214D /* SelectAnalyticsCell.swift */; };
+		3D7ADB79268EE6AF00DB214D /* SelectAnalyticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D7ADB77268EE6AF00DB214D /* SelectAnalyticsCell.xib */; };
 		3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D80B2AD221BB4770053280C /* CreateNewGroupVC.swift */; };
 		3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80B2AE221BB4770053280C /* CreateNewGroupVC.xib */; };
 		3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D80B2B1221BB75A0053280C /* ContactSelectCollCell.xib */; };
@@ -189,6 +197,8 @@
 		3D8A397726412118001CE15D /* FilterByTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8A397526412118001CE15D /* FilterByTagCell.xib */; };
 		3D8A397D2644DF93001CE15D /* FilterByAgentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A397B2644DF93001CE15D /* FilterByAgentCell.swift */; };
 		3D8A397E2644DF93001CE15D /* FilterByAgentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8A397C2644DF93001CE15D /* FilterByAgentCell.xib */; };
+		3D8CA6C3268DC1EE00176F80 /* AnalyticsAnotherAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8CA6C1268DC1EE00176F80 /* AnalyticsAnotherAgent.swift */; };
+		3D8CA6C4268DC1EE00176F80 /* AnalyticsAnotherAgent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8CA6C2268DC1EE00176F80 /* AnalyticsAnotherAgent.xib */; };
 		3D8F0D6122684130000135CA /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F0D6022684130000135CA /* UserDefault.swift */; };
 		3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */; };
 		3D8F3E7225869400004434B7 /* AlertAvailabilityAgent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */; };
@@ -292,6 +302,16 @@
 		3DC7FE0B2586590300CCA763 /* SideBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC7FE092586590300CCA763 /* SideBar.xib */; };
 		3DC7FE102586633800CCA763 /* AvailabilityAgentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC7FE0E2586633800CCA763 /* AvailabilityAgentCell.swift */; };
 		3DC7FE112586633800CCA763 /* AvailabilityAgentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC7FE0F2586633800CCA763 /* AvailabilityAgentCell.xib */; };
+		3DCC3AED26930239002FD4B1 /* OverallAgentGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC3AEB26930239002FD4B1 /* OverallAgentGeneral.swift */; };
+		3DCC3AEE26930239002FD4B1 /* OverallAgentGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCC3AEC26930239002FD4B1 /* OverallAgentGeneral.xib */; };
+		3DCC3AF226930258002FD4B1 /* OverallAgentPerformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC3AF026930258002FD4B1 /* OverallAgentPerformance.swift */; };
+		3DCC3AF326930258002FD4B1 /* OverallAgentPerformance.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCC3AF126930258002FD4B1 /* OverallAgentPerformance.xib */; };
+		3DCC3AF726930274002FD4B1 /* OverallAgentChats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC3AF526930274002FD4B1 /* OverallAgentChats.swift */; };
+		3DCC3AF826930274002FD4B1 /* OverallAgentChats.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCC3AF626930274002FD4B1 /* OverallAgentChats.xib */; };
+		3DCC3AFC26930295002FD4B1 /* OverallAgentWA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC3AFA26930295002FD4B1 /* OverallAgentWA.swift */; };
+		3DCC3AFD26930295002FD4B1 /* OverallAgentWA.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCC3AFB26930295002FD4B1 /* OverallAgentWA.xib */; };
+		3DCC3B01269302B8002FD4B1 /* OverallAgentOthers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC3AFF269302B8002FD4B1 /* OverallAgentOthers.swift */; };
+		3DCC3B02269302B8002FD4B1 /* OverallAgentOthers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCC3B00269302B8002FD4B1 /* OverallAgentOthers.xib */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
@@ -307,6 +327,12 @@
 		3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB682192D35600484795 /* Main.storyboard */; };
 		3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6B2192D35D00484795 /* Assets.xcassets */; };
 		3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6D2192D35D00484795 /* LaunchScreen.storyboard */; };
+		3DFAD2F6268D744F0069B848 /* AnalyticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD2F4268D744F0069B848 /* AnalyticsCell.swift */; };
+		3DFAD2F7268D744F0069B848 /* AnalyticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFAD2F5268D744F0069B848 /* AnalyticsCell.xib */; };
+		3DFAD2FB268D84B40069B848 /* AnalyticsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD2F9268D84B40069B848 /* AnalyticsVC.swift */; };
+		3DFAD2FC268D84B40069B848 /* AnalyticsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFAD2FA268D84B40069B848 /* AnalyticsVC.xib */; };
+		3DFAD301268DA9C80069B848 /* AgentAnalyticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD2FF268DA9C80069B848 /* AgentAnalyticsCell.swift */; };
+		3DFAD302268DA9C80069B848 /* AgentAnalyticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFAD300268DA9C80069B848 /* AgentAnalyticsCell.xib */; };
 		EE4AD92B42D67598F6C5EEA2 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E910F3CE92601E11DB86C8 /* Pods_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -477,6 +503,14 @@
 		3D7A397925793960005E7FAE /* DetailAdditionalInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAdditionalInformationCell.swift; sourceTree = "<group>"; };
 		3D7A397A25793960005E7FAE /* DetailAdditionalInformationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailAdditionalInformationCell.xib; sourceTree = "<group>"; };
 		3D7A397D25793C16005E7FAE /* AdditionalInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalInformationModel.swift; sourceTree = "<group>"; };
+		3D7ADB66268DF8AF00DB214D /* PerformanceAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceAgentVC.swift; sourceTree = "<group>"; };
+		3D7ADB67268DF8AF00DB214D /* PerformanceAgentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PerformanceAgentVC.xib; sourceTree = "<group>"; };
+		3D7ADB6B268DFED300DB214D /* ChatAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAgentVC.swift; sourceTree = "<group>"; };
+		3D7ADB6C268DFED300DB214D /* ChatAgentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatAgentVC.xib; sourceTree = "<group>"; };
+		3D7ADB70268E00A900DB214D /* OtherAnalyticsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAnalyticsVC.swift; sourceTree = "<group>"; };
+		3D7ADB71268E00A900DB214D /* OtherAnalyticsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OtherAnalyticsVC.xib; sourceTree = "<group>"; };
+		3D7ADB76268EE6AF00DB214D /* SelectAnalyticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAnalyticsCell.swift; sourceTree = "<group>"; };
+		3D7ADB77268EE6AF00DB214D /* SelectAnalyticsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectAnalyticsCell.xib; sourceTree = "<group>"; };
 		3D80B2AD221BB4770053280C /* CreateNewGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewGroupVC.swift; sourceTree = "<group>"; };
 		3D80B2AE221BB4770053280C /* CreateNewGroupVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateNewGroupVC.xib; sourceTree = "<group>"; };
 		3D80B2B1221BB75A0053280C /* ContactSelectCollCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactSelectCollCell.xib; sourceTree = "<group>"; };
@@ -494,6 +528,8 @@
 		3D8A397526412118001CE15D /* FilterByTagCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterByTagCell.xib; sourceTree = "<group>"; };
 		3D8A397B2644DF93001CE15D /* FilterByAgentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterByAgentCell.swift; sourceTree = "<group>"; };
 		3D8A397C2644DF93001CE15D /* FilterByAgentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterByAgentCell.xib; sourceTree = "<group>"; };
+		3D8CA6C1268DC1EE00176F80 /* AnalyticsAnotherAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAnotherAgent.swift; sourceTree = "<group>"; };
+		3D8CA6C2268DC1EE00176F80 /* AnalyticsAnotherAgent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalyticsAnotherAgent.xib; sourceTree = "<group>"; };
 		3D8F0D6022684130000135CA /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserDefault.swift; path = Example/UserDefault.swift; sourceTree = SOURCE_ROOT; };
 		3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAvailabilityAgent.swift; sourceTree = "<group>"; };
 		3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAvailabilityAgent.xib; sourceTree = "<group>"; };
@@ -597,6 +633,16 @@
 		3DC7FE092586590300CCA763 /* SideBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideBar.xib; sourceTree = "<group>"; };
 		3DC7FE0E2586633800CCA763 /* AvailabilityAgentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityAgentCell.swift; sourceTree = "<group>"; };
 		3DC7FE0F2586633800CCA763 /* AvailabilityAgentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvailabilityAgentCell.xib; sourceTree = "<group>"; };
+		3DCC3AEB26930239002FD4B1 /* OverallAgentGeneral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallAgentGeneral.swift; sourceTree = "<group>"; };
+		3DCC3AEC26930239002FD4B1 /* OverallAgentGeneral.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverallAgentGeneral.xib; sourceTree = "<group>"; };
+		3DCC3AF026930258002FD4B1 /* OverallAgentPerformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallAgentPerformance.swift; sourceTree = "<group>"; };
+		3DCC3AF126930258002FD4B1 /* OverallAgentPerformance.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverallAgentPerformance.xib; sourceTree = "<group>"; };
+		3DCC3AF526930274002FD4B1 /* OverallAgentChats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallAgentChats.swift; sourceTree = "<group>"; };
+		3DCC3AF626930274002FD4B1 /* OverallAgentChats.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverallAgentChats.xib; sourceTree = "<group>"; };
+		3DCC3AFA26930295002FD4B1 /* OverallAgentWA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallAgentWA.swift; sourceTree = "<group>"; };
+		3DCC3AFB26930295002FD4B1 /* OverallAgentWA.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverallAgentWA.xib; sourceTree = "<group>"; };
+		3DCC3AFF269302B8002FD4B1 /* OverallAgentOthers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallAgentOthers.swift; sourceTree = "<group>"; };
+		3DCC3B00269302B8002FD4B1 /* OverallAgentOthers.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverallAgentOthers.xib; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -614,6 +660,12 @@
 		3DDEFB6B2192D35D00484795 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DDEFB6E2192D35D00484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DDEFB702192D35D00484795 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DFAD2F4268D744F0069B848 /* AnalyticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCell.swift; sourceTree = "<group>"; };
+		3DFAD2F5268D744F0069B848 /* AnalyticsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalyticsCell.xib; sourceTree = "<group>"; };
+		3DFAD2F9268D84B40069B848 /* AnalyticsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsVC.swift; sourceTree = "<group>"; };
+		3DFAD2FA268D84B40069B848 /* AnalyticsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalyticsVC.xib; sourceTree = "<group>"; };
+		3DFAD2FF268DA9C80069B848 /* AgentAnalyticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAnalyticsCell.swift; sourceTree = "<group>"; };
+		3DFAD300268DA9C80069B848 /* AgentAnalyticsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AgentAnalyticsCell.xib; sourceTree = "<group>"; };
 		93E910F3CE92601E11DB86C8 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C02BD24DCE9BA0B6E0BC7700 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		C5AD7F688AE45942F951EE04 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -869,6 +921,7 @@
 		3D76773425D283DF004C26DC /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				3D8CA6BF268DC19D00176F80 /* Analytics */,
 				3D76775D25D2DD2A004C26DC /* AlertVC */,
 				3D76773525D2842C004C26DC /* SettingMenuVC.swift */,
 				3D76773625D2842C004C26DC /* SettingMenuVC.xib */,
@@ -1002,6 +1055,15 @@
 			path = VC;
 			sourceTree = "<group>";
 		};
+		3D7ADB75268EE67300DB214D /* SelectAnalyticsCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D7ADB76268EE6AF00DB214D /* SelectAnalyticsCell.swift */,
+				3D7ADB77268EE6AF00DB214D /* SelectAnalyticsCell.xib */,
+			);
+			path = SelectAnalyticsCell;
+			sourceTree = "<group>";
+		};
 		3D80B2AC221BB4400053280C /* CreateGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,6 +1130,21 @@
 				3DD1BDF02644E5A200B2BA2A /* AgentFilterCell.xib */,
 			);
 			path = FilterByAgent;
+			sourceTree = "<group>";
+		};
+		3D8CA6BF268DC19D00176F80 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC3AEA269301ED002FD4B1 /* OverallAgentAnalytics */,
+				3DCC3AE926930166002FD4B1 /* AnalyticsAnotherAgentWebView */,
+				3D7ADB75268EE67300DB214D /* SelectAnalyticsCell */,
+				3DFAD2FE268DA96C0069B848 /* AgentAnalyticsCell */,
+				3DFAD2F9268D84B40069B848 /* AnalyticsVC.swift */,
+				3DFAD2FA268D84B40069B848 /* AnalyticsVC.xib */,
+				3D8CA6C1268DC1EE00176F80 /* AnalyticsAnotherAgent.swift */,
+				3D8CA6C2268DC1EE00176F80 /* AnalyticsAnotherAgent.xib */,
+			);
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 		3DA7C698221A685A0018A94F /* Contact */ = {
@@ -1256,6 +1333,8 @@
 				3DC7FE0F2586633800CCA763 /* AvailabilityAgentCell.xib */,
 				3D9CCD1826564ACC00CD3D95 /* InboxCell.swift */,
 				3D9CCD1926564ACC00CD3D95 /* InboxCell.xib */,
+				3DFAD2F4268D744F0069B848 /* AnalyticsCell.swift */,
+				3DFAD2F5268D744F0069B848 /* AnalyticsCell.xib */,
 			);
 			path = DrawerCell;
 			sourceTree = "<group>";
@@ -1274,6 +1353,36 @@
 				3DC7FE002586589700CCA763 /* RDNavigationDrawerGestures.swift */,
 			);
 			path = Drawer;
+			sourceTree = "<group>";
+		};
+		3DCC3AE926930166002FD4B1 /* AnalyticsAnotherAgentWebView */ = {
+			isa = PBXGroup;
+			children = (
+				3D7ADB66268DF8AF00DB214D /* PerformanceAgentVC.swift */,
+				3D7ADB67268DF8AF00DB214D /* PerformanceAgentVC.xib */,
+				3D7ADB6B268DFED300DB214D /* ChatAgentVC.swift */,
+				3D7ADB6C268DFED300DB214D /* ChatAgentVC.xib */,
+				3D7ADB70268E00A900DB214D /* OtherAnalyticsVC.swift */,
+				3D7ADB71268E00A900DB214D /* OtherAnalyticsVC.xib */,
+			);
+			path = AnalyticsAnotherAgentWebView;
+			sourceTree = "<group>";
+		};
+		3DCC3AEA269301ED002FD4B1 /* OverallAgentAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC3AEB26930239002FD4B1 /* OverallAgentGeneral.swift */,
+				3DCC3AEC26930239002FD4B1 /* OverallAgentGeneral.xib */,
+				3DCC3AF026930258002FD4B1 /* OverallAgentPerformance.swift */,
+				3DCC3AF126930258002FD4B1 /* OverallAgentPerformance.xib */,
+				3DCC3AF526930274002FD4B1 /* OverallAgentChats.swift */,
+				3DCC3AF626930274002FD4B1 /* OverallAgentChats.xib */,
+				3DCC3AFA26930295002FD4B1 /* OverallAgentWA.swift */,
+				3DCC3AFB26930295002FD4B1 /* OverallAgentWA.xib */,
+				3DCC3AFF269302B8002FD4B1 /* OverallAgentOthers.swift */,
+				3DCC3B00269302B8002FD4B1 /* OverallAgentOthers.xib */,
+			);
+			path = OverallAgentAnalytics;
 			sourceTree = "<group>";
 		};
 		3DCF6A37219926F800C108E6 /* Login */ = {
@@ -1372,6 +1481,15 @@
 				3D97780B24FA225000D083D6 /* GoogleService-Info.plist */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		3DFAD2FE268DA96C0069B848 /* AgentAnalyticsCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DFAD2FF268DA9C80069B848 /* AgentAnalyticsCell.swift */,
+				3DFAD300268DA9C80069B848 /* AgentAnalyticsCell.xib */,
+			);
+			path = AgentAnalyticsCell;
 			sourceTree = "<group>";
 		};
 		B5B82705ECBC497C39E5804D /* Frameworks */ = {
@@ -1478,6 +1596,7 @@
 				3DBBF0D5266DC7BB005FBDAE /* ResolvedALLWAVC.xib in Resources */,
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D8A397E2644DF93001CE15D /* FilterByAgentCell.xib in Resources */,
+				3DFAD2FC268D84B40069B848 /* AnalyticsVC.xib in Resources */,
 				3DC02387266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib in Resources */,
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
 				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
@@ -1489,14 +1608,18 @@
 				3D8F3E7225869400004434B7 /* AlertAvailabilityAgent.xib in Resources */,
 				3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
+				3D7ADB6E268DFED400DB214D /* ChatAgentVC.xib in Resources */,
 				3D12875225FB16FA001A5962 /* QReplyRightCell.xib in Resources */,
 				3D40B8D72192E20C00FE7228 /* QSystemCell.xib in Resources */,
 				3DA788EA2480613E00CEF339 /* UIChatListServedViewController.xib in Resources */,
 				3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */,
+				3DFAD302268DA9C80069B848 /* AgentAnalyticsCell.xib in Resources */,
 				3DC02382266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.xib in Resources */,
+				3DCC3AF326930258002FD4B1 /* OverallAgentPerformance.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
 				3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */,
 				3DAF5528262533BD00208B99 /* FilterVC.xib in Resources */,
+				3DCC3AEE26930239002FD4B1 /* OverallAgentGeneral.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
 				3D0EAE5B25E618F900481198 /* AMAlterBillEmailDuaCell.xib in Resources */,
 				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
@@ -1516,6 +1639,7 @@
 				3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */,
+				3DFAD2F7268D744F0069B848 /* AnalyticsCell.xib in Resources */,
 				3D76773125D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib in Resources */,
 				3DD6E59725AD9BA700BF96AD /* QVideoLeftCell.xib in Resources */,
 				3D76773825D2842D004C26DC /* SettingMenuVC.xib in Resources */,
@@ -1532,10 +1656,15 @@
 				3D7A39622577C7B7005E7FAE /* AdditionalInformationCell.xib in Resources */,
 				3D0EAE6025E6199800481198 /* AMAlterBillEmailTigaCell.xib in Resources */,
 				3D8A397726412118001CE15D /* FilterByTagCell.xib in Resources */,
+				3D7ADB73268E00A900DB214D /* OtherAnalyticsVC.xib in Resources */,
 				3D9CCD1B26564ACC00CD3D95 /* InboxCell.xib in Resources */,
+				3D7ADB79268EE6AF00DB214D /* SelectAnalyticsCell.xib in Resources */,
+				3DCC3AF826930274002FD4B1 /* OverallAgentChats.xib in Resources */,
+				3D8CA6C4268DC1EE00176F80 /* AnalyticsAnotherAgent.xib in Resources */,
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
 				3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */,
+				3DCC3B02269302B8002FD4B1 /* OverallAgentOthers.xib in Resources */,
 				3DAF553026253ED800208B99 /* WhatsAppChannelCell.xib in Resources */,
 				3DD1BDF22644E5A200B2BA2A /* AgentFilterCell.xib in Resources */,
 				3DC7FDD32585A8B400CCA763 /* BroadcastHistoryVC.xib in Resources */,
@@ -1569,6 +1698,8 @@
 				3D76776125D2DD66004C26DC /* AlertAMSuccessUpdate.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3D76773E25D28958004C26DC /* AccountManagementAgentVC.xib in Resources */,
+				3DCC3AFD26930295002FD4B1 /* OverallAgentWA.xib in Resources */,
+				3D7ADB69268DF8AF00DB214D /* PerformanceAgentVC.xib in Resources */,
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
 				3D76774525D29223004C26DC /* AMProfileAvatarCell.xib in Resources */,
 				3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */,
@@ -1666,6 +1797,7 @@
 				3D3854B121B4E12F00435B31 /* UIChatInput.swift in Sources */,
 				3DA8244B2301B3980054D92F /* QCarouselCell.swift in Sources */,
 				3DBBF0DF266DE152005FBDAE /* WAChannelResolveModel.swift in Sources */,
+				3DCC3AED26930239002FD4B1 /* OverallAgentGeneral.swift in Sources */,
 				3DB48BAF25A76F5700B5D760 /* BottomAlertInfoHSM.swift in Sources */,
 				3D76774E25D2B1F2004C26DC /* AMEmailAddressCell.swift in Sources */,
 				3D9CCD1A26564ACC00CD3D95 /* InboxCell.swift in Sources */,
@@ -1680,6 +1812,7 @@
 				3D3BE5122629407C0026A63C /* FilterByChannelCell.swift in Sources */,
 				3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */,
 				3D7A396D25789B0E005E7FAE /* AgentCustomerInfoCell.swift in Sources */,
+				3D7ADB6D268DFED400DB214D /* ChatAgentVC.swift in Sources */,
 				3DC7FE102586633800CCA763 /* AvailabilityAgentCell.swift in Sources */,
 				3DC51C2A255D14A7008BE893 /* AgentModel.swift in Sources */,
 				3D0B8B1D255D88CA002A484F /* TagListView.swift in Sources */,
@@ -1694,8 +1827,10 @@
 				3DBBF0D4266DC7BB005FBDAE /* ResolvedALLWAVC.swift in Sources */,
 				3D7A395D2577ADCF005E7FAE /* CompleteTaskCell.swift in Sources */,
 				3D0EAE4125E5FC9A00481198 /* AccountManagementAdminVC.swift in Sources */,
+				3D7ADB68268DF8AF00DB214D /* PerformanceAgentVC.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
+				3DFAD301268DA9C80069B848 /* AgentAnalyticsCell.swift in Sources */,
 				3D5D071625CA37E300841D1B /* WABlockedCell.swift in Sources */,
 				3DAF552F26253ED800208B99 /* WhatsAppChannelCell.swift in Sources */,
 				3DC7FDCF2585342400CCA763 /* BroadCastHistoryModel.swift in Sources */,
@@ -1715,6 +1850,7 @@
 				3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */,
 				3DD1BDF12644E5A200B2BA2A /* AgentFilterCell.swift in Sources */,
 				3D3BE4F026288B9F0026A63C /* FilterChannelMultipleCustomCHCell.swift in Sources */,
+				3D8CA6C3268DC1EE00176F80 /* AnalyticsAnotherAgent.swift in Sources */,
 				3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */,
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
 				3D3BE4F526288C360026A63C /* CustomCHChannelCell.swift in Sources */,
@@ -1727,6 +1863,7 @@
 				3D3BE50A26293BB60026A63C /* TelegramChannelCell.swift in Sources */,
 				3DC7FE052586589900CCA763 /* RDNavigationDrawerDelegate.swift in Sources */,
 				3DA824532301B5690054D92F /* QiscusHelper.swift in Sources */,
+				3DFAD2F6268D744F0069B848 /* AnalyticsCell.swift in Sources */,
 				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */,
 				3D0EAE6425E63C5D00481198 /* AMIndustryCell.swift in Sources */,
@@ -1739,6 +1876,8 @@
 				3DC0D41926674BA500AF9783 /* AlertDisableFeatureFilterAgent.swift in Sources */,
 				3DC7FE072586589900CCA763 /* RDNavigationDrawer.swift in Sources */,
 				3DA824562301C2DA0054D92F /* QCardAction.swift in Sources */,
+				3DCC3AFC26930295002FD4B1 /* OverallAgentWA.swift in Sources */,
+				3DCC3B01269302B8002FD4B1 /* OverallAgentOthers.swift in Sources */,
 				3D7A39692577E153005E7FAE /* TagsCustomerInfoCell.swift in Sources */,
 				3D0EAE5525E60FCF00481198 /* AMAlterBillEmailSatuCell.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
@@ -1760,10 +1899,12 @@
 				3D3854AD21B4E03600435B31 /* UIChatListPresenter.swift in Sources */,
 				3D3854BC21B6409A00435B31 /* EmptyCell.swift in Sources */,
 				3D0EAE4625E6040C00481198 /* AMCompanyNameCell.swift in Sources */,
+				3DCC3AF226930258002FD4B1 /* OverallAgentPerformance.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
 				3D7A39652577CA0C005E7FAE /* NotesCell.swift in Sources */,
 				3DC0238B266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift in Sources */,
 				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
+				3DFAD2FB268D84B40069B848 /* AnalyticsVC.swift in Sources */,
 				3D3BE505262934240026A63C /* QiscusWidgetChannelCell.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
@@ -1815,8 +1956,11 @@
 				3D3BE4E826287A190026A63C /* FBChannelCell.swift in Sources */,
 				3DC7FDFE2586552200CCA763 /* HomeVC.swift in Sources */,
 				3DC7FE042586589900CCA763 /* RDNavigationDrawerGestures.swift in Sources */,
+				3D7ADB72268E00A900DB214D /* OtherAnalyticsVC.swift in Sources */,
+				3DCC3AF726930274002FD4B1 /* OverallAgentChats.swift in Sources */,
 				3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */,
 				3D3BE4DF2627E15E0026A63C /* LineChannelModel.swift in Sources */,
+				3D7ADB78268EE6AF00DB214D /* SelectAnalyticsCell.swift in Sources */,
 				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
 				3D76775325D2B57D004C26DC /* AMRoleCell.swift in Sources */,
 				3DA824592301C35B0054D92F /* QCardButton.swift in Sources */,
@@ -1978,7 +2122,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2009,7 +2153,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

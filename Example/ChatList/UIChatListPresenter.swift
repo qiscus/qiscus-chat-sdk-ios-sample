@@ -205,11 +205,9 @@ class UIChatListPresenter {
                     self.rooms = self.filterTypeResolved(data:  self.rooms)
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                   self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
                 }
-                
-
             }else{
                 if self.typeTab == .ALL {
                     //no action
@@ -218,8 +216,9 @@ class UIChatListPresenter {
                 }else if self.typeTab == .RESOLVED {
                     self.rooms = self.filterTypeResolved(data:  self.rooms)
                 }
-                
-                self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                  self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+                }
             }
             
            
@@ -288,7 +287,16 @@ extension UIChatListPresenter : QiscusCoreDelegate {
 
     func gotNew(room: RoomModel) {
         // add not if exist
-        self.loadFromLocal(refresh: true)
+        //self.loadFromLocal(refresh: true)
+        
+        let checkRoom = self.rooms.filter{ $0.id == room.id }
+        
+        if checkRoom.count == 0 {
+            self.rooms.append(room)
+        }
+        
+        self.rooms = self.filterRoom(data: self.rooms)
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "reloadCell"), object: nil)
     }
 
     func remove(room: RoomModel) {

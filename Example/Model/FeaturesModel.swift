@@ -39,10 +39,17 @@ public class Features : NSObject {
     var level: Int = 0
     var name : String = ""
     var status: Int = 0
+    var features = [Features]()
     init(json: JSON) {
         self.id                 = json["id"].int ?? 0
         self.level              = json["level"].int ?? 0
         self.name               = json["name"].string ?? ""
         self.status             = json["status"].int ?? 0
+        if let arrayFeature     = json["features"].array{
+            for i in arrayFeature{
+                let dataFeature = Features(json: i)
+                features.append(dataFeature)
+            }
+        }
     }
 }

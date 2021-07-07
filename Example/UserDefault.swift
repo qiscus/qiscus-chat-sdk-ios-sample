@@ -87,4 +87,37 @@ extension UserDefaults{
         return bool(forKey: "afterlogin")
     }
     
+    func getStatusFeatureOverallAgentAnalytics() -> Int?{
+        return integer(forKey: "featureOverallAgentAnalytics")
+    }
+    
+    func setStatusFeatureOverallAgentAnalytics(value: Int){
+        set(value, forKey: "featureOverallAgentAnalytics")
+    }
+    
+    func getStatusFeatureCustomAnalytics() -> Int?{
+        return integer(forKey: "featureCustomAnalytics")
+    }
+    
+    func setStatusFeatureCustomAnalytics(value: Int){
+        set(value, forKey: "featureCustomAnalytics")
+    }
+    
+    func getStatusFeatureAnalyticsWA() -> Int?{
+        return integer(forKey: "featureAnalyticsWA")
+    }
+    
+    func setStatusFeatureAnalyticsWA(value: Int){
+        set(value, forKey: "featureAnalyticsWA")
+    }
+    
+    //MARK: Save account id
+    func setAccountId(value: Int){
+        set(value, forKey: "accountId")
+    }
+    
+    //MARK: Retrieve User Data
+    func getAccountId() -> Int?{
+        return integer(forKey: "accountId")
+    }
 }

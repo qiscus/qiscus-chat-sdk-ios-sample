@@ -12,19 +12,21 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeVC" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <connections>
                 <outlet property="bottomTableViewTagHeightConst" destination="MFo-gq-Y5y" id="lty-2E-uNF"/>
+                <outlet property="btCloseSearch" destination="pS7-PL-HUB" id="2yO-fa-IGu"/>
                 <outlet property="btTabCustomers" destination="hD2-1a-1xC" id="ieL-Am-Xty"/>
                 <outlet property="btTabMessages" destination="cX8-E4-cI4" id="roz-kG-ceP"/>
                 <outlet property="heightStackView" destination="gcT-Z4-Huj" id="N5o-Mv-gbQ"/>
                 <outlet property="lbAlertDisableSearchRoomMessage" destination="tod-Fg-Q3O" id="5sv-2C-CXq"/>
                 <outlet property="lbAlertSearchRoomMessage" destination="wur-AT-gUc" id="DDL-ji-Igq"/>
                 <outlet property="loadingIndicator" destination="loV-rs-kbI" id="O54-s6-7Iq"/>
-                <outlet property="searchBar" destination="ZmC-vR-AHA" id="zrL-Jv-5XK"/>
                 <outlet property="stackView" destination="9wl-KV-8z2" id="N9w-Mu-MZc"/>
                 <outlet property="tableViewSearch" destination="0dw-de-92H" id="7ZG-gs-Ryc"/>
+                <outlet property="tvSearch" destination="UsX-mT-6Nv" id="rrV-uX-3Hd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewAlertDisableSearchRoomMessage" destination="l1u-Ru-92v" id="fCH-ZI-8sN"/>
                 <outlet property="viewAlertSearchRoomMessage" destination="GH0-X3-1MR" id="fyO-iw-H6z"/>
                 <outlet property="viewNoResultSearchRoomMessage" destination="BwS-FM-C0K" id="YbA-zb-nO3"/>
+                <outlet property="viewSearch" destination="EnT-Jf-Bmk" id="CUg-CC-fz7"/>
                 <outlet property="viewSearchBar" destination="hod-1D-C1w" id="YHo-St-fc2"/>
             </connections>
         </placeholder>
@@ -34,7 +36,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0dw-de-92H">
-                    <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                    <rect key="frame" x="0.0" y="74" width="375" height="593"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="loV-rs-kbI">
@@ -42,7 +44,7 @@
                     <color key="color" red="0.1529411765" green="0.69411764710000001" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                 </activityIndicatorView>
                 <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="9wl-KV-8z2">
-                    <rect key="frame" x="0.0" y="60" width="375" height="0.0"/>
+                    <rect key="frame" x="0.0" y="74" width="375" height="0.0"/>
                     <subviews>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hD2-1a-1xC">
                             <rect key="frame" x="0.0" y="0.0" width="187.5" height="0.0"/>
@@ -72,23 +74,23 @@
                     </constraints>
                 </stackView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-FM-C0K" userLabel="ViewNoResult">
-                    <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                    <rect key="frame" x="0.0" y="74" width="375" height="593"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_no_result_room_message" translatesAutoresizingMaskIntoConstraints="NO" id="0AF-nQ-LVg">
-                            <rect key="frame" x="95.5" y="143" width="184" height="181"/>
+                            <rect key="frame" x="95.5" y="136" width="184" height="181"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="184" id="Fng-r6-oIu"/>
                                 <constraint firstAttribute="height" constant="181" id="kpO-q3-1Es"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You may want to try using different keywords, checking for the typos or input more than 2 characters to find it." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pz2-if-Ckc">
-                            <rect key="frame" x="20" y="394" width="335" height="61"/>
+                            <rect key="frame" x="20" y="387" width="335" height="61"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9k-hz-3Kb">
-                            <rect key="frame" x="141.5" y="349" width="92.5" height="30"/>
+                            <rect key="frame" x="141.5" y="342" width="92.5" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="ddj-Zq-Hwn"/>
                             </constraints>
@@ -109,39 +111,75 @@
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hod-1D-C1w">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
                     <subviews>
-                        <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Type to search customer or message " translatesAutoresizingMaskIntoConstraints="NO" id="ZmC-vR-AHA">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="doneAccessory" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </searchBar>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EnT-Jf-Bmk" userLabel="viewSearch">
+                            <rect key="frame" x="15" y="15" width="345" height="44"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_search_gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ee8-Jk-Zs7">
+                                    <rect key="frame" x="10" y="12" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="20" id="4qB-j5-4QC"/>
+                                        <constraint firstAttribute="height" constant="20" id="b0b-wG-dvM"/>
+                                    </constraints>
+                                </imageView>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type to search customer or message " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UsX-mT-6Nv">
+                                    <rect key="frame" x="40" y="7" width="255" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="enO-UB-c9U"/>
+                                    </constraints>
+                                    <color key="textColor" red="0.76862745099999996" green="0.76862745099999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="doneAccessory" value="YES"/>
+                                    </userDefinedRuntimeAttributes>
+                                </textField>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pS7-PL-HUB">
+                                    <rect key="frame" x="305" y="7" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="I0T-HK-xEz"/>
+                                        <constraint firstAttribute="width" constant="30" id="M5Y-nr-mS7"/>
+                                    </constraints>
+                                    <state key="normal" image="ic_close"/>
+                                    <connections>
+                                        <action selector="closeSearchAction:" destination="-1" eventType="touchUpInside" id="ZIC-WC-TxL"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="Ee8-Jk-Zs7" firstAttribute="leading" secondItem="EnT-Jf-Bmk" secondAttribute="leading" constant="10" id="HuU-sf-9df"/>
+                                <constraint firstItem="UsX-mT-6Nv" firstAttribute="leading" secondItem="Ee8-Jk-Zs7" secondAttribute="trailing" constant="10" id="QtV-6j-arw"/>
+                                <constraint firstItem="pS7-PL-HUB" firstAttribute="centerY" secondItem="EnT-Jf-Bmk" secondAttribute="centerY" id="RCM-M2-F9a"/>
+                                <constraint firstItem="Ee8-Jk-Zs7" firstAttribute="centerY" secondItem="EnT-Jf-Bmk" secondAttribute="centerY" id="V1V-2D-phj"/>
+                                <constraint firstAttribute="trailing" secondItem="pS7-PL-HUB" secondAttribute="trailing" constant="10" id="aMY-tS-zNZ"/>
+                                <constraint firstItem="pS7-PL-HUB" firstAttribute="leading" secondItem="UsX-mT-6Nv" secondAttribute="trailing" constant="10" id="btQ-Vd-QdK"/>
+                                <constraint firstItem="UsX-mT-6Nv" firstAttribute="centerY" secondItem="EnT-Jf-Bmk" secondAttribute="centerY" id="vUo-4D-bvj"/>
+                                <constraint firstAttribute="height" constant="44" id="voT-0G-0of"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstItem="ZmC-vR-AHA" firstAttribute="leading" secondItem="hod-1D-C1w" secondAttribute="leading" id="1FG-4C-T3w"/>
-                        <constraint firstItem="ZmC-vR-AHA" firstAttribute="centerY" secondItem="hod-1D-C1w" secondAttribute="centerY" id="978-FF-PWG"/>
-                        <constraint firstAttribute="height" constant="60" id="J1b-3V-4d5"/>
-                        <constraint firstItem="ZmC-vR-AHA" firstAttribute="centerX" secondItem="hod-1D-C1w" secondAttribute="centerX" id="JuI-Zl-Dv0"/>
-                        <constraint firstAttribute="trailing" secondItem="ZmC-vR-AHA" secondAttribute="trailing" id="rut-Bl-b6T"/>
+                        <constraint firstAttribute="bottom" secondItem="EnT-Jf-Bmk" secondAttribute="bottom" constant="15" id="XZu-in-che"/>
+                        <constraint firstAttribute="trailing" secondItem="EnT-Jf-Bmk" secondAttribute="trailing" constant="15" id="p7B-pe-Z1Z"/>
+                        <constraint firstItem="EnT-Jf-Bmk" firstAttribute="leading" secondItem="hod-1D-C1w" secondAttribute="leading" constant="15" id="sUW-r5-VC1"/>
+                        <constraint firstItem="EnT-Jf-Bmk" firstAttribute="top" secondItem="hod-1D-C1w" secondAttribute="top" constant="15" id="zlb-uN-Z0k"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l1u-Ru-92v" userLabel="ViewDisableSearchRoomMessage">
-                    <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                    <rect key="frame" x="0.0" y="74" width="375" height="593"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_close_red" translatesAutoresizingMaskIntoConstraints="NO" id="SUn-WJ-gzr">
-                            <rect key="frame" x="162.5" y="208.5" width="50" height="50"/>
+                            <rect key="frame" x="162.5" y="201.5" width="50" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="A1v-hd-Yi2"/>
                                 <constraint firstAttribute="height" constant="50" id="Fat-8M-FsO"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tod-Fg-Q3O">
-                            <rect key="frame" x="20" y="278.5" width="335" height="61"/>
+                            <rect key="frame" x="20" y="271.5" width="335" height="61"/>
                             <attributedString key="attributedText">
                                 <fragment content="This feature has been disabled because it is not available in the plan that you are currently using.">
                                     <attributes>
@@ -164,17 +202,17 @@
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GH0-X3-1MR" userLabel="ViewAlertSearchRoomMessage">
-                    <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                    <rect key="frame" x="0.0" y="74" width="375" height="593"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_alert_failed" translatesAutoresizingMaskIntoConstraints="NO" id="3i9-aI-QwP">
-                            <rect key="frame" x="162.5" y="208.5" width="50" height="50"/>
+                            <rect key="frame" x="162.5" y="201.5" width="50" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="PBc-tR-Vkd"/>
                                 <constraint firstAttribute="height" constant="50" id="dp9-Cq-eZg"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wur-AT-gUc">
-                            <rect key="frame" x="20" y="278.5" width="335" height="61"/>
+                            <rect key="frame" x="20" y="271.5" width="335" height="61"/>
                             <attributedString key="attributedText">
                                 <fragment content="Cannot perform search message while the filter is active. Please inactive the filter to continue use search messages">
                                     <attributes>
@@ -207,7 +245,6 @@
                 <constraint firstItem="BwS-FM-C0K" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="C2X-cZ-8nO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="l1u-Ru-92v" secondAttribute="bottom" id="Cg2-jO-pos"/>
                 <constraint firstItem="9wl-KV-8z2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Dyy-80-Htw"/>
-                <constraint firstItem="9wl-KV-8z2" firstAttribute="top" secondItem="ZmC-vR-AHA" secondAttribute="bottom" id="FZm-iH-9BV"/>
                 <constraint firstItem="9wl-KV-8z2" firstAttribute="top" secondItem="hod-1D-C1w" secondAttribute="bottom" id="Giu-fL-vKw"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GH0-X3-1MR" secondAttribute="trailing" id="JIZ-1L-YHf"/>
                 <constraint firstItem="hod-1D-C1w" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="JzO-Bf-T6X"/>
@@ -231,8 +268,10 @@
     </objects>
     <resources>
         <image name="ic_alert_failed" width="76" height="76"/>
+        <image name="ic_close" width="24" height="24"/>
         <image name="ic_close_red" width="24" height="24"/>
         <image name="ic_no_result_room_message" width="184" height="181.5"/>
+        <image name="ic_search_gray" width="19" height="19"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

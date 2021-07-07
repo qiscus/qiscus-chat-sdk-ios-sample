@@ -241,7 +241,7 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
         if scrollView.isBouncingBottom == true && isLoadingLoadMore == false {
             activityIndicator.start {
                 //loadMore
-                self.isLoadingLoadMore == true
+                self.isLoadingLoadMore = true
                 self.presenter.loadMoreFromServer()
             }
         }
@@ -281,7 +281,7 @@ extension UIChatListViewController : UIChatListView {
             self.tableView.isHidden = false
             self.refreshControl.endRefreshing()
             
-            self.isLoadingLoadMore == false
+            self.isLoadingLoadMore = false
             self.activityIndicator.stop()
             // 1st time load data
             self.tableView.reloadData()
@@ -316,7 +316,7 @@ extension UIChatListViewController : UIChatListView {
             self.tableView.isHidden = true
         }
         self.refreshControl.endRefreshing()
-        self.isLoadingLoadMore == false
+        self.isLoadingLoadMore = false
         self.activityIndicator.stop()
     }
 }
