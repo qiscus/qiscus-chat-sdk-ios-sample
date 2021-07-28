@@ -16,7 +16,6 @@ import Firebase
 import FirebaseCrashlytics
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
     var timer : Timer?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -43,12 +42,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-        UIApplication.shared.applicationIconBadgeNumber = 0
         
         
         let defaults = UserDefaults.standard
         defaults.setValue(0, forKey: "lastTab")
         defaults.removeObject(forKey: "lastSelectedListRoom")
+        
+        if let appID = UserDefaults.standard.getAppID(){
+            QiscusCore.setup(WithAppID: appID)
+        }
+        
+        
         return true
     }
     
@@ -81,9 +85,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("AppDelegate. didReceiveRemoteNotification2: \(userInfo)")
-        
         //you can custom redirect to chatRoom
-        
+        application.applicationIconBadgeNumber = 0
         let userInfoJson = JSON(arrayLiteral: userInfo)[0]
         if let payload = userInfo["payload"] as? [String: Any] {
             if let payloadData = payload["payload"] {
@@ -97,11 +100,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        
+        application.applicationIconBadgeNumber = 0
+        
+        if application.applicationState != .active {
+            let defaults = UserDefaults.standard
+            var unreadLocal = defaults.integer(forKey: "unreadBadge")
+            unreadLocal += 1
+            defaults.set(unreadLocal, forKey: "unreadBadge")
+            
+            application.applicationIconBadgeNumber =  unreadLocal
+            
+            
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -119,6 +134,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             QiscusCore.connect()
             setupReachability()
         }
+        let defaults = UserDefaults.standard
+        defaults.set(0, forKey: "unreadBadge")
+        
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -199,9 +218,7 @@ extension AppDelegate {
         let target : UIViewController
         if QiscusCore.isLogined {
            
-            if let appID = UserDefaults.standard.getAppID(){
-                QiscusCore.setup(WithAppID: appID)
-            }
+           
             
             let header = ["QISCUS-SDK-PARTNER-KEY": "q1sm0-se4rc#"]
             
@@ -225,6 +242,7 @@ extension AppDelegate {
             defaults.removeObject(forKey: "featureOverallAgentAnalytics")
             defaults.removeObject(forKey: "featureCustomAnalytics")
             defaults.removeObject(forKey: "featureAnalyticsWA")
+            defaults.set(0, forKey: "unreadBadge")
             if self.timer != nil {
                 self.timer?.invalidate()
                 self.timer = nil

@@ -33,6 +33,7 @@ class UIChatListPresenter {
     var typeTab: typeTab = .ALL
     var rooms : [RoomModel] = [RoomModel]()
     var page : Int = 1
+    var stillLoading = false
     init() {
         QiscusCore.delegate = self
     }
@@ -188,43 +189,50 @@ class UIChatListPresenter {
     }
     
     public func loadMoreFromServer() {
-        if self.page == 1 {
-            self.page = 2
-        }
-        QiscusCore.shared.getAllRoom(limit: 50, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
-            if results.count != 0 {
-                self.page += 1
-                self.rooms.append(contentsOf: results)
-                
-                self.rooms = self.filterRoom(data: self.rooms)
-                if self.typeTab == .ALL {
-                    //no action
-                }else if self.typeTab == .ONGOING {
-                    self.rooms = self.filterTypeOnGoing(data:  self.rooms)
-                }else if self.typeTab == .RESOLVED {
-                    self.rooms = self.filterTypeResolved(data:  self.rooms)
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                  self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
-                }
-            }else{
-                if self.typeTab == .ALL {
-                    //no action
-                }else if self.typeTab == .ONGOING {
-                    self.rooms = self.filterTypeOnGoing(data:  self.rooms)
-                }else if self.typeTab == .RESOLVED {
-                    self.rooms = self.filterTypeResolved(data:  self.rooms)
-                }
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                  self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
-                }
+        if stillLoading == false {
+            stillLoading = true
+            if self.page == 1 {
+                self.page = 2
             }
-            
-           
-        }) { (error) in
-            self.viewPresenter?.setEmptyData(message: "")
+            QiscusCore.shared.getAllRoom(limit: 50, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
+                if results.count != 0 {
+                    self.page += 1
+                    self.rooms.append(contentsOf: results)
+                    
+                    self.rooms = self.filterRoom(data: self.rooms)
+                    if self.typeTab == .ALL {
+                        //no action
+                    }else if self.typeTab == .ONGOING {
+                        self.rooms = self.filterTypeOnGoing(data:  self.rooms)
+                    }else if self.typeTab == .RESOLVED {
+                        self.rooms = self.filterTypeResolved(data:  self.rooms)
+                    }
+                    
+                    //DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                      self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+                    self.stillLoading = false
+                    //}
+                }else{
+                    if self.typeTab == .ALL {
+                        //no action
+                    }else if self.typeTab == .ONGOING {
+                        self.rooms = self.filterTypeOnGoing(data:  self.rooms)
+                    }else if self.typeTab == .RESOLVED {
+                        self.rooms = self.filterTypeResolved(data:  self.rooms)
+                    }
+                    //DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    self.viewPresenter?.didFinishLoadChat(rooms: self.rooms)
+                    self.stillLoading = false
+                    //}
+                }
+                
+               
+            }) { (error) in
+                self.stillLoading = false
+                self.viewPresenter?.setEmptyData(message: "")
+            }
         }
+       
     }
     
 }

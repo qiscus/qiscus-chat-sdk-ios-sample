@@ -237,15 +237,25 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
         return nil
     }
     
+    func throttleGetList() {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.getList), object: nil)
+        perform(#selector(self.getList), with: nil, afterDelay: 3)
+    }
+    
+    @objc func getList(){
+        if isLoadingLoadMore == false {
+            self.isLoadingLoadMore = true
+            self.presenter.loadMoreFromServer()
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.isBouncingBottom == true && isLoadingLoadMore == false {
+        if scrollView.isBouncingBottom == true {
             activityIndicator.start {
-                //loadMore
-                self.isLoadingLoadMore = true
-                self.presenter.loadMoreFromServer()
+                //loadM(ore
+                self.getList()
             }
         }
-        
     }
 }
 
@@ -276,15 +286,16 @@ extension UIChatListViewController : UIChatListView {
         if rooms.count == 0 {
             self.emptyRoomView.isHidden = false
             self.tableView.isHidden = true
+            self.isLoadingLoadMore = false
         }else{
             self.emptyRoomView.isHidden = true
             self.tableView.isHidden = false
             self.refreshControl.endRefreshing()
             
-            self.isLoadingLoadMore = false
             self.activityIndicator.stop()
-            // 1st time load data
             self.tableView.reloadData()
+            
+            self.isLoadingLoadMore = false
             
             //for room in rooms {
 //                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
