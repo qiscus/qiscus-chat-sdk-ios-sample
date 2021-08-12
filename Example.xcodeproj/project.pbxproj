@@ -49,6 +49,8 @@
 		3D12875925FB4F5B001A5962 /* QLocationLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D12875725FB4F5B001A5962 /* QLocationLeftCell.xib */; };
 		3D12875D25FB5EAC001A5962 /* QLocationRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D12875B25FB5EAC001A5962 /* QLocationRightCell.swift */; };
 		3D12875E25FB5EAC001A5962 /* QLocationRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D12875C25FB5EAC001A5962 /* QLocationRightCell.xib */; };
+		3D12FDD526BA3F45003DF339 /* AlertForceUpdateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D12FDD326BA3F45003DF339 /* AlertForceUpdateVC.swift */; };
+		3D12FDD626BA3F45003DF339 /* AlertForceUpdateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D12FDD426BA3F45003DF339 /* AlertForceUpdateVC.xib */; };
 		3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */; };
 		3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */; };
 		3D26D2B825D4325600735B0A /* AlertMenuUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */; };
@@ -202,6 +204,8 @@
 		3D8F0D6122684130000135CA /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F0D6022684130000135CA /* UserDefault.swift */; };
 		3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */; };
 		3D8F3E7225869400004434B7 /* AlertAvailabilityAgent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */; };
+		3D96939126B261D700FBE6C1 /* ScanBarcodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D96938F26B261D700FBE6C1 /* ScanBarcodeVC.swift */; };
+		3D96939226B261D700FBE6C1 /* ScanBarcodeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D96939026B261D700FBE6C1 /* ScanBarcodeVC.xib */; };
 		3D97780C24FA225000D083D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D97780B24FA225000D083D6 /* GoogleService-Info.plist */; };
 		3D99905926772FD70016AE6D /* UISearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D99905826772FD70016AE6D /* UISearchBar.swift */; };
 		3D9A29AE25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9A29AC25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift */; };
@@ -379,6 +383,8 @@
 		3D12875725FB4F5B001A5962 /* QLocationLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QLocationLeftCell.xib; sourceTree = "<group>"; };
 		3D12875B25FB5EAC001A5962 /* QLocationRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLocationRightCell.swift; sourceTree = "<group>"; };
 		3D12875C25FB5EAC001A5962 /* QLocationRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QLocationRightCell.xib; sourceTree = "<group>"; };
+		3D12FDD326BA3F45003DF339 /* AlertForceUpdateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertForceUpdateVC.swift; sourceTree = "<group>"; };
+		3D12FDD426BA3F45003DF339 /* AlertForceUpdateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertForceUpdateVC.xib; sourceTree = "<group>"; };
 		3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayOgaVC.swift; sourceTree = "<group>"; };
 		3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayOgaVC.xib; sourceTree = "<group>"; };
 		3D26D2B625D4325600735B0A /* AlertMenuUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMenuUploadVC.swift; sourceTree = "<group>"; };
@@ -533,6 +539,8 @@
 		3D8F0D6022684130000135CA /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserDefault.swift; path = Example/UserDefault.swift; sourceTree = SOURCE_ROOT; };
 		3D8F3E6F25869400004434B7 /* AlertAvailabilityAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAvailabilityAgent.swift; sourceTree = "<group>"; };
 		3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAvailabilityAgent.xib; sourceTree = "<group>"; };
+		3D96938F26B261D700FBE6C1 /* ScanBarcodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanBarcodeVC.swift; sourceTree = "<group>"; };
+		3D96939026B261D700FBE6C1 /* ScanBarcodeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScanBarcodeVC.xib; sourceTree = "<group>"; };
 		3D97780B24FA225000D083D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D99905826772FD70016AE6D /* UISearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISearchBar.swift; sourceTree = "<group>"; };
 		3D9A29AC25D3B7F000E880E1 /* AlertAMFailedChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAMFailedChangePassword.swift; sourceTree = "<group>"; };
@@ -992,6 +1000,8 @@
 				3D8F3E7025869400004434B7 /* AlertAvailabilityAgent.xib */,
 				3D76772E25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift */,
 				3D76772F25D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.xib */,
+				3D12FDD326BA3F45003DF339 /* AlertForceUpdateVC.swift */,
+				3D12FDD426BA3F45003DF339 /* AlertForceUpdateVC.xib */,
 			);
 			path = AlertVC;
 			sourceTree = "<group>";
@@ -1390,6 +1400,8 @@
 			children = (
 				3DCF6A382199277E00C108E6 /* LoginViewController.swift */,
 				3DCF6A392199277E00C108E6 /* LoginViewController.xib */,
+				3D96938F26B261D700FBE6C1 /* ScanBarcodeVC.swift */,
+				3D96939026B261D700FBE6C1 /* ScanBarcodeVC.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1676,6 +1688,7 @@
 				3DA788FA2480BFFC00CEF339 /* QReplyImageRightCell.xib in Resources */,
 				3DC7FE0B2586590300CCA763 /* SideBar.xib in Resources */,
 				3D0B8B28255DA619002A484F /* TagsSuggestionCell.xib in Resources */,
+				3D12FDD626BA3F45003DF339 /* AlertForceUpdateVC.xib in Resources */,
 				3DB438012322448A007BE03F /* UIBottomPopupVC.xib in Resources */,
 				3D0EAE4725E6040C00481198 /* AMCompanyNameCell.xib in Resources */,
 				3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */,
@@ -1699,6 +1712,7 @@
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3D76773E25D28958004C26DC /* AccountManagementAgentVC.xib in Resources */,
 				3DCC3AFD26930295002FD4B1 /* OverallAgentWA.xib in Resources */,
+				3D96939226B261D700FBE6C1 /* ScanBarcodeVC.xib in Resources */,
 				3D7ADB69268DF8AF00DB214D /* PerformanceAgentVC.xib in Resources */,
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
 				3D76774525D29223004C26DC /* AMProfileAvatarCell.xib in Resources */,
@@ -1812,6 +1826,7 @@
 				3D3BE5122629407C0026A63C /* FilterByChannelCell.swift in Sources */,
 				3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */,
 				3D7A396D25789B0E005E7FAE /* AgentCustomerInfoCell.swift in Sources */,
+				3D12FDD526BA3F45003DF339 /* AlertForceUpdateVC.swift in Sources */,
 				3D7ADB6D268DFED400DB214D /* ChatAgentVC.swift in Sources */,
 				3DC7FE102586633800CCA763 /* AvailabilityAgentCell.swift in Sources */,
 				3DC51C2A255D14A7008BE893 /* AgentModel.swift in Sources */,
@@ -1923,6 +1938,7 @@
 				3DA8244F2301B3980054D92F /* QCardLeftCell.swift in Sources */,
 				3DA788E92480613E00CEF339 /* UIChatListServedViewController.swift in Sources */,
 				3DB48BB725A807EE00B5D760 /* HSMWillExpireSoonCell.swift in Sources */,
+				3D96939126B261D700FBE6C1 /* ScanBarcodeVC.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3D3BE4D12626EEEE0026A63C /* UIChatListALLViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
@@ -2121,8 +2137,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2138,7 +2155,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
-				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dist";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2151,9 +2168,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2167,7 +2184,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
-				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "Multichannel Agent Admin Dist";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

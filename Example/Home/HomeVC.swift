@@ -70,6 +70,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.setupSearch()
         self.setupUINavBar()
         self.getCountCustomer()
+        self.getLatestVersion()
         
         if (self.timer != nil) {
             self.timer?.invalidate()
@@ -190,6 +191,60 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     self.navigationController?.present(vc, animated: false, completion: {
                         
                     })
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func getLatestVersion(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+       
+        
+        let param : [String: Any] = ["type" : 2]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/mobile_version/latest", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                   self.createFloatingButton(count: 0)
+                    print(" response.response?.statusCode \( response.response?.statusCode)")
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getLatestVersion()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let data = payload["data"]["mobile_version"]
+                    
+                    let forceUpdate = data["force_update"].bool ?? false
+                    let version = data["version"].string ?? ""
+                    
+                    if forceUpdate == true {
+                        if let versionApp = Bundle.main.infoDictionary!["CFBundleShortVersionString"]{
+                            if versionApp as! String != version {
+                                //show
+                                let vc = AlertForceUpdateVC()
+                                vc.modalPresentationStyle = .overFullScreen
+                                
+                                self.navigationController?.present(vc, animated: false, completion: {
+                                    
+                                })
+                            }
+                        }
+                    }
+                    
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed

@@ -247,7 +247,7 @@ extension AppDelegate {
                 self.timer?.invalidate()
                 self.timer = nil
             }
-            target = LoginViewController()
+            target = ScanBarcodeVC()
         }
         let navbar = UINavigationController()
         navbar.viewControllers = [target]

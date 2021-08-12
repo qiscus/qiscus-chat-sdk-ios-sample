@@ -15,7 +15,6 @@ class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
     
-    
     // show alert message while cannot connect with qiscus sdk
     var withMessage: String? {
         didSet {
@@ -31,9 +30,8 @@ class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
-        self.title = "Scan Your QR Code Here"
-        view.backgroundColor = UIColor.black
+        self.navigationController?.setStatusBar(backgroundColor: ColorConfiguration.defaultColorTosca)
+        self.navigationController?.isNavigationBarHidden = true
         captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -144,7 +142,7 @@ class LoginViewController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     }
     
     override var prefersStatusBarHidden: Bool {
-        return true
+        return false
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

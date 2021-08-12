@@ -142,6 +142,25 @@ class UIChatListPresenter {
         return source
     }
     
+    func checkID(id: String)-> Bool{
+        var source = [RoomModel]()
+        
+        source = self.rooms.filter({ (room) -> Bool in
+            if room.id == id{
+                return true
+            } else {
+                return false
+            }
+            
+        })
+        
+        if source.count == 1 {
+            return false
+        }else{
+            return true
+        }
+    }
+    
     func filterTypeOnGoing(data: [RoomModel])-> [RoomModel]{
         var source = data
         
@@ -197,7 +216,14 @@ class UIChatListPresenter {
             QiscusCore.shared.getAllRoom(limit: 50, page: self.page, showEmpty: false, onSuccess: { (results, meta) in
                 if results.count != 0 {
                     self.page += 1
-                    self.rooms.append(contentsOf: results)
+                    
+                    for i in results {
+                        if self.checkID(id: i.id) == true{
+                            self.rooms.append(i)
+                        }
+                    }
+                    
+                   
                     
                     self.rooms = self.filterRoom(data: self.rooms)
                     if self.typeTab == .ALL {
