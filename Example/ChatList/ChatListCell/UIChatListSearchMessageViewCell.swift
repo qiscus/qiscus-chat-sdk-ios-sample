@@ -8,6 +8,7 @@
 
 import UIKit
 import QiscusCore
+import SwiftyJSON
 
 class UIChatListSearchMessageViewCell: UITableViewCell {
     static var nib:UINib {
@@ -39,15 +40,28 @@ class UIChatListSearchMessageViewCell: UITableViewCell {
     
     func setupUI(data : CommentModel, messageSearch : String = ""){
         
-        let stringValue = "\(data.username): \(data.message)"
+        var stringValue = "\(data.username): \(data.message)"
         
-        if messageSearch.isEmpty {
-            self.lbMessage.text = stringValue
-        }else{
+        if data.type == "file_attachment"{
+            let payload = JSON(data.payload)
+            let nameFile = payload["file_name"].string ?? "file attachment from \(messageSearch)"
+            
+            stringValue = "\(data.username): \(nameFile)"
+            
             let attributedWithTextColor: NSAttributedString = stringValue.attributedStringWithColor([messageSearch, messageSearch.lowercased()], color: UIColor.black)
 
             self.lbMessage.attributedText = attributedWithTextColor
+        }else{
+            if messageSearch.isEmpty {
+                self.lbMessage.text = stringValue
+            }else{
+                let attributedWithTextColor: NSAttributedString = stringValue.attributedStringWithColor([messageSearch, messageSearch.lowercased()], color: UIColor.black)
+
+                self.lbMessage.attributedText = attributedWithTextColor
+            }
         }
+        
+       
 
        
         

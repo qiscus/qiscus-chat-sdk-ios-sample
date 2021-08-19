@@ -56,6 +56,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     var alertMessageOtherOngoing = "Cannot perform search message while stay on this tab. Please going to Ongoing tab to continue use search messages"
     var alertMessageDisable = "This feature has been disabled because it is not available in the plan that you are currently using."
     
+    var showGetCustomer = true
+    
     override func viewDidLoad() {
         settings.style.selectedBarHeight = 3
         settings.style.buttonBarItemLeftRightMargin = 0
@@ -368,8 +370,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             viewWithTag.removeFromSuperview()
         }
         
-        
-        if self.viewSearch.isHidden == true {
+        if self.viewSearch.isHidden == true || self.showGetCustomer == true {
             let button = UIButton()
             
             if UIDevice().userInterfaceIdiom == .phone {
@@ -424,6 +425,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     }
     @IBAction func closeSearchAction(_ sender: Any) {
         self.viewSearch.isHidden = true
+        self.showGetCustomer = true
         self.tvSearch.text = ""
         self.tvSearch.endEditing(true)
         self.stackView.isHidden = true
@@ -440,8 +442,9 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.viewNoResultSearchRoomMessage.isHidden = true
         self.loadingIndicator.isHidden = true
         self.viewSearchBar.isHidden = true
+        self.showGetCustomer = true
         self.title = "Inbox"
-        self.view.viewWithTag(222)?.isHidden = false
+        self.getCountCustomer()
     }
     
     func showAlert(_ title: String) {
@@ -505,6 +508,9 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         let attributedWithTextColor: NSAttributedString = self.alertMessageDisable.attributedStringWithColor(["disabled"], color: UIColor.black, sizeFont : 17)
 
         self.lbAlertDisableSearchRoomMessage.attributedText = attributedWithTextColor
+        
+        self.viewSearch.isHidden = true
+        self.showGetCustomer = true
     }
     
     func setupUINavBar(){
@@ -527,7 +533,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             if userType != 2{
                 //admin //spv
                 if defaults.bool(forKey: "ic_resolved_all_WA_active") != false{
-                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+//                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }else{
                     self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }
@@ -628,10 +635,11 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         
         self.tableViewSearch.isHidden = false
         self.viewSearchBar.isHidden = false
+        self.firstTimeLoadSearch = false
         self.viewSearchBar.addBorderBottom(size: 1, color: UIColor(red: 232/255.0, green: 232/255.0, blue: 232/255.0, alpha:1.0))
         self.tvSearch.text = ""
         self.viewSearch.isHidden = false
-        
+        self.isTabCustomerSelected = true
         
         self.tableViewSearch.delegate = self
         self.tableViewSearch.dataSource = self
@@ -923,7 +931,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     if response.response?.statusCode == 401 {
                         RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
                             if success == true {
-                                self.getList()
+                                self.getCustomerRooms()
                             } else {
                                 self.showAlertNoResultSearchRoomMessage()
                                 return
@@ -1394,7 +1402,7 @@ extension HomeVC : UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
+        self.showGetCustomer = false
         if let text = textField.text {
             if !text.isEmpty {
                 self.stackView.isHidden = false
