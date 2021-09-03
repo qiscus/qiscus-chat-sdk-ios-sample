@@ -120,4 +120,15 @@ extension UserDefaults{
     func getAccountId() -> Int?{
         return integer(forKey: "accountId")
     }
+    
+    //MARK: Save botConfig
+    func setBot(value: Bool){
+        set(value, forKey: "is_bot_enabled")
+        //synchronize()
+    }
+    
+    //MARK: Retrieve User Data
+    func getBot() -> Bool{
+        return bool(forKey: "is_bot_enabled")
+    }
 }

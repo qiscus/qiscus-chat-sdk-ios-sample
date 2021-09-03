@@ -100,6 +100,8 @@ class UIChatListViewCell: UITableViewCell {
     
 
     func setupUI(data : RoomModel) {
+    let checkBot = UserDefaults.standard.getBot()
+        
     self.data = data
        if let option = data.options {
             if !option.isEmpty{
@@ -108,7 +110,9 @@ class UIChatListViewCell: UITableViewCell {
                 let channelType = json["channel"].string ?? "qiscus"
                 let is_resolved = json["is_resolved"].bool ?? false
                 let is_waiting   = json["is_waiting"].bool ?? false
-                let is_handled_by_bot = json["is_handled_by_bot"].bool ?? false
+                let is_handled_by_bot = json["is_handled_by_bot"].bool ?? nil
+               
+                let badgeURL = json["room_badge"].string ?? ""
                 if channelType.lowercased() == "qiscus"{
                     self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
                 }else if channelType.lowercased() == "telegram"{
@@ -202,8 +206,14 @@ class UIChatListViewCell: UITableViewCell {
                     self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
                 }else if channelType.lowercased() == "custom"{
                     self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
+                }else if channelType.lowercased() == "ig"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_ig")
                 }else{
                     self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
+                }
+                
+                if !badgeURL.isEmpty && !badgeURL.contains(".svg"){
+                    self.ivTypeChannel.af_setImage(withURL: URL(string:badgeURL)!)
                 }
                 
                 
@@ -233,11 +243,53 @@ class UIChatListViewCell: UITableViewCell {
                     self.widthBadgeStatus.constant = 0
                 }
                 
-                if is_handled_by_bot == true {
+                if is_handled_by_bot == true && checkBot == true{
                     self.ivBot.isHidden = false
                 }else{
                     self.ivBot.isHidden = true
                 }
+                
+                
+                guard let token = UserDefaults.standard.getAuthenticationToken() else {
+                    return
+                }
+                
+                let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+                Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(data.id)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                    if response.result.value != nil {
+                        if (response.response?.statusCode)! >= 300 {
+                            //error
+                            
+                            if response.response?.statusCode == 401 {
+                                RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                    if success == true {
+                                        self.setupUI(data: data)
+                                    } else {
+                                       return
+                                    }
+                                }
+                            }
+                        } else {
+                            //success
+                            let payload = JSON(response.result.value)
+                
+                            let bot  = payload["data"]["customer_room"]["is_handled_by_bot"].bool ??
+                                false
+                            
+                            if bot == true && checkBot == true{
+                                self.ivBot.isHidden = false
+                            }else{
+                                self.ivBot.isHidden = true
+                            }
+                            
+                        }
+                    } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                        //failed
+                    } else {
+                        //failed
+                    }
+                }
+                
             }
        }else{
             self.ivWaMessageExpired.isHidden = true
@@ -304,7 +356,9 @@ class UIChatListViewCell: UITableViewCell {
         let channelType = data.source
         let is_resolved = data.isResolved
         let is_handled_by_bot = data.isHandledByBot
+        let checkBot = UserDefaults.standard.getBot()
         let is_waiting = data.isWaiting
+        let badgeURL = data.badge
         
         if channelType.lowercased() == "qiscus"{
             self.ivTypeChannel.image = UIImage(named: "ic_qiscus")
@@ -316,25 +370,112 @@ class UIChatListViewCell: UITableViewCell {
             self.ivTypeChannel.image = UIImage(named: "ic_fb")
         }else if channelType.lowercased() == "wa"{
             self.ivTypeChannel.image = UIImage(named: "ic_wa")
-            
-            let date = self.getDate(timestamp: data.lastCustomerTimestamp)
-            let diff = date.differentTime()
+            if !data.lastCustomerTimestamp.isEmpty{
+                let date = self.getDate(timestamp: data.lastCustomerTimestamp)
+                let diff = date.differentTime()
 
-            if  diff >= 16 && diff <= 23 {
-                self.showExpire()
-            } else if diff >= 24  {
-                self.showExpired()
-            } else {
-                self.hideExpiredOrExpire()
+                if  diff >= 16 && diff <= 23 {
+                    self.showExpire()
+                } else if diff >= 24  {
+                    self.showExpired()
+                } else {
+                    self.hideExpiredOrExpire()
+                }
+            }else{
+                if var room = QiscusCore.database.room.find(id: data.id){
+                    if var option = room.options{
+                        if !option.isEmpty{
+                            var json = JSON.init(parseJSON: option)
+                            let lastCustommerTimestamp = json["last_customer_message_timestamp"].string ?? ""
+                            
+                            if lastCustommerTimestamp.isEmpty == true {
+                                guard let token = UserDefaults.standard.getAuthenticationToken() else {
+                                    return
+                                }
+                                
+                                let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+                                Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(room.id)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                                    if response.result.value != nil {
+                                        if (response.response?.statusCode)! >= 300 {
+                                            //error
+                                            
+                                            if response.response?.statusCode == 401 {
+                                                RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                                    if success == true {
+                                                        self.setupUICustomerRoom(data: data)
+                                                    } else {
+                                                       return
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            //success
+                                            let payload = JSON(response.result.value)
+                                            
+                                            let lastCustomerTimestamp  = payload["data"]["customer_room"]["last_customer_timestamp"].string ??
+                                                ""
+                                            
+                                            var json = JSON.init(parseJSON: option)
+                                            json["last_customer_message_timestamp"] = JSON(lastCustomerTimestamp)
+                                            
+                                            if let rawData = json.rawString() {
+                                                let room = room
+                                                room.options = rawData
+                                                QiscusCore.database.room.save([room])
+                                            }
+                                            
+                                            let date = self.getDate(timestamp: lastCustomerTimestamp)
+                                            let diff = date.differentTime()
+
+                                            if  diff >= 16 && diff <= 23 {
+                                                self.showExpire()
+                                            } else if diff >= 24  {
+                                                self.showExpired()
+                                            } else {
+                                                self.hideExpiredOrExpire()
+                                            }
+                                            
+                                        }
+                                    } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                                        //failed
+                                        self.hideExpiredOrExpire()
+                                    } else {
+                                        //failed
+                                        self.hideExpiredOrExpire()
+                                    }
+                                }
+                            }else{
+                                let date = self.getDate(timestamp: lastCustommerTimestamp)
+                                let diff = date.differentTime()
+
+                                if  diff >= 16 && diff <= 23 {
+                                    self.showExpire()
+                                } else if diff >= 24  {
+                                    self.showExpired()
+                                } else {
+                                    self.hideExpiredOrExpire()
+                                }
+                                
+                            }
+                        }
+                    }
+                }
             }
         }else if channelType.lowercased() == "twitter"{
             self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
+        }else if channelType.lowercased() == "ig"{
+            self.ivTypeChannel.image = UIImage(named: "ic_ig")
         }else if channelType.lowercased() == "custom"{
             self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
         }else{
             self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
         }
         
+        if let badgeurl = badgeURL {
+            if !badgeurl.isEmpty{
+                self.ivTypeChannel.af_setImage(withURL: URL(string: badgeurl)!)
+            }
+        }
         
         if is_resolved == true {
             self.ic_isResolved.isHidden = false
@@ -342,7 +483,7 @@ class UIChatListViewCell: UITableViewCell {
             self.ic_isResolved.isHidden = true
         }
         
-        if is_handled_by_bot == true {
+        if is_handled_by_bot == true && checkBot == true{
             self.ivBot.isHidden = false
         }else{
             self.ivBot.isHidden = true

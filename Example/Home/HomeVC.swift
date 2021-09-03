@@ -380,6 +380,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 default:
                     button.frame = CGRect(x: self.view.frame.size.width - 80 , y: self.view.frame.size.height - 80, width: 75, height: 75)
                 }
+            }else{
+                button.frame = CGRect(x: self.view.frame.size.width - 105 , y: self.view.frame.size.height - 105, width: 100, height: 100)
             }
             
             if let userType = UserDefaults.standard.getUserType(){
@@ -424,6 +426,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.present(popupVC, animated: true, completion: nil)
     }
     @IBAction func closeSearchAction(_ sender: Any) {
+        self.viewAlertDisableSearchRoomMessage.isHidden = true
         self.viewSearch.isHidden = true
         self.showGetCustomer = true
         self.tvSearch.text = ""
@@ -751,6 +754,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
+        self.getConfigBotIntegration()
         self.getConfigResolvedALLWA()
         self.getConfigFeature()
     }
@@ -854,6 +858,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
     }
     
     func getCustomerRooms(){
+        var callAPI = true
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
@@ -890,22 +895,151 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 //agent
                 if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
                     if !filterSelectedTypeWA.isEmpty{
-                        if filterSelectedTypeWA.lowercased() == "all".lowercased() {
-                            param["status"] = "unresolved"
-                        }else{
-                            param["status"] = filterSelectedTypeWA
-                        }
-                    }else{
-                        param["status"] = "unresolved"
+                        param["status"] = filterSelectedTypeWA
                     }
-                }else{
-                    param["status"] = "unresolved"
                 }
-               
+                
+                //use last tab
+                let lastTab = self.defaults.integer(forKey: "lastTab")
+                if lastTab == 0 {
+                    callAPI = false
+                    //TODO call api customer_room
+                    self.loadingIndicator.startAnimating()
+                    self.loadingIndicator.isHidden = false
+                    QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        
+                        var results = [CustomerRoom]()
+                        for room in rooms {
+                            if !room.name.contains("notifications"){
+                                let data = CustomerRoom(roomSDK: room)
+                                results.append(data)
+                            }
+                        }
+                        
+                        self.searchCustomerRooms = results
+                        self.searchCustomerComments.removeAll()
+                        
+                        self.tableViewSearch.isHidden = false
+                        self.tableViewSearch.reloadData()
+                        if self.searchCustomerRooms.count == 0 {
+                         // show empty search room
+                            self.showAlertNoResultSearchRoomMessage()
+                        }else{
+                            self.hideALLAlertSearchRoomMessage()
+                        }
+                        
+                        
+                    } onError: { (error) in
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        self.showAlertNoResultSearchRoomMessage()
+                    }
+                } else if lastTab == 1 {
+                    param["status"] = "resolved"
+                    if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                        if !filterSelectedTypeWA.isEmpty{
+                            if filterSelectedTypeWA.lowercased() != "all".lowercased(){
+                                self.showAlertNoResultSearchRoomMessage()
+                                return
+                            }
+                        }
+                    }
+                }
             }else{
+                //admin / spv
                 if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
                     if !filterSelectedTypeWA.isEmpty{
                         param["status"] = filterSelectedTypeWA
+                    }
+                }
+                
+                //use last tab
+                let lastTab = self.defaults.integer(forKey: "lastTab")
+                if lastTab == 0 {
+                    callAPI = false
+                    self.loadingIndicator.startAnimating()
+                    self.loadingIndicator.isHidden = false
+                    let myGroup = DispatchGroup()
+                    QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
+                        
+                        var results = [CustomerRoom]()
+                        var resultsByRooms = [CustomerRoom]()
+                        var roomsData = rooms
+                        
+                        roomsData = roomsData.filter({ (room) -> Bool in
+                            if room.name.contains("notifications"){
+                                return false
+                            } else {
+                                return true
+                            }
+                            
+                        })
+                        
+                        for room in roomsData {
+                            let data = CustomerRoom(roomSDK: room)
+                            results.append(data)
+                            
+                            myGroup.enter()
+                            self.getRoomById(roomId: room.id) { (custRoom) in
+                                resultsByRooms.append(custRoom)
+                                myGroup.leave()
+                            } onError: { (error) in
+                                myGroup.leave()
+                            }
+                        }
+                        
+                        myGroup.notify(queue: .main) {
+                            
+                            for (index,element) in results.enumerated() {
+                                for i in resultsByRooms {
+                                    if results[index].roomId == i.roomId {
+                                        results[index].isHandledByBot = i.isHandledByBot
+                                    }
+                                }
+                                
+                            }
+                            
+                            results.sort { (room1, room2) -> Bool in
+                                return room1.lastCommentUnixTimestamp > room2.lastCommentUnixTimestamp
+                            }
+                            
+                            self.loadingIndicator.stopAnimating()
+                            self.loadingIndicator.isHidden = true
+                            
+                            self.searchCustomerRooms = results
+                            self.searchCustomerComments.removeAll()
+                            
+                            self.tableViewSearch.isHidden = false
+                            self.tableViewSearch.reloadData()
+                            if self.searchCustomerRooms.count == 0 {
+                                // show empty search room
+                                self.showAlertNoResultSearchRoomMessage()
+                            }else{
+                                self.hideALLAlertSearchRoomMessage()
+                            }
+                        }
+                        
+                    } onError: { (error) in
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        self.showAlertNoResultSearchRoomMessage()
+                    }
+
+                } else if lastTab == 1 {
+                    param["serve_status"] = "unserved"
+                } else if lastTab == 2 {
+                    param["serve_status"] = "served"
+                } else if lastTab == 3 {
+                    param["status"] = "resolved"
+                    if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                        if !filterSelectedTypeWA.isEmpty{
+                            if filterSelectedTypeWA.lowercased() != "all".lowercased(){
+                                self.showAlertNoResultSearchRoomMessage()
+                                return
+                            }
+                        }
                     }
                 }
             }
@@ -915,46 +1049,27 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     param["status"] = filterSelectedTypeWA
                 }
             }
-        }
-        
-        
-        self.loadingIndicator.startAnimating()
-        self.loadingIndicator.isHidden = false
-        
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
-            if response.result.value != nil {
-                if (response.response?.statusCode)! >= 300 {
-                    //error
-                    
+            
+            //use last tab
+            let lastTab = self.defaults.integer(forKey: "lastTab")
+            if lastTab == 0 {
+                callAPI = false
+                self.loadingIndicator.startAnimating()
+                self.loadingIndicator.isHidden = false
+                QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
                     self.loadingIndicator.stopAnimating()
                     self.loadingIndicator.isHidden = true
-                    if response.response?.statusCode == 401 {
-                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
-                            if success == true {
-                                self.getCustomerRooms()
-                            } else {
-                                self.showAlertNoResultSearchRoomMessage()
-                                return
-                            }
-                        }
-                    }
-                } else {
-                    //success
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.isHidden = true
-                    
-                    let payload = JSON(response.result.value)
-                    if let customerRooms = payload["data"]["customer_rooms"].array {
-                        var results = [CustomerRoom]()
-                        for room in customerRooms {
-                            let data = CustomerRoom(json: room)
+                    var results = [CustomerRoom]()
+                    for room in rooms {
+                        if !room.name.contains("notifications"){
+                            let data = CustomerRoom(roomSDK: room)
                             results.append(data)
                         }
-                        
-                        
-                        self.searchCustomerRooms = results
-                        self.searchCustomerComments.removeAll()
                     }
+                    
+                    self.searchCustomerRooms = results
+                    self.searchCustomerComments.removeAll()
+                    
                     self.tableViewSearch.isHidden = false
                     self.tableViewSearch.reloadData()
                     if self.searchCustomerRooms.count == 0 {
@@ -964,18 +1079,120 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                         self.hideALLAlertSearchRoomMessage()
                     }
                     
+                    
+                } onError: { (error) in
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.isHidden = true
+                    self.showAlertNoResultSearchRoomMessage()
+                }
+            } else if lastTab == 1 {
+                param["serve_status"] = "unserved"
+            } else if lastTab == 2 {
+                param["serve_status"] = "served"
+            } else if lastTab == 3 {
+                param["status"] = "resolved"
+                
+                if let filterSelectedTypeWA = defaults.string(forKey: "filterSelectedTypeWA"){
+                    if !filterSelectedTypeWA.isEmpty{
+                        if filterSelectedTypeWA.lowercased() != "all".lowercased(){
+                            self.showAlertNoResultSearchRoomMessage()
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        if callAPI == true {
+            self.loadingIndicator.startAnimating()
+            self.loadingIndicator.isHidden = false
+            
+            Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms", method: .post, parameters: param, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+                if response.result.value != nil {
+                    if (response.response?.statusCode)! >= 300 {
+                        //error
+                        
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        if response.response?.statusCode == 401 {
+                            RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                if success == true {
+                                    self.getCustomerRooms()
+                                } else {
+                                    self.showAlertNoResultSearchRoomMessage()
+                                    return
+                                }
+                            }
+                        }
+                    } else {
+                        //success
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        
+                        let payload = JSON(response.result.value)
+                        if let customerRooms = payload["data"]["customer_rooms"].array {
+                            var results = [CustomerRoom]()
+                            for room in customerRooms {
+                                let data = CustomerRoom(json: room)
+                                results.append(data)
+                            }
+                            
+                            
+                            self.searchCustomerRooms = results
+                            self.searchCustomerComments.removeAll()
+                        }
+                        self.tableViewSearch.isHidden = false
+                        self.tableViewSearch.reloadData()
+                        if self.searchCustomerRooms.count == 0 {
+                         // show empty search room
+                            self.showAlertNoResultSearchRoomMessage()
+                        }else{
+                            self.hideALLAlertSearchRoomMessage()
+                        }
+                        
+                    }
+                } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                    //failed
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.isHidden = true
+                    self.tableViewSearch.isHidden = true
+                    self.showAlertNoResultSearchRoomMessage()
+                } else {
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.isHidden = true
+                    self.tableViewSearch.isHidden = true
+                    self.showAlertNoResultSearchRoomMessage()
+                }
+            }
+        }
+    }
+    
+    func getRoomById(roomId : String,onSuccess: @escaping (CustomerRoom) -> Void, onError: @escaping (String) -> Void){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(roomId)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    onError("failed get roomById")
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    
+                    let cust  = CustomerRoom(json: payload["data"]["customer_room"])
+                    
+                    onSuccess(cust)
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
-                self.loadingIndicator.stopAnimating()
-                self.loadingIndicator.isHidden = true
-                self.tableViewSearch.isHidden = true
-                self.showAlertNoResultSearchRoomMessage()
+                onError("failed get roomById")
             } else {
-                self.loadingIndicator.stopAnimating()
-                self.loadingIndicator.isHidden = true
-                self.tableViewSearch.isHidden = true
-                self.showAlertNoResultSearchRoomMessage()
+                //failed
+                onError("failed get roomById")
             }
         }
     }
@@ -1024,6 +1241,43 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             } else {
                 //failed
                 self.setupUINavBar()
+            }
+        }
+    }
+    
+    func getConfigBotIntegration(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/app/bot", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getConfigBotIntegration()
+                            } else {
+                               
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                  
+                    let isBotEnable = json["data"]["is_bot_enabled"].bool ?? false
+                   
+                    
+                    self.defaults.setBot(value: isBotEnable)
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
             }
         }
     }

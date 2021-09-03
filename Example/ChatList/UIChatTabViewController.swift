@@ -170,6 +170,8 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
             default:
                 button.frame = CGRect(x: self.view.frame.size.width - 80 , y: self.view.frame.size.height - 80, width: 75, height: 75)
             }
+        }else{
+            button.frame = CGRect(x: self.view.frame.size.width - 105 , y: self.view.frame.size.height - 105, width: 100, height: 100)
         }
         
         if let userType = UserDefaults.standard.getUserType(){

@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class QFileRightCell: UIBaseChatCell {
     
+    @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var lbCaption: UILabel!
@@ -71,14 +72,56 @@ class QFileRightCell: UIBaseChatCell {
         self.setupBalon(message: message)
         self.status(message: message)
         
+        self.viewContent.layer.cornerRadius = 4
+        
         self.lbTime.text = self.hour(date: message.date())
-        self.tvContent.textColor = ColorConfiguration.rightBaloonTextColor
+        self.tvContent.textColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
         self.ivFIle.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(.alwaysTemplate)
-        self.ivFIle.tintColor = UIColor.white
+        self.ivFIle.tintColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
         
         guard let payload = message.payload else { return }
         
         let caption = payload["caption"] as? String
+        self.lbFileSizeExtension.isHidden = true
+        
+        if let fileName = payload["file_name"] as? String{
+            if fileName.isEmpty {
+                self.tvContent.text = message.fileName(text: message.message)
+            }else{
+                self.tvContent.text = fileName
+            }
+            if let url = payload["url"] as? String {
+                if !url.isEmpty {
+                    let ext = message.fileExtension(fromURL:url)
+                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
+                        DispatchQueue.main.async {
+                            do {
+                                let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
+                                if let size = resources.fileSize {
+                                    self.lbFileSizeExtension.text = "\(self.getMb(size: size)) - \(ext.uppercased()) file"
+                                } else {
+                                    self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+                                }
+                               
+                            } catch {
+                                self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+                            }
+                        }
+                    }) { (progress) in
+                        
+                    }
+                    
+                    if let size = payload["size"] as? Int {
+                        if size != 0 {
+                             self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
+                        }
+                    }
+                }
+               
+            }
+           
+        }
+        
         
         if let caption = caption {
             if caption.contains("This message was sent on previous session") == true {
@@ -117,42 +160,35 @@ class QFileRightCell: UIBaseChatCell {
         self.lbCaption.textColor = ColorConfiguration.rightBaloonTextColor
         
         
-        if let fileName = payload["file_name"] as? String{
-            if fileName.isEmpty {
-                self.tvContent.text = message.fileName(text: message.message)
-            }else{
-                self.tvContent.text = fileName
-            }
-            if let url = payload["url"] as? String {
-                if !url.isEmpty {
-                    let ext = message.fileExtension(fromURL:url)
-                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
-                        DispatchQueue.main.async {
-                            do {
-                                let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
-                                if let size = resources.fileSize {
-                                    self.lbFileSizeExtension.text = "\(self.getMb(size: size)) - \(ext.uppercased()) file"
-                                } else {
-                                    self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
-                                }
-                               
-                            } catch {
-                                self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
-                            }
-                        }
-                    }) { (progress) in
-                        
-                    }
+        if let messageExtras = message.extras {
+            let dataJson = JSON(messageExtras)
+            let type = dataJson["type"].string ?? ""
+            
+            if !type.isEmpty{
+                if type.lowercased() ==  "image_story_reply" {
                     
-                    if let size = payload["size"] as? Int {
-                        if size != 0 {
-                             self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
-                        }
-                    }
+                }else if (type.lowercased() == "video_story_reply"){
+                    self.tvContent.text = "Instagram Video Story"
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+                }else if (type.lowercased() == "story_mention"){
+                    self.tvContent.text = "Instagram Story"
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+                }else if (type.lowercased() == "share"){
+                    self.tvContent.text = "Instagram Post"
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+                }else if (type.lowercased() == "audio"){
+                    self.tvContent.text = "Instagram Voice Note "
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
                 }
-               
             }
-           
         }
        
     }

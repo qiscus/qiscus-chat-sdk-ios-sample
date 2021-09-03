@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="btAction" destination="aLk-ZP-JK0" id="TWl-gf-mbG"/>
                 <outlet property="btContactUs" destination="HOU-En-Mri" id="yef-pf-ceU"/>
+                <outlet property="btHelp" destination="vuu-Y3-jgc" id="Va3-uf-xuy"/>
                 <outlet property="ic_icon_seconds" destination="42Z-Rk-IQT" id="Npf-Ma-r5k"/>
                 <outlet property="ivIcon" destination="lr8-3C-MhM" id="Lxf-LO-SIx"/>
                 <outlet property="ivIndicator" destination="1Fh-pE-PvC" id="pxE-80-RR7"/>
@@ -19,6 +20,7 @@
                 <outlet property="ivTitle" destination="sWX-Xe-sII" id="QPn-mS-Ik2"/>
                 <outlet property="lbSubtitle" destination="RfD-Fp-w7C" id="tGD-wA-F1l"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewCamera" destination="T95-5c-ySv" id="Mlk-fy-G3C"/>
                 <outlet property="viewPopup" destination="qVX-yl-bLt" id="qOA-ox-Eqy"/>
                 <outlet property="viewPopupHelp" destination="tUu-MT-pOP" id="nUb-e1-0PY"/>
                 <outlet property="viewScanner" destination="1s8-Cs-9V3" id="jms-MF-a5j"/>
@@ -29,6 +31,10 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T95-5c-ySv">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qVX-yl-bLt" userLabel="ViewPopup">
                     <rect key="frame" x="0.0" y="167" width="375" height="500"/>
                     <subviews>
@@ -246,15 +252,19 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="T95-5c-ySv" secondAttribute="bottom" id="3eL-aj-1EQ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="tUu-MT-pOP" secondAttribute="bottom" id="5pg-Jn-yIs"/>
                 <constraint firstItem="qVX-yl-bLt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="EAu-c2-F75"/>
+                <constraint firstItem="T95-5c-ySv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="P5x-HF-TAb"/>
                 <constraint firstItem="tUu-MT-pOP" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="UMJ-h8-S6i"/>
                 <constraint firstAttribute="bottom" secondItem="qVX-yl-bLt" secondAttribute="bottom" id="W78-0i-yHT"/>
                 <constraint firstItem="qVX-yl-bLt" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="bbx-WQ-cqt"/>
                 <constraint firstItem="1s8-Cs-9V3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="fCz-kw-uaI"/>
                 <constraint firstItem="1s8-Cs-9V3" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="gi1-vV-ms9"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="T95-5c-ySv" secondAttribute="trailing" id="lhB-G0-1KD"/>
                 <constraint firstItem="tUu-MT-pOP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ruF-t7-PO4"/>
                 <constraint firstItem="1s8-Cs-9V3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="u6a-S6-Nti"/>
+                <constraint firstItem="T95-5c-ySv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="wAX-vu-uga"/>
                 <constraint firstItem="1s8-Cs-9V3" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="xCU-FX-KBL"/>
             </constraints>
             <point key="canvasLocation" x="-5.5999999999999996" y="76.011994002998506"/>

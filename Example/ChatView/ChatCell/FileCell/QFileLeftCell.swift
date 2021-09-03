@@ -18,6 +18,7 @@ struct DocumentsDirectory {
 }
 
 class QFileLeftCell: UIBaseChatCell {
+    @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var lbCaption: UILabel!
     @IBOutlet weak var tvContent: UILabel!
@@ -79,6 +80,7 @@ class QFileLeftCell: UIBaseChatCell {
         self.message = message
         self.setupBalon(message : message)
         
+        self.viewContent.layer.cornerRadius = 4
         self.lbTime.text = self.hour(date: message.date())
         self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
         self.tvContent.text = message.message
@@ -111,45 +113,7 @@ class QFileLeftCell: UIBaseChatCell {
         guard let payload = message.payload else { return }
         
         let caption = payload["caption"] as? String
-        
-        if let caption = caption {
-            if caption.contains("This message was sent on previous session") == true {
-                
-                let messageALL = caption
-                let messageALLArr = messageALL.components(separatedBy: "This message was sent on previous session")
-                
-                if  messageALLArr.count >= 2 {
-                    let message1 = messageALLArr[0] + "&#x2015;&#x2015;&#x2015;<br/><br/><small>"
-                    let message1Replace = message1.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
-                    
-                    let message2 =  "This message was sent on previous session" + messageALLArr[1]
-                    let message2Replace = message2.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
-                    let allMesage = message1Replace + message2Replace
-                    
-                    let attributedStringColor = [NSAttributedString.Key.foregroundColor : UIColor.white];
-                    // create the attributed string
-                    let attributedString = NSMutableAttributedString(string: allMesage.htmlToString, attributes: attributedStringColor)
-                    
-                    if let distance = attributedString.string.distance(of: "This message was sent on previous session") {
-                        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 10), range: NSRange(location: distance , length: attributedString.string.count - distance - 1))
-                    }
-                    
-                    self.lbCaption.attributedText = attributedString
-                    self.lbCaption.textColor = UIColor.white
-                    self.lbFileSizeExtension.textColor  = UIColor.white
-                    self.ivFIle.tintColor = UIColor.white
-                    self.tvContent.textColor = UIColor.white
-                    
-                }else{
-                    self.lbCaption.text = caption
-                }
-            }else{
-                self.lbCaption.text = caption
-            }
-            
-        }else{
-            self.lbCaption.text = ""
-        }
+        self.lbFileSizeExtension.isHidden = true
         
         if let fileName = payload["file_name"] as? String{
             if fileName.isEmpty {
@@ -184,6 +148,82 @@ class QFileLeftCell: UIBaseChatCell {
                     if size != 0 {
                         self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
                     }
+                }
+            }
+        }
+        
+        if let caption = caption {
+            
+            if caption.contains("This message was sent on previous session") == true {
+                
+                let messageALL = caption
+                let messageALLArr = messageALL.components(separatedBy: "This message was sent on previous session")
+                
+                if  messageALLArr.count >= 2 {
+                    let message1 = messageALLArr[0] + "&#x2015;&#x2015;&#x2015;<br/><br/><small>"
+                    let message1Replace = message1.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                    
+                    let message2 =  "This message was sent on previous session" + messageALLArr[1]
+                    let message2Replace = message2.replacingOccurrences(of: "\n", with: "<br/>", options: .literal, range: nil)
+                    let allMesage = message1Replace + message2Replace
+                    
+                    let attributedStringColor = [NSAttributedString.Key.foregroundColor : UIColor.white];
+                    // create the attributed string
+                    let attributedString = NSMutableAttributedString(string: allMesage.htmlToString, attributes: attributedStringColor)
+                    
+                    if let distance = attributedString.string.distance(of: "This message was sent on previous session") {
+                        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 10), range: NSRange(location: distance , length: attributedString.string.count - distance - 1))
+                    }
+                    
+                    self.lbCaption.attributedText = attributedString
+//                    self.lbCaption.textColor = UIColor.white
+//                    self.lbFileSizeExtension.textColor  = UIColor.white
+//                    self.ivFIle.tintColor = UIColor.white
+//                    self.tvContent.textColor = UIColor.white
+                    
+                }else{
+                    self.lbCaption.text = caption
+                }
+            }else{
+                self.lbCaption.text = caption
+            }
+            
+        }else{
+            self.lbCaption.text = ""
+        }
+        
+        self.lbCaption.textColor = ColorConfiguration.leftBaloonTextColor
+        
+        if let messageExtras = message.extras {
+            let dataJson = JSON(messageExtras)
+            let type = dataJson["type"].string ?? ""
+            
+            if !type.isEmpty{
+                if type.lowercased() ==  "image_story_reply" {
+                    self.tvContent.text = "Instagram Image Story"
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = ColorConfiguration.leftBaloonTextColor
+                }else if (type.lowercased() == "video_story_reply"){
+                    self.tvContent.text = "Instagram Video Story"
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = ColorConfiguration.leftBaloonTextColor
+                }else if (type.lowercased() == "story_mention"){
+                    self.tvContent.text = "Instagram Story"
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = ColorConfiguration.leftBaloonTextColor
+                }else if (type.lowercased() == "share"){
+                    self.tvContent.text = "Instagram Post"
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = ColorConfiguration.leftBaloonTextColor
+                }else if (type.lowercased() == "audio"){
+                    self.tvContent.text = "Instagram Voice Note "
+                    self.lbFileSizeExtension.isHidden = true
+                    self.ivFIle.image = UIImage(named: "ic_ig_gray")?.withRenderingMode(.alwaysTemplate)
+                    self.ivFIle.tintColor = ColorConfiguration.leftBaloonTextColor
                 }
             }
         }

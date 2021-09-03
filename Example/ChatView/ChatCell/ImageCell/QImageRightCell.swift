@@ -88,6 +88,16 @@ class QImageRightCell: UIBaseChatCell {
         guard let payload = message.payload else { return }
         let caption = payload["caption"] as? String
         
+        var placeHolder : UIImage? = nil
+        if let messageExtras = message.extras {
+            let dataJson = JSON(messageExtras)
+            let source = dataJson["source"].string ?? ""
+            
+            if source.lowercased().contains("ig") == true {
+                placeHolder = UIImage(named: "ic_expired_image_ig")
+            }
+        }
+        
         if let caption = caption {
             if caption.contains("This message was sent on previous session") == true {
                 
@@ -133,7 +143,7 @@ class QImageRightCell: UIBaseChatCell {
                 
                 self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
                 self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
-                self.ivComment.sd_setImage(with: URL(string: url) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                self.ivComment.sd_setImage(with: URL(string: url) ?? URL(string: "https://"), placeholderImage: placeHolder, options: .highPriority) { (uiImage, error, cache, urlPath) in
                     if urlPath != nil && uiImage != nil{
                         self.ivComment.af_setImage(withURL: urlPath!)
                     }
@@ -174,7 +184,7 @@ class QImageRightCell: UIBaseChatCell {
                 self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
                 
                 self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
-                self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: placeHolder, options: .highPriority) { (uiImage, error, cache, urlPath) in
                     if urlPath != nil && uiImage != nil{
                         self.ivComment.af_setImage(withURL: urlPath!)
                     }

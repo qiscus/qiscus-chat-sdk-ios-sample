@@ -9,6 +9,8 @@
 import UIKit
 import QiscusCore
 import XLPagerTabStrip
+import Alamofire
+import SwiftyJSON
 
 class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     @IBOutlet weak var btStartChat: UIButton!
@@ -85,6 +87,7 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.getConfigBotIntegration()
         self.presenter.setDelegate()
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 2 {
@@ -124,6 +127,43 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
                     self.defaults.removeObject(forKey: "lastSelectedListRoom")
                 }
                
+            }
+        }
+    }
+    
+    func getConfigBotIntegration(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/app/bot", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getConfigBotIntegration()
+                            } else {
+                               
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                  
+                    let isBotEnable = json["data"]["is_bot_enabled"].bool ?? false
+                   
+                    
+                    self.defaults.setBot(value: isBotEnable)
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
             }
         }
     }

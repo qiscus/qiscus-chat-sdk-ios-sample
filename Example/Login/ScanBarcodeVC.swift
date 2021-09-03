@@ -12,9 +12,11 @@ import SwiftyJSON
 
 class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
+    @IBOutlet weak var viewCamera: UIView!
     @IBOutlet weak var ivPopUpBackground: UIImageView!
     @IBOutlet weak var viewPopupHelp: UIView!
     @IBOutlet weak var btContactUs: UIButton!
+    @IBOutlet weak var btHelp: UIButton!
     @IBOutlet weak var btAction: UIButton!
     @IBOutlet weak var ivTitle: UIImageView!
     @IBOutlet weak var ivIcon: UIImageView!
@@ -70,6 +72,66 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         
         self.navigationController?.setStatusBar(backgroundColor: ColorConfiguration.defaultColorTosca)
         self.navigationController?.isNavigationBarHidden = true
+//        captureSession = AVCaptureSession()
+//
+//        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+//        let videoInput: AVCaptureDeviceInput
+//
+//        do {
+//            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+//        } catch {
+//            return
+//        }
+//
+//        if (captureSession.canAddInput(videoInput)) {
+//            captureSession.addInput(videoInput)
+//        } else {
+//            failed()
+//            return
+//        }
+//
+//        let metadataOutput = AVCaptureMetadataOutput()
+//
+//        if (captureSession.canAddOutput(metadataOutput)) {
+//            captureSession.addOutput(metadataOutput)
+//
+//            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+//            metadataOutput.metadataObjectTypes = [.qr]
+//        } else {
+//            failed()
+//            return
+//        }
+//
+//        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+//        previewLayer.frame = view.bounds
+//        previewLayer.videoGravity = .resizeAspectFill
+//        view.layer.addSublayer(previewLayer)
+//
+//
+//        //cara 1
+////        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+////        previewLayer.frame = viewCamera.layer.frame
+////        previewLayer.videoGravity = .resizeAspectFill
+////        view.layer.addSublayer(previewLayer)
+//
+//        //cara2
+////        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+////        previewLayer.frame = UIScreen.main.bounds
+////        previewLayer.videoGravity = .resizeAspectFill
+////        viewCamera.layer.addSublayer(previewLayer)
+//
+//
+//
+//        captureSession.startRunning()
+//
+//        self.view.bringSubviewToFront(viewPopup)
+//        self.view.bringSubviewToFront(viewScanner)
+//        self.view.bringSubviewToFront(viewPopupHelp)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -101,17 +163,16 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         }
         
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.frame = view.bounds
+        previewLayer.frame = viewCamera.frame
         previewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(previewLayer)
-        
-        
+        viewCamera.layer.addSublayer(previewLayer)
         
         captureSession.startRunning()
         
         self.view.bringSubviewToFront(viewPopup)
         self.view.bringSubviewToFront(viewScanner)
         self.view.bringSubviewToFront(viewPopupHelp)
+        
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {

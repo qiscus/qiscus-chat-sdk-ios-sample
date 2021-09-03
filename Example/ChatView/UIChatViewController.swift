@@ -1824,9 +1824,41 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             }
             
             if let url = payload["url"] as? String {
+                var caption = ""
+                if let captionData = payload["caption"] as? String {
+                    caption = captionData
+                }
                 let ext = message.fileExtension(fromURL:url)
                 let urlFile = URL(string: url) ?? URL(string: "https://")
-                if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
+                var isImage = false
+                var isVideo = false
+                
+                if ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif"){
+                    isImage = true
+                }
+                
+                if let messageExtras = message.extras {
+                    let dataJson = JSON(messageExtras)
+                    let type = dataJson["type"].string ?? ""
+                    
+                    if !type.isEmpty{
+                        if type.lowercased() ==  "image_story_reply" ||  type.lowercased() == "image" {
+                            isImage = true
+                        }else if (type.lowercased() == "video_story_reply"){
+                            isImage = false
+                        }else if (type.lowercased() == "story_mention"){
+                            isImage = false
+                        }else if (type.lowercased() == "share"){
+                            isImage = false
+                        }else if (type.lowercased() == "video"){
+                            isVideo = true
+                        }
+                    }
+                }
+              
+                
+                if(isImage == true) {
+                   
                     if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImageRightCell", for: indexPath) as! QImageRightCell
                         cell.menuConfig = menuConfig
@@ -1845,7 +1877,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         cell.cellMenu = self
                         return cell
                     }
-                }else if(urlFile?.containsVideo == true) {
+                }else if(urlFile?.containsVideo == true || isVideo == true ) {
                     if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoRightCell", for: indexPath) as! QVideoRightCell
                         cell.menuConfig = menuConfig
