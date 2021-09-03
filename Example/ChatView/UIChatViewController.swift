@@ -437,7 +437,13 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     
     func onUser(name: String, isOnline: Bool, message: String) {
-        self.chatTitleView.labelSubtitle.text = message
+        if isOnline == false && message.lowercased() == "online"{ //message is online cs the time is around <= 3s from time now, you can check in Date.swift
+            //other user was offline, and time
+            self.chatTitleView.labelSubtitle.text = "a few seconds ago" //(offline)
+        }else{
+            self.chatTitleView.labelSubtitle.text = message
+        }
+        
     }
     
     func onUser(name: String, typing: Bool) {

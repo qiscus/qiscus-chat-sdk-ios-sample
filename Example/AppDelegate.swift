@@ -18,7 +18,10 @@ let APP_ID : String = "sdksample"
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var heartBeat           : SampleHeartBeat?      = nil
+    var mqttIsConnect       : Bool = false
+    var isBackground        : Bool = false
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         QiscusCore.enableDebugMode(value: true)
@@ -97,6 +100,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        self.isBackground = true
+        QiscusCore.shared.publishOnlinePresence(isOnline: false)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -124,6 +129,31 @@ extension AppDelegate {
         if QiscusCore.hasSetupUser() {
             target = UIChatListViewController()
             _ = QiscusCore.connect(delegate: self)
+            
+            self.heartBeat = SampleHeartBeat.init(timeInterval: 5)
+            self.heartBeat?.eventHandler = {
+                print("bip")
+                if QiscusCore.isLogined && self.mqttIsConnect == true {
+                    DispatchQueue.main.sync {
+                        let state = UIApplication.shared.applicationState
+                        
+                        DispatchQueue.global(qos: .background).sync {
+                            if state == .active {
+                                // foreground
+                                QiscusCore.shared.publishOnlinePresence(isOnline: true)
+                                self.isBackground = false
+                            }else{
+                                if self.isBackground == false {
+                                    self.isBackground = true
+                                    QiscusCore.shared.publishOnlinePresence(isOnline: false)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            self.heartBeat?.resume()
+            
         }else {
             target = LoginViewController()
         }
@@ -148,13 +178,14 @@ extension AppDelegate {
 
 extension AppDelegate : QiscusConnectionDelegate {
     func onConnected(){
+        self.mqttIsConnect = true
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reSubscribeRoom"), object: nil)
     }
     func onReconnecting(){
         
     }
     func onDisconnected(withError err: QError?){
-        
+        self.mqttIsConnect = false
     }
     
     func connectionState(change state: QiscusConnectionState) {

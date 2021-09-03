@@ -87,6 +87,7 @@
 		3DAF2A39222E62850002B4E3 /* RoomInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */; };
 		3DAF2A3C222E77B60002B4E3 /* EditRoomNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */; };
 		3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */; };
+		3DB07DF026E2103200A26204 /* SampleHeartBeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB07DEF26E2103200A26204 /* SampleHeartBeat.swift */; };
 		3DCF6A3A2199277F00C108E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A382199277E00C108E6 /* LoginViewController.swift */; };
 		3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DCF6A392199277E00C108E6 /* LoginViewController.xib */; };
 		3DCF6A3D2199545200C108E6 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6A3C2199545100C108E6 /* Date.swift */; };
@@ -179,6 +180,7 @@
 		3DAF2A37222E62850002B4E3 /* RoomInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomInfoVC.xib; sourceTree = "<group>"; };
 		3DAF2A3A222E77B60002B4E3 /* EditRoomNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRoomNameVC.swift; sourceTree = "<group>"; };
 		3DAF2A3B222E77B60002B4E3 /* EditRoomNameVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditRoomNameVC.xib; sourceTree = "<group>"; };
+		3DB07DEF26E2103200A26204 /* SampleHeartBeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHeartBeat.swift; sourceTree = "<group>"; };
 		3DCF6A382199277E00C108E6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -418,6 +420,14 @@
 			path = RoomInfo;
 			sourceTree = "<group>";
 		};
+		3DB07DEE26E2101300A26204 /* Heartbeat */ = {
+			isa = PBXGroup;
+			children = (
+				3DB07DEF26E2103200A26204 /* SampleHeartBeat.swift */,
+			);
+			path = Heartbeat;
+			sourceTree = "<group>";
+		};
 		3DCF6A37219926F800C108E6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,6 +484,7 @@
 		3DDEFB632192D35600484795 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				3DB07DEE26E2101300A26204 /* Heartbeat */,
 				3D96C02E2553066C00583F50 /* Forward */,
 				3DAF2A35222E62330002B4E3 /* RoomInfo */,
 				3D5DD75D2227809100E39C96 /* Profile */,
@@ -713,6 +724,7 @@
 				3D96C03A2553073F00583F50 /* ForwardSelectedCell.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
 				3D40B8F12192E20C00FE7228 /* QiscusUploaderVC.swift in Sources */,
+				3DB07DF026E2103200A26204 /* SampleHeartBeat.swift in Sources */,
 				3D5DD76422279AA400E39C96 /* EditNameVC.swift in Sources */,
 				3D40B9012192E20C00FE7228 /* ChatConfig.swift in Sources */,
 				3D40B8D62192E20C00FE7228 /* QTextLeftCell.swift in Sources */,
