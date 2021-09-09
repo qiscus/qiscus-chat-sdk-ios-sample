@@ -20,15 +20,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5hh-dE-BIu">
                         <rect key="frame" x="0.0" y="0.0" width="360" height="160"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaZ-1Q-IY2">
-                                <rect key="frame" x="43" y="28" width="121.5" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="LP2-5V-FDo"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="saveFile:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fDq-8a-UFu"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Iu0-VT-qD4">
                                 <rect key="frame" x="43" y="28" width="121.5" height="124"/>
                                 <constraints>
@@ -85,7 +76,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="halo" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOq-DE-YW9">
-                                <rect key="frame" x="54" y="80" width="101" height="65"/>
+                                <rect key="frame" x="54" y="80" width="100.5" height="65"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -97,6 +88,15 @@
                                     <constraint firstAttribute="height" constant="30" id="yxx-U2-fPY"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaZ-1Q-IY2">
+                                <rect key="frame" x="43" y="28" width="121.5" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="LP2-5V-FDo"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="saveFile:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fDq-8a-UFu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
