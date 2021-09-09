@@ -12,7 +12,8 @@ import QiscusCore
 class QTextRightCell: UIBaseChatCell {
 
     @IBOutlet weak var lbName: UILabel!
-    @IBOutlet weak var tvContent: UILabel!
+//    @IBOutlet weak var tvContent: UILabel!
+    @IBOutlet weak var tvContent: UITextView!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
     
     @IBOutlet weak var ivStatus: UIImageView!

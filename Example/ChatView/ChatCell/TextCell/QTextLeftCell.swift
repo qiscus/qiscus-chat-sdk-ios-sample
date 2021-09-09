@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class QTextLeftCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
-    @IBOutlet weak var tvContent: UILabel!
+    @IBOutlet weak var tvContent: UITextView!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
     @IBOutlet weak var ivAvatarUser: UIImageView!
     @IBOutlet weak var lbTime: UILabel!
@@ -74,6 +74,7 @@ class QTextLeftCell: UIBaseChatCell {
         self.lbTime.text = self.hour(date: message.date())
         self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
         self.tvContent.textColor = ColorConfiguration.leftBaloonTextColor
+        self.tvContent.tintColor = ColorConfiguration.leftBaloonTextColor
         
         if message.message.contains("This message was sent on previous session") == true {
             
