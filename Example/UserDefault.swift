@@ -66,6 +66,17 @@ extension UserDefaults{
         //synchronize()
     }
     
+    //MARK: Retrieve User Data
+    func getBaseURL() -> String{
+        return string(forKey: "baseurl") ?? "https://multichannel.qiscus.com"
+    }
+    
+    //user type 1 = admin
+    //MARK: Save authentication_token
+    func setBaseURL(value: String){
+        set(value, forKey: "baseurl")
+    }
+    
     //MARK: Save bubble color
     func setBubbleColor(value: String){
         set(value, forKey: "bubble")

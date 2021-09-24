@@ -267,14 +267,16 @@ extension AppDelegate {
     }
     
     func validateUserToken(appId :String,identityToken :String, qismo_key : String){
-        UserDefaults.standard.setAppID(value: appId)
-        QiscusCore.setup(WithAppID: appId)
-        
+        if !appId.isEmpty {
+            UserDefaults.standard.setAppID(value: appId)
+            QiscusCore.setup(WithAppID: appId)
+        }
+       
         QiscusCore.login(withIdentityToken: identityToken, onSuccess: { (user) in
             
             let header = ["Authorization": user.token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
             
-            let params = ["app_id": appId,
+            let params = ["app_id": UserDefaults.standard.getAppID() ?? "",
                           "qismo_key": qismo_key] as [String : Any]
             
             
@@ -283,6 +285,9 @@ extension AppDelegate {
                 if response.result.value != nil {
                     if (response.response?.statusCode)! >= 300 {
                         //failed
+                        UserDefaults.standard.setAfterLogin(value: true)
+                        
+                        self.auth()
                     } else {
                         //success
                         
@@ -306,11 +311,19 @@ extension AppDelegate {
                     }
                 } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                     //failed
+                    UserDefaults.standard.setAfterLogin(value: true)
+                    
+                    self.auth()
                 } else {
                     //failed
+                    UserDefaults.standard.setAfterLogin(value: true)
+                    
+                    self.auth()
                 }
             }
         }) { (error) in
+            UserDefaults.standard.setAfterLogin(value: true)
+            
             self.auth()
         }
     }

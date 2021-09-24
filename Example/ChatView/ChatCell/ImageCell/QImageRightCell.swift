@@ -217,12 +217,10 @@ class QImageRightCell: UIBaseChatCell {
         }
         
         let vc = ImageViewerController(configuration: configuration)
-
         vc.modalPresentationStyle = .overFullScreen
         self.currentViewController()?.navigationController?.present(vc, animated: false, completion: {
             
         })
-        
     }
     
     //MARK: - Add image to Library

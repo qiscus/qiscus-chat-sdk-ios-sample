@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 import SwiftyJSON
+import QiscusCore
+import Alamofire
 
 class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
@@ -367,27 +369,106 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
 //        let longLiveToken = "A5wmVwtjhD3CIiIlQVCA"//payload["long_lived_token"].stringValue
 //        let qismoToken = "A5wmVwtjhD3CIiIlQVCA"
 //
-        let payload = JSON.init(parseJSON: code)
-        let appId = payload["app_id"].stringValue
-        let identityToken = payload["identity_token"].stringValue
-        let qismo_key = payload["qismo_key"].stringValue
-        let longLiveToken = payload["long_lived_token"].string ?? ""
-        let qismoToken = payload["qismo_token"].string ?? ""
-        let userType = payload["user_type"].string ?? "2"
-        var userTypeInt = 2
-        if userType == "2" {
-            userTypeInt = 2
-        } else if userType == "1"{
-            userTypeInt = 1
-        }else if userType == "3"{
-            userTypeInt = 3
-        }
         
-        UserDefaults.standard.setLongLivedToken(value: longLiveToken)
-        UserDefaults.standard.setAuthenticationToken(value: qismoToken)
-        UserDefaults.standard.setUserType(value: userTypeInt)
-        let app = UIApplication.shared.delegate as! AppDelegate
-        app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
+        var data = code
+        
+        if data.contains("version") == true {
+            if let dotRange = data.range(of: "}") {
+                data.removeSubrange(dotRange.lowerBound..<data.endIndex)
+                data = data + "}"
+                
+                let payload = JSON.init(parseJSON: data)
+                
+                let appId = payload["app_id"].stringValue
+                var qismo_url = payload["qismo_url"].stringValue
+                let longLiveToken = payload["long_lived_token"].string ?? ""
+                
+                if qismo_url.last == "/"{
+                    qismo_url.removeLast()
+                }
+                
+                UserDefaults.standard.setLongLivedToken(value: longLiveToken)
+                UserDefaults.standard.setAppID(value: appId)
+                UserDefaults.standard.setBaseURL(value: qismo_url)
+                
+                QiscusCore.setup(WithAppID: appId)
+                
+                QiscusCore.getJWTNonce { nonce in
+                    
+                    
+                    let header = ["Authorization": longLiveToken] as [String : String]
+                    
+                    let params = ["nonce": nonce.nonce] as [String : Any]
+                    
+                    Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/auth/mobile_login", method: .post, parameters: params, headers: header as! HTTPHeaders).responseJSON { (response) in
+                        print("response call \(response)")
+                        if response.result.value != nil {
+                            if (response.response?.statusCode)! >= 300 {
+                                //failed
+                            } else {
+                                //success
+                                
+                                let result = response.result.value
+                                let payload = JSON(result)
+                                print("check json ini =\(payload)")
+                                
+                                let identityToken = payload["data"]["identity_token"].stringValue
+                                let qismo_key = payload["data"]["qismo_key"].stringValue
+                                let qismoToken = payload["data"]["qismo_token"].string ?? ""
+                                let userType = payload["data"]["user_type"].int ?? 2
+
+                                UserDefaults.standard.setLongLivedToken(value: longLiveToken)
+                                UserDefaults.standard.setAuthenticationToken(value: qismoToken)
+                                UserDefaults.standard.setUserType(value: userType)
+                                let app = UIApplication.shared.delegate as! AppDelegate
+                                app.validateUserToken(appId: "",identityToken: identityToken, qismo_key : qismo_key)
+                               
+                            }
+                        } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                            //failed
+                        } else {
+                            //failed
+                        }
+                    }
+                    
+                } onError: { error in
+                    //error get jwt nonce
+                }
+            }else{
+                //failed
+            }
+        } else {
+            
+            let payload = JSON.init(parseJSON: data)
+            
+            let appId = payload["app_id"].stringValue
+            let identityToken = payload["identity_token"].stringValue
+            let qismo_key = payload["qismo_key"].stringValue
+            var qismo_url = payload["qismo_url"].stringValue
+           
+            if qismo_url.last == "/"{
+                qismo_url.removeLast()
+            }
+            let longLiveToken = payload["long_lived_token"].string ?? ""
+            let qismoToken = payload["qismo_token"].string ?? ""
+            let userType = payload["user_type"].string ?? "2"
+            var userTypeInt = 2
+            if userType == "2" {
+                userTypeInt = 2
+            } else if userType == "1"{
+                userTypeInt = 1
+            }else if userType == "3"{
+                userTypeInt = 3
+            }
+            
+            UserDefaults.standard.setBaseURL(value: qismo_url)
+            UserDefaults.standard.setLongLivedToken(value: longLiveToken)
+            UserDefaults.standard.setAuthenticationToken(value: qismoToken)
+            UserDefaults.standard.setUserType(value: userTypeInt)
+            let app = UIApplication.shared.delegate as! AppDelegate
+            app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
+        }
+
     }
     
     override var prefersStatusBarHidden: Bool {

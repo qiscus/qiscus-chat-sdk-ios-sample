@@ -20,7 +20,7 @@ open class QiscusHelper: NSObject {
     }
     
     class func getBaseURL()->String{
-        return getBaseURLProd()
+        return  UserDefaults.standard.getBaseURL()
     }
     
     private class func getBaseURLStag()->String{

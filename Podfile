@@ -11,7 +11,7 @@ target 'Example' do
 
     # 3rd party
   pod 'SDWebImage'
-  pod 'SimpleImageViewer', :git => 'https://github.com/aFrogleap/SimpleImageViewer'
+  pod 'SimpleImageViewer', :git => 'https://github.com/ariefnurputranto/SimpleImageViewer'
   pod 'SwiftyJSON'
   pod 'Alamofire', '4.9'
   pod 'AlamofireImage', '3.6.0'

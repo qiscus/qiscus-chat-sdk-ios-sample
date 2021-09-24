@@ -127,7 +127,7 @@ class AdditionalInformationVC: UIViewController {
                     var sameTitle = false
                     for (indexData, dataAddtional) in self.dataAddtionalInformation.enumerated() {
                         if indexData != index.row {
-                            if dataAddtional.titleInformation.contains(textTitle) {
+                            if dataAddtional.titleInformation == textTitle {
                                 sameTitle = true
                             }
                         }

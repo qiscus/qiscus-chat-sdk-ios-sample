@@ -536,8 +536,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             if userType != 2{
                 //admin //spv
                 if defaults.bool(forKey: "ic_resolved_all_WA_active") != false{
-//                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
-                    self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+                   //self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+                   self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }else{
                     self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }
@@ -902,39 +902,40 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 //use last tab
                 let lastTab = self.defaults.integer(forKey: "lastTab")
                 if lastTab == 0 {
-                    callAPI = false
-                    //TODO call api customer_room
-                    self.loadingIndicator.startAnimating()
-                    self.loadingIndicator.isHidden = false
-                    QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
-                        self.loadingIndicator.stopAnimating()
-                        self.loadingIndicator.isHidden = true
-                        
-                        var results = [CustomerRoom]()
-                        for room in rooms {
-                            if !room.name.contains("notifications"){
-                                let data = CustomerRoom(roomSDK: room)
-                                results.append(data)
+                    if self.isTabCustomerSelected == false{
+                        callAPI = false
+                        self.loadingIndicator.startAnimating()
+                        self.loadingIndicator.isHidden = false
+                        QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
+                            self.loadingIndicator.stopAnimating()
+                            self.loadingIndicator.isHidden = true
+                            
+                            var results = [CustomerRoom]()
+                            for room in rooms {
+                                if !room.name.contains("notifications"){
+                                    let data = CustomerRoom(roomSDK: room)
+                                    results.append(data)
+                                }
                             }
-                        }
-                        
-                        self.searchCustomerRooms = results
-                        self.searchCustomerComments.removeAll()
-                        
-                        self.tableViewSearch.isHidden = false
-                        self.tableViewSearch.reloadData()
-                        if self.searchCustomerRooms.count == 0 {
-                         // show empty search room
+                            
+                            self.searchCustomerRooms = results
+                            self.searchCustomerComments.removeAll()
+                            
+                            self.tableViewSearch.isHidden = false
+                            self.tableViewSearch.reloadData()
+                            if self.searchCustomerRooms.count == 0 {
+                             // show empty search room
+                                self.showAlertNoResultSearchRoomMessage()
+                            }else{
+                                self.hideALLAlertSearchRoomMessage()
+                            }
+                            
+                            
+                        } onError: { (error) in
+                            self.loadingIndicator.stopAnimating()
+                            self.loadingIndicator.isHidden = true
                             self.showAlertNoResultSearchRoomMessage()
-                        }else{
-                            self.hideALLAlertSearchRoomMessage()
                         }
-                        
-                        
-                    } onError: { (error) in
-                        self.loadingIndicator.stopAnimating()
-                        self.loadingIndicator.isHidden = true
-                        self.showAlertNoResultSearchRoomMessage()
                     }
                 } else if lastTab == 1 {
                     param["status"] = "resolved"
@@ -958,75 +959,76 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 //use last tab
                 let lastTab = self.defaults.integer(forKey: "lastTab")
                 if lastTab == 0 {
-                    callAPI = false
-                    self.loadingIndicator.startAnimating()
-                    self.loadingIndicator.isHidden = false
-                    let myGroup = DispatchGroup()
-                    QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
-                        
-                        var results = [CustomerRoom]()
-                        var resultsByRooms = [CustomerRoom]()
-                        var roomsData = rooms
-                        
-                        roomsData = roomsData.filter({ (room) -> Bool in
-                            if room.name.contains("notifications"){
-                                return false
-                            } else {
-                                return true
-                            }
+                    if self.isTabCustomerSelected == false{
+                        callAPI = false
+                        self.loadingIndicator.startAnimating()
+                        self.loadingIndicator.isHidden = false
+                        let myGroup = DispatchGroup()
+                        QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
                             
-                        })
-                        
-                        for room in roomsData {
-                            let data = CustomerRoom(roomSDK: room)
-                            results.append(data)
+                            var results = [CustomerRoom]()
+                            var resultsByRooms = [CustomerRoom]()
+                            var roomsData = rooms
                             
-                            myGroup.enter()
-                            self.getRoomById(roomId: room.id) { (custRoom) in
-                                resultsByRooms.append(custRoom)
-                                myGroup.leave()
-                            } onError: { (error) in
-                                myGroup.leave()
-                            }
-                        }
-                        
-                        myGroup.notify(queue: .main) {
-                            
-                            for (index,element) in results.enumerated() {
-                                for i in resultsByRooms {
-                                    if results[index].roomId == i.roomId {
-                                        results[index].isHandledByBot = i.isHandledByBot
-                                    }
+                            roomsData = roomsData.filter({ (room) -> Bool in
+                                if room.name.contains("notifications"){
+                                    return false
+                                } else {
+                                    return true
                                 }
                                 
+                            })
+                            
+                            for room in roomsData {
+                                let data = CustomerRoom(roomSDK: room)
+                                results.append(data)
+                                
+                                myGroup.enter()
+                                self.getRoomById(roomId: room.id) { (custRoom) in
+                                    resultsByRooms.append(custRoom)
+                                    myGroup.leave()
+                                } onError: { (error) in
+                                    myGroup.leave()
+                                }
                             }
                             
-                            results.sort { (room1, room2) -> Bool in
-                                return room1.lastCommentUnixTimestamp > room2.lastCommentUnixTimestamp
+                            myGroup.notify(queue: .main) {
+                                
+                                for (index,element) in results.enumerated() {
+                                    for i in resultsByRooms {
+                                        if results[index].roomId == i.roomId {
+                                            results[index].isHandledByBot = i.isHandledByBot
+                                        }
+                                    }
+                                    
+                                }
+                                
+                                results.sort { (room1, room2) -> Bool in
+                                    return room1.lastCommentUnixTimestamp > room2.lastCommentUnixTimestamp
+                                }
+                                
+                                self.loadingIndicator.stopAnimating()
+                                self.loadingIndicator.isHidden = true
+                                
+                                self.searchCustomerRooms = results
+                                self.searchCustomerComments.removeAll()
+                                
+                                self.tableViewSearch.isHidden = false
+                                self.tableViewSearch.reloadData()
+                                if self.searchCustomerRooms.count == 0 {
+                                    // show empty search room
+                                    self.showAlertNoResultSearchRoomMessage()
+                                }else{
+                                    self.hideALLAlertSearchRoomMessage()
+                                }
                             }
                             
+                        } onError: { (error) in
                             self.loadingIndicator.stopAnimating()
                             self.loadingIndicator.isHidden = true
-                            
-                            self.searchCustomerRooms = results
-                            self.searchCustomerComments.removeAll()
-                            
-                            self.tableViewSearch.isHidden = false
-                            self.tableViewSearch.reloadData()
-                            if self.searchCustomerRooms.count == 0 {
-                                // show empty search room
-                                self.showAlertNoResultSearchRoomMessage()
-                            }else{
-                                self.hideALLAlertSearchRoomMessage()
-                            }
+                            self.showAlertNoResultSearchRoomMessage()
                         }
-                        
-                    } onError: { (error) in
-                        self.loadingIndicator.stopAnimating()
-                        self.loadingIndicator.isHidden = true
-                        self.showAlertNoResultSearchRoomMessage()
                     }
-
                 } else if lastTab == 1 {
                     param["serve_status"] = "unserved"
                 } else if lastTab == 2 {
@@ -1053,37 +1055,39 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             //use last tab
             let lastTab = self.defaults.integer(forKey: "lastTab")
             if lastTab == 0 {
-                callAPI = false
-                self.loadingIndicator.startAnimating()
-                self.loadingIndicator.isHidden = false
-                QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.isHidden = true
-                    var results = [CustomerRoom]()
-                    for room in rooms {
-                        if !room.name.contains("notifications"){
-                            let data = CustomerRoom(roomSDK: room)
-                            results.append(data)
+                if self.isTabCustomerSelected == false{
+                    callAPI = false
+                    self.loadingIndicator.startAnimating()
+                    self.loadingIndicator.isHidden = false
+                    QiscusCore.shared.getAllChatRooms(showParticipant: true, showRemoved: false, showEmpty: false, roomType: nil, page: 1, limit: 10) { (rooms, meta) in
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
+                        var results = [CustomerRoom]()
+                        for room in rooms {
+                            if !room.name.contains("notifications"){
+                                let data = CustomerRoom(roomSDK: room)
+                                results.append(data)
+                            }
                         }
-                    }
-                    
-                    self.searchCustomerRooms = results
-                    self.searchCustomerComments.removeAll()
-                    
-                    self.tableViewSearch.isHidden = false
-                    self.tableViewSearch.reloadData()
-                    if self.searchCustomerRooms.count == 0 {
-                     // show empty search room
+                        
+                        self.searchCustomerRooms = results
+                        self.searchCustomerComments.removeAll()
+                        
+                        self.tableViewSearch.isHidden = false
+                        self.tableViewSearch.reloadData()
+                        if self.searchCustomerRooms.count == 0 {
+                         // show empty search room
+                            self.showAlertNoResultSearchRoomMessage()
+                        }else{
+                            self.hideALLAlertSearchRoomMessage()
+                        }
+                        
+                        
+                    } onError: { (error) in
+                        self.loadingIndicator.stopAnimating()
+                        self.loadingIndicator.isHidden = true
                         self.showAlertNoResultSearchRoomMessage()
-                    }else{
-                        self.hideALLAlertSearchRoomMessage()
                     }
-                    
-                    
-                } onError: { (error) in
-                    self.loadingIndicator.stopAnimating()
-                    self.loadingIndicator.isHidden = true
-                    self.showAlertNoResultSearchRoomMessage()
                 }
             } else if lastTab == 1 {
                 param["serve_status"] = "unserved"

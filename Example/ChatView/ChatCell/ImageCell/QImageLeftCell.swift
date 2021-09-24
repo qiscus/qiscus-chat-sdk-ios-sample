@@ -35,6 +35,7 @@ class QImageLeftCell: UIBaseChatCell {
     var colorName : UIColor = UIColor.black
     var isQiscus : Bool = false
     var message: CommentModel? = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -253,7 +254,6 @@ class QImageLeftCell: UIBaseChatCell {
 
         
         let vc = ImageViewerController(configuration: configuration)
-
         vc.modalPresentationStyle = .overFullScreen
         self.currentViewController()?.navigationController?.present(vc, animated: false, completion: {
             
