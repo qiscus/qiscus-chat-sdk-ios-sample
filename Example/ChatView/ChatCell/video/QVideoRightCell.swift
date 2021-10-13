@@ -240,6 +240,7 @@ class QVideoRightCell: UIBaseChatCell {
                 preview.url = url
                 preview.roomName = "Video Preview"
                 let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                backButton.tintColor = UIColor.white
                 
                 self.currentViewController()?.navigationItem.backBarButtonItem = backButton
                 self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)

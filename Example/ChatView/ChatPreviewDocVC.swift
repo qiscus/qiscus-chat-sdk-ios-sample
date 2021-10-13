@@ -36,6 +36,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
         if !self.accountLinking {
             let shareButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(ChatPreviewDocVC.share))
+            shareButton.tintColor = UIColor.white
             self.navigationItem.rightBarButtonItem = shareButton
         }
     }
@@ -144,7 +145,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
     }
     
     // MARK: - Navigation
-    func goBack(_ sender: AnyObject) {
+    @objc func goBack(_ sender: AnyObject) {
         let _ = self.navigationController?.popViewController(animated: true)
     }
     

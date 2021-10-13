@@ -260,7 +260,10 @@ class QPostbackRightCell: UIBaseChatCell {
         webView.accountData = data
         
         if let vc = delegateChat {
-            vc.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            backButton.tintColor = UIColor.white
+            
+            vc.navigationItem.backBarButtonItem = backButton
             vc.navigationController?.pushViewController(webView, animated: true)
         }
        

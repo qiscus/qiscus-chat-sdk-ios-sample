@@ -13,6 +13,10 @@ class AlertForceUpdateVC: UIViewController {
     @IBOutlet weak var viewPopUp: UIView!
     @IBOutlet weak var btRemindMeLater: UIButton!
     @IBOutlet weak var btUpdateNewVersion: UIButton!
+    var isForceUpdate = false
+    var count = 0
+    @IBOutlet weak var btHardClose: UIButton!
+    @IBOutlet weak var heightRemindMeLaterConst: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +26,16 @@ class AlertForceUpdateVC: UIViewController {
         self.btRemindMeLater.layer.borderWidth = 1
         self.btRemindMeLater.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
         self.btRemindMeLater.layer.cornerRadius = self.btRemindMeLater.frame.height / 2
+        
+        self.btRemindMeLater.isHidden = isForceUpdate
+        
+        if isForceUpdate == true {
+            heightRemindMeLaterConst.constant = 0
+        } else {
+            heightRemindMeLaterConst.constant = 40
+        }
+        
+        self.btHardClose.setTitle("", for: .normal)
     }
 
     
@@ -40,6 +54,16 @@ class AlertForceUpdateVC: UIViewController {
     @IBAction func remindMeLaterAction(_ sender: Any) {
         self.dismiss(animated: true) {
             
+        }
+    }
+    
+    @IBAction func close(_ sender: Any) {
+        count = count + 1
+        
+        if count == 5 {
+            self.dismiss(animated: true) {
+                
+            }
         }
     }
     

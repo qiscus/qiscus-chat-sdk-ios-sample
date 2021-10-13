@@ -337,6 +337,59 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         if (captureSession?.isRunning == false) {
             captureSession.startRunning()
         }
+        
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = ColorConfiguration.defaultColorTosca
+            appearance.titleTextAttributes = [.font: UIFont.boldSystemFont(ofSize: 18.0),
+                                              .foregroundColor: UIColor.white]
+
+            // Customizing our navigation bar
+            navigationController?.navigationBar.tintColor =  ColorConfiguration.defaultColorTosca
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        self.getLatestVersion()
+    }
+    
+    func getLatestVersion(){
+        let param : [String: Any] = ["type" : 2]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/mobile_version/latest", method: .get, parameters: param, headers: nil).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    print(" response.response?.statusCode \( response.response?.statusCode)")
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let data = payload["data"]["mobile_version"]
+                    
+                    let forceUpdate = data["force_update"].bool ?? false
+                    let version = data["version"].string ?? ""
+                    
+                    
+                    if let versionApp = Bundle.main.infoDictionary!["CFBundleShortVersionString"]{
+                        if versionApp as! String != version {
+                            //show
+                            let vc = AlertForceUpdateVC()
+                            vc.modalPresentationStyle = .overFullScreen
+                            vc.isForceUpdate = forceUpdate
+                            self.navigationController?.present(vc, animated: false, completion: {
+                                
+                            })
+                        }
+                    }
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

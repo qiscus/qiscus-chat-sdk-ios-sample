@@ -42,7 +42,7 @@ class CustomChatInput: UIChatInput {
     var recordTimer:Timer?
     var recordDuration:Int = 0
     var processingAudio = false
-    
+    var isGranted = true
     //reply
     var replyData:CommentModel?
     @IBOutlet weak var viewReply: UIView!
@@ -164,30 +164,32 @@ class CustomChatInput: UIChatInput {
             self.processingAudio = false
         }
         
-        if let audioURL = self.recordingURL {
-            var fileContent: Data?
-            fileContent = try! Data(contentsOf: audioURL)
-            let fileName = audioURL.lastPathComponent
-            
-            QiscusCore.shared.upload(data: fileContent!, filename: fileName, onSuccess: { (file) in
+        if self.isGranted == true{
+            if let audioURL = self.recordingURL {
+                var fileContent: Data?
+                fileContent = try! Data(contentsOf: audioURL)
+                let fileName = audioURL.lastPathComponent
                 
-                let message = CommentModel()
-                message.type = "file_attachment"
-                message.payload = [
-                    "url"       : file.url.absoluteString,
-                    "file_name" : file.name,
-                    "size"      : file.size,
-                    "caption"   : ""
-                ]
-                message.message = "Send Audio"
-                
-                self.chatInputDelegate?.sendMessage(message: message)
-            }, onError: { (error) in
-                print("Error: \(error)")
-            }) { (progress) in
+                QiscusCore.shared.upload(data: fileContent!, filename: fileName, onSuccess: { (file) in
+                    
+                    let message = CommentModel()
+                    message.type = "file_attachment"
+                    message.payload = [
+                        "url"       : file.url.absoluteString,
+                        "file_name" : file.name,
+                        "size"      : file.size,
+                        "caption"   : ""
+                    ]
+                    message.message = "Send Audio"
+                    
+                    self.chatInputDelegate?.sendMessage(message: message)
+                }, onError: { (error) in
+                    print("Error: \(error)")
+                }) { (progress) in
+                    
+                }
                 
             }
-            
         }
     }
     
@@ -262,19 +264,67 @@ class CustomChatInput: UIChatInput {
     }
     
     func prepareRecording(){
-        do {
-            try recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
-            try recordingSession.setActive(true)
-            recordingSession.requestRecordPermission() { [unowned self] allowed in
-                if allowed {
-                    self.startRecording()
-                } else {
-                    self.showMicrophoneAccessAlert()
+        switch AVCaptureDevice.authorizationStatus(for: .audio) {
+            case .authorized: // The user has previously granted access to the audio.
+                self.isGranted = true
+                self.startRecording()
+
+            case .notDetermined: // The user has not yet been asked for audio access.
+                self.isGranted = false
+            do {
+                try recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
+                try recordingSession.setActive(true)
+                recordingSession.requestRecordPermission { allowed in
+                    
+                    //DispatchQueue.main.async {
+                        if allowed {
+                            self.startRecording()
+                        } else {
+                            self.showMicrophoneAccessAlert()
+                        }
+                    //}
                 }
+            } catch {
+                self.showMicrophoneAccessAlert()
             }
-        } catch {
-            self.showMicrophoneAccessAlert()
+            case .denied: // The user has previously denied access.
+                self.showMicrophoneAccessAlert()
+
+            case .restricted: // The user can't grant access due to restrictions.
+                self.showMicrophoneAccessAlert()
         }
+        
+        
+//        switch AVCaptureDevice.authorizationStatus(for: .audio) {
+//            case .authorized: // The user has previously granted access to the audio.
+//                self.isGranted = true
+//                self.startRecording()
+//
+//            case .notDetermined: // The user has not yet been asked for audio access.
+//                self.isGranted = false
+//                self.startRecording()
+//            case .denied: // The user has previously denied access.
+//                self.showMicrophoneAccessAlert()
+//
+//            case .restricted: // The user can't grant access due to restrictions.
+//                self.showMicrophoneAccessAlert()
+//        }
+        
+//        do {
+//            try recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
+//            try recordingSession.setActive(true)
+//            recordingSession.requestRecordPermission { allowed in
+//                DispatchQueue.main.async {
+//                    if allowed {
+//                        self.startRecording()
+//                    } else {
+//                        self.showMicrophoneAccessAlert()
+//                    }
+//                }
+//            }
+//        } catch {
+//            self.showMicrophoneAccessAlert()
+//        }
     }
     
     func showMicrophoneAccessAlert(){

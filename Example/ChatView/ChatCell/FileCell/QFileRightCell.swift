@@ -215,7 +215,7 @@ class QFileRightCell: UIBaseChatCell {
                     let preview = PlayOgaVC()
                     preview.mediaURL = url
                     let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-
+                    backButton.tintColor = UIColor.white
                     self.currentViewController()?.navigationItem.backBarButtonItem = backButton
                     self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
                 } else {
@@ -223,8 +223,8 @@ class QFileRightCell: UIBaseChatCell {
                     preview.fileName = fileName
                     preview.url = url
                     preview.roomName = "Document Preview"
-                    let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-                    
+                    let backButton =  UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                    backButton.tintColor = UIColor.white
                     self.currentViewController()?.navigationItem.backBarButtonItem = backButton
                     self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
                 }

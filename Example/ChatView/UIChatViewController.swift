@@ -755,10 +755,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         recordButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
 
         recordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
-        recordButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -8).isActive = true
+        recordButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -15).isActive = true
         
 
-        recordView.trailingAnchor.constraint(equalTo: recordButton.leadingAnchor, constant: -20).isActive = true
+        recordView.trailingAnchor.constraint(equalTo: recordButton.leadingAnchor, constant: -50).isActive = true
         recordView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         recordView.bottomAnchor.constraint(equalTo: recordButton.bottomAnchor).isActive = true
         recordButton.recordView = recordView

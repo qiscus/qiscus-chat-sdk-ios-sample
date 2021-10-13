@@ -233,17 +233,17 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     let forceUpdate = data["force_update"].bool ?? false
                     let version = data["version"].string ?? ""
                     
-                    if forceUpdate == true {
-                        if let versionApp = Bundle.main.infoDictionary!["CFBundleShortVersionString"]{
-                            if versionApp as! String != version {
-                                //show
-                                let vc = AlertForceUpdateVC()
-                                vc.modalPresentationStyle = .overFullScreen
+                    print("arief check payload =\(payload)")
+                    
+                    if let versionApp = Bundle.main.infoDictionary!["CFBundleShortVersionString"]{
+                        if versionApp as! String != version {
+                            //show
+                            let vc = AlertForceUpdateVC()
+                            vc.modalPresentationStyle = .overFullScreen
+                            vc.isForceUpdate = forceUpdate
+                            self.navigationController?.present(vc, animated: false, completion: {
                                 
-                                self.navigationController?.present(vc, animated: false, completion: {
-                                    
-                                })
-                            }
+                            })
                         }
                     }
                     
@@ -753,6 +753,21 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.firstTimeLoadSearch = false
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = ColorConfiguration.defaultColorTosca
+            appearance.titleTextAttributes = [.font: UIFont.boldSystemFont(ofSize: 18.0),
+                                              .foregroundColor: UIColor.white]
+
+            // Customizing our navigation bar
+            navigationController?.navigationBar.tintColor =  ColorConfiguration.defaultColorTosca
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        } else {
+            // Fallback on earlier versions
+        }
 
         self.getConfigBotIntegration()
         self.getConfigResolvedALLWA()
