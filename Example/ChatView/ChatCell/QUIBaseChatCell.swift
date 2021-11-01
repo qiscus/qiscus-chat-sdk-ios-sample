@@ -92,7 +92,7 @@ extension UIBaseChatCell {
         if let myComment = self.comment?.isMyComment() {
             if(myComment){
                 if isQiscus == true {
-                    menuItems.append(delete)
+                   // menuItems.append(delete)
                     menuItems.append(reply)
                     UIMenuController.shared.menuItems = menuItems
                 }else{

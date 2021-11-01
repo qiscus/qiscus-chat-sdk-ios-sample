@@ -24,11 +24,16 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     
     var room : RoomModel? = nil
     var agents : [AgentModel]? = nil
+    var tagsData : [TagsModel]? = nil //for submit ticket
+    var submitTicketModel : [SubmitTicketModel]? = nil //for submit ticket
     var broadCastHistory = [BroadCastHistoryModel]()
     var dataHSMTemplate = [HSMTemplateModel]()
     var additionalInformationCount = 0
     var broadcastHistoryCount = 0
     var channelTypeString = ""
+    var channelType = "" //for submit ticket
+    var channelName = "" //for submit ticket
+    var channelID = 0 //for submit ticket
     var lbChannelName = ""
     var userID = ""
     var customerName = ""
@@ -502,7 +507,97 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         }
     }
     
+    func getListSubmitTicket(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/app/config/ticketing", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                print("check status code \(response.response?.statusCode)")
+                print("check error \(response.result.error)")
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getListSubmitTicket()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    if let dataModels = payload["data"]["configs"].array {
+                        var results = [SubmitTicketModel]()
+                        for data in dataModels {
+                            let model = SubmitTicketModel(json: data)
+                            if model.enabled == true {
+                                results.append(model)
+                            }
+                            
+                        }
+                        self.submitTicketModel = results
+                        
+                        
+                    }
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
     
+    func getListTags(roomID : String){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/room_tags/\(roomID)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getListTags(roomID : roomID)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    if let tags = payload["data"].array {
+                        var results = [TagsModel]()
+                        for tag in tags {
+                            let data = TagsModel(json: tag)
+                            results.append(data)
+                        }
+                        self.tagsData = results
+                    }
+                   
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
     
     func getListAgents(roomID : String){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
@@ -639,6 +734,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
             if !room.options!.isEmpty{
                 let json = JSON.init(parseJSON: room.options!)
                 let channelType = json["channel"].string ?? "qiscus"
+                self.channelType = channelType
                 if channelType.lowercased() == "qiscus"{
                     self.channelTypeString = "Qiscus Widget"
                 }else if channelType.lowercased() == "telegram"{
@@ -664,10 +760,16 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                 
             }
             
+            self.getListTags(roomID: room.id)
             self.getListAgents(roomID: room.id)
             self.getListBroadCastHistory(roomID: room.id)
             self.getCustomerInfo()
-            
+            if let statusFeatureSubmitTicket = UserDefaults.standard.getStatusFeatureSubmitTicket() {
+                if  statusFeatureSubmitTicket == 1{
+                    self.getListSubmitTicket()
+                }
+            }
+           
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                  self.tableView.isHidden = false
                  self.tableView.reloadData()
@@ -786,8 +888,8 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     let enableSendHSM = json["data"]["enabled"].bool ?? false
                     var isWaBlocked = json["data"]["is_blocked"].bool ?? false
                     self.isWaBlocked = isWaBlocked
-                    
-                    
+                    self.channelName = channelName
+                    self.channelID = channelID
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
                         if channelID != 0 {
@@ -1011,7 +1113,18 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
     
     private func completeTaskCell(indexPath: IndexPath)-> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompleteTaskCellIdentifire", for: indexPath) as! CompleteTaskCell
-        cell.lbTask.text = task
+        cell.viewController = self
+        cell.setupData(submitTicketModel: self.submitTicketModel)
+        if let room = self.room{
+            cell.roomID = Int(room.id)!
+        }
+        
+        cell.tags = self.tagsData
+        cell.notes = self.notes
+        cell.channelName = self.channelName
+        cell.channelID = self.channelID
+        cell.channelType = self.channelType
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }
     

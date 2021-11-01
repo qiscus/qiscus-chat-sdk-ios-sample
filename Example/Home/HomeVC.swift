@@ -536,8 +536,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             if userType != 2{
                 //admin //spv
                 if defaults.bool(forKey: "ic_resolved_all_WA_active") != false{
-                   //self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
-                   self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+                   self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+                  // self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }else{
                     self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }
@@ -1479,6 +1479,15 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                                 
                                 if x.name.lowercased() == "SEARCH_CUSTOMER".lowercased(){
                                     self.statusSearchRoomFeature = x.status
+                                }
+                            }
+                        }
+                        
+                        if i.name.lowercased() == "SETTING".lowercased(){
+                            for x in i.features {
+                                ////1 show, 2 hide, 3 disabled
+                                if x.name.lowercased() == "SUBMIT_TICKET".lowercased(){
+                                    UserDefaults.standard.setStatusFeatureSubmitTicket(value: x.status)
                                 }
                             }
                         }

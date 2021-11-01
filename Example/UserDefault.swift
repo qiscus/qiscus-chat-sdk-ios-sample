@@ -110,6 +110,14 @@ extension UserDefaults{
         return integer(forKey: "featureCustomAnalytics")
     }
     
+    func setStatusFeatureSubmitTicket(value: Int){
+        set(value, forKey: "featureSubmitTicket")
+    }
+    
+    func getStatusFeatureSubmitTicket() -> Int?{
+        return integer(forKey: "featureSubmitTicket")
+    }
+    
     func setStatusFeatureCustomAnalytics(value: Int){
         set(value, forKey: "featureCustomAnalytics")
     }

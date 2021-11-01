@@ -331,6 +331,12 @@
 		3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB682192D35600484795 /* Main.storyboard */; };
 		3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6B2192D35D00484795 /* Assets.xcassets */; };
 		3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6D2192D35D00484795 /* LaunchScreen.storyboard */; };
+		3DE66997271D24080064B545 /* SubmitTicketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE66995271D24080064B545 /* SubmitTicketCell.swift */; };
+		3DE66998271D24080064B545 /* SubmitTicketCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DE66996271D24080064B545 /* SubmitTicketCell.xib */; };
+		3DE6699A271D4C0E0064B545 /* SubmitTicketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE66999271D4C0E0064B545 /* SubmitTicketModel.swift */; };
+		3DF31DD02721EF18003F0E56 /* AlertSuccessSubmitTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF31DCE2721EF18003F0E56 /* AlertSuccessSubmitTicket.swift */; };
+		3DF31DD12721EF18003F0E56 /* AlertSuccessSubmitTicket.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DF31DCF2721EF18003F0E56 /* AlertSuccessSubmitTicket.xib */; };
+		3DF5071627213A7700FFC241 /* JsonSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF5071527213A7700FFC241 /* JsonSerializer.swift */; };
 		3DFAD2F6268D744F0069B848 /* AnalyticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD2F4268D744F0069B848 /* AnalyticsCell.swift */; };
 		3DFAD2F7268D744F0069B848 /* AnalyticsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFAD2F5268D744F0069B848 /* AnalyticsCell.xib */; };
 		3DFAD2FB268D84B40069B848 /* AnalyticsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFAD2F9268D84B40069B848 /* AnalyticsVC.swift */; };
@@ -668,6 +674,12 @@
 		3DDEFB6B2192D35D00484795 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DDEFB6E2192D35D00484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DDEFB702192D35D00484795 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DE66995271D24080064B545 /* SubmitTicketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitTicketCell.swift; sourceTree = "<group>"; };
+		3DE66996271D24080064B545 /* SubmitTicketCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SubmitTicketCell.xib; sourceTree = "<group>"; };
+		3DE66999271D4C0E0064B545 /* SubmitTicketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitTicketModel.swift; sourceTree = "<group>"; };
+		3DF31DCE2721EF18003F0E56 /* AlertSuccessSubmitTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSuccessSubmitTicket.swift; sourceTree = "<group>"; };
+		3DF31DCF2721EF18003F0E56 /* AlertSuccessSubmitTicket.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertSuccessSubmitTicket.xib; sourceTree = "<group>"; };
+		3DF5071527213A7700FFC241 /* JsonSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonSerializer.swift; sourceTree = "<group>"; };
 		3DFAD2F4268D744F0069B848 /* AnalyticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCell.swift; sourceTree = "<group>"; };
 		3DFAD2F5268D744F0069B848 /* AnalyticsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalyticsCell.xib; sourceTree = "<group>"; };
 		3DFAD2F9268D84B40069B848 /* AnalyticsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsVC.swift; sourceTree = "<group>"; };
@@ -802,6 +814,7 @@
 				3D3BE50D26293CC50026A63C /* TelegramChannelModel.swift */,
 				3D1282CB2649187A009F201E /* FeaturesModel.swift */,
 				3DBBF0DE266DE152005FBDAE /* WAChannelResolveModel.swift */,
+				3DE66999271D4C0E0064B545 /* SubmitTicketModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -821,6 +834,7 @@
 				3DD6E59225AD6FE300BF96AD /* URLExtension.swift */,
 				3D99905826772FD70016AE6D /* UISearchBar.swift */,
 				3DBD7544267A429F006A7DE9 /* String.swift */,
+				3DF5071527213A7700FFC241 /* JsonSerializer.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1009,6 +1023,7 @@
 		3D7A39522577A2BA005E7FAE /* RefectorUI */ = {
 			isa = PBXGroup;
 			children = (
+				3DF31DCD2721EEE7003F0E56 /* Alert */,
 				3D7A3974257930D6005E7FAE /* VC */,
 				3D7A3973257930B1005E7FAE /* Cell */,
 			);
@@ -1046,6 +1061,8 @@
 				3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */,
 				3D5D071425CA37E300841D1B /* WABlockedCell.swift */,
 				3D5D071525CA37E300841D1B /* WABlockedCell.xib */,
+				3DE66995271D24080064B545 /* SubmitTicketCell.swift */,
+				3DE66996271D24080064B545 /* SubmitTicketCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1495,6 +1512,15 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
+		3DF31DCD2721EEE7003F0E56 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				3DF31DCE2721EF18003F0E56 /* AlertSuccessSubmitTicket.swift */,
+				3DF31DCF2721EF18003F0E56 /* AlertSuccessSubmitTicket.xib */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
 		3DFAD2FE268DA96C0069B848 /* AgentAnalyticsCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1611,6 +1637,7 @@
 				3DFAD2FC268D84B40069B848 /* AnalyticsVC.xib in Resources */,
 				3DC02387266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib in Resources */,
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
+				3DE66998271D24080064B545 /* SubmitTicketCell.xib in Resources */,
 				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
 				3D7A39722578A43F005E7FAE /* NoAgentsCell.xib in Resources */,
 				3DC0D41A26674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib in Resources */,
@@ -1699,6 +1726,7 @@
 				3D3BE4F626288C360026A63C /* CustomCHChannelCell.xib in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
 				3D5ABD9E25D37954008ED9E6 /* AMChangePasswordVC.xib in Resources */,
+				3DF31DD12721EF18003F0E56 /* AlertSuccessSubmitTicket.xib in Resources */,
 				3D40B8C72192E20C00FE7228 /* ChatPreviewDocVC.xib in Resources */,
 				3DB48BB825A807EE00B5D760 /* HSMWillExpireSoonCell.xib in Resources */,
 				3DC7FDFF2586552200CCA763 /* HomeVC.xib in Resources */,
@@ -1836,6 +1864,7 @@
 				3DC02386266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.swift in Sources */,
 				3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
+				3DF5071627213A7700FFC241 /* JsonSerializer.swift in Sources */,
 				3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */,
 				3DBD7541267A2E49006A7DE9 /* UIChatListSearchMessageViewCell.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
@@ -1856,6 +1885,7 @@
 				3DA788F92480BFFC00CEF339 /* QReplyImageRightCell.swift in Sources */,
 				3D12875825FB4F5B001A5962 /* QLocationLeftCell.swift in Sources */,
 				3D7A39552577A328005E7FAE /* ChatAndCustomerInfoVC.swift in Sources */,
+				3DE66997271D24080064B545 /* SubmitTicketCell.swift in Sources */,
 				3D8A397D2644DF93001CE15D /* FilterByAgentCell.swift in Sources */,
 				3D0E89E622F94AEF00338B59 /* UIChatTabViewController.swift in Sources */,
 				3D40B9002192E20C00FE7228 /* ColorConfiguration.swift in Sources */,
@@ -1938,6 +1968,7 @@
 				3DA8244F2301B3980054D92F /* QCardLeftCell.swift in Sources */,
 				3DA788E92480613E00CEF339 /* UIChatListServedViewController.swift in Sources */,
 				3DB48BB725A807EE00B5D760 /* HSMWillExpireSoonCell.swift in Sources */,
+				3DE6699A271D4C0E0064B545 /* SubmitTicketModel.swift in Sources */,
 				3D96939126B261D700FBE6C1 /* ScanBarcodeVC.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3D3BE4D12626EEEE0026A63C /* UIChatListALLViewController.swift in Sources */,
@@ -1958,6 +1989,7 @@
 				3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */,
 				3D3BE4FC2629331A0026A63C /* QiscusWidgetChannelModel.swift in Sources */,
 				3D7A39712578A43F005E7FAE /* NoAgentsCell.swift in Sources */,
+				3DF31DD02721EF18003F0E56 /* AlertSuccessSubmitTicket.swift in Sources */,
 				3DBBF0E4266DE7E8005FBDAE /* AlertResolveWAChannelVC.swift in Sources */,
 				3DA788FD2480D84A00CEF339 /* QReplyImageLeftCell.swift in Sources */,
 				3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */,
@@ -2139,7 +2171,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2151,7 +2183,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
@@ -2170,7 +2202,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2180,7 +2212,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
