@@ -720,7 +720,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                 self.customerName = room.name
                 
                 if let avatar = room.avatarUrl {
-                    if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                    if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true || avatar.absoluteString.contains("https://latest-multichannel.qiscus.com/img/default_avatar.svg"){
                         self.avatarURL = "https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png"
                     }else{
                         self.avatarURL =  room.avatarUrl?.absoluteString ?? "http://"
@@ -1119,11 +1119,11 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
             cell.roomID = Int(room.id)!
         }
         
-        cell.tags = self.tagsData
+        //cell.tags = self.tagsData
         cell.notes = self.notes
         cell.channelName = self.channelName
         cell.channelID = self.channelID
-        cell.channelType = self.channelType
+        //cell.channelType = self.channelType
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         return cell
     }

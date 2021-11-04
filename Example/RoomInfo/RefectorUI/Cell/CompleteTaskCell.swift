@@ -42,6 +42,7 @@ class CompleteTaskCell: UITableViewCell {
     func setupUI(){
         //table view
         self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.tableView.tableFooterView = UIView()
         self.tableView.register(SubmitTicketCell.nib, forCellReuseIdentifier: SubmitTicketCell.identifier)
         self.tableView.register(UINib(nibName: "SubmitTicketCell", bundle: nil), forCellReuseIdentifier: "SubmitTicketCellIdentifire")
@@ -187,7 +188,18 @@ class CompleteTaskCell: UITableViewCell {
         if let room = QiscusCore.database.room.find(id: roomID){
             if !room.options!.isEmpty{
                 let json = JSON.init(parseJSON: room.options!)
-                let channelType = json["channel"].string ?? "qiscus"
+                var channelType = json["channel"].string ?? "Qiscus Widget"
+                if channelType.lowercased() == "ig" {
+                    channelType = "Instagram"
+                }
+                
+                if channelType.lowercased() == "custom" {
+                    channelType = "Custom Channel"
+                }
+                
+                if channelType.lowercased() == "qiscus" {
+                    channelType = "Qiscus Widget"
+                }
                 self.channelType = channelType
                 let notesData = json["notes"].string ?? ""
                 self.notes = notesData
@@ -263,7 +275,7 @@ class CompleteTaskCell: UITableViewCell {
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email"].string ?? ""
                     
-                    self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "SPV")
+                    self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "admin")
                 }
             }
         }
@@ -304,6 +316,10 @@ class CompleteTaskCell: UITableViewCell {
     
     
     @objc func submitTicket(sender: UIButton){
+        submitTicket(id : sender.tag)
+    }
+    
+    func submitTicket(id : Int){
         if stillProgressSubmit == false {
             self.viewController?.viewLoading.isHidden = false
             self.viewController?.loadingIndicator.isHidden = false
@@ -328,10 +344,9 @@ class CompleteTaskCell: UITableViewCell {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.submit(id : sender.tag)
+                self.submit(id : id)
             }
         }
-        
     }
     
     func submit(id : Int){
@@ -355,39 +370,36 @@ class CompleteTaskCell: UITableViewCell {
         
         if let tags = self.tags{
             var array = [[String : Any]]()
-            
+
             for tag in tags{
-                array.append(tag.dictio)
+                array.append(tag.completeDict)
             }
-            
-            
+
+
             params["tags"] = array
         }
-        
+
         if let agent = agentData{
             params["agent"] = ["email" : agent.email, "name": agent.name, "type": agent.type]
         }
-        
+
         if let customer = customerData{
             params["customer"] = ["avatar" : customer.avatar, "name" : customer.name, "user_id" : customer.userID]
         }
-        
+
         params["notes"] = "\(self.notes)"
-        
+
         params["channel_name"] = "\(self.channelName)"
-        
+
         params["channel_type"] = "\(channelType)"
-        
+
         params["channel_id"] = "\(channelID)"
-        
+
         params["room_id"] = "\(roomID)"
-        
+
         var AllParams :  [String : Any] = ["id" : id, "ticket_payload" : params]
-        
-        print("check arief params4 \(AllParams)")
        
-       
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/ticketing/submit", method: .post, parameters: AllParams, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/ticketing/submit", method: .post, parameters: AllParams, encoding: JSONEncoding.default , headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
@@ -409,6 +421,13 @@ class CompleteTaskCell: UITableViewCell {
                         self.viewController?.loadingIndicator.isHidden = true
                         self.viewController?.loadingIndicator.stopAnimating()
                         self.stillProgressSubmit = false
+
+                        let vc = AlertFailedSubmitTicket()
+                        vc.modalPresentationStyle = .overFullScreen
+
+                        self.viewController?.navigationController?.present(vc, animated: false, completion: {
+
+                        })
                     }
 
                 } else {
@@ -418,17 +437,13 @@ class CompleteTaskCell: UITableViewCell {
                     self.viewController?.viewLoading.isHidden = true
                     self.viewController?.loadingIndicator.isHidden = true
                     self.viewController?.loadingIndicator.stopAnimating()
-                    
-                    //TODO SHOW POPUP
-                    print("arief check ini kak=\(payload)")
-                    
-                    
+
                     let vc = AlertSuccessSubmitTicket()
                     vc.dataLabel = payload["status"].string ?? "Successfully Submit Ticket"
                     vc.modalPresentationStyle = .overFullScreen
-                    
+
                     self.viewController?.navigationController?.present(vc, animated: false, completion: {
-                        
+
                     })
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
@@ -448,7 +463,7 @@ class CompleteTaskCell: UITableViewCell {
     }
 }
 
-extension CompleteTaskCell: UITableViewDataSource {
+extension CompleteTaskCell: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -464,9 +479,7 @@ extension CompleteTaskCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let ticketModel = self.submitTicketModel {
             if ticketModel.count == 0 {
-//                let cell = tableView.dequeueReusableCell(withIdentifier: "NoAgentsCellIdentifire", for: indexPath) as! NoAgentsCell
-//                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-//                return cell
+                //no action
             } else {
                 let data = ticketModel[indexPath.row]
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubmitTicketCell.identifier, for: indexPath) as! SubmitTicketCell
@@ -474,13 +487,21 @@ extension CompleteTaskCell: UITableViewDataSource {
                 cell.buttonSubmitTicket.addTarget(self, action:#selector(self.submitTicket(sender:)), for: .touchUpInside)
                 return cell
             }
-        }else{
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "NoAgentsCellIdentifire", for: indexPath) as! NoAgentsCell
-//            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-//            return cell
         }
         
         return UITableViewCell()
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let ticketModel = self.submitTicketModel {
+            if ticketModel.count == 0 {
+                
+            }else{
+                let data = ticketModel[indexPath.row]
+                self.submitTicket(id: data.id)
+                self.tableView.deselectRow(at: indexPath, animated: true)
+            }
+        }
+    }
+    
 }
-

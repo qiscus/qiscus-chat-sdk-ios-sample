@@ -65,7 +65,7 @@ open class ContactCell: UITableViewCell {
         profileImageView.clipsToBounds  = true
         profileImageView.contentMode    = .scaleAspectFill
         
-        if avatarURL.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+        if avatarURL.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true || avatarURL.absoluteString.contains("https://latest-multichannel.qiscus.com/img/default_avatar.svg"){
              profileImageView.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!, placeholderImage: placeHolderImage, filter: nil)
         }else{
           profileImageView.af_setImage(withURL: avatarURL, placeholderImage: placeHolderImage, filter: nil)

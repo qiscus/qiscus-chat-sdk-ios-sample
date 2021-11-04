@@ -210,7 +210,7 @@ class QImageLeftCell: UIBaseChatCell {
         self.ivAvatarUser.clipsToBounds = true
         
         if let avatar = message.userAvatarUrl {
-            if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+            if avatar.absoluteString.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true || avatar.absoluteString.contains("https://latest-multichannel.qiscus.com/img/default_avatar.svg"){
                 self.ivAvatarUser.af_setImage(withURL: URL(string:"https://d1edrlpyc25xu0.cloudfront.net/ziv-nqsjtf0zdqf6kfk7s/image/upload/w_320,h_320,c_limit/r7byw7m9e4/default-wa.png")!)
             }else{
                 self.ivAvatarUser.af_setImage(withURL: message.userAvatarUrl ?? URL(string: "http://")!)

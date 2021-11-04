@@ -40,6 +40,8 @@
 		3D0EAE6D25E8D35300481198 /* AccountManagementSPVVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE6B25E8D35300481198 /* AccountManagementSPVVC.xib */; };
 		3D0EAE7125E8E90100481198 /* AlertAMFailedUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EAE6F25E8E90100481198 /* AlertAMFailedUpdate.swift */; };
 		3D0EAE7225E8E90100481198 /* AlertAMFailedUpdate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EAE7025E8E90100481198 /* AlertAMFailedUpdate.xib */; };
+		3D114135272F9713005CBBEC /* AlertFailedSubmitTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D114133272F9713005CBBEC /* AlertFailedSubmitTicket.swift */; };
+		3D114136272F9713005CBBEC /* AlertFailedSubmitTicket.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D114134272F9713005CBBEC /* AlertFailedSubmitTicket.xib */; };
 		3D1282CC2649187A009F201E /* FeaturesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1282CB2649187A009F201E /* FeaturesModel.swift */; };
 		3D12874C25FB1650001A5962 /* QReplyLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D12874A25FB1650001A5962 /* QReplyLeftCell.swift */; };
 		3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D12874B25FB1650001A5962 /* QReplyLeftCell.xib */; };
@@ -380,6 +382,8 @@
 		3D0EAE6B25E8D35300481198 /* AccountManagementSPVVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountManagementSPVVC.xib; sourceTree = "<group>"; };
 		3D0EAE6F25E8E90100481198 /* AlertAMFailedUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAMFailedUpdate.swift; sourceTree = "<group>"; };
 		3D0EAE7025E8E90100481198 /* AlertAMFailedUpdate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertAMFailedUpdate.xib; sourceTree = "<group>"; };
+		3D114133272F9713005CBBEC /* AlertFailedSubmitTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFailedSubmitTicket.swift; sourceTree = "<group>"; };
+		3D114134272F9713005CBBEC /* AlertFailedSubmitTicket.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertFailedSubmitTicket.xib; sourceTree = "<group>"; };
 		3D1282CB2649187A009F201E /* FeaturesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesModel.swift; sourceTree = "<group>"; };
 		3D12874A25FB1650001A5962 /* QReplyLeftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QReplyLeftCell.swift; sourceTree = "<group>"; };
 		3D12874B25FB1650001A5962 /* QReplyLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QReplyLeftCell.xib; sourceTree = "<group>"; };
@@ -1517,6 +1521,8 @@
 			children = (
 				3DF31DCE2721EF18003F0E56 /* AlertSuccessSubmitTicket.swift */,
 				3DF31DCF2721EF18003F0E56 /* AlertSuccessSubmitTicket.xib */,
+				3D114133272F9713005CBBEC /* AlertFailedSubmitTicket.swift */,
+				3D114134272F9713005CBBEC /* AlertFailedSubmitTicket.xib */,
 			);
 			path = Alert;
 			sourceTree = "<group>";
@@ -1701,6 +1707,7 @@
 				3DCC3AF826930274002FD4B1 /* OverallAgentChats.xib in Resources */,
 				3D8CA6C4268DC1EE00176F80 /* AnalyticsAnotherAgent.xib in Resources */,
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
+				3D114136272F9713005CBBEC /* AlertFailedSubmitTicket.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
 				3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */,
 				3DCC3B02269302B8002FD4B1 /* OverallAgentOthers.xib in Resources */,
@@ -1982,6 +1989,7 @@
 				3D0EAE5025E60C4700481198 /* AMPhoneNumberCell.swift in Sources */,
 				3D7A39612577C7B7005E7FAE /* AdditionalInformationCell.swift in Sources */,
 				3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */,
+				3D114135272F9713005CBBEC /* AlertFailedSubmitTicket.swift in Sources */,
 				3D7A39592577A701005E7FAE /* CustomerInfoCell.swift in Sources */,
 				3D8A397626412118001CE15D /* FilterByTagCell.swift in Sources */,
 				3D3BE4D62627DBE40026A63C /* FilterChannelMultipleLineCell.swift in Sources */,
@@ -2171,7 +2179,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2202,7 +2210,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

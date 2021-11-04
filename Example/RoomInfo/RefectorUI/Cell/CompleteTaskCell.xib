@@ -19,19 +19,19 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fkz-ES-uTS">
-                        <rect key="frame" x="25" y="0.0" width="313" height="65"/>
+                        <rect key="frame" x="0.0" y="0.0" width="363" height="65"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="65" id="ufR-LX-IdT"/>
                         </constraints>
-                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="separatorInset" minX="25" minY="0.0" maxX="25" maxY="0.0"/>
                     </tableView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="fkz-ES-uTS" secondAttribute="bottom" id="Tc3-JP-txB"/>
                     <constraint firstItem="fkz-ES-uTS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="XxT-Or-KBA"/>
-                    <constraint firstItem="fkz-ES-uTS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="j0g-sY-yz3"/>
-                    <constraint firstAttribute="trailing" secondItem="fkz-ES-uTS" secondAttribute="trailing" constant="25" id="rfw-h0-LZd"/>
+                    <constraint firstItem="fkz-ES-uTS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="j0g-sY-yz3"/>
+                    <constraint firstAttribute="trailing" secondItem="fkz-ES-uTS" secondAttribute="trailing" id="rfw-h0-LZd"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
