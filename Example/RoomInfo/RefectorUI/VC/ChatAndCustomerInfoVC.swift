@@ -48,7 +48,8 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     var isWAWillExpired : Bool = false //will expire after 16 hours
     var lastCommentCustomerDate : Date? = nil
     
-   
+    //bot
+    var isEnabledBot = false
     
     //template 24 hsm
     @IBOutlet weak var viewBGTemplateHSM: UIView!
@@ -105,6 +106,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.getDataBot()
         self.viewLoading.isHidden = false
         self.loadingIndicator.isHidden = false
         self.loadingIndicator.startAnimating()
@@ -296,6 +298,18 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     //alert ok success block unbloc contact
     @IBAction func btOKFailedSendHSM(_ sender: Any) {
         self.bgViewFailedSendHSM.isHidden = true
+    }
+    
+    @objc func submitBot(_ sender : UISwitch!){
+        if sender.isOn {
+            sender.isSelected = true
+            sender.isOn = true
+        } else {
+            sender.isSelected = false
+            sender.isOn = false
+        }
+        
+        submitBot(value: sender.isOn)
     }
     
     // MARK: - Keyboard Methode
@@ -781,53 +795,72 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     }
     
     func getCustomerRoom(){
-        if self.isTypeWA {
-            if var room = QiscusCore.database.room.find(id: self.room!.id){
-                if var option = room.options{
-                    if !option.isEmpty{
-                        var json = JSON.init(parseJSON: option)
-                        let lastCustommerTimestamp = json["last_customer_message_timestamp"].string ?? ""
+        if var room = QiscusCore.database.room.find(id: self.room!.id){
+            if var option = room.options{
+                if !option.isEmpty{
+                    var json = JSON.init(parseJSON: option)
+                    let lastCustommerTimestamp = json["last_customer_message_timestamp"].string ?? ""
+                    
+                    if lastCustommerTimestamp.isEmpty == true {
+                        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+                            return
+                        }
                         
-                        if lastCustommerTimestamp.isEmpty == true {
-                            guard let token = UserDefaults.standard.getAuthenticationToken() else {
-                                return
-                            }
-                            
-                            let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-                            
-                            Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(room.id)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
-                                if response.result.value != nil {
-                                    if (response.response?.statusCode)! >= 300 {
-                                        //error
-                                        
-                                        if response.response?.statusCode == 401 {
-                                            RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
-                                                if success == true {
-                                                    self.getCustomerRoom()
-                                                } else {
-                                                   return
-                                                }
+                        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+                        
+                        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(room.id)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                            if response.result.value != nil {
+                                if (response.response?.statusCode)! >= 300 {
+                                    //error
+                                    
+                                    if response.response?.statusCode == 401 {
+                                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                            if success == true {
+                                                self.getCustomerRoom()
+                                            } else {
+                                               return
                                             }
                                         }
-                                    } else {
-                                        //success
-                                        let payload = JSON(response.result.value)
-                            
-                                        let lastCustomerTimestamp  = payload["data"]["customer_room"]["last_customer_timestamp"].string ??
-                                            ""
-                                        
-                                        var json = JSON.init(parseJSON: option)
-                                        json["last_customer_message_timestamp"] = JSON(lastCustomerTimestamp)
-                                        
-                                        if let rawData = json.rawString() {
-                                            let room = room
-                                            room.options = rawData
-                                            QiscusCore.database.room.save([room])
+                                    }
+                                } else {
+                                    //success
+                                    let payload = JSON(response.result.value)
+                        
+                                    let lastCustomerTimestamp  = payload["data"]["customer_room"]["last_customer_timestamp"].string ??
+                                        ""
+                                    
+                                    var json = JSON.init(parseJSON: option)
+                                    json["last_customer_message_timestamp"] = JSON(lastCustomerTimestamp)
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        if self.isEnabledBot == true {
+                                            let isHandledByBot = payload["data"]["customer_room"]["is_handled_by_bot"].bool ?? false
+                                            let switchView = UISwitch()
+                                            switchView.addTarget(self, action: #selector(self.submitBot(_:)), for: .valueChanged)
+                                            switchView.isOn = isHandledByBot
+                                            switchView.isSelected = isHandledByBot
+                                            let barBtn = UIBarButtonItem(customView: switchView)
+                                            
+                                            let title = UILabel()
+                                            title.text = "ChatBot"
+                                            title.textColor = UIColor.white
+                                            title.font = title.font.withSize(14)
+                                            
+                                            let titleBtn = UIBarButtonItem(customView: title)
+                                            self.navigationItem.setRightBarButtonItems([barBtn, titleBtn], animated: false)
                                         }
-                                        
-                                        let date = self.getDate(timestamp: lastCustomerTimestamp)
-                                        let diff = date.differentTime()
+                                    }
+                                    
+                                    if let rawData = json.rawString() {
+                                        let room = room
+                                        room.options = rawData
+                                        QiscusCore.database.room.save([room])
+                                    }
+                                    
+                                    let date = self.getDate(timestamp: lastCustomerTimestamp)
+                                    let diff = date.differentTime()
 
+                                    if self.isTypeWA {
                                         if diff >= 16 && diff <= 23 {
                                             self.isWAWillExpired = true
                                         } else if diff >= 24 {
@@ -836,24 +869,95 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                                             self.isWAWillExpired = false
                                             self.isWAExpired = false
                                         }
-                                        
-                                        self.lastCommentCustomerDate = date
                                     }
-                                } else if (response.response != nil && (response.response?.statusCode)! == 401) {
-                                    //failed
-                                    self.isWAWillExpired = false
-                                    self.isWAExpired = false
-                                } else {
-                                    //failed
-                                    self.isWAWillExpired = false
-                                    self.isWAExpired = false
+                                    
+                                    self.lastCommentCustomerDate = date
                                 }
+                            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                                //failed
+                                self.isWAWillExpired = false
+                                self.isWAExpired = false
+                            } else {
+                                //failed
+                                self.isWAWillExpired = false
+                                self.isWAExpired = false
                             }
-                        }else{
-                            
                         }
+                    }else{
+                        
                     }
                 }
+            }
+        }
+    }
+    
+    func submitBot(value : Bool){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let roomId = self.room?.id ?? "0"
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["is_active": "\(value)", ] as [String : Any]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/bot/\(roomId)/activate", method: .post, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.submitBot(value : value)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func getDataBot(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/app/bot", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getDataBot()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                   
+                    var data = json["data"]["is_bot_enabled"].bool ?? false
+                    self.isEnabledBot = data
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
             }
         }
     }

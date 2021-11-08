@@ -131,12 +131,21 @@
                             <constraint firstItem="w2e-CU-4kq" firstAttribute="trailing" secondItem="Wng-Z4-gJ3" secondAttribute="trailing" constant="4" id="ygT-u4-5LC"/>
                         </constraints>
                     </view>
+                    <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="e7I-QU-XsM">
+                        <rect key="frame" x="289" y="81" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="PiQ-XA-ig9"/>
+                            <constraint firstAttribute="width" constant="20" id="lfn-RF-G1k"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="Aza-wY-aNQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="8Hl-fx-ynR"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Aza-wY-aNQ" secondAttribute="bottom" constant="10" id="K84-Ic-qZL"/>
+                    <constraint firstAttribute="trailing" secondItem="e7I-QU-XsM" secondAttribute="trailing" constant="20" id="P54-fu-EIV"/>
                     <constraint firstItem="Aza-wY-aNQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="R5a-UW-4gA"/>
+                    <constraint firstAttribute="bottom" secondItem="e7I-QU-XsM" secondAttribute="bottom" constant="-2" id="ZYe-Uk-2cY"/>
                     <constraint firstAttribute="trailing" secondItem="Aza-wY-aNQ" secondAttribute="trailing" id="brg-ou-qU0"/>
                     <constraint firstAttribute="bottom" secondItem="w2e-CU-4kq" secondAttribute="bottom" constant="10" id="pX4-ZY-79K"/>
                 </constraints>
@@ -145,6 +154,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="ivBaloonLeft" destination="Rmt-lx-aOk" id="Wzz-yd-7ve"/>
+                <outlet property="ivBot" destination="e7I-QU-XsM" id="wtl-Zn-6j0"/>
                 <outlet property="ivFIle" destination="181-Qj-qzw" id="yj0-g1-dmr"/>
                 <outlet property="ivStatus" destination="1G6-V5-pNK" id="LrL-eq-ocX"/>
                 <outlet property="lbCaption" destination="w2e-CU-4kq" id="tBT-DL-The"/>
@@ -160,6 +170,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
         <image name="ic_file_attachment" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

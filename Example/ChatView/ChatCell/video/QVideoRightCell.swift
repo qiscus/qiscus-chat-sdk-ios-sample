@@ -16,6 +16,7 @@ import SDWebImageWebPCoder
 import AVKit
 
 class QVideoRightCell: UIBaseChatCell {
+    @IBOutlet weak var icBot: UIImageView!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
@@ -302,6 +303,20 @@ class QVideoRightCell: UIBaseChatCell {
             }else{
                 self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
                 self.ivBaloonLeft.tintColor = ColorConfiguration.otherAgentRightBallonColor
+            }
+        }
+        
+        self.icBot.alpha = 0
+        self.icBot.isHidden = true
+        if let extras = message.extras{
+            if !extras.isEmpty{
+                let json = JSON.init(extras)
+                let action = json["action"]["bot_reply"].bool ?? false
+                if action == true{
+                    self.icBot.alpha = 1
+                    self.icBot.isHidden = false
+                    self.ivBaloonLeft.tintColor = ColorConfiguration.botRightBallonColor
+                }
             }
         }
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -80,6 +80,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="KHC-6G-NuM">
+                                <rect key="frame" x="275" y="254" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="MiB-Ep-mRG"/>
+                                    <constraint firstAttribute="height" constant="20" id="ph8-T9-MjJ"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -90,7 +97,9 @@
                             <constraint firstItem="vqP-Bv-Ahd" firstAttribute="top" secondItem="2BY-Ve-6Je" secondAttribute="bottom" constant="8" id="FXr-ny-Sk7"/>
                             <constraint firstItem="MsS-mP-HBr" firstAttribute="width" secondItem="vqP-Bv-Ahd" secondAttribute="width" id="H3B-oc-ygT"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="leading" secondItem="U4m-VK-CJ7" secondAttribute="trailing" constant="8" id="IhV-vV-JWz"/>
+                            <constraint firstAttribute="trailing" secondItem="KHC-6G-NuM" secondAttribute="trailing" constant="25" id="Ks5-6w-EYd"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="centerX" secondItem="vqP-Bv-Ahd" secondAttribute="centerX" id="Mka-c9-TiX"/>
+                            <constraint firstAttribute="bottom" secondItem="KHC-6G-NuM" secondAttribute="bottom" constant="8" id="NbP-r0-uqG"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="width" secondItem="vqP-Bv-Ahd" secondAttribute="width" constant="12" id="Oom-2h-bsK"/>
                             <constraint firstItem="2DX-7T-UW9" firstAttribute="top" secondItem="vqP-Bv-Ahd" secondAttribute="top" id="RPY-KY-DmW"/>
                             <constraint firstItem="MsS-mP-HBr" firstAttribute="width" secondItem="vqP-Bv-Ahd" secondAttribute="width" id="WLz-P9-OPw"/>
@@ -123,6 +132,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="icBot" destination="KHC-6G-NuM" id="sW8-6z-WFP"/>
                 <outlet property="ivBaloonLeft" destination="VY1-Tj-fZi" id="aQE-Yx-aC2"/>
                 <outlet property="ivComment" destination="vqP-Bv-Ahd" id="g9Y-hb-yQZ"/>
                 <outlet property="ivPlay" destination="xFO-0p-bcU" id="sk2-zy-brJ"/>
@@ -139,6 +149,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
         <image name="ic_play_video" width="50" height="50"/>
         <image name="ic_read" width="72" height="72"/>
     </resources>

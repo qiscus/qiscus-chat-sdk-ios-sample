@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QLocationRightCell" customModule="Qiscus_Multichannel" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QLocationRightCell" customModule="Qiscus_Multichannel" customModuleProvider="target">
+            <connections>
+                <outlet property="ivBot" destination="VLE-3L-5sK" id="8pd-1P-veP"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="qLocationRightCell" rowHeight="267" id="KGk-i7-Jjw" customClass="QLocationRightCell" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="709" height="267"/>
@@ -115,13 +119,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="VLE-3L-5sK">
+                                <rect key="frame" x="669" y="249" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="QRa-bO-oep"/>
+                                    <constraint firstAttribute="width" constant="20" id="TbH-DN-6Ny"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NIz-Nz-xHb"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ijD-Qz-Bd2" firstAttribute="width" secondItem="Rlk-R0-cSp" secondAttribute="width" constant="207" id="42c-qu-qho"/>
                             <constraint firstItem="vrc-mq-6cI" firstAttribute="top" secondItem="ijD-Qz-Bd2" secondAttribute="top" constant="5" id="D9d-74-hqQ"/>
+                            <constraint firstItem="NIz-Nz-xHb" firstAttribute="trailing" secondItem="VLE-3L-5sK" secondAttribute="trailing" constant="20" id="HAf-Yn-QX8"/>
                             <constraint firstItem="ziX-Dj-tux" firstAttribute="top" secondItem="ijD-Qz-Bd2" secondAttribute="top" constant="5" id="HuM-dW-cdB"/>
+                            <constraint firstItem="VLE-3L-5sK" firstAttribute="bottom" secondItem="NIz-Nz-xHb" secondAttribute="bottom" constant="2" id="L50-6j-RoZ"/>
                             <constraint firstItem="ijD-Qz-Bd2" firstAttribute="centerY" secondItem="Rlk-R0-cSp" secondAttribute="centerY" constant="5" id="LQp-St-59e"/>
                             <constraint firstItem="t39-QG-dIl" firstAttribute="top" secondItem="vrc-mq-6cI" secondAttribute="bottom" id="Ng1-Xx-8fV"/>
                             <constraint firstAttribute="bottom" secondItem="Rlk-R0-cSp" secondAttribute="bottom" constant="18" id="ONm-gf-2WV"/>
@@ -164,6 +177,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
         <image name="ic_read" width="72" height="72"/>
     </resources>
 </document>
