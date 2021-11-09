@@ -206,6 +206,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         
         self.checkIFTypeWAExpired()
         self.setupReachability()
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -14,7 +14,10 @@ import QiscusCore
 
 
 class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegate {
-    
+    @IBOutlet weak var heightProgressViewCons: NSLayoutConstraint!
+    @IBOutlet weak var labelProgress: UILabel!
+    @IBOutlet weak var progressViewShare: UIView!
+    @IBOutlet weak var containerProgressView: UIView!
     var webView = WKWebView()
     var url: String = ""
     var fileName: String = ""
@@ -25,26 +28,64 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
     var accountData:JSON?
     var accountLinkURL:String = ""
     var accountRedirectURL:String = ""
-    
+    let maxProgressHeight:Double = 40
     deinit{
         self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
     }
     // MARK: - UI Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
+        
         self.webView.navigationDelegate = self
         self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
         if !self.accountLinking {
             let shareButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(ChatPreviewDocVC.share))
             shareButton.tintColor = UIColor.white
             self.navigationItem.rightBarButtonItem = shareButton
+            
         }
+        
+        let backButton = self.backButton(self, action: #selector(ChatPreviewDocVC.goBack))
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationItem.leftBarButtonItems = [backButton]
+        
+        self.progressViewShare.layer.cornerRadius = self.progressViewShare.frame.size.height / 2
+        self.containerProgressView.layer.cornerRadius = self.containerProgressView.frame.size.height / 2
+        self.labelProgress.layer.cornerRadius = self.labelProgress.frame.size.height / 2
+    }
+    
+    private func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
+        let backIcon = UIImageView()
+        backIcon.contentMode = .scaleAspectFit
+        
+        let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        backIcon.image = image
+        backIcon.tintColor = UIColor.white
+        
+        if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
+            backIcon.frame = CGRect(x: 0,y: 11,width: 30,height: 25)
+        }else{
+            backIcon.frame = CGRect(x: 22,y: 11,width: 30,height: 25)
+        }
+        
+        let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 30,height: 44))
+        backButton.addSubview(backIcon)
+        backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
+        return UIBarButtonItem(customView: backButton)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
         
         if !accountLinking {
             self.navigationItem.setTitleWithSubtitle(title: self.roomName, subtitle: self.fileName)
@@ -96,6 +137,10 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
     override func viewWillDisappear(_ animated: Bool) {
         self.progressView.removeFromSuperview()
         super.viewWillDisappear(animated)
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -149,44 +194,59 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         let _ = self.navigationController?.popViewController(animated: true)
     }
     
-    // MARK: - Custom Component
-    func backButton(_ target: UIViewController, action: Selector) -> UIBarButtonItem{
-        let backIcon = UIImageView()
-        backIcon.contentMode = .scaleAspectFit
-        
-        let backLabel = UILabel()
-        
-        backLabel.text = ""
-        backLabel.textColor = UINavigationBar.appearance().tintColor
-        backLabel.font = UIFont.systemFont(ofSize: 12)
-        
-        let image = UIImage(named: "ic_back")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        backIcon.image = image
-        backIcon.tintColor = UINavigationBar.appearance().tintColor
-        
-        
-        if UIApplication.shared.userInterfaceLayoutDirection == .leftToRight {
-            backIcon.frame = CGRect(x: 0,y: 0,width: 10,height: 15)
-            backLabel.frame = CGRect(x: 15,y: 0,width: 45,height: 15)
-        }else{
-            backIcon.frame = CGRect(x: 50,y: 0,width: 10,height: 15)
-            backLabel.frame = CGRect(x: 0,y: 0,width: 45,height: 15)
-        }
-        
-        let backButton = UIButton(frame:CGRect(x: 0,y: 0,width: 60,height: 20))
-        backButton.addSubview(backIcon)
-        backButton.addSubview(backLabel)
-        backButton.addTarget(target, action: action, for: UIControl.Event.touchUpInside)
-        
-        return UIBarButtonItem(customView: backButton)
-    }
-    
     @objc func share(){
+        self.navigationItem.rightBarButtonItem = nil
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        
+        self.view.bringSubviewToFront(self.containerProgressView)
+        self.containerProgressView.isHidden = false
+        self.labelProgress.isHidden = false
+        self.progressViewShare.isHidden = false
+        self.labelProgress.text = "0 %"
+        var progressCount = 0
         if let url = URL(string: url) {
-            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-            
-            activityViewController.popoverPresentationController?.sourceView = self.view
-            self.present(activityViewController, animated: true, completion: nil)
+            DispatchQueue.global(qos: .background).sync {
+                QiscusCore.shared.download(url: url) { path in
+                    
+                    DispatchQueue.main.async {
+                        self.containerProgressView.isHidden = true
+                        self.labelProgress.isHidden = true
+                        self.progressViewShare.isHidden = true
+                        
+                        
+                        if !self.accountLinking {
+                            let shareButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(ChatPreviewDocVC.share))
+                            shareButton.tintColor = UIColor.white
+                            self.navigationItem.rightBarButtonItem = shareButton
+                            
+                        }
+                        
+                        let file = [path]
+                        let activityViewController = UIActivityViewController(activityItems: file, applicationActivities: nil)
+                        activityViewController.popoverPresentationController?.sourceView = self.view
+                        
+                        self.present(activityViewController, animated: true, completion: {
+                            
+                        })
+                    }
+                    
+                   
+                } onProgress: { progress in
+                    if progressCount < (Int(progress * 100)) {
+                        progressCount = (Int(progress * 100))
+                        DispatchQueue.main.async {
+                            self.labelProgress.text = "\(Int(progress * 100)) %"
+                            self.heightProgressViewCons.constant = CGFloat(50)
+                            UIView.animate(withDuration: 0.65, animations: {
+                                self.progressViewShare.layoutIfNeeded()
+                            })
+                        }
+                    }
+                }
+            }
         }
     }
 }

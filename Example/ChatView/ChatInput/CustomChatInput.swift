@@ -511,6 +511,10 @@ extension CustomChatInput : UITextViewDelegate {
 
 extension UIChatViewController : CustomChatInputDelegate {
     func uploadCamera() {
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
         self.view.endEditing(true)
         if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized
         {
@@ -565,6 +569,11 @@ extension UIChatViewController : CustomChatInputDelegate {
             UINavigationBar.appearance().tintColor = UIColor.blue
         }
         
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        
         self.view.endEditing(true)
         let photoPermissions = PHPhotoLibrary.authorizationStatus()
         
@@ -606,6 +615,11 @@ extension UIChatViewController : CustomChatInputDelegate {
             //self.latestNavbarTint = self.currentNavbarTint
             UINavigationBar.appearance().tintColor = UIColor.blue
         }
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
         
         let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: UIDocumentPickerMode.import)
         documentPicker.delegate = self
