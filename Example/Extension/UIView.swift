@@ -115,6 +115,8 @@ extension UITextField{
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        done.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+        
         
         let items = [flexSpace, done]
         doneToolbar.items = items
@@ -150,6 +152,8 @@ extension UISearchBar{
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
         
+        done.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+        
         let items = [flexSpace, done]
         doneToolbar.items = items
         doneToolbar.sizeToFit()
@@ -183,6 +187,9 @@ extension UITextView{
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        
+        done.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+        
         
         let items = [flexSpace, done]
         doneToolbar.items = items

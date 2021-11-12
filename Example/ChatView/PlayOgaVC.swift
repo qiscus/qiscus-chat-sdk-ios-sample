@@ -109,11 +109,40 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
     }
     
     @objc func share(){
-        if let url = URL(string: mediaURL) {
-            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-            
-            activityViewController.popoverPresentationController?.sourceView = self.view
-            self.present(activityViewController, animated: true, completion: nil)
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        
+
+        var progressCount = 0
+        if let url = URL(string: self.mediaURL) {
+            DispatchQueue.global(qos: .background).sync {
+                QiscusCore.shared.download(url: url) { path in
+                    
+                    DispatchQueue.main.async {
+                        self.hiddenLoading()
+                        
+                        
+                        let file = [path]
+                        let activityViewController = UIActivityViewController(activityItems: file, applicationActivities: nil)
+                        activityViewController.popoverPresentationController?.sourceView = self.view
+                        
+                        self.present(activityViewController, animated: true, completion: {
+                            
+                        })
+                    }
+                    
+                   
+                } onProgress: { progress in
+                    if progressCount < (Int(progress * 100)) {
+                        progressCount = (Int(progress * 100))
+                        DispatchQueue.main.async {
+                            self.lbLoading.text = "Please wait . . . \(Int(progress) * 100) %"
+                        }
+                    }
+                }
+            }
         }
 
     }

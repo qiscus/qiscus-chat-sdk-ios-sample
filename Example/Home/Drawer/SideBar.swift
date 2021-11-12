@@ -293,7 +293,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
                 cell.viewAnalytic.layer.shadowOpacity = 0.3
                 cell.viewAnalytic.layer.shadowRadius = 1.5
                 cell.viewAnalytic.layer.cornerRadius = 8
-                cell.isHidden = false
+                cell.isHidden = true
                 return cell
             }
             
@@ -317,7 +317,7 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
                 cell.viewAnalytic.layer.shadowOpacity = 0.3
                 cell.viewAnalytic.layer.shadowRadius = 1.5
                 cell.viewAnalytic.layer.cornerRadius = 8
-                cell.isHidden = false
+                cell.isHidden = true
                 return cell
             }
         }
@@ -354,13 +354,13 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
             if indexPath.row == 0 {
                 goInbox()
             }else{
-                goAnalytics()
+               // goAnalytics()
             }
         }else{
             if indexPath.row == 1 {
                 goInbox()
             }else if indexPath.row == 2 {
-                goAnalytics()
+                //goAnalytics()
             }
         }
     }

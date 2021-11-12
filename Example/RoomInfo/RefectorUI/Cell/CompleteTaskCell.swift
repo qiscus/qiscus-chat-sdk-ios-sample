@@ -102,7 +102,7 @@ class CompleteTaskCell: UITableViewCell {
                 } else {
                     //success
                     let json = JSON(response.result.value)
-                    print("response.result.value =\(json)")
+                    print("response.result.value2\(json)")
                     var data = json["data"]["extras"].dictionary
                     var userID = json["data"]["user_id"].string ?? ""
                     var channelName = json["data"]["channel_name"].string ?? ""
@@ -189,17 +189,27 @@ class CompleteTaskCell: UITableViewCell {
             if !room.options!.isEmpty{
                 let json = JSON.init(parseJSON: room.options!)
                 var channelType = json["channel"].string ?? "Qiscus Widget"
-                if channelType.lowercased() == "ig" {
-                    channelType = "Instagram"
-                }
                 
-                if channelType.lowercased() == "custom" {
+                if channelType.lowercased() == "qiscus"{
+                    channelType = "Qiscus Widget"
+                }else if channelType.lowercased() == "telegram"{
+                    channelType = "Telegram"
+                }else if channelType.lowercased() == "line"{
+                    channelType = "Line"
+                }else if channelType.lowercased() == "fb"{
+                    channelType = "Facebook"
+                }else if channelType.lowercased() == "wa"{
+                    channelType = "WhatsApp"
+                }else if channelType.lowercased() == "twitter" {
+                    channelType = "Custom Channel"
+                }else if channelType.lowercased() == "ig" {
+                    channelType = "Instagram"
+                }else if channelType.lowercased() == "custom" {
+                    channelType = "Custom Channel"
+                }else{
                     channelType = "Custom Channel"
                 }
                 
-                if channelType.lowercased() == "qiscus" {
-                    channelType = "Qiscus Widget"
-                }
                 self.channelType = channelType
                 let notesData = json["notes"].string ?? ""
                 self.notes = notesData
@@ -376,7 +386,7 @@ class CompleteTaskCell: UITableViewCell {
             }
 
 
-            params["tags"] = array
+            params["tag"] = array
         }
 
         if let agent = agentData{

@@ -581,6 +581,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                 } else {
                     //success
                     let payload = JSON(response.result.value)
+                    print("arief check tag ini =\(payload)")
                     if let tags = payload["data"].array {
                         var results = [TagsModel]()
                         for tag in tags {
@@ -747,6 +748,8 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     self.channelTypeString = "WhatsApp"
                 }else if channelType.lowercased() == "twitter" {
                     self.channelTypeString = "Custom Channel"
+                }else if channelType.lowercased() == "ig" {
+                    self.channelTypeString = "Instagram"
                 }else if channelType.lowercased() == "custom" {
                     self.channelTypeString = "Custom Channel"
                 }else{
