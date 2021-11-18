@@ -150,4 +150,12 @@ extension UserDefaults{
     func getBot() -> Bool{
         return bool(forKey: "is_bot_enabled")
     }
+    
+    func setEmailMultichannel(value: String){
+        set(value, forKey: "email_multichannel")
+    }
+    
+    func getEmailMultichannel() -> String{
+        return string(forKey: "email_multichannel") ?? ""
+    }
 }

@@ -251,8 +251,12 @@ class CompleteTaskCell: UITableViewCell {
                     let json = JSON(response.result.value)
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email_address"].string ?? ""
+                    var email = UserDefaults.standard.getEmailMultichannel()
+                    if email.isEmpty {
+                        email = dataEmailAdress
+                    }
                     
-                    self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "Admin")
+                    self.agentData = Agent(email: email, name: dataName, type: "Admin")
                 }
             }
         }
@@ -284,6 +288,7 @@ class CompleteTaskCell: UITableViewCell {
                     let json = JSON(response.result.value)
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email"].string ?? ""
+                    UserDefaults.standard.setEmailMultichannel(value: dataEmailAdress)
                     
                     self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "admin")
                 }
@@ -317,8 +322,11 @@ class CompleteTaskCell: UITableViewCell {
                     let json = JSON(response.result.value)
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email"].string ?? ""
-                    
-                    self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "Agent")
+                    var email = UserDefaults.standard.getEmailMultichannel()
+                    if email.isEmpty {
+                        email = dataEmailAdress
+                    }
+                    self.agentData = Agent(email: email, name: dataName, type: "Agent")
                 }
             }
         }
@@ -394,7 +402,12 @@ class CompleteTaskCell: UITableViewCell {
         }
 
         if let customer = customerData{
-            params["customer"] = ["avatar" : customer.avatar, "name" : customer.name, "user_id" : customer.userID]
+            var avatar = customer.avatar
+            if avatar.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                avatar = "https://latest-multichannel.qiscus.com/img/default_avatar.svg"
+            }
+            
+            params["customer"] = ["avatar" : avatar, "name" : customer.name, "user_id" : customer.userID]
         }
 
         params["notes"] = "\(self.notes)"

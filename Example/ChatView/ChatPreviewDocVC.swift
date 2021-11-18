@@ -116,7 +116,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         
         //self.webView.backgroundColor = UIColor.red
         
-        if self.url.isEmpty == true {
+        if self.url.isEmpty == true || self.url == nil {
             self.url = "https://"
         }
         

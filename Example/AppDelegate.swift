@@ -242,6 +242,7 @@ extension AppDelegate {
             defaults.removeObject(forKey: "featureOverallAgentAnalytics")
             defaults.removeObject(forKey: "featureCustomAnalytics")
             defaults.removeObject(forKey: "featureAnalyticsWA")
+            defaults.removeObject(forKey: "email_multichannel")
             defaults.set(0, forKey: "unreadBadge")
             if self.timer != nil {
                 self.timer?.invalidate()
@@ -299,10 +300,11 @@ extension AppDelegate {
                         let userType = json["data"]["type"].intValue
                         let bubbleColor = json["data"]["bubble_color"].stringValue
                         let accountId = json["data"]["id"].int ?? 0
-                        
+                        let emaillMultichannel = json["data"]["email"].string ?? ""
                         UserDefaults.standard.setAccountId(value: accountId)
                         UserDefaults.standard.setBubbleColor(value: bubbleColor)
                         UserDefaults.standard.setAfterLogin(value: true)
+                        UserDefaults.standard.setEmailMultichannel(value: emaillMultichannel)
                         
                         self.auth()
                         

@@ -92,18 +92,20 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
         self.togglePlayButton.setBackgroundImage(UIImage(named: "play_audio")?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.togglePlayButton.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
 
-        QiscusCore.shared.download(url: URL(string: self.mediaURL)!, onSuccess: { (url) in
-            self.pathURL = url
-            DispatchQueue.main.async {
-                self.hiddenLoading()
-                self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: url.lastPathComponent)
-                self.mediaplayer.media = VLCMedia(url: url)
+        if let url = URL(string: self.mediaURL) {
+            QiscusCore.shared.download(url: url, onSuccess: { (url) in
+                self.pathURL = url
+                DispatchQueue.main.async {
+                    self.hiddenLoading()
+                    self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: url.lastPathComponent)
+                    self.mediaplayer.media = VLCMedia(url: url)
+                }
+            }) { (progress) in
+                DispatchQueue.main.async {
+                    self.lbLoading.text = "Please wait, still downloading . . . \(Int(progress) * 100) %"
+                }
+                
             }
-        }) { (progress) in
-            DispatchQueue.main.async {
-                self.lbLoading.text = "Please wait, still downloading . . . \(Int(progress) * 100) %"
-            }
-            
         }
 
     }
