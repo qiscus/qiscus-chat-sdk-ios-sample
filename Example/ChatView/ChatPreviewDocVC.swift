@@ -30,7 +30,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
     var accountRedirectURL:String = ""
     let maxProgressHeight:Double = 40
     deinit{
-        self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
+//        self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
     }
     // MARK: - UI Lifecycle
     override func viewDidLoad() {
@@ -41,7 +41,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
         
         self.webView.navigationDelegate = self
-        self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
+//        self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
         if !self.accountLinking {
             let shareButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(ChatPreviewDocVC.share))
             shareButton.tintColor = UIColor.white
@@ -80,6 +80,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 7/255, green: 185/255, blue: 155/255, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
@@ -91,7 +92,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
             self.navigationItem.setTitleWithSubtitle(title: self.roomName, subtitle: self.fileName)
         }else{
             if let data = accountData {
-                self.title = data["params"]["view_title"].string ?? ""
+                self.title = data["params"]["view_title"].string ?? self.roomName
                 self.accountLinkURL = data["url"].string ?? "https://"
                 self.accountRedirectURL = data["redirect_url"].string ?? "https://"
             }
@@ -137,7 +138,7 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
     override func viewWillDisappear(_ animated: Bool) {
         self.progressView.removeFromSuperview()
         super.viewWillDisappear(animated)
-        
+        self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
         UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
         UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white

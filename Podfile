@@ -6,11 +6,10 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
-  #pod 'QiscusCore'
-  pod 'QiscusCore', :path => '../NewSDK/QiscusCore-ios'
+  pod 'QiscusCore', :git => 'https://github.com/qiscus/QiscusCore-iOS.git', :branch => 'handle-double-message'
 
     # 3rd party
-  pod 'SDWebImage'
+  pod 'SDWebImage', '5.12.0'
   pod 'SimpleImageViewer', :git => 'https://github.com/ariefnurputranto/SimpleImageViewer'
   pod 'SwiftyJSON'
   pod 'Alamofire', '4.9'
