@@ -212,7 +212,7 @@ class UIChatListViewCell: UITableViewCell {
                     self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
                 }
                 
-                if !badgeURL.isEmpty && !badgeURL.contains(".svg"){
+                if !badgeURL.isEmpty && !badgeURL.contains(".svg") && badgeURL != "<null>" && badgeURL != "null"{
                     self.ivTypeChannel.af_setImage(withURL: URL(string:badgeURL)!)
                 }
                 

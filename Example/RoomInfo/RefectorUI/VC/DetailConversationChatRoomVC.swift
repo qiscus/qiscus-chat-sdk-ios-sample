@@ -439,7 +439,7 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                 var ext = data.getAttachmentURL(message: data.message)
                 if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
                     
-                    cell.lbMessage.attributedText = NSAttributedString(string: "Sent an picture", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
+                    cell.lbMessage.attributedText = NSAttributedString(string: "Sent an image", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
                     
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionTextVideoImage(_:)))
                     tap.numberOfTapsRequired = 1
@@ -610,7 +610,7 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                     
                     if(isImage == true) {
                         //image
-                        cell.lbMessage.attributedText = NSAttributedString(string: "Sent an picture", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
+                        cell.lbMessage.attributedText = NSAttributedString(string: "Sent an image", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
                         
                       
                         cell.lbMessage.tag = indexPath.row
