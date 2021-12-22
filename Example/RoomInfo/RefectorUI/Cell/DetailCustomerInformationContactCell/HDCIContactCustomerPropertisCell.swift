@@ -44,8 +44,9 @@ extension HDCIContactCustomerPropertisCell: UITableViewDataSource, UITableViewDe
         if data.label.isEmpty == true {
             cell.lbLabel.text = "-"
         } else {
-            cell.lbLabel.text = data.label
+            cell.lbLabel.text = data.label.capitalized.replacingOccurrences(of: "_", with: " ")
         }
+        
         
         if data.value.isEmpty == true {
             cell.lbValue.text = "-"

@@ -355,14 +355,21 @@ extension ContactDetailCustomerInfoVC: UITableViewDataSource, UITableViewDelegat
         dateFormatter.timeZone = .current
         if let date = dateFormatter.date(from: data.lastCustomerTimestamp) {
             let dateFormatter2 = DateFormatter()
-            dateFormatter2.dateFormat = "d/MM/yy"
+            dateFormatter2.dateFormat = "dd/MM/yy"
             let dateString = dateFormatter2.string(from: date)
             
             let timeFormatter = DateFormatter()
             timeFormatter.dateFormat = "HH:mm"
             let timeString = timeFormatter.string(from: date)
             
-            cell.lbDate.text = "\(dateString)"
+            if Calendar.current.isDateInToday(date){
+                cell.lbDate.text = "Today"
+            }else if Calendar.current.isDateInYesterday(date) {
+                cell.lbDate.text = "Yesterday"
+            }else{
+                cell.lbDate.text = "\(dateString)"
+            }
+            
             cell.lbTime.text = "\(timeString)"
         }else{
             cell.lbDate.text = ""

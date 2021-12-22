@@ -33,6 +33,8 @@
 		2008F9ED2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9EB2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift */; };
 		2008F9EE2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9EC2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib */; };
 		2008F9F02762E7230084DA9A /* CustomerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9EF2762E7230084DA9A /* CustomerProperties.swift */; };
+		201410B7276787F300B5AE31 /* LoadMoreDetailConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */; };
+		201410B8276787F300B5AE31 /* LoadMoreDetailConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */; };
 		3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */; };
 		3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */; };
 		3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */; };
@@ -406,6 +408,8 @@
 		2008F9EB2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListContactCustomerPropertiesCell.swift; sourceTree = "<group>"; };
 		2008F9EC2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListContactCustomerPropertiesCell.xib; sourceTree = "<group>"; };
 		2008F9EF2762E7230084DA9A /* CustomerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerProperties.swift; sourceTree = "<group>"; };
+		201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreDetailConversationCell.swift; sourceTree = "<group>"; };
+		201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreDetailConversationCell.xib; sourceTree = "<group>"; };
 		3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPostbackRightCell.swift; sourceTree = "<group>"; };
 		3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QPostbackRightCell.xib; sourceTree = "<group>"; };
 		3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAgentVC.swift; sourceTree = "<group>"; };
@@ -865,6 +869,8 @@
 			children = (
 				2008F9C6275F447E0084DA9A /* DetailConversationCell.swift */,
 				2008F9C7275F447E0084DA9A /* DetailConversationCell.xib */,
+				201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */,
+				201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */,
 			);
 			path = DetailConversationChatRoomCell;
 			sourceTree = "<group>";
@@ -1902,6 +1908,7 @@
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
 				3D114136272F9713005CBBEC /* AlertFailedSubmitTicket.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
+				201410B8276787F300B5AE31 /* LoadMoreDetailConversationCell.xib in Resources */,
 				3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */,
 				3DCC3B02269302B8002FD4B1 /* OverallAgentOthers.xib in Resources */,
 				3DAF553026253ED800208B99 /* WhatsAppChannelCell.xib in Resources */,
@@ -2160,6 +2167,7 @@
 				3DCC3AF226930258002FD4B1 /* OverallAgentPerformance.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
 				3D7A39652577CA0C005E7FAE /* NotesCell.swift in Sources */,
+				201410B7276787F300B5AE31 /* LoadMoreDetailConversationCell.swift in Sources */,
 				3DC0238B266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift in Sources */,
 				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
 				3DFAD2FB268D84B40069B848 /* AnalyticsVC.swift in Sources */,
@@ -2393,7 +2401,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2425,7 +2433,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

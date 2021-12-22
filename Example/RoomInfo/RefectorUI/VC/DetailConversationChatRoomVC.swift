@@ -27,6 +27,7 @@ class DetailConversationChatRoomVC: UIViewController {
     var contactID = 0
     var qComment = [QCommentContact]()
     var loadMore = true
+    var stillLoading = false
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,6 +48,7 @@ class DetailConversationChatRoomVC: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(UINib(nibName: "DetailConversationCell", bundle: nil), forCellReuseIdentifier: "DetailConversationCellIdentifire")
+        self.tableView.register(UINib(nibName: "LoadMoreDetailConversationCell", bundle: nil), forCellReuseIdentifier: "LoadMoreDetailConversationCellIdentifier")
         
         if isOngoing == true {
             self.heightHeaderConst.constant = 40
@@ -100,6 +102,7 @@ class DetailConversationChatRoomVC: UIViewController {
     }
     
     func setupAPIChatRoom(lastCommentID : String = ""){
+        self.stillLoading = true
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
         }
@@ -120,6 +123,7 @@ class DetailConversationChatRoomVC: UIViewController {
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
+                    self.stillLoading = false
                     if response.response?.statusCode == 401 {
                         RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
                             if success == true {
@@ -140,6 +144,11 @@ class DetailConversationChatRoomVC: UIViewController {
                                 self.qComment.append(data)
                             }
                         }
+                        
+                        let allObjs = self.qComment.sorted { (k1, k2) in
+                            return k1.id < k2.id
+                        }
+                        self.qComment = allObjs
                         if comments.count == 20 {
                             self.loadMore = true
                         }else{
@@ -148,14 +157,26 @@ class DetailConversationChatRoomVC: UIViewController {
                     }else{
                         self.loadMore = false
                     }
-                    
+                    self.stillLoading = false
                     self.tableView.reloadData()
                     
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
+                self.stillLoading = false
             } else {
                 //failed
+                self.stillLoading = false
+            }
+        }
+    }
+    
+    @objc func handleLoadMore(sender: UIButton){
+        if self.loadMore == true{
+            if self.stillLoading == true {
+                return
+            }else{
+                self.setupAPIChatRoom(lastCommentID: self.qComment.first!.id)
             }
         }
     }
@@ -164,8 +185,11 @@ class DetailConversationChatRoomVC: UIViewController {
 
 extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelegate {
     @objc func actionVideoImageAudio(_ recognizer: UITapGestureRecognizer) {
-
-        let data = self.qComment[recognizer.view!.tag]
+        var check = 0
+        if loadMore == true {
+            check = 1
+        }
+        let data = self.qComment[recognizer.view!.tag - check]
         
         guard let payload = data.payload else { return }
         if let fileName = payload["file_name"] as? String{
@@ -185,8 +209,11 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
     }
     
     @objc func actionTextVideoImage(_ recognizer: UITapGestureRecognizer) {
-
-        let data = self.qComment[recognizer.view!.tag]
+        var check = 0
+        if loadMore == true {
+            check = 1
+        }
+        let data = self.qComment[recognizer.view!.tag - check]
         if data.message.contains("[sticker]"){
             var fileImage = data.getStickerURL(message: data.message)
             
@@ -223,8 +250,11 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
     }
     
     @objc func actionDirectURL(_ recognizer: UITapGestureRecognizer) {
-
-        let data = self.qComment[recognizer.view!.tag]
+        var check = 0
+        if loadMore == true {
+            check = 1
+        }
+        let data = self.qComment[recognizer.view!.tag - check]
         
         let webView = ChatPreviewDocVC()
         webView.accountLinking = true
@@ -239,8 +269,11 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
     }
     
     @objc func actionDocument(_ recognizer: UITapGestureRecognizer) {
-
-        let data = self.qComment[recognizer.view!.tag]
+        var check = 0
+        if loadMore == true {
+            check = 1
+        }
+        let data = self.qComment[recognizer.view!.tag - check]
         guard let payload = data.payload else { return }
         if let fileName = payload["file_name"] as? String{
             if let url = payload["url"] as? String {
@@ -278,13 +311,44 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return qComment.count
+       
+        var count = qComment.count
+        if loadMore == true {
+            count = count + 1
+        }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailConversationCellIdentifire", for: indexPath) as! DetailConversationCell
-        let data = self.qComment[indexPath.row]
+        
+        if loadMore == true {
+            if indexPath.row == 0 {
+                let headerCell = tableView.dequeueReusableCell(withIdentifier: "LoadMoreDetailConversationCellIdentifier") as! LoadMoreDetailConversationCell
 
+                headerCell.btLoadMore.addTarget(self, action:#selector(self.handleLoadMore(sender:)), for: .touchUpInside)
+                
+                return headerCell
+            }else{
+                return detailConversationCell(indexPath: indexPath, loadMore : true)
+            }
+        }else{
+            return detailConversationCell(indexPath: indexPath, loadMore : false)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+    }
+    
+    private func detailConversationCell(indexPath: IndexPath, loadMore : Bool = false)-> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailConversationCellIdentifire", for: indexPath) as! DetailConversationCell
+        
+        var check = 0
+        if loadMore == true {
+            check = 1
+        }
+        let data = self.qComment[indexPath.row - check]
+        cell.dataMessage = data
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"
         dateFormatter.timeZone = .current
@@ -296,8 +360,15 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
             let timeFormatter = DateFormatter()
             timeFormatter.dateFormat = "HH:mm"
             let timeString = timeFormatter.string(from: date)
-
-            cell.lbDate.text = "\(dateString)"
+            
+            if Calendar.current.isDateInToday(date){
+                cell.lbDate.text = "Today"
+            }else if Calendar.current.isDateInYesterday(date) {
+                cell.lbDate.text = "Yesterday"
+            }else{
+                cell.lbDate.text = "\(dateString)"
+            }
+            
             cell.lbTime.text = "\(timeString)"
         }else{
             cell.lbDate.text = ""
@@ -314,10 +385,11 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
         
         
         
-        let tap = UITapGestureRecognizer(target: self, action: nil)
-        tap.numberOfTapsRequired = 1
+       
         cell.lbMessage.tag = indexPath.row
         cell.lbMessage.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: nil)
+        tap.numberOfTapsRequired = 1
         cell.lbMessage.addGestureRecognizer(tap)
         
         cell.lbName.text = data.username
@@ -367,7 +439,7 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                 var ext = data.getAttachmentURL(message: data.message)
                 if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
                     
-                    cell.lbMessage.attributedText = NSAttributedString(string: "Sent a picture", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
+                    cell.lbMessage.attributedText = NSAttributedString(string: "Sent an picture", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
                     
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionTextVideoImage(_:)))
                     tap.numberOfTapsRequired = 1
@@ -376,7 +448,7 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                     cell.lbMessage.addGestureRecognizer(tap)
                 }
             } else if data.message.contains("[/sticker]") == true{
-                cell.lbMessage.attributedText = NSAttributedString(string: "Sent a picture", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
+                cell.lbMessage.attributedText = NSAttributedString(string: "Sent a stiker", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionTextVideoImage(_:)))
                 tap.numberOfTapsRequired = 1
@@ -458,7 +530,7 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                     cell.lbMessage.text = data.message
                 case .image:
                     cell.lbReplySender.text = username
-                    cell.lbReplymessage.text = "Sent a image"
+                    cell.lbReplymessage.text = "Sent an image"
                     cell.lbMessage.text = data.message
                 case .video:
                     cell.lbReplySender.text = username
@@ -466,7 +538,7 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                     cell.lbMessage.text = data.message
                 case .audio:
                     cell.lbReplySender.text = username
-                    cell.lbReplymessage.text = "Sent a audio"
+                    cell.lbReplymessage.text = "Sent an audio"
                     cell.lbMessage.text = data.message
                 case .document:
                     //pdf
@@ -538,12 +610,13 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                     
                     if(isImage == true) {
                         //image
-                        cell.lbMessage.attributedText = NSAttributedString(string: "Sent a picture", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
+                        cell.lbMessage.attributedText = NSAttributedString(string: "Sent an picture", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
                         
-                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionVideoImageAudio(_:)))
-                        tap.numberOfTapsRequired = 1
+                      
                         cell.lbMessage.tag = indexPath.row
                         cell.lbMessage.isUserInteractionEnabled = true
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionVideoImageAudio(_:)))
+                        tap.numberOfTapsRequired = 1
                         cell.lbMessage.addGestureRecognizer(tap)
                     }else if(urlFile?.containsVideo == true || isVideo == true ) {
                         //video
@@ -556,21 +629,23 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
                         cell.lbMessage.addGestureRecognizer(tap)
                     }else if (urlFile?.containsAudio == true){
                         //file
-                        cell.lbMessage.attributedText = NSAttributedString(string: "Sent a audio", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
+                        cell.lbMessage.attributedText = NSAttributedString(string: "Sent an audio", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
                         
-                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionDocument(_:)))
-                        tap.numberOfTapsRequired = 1
+                       
                         cell.lbMessage.tag = indexPath.row
                         cell.lbMessage.isUserInteractionEnabled = true
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionDocument(_:)))
+                        tap.numberOfTapsRequired = 1
                         cell.lbMessage.addGestureRecognizer(tap)
                     }else{
                         //file
                         cell.lbMessage.attributedText = NSAttributedString(string: "Sent a document", attributes:[ NSAttributedString.Key.foregroundColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineColor: ColorConfiguration.defaultColorTosca,NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
                         
-                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionDocument(_:)))
-                        tap.numberOfTapsRequired = 1
+                        
                         cell.lbMessage.tag = indexPath.row
                         cell.lbMessage.isUserInteractionEnabled = true
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionDocument(_:)))
+                        tap.numberOfTapsRequired = 1
                         cell.lbMessage.addGestureRecognizer(tap)
                     }
                 }else{
@@ -586,19 +661,7 @@ extension DetailConversationChatRoomVC: UITableViewDataSource, UITableViewDelega
             
         }
         
-        if  self.qComment.count >= 2{
-            if indexPath.row == self.qComment.count - 1 { // last cell
-                if self.loadMore == true{
-                    self.setupAPIChatRoom(lastCommentID: self.qComment.last!.id)
-                }
-            }
-        }
-        
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
     }
     
 }

@@ -21,6 +21,7 @@ class DetailConversationCell: UITableViewCell {
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var ivAvatar: UIImageView!
+    var dataMessage : QCommentContact? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

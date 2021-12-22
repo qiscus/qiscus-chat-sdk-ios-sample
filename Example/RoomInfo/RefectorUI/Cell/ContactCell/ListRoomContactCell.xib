@@ -45,7 +45,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3kz-y0-1HU">
                         <rect key="frame" x="240" y="16.5" width="60" height="17"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="JCr-fM-s9S"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="JCr-fM-s9S"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.67843137254901964" green="0.67843137254901964" blue="0.67843137254901964" alpha="1" colorSpace="calibratedRGB"/>

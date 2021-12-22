@@ -203,7 +203,7 @@ extension DetailCustomerInformationContactVC: UITableViewDataSource, UITableView
             dateFormatter.timeZone = .current
             if let date = dateFormatter.date(from: self.lastConversation) {
                 let dateFormatter2 = DateFormatter()
-                dateFormatter2.dateFormat = "d/MM/yy"
+                dateFormatter2.dateFormat = "dd/MM/yy"
                 let dateString = dateFormatter2.string(from: date)
                 
                 let timeFormatter = DateFormatter()

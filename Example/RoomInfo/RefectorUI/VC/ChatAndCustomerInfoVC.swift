@@ -75,6 +75,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     
     //ContactId
     var contactID : Int = 0
+    var agentCanAccessContact : Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,9 +115,12 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 2 {
                 //agent
+                getContactConfig()
                 getListConfig()
             }else{
-                
+                if UserDefaults.standard.getStatusFeatureContact() == 2 || UserDefaults.standard.getStatusFeatureContact() == 3 {
+                    self.agentCanAccessContact = false
+                }
             }
         }
         
@@ -501,6 +505,63 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     let payload = JSON(response.result.value)
                     let isCreateTagsEnabled = payload["data"]["configs"]["is_create_tags_enabled"].bool ?? false
                     self.isCreateTags = isCreateTagsEnabled
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func getContactConfig(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["show_all": true
+            ] as [String : Any]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/app/configs?config_names[]=AGENT_CONTACT_ACCESS&config_names[]=HIDE_AGENT_TOGGLE_STATUS&config_names[]=HIDE_AGENT_INBOX_CUSTOMER_ID&config_names[]=AGENT_CAN_ASSIGN_CHAT&config_names[]=AGENT_CAN_ADD_OTHER_AGENT", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getContactConfig()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let canAccess = payload["data"]["configs"]["agent_contact_access"].string ?? "true"
+                   
+                    if let userType = UserDefaults.standard.getUserType(){
+                        if userType == 2 {
+                            //agent
+                            if canAccess == "true"{
+                                self.agentCanAccessContact = true
+                            }else{
+                                self.agentCanAccessContact = false
+                            }
+                        }else{
+                            self.agentCanAccessContact = true
+                        }
+                    }else{
+                        self.agentCanAccessContact = false
+                    }
+                    
+                    if UserDefaults.standard.getStatusFeatureContact() == 2 || UserDefaults.standard.getStatusFeatureContact() == 3 {
+                        self.agentCanAccessContact = false
+                    }
                     
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
@@ -1194,11 +1255,18 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         cell.channelID = self.channelID
         cell.channelType = self.channelType
         cell.channelTypeString = self.channelTypeString
-        if contactID == 0{
-            cell.isHidden = true
-        }else{
+        
+        if self.agentCanAccessContact == false {
             cell.isHidden = false
+        }else{
+            if contactID == 0{
+                cell.isHidden = true
+            }else{
+                cell.isHidden = false
+            }
         }
+        
+       
         return cell
     }
     
@@ -1268,7 +1336,7 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if contactID == 0 {
+        if self.agentCanAccessContact == false {
             if isTypeWA == true {
                 if isWAExpired == true {
                     if isWaBlocked == true {
@@ -1313,7 +1381,55 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     return 0
                 }
             }
+        } else{
+            if contactID == 0{
+                if isTypeWA == true {
+                    if isWAExpired == true {
+                        if isWaBlocked == true {
+                            //for contact
+                            if indexPath.row == 3 {
+                                return 0
+                            }
+                        }else{
+                            //for contact
+                            if indexPath.row == 2 {
+                                return 0
+                            }
+                        }
+                    }else if isWAWillExpired == true {
+                        if isWaBlocked == true {
+                            //for contact
+                            if indexPath.row == 3 {
+                                return 0
+                            }
+                        }else{
+                            //for contact
+                            if indexPath.row == 2 {
+                                return 0
+                            }
+                        }
+                    } else {
+                        if isWaBlocked == true {
+                            //for contact
+                            if indexPath.row == 2 {
+                                return 0
+                            }
+                        }else{
+                            //for contact
+                            if indexPath.row == 1 {
+                                return 0
+                            }
+                        }
+                    }
+                } else {
+                    //for contact
+                    if indexPath.row == 1 {
+                        return 0
+                    }
+                }
+            }
         }
+        
         return UITableView.automaticDimension
     }
     

@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Customer Properties" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JsD-Eb-I5i">
-                        <rect key="frame" x="16" y="10" width="134" height="30"/>
+                        <rect key="frame" x="24" y="16" width="134" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="eSQ-MU-DV7"/>
                         </constraints>
@@ -28,7 +28,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FMa-cC-DjZ">
-                        <rect key="frame" x="0.0" y="40" width="320" height="53"/>
+                        <rect key="frame" x="0.0" y="46" width="320" height="53"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="53" id="guB-c8-5tC"/>
@@ -37,10 +37,10 @@
                     </tableView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="JsD-Eb-I5i" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="61J-S0-aoV"/>
+                    <constraint firstItem="JsD-Eb-I5i" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="24" id="61J-S0-aoV"/>
                     <constraint firstAttribute="trailing" secondItem="FMa-cC-DjZ" secondAttribute="trailing" id="AeI-tn-nS1"/>
                     <constraint firstItem="FMa-cC-DjZ" firstAttribute="top" secondItem="JsD-Eb-I5i" secondAttribute="bottom" id="AyM-Qs-Vns"/>
-                    <constraint firstItem="JsD-Eb-I5i" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="M3M-oN-E9u"/>
+                    <constraint firstItem="JsD-Eb-I5i" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="M3M-oN-E9u"/>
                     <constraint firstItem="FMa-cC-DjZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="TfW-Up-xFO"/>
                     <constraint firstAttribute="bottom" secondItem="FMa-cC-DjZ" secondAttribute="bottom" id="rdE-0K-2oG"/>
                 </constraints>
