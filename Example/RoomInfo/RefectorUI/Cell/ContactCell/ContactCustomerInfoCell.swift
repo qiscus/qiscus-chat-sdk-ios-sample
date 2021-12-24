@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QiscusCore
 
 class ContactCustomerInfoCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
@@ -17,6 +18,7 @@ class ContactCustomerInfoCell: UITableViewCell {
     var channelName = ""
     var channelType = ""
     var channelTypeString = ""
+    var room : RoomModel? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -32,6 +34,7 @@ class ContactCustomerInfoCell: UITableViewCell {
             vc.channelName = self.channelName
             vc.channelID = self.channelID
             vc.channelTypeString = self.channelTypeString
+            vc.room = self.room
             self.viewController?.navigationController?.pushViewController(vc, animated: true)
         }
 
@@ -44,6 +47,7 @@ class ContactCustomerInfoCell: UITableViewCell {
         vc.channelID = self.channelID
         vc.channelType = self.channelType
         vc.channelTypeString = self.channelTypeString
+        vc.room = self.room
         self.viewController?.navigationController?.pushViewController(vc, animated: true)
     }
     

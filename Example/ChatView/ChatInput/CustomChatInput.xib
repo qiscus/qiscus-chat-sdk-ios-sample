@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,6 +20,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomChatInput" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <connections>
                 <outlet property="attachButton" destination="eX8-dS-8SK" id="Hfi-oJ-JQY"/>
+                <outlet property="btStartChatNoActiveSession" destination="YsZ-gM-wSw" id="wdX-wB-qKz"/>
                 <outlet property="cancelReplyPreviewButton" destination="1bf-bN-MbY" id="DLP-Pc-gt6"/>
                 <outlet property="heightTextViewCons" destination="1uw-f4-jxK" id="eTz-FI-LeA"/>
                 <outlet property="heightView" destination="9Gk-gy-9FX" id="2ND-F2-rHB"/>
@@ -32,8 +33,10 @@
                 <outlet property="textView" destination="Vuj-gV-0ov" id="3wf-0l-RDP"/>
                 <outlet property="topReplyPreviewCons" destination="sf1-71-TYj" id="QIB-yK-pED"/>
                 <outlet property="viewColorReplyPreview" destination="fRP-9s-dco" id="NUt-zz-J8j"/>
+                <outlet property="viewNoActiveSession" destination="P9r-w0-mOh" id="eOd-Cf-mc2"/>
                 <outlet property="viewRecord" destination="uoH-2B-uu0" id="cKg-yi-WwS"/>
                 <outlet property="viewReply" destination="pzL-Ph-9pf" id="oQ2-nb-X3O"/>
+                <outlet property="viewShadowNoActiveSession" destination="tQp-v5-UZz" id="Ry7-iE-QCC"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -177,15 +180,58 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9r-w0-mOh" userLabel="ViewNoActiveSession">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tQp-v5-UZz" userLabel="ViewShadowNoActiveSession">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="40s-OH-mBM"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is no active session in this room. You can start a new session by clicking the Start Chat button." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QrK-80-oVt">
+                            <rect key="frame" x="24" y="19" width="327" height="50.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="0.61256377551020413" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YsZ-gM-wSw">
+                            <rect key="frame" x="24" y="89.5" width="327" height="40"/>
+                            <color key="backgroundColor" red="0.13725490196078433" green="0.69019607843137254" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="cON-ix-1co"/>
+                            </constraints>
+                            <state key="normal" title="Start Chat">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="YsZ-gM-wSw" firstAttribute="leading" secondItem="P9r-w0-mOh" secondAttribute="leading" constant="24" id="37C-Dg-hxy"/>
+                        <constraint firstItem="YsZ-gM-wSw" firstAttribute="top" secondItem="QrK-80-oVt" secondAttribute="bottom" constant="20" id="5BW-cW-myh"/>
+                        <constraint firstItem="tQp-v5-UZz" firstAttribute="leading" secondItem="P9r-w0-mOh" secondAttribute="leading" id="GlW-zd-yCC"/>
+                        <constraint firstAttribute="height" constant="149" id="Rie-Bi-Yoo"/>
+                        <constraint firstItem="tQp-v5-UZz" firstAttribute="top" secondItem="P9r-w0-mOh" secondAttribute="top" id="TdG-1C-BvC"/>
+                        <constraint firstItem="QrK-80-oVt" firstAttribute="top" secondItem="tQp-v5-UZz" secondAttribute="bottom" constant="18" id="aIx-zt-F4v"/>
+                        <constraint firstAttribute="trailing" secondItem="QrK-80-oVt" secondAttribute="trailing" constant="24" id="e61-je-d3y"/>
+                        <constraint firstAttribute="trailing" secondItem="YsZ-gM-wSw" secondAttribute="trailing" constant="24" id="eys-6Z-Fkv"/>
+                        <constraint firstAttribute="trailing" secondItem="tQp-v5-UZz" secondAttribute="trailing" id="ig4-b9-mkJ"/>
+                        <constraint firstItem="QrK-80-oVt" firstAttribute="leading" secondItem="P9r-w0-mOh" secondAttribute="leading" constant="24" id="s0Y-RH-PnI"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="8Om-te-Qpk"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Vuj-gV-0ov" firstAttribute="top" secondItem="pzL-Ph-9pf" secondAttribute="bottom" constant="8" id="2Gh-rV-HSc"/>
                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="9Gk-gy-9FX"/>
+                <constraint firstItem="P9r-w0-mOh" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="9se-id-hxo"/>
                 <constraint firstItem="uoH-2B-uu0" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="G4V-hS-XJc"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="trailing" secondItem="pzL-Ph-9pf" secondAttribute="trailing" constant="6" id="IlP-a9-npG"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="Vuj-gV-0ov" secondAttribute="trailing" id="MqH-nR-qm0"/>
+                <constraint firstItem="P9r-w0-mOh" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" id="N8t-ok-ppH"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" constant="1.5" id="Okz-vH-BXh"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" constant="1.5" id="SiA-rY-7RG"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="uoH-2B-uu0" secondAttribute="bottom" id="TMh-VH-0Pi"/>
@@ -193,6 +239,8 @@
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="Vuj-gV-0ov" secondAttribute="bottom" constant="11" id="bTd-G3-sYf"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="uoH-2B-uu0" secondAttribute="trailing" id="cft-9j-2Jh"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="gOG-2e-H61"/>
+                <constraint firstItem="P9r-w0-mOh" firstAttribute="trailing" secondItem="8Om-te-Qpk" secondAttribute="trailing" id="owP-ny-Nh3"/>
+                <constraint firstItem="P9r-w0-mOh" firstAttribute="bottom" secondItem="8Om-te-Qpk" secondAttribute="bottom" id="s2w-VH-lsx"/>
                 <constraint firstItem="pzL-Ph-9pf" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" constant="8" id="sf1-71-TYj"/>
                 <constraint firstItem="pzL-Ph-9pf" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" constant="10" id="uNX-uX-vKt"/>
                 <constraint firstAttribute="trailing" secondItem="KIv-HR-J1D" secondAttribute="trailing" id="zAX-l7-ZVv"/>

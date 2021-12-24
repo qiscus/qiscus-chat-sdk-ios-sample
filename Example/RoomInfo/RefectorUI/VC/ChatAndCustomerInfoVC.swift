@@ -1255,6 +1255,7 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         cell.channelID = self.channelID
         cell.channelType = self.channelType
         cell.channelTypeString = self.channelTypeString
+        cell.room = self.room
         
         if self.agentCanAccessContact == false {
             cell.isHidden = false

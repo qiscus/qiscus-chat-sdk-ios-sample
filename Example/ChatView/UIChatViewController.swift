@@ -1008,8 +1008,13 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     self.isWaBlocked = isWaBlocked
                     self.userID = userID
                     if channelID != 0 {
+                        //older version wa pricing
                         self.setupHSMAlertMessage()
                         self.getTemplateHSM(channelID: channelID)
+                        
+                        //new version wa pricing
+//                        self.checkWAActiveSession(channelID : channelID, waUserId: userID)
+                        
                     }
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
@@ -1554,6 +1559,42 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 } else {
                    //failed
                 }
+            }
+        }
+    }
+    
+    func checkWAActiveSession(channelID: Int, waUserId : String){
+        self.chatInput.hideNoActiveSession()
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        let params = ["wa_user_id": waUserId, "channel_id": channelID] as [String : Any]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/wa_sessions/show", method: .post, parameters: params, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.checkWAActiveSession(channelID: channelID, waUserId: waUserId)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    print("check result ini bro =\(json)")
+                    self.chatInput.hideNoActiveSession()
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
             }
         }
     }

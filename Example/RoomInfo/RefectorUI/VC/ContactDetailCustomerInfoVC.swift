@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import AlamofireImage
+import QiscusCore
 
 class ContactDetailCustomerInfoVC: UIViewController {
     @IBOutlet weak var ivBadgeChannel: UIImageView!
@@ -32,6 +33,8 @@ class ContactDetailCustomerInfoVC: UIViewController {
     var cursorAfterUnresolved = ""
     var cursorAfterResolved = ""
     var stillLoad = false
+    
+    var room : RoomModel? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,6 +80,23 @@ class ContactDetailCustomerInfoVC: UIViewController {
         }else{
             self.ivBadgeChannel.image = UIImage(named: "ic_custom_channel")
         }
+        
+        if let room = room {
+            if let option = room.options {
+                if !option.isEmpty {
+                    let json = JSON.init(parseJSON: option)
+                    let badgeURL = json["room_badge"].string ?? ""
+                    
+                    if !badgeURL.isEmpty && !badgeURL.contains(".svg") && badgeURL != "<null>" && badgeURL != "null"{
+                        self.ivBadgeChannel.af_setImage(withURL: URL(string:badgeURL)!)
+                        self.ivBadgeChannel.layer.cornerRadius = ivBadgeChannel.layer.frame.size.height / 2
+                    }
+                    
+                 }
+            }
+        }
+        
+        
         
         self.ivContact.image = UIImage(named: "ic_default_contact")
         self.ivContact.layer.cornerRadius = self.ivContact.frame.size.height / 2
@@ -377,7 +397,9 @@ extension ContactDetailCustomerInfoVC: UITableViewDataSource, UITableViewDelegat
         }
         
         cell.lbLastMessage.text = data.lastComment
+        cell.ivRoom.layer.cornerRadius = cell.ivRoom.layer.frame.height / 2
         cell.ivRoom.image = self.ivBadgeChannel.image
+      
         if channelName.isEmpty {
             cell.lbRoomName.text = self.channelTypeString
         }else{

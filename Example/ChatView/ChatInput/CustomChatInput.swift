@@ -23,6 +23,9 @@ protocol CustomChatInputDelegate {
 
 class CustomChatInput: UIChatInput {
     
+    @IBOutlet weak var viewShadowNoActiveSession: UIView!
+    @IBOutlet weak var btStartChatNoActiveSession: UIButton!
+    @IBOutlet weak var viewNoActiveSession: UIView!
     @IBOutlet weak var viewRecord: UIView!
     @IBOutlet weak var heightView: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
@@ -76,6 +79,8 @@ class CustomChatInput: UIChatInput {
         self.sendButton.setImage(UIImage(named: "ic_send")?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.sendButton.isHidden = true
         self.viewRecord.alpha = 0
+        
+        self.btStartChatNoActiveSession.layer.cornerRadius = self.btStartChatNoActiveSession.layer.frame.height / 2
     }
     
     @IBAction func clickSend(_ sender: Any) {
@@ -120,6 +125,34 @@ class CustomChatInput: UIChatInput {
     
     @IBAction func clickAttachment(_ sender: Any) {
         self.chatInputDelegate?.sendAttachment(button: self.attachButton)
+    }
+    
+    func showNoActiveSession(){
+        self.viewNoActiveSession.isHidden = false
+        self.viewNoActiveSession.alpha = 1
+        self.setHeight(169)
+        
+        self.sendButton.isHidden = true
+        self.viewRecord.alpha = 0
+        self.hideUIRecord(isHidden: true)
+        
+        //shadow
+        self.viewShadowNoActiveSession.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.30).cgColor
+        self.viewShadowNoActiveSession.layer.shadowOffset = CGSize(width: 1, height: 0.5)
+        self.viewShadowNoActiveSession.layer.shadowOpacity = 0.3
+        self.viewShadowNoActiveSession.layer.shadowRadius = 1.5
+        self.viewShadowNoActiveSession.backgroundColor = UIColor.white
+        
+    }
+    
+    func hideNoActiveSession(){
+        self.viewNoActiveSession.isHidden = true
+        self.viewNoActiveSession.alpha = 0
+        self.setHeight(50)
+        
+        self.sendButton.isHidden = true
+        self.viewRecord.alpha = 0
+        self.hideUIRecord(isHidden: false)
     }
     
     

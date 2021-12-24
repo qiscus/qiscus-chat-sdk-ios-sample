@@ -15,6 +15,7 @@ class HDCIContactChannelCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        ivBadgeChannel.layer.cornerRadius = ivBadgeChannel.layer.frame.size.height / 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
