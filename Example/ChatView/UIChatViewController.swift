@@ -1009,11 +1009,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     self.userID = userID
                     if channelID != 0 {
                         //older version wa pricing
-                        self.setupHSMAlertMessage()
-                        self.getTemplateHSM(channelID: channelID)
+//                        self.setupHSMAlertMessage()
+//                        self.getTemplateHSM(channelID: channelID)
                         
                         //new version wa pricing
-//                        self.checkWAActiveSession(channelID : channelID, waUserId: userID)
+                        self.checkWAActiveSession(channelID : channelID, waUserId: userID)
                         
                     }
                 }
@@ -1584,17 +1584,32 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                                 return
                             }
                         }
+                    } else if response.response?.statusCode == 400{
+                        let json = JSON(response.result.value)
+                        print("check result ini bro =\(json)")
+                        if json.rawString()?.contains("this room is not initiate any session yet") == true {
+                            self.chatInput.showNoActiveTemplate()
+                        }
                     }
                 } else {
                     //success
                     let json = JSON(response.result.value)
-                    print("check result ini bro =\(json)")
-                    self.chatInput.hideNoActiveSession()
+                    let isExpired = json["data"]["is_expired"].bool ?? true
+                    print("check result ini bro2 =\(json)")
+                    
+                    if isExpired == false{
+                        self.chatInput.hideNoActiveSession()
+                    }else{
+                        self.chatInput.showNoActiveSession()
+                    }
+                   
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
+                self.chatInput.showNoActiveSession()
             } else {
                 //failed
+                self.chatInput.showNoActiveSession()
             }
         }
     }
@@ -2353,6 +2368,10 @@ extension UIChatViewController: UIChatViewDelegate {
                 self.isWaBlocked = true
                 self.setupNavigationTitle()
                 self.setupToolbarHandle()
+            } else if lastComment?.message.lowercased().contains("customer initiated session is ended") == true{
+                self.chatInput.showNoActiveSession()
+            } else if lastComment?.message.lowercased().contains("bussiness initiated session is ended") == true{
+                self.chatInput.showNoActiveSession()
             }
         }
     }

@@ -35,6 +35,8 @@
 		2008F9F02762E7230084DA9A /* CustomerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9EF2762E7230084DA9A /* CustomerProperties.swift */; };
 		201410B7276787F300B5AE31 /* LoadMoreDetailConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */; };
 		201410B8276787F300B5AE31 /* LoadMoreDetailConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */; };
+		203E4FFE27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */; };
+		203E4FFF27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */; };
 		3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */; };
 		3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */; };
 		3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */; };
@@ -410,6 +412,8 @@
 		2008F9EF2762E7230084DA9A /* CustomerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerProperties.swift; sourceTree = "<group>"; };
 		201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreDetailConversationCell.swift; sourceTree = "<group>"; };
 		201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreDetailConversationCell.xib; sourceTree = "<group>"; };
+		203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSMCreditFreeSessionQuota.swift; sourceTree = "<group>"; };
+		203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HSMCreditFreeSessionQuota.xib; sourceTree = "<group>"; };
 		3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPostbackRightCell.swift; sourceTree = "<group>"; };
 		3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QPostbackRightCell.xib; sourceTree = "<group>"; };
 		3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAgentVC.swift; sourceTree = "<group>"; };
@@ -814,6 +818,8 @@
 				3DB48BAA25A7590900B5D760 /* HSMCell.xib */,
 				3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */,
 				3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */,
+				203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */,
+				203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */,
 			);
 			path = HSMCell;
 			sourceTree = "<group>";
@@ -1956,6 +1962,7 @@
 				3D7A396E25789B0E005E7FAE /* AgentCustomerInfoCell.xib in Resources */,
 				3DD6E59125AD664800BF96AD /* QVideoRightCell.xib in Resources */,
 				3D3BE50B26293BB60026A63C /* TelegramChannelCell.xib in Resources */,
+				203E4FFF27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib in Resources */,
 				3D7A397825793100005E7FAE /* AdditionalInformationVC.xib in Resources */,
 				3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */,
 				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
@@ -2224,6 +2231,7 @@
 				3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */,
 				3DC7FDD22585A8B400CCA763 /* BroadcastHistoryVC.swift in Sources */,
 				3DBBF0EB266DF54B005FBDAE /* LinearProgressBar.swift in Sources */,
+				203E4FFE27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift in Sources */,
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,

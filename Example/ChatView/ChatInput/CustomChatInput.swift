@@ -23,6 +23,8 @@ protocol CustomChatInputDelegate {
 
 class CustomChatInput: UIChatInput {
     
+    @IBOutlet weak var noActiveTemplate: UIView!
+   
     @IBOutlet weak var viewShadowNoActiveSession: UIView!
     @IBOutlet weak var btStartChatNoActiveSession: UIButton!
     @IBOutlet weak var viewNoActiveSession: UIView!
@@ -127,10 +129,27 @@ class CustomChatInput: UIChatInput {
         self.chatInputDelegate?.sendAttachment(button: self.attachButton)
     }
     
+    func showNoActiveTemplate(){
+        self.noActiveTemplate.isHidden = false
+        self.noActiveTemplate.alpha = 1
+        self.setHeight(90)
+        
+        
+        self.sendButton.isHidden = true
+        self.viewRecord.alpha = 0
+        self.hideUIRecord(isHidden: true)
+        
+        self.viewNoActiveSession.isHidden = true
+        self.viewNoActiveSession.alpha = 0
+    }
+    
     func showNoActiveSession(){
+        self.noActiveTemplate.isHidden = true
+        self.noActiveTemplate.alpha = 0
+        
         self.viewNoActiveSession.isHidden = false
         self.viewNoActiveSession.alpha = 1
-        self.setHeight(169)
+        self.setHeight(149)
         
         self.sendButton.isHidden = true
         self.viewRecord.alpha = 0
@@ -146,6 +165,9 @@ class CustomChatInput: UIChatInput {
     }
     
     func hideNoActiveSession(){
+        self.noActiveTemplate.isHidden = true
+        self.noActiveTemplate.alpha = 0
+        
         self.viewNoActiveSession.isHidden = true
         self.viewNoActiveSession.alpha = 0
         self.setHeight(50)
