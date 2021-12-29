@@ -28,6 +28,7 @@
                 <outlet property="ivReplyPreviewWidth" destination="pYl-vM-6wd" id="2VE-cD-djm"/>
                 <outlet property="lbReplyPreview" destination="ruO-le-rJd" id="F5g-EY-eh7"/>
                 <outlet property="lbReplyPreviewSenderName" destination="Yk8-3h-VXh" id="Ixb-yg-Ksa"/>
+                <outlet property="noActiveTemplate" destination="yFQ-oz-oR1" id="0Os-AC-L8N"/>
                 <outlet property="replyPreviewCons" destination="vJy-aR-RDF" id="9Mt-mz-efW"/>
                 <outlet property="sendButton" destination="KIv-HR-J1D" id="zYB-tv-zsb"/>
                 <outlet property="textView" destination="Vuj-gV-0ov" id="3wf-0l-RDP"/>
@@ -180,6 +181,25 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yFQ-oz-oR1" userLabel="ViewNoActiveTemplate">
+                    <rect key="frame" x="0.0" y="59" width="375" height="90"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You don’t have any Messages Template. Please create template first in Outbound Menu Web." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Vc-ko-PVq">
+                            <rect key="frame" x="10" y="27" width="355" height="36"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="90" id="6l2-Ke-7gK"/>
+                        <constraint firstAttribute="trailing" secondItem="4Vc-ko-PVq" secondAttribute="trailing" constant="10" id="DlH-dX-WIj"/>
+                        <constraint firstItem="4Vc-ko-PVq" firstAttribute="leading" secondItem="yFQ-oz-oR1" secondAttribute="leading" constant="10" id="EwD-7j-s6y"/>
+                        <constraint firstItem="4Vc-ko-PVq" firstAttribute="centerX" secondItem="yFQ-oz-oR1" secondAttribute="centerX" id="Rkw-z0-yrP"/>
+                        <constraint firstItem="4Vc-ko-PVq" firstAttribute="centerY" secondItem="yFQ-oz-oR1" secondAttribute="centerY" id="qqE-fS-ME3"/>
+                    </constraints>
+                </view>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9r-w0-mOh" userLabel="ViewNoActiveSession">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
                     <subviews>
@@ -229,12 +249,15 @@
                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="9Gk-gy-9FX"/>
                 <constraint firstItem="P9r-w0-mOh" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="9se-id-hxo"/>
                 <constraint firstItem="uoH-2B-uu0" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="G4V-hS-XJc"/>
+                <constraint firstItem="yFQ-oz-oR1" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="GZb-lf-O9x"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="trailing" secondItem="pzL-Ph-9pf" secondAttribute="trailing" constant="6" id="IlP-a9-npG"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="Vuj-gV-0ov" secondAttribute="trailing" id="MqH-nR-qm0"/>
                 <constraint firstItem="P9r-w0-mOh" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" id="N8t-ok-ppH"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" constant="1.5" id="Okz-vH-BXh"/>
+                <constraint firstItem="yFQ-oz-oR1" firstAttribute="trailing" secondItem="8Om-te-Qpk" secondAttribute="trailing" id="R6x-R4-xP0"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" constant="1.5" id="SiA-rY-7RG"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="uoH-2B-uu0" secondAttribute="bottom" id="TMh-VH-0Pi"/>
+                <constraint firstItem="yFQ-oz-oR1" firstAttribute="bottom" secondItem="8Om-te-Qpk" secondAttribute="bottom" id="Ulk-2R-Rar"/>
                 <constraint firstItem="uoH-2B-uu0" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" id="aAl-gq-pv2"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="Vuj-gV-0ov" secondAttribute="bottom" constant="11" id="bTd-G3-sYf"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="uoH-2B-uu0" secondAttribute="trailing" id="cft-9j-2Jh"/>

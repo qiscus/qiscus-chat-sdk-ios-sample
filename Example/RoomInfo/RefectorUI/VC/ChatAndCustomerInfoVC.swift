@@ -77,6 +77,10 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     var contactID : Int = 0
     var agentCanAccessContact : Bool = true
     
+    var creditWA : String = "0"
+    var freeSessionWA : Int = 0
+    var quotaWA : Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -265,6 +269,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         self.tableView.register(UINib(nibName: "HSMWillExpireSoonCell", bundle: nil), forCellReuseIdentifier: "HSMWillExpireSoonCellIdentifire")
         self.tableView.register(UINib(nibName: "WABlockedCell", bundle: nil), forCellReuseIdentifier: "WABlockedCellIdentifire")
         self.tableView.register(UINib(nibName: "ContactCustomerInfoCell", bundle: nil), forCellReuseIdentifier: "ContactCustomerInfoCellIdentifire")
+        self.tableView.register(UINib(nibName: "HSMCreditFreeSessionQuota", bundle: nil), forCellReuseIdentifier: "HSMCreditFreeSessionQuotaIdentifire")
         
         
         self.tableView.tableFooterView = UIView()
@@ -393,6 +398,45 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                         
                     }
                     
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func checkWACreditFreeSessionQuota(channelID: Int){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/credits/\(channelID)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.checkWACreditFreeSessionQuota(channelID: channelID)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    let credit = json["data"]["credits"].string ?? "0"
+                    let freeSession = json["data"]["free_session"].int ?? 0
+                    let quota = json["data"]["quota"].int ?? 0
+                    
+                    self.creditWA = credit
+                    self.freeSessionWA = freeSession
+                    self.quotaWA = quota
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
@@ -999,7 +1043,10 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
                         if channelID != 0 {
-                            self.getTemplateHSM(channelID: channelID)
+                            if self.isTypeWA{
+                                self.getTemplateHSM(channelID: channelID)
+                                self.checkWACreditFreeSessionQuota(channelID: channelID)
+                            }
                         }
                     }
                     
@@ -1316,15 +1363,9 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         cell.btShowAlertInfo.addTarget(self, action: #selector(buttonWAInfoAction), for: .touchUpInside)
         cell.btSendMessageTemplate.addTarget(self, action: #selector(buttonSendWaTemplate), for: .touchUpInside)
         
-        if self.enableHSM == false || self.hsmQuota == 0 {
-            cell.btSendMessageTemplateHeightCons.constant = 0
-            cell.topButtonSendMessageTemplateCons.constant = 0
-            cell.btSendMessageTemplate.isHidden = true
-        }else{
-            cell.btSendMessageTemplateHeightCons.constant = 40
-            cell.topButtonSendMessageTemplateCons.constant = 20
-            cell.btSendMessageTemplate.isHidden = false
-        }
+        cell.btSendMessageTemplateHeightCons.constant = 0
+        cell.topButtonSendMessageTemplateCons.constant = 0
+        cell.btSendMessageTemplate.isHidden = true
         
         return cell
     }
@@ -1336,42 +1377,78 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    private func HSMCreditFreeSessionQuotaCell(indexPath: IndexPath)-> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HSMCreditFreeSessionQuotaIdentifire", for: indexPath) as! HSMCreditFreeSessionQuota
+        cell.lbCredit.text = "\(self.creditWA) Credit"
+        cell.lbQuota.text = "\(self.quotaWA) Quota"
+        cell.lbFreeSession.text = "\(self.freeSessionWA) Sessions"
+        
+        if self.creditWA.count == 0 {
+            cell.lbCredit.textColor = UIColor.red
+        }else {
+            cell.lbCredit.textColor = ColorConfiguration.defaultColorTosca
+        }
+        
+        if Int(self.quotaWA) == 0{
+            cell.lbQuota.textColor = UIColor.red
+            cell.lbQuota.isHidden = true
+            cell.lbQuota.alpha = 0
+            cell.heightQuotaSatu.constant = 0
+            cell.heightQuotaDua.constant = 0
+        }else{
+            cell.lbQuota.alpha = 1
+            cell.lbQuota.isHidden = false
+            cell.lbQuota.textColor = ColorConfiguration.defaultColorTosca
+            cell.heightQuotaSatu.constant = 21
+            cell.heightQuotaDua.constant = 21
+        }
+        
+        if self.freeSessionWA == 0{
+            cell.lbFreeSession.textColor = UIColor.red
+        }else{
+            cell.lbFreeSession.textColor = ColorConfiguration.defaultColorTosca
+        }
+       
+        
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.agentCanAccessContact == false {
             if isTypeWA == true {
                 if isWAExpired == true {
                     if isWaBlocked == true {
                         //for contact
-                        if indexPath.row == 3 {
+                        if indexPath.row == 4 {
                             return 0
                         }
                     }else{
                         //for contact
-                        if indexPath.row == 2 {
+                        if indexPath.row == 3 {
                             return 0
                         }
                     }
                 }else if isWAWillExpired == true {
                     if isWaBlocked == true {
                         //for contact
-                        if indexPath.row == 3 {
+                        if indexPath.row == 4 {
                             return 0
                         }
                     }else{
                         //for contact
-                        if indexPath.row == 2 {
+                        if indexPath.row == 3 {
                             return 0
                         }
                     }
                 } else {
                     if isWaBlocked == true {
                         //for contact
-                        if indexPath.row == 2 {
+                        if indexPath.row == 3 {
                             return 0
                         }
                     }else{
                         //for contact
-                        if indexPath.row == 1 {
+                        if indexPath.row == 2 {
                             return 0
                         }
                     }
@@ -1388,36 +1465,36 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     if isWAExpired == true {
                         if isWaBlocked == true {
                             //for contact
-                            if indexPath.row == 3 {
+                            if indexPath.row == 4 {
                                 return 0
                             }
                         }else{
                             //for contact
-                            if indexPath.row == 2 {
+                            if indexPath.row == 3 {
                                 return 0
                             }
                         }
                     }else if isWAWillExpired == true {
                         if isWaBlocked == true {
                             //for contact
-                            if indexPath.row == 3 {
+                            if indexPath.row == 4 {
                                 return 0
                             }
                         }else{
                             //for contact
-                            if indexPath.row == 2 {
+                            if indexPath.row == 3 {
                                 return 0
                             }
                         }
                     } else {
                         if isWaBlocked == true {
                             //for contact
-                            if indexPath.row == 2 {
+                            if indexPath.row == 3 {
                                 return 0
                             }
                         }else{
                             //for contact
-                            if indexPath.row == 1 {
+                            if indexPath.row == 2 {
                                 return 0
                             }
                         }
@@ -1442,21 +1519,21 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         if isTypeWA == true {
             if isWAExpired == true {
                 if isWaBlocked == true {
-                    return 10
+                    return 11
                 } else {
-                    return 9
+                    return 10
                 }
             } else if isWAWillExpired == true {
                 if isWaBlocked == true {
-                    return 10
+                    return 11
                 } else {
-                    return 9
+                    return 10
                 }
             } else {
                 if isWaBlocked == true {
-                    return 9
+                    return 10
                 }else{
-                    return 8
+                    return 9
                 }
             }
         } else {
@@ -1476,6 +1553,30 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 2 {
                         return HSMCell(indexPath: indexPath)
                     } else if indexPath.row == 3 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 7 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 10 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }else{
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return HSMCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
                         return contactCell(indexPath: indexPath)
                     } else if indexPath.row == 4 {
                         return completeTaskCell(indexPath: indexPath)
@@ -1488,26 +1589,6 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 8 {
                         return customerTagsInfoCell(indexPath: indexPath)
                     } else if indexPath.row == 9 {
-                        return agentCustomerInfoCell(indexPath: indexPath)
-                    }
-                }else{
-                    if indexPath.row == 0 {
-                        return customerInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return HSMCell(indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return contactCell(indexPath: indexPath)
-                    } else if indexPath.row == 3 {
-                        return completeTaskCell(indexPath: indexPath)
-                    } else if indexPath.row == 4 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 5 {
-                        return broadcastHistoryCell(indexPath: indexPath)
-                    } else if indexPath.row == 6 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 7 {
-                        return customerTagsInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 8 {
                         return agentCustomerInfoCell(indexPath: indexPath)
                     }
                 }
@@ -1521,6 +1602,54 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 2 {
                         return HSMWillExpireSoonCell(indexPath: indexPath)
                     } else if indexPath.row == 3 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 7 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 10 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }else{
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return HSMWillExpireSoonCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 6 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }
+            } else {
+                if isWaBlocked == true {
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return waBlockedCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
                         return contactCell(indexPath: indexPath)
                     } else if indexPath.row == 4 {
                         return completeTaskCell(indexPath: indexPath)
@@ -1539,7 +1668,7 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     if indexPath.row == 0 {
                         return customerInfoCell(indexPath: indexPath)
                     } else if indexPath.row == 1 {
-                        return HSMWillExpireSoonCell(indexPath: indexPath)
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
                     } else if indexPath.row == 2 {
                         return contactCell(indexPath: indexPath)
                     } else if indexPath.row == 3 {
@@ -1553,46 +1682,6 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 7 {
                         return customerTagsInfoCell(indexPath: indexPath)
                     } else if indexPath.row == 8 {
-                        return agentCustomerInfoCell(indexPath: indexPath)
-                    }
-                }
-            } else {
-                if isWaBlocked == true {
-                    if indexPath.row == 0 {
-                        return customerInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return waBlockedCell(indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return contactCell(indexPath: indexPath)
-                    } else if indexPath.row == 3 {
-                        return completeTaskCell(indexPath: indexPath)
-                    } else if indexPath.row == 4 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 5 {
-                        return broadcastHistoryCell(indexPath: indexPath)
-                    } else if indexPath.row == 6 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 7 {
-                        return customerTagsInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 8 {
-                        return agentCustomerInfoCell(indexPath: indexPath)
-                    }
-                }else{
-                    if indexPath.row == 0 {
-                        return customerInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return contactCell(indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return completeTaskCell(indexPath: indexPath)
-                    } else if indexPath.row == 3 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 4 {
-                        return broadcastHistoryCell(indexPath: indexPath)
-                    } else if indexPath.row == 5 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 6 {
-                        return customerTagsInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 7 {
                         return agentCustomerInfoCell(indexPath: indexPath)
                     }
                 }
@@ -1622,6 +1711,17 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         if isTypeWA == true {
             if isWAExpired == true {
                 if isWaBlocked == true {
+                    if indexPath.row == 6 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 7 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 8 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
+                }else{
                     if indexPath.row == 5 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
@@ -1629,23 +1729,23 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
                     }else if indexPath.row == 7 {
-                        self.showForNotes()
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                    }
-                }else{
-                    if indexPath.row == 4 {
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                        self.pushToAdditonalInformation()
-                    } else if indexPath.row == 5 {
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                        self.pushToBroadcastHistory()
-                    }else if indexPath.row == 6 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
                 }
             } else if isWAWillExpired == true {
                 if isWaBlocked == true {
+                    if indexPath.row == 6 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 7 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 8 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
+                }else{
                     if indexPath.row == 5 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
@@ -1653,17 +1753,6 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
                     }else if indexPath.row == 7 {
-                        self.showForNotes()
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                    }
-                }else{
-                    if indexPath.row == 4 {
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                        self.pushToAdditonalInformation()
-                    } else if indexPath.row == 5 {
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                        self.pushToBroadcastHistory()
-                    }else if indexPath.row == 6 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
@@ -1671,6 +1760,17 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                 
             } else {
                 if isWaBlocked == true {
+                    if indexPath.row == 5 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToAdditonalInformation()
+                    } else if indexPath.row == 6 {
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                        self.pushToBroadcastHistory()
+                    }else if indexPath.row == 7 {
+                        self.showForNotes()
+                        self.tableView.deselectRow(at: indexPath, animated: true)
+                    }
+                }else{
                     if indexPath.row == 4 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
@@ -1678,17 +1778,6 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
                     }else if indexPath.row == 6 {
-                        self.showForNotes()
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                    }
-                }else{
-                    if indexPath.row == 3 {
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                        self.pushToAdditonalInformation()
-                    } else if indexPath.row == 4 {
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                        self.pushToBroadcastHistory()
-                    }else if indexPath.row == 5 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
