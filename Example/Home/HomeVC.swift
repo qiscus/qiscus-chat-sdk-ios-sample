@@ -1469,7 +1469,10 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     
                     for i in self.featuresData {
                         if i.name.lowercased() == "CONTACT".lowercased(){
-                            UserDefaults.standard.setStatusFeatureContact(value: i.status)
+                            
+                            //UserDefaults.standard.setStatusFeatureContact(value: i.status)
+                            //harcode always show
+                            UserDefaults.standard.setStatusFeatureContact(value: 1)
                         }
                         
                         if i.name.lowercased() == "INBOX".lowercased(){

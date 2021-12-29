@@ -832,7 +832,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
             self.getListBroadCastHistory(roomID: room.id)
             self.getCustomerInfo()
             if let statusFeatureSubmitTicket = UserDefaults.standard.getStatusFeatureSubmitTicket() {
-                if  statusFeatureSubmitTicket == 1{
+                if  statusFeatureSubmitTicket == 1 || statusFeatureSubmitTicket == 0{
                     self.getListSubmitTicket()
                 }
             }

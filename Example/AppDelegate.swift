@@ -242,6 +242,7 @@ extension AppDelegate {
             defaults.removeObject(forKey: "featureOverallAgentAnalytics")
             defaults.removeObject(forKey: "featureCustomAnalytics")
             defaults.removeObject(forKey: "featureAnalyticsWA")
+            defaults.removeObject(forKey: "featureSubmitTicket")
             defaults.removeObject(forKey: "featureContact")
             defaults.removeObject(forKey: "email_multichannel")
             defaults.set(0, forKey: "unreadBadge")
