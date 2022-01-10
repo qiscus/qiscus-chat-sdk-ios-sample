@@ -36,6 +36,17 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
     var progressView = UIProgressView(progressViewStyle: UIProgressView.Style.bar)
     var urlCustomAnalytics = ""
     var isReload = false
+    
+    //wa
+    @IBOutlet weak var btWA: UIButton!
+    @IBOutlet weak var btWACredits: UIButton!
+    @IBOutlet weak var viewFrontWebView: UIView!
+    @IBOutlet weak var viewPager: UIView!
+    var resultsWAChannelModel = [WAChannelModel]()
+    @IBOutlet weak var viewWAChannels: UIView!
+    @IBOutlet weak var lbWAChannels: UILabel!
+    @IBOutlet weak var tableViewWAChannels: UITableView!
+    @IBOutlet weak var tableViewWAChannelsHeight: NSLayoutConstraint!
     override func viewDidLoad() {
         settings.style.selectedBarHeight = 3
         settings.style.buttonBarItemLeftRightMargin = 0
@@ -47,6 +58,7 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         
         super.viewDidLoad()
 
+        self.setupDataWAChannels()
         self.setupNavBar()
         self.setupSearch()
         self.setupTableView()
@@ -60,6 +72,26 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
             }
         }
         
+        self.btWA.layer.cornerRadius = self.btWA.layer.frame.size.height / 2
+        self.btWA.backgroundColor = ColorConfiguration.defaultColorTosca
+        self.btWA.setTitleColor(UIColor.white, for: .normal)
+        
+        self.btWACredits.layer.borderWidth = 1
+        self.btWACredits.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
+        self.btWACredits.layer.cornerRadius = self.btWA.layer.frame.size.height / 2
+        self.btWACredits.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+        self.btWACredits.backgroundColor = UIColor.white
+        
+        
+        self.viewWAChannels.layer.shadowColor = UIColor.black.cgColor
+        self.viewWAChannels.layer.shadowOffset = CGSize(width: 1, height: 1)
+        self.viewWAChannels.layer.shadowOpacity = 0.3
+        self.viewWAChannels.layer.shadowRadius = 1.5
+        self.viewWAChannels.layer.cornerRadius = 8
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTapWAChannels(_:)))
+        viewWAChannels.addGestureRecognizer(tap)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +104,137 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         self.progressView.removeFromSuperview()
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+    @objc func handleTapWAChannels(_ sender: UITapGestureRecognizer? = nil) {
+        self.actionTableView()
+    }
+    
+    func actionTableView(){
+        if tableViewWAChannels.isHidden == true {
+            self.tableViewWAChannels.isHidden = false
+            self.containerView.frame = CGRect(x: self.containerView.frame.origin.x, y: self.containerView.frame.origin.y + CGFloat(self.resultsWAChannelModel.count * 50), width: self.containerView.frame.width, height: self.containerView.frame.height - 10)
+        }else{
+            self.tableViewWAChannels.isHidden = true
+            self.containerView.frame = CGRect(x: self.containerView.frame.origin.x, y: self.containerView.frame.origin.y - CGFloat(self.resultsWAChannelModel.count * 50), width: self.containerView.frame.width, height: self.containerView.frame.height - 10)
+        }
+    }
+    
+    func hideWAchannel(){
+        self.btWA.isHidden = true
+        self.btWACredits.isHidden = true
+        
+        self.btWA.layer.cornerRadius = self.btWA.layer.frame.size.height / 2
+        self.btWA.backgroundColor = ColorConfiguration.defaultColorTosca
+        self.btWA.setTitleColor(UIColor.white, for: .normal)
+        
+        self.btWACredits.layer.borderWidth = 1
+        self.btWACredits.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
+        self.btWACredits.layer.cornerRadius = self.btWA.layer.frame.size.height / 2
+        self.btWACredits.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+        self.btWACredits.backgroundColor = UIColor.white
+        
+        self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 40, width: self.containerView.frame.width, height: self.viewFrontWebView.frame.height - 40)
+    }
+    
+    func showWAchannel(){
+        self.btWA.isHidden = false
+        self.btWACredits.isHidden = false
+        
+        self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 105, width: self.viewFrontWebView.frame.width, height: self.viewFrontWebView.frame.height - 105)
+    }
+    
+    @IBAction func waCreditsAction(_ sender: Any) {
+        self.btWACredits.layer.cornerRadius = self.btWACredits.layer.frame.size.height / 2
+        self.btWACredits.backgroundColor = ColorConfiguration.defaultColorTosca
+        self.btWACredits.setTitleColor(UIColor.white, for: .normal)
+        
+        self.btWA.layer.borderWidth = 1
+        self.btWA.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
+        self.btWA.layer.cornerRadius = self.btWA.layer.frame.size.height / 2
+        self.btWA.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+        self.btWA.backgroundColor = UIColor.white
+        
+        self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 155, width: self.viewFrontWebView.frame.width, height: self.viewFrontWebView.frame.height - 155)
+        
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "waCreditsAction"), object: nil)
+    }
+    
+    @IBAction func waAction(_ sender: Any) {
+        self.btWA.layer.cornerRadius = self.btWA.layer.frame.size.height / 2
+        self.btWA.backgroundColor = ColorConfiguration.defaultColorTosca
+        self.btWA.setTitleColor(UIColor.white, for: .normal)
+        
+        self.btWACredits.layer.borderWidth = 1
+        self.btWACredits.layer.borderColor = ColorConfiguration.defaultColorTosca.cgColor
+        self.btWACredits.layer.cornerRadius = self.btWA.layer.frame.size.height / 2
+        self.btWACredits.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
+        self.btWACredits.backgroundColor = UIColor.white
+        
+        self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 105, width: self.viewFrontWebView.frame.width, height: self.viewFrontWebView.frame.height - 105)
+        
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "waAction"), object: nil)
+    }
+    
+    func setupDataWAChannels(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/channels", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.setupDataWAChannels()
+                            } else {
+                                
+                                return
+                            }
+                        }
+                    }else{
+                        //show error
+                        let error = JSON(response.result.value)["errors"].string ?? "Something wrong"
+                        
+                        let vc = AlertAMFailedUpdate()
+                        vc.errorMessage = error
+                        vc.modalPresentationStyle = .overFullScreen
+                        
+                        self.navigationController?.present(vc, animated: false, completion: {
+                            
+                        })
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    let waChannels = json["data"]["wa_channels"].array
+                    
+                    if waChannels?.count != 0 {
+                        for data in waChannels! {
+                            let dataWA = WAChannelModel(json: data)
+                            self.resultsWAChannelModel.append(dataWA)
+                        }
+
+                        UserDefaults.standard.setSelectWAChannelsAnalytics(value: self.resultsWAChannelModel.first!.id)
+                        
+                        self.lbWAChannels.text = self.resultsWAChannelModel.first!.name
+                        
+                        self.tableViewWAChannelsHeight.constant = CGFloat(50 * self.resultsWAChannelModel.count)
+                        self.tableViewWAChannels.reloadData()
+                    }
+                    
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
     @IBAction func contactUsAction(_ sender: Any) {
         guard let url = URL(string: "https://www.qiscus.com/contact") else {
           return //be safe
@@ -133,7 +296,7 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
             self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
             self.getURLCustomAnalaytics()
         }else{
-            self.viewForWebView.isHidden = false
+            self.viewFrontWebView.isHidden = false
             self.viewNoCustomAnalytics.isHidden = true
             self.webView.load(URLRequest(url: URL(string: urlCustomAnalytics)!))
         }
@@ -175,16 +338,16 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         }
         
         let buttonBarViewHeight = self.buttonBarView.frame.size.height
-        buttonBarView.frame = CGRect(x: viewForWebView.frame.origin.x, y: viewForWebView.frame.origin.y - 30, width: buttonBarView.frame.width, height: buttonBarView.frame.height)
+        buttonBarView.frame = CGRect(x: viewPager.frame.origin.x, y: viewPager.frame.origin.y - 30, width: buttonBarView.frame.width, height: buttonBarView.frame.height)
         
         
-        var containerViewRect = self.viewForWebView.frame
-        containerViewRect.origin = self.buttonBarView.frame.origin
+        var containerViewRect = self.viewPager.frame
+        containerViewRect.origin = self.viewPager.frame.origin
         containerViewRect.size.height = containerViewRect.size.height
         
         self.containerView.frame = containerViewRect
         
-        self.containerView.frame = CGRect(x: self.containerView.frame.origin.x, y: self.containerView.frame.origin.y + 44, width: self.containerView.frame.width, height: self.containerView.frame.height - 10)
+        self.containerView.frame = CGRect(x: self.containerView.frame.origin.x, y: self.containerView.frame.origin.y + 14, width: self.containerView.frame.width, height: self.containerView.frame.height - 10)
         
         
         self.containerView.isHidden = false
@@ -201,12 +364,12 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
                 self.arraySelectAnalyticsType.append("Overall agent analytics")
                 self.setupOverallAgentAndAgentAnalytics()
             }else{
-                self.viewForWebView.isHidden = true
+                self.viewFrontWebView.isHidden = true
                 self.containerView.isHidden = true
                 self.buttonBarView.isHidden = true
             }
         }else{
-            self.viewForWebView.isHidden = true
+            self.viewFrontWebView.isHidden = true
             self.containerView.isHidden = true
             self.buttonBarView.isHidden = true
         }
@@ -215,7 +378,7 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
                 self.arraySelectAnalyticsType.append("Analytics on each agent")
             }else{
                 self.arraySelectAnalyticsType.append("Analytics agent")
-                self.viewForWebView.isHidden = false
+                self.viewFrontWebView.isHidden = false
                 self.containerView.isHidden = false
                 self.buttonBarView.isHidden = false
                 
@@ -250,6 +413,11 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         self.tableViewSelectAnalyticsType.dataSource = self
         self.tableViewSelectAnalyticsType.register(UINib(nibName: "SelectAnalyticsCell", bundle: nil), forCellReuseIdentifier: "SelectAnalyticsCellIdentifire")
         self.tableViewSelectAnalyticsType.tableFooterView = UIView()
+        
+        self.tableViewWAChannels.delegate = self
+        self.tableViewWAChannels.dataSource = self
+        self.tableViewWAChannels.register(UINib(nibName: "SelectAnalyticsCell", bundle: nil), forCellReuseIdentifier: "SelectAnalyticsCellIdentifire")
+        self.tableViewWAChannels.tableFooterView = UIView()
         
         self.heightTableViewSelectAnalyticsType.constant = CGFloat((55 * self.countSelectAnalytics))
         
@@ -378,33 +546,33 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
                                 self.getURLCustomAnalaytics()
                             } else {
                                 //failed
-                                self.viewForWebView.isHidden = true
+                                self.viewFrontWebView.isHidden = true
                             }
                         }
                     }else if response.response?.statusCode == 400{
                        //show ui disable
-                        self.viewForWebView.isHidden = true
+                        self.viewFrontWebView.isHidden = true
                         self.viewNoCustomAnalytics.isHidden = false
                     }else{
                         self.viewNoCustomAnalytics.isHidden = true
-                        self.viewForWebView.isHidden = true
+                        self.viewFrontWebView.isHidden = true
                     }
                     
                 } else {
-                    self.viewForWebView.isHidden = false
+                    self.viewFrontWebView.isHidden = false
                     self.viewNoCustomAnalytics.isHidden = true
                     //success
                     let payload = JSON(response.result.value)
                     let url = payload["data"]["analytics_url"].string ?? "https://"
                     self.urlCustomAnalytics = url
-                    self.viewForWebView.isHidden = false
+                    self.viewFrontWebView.isHidden = false
                     self.webView.load(URLRequest(url: URL(string: url)!))
                     
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
-                self.viewForWebView.isHidden = true
+                self.viewFrontWebView.isHidden = true
             } else {
-                self.viewForWebView.isHidden = true
+                self.viewFrontWebView.isHidden = true
             }
         }
     }
@@ -414,6 +582,8 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.tableView == tableView {
             return self.agentsData.count
+        }else if self.tableViewWAChannels == tableView {
+            return self.resultsWAChannelModel.count
         }else{
             return countSelectAnalytics
         }
@@ -436,6 +606,11 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
             cell.setupUIAgent(data: data)
             
             return cell
+        }else if tableView == self.tableViewWAChannels{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SelectAnalyticsCellIdentifire", for: indexPath) as! SelectAnalyticsCell
+            cell.lbTypeAnalytics.text = self.resultsWAChannelModel[indexPath.row].name
+            cell.lbTypeAnalytics.font = UIFont.systemFont(ofSize: 14.0)
+            return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectAnalyticsCellIdentifire", for: indexPath) as! SelectAnalyticsCell
             cell.lbTypeAnalytics.text = arraySelectAnalyticsType[indexPath.row]
@@ -452,6 +627,16 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
                 vc.agentId = self.agentsData[indexPath.row].id
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        }else if tableView == self.tableViewWAChannels {
+            if self.resultsWAChannelModel.count != 0 {
+                UserDefaults.standard.setSelectWAChannelsAnalytics(value: self.resultsWAChannelModel[indexPath.row].id)
+                
+                self.lbWAChannels.text = self.resultsWAChannelModel[indexPath.row].name
+                
+                self.actionTableView()
+                
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "waCreditsAction"), object: nil)
+            }
         }else{
             let data = arraySelectAnalyticsType[indexPath.row]
             self.lbSelected.text = data
@@ -461,12 +646,12 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
                 self.setupWebViewCustomAnalytics()
             }else if data.contains("Analytics on each agent") == true{
                 self.viewNoCustomAnalytics.isHidden = true
-                self.viewForWebView.isHidden = true
+                self.viewFrontWebView.isHidden = true
                 self.containerView.isHidden = true
                 self.buttonBarView.isHidden = true
             }else{
                 self.viewNoCustomAnalytics.isHidden = true
-                self.viewForWebView.isHidden = false
+                self.viewFrontWebView.isHidden = false
                 self.containerView.isHidden = false
                 self.buttonBarView.isHidden = false
                 
@@ -528,6 +713,7 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         let child_2 = OverallAgentPerformance()
         let child_3 = OverallAgentChats()
         let child_4 = OverallAgentWA()
+        child_4.vc = self
         let child_5 = OverallAgentOthers()
         let child_6 = PerformanceAgentVC()
         child_6.agentId = UserDefaults.standard.getAccountId() ?? 0

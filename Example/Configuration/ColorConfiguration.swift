@@ -81,6 +81,8 @@ class ColorConfiguration: NSObject {
     
     static var alertTextColorHSM = UIColor(red: 85/255.0, green: 85/255.0, blue: 85/255.0, alpha:1.0)
     
+    static var alertTextColorWAInitiate = UIColor(red: 0, green: 0, blue: 0, alpha: 0.45)
+    
     static var avatarBackgroundColor:[UIColor] = [
         UIColor(red: 1, green: 23/255, blue: 68/255, alpha: 1),
         UIColor(red: 61/255, green: 90/255, blue: 254/255, alpha: 1),

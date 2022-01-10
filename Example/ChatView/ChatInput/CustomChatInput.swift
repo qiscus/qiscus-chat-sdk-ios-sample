@@ -19,6 +19,7 @@ import Alamofire
 protocol CustomChatInputDelegate {
     func sendAttachment(button : UIButton)
     func sendMessage(message: CommentModel)
+    func startChat()
 }
 
 class CustomChatInput: UIChatInput {
@@ -85,6 +86,9 @@ class CustomChatInput: UIChatInput {
         self.btStartChatNoActiveSession.layer.cornerRadius = self.btStartChatNoActiveSession.layer.frame.height / 2
     }
     
+    @IBAction func startChat(_ sender: Any) {
+        self.chatInputDelegate?.startChat()
+    }
     @IBAction func clickSend(_ sender: Any) {
         if(self.isRecording == true){
             if !self.processingAudio {
@@ -565,6 +569,144 @@ extension CustomChatInput : UITextViewDelegate {
 }
 
 extension UIChatViewController : CustomChatInputDelegate {
+    func startChat() {
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(self.room?.id ?? "0")/estimation_charge", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.startChat()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    var credits = payload["data"]["current_balance"]["credits"].string ?? "0"
+                    let freeSession = payload["data"]["current_balance"]["free_session"].int ?? 0
+                    
+                    if Double(credits)?.precised(10) == Double(0).precised(10){
+                        let check = payload["data"]["current_balance"]["credits"].int ?? 0
+                        credits = "\(check)"
+                    }
+                    let quota = payload["data"]["current_balance"]["quota"].int ?? 0
+                    
+                    let estimationPrice = payload["data"]["estimation_charge"]["estimation_price"].string ?? "0"
+                    let creditSource = payload["data"]["estimation_charge"]["credit_source"].string ?? ""
+                    let pricingCategory = payload["data"]["pricing_category"].string ?? "business_initiate"
+                    
+                    var typePricingCategory = "business initiate"
+                    if pricingCategory == "business_initiate" {
+                        typePricingCategory = "business initiate"
+                    }else{
+                        typePricingCategory = "customer initiate"
+                    }
+                    
+                    var credit = creditSource
+                    if credit == "free_sessions"{
+                        credit = "free sessions"
+                    }
+                    
+                    var price = "\(estimationPrice) \(credit)"
+//                    {
+//                    "data" : {
+//                      "current_balance" : {
+//                        "credits" : "12101000",
+//                        "free_session" : 315000,
+//                        "quota" : 2977
+//                      },
+//                      "pricing_category" : "business_initiate",
+//                      "estimation_charge" : {
+//                        "estimation_price" : "1",
+//                        "credit_source" : "free_sessions"
+//                      }
+//                    }
+//                  }
+                    
+                    print("arief check payload ini =\(payload)")
+                    
+                    
+                    var next = false
+                    if credit == "free sessions" || credit == "free_sessions" {
+                        if Double(freeSession).precised(10) >= Double(estimationPrice)!.precised(10) {
+                            next = true
+                        }else{
+                            next = false
+                        }
+                    } else if credit.lowercased() == "quota".lowercased() {
+                        if Double(quota).precised(10) >= (Double(estimationPrice)?.precised(10))! {
+                            next = true
+                        }else{
+                            next = false
+                        }
+                    } else if credit.lowercased() == "credits".lowercased(){
+                        if Double(credits)!.precised(10) >= Double(estimationPrice)!.precised(10) {
+                            next = true
+                        }else{
+                            next = false
+                        }
+                    }
+                    
+                    
+                    if next == false {
+                        let vc = AlertWACreditBalanceRunOutVC()
+                        vc.modalPresentationStyle = .overFullScreen
+
+                        self.navigationController?.present(vc, animated: false, completion: {
+
+                        })
+                    }else{
+                        let message = "To start this \(typePricingCategory) session, the free session will be reduced or charged \(price). Do you want continue sending the message?"
+                        
+                        let style = NSMutableParagraphStyle()
+                        style.lineSpacing = 10
+                        style.alignment = .center
+                        let attributes = [NSAttributedString.Key.paragraphStyle : style, NSAttributedString.Key.foregroundColor : ColorConfiguration.alertTextColorWAInitiate]
+                        
+                        let attributesMessage = NSMutableAttributedString(string: message, attributes: attributes)
+                        
+                        let range = (message as NSString).range(of: price)
+                        
+                        let rangeType = (message as NSString).range(of: typePricingCategory)
+
+                        attributesMessage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
+                        
+                        attributesMessage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range: rangeType)
+                        
+                        let vc = AlertWAInitiateChatVC()
+                        vc.channelID = self.channelID
+                        vc.roomID = self.room?.id ?? "0"
+                        vc.message = attributesMessage
+                        vc.chargeCredits = price
+                        vc.vc = self
+                        vc.modalPresentationStyle = .overFullScreen
+
+                        self.navigationController?.present(vc, animated: false, completion: {
+
+                        })
+                    }
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
     func uploadCamera() {
         UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
         

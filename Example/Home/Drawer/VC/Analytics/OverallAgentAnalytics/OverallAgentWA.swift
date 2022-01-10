@@ -13,6 +13,7 @@ import Alamofire
 import SwiftyJSON
 
 class OverallAgentWA: UIViewController, IndicatorInfoProvider, UIWebViewDelegate, WKNavigationDelegate {
+    var vc : AnalyticsVC? = nil
     var webView = WKWebView()
     var progressView = UIProgressView(progressViewStyle: UIProgressView.Style.bar)
     
@@ -47,9 +48,20 @@ class OverallAgentWA: UIViewController, IndicatorInfoProvider, UIWebViewDelegate
         view.addConstraints(constraints)
         view.layoutIfNeeded()
         
+//        self.getURL()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(waAction(_:)), name: NSNotification.Name(rawValue: "waAction"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(waCreditsAction(_:)), name: NSNotification.Name(rawValue: "waCreditsAction"), object: nil)
+        
+    }
+    
+    @objc func waAction(_ notification: Notification){
         self.getURL()
-        
-        
+    }
+    
+    @objc func waCreditsAction(_ notification: Notification){
+        self.getURLWACredit()
     }
     
     func getURL(){
@@ -61,6 +73,55 @@ class OverallAgentWA: UIViewController, IndicatorInfoProvider, UIWebViewDelegate
         
         let param = ["app_code": UserDefaults.standard.getAppID() ?? "",
                      "type" : "wa_logs"
+        ] as [String : Any]
+        
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/analytics", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getURL()
+                            } else {
+                                //failed
+                                self.showAlert(code: "failed refresh token")
+                            }
+                        }
+                    }else{
+                        //failed
+                        self.showAlert(code: "\((response.response?.statusCode)!)")
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let url = payload["data"]["analytics_url"].string ?? "https://"
+                    
+                    self.webView.load(URLRequest(url: URL(string: url)!))
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.showAlert(code: "\((response.response?.statusCode)!)")
+            } else {
+                //failed
+                self.showAlert()
+            }
+        }
+    }
+    
+    func getURLWACredit(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        let param = ["app_code": UserDefaults.standard.getAppID() ?? "",
+                     "type" : "wa_credit_logs",
+                     "wa_channel_id" : UserDefaults.standard.getSelectWAChannelsAnalytics()
         ] as [String : Any]
         
         
@@ -117,11 +178,14 @@ class OverallAgentWA: UIViewController, IndicatorInfoProvider, UIWebViewDelegate
         
         self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
         self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
+        self.vc?.showWAchannel()
+        self.getURL()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.progressView.removeFromSuperview()
         super.viewWillDisappear(animated)
+        self.vc?.hideWAchannel()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

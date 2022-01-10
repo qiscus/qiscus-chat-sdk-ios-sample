@@ -166,4 +166,12 @@ extension UserDefaults{
     func getEmailMultichannel() -> String{
         return string(forKey: "email_multichannel") ?? ""
     }
+    
+    func setSelectWAChannelsAnalytics(value: Int){
+        set(value, forKey: "selectWAChannelsAnalytics")
+    }
+    
+    func getSelectWAChannelsAnalytics() -> Int?{
+        return integer(forKey: "selectWAChannelsAnalytics")
+    }
 }
