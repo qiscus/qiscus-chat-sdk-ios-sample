@@ -156,6 +156,22 @@ class OpenChatSessionWAVC: UIViewController {
                                 return
                             }
                         }
+                    }else{
+                        let json = JSON(response.result.value)
+                        var dataMessage = json["error"].string ?? ""
+                        print("response.result.value =\(json)")
+                        
+                        if dataMessage.contains("phone_number is invalid or don't have WA")  {
+                            dataMessage = "phone number is invalid or don't have WA"
+                        }
+                        
+                        let vc = AlertFailedSubmitWAOpenSession()
+                        vc.modalPresentationStyle = .overFullScreen
+                        vc.message = dataMessage
+
+                        self.navigationController?.present(vc, animated: false, completion: {
+
+                        })
                     }
                     
                 } else {
@@ -370,6 +386,15 @@ extension OpenChatSessionWAVC: UITableViewDataSource, UITableViewDelegate {
             self.heightTabelViewMessageType.constant = 0
         }else{
             self.tfSMTL.text = self.dataLanguage[indexPath.row]
+            
+            let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == self.dataLanguage[indexPath.row].lowercased() }
+            
+            if let data = filterData.first{
+                self.tvContent.text = data.content
+            }else{
+                self.tvContent.text = ""
+            }
+            
             self.heightTableViewSMTL.constant = 0
         }
     }

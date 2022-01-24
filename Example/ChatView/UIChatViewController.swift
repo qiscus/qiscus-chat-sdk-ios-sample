@@ -1007,6 +1007,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     let channelID = json["data"]["channel_id"].int ?? 0
                     var userID = json["data"]["user_id"].string ?? ""
                     var isWaBlocked = json["data"]["is_blocked"].bool ?? false
+                    let isWaActive = json["data"]["channel"]["is_active"].bool ?? false
                     self.isWaBlocked = isWaBlocked
                     self.userID = userID
                     self.channelID = channelID
@@ -1015,8 +1016,14 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
 //                        self.setupHSMAlertMessage()
 //                        self.getTemplateHSM(channelID: channelID)
                         
-                        //new version wa pricing
-                        self.checkWAActiveSession(channelID : channelID, waUserId: userID)
+                        if isWaActive == true{
+                            //new version wa pricing
+                            self.checkWAActiveSession(channelID : channelID, waUserId: userID)
+                        }else{
+                            self.chatInput.showNoActiveTemplate()
+                        }
+                        
+                        
                         
                     }
                 }
@@ -1467,7 +1474,6 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         let json = JSON(response.result.value)
                         print("check result ini bro =\(json)")
                         if json.rawString()?.contains("this room is not initiate any session yet") == true {
-                            //self.chatInput.showNoActiveTemplate()
                             self.chatInput.showNoActiveSession()
                         }
                     }
@@ -2212,20 +2218,27 @@ extension UIChatViewController: UIChatViewDelegate {
         }
         
         if Thread.isMainThread {
-            if newSection {
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
-                self.tableViewConversation.endUpdates()
+            
+            if self.tableViewConversation.dataHasChanged {
+                self.tableViewConversation.reloadData()
                 self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                
-            } else {
-                let indexPath = IndexPath(row: 0, section: 0)
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertRows(at: [indexPath], with: .right)
-                self.tableViewConversation.endUpdates()
-                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                
+            }else{
+                if newSection {
+                    self.tableViewConversation.beginUpdates()
+                    self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
+                    self.tableViewConversation.endUpdates()
+                    self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    
+                } else {
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    self.tableViewConversation.beginUpdates()
+                    self.tableViewConversation.insertRows(at: [indexPath], with: .right)
+                    self.tableViewConversation.endUpdates()
+                    self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    
+                }
             }
+            
         }
         
         

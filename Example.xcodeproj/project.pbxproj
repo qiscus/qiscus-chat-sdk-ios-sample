@@ -46,6 +46,8 @@
 		203E500F277CAC6D004FAF7B /* OpenSessionWACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E500D277CAC6D004FAF7B /* OpenSessionWACell.swift */; };
 		203E5010277CAC6D004FAF7B /* OpenSessionWACell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E500E277CAC6D004FAF7B /* OpenSessionWACell.xib */; };
 		206623C62782DCE3000406CF /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206623C52782DCE3000406CF /* Double.swift */; };
+		20ADDAE227969B5400398496 /* AlertFailedSubmitWAOpenSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */; };
+		20ADDAE327969B5400398496 /* AlertFailedSubmitWAOpenSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */; };
 		3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */; };
 		3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */; };
 		3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */; };
@@ -432,6 +434,8 @@
 		203E500D277CAC6D004FAF7B /* OpenSessionWACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSessionWACell.swift; sourceTree = "<group>"; };
 		203E500E277CAC6D004FAF7B /* OpenSessionWACell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenSessionWACell.xib; sourceTree = "<group>"; };
 		206623C52782DCE3000406CF /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFailedSubmitWAOpenSession.swift; sourceTree = "<group>"; };
+		20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertFailedSubmitWAOpenSession.xib; sourceTree = "<group>"; };
 		3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPostbackRightCell.swift; sourceTree = "<group>"; };
 		3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QPostbackRightCell.xib; sourceTree = "<group>"; };
 		3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAgentVC.swift; sourceTree = "<group>"; };
@@ -933,6 +937,8 @@
 				203E500A277CA27E004FAF7B /* OpenChatSessionWAVC.xib */,
 				203E500D277CAC6D004FAF7B /* OpenSessionWACell.swift */,
 				203E500E277CAC6D004FAF7B /* OpenSessionWACell.xib */,
+				20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */,
+				20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */,
 			);
 			path = OpenChatSession;
 			sourceTree = "<group>";
@@ -1973,6 +1979,7 @@
 				3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D3BE4D72627DBE40026A63C /* FilterChannelMultipleLineCell.xib in Resources */,
+				20ADDAE327969B5400398496 /* AlertFailedSubmitWAOpenSession.xib in Resources */,
 				3D9A29AF25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib in Resources */,
 				3D3BE4F626288C360026A63C /* CustomCHChannelCell.xib in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
@@ -2132,6 +2139,7 @@
 				3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */,
 				3DBD7541267A2E49006A7DE9 /* UIChatListSearchMessageViewCell.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
+				20ADDAE227969B5400398496 /* AlertFailedSubmitWAOpenSession.swift in Sources */,
 				3DBBF0D4266DC7BB005FBDAE /* ResolvedALLWAVC.swift in Sources */,
 				3D7A395D2577ADCF005E7FAE /* CompleteTaskCell.swift in Sources */,
 				3D0EAE4125E5FC9A00481198 /* AccountManagementAdminVC.swift in Sources */,
@@ -2453,7 +2461,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2485,7 +2493,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
