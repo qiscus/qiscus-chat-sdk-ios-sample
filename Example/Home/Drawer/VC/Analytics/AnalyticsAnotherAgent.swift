@@ -15,6 +15,7 @@ import SwiftyJSON
 class AnalyticsAnotherAgent: ButtonBarPagerTabStripViewController {
     var isReload = false
     var agentId : Int = 0
+    var agentSDKEmail : String = ""
     
     override func viewDidLoad() {
         settings.style.selectedBarHeight = 3
@@ -102,10 +103,12 @@ class AnalyticsAnotherAgent: ButtonBarPagerTabStripViewController {
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         let child_1 = PerformanceAgentVC()
         child_1.agentId = self.agentId
+        child_1.agentSDKEmail = self.agentSDKEmail
         let child_2 = ChatAgentVC()
         child_2.agentId = self.agentId
         let child_3 = OtherAnalyticsVC()
         child_3.agentId = self.agentId
+        child_3.agentSDKEmail = self.agentSDKEmail
         
         guard isReload else {
             return [child_1, child_2, child_3]

@@ -14,6 +14,7 @@ import SwiftyJSON
 
 class OtherAnalyticsVC: UIViewController, IndicatorInfoProvider, UIWebViewDelegate, WKNavigationDelegate {
     var agentId : Int = 0
+    var agentSDKEmail : String = ""
     var webView = WKWebView()
     var progressView = UIProgressView(progressViewStyle: UIProgressView.Style.bar)
     
@@ -62,7 +63,8 @@ class OtherAnalyticsVC: UIViewController, IndicatorInfoProvider, UIWebViewDelega
         
         let param = ["app_code": UserDefaults.standard.getAppID() ?? "",
                      "agent_id": self.agentId,
-                     "type" : "logs"
+                     "type" : "logs",
+                     "agent_sdk_email" : self.agentSDKEmail
         ] as [String : Any]
         
         

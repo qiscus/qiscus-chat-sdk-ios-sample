@@ -625,6 +625,7 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
             if self.agentsData.count != 0 {
                 let vc = AnalyticsAnotherAgent()
                 vc.agentId = self.agentsData[indexPath.row].id
+                vc.agentSDKEmail = self.agentsData[indexPath.row].sdkEmail
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }else if tableView == self.tableViewWAChannels {
@@ -717,9 +718,11 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         let child_5 = OverallAgentOthers()
         let child_6 = PerformanceAgentVC()
         child_6.agentId = UserDefaults.standard.getAccountId() ?? 0
+        child_6.agentSDKEmail = UserDefaults.standard.getEmailMultichannel() ?? ""
         let child_7 = ChatAgentVC()
         child_7.agentId =  UserDefaults.standard.getAccountId() ?? 0
         let child_8 = OtherAnalyticsVC()
+        child_8.agentSDKEmail = UserDefaults.standard.getEmailMultichannel() ?? ""
         child_8.agentId =  UserDefaults.standard.getAccountId() ?? 0
         
         var childViewControllers = [child_1, child_2, child_3, child_4, child_5]
