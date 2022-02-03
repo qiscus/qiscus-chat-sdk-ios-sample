@@ -426,12 +426,12 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         }else{
             if let userType = UserDefaults.standard.getUserType(){
                 if userType != 2{
-                    self.lbSelected.text = "Analytics on each agent"
+                    self.lbSelected.text = "Overall agent analytics"
                 }else{
                     self.lbSelected.text = "Analytics agent"
                 }
             }else{
-                self.lbSelected.text = "Analytics on each agent"
+                self.lbSelected.text = "Overall agent analytics"
             }
             
         }
