@@ -118,6 +118,14 @@ extension UserDefaults{
         return integer(forKey: "featureSubmitTicket")
     }
     
+    func setStatusFeatureContact(value: Int){
+        set(value, forKey: "featureContact")
+    }
+    
+    func getStatusFeatureContact() -> Int?{
+        return integer(forKey: "featureContact")
+    }
+    
     func setStatusFeatureCustomAnalytics(value: Int){
         set(value, forKey: "featureCustomAnalytics")
     }
@@ -149,5 +157,21 @@ extension UserDefaults{
     //MARK: Retrieve User Data
     func getBot() -> Bool{
         return bool(forKey: "is_bot_enabled")
+    }
+    
+    func setEmailMultichannel(value: String){
+        set(value, forKey: "email_multichannel")
+    }
+    
+    func getEmailMultichannel() -> String{
+        return string(forKey: "email_multichannel") ?? ""
+    }
+    
+    func setSelectWAChannelsAnalytics(value: Int){
+        set(value, forKey: "selectWAChannelsAnalytics")
+    }
+    
+    func getSelectWAChannelsAnalytics() -> Int?{
+        return integer(forKey: "selectWAChannelsAnalytics")
     }
 }

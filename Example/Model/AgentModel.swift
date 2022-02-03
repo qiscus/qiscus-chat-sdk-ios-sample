@@ -18,12 +18,14 @@ public class AgentModel : NSObject {
     var currentCustomerCount : Int = 0
     var userRoles : [UserRoles] =  [UserRoles]()
     var isSelected : Bool = false
+    var sdkEmail : String = ""
     
     init(json: JSON) {
         self.id             = json["id"].int ?? 0
         self.name           = json["name"].stringValue
         self.avatarUrl      = json["avatar_url"].string ?? nil
         self.email         = json["email"].string ?? ""
+        self.sdkEmail       = json["sdk_email"].string ?? ""
         self.isAvailable    = json["is_available"].bool ?? false
         self.currentCustomerCount = json["current_customer_count"].int ?? 0
         

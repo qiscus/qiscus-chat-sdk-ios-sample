@@ -233,8 +233,6 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     let forceUpdate = data["force_update"].bool ?? false
                     let version = data["version"].string ?? ""
                     
-                    print("arief check payload =\(payload)")
-                    
                     if let versionApp = Bundle.main.infoDictionary!["CFBundleShortVersionString"]{
                         if versionApp as! String != version {
                             //show
@@ -536,8 +534,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             if userType != 2{
                 //admin //spv
                 if defaults.bool(forKey: "ic_resolved_all_WA_active") != false{
-                   self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
-                  // self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+                  // self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+                   self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }else{
                     self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }
@@ -1470,6 +1468,13 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                     
                     
                     for i in self.featuresData {
+                        if i.name.lowercased() == "CONTACT".lowercased(){
+                            
+                            //UserDefaults.standard.setStatusFeatureContact(value: i.status)
+                            //harcode always show
+                            UserDefaults.standard.setStatusFeatureContact(value: 1)
+                        }
+                        
                         if i.name.lowercased() == "INBOX".lowercased(){
                             for x in i.features {
                                 ////1 show, 2 hide, 3 disabled

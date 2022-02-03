@@ -53,7 +53,7 @@ class UIChatListViewCell: UITableViewCell {
                 let dateString = dateFormatter.string(from: date)
                 
                 let timeFormatter = DateFormatter()
-                timeFormatter.dateFormat = "h:mm a"
+                timeFormatter.dateFormat = "HH:mm"
                 timeFormatter.timeZone = .current
                 let timeString = timeFormatter.string(from: date)
                 
@@ -212,7 +212,7 @@ class UIChatListViewCell: UITableViewCell {
                     self.ivTypeChannel.image = UIImage(named: "ic_custom_channel")
                 }
                 
-                if !badgeURL.isEmpty && !badgeURL.contains(".svg"){
+                if !badgeURL.isEmpty && !badgeURL.contains(".svg") && badgeURL != "<null>" && badgeURL != "null"{
                     self.ivTypeChannel.af_setImage(withURL: URL(string:badgeURL)!)
                 }
                 
@@ -522,7 +522,7 @@ class UIChatListViewCell: UITableViewCell {
             let dateString = dateFormatter2.string(from: date)
             
             let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "h:mm a"
+            timeFormatter.dateFormat = "HH:mm"
             let timeString = timeFormatter.string(from: date)
             
             var result = ""

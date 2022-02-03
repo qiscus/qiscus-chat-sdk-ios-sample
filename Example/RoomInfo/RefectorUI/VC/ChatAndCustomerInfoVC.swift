@@ -74,6 +74,14 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     @IBOutlet weak var viewUnstableConnection: UIView!
     @IBOutlet weak var heightViewUnstableConnectionConst: NSLayoutConstraint!
     
+    //ContactId
+    var contactID : Int = 0
+    var agentCanAccessContact : Bool = true
+    
+    var creditWA : String = "0"
+    var freeSessionWA : Int = 0
+    var quotaWA : Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -113,9 +121,12 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         if let userType = UserDefaults.standard.getUserType(){
             if userType == 2 {
                 //agent
+                getContactConfig()
                 getListConfig()
             }else{
-                
+                if UserDefaults.standard.getStatusFeatureContact() == 2 || UserDefaults.standard.getStatusFeatureContact() == 3 {
+                    self.agentCanAccessContact = false
+                }
             }
         }
         
@@ -259,6 +270,8 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         self.tableView.register(UINib(nibName: "HSMCell", bundle: nil), forCellReuseIdentifier: "HSMCellIdentifire")
         self.tableView.register(UINib(nibName: "HSMWillExpireSoonCell", bundle: nil), forCellReuseIdentifier: "HSMWillExpireSoonCellIdentifire")
         self.tableView.register(UINib(nibName: "WABlockedCell", bundle: nil), forCellReuseIdentifier: "WABlockedCellIdentifire")
+        self.tableView.register(UINib(nibName: "ContactCustomerInfoCell", bundle: nil), forCellReuseIdentifier: "ContactCustomerInfoCellIdentifire")
+        self.tableView.register(UINib(nibName: "HSMCreditFreeSessionQuota", bundle: nil), forCellReuseIdentifier: "HSMCreditFreeSessionQuotaIdentifire")
         
         
         self.tableView.tableFooterView = UIView()
@@ -408,6 +421,45 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         }
     }
     
+    func checkWACreditFreeSessionQuota(channelID: Int){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/credits/\(channelID)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.checkWACreditFreeSessionQuota(channelID: channelID)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    let credit = json["data"]["credits"].string ?? "0"
+                    let freeSession = json["data"]["free_session"].int ?? 0
+                    let quota = json["data"]["quota"].int ?? 0
+                    
+                    self.creditWA = credit
+                    self.freeSessionWA = freeSession
+                    self.quotaWA = quota
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
     func getTemplateHSM(channelID: Int){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
@@ -511,6 +563,63 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     let payload = JSON(response.result.value)
                     let isCreateTagsEnabled = payload["data"]["configs"]["is_create_tags_enabled"].bool ?? false
                     self.isCreateTags = isCreateTagsEnabled
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
+    func getContactConfig(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["show_all": true
+            ] as [String : Any]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/app/configs?config_names[]=AGENT_CONTACT_ACCESS&config_names[]=HIDE_AGENT_TOGGLE_STATUS&config_names[]=HIDE_AGENT_INBOX_CUSTOMER_ID&config_names[]=AGENT_CAN_ASSIGN_CHAT&config_names[]=AGENT_CAN_ADD_OTHER_AGENT", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getContactConfig()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let canAccess = payload["data"]["configs"]["agent_contact_access"].string ?? "true"
+                   
+                    if let userType = UserDefaults.standard.getUserType(){
+                        if userType == 2 {
+                            //agent
+                            if canAccess == "true"{
+                                self.agentCanAccessContact = true
+                            }else{
+                                self.agentCanAccessContact = false
+                            }
+                        }else{
+                            self.agentCanAccessContact = true
+                        }
+                    }else{
+                        self.agentCanAccessContact = false
+                    }
+                    
+                    if UserDefaults.standard.getStatusFeatureContact() == 2 || UserDefaults.standard.getStatusFeatureContact() == 3 {
+                        self.agentCanAccessContact = false
+                    }
                     
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
@@ -761,6 +870,8 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     self.channelTypeString = "WhatsApp"
                 }else if channelType.lowercased() == "twitter" {
                     self.channelTypeString = "Custom Channel"
+                }else if channelType.lowercased() == "ig" {
+                    self.channelTypeString = "Instagram"
                 }else if channelType.lowercased() == "custom" {
                     self.channelTypeString = "Custom Channel"
                 }else{
@@ -779,7 +890,7 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
             self.getListBroadCastHistory(roomID: room.id)
             self.getCustomerInfo()
             if let statusFeatureSubmitTicket = UserDefaults.standard.getStatusFeatureSubmitTicket() {
-                if  statusFeatureSubmitTicket == 1{
+                if  statusFeatureSubmitTicket == 1 || statusFeatureSubmitTicket == 0{
                     self.getListSubmitTicket()
                 }
             }
@@ -825,12 +936,34 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                                 } else {
                                     //success
                                     let payload = JSON(response.result.value)
-                        
+                                    let contactID = payload["data"]["customer_room"]["contact_id"].int ?? 0
+                                    
+                                    self.contactID = contactID
                                     let lastCustomerTimestamp  = payload["data"]["customer_room"]["last_customer_timestamp"].string ??
-                                        ""
+                                    ""
                                     
                                     var json = JSON.init(parseJSON: option)
                                     json["last_customer_message_timestamp"] = JSON(lastCustomerTimestamp)
+                                    
+                                    if let rawData = json.rawString() {
+                                        let room = room
+                                        room.options = rawData
+                                        QiscusCore.database.room.save([room])
+                                    }
+                                    
+                                    let date = self.getDate(timestamp: lastCustomerTimestamp)
+                                    let diff = date.differentTime()
+                                    
+                                    if diff >= 16 && diff <= 23 {
+                                        self.isWAWillExpired = true
+                                    } else if diff >= 24 {
+                                        self.isWAExpired = true
+                                    } else {
+                                        self.isWAWillExpired = false
+                                        self.isWAExpired = false
+                                    }
+                                    
+                                    self.lastCommentCustomerDate = date
                                     
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                         if self.isEnabledBot == true {
@@ -850,28 +983,6 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                                             self.navigationItem.setRightBarButtonItems([barBtn, titleBtn], animated: false)
                                         }
                                     }
-                                    
-                                    if let rawData = json.rawString() {
-                                        let room = room
-                                        room.options = rawData
-                                        QiscusCore.database.room.save([room])
-                                    }
-                                    
-                                    let date = self.getDate(timestamp: lastCustomerTimestamp)
-                                    let diff = date.differentTime()
-
-                                    if self.isTypeWA {
-                                        if diff >= 16 && diff <= 23 {
-                                            self.isWAWillExpired = true
-                                        } else if diff >= 24 {
-                                            self.isWAExpired = true
-                                        } else {
-                                            self.isWAWillExpired = false
-                                            self.isWAExpired = false
-                                        }
-                                    }
-                                    
-                                    self.lastCommentCustomerDate = date
                                 }
                             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                                 //failed
@@ -997,12 +1108,28 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     if let userType = UserDefaults.standard.getUserType(){
                         self.userID = userID
                         if channelID != 0 {
-                            self.getTemplateHSM(channelID: channelID)
+                            if self.isTypeWA{
+                                self.getTemplateHSM(channelID: channelID)
+                                self.checkWACreditFreeSessionQuota(channelID: channelID)
+                            }
                         }
                     }
                     
-                    if !channelName.isEmpty && !self.channelTypeString.isEmpty {
-                        self.lbChannelName = "\(self.channelTypeString) - \(channelName)"
+                    
+                    
+                    if !channelName.isEmpty {
+                        if self.channelTypeString.isEmpty == true {
+                            self.lbChannelName = ""
+                        }else{
+                            self.lbChannelName = "\(self.channelTypeString) - \(channelName)"
+                        }
+                       
+                    } else {
+                        if self.channelTypeString.isEmpty == true {
+                            self.lbChannelName = ""
+                        }else{
+                            self.lbChannelName = "\(self.channelTypeString)"
+                        }
                     }
                     
                     if let dataUser = data {
@@ -1232,6 +1359,30 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    private func contactCell(indexPath: IndexPath)-> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCustomerInfoCellIdentifire", for: indexPath) as! ContactCustomerInfoCell
+        cell.viewController = self
+        cell.contactID = self.contactID
+        cell.channelName = self.channelName
+        cell.channelID = self.channelID
+        cell.channelType = self.channelType
+        cell.channelTypeString = self.channelTypeString
+        cell.room = self.room
+        
+        if self.agentCanAccessContact == false {
+            cell.isHidden = false
+        }else{
+            if contactID == 0{
+                cell.isHidden = true
+            }else{
+                cell.isHidden = false
+            }
+        }
+        
+       
+        return cell
+    }
+    
     private func additionalInformationCell(indexPath: IndexPath)-> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "AdditionalInformationCellIdentifire", for: indexPath) as! AdditionalInformationCell
         cell.lbCountAdditionalInformation.text = "\(self.additionalInformationCount)"
@@ -1277,15 +1428,9 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         cell.btShowAlertInfo.addTarget(self, action: #selector(buttonWAInfoAction), for: .touchUpInside)
         cell.btSendMessageTemplate.addTarget(self, action: #selector(buttonSendWaTemplate), for: .touchUpInside)
         
-        if self.enableHSM == false || self.hsmQuota == 0 {
-            cell.btSendMessageTemplateHeightCons.constant = 0
-            cell.topButtonSendMessageTemplateCons.constant = 0
-            cell.btSendMessageTemplate.isHidden = true
-        }else{
-            cell.btSendMessageTemplateHeightCons.constant = 40
-            cell.topButtonSendMessageTemplateCons.constant = 20
-            cell.btSendMessageTemplate.isHidden = false
-        }
+        cell.btSendMessageTemplateHeightCons.constant = 0
+        cell.topButtonSendMessageTemplateCons.constant = 0
+        cell.btSendMessageTemplate.isHidden = true
         
         return cell
     }
@@ -1297,6 +1442,140 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    private func HSMCreditFreeSessionQuotaCell(indexPath: IndexPath)-> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HSMCreditFreeSessionQuotaIdentifire", for: indexPath) as! HSMCreditFreeSessionQuota
+        cell.lbCredit.text = "\(self.creditWA) Credit"
+        cell.lbQuota.text = "\(self.quotaWA) Quota"
+        cell.lbFreeSession.text = "\(self.freeSessionWA) Sessions"
+        
+        if self.creditWA.count == 0 {
+            cell.lbCredit.textColor = UIColor.red
+        }else {
+            cell.lbCredit.textColor = ColorConfiguration.defaultColorTosca
+        }
+        
+        if Int(self.quotaWA) == 0{
+            cell.lbQuota.textColor = UIColor.red
+            cell.lbQuota.isHidden = true
+            cell.lbQuota.alpha = 0
+            cell.heightQuotaSatu.constant = 0
+            cell.heightQuotaDua.constant = 0
+        }else{
+            cell.lbQuota.alpha = 1
+            cell.lbQuota.isHidden = false
+            cell.lbQuota.textColor = ColorConfiguration.defaultColorTosca
+            cell.heightQuotaSatu.constant = 21
+            cell.heightQuotaDua.constant = 21
+        }
+        
+        if self.freeSessionWA == 0{
+            cell.lbFreeSession.textColor = UIColor.red
+        }else{
+            cell.lbFreeSession.textColor = ColorConfiguration.defaultColorTosca
+        }
+       
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if self.agentCanAccessContact == false {
+            if isTypeWA == true {
+                if isWAExpired == true {
+                    if isWaBlocked == true {
+                        //for contact
+                        if indexPath.row == 4 {
+                            return 0
+                        }
+                    }else{
+                        //for contact
+                        if indexPath.row == 3 {
+                            return 0
+                        }
+                    }
+                }else if isWAWillExpired == true {
+                    if isWaBlocked == true {
+                        //for contact
+                        if indexPath.row == 4 {
+                            return 0
+                        }
+                    }else{
+                        //for contact
+                        if indexPath.row == 3 {
+                            return 0
+                        }
+                    }
+                } else {
+                    if isWaBlocked == true {
+                        //for contact
+                        if indexPath.row == 3 {
+                            return 0
+                        }
+                    }else{
+                        //for contact
+                        if indexPath.row == 2 {
+                            return 0
+                        }
+                    }
+                }
+            } else {
+                //for contact
+                if indexPath.row == 1 {
+                    return 0
+                }
+            }
+        } else{
+            if contactID == 0{
+                if isTypeWA == true {
+                    if isWAExpired == true {
+                        if isWaBlocked == true {
+                            //for contact
+                            if indexPath.row == 4 {
+                                return 0
+                            }
+                        }else{
+                            //for contact
+                            if indexPath.row == 3 {
+                                return 0
+                            }
+                        }
+                    }else if isWAWillExpired == true {
+                        if isWaBlocked == true {
+                            //for contact
+                            if indexPath.row == 4 {
+                                return 0
+                            }
+                        }else{
+                            //for contact
+                            if indexPath.row == 3 {
+                                return 0
+                            }
+                        }
+                    } else {
+                        if isWaBlocked == true {
+                            //for contact
+                            if indexPath.row == 3 {
+                                return 0
+                            }
+                        }else{
+                            //for contact
+                            if indexPath.row == 2 {
+                                return 0
+                            }
+                        }
+                    }
+                } else {
+                    //for contact
+                    if indexPath.row == 1 {
+                        return 0
+                    }
+                }
+            }
+        }
+        
+        return UITableView.automaticDimension
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -1305,25 +1584,25 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         if isTypeWA == true {
             if isWAExpired == true {
                 if isWaBlocked == true {
-                    return 9
+                    return 11
                 } else {
-                    return 8
+                    return 10
                 }
             } else if isWAWillExpired == true {
                 if isWaBlocked == true {
-                    return 9
+                    return 11
                 } else {
-                    return 8
+                    return 10
                 }
             } else {
                 if isWaBlocked == true {
-                    return 8
+                    return 10
                 }else{
-                    return 7
+                    return 9
                 }
             }
         } else {
-            return 6
+            return 7
         }
         
     }
@@ -1339,16 +1618,20 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 2 {
                         return HSMCell(indexPath: indexPath)
                     } else if indexPath.row == 3 {
-                        return completeTaskCell(indexPath: indexPath)
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
                     } else if indexPath.row == 4 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 5 {
-                        return broadcastHistoryCell(indexPath: indexPath)
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return completeTaskCell(indexPath: indexPath)
                     } else if indexPath.row == 6 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 7 {
-                        return customerTagsInfoCell(indexPath: indexPath)
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 7 {
+                        return broadcastHistoryCell(indexPath: indexPath)
                     } else if indexPath.row == 8 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 10 {
                         return agentCustomerInfoCell(indexPath: indexPath)
                     }
                 }else{
@@ -1357,16 +1640,20 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 1 {
                         return HSMCell(indexPath: indexPath)
                     } else if indexPath.row == 2 {
-                        return completeTaskCell(indexPath: indexPath)
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
                     } else if indexPath.row == 3 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 4 {
-                        return broadcastHistoryCell(indexPath: indexPath)
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return completeTaskCell(indexPath: indexPath)
                     } else if indexPath.row == 5 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 6 {
-                        return customerTagsInfoCell(indexPath: indexPath)
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 6 {
+                        return broadcastHistoryCell(indexPath: indexPath)
                     } else if indexPath.row == 7 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
                         return agentCustomerInfoCell(indexPath: indexPath)
                     }
                 }
@@ -1380,6 +1667,76 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 2 {
                         return HSMWillExpireSoonCell(indexPath: indexPath)
                     } else if indexPath.row == 3 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 6 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 7 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 10 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }else{
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return HSMWillExpireSoonCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 6 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }
+            } else {
+                if isWaBlocked == true {
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return waBlockedCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 4 {
+                        return completeTaskCell(indexPath: indexPath)
+                    } else if indexPath.row == 5 {
+                        return additionalInformationCell(indexPath: indexPath)
+                    }  else if indexPath.row == 6 {
+                        return broadcastHistoryCell(indexPath: indexPath)
+                    } else if indexPath.row == 7 {
+                        return noteCell(indexPath: indexPath)
+                    } else if indexPath.row == 8 {
+                        return customerTagsInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 9 {
+                        return agentCustomerInfoCell(indexPath: indexPath)
+                    }
+                }else{
+                    if indexPath.row == 0 {
+                        return customerInfoCell(indexPath: indexPath)
+                    } else if indexPath.row == 1 {
+                        return HSMCreditFreeSessionQuotaCell(indexPath: indexPath)
+                    } else if indexPath.row == 2 {
+                        return contactCell(indexPath: indexPath)
+                    } else if indexPath.row == 3 {
                         return completeTaskCell(indexPath: indexPath)
                     } else if indexPath.row == 4 {
                         return additionalInformationCell(indexPath: indexPath)
@@ -1392,74 +1749,22 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                     } else if indexPath.row == 8 {
                         return agentCustomerInfoCell(indexPath: indexPath)
                     }
-                }else{
-                    if indexPath.row == 0 {
-                        return customerInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return HSMWillExpireSoonCell(indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return completeTaskCell(indexPath: indexPath)
-                    } else if indexPath.row == 3 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 4 {
-                        return broadcastHistoryCell(indexPath: indexPath)
-                    } else if indexPath.row == 5 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 6 {
-                        return customerTagsInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 7 {
-                        return agentCustomerInfoCell(indexPath: indexPath)
-                    }
-                }
-            } else {
-                if isWaBlocked == true {
-                    if indexPath.row == 0 {
-                        return customerInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return waBlockedCell(indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return completeTaskCell(indexPath: indexPath)
-                    } else if indexPath.row == 3 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 4 {
-                        return broadcastHistoryCell(indexPath: indexPath)
-                    } else if indexPath.row == 5 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 6 {
-                        return customerTagsInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 7 {
-                        return agentCustomerInfoCell(indexPath: indexPath)
-                    }
-                }else{
-                    if indexPath.row == 0 {
-                        return customerInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 1 {
-                        return completeTaskCell(indexPath: indexPath)
-                    } else if indexPath.row == 2 {
-                        return additionalInformationCell(indexPath: indexPath)
-                    }  else if indexPath.row == 3 {
-                        return broadcastHistoryCell(indexPath: indexPath)
-                    } else if indexPath.row == 4 {
-                        return noteCell(indexPath: indexPath)
-                    } else if indexPath.row == 5 {
-                        return customerTagsInfoCell(indexPath: indexPath)
-                    } else if indexPath.row == 6 {
-                        return agentCustomerInfoCell(indexPath: indexPath)
-                    }
                 }
             }
         } else {
             if indexPath.row == 0 {
                 return customerInfoCell(indexPath: indexPath)
             } else if indexPath.row == 1 {
-                return completeTaskCell(indexPath: indexPath)
+                return contactCell(indexPath: indexPath)
             } else if indexPath.row == 2 {
-                return additionalInformationCell(indexPath: indexPath)
+                return completeTaskCell(indexPath: indexPath)
             } else if indexPath.row == 3 {
-                return noteCell(indexPath: indexPath)
+                return additionalInformationCell(indexPath: indexPath)
             } else if indexPath.row == 4 {
-                return customerTagsInfoCell(indexPath: indexPath)
+                return noteCell(indexPath: indexPath)
             } else if indexPath.row == 5 {
+                return customerTagsInfoCell(indexPath: indexPath)
+            } else if indexPath.row == 6 {
                 return agentCustomerInfoCell(indexPath: indexPath)
             }
         }
@@ -1471,48 +1776,48 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
         if isTypeWA == true {
             if isWAExpired == true {
                 if isWaBlocked == true {
-                    if indexPath.row == 4 {
+                    if indexPath.row == 6 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
-                    } else if indexPath.row == 5 {
+                    } else if indexPath.row == 7 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
-                    }else if indexPath.row == 6 {
+                    }else if indexPath.row == 8 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
                 }else{
-                    if indexPath.row == 3 {
+                    if indexPath.row == 5 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
-                    } else if indexPath.row == 4 {
+                    } else if indexPath.row == 6 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
-                    }else if indexPath.row == 5 {
+                    }else if indexPath.row == 7 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
                 }
             } else if isWAWillExpired == true {
                 if isWaBlocked == true {
-                    if indexPath.row == 4 {
+                    if indexPath.row == 6 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
-                    } else if indexPath.row == 5 {
+                    } else if indexPath.row == 7 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
-                    }else if indexPath.row == 6 {
+                    }else if indexPath.row == 8 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
                 }else{
-                    if indexPath.row == 3 {
+                    if indexPath.row == 5 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
-                    } else if indexPath.row == 4 {
+                    } else if indexPath.row == 6 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
-                    }else if indexPath.row == 5 {
+                    }else if indexPath.row == 7 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
@@ -1520,34 +1825,34 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                 
             } else {
                 if isWaBlocked == true {
-                    if indexPath.row == 3 {
+                    if indexPath.row == 5 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
-                    } else if indexPath.row == 4 {
+                    } else if indexPath.row == 6 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
-                    }else if indexPath.row == 5 {
+                    }else if indexPath.row == 7 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
                 }else{
-                    if indexPath.row == 2 {
+                    if indexPath.row == 4 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToAdditonalInformation()
-                    } else if indexPath.row == 3 {
+                    } else if indexPath.row == 5 {
                         self.tableView.deselectRow(at: indexPath, animated: true)
                         self.pushToBroadcastHistory()
-                    }else if indexPath.row == 4 {
+                    }else if indexPath.row == 6 {
                         self.showForNotes()
                         self.tableView.deselectRow(at: indexPath, animated: true)
                     }
                 }
             }
         } else {
-            if indexPath.row == 2 {
+            if indexPath.row == 3 {
                 self.tableView.deselectRow(at: indexPath, animated: true)
                 self.pushToAdditonalInformation()
-            }else if indexPath.row == 3 {
+            }else if indexPath.row == 4 {
                 self.showForNotes()
                 self.tableView.deselectRow(at: indexPath, animated: true)
             }

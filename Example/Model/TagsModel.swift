@@ -15,6 +15,7 @@ public class TagsModel : NSObject {
     var createdAt : String = ""
     var updatedAt : String = ""
     var roomTagCreated : String = ""
+    var appID : Int = 0
     var dictio : [String: Any] = [String:Any]()
     var completeDict: [String: Any] = [String:Any]()
     
@@ -24,8 +25,9 @@ public class TagsModel : NSObject {
         self.createdAt      = json["created_at"].string ?? ""
         self.updatedAt      = json["updated_at"].string ?? ""
         self.roomTagCreated = json["room_tag_created"].string ?? ""
+        self.appID          = json["app_id"].int ?? 0
         self.dictio = ["id": id, "name": name]
-        self.completeDict = ["id": id, "name": name, "created_at" : createdAt, "updated_at" : updatedAt, "room_tag_created" : roomTagCreated ]
+        self.completeDict = ["app_id": appID,"id": id, "name": name, "created_at" : createdAt, "updated_at" : updatedAt, "room_tag_created" : roomTagCreated ]
     }
     
     init(id: Int, name : String) {

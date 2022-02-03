@@ -91,35 +91,35 @@ class QFileRightCell: UIBaseChatCell {
             }else{
                 self.tvContent.text = fileName
             }
-            if let url = payload["url"] as? String {
-                if !url.isEmpty {
-                    let ext = message.fileExtension(fromURL:url)
-                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
-                        DispatchQueue.main.async {
-                            do {
-                                let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
-                                if let size = resources.fileSize {
-                                    self.lbFileSizeExtension.text = "\(self.getMb(size: size)) - \(ext.uppercased()) file"
-                                } else {
-                                    self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
-                                }
-                               
-                            } catch {
-                                self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
-                            }
-                        }
-                    }) { (progress) in
-                        
-                    }
-                    
-                    if let size = payload["size"] as? Int {
-                        if size != 0 {
-                             self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
-                        }
-                    }
-                }
-               
-            }
+//            if let url = payload["url"] as? String {
+//                if !url.isEmpty {
+//                    let ext = message.fileExtension(fromURL:url)
+//                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlLocal) in
+//                        DispatchQueue.main.async {
+//                            do {
+//                                let resources = try urlLocal.resourceValues(forKeys:[.fileSizeKey])
+//                                if let size = resources.fileSize {
+//                                    self.lbFileSizeExtension.text = "\(self.getMb(size: size)) - \(ext.uppercased()) file"
+//                                } else {
+//                                    self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+//                                }
+//
+//                            } catch {
+//                                self.lbFileSizeExtension.text = "0 Mb - \(ext.uppercased()) file"
+//                            }
+//                        }
+//                    }) { (progress) in
+//
+//                    }
+//
+//                    if let size = payload["size"] as? Int {
+//                        if size != 0 {
+//                             self.lbFileSizeExtension.text = "\(getMb(size: size)) - \(ext.uppercased()) file"
+//                        }
+//                    }
+//                }
+//
+//            }
            
         }
         

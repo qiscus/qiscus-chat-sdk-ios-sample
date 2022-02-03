@@ -102,7 +102,7 @@ class CompleteTaskCell: UITableViewCell {
                 } else {
                     //success
                     let json = JSON(response.result.value)
-                    print("response.result.value =\(json)")
+                    print("response.result.value2\(json)")
                     var data = json["data"]["extras"].dictionary
                     var userID = json["data"]["user_id"].string ?? ""
                     var channelName = json["data"]["channel_name"].string ?? ""
@@ -189,17 +189,27 @@ class CompleteTaskCell: UITableViewCell {
             if !room.options!.isEmpty{
                 let json = JSON.init(parseJSON: room.options!)
                 var channelType = json["channel"].string ?? "Qiscus Widget"
-                if channelType.lowercased() == "ig" {
-                    channelType = "Instagram"
-                }
                 
-                if channelType.lowercased() == "custom" {
+                if channelType.lowercased() == "qiscus"{
+                    channelType = "Qiscus Widget"
+                }else if channelType.lowercased() == "telegram"{
+                    channelType = "Telegram"
+                }else if channelType.lowercased() == "line"{
+                    channelType = "Line"
+                }else if channelType.lowercased() == "fb"{
+                    channelType = "Facebook"
+                }else if channelType.lowercased() == "wa"{
+                    channelType = "WhatsApp"
+                }else if channelType.lowercased() == "twitter" {
+                    channelType = "Custom Channel"
+                }else if channelType.lowercased() == "ig" {
+                    channelType = "Instagram"
+                }else if channelType.lowercased() == "custom" {
+                    channelType = "Custom Channel"
+                }else{
                     channelType = "Custom Channel"
                 }
                 
-                if channelType.lowercased() == "qiscus" {
-                    channelType = "Qiscus Widget"
-                }
                 self.channelType = channelType
                 let notesData = json["notes"].string ?? ""
                 self.notes = notesData
@@ -241,8 +251,12 @@ class CompleteTaskCell: UITableViewCell {
                     let json = JSON(response.result.value)
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email_address"].string ?? ""
+                    var email = UserDefaults.standard.getEmailMultichannel()
+                    if email.isEmpty {
+                        email = dataEmailAdress
+                    }
                     
-                    self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "Admin")
+                    self.agentData = Agent(email: email, name: dataName, type: "Admin")
                 }
             }
         }
@@ -274,6 +288,7 @@ class CompleteTaskCell: UITableViewCell {
                     let json = JSON(response.result.value)
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email"].string ?? ""
+                    UserDefaults.standard.setEmailMultichannel(value: dataEmailAdress)
                     
                     self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "admin")
                 }
@@ -307,8 +322,11 @@ class CompleteTaskCell: UITableViewCell {
                     let json = JSON(response.result.value)
                     let dataName = json["data"]["name"].string ?? ""
                     let dataEmailAdress = json["data"]["email"].string ?? ""
-                    
-                    self.agentData = Agent(email: dataEmailAdress, name: dataName, type: "Agent")
+                    var email = UserDefaults.standard.getEmailMultichannel()
+                    if email.isEmpty {
+                        email = dataEmailAdress
+                    }
+                    self.agentData = Agent(email: email, name: dataName, type: "Agent")
                 }
             }
         }
@@ -376,7 +394,7 @@ class CompleteTaskCell: UITableViewCell {
             }
 
 
-            params["tags"] = array
+            params["tag"] = array
         }
 
         if let agent = agentData{
@@ -384,7 +402,12 @@ class CompleteTaskCell: UITableViewCell {
         }
 
         if let customer = customerData{
-            params["customer"] = ["avatar" : customer.avatar, "name" : customer.name, "user_id" : customer.userID]
+            var avatar = customer.avatar
+            if avatar.contains("https://image.flaticon.com/icons/svg/145/145867.svg") == true{
+                avatar = "https://latest-multichannel.qiscus.com/img/default_avatar.svg"
+            }
+            
+            params["customer"] = ["avatar" : avatar, "name" : customer.name, "user_id" : customer.userID]
         }
 
         params["notes"] = "\(self.notes)"

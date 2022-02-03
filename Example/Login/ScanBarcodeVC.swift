@@ -231,6 +231,9 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     func setupUIPopUp1(){
         self.ivPopUpBackground.tintColor = UIColor.white
         self.ivPopUpBackground.image = UIImage(named: "ic_popupview_scanner")?.withRenderingMode(.alwaysTemplate)
+        self.ivPopUpBackground.backgroundColor = UIColor.white
+        self.ivPopUpBackground.roundedCorners(top: true)
+        
         self.ivIcon.isHidden = false
         self.ic_icon_seconds.isHidden = true
         self.ivIcon.image = UIImage(named: "ic_new_logo_multichannel")
@@ -243,6 +246,9 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     func setupUIPopUp2(){
         self.ivPopUpBackground.tintColor = UIColor(red: 230/255.0, green: 244/255.0, blue: 227/255.0, alpha: 1)
         self.ivPopUpBackground.image = UIImage(named: "ic_popupview_scanner")?.withRenderingMode(.alwaysTemplate)
+        self.ivPopUpBackground.backgroundColor = UIColor(red: 230/255.0, green: 244/255.0, blue: 227/255.0, alpha: 1)
+        self.ivPopUpBackground.roundedCorners(top: true)
+        
         self.ivIcon.isHidden = true
         self.ic_icon_seconds.isHidden = false
         self.ic_icon_seconds.image = UIImage(named: "ic_logo_social_media")
@@ -255,6 +261,8 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     func setupUIPopUp3(){
         self.ivPopUpBackground.tintColor = UIColor(red: 255/255.0, green: 250/255.0, blue: 236/255.0, alpha: 1)
         self.ivPopUpBackground.image = UIImage(named: "ic_popupview_scanner")?.withRenderingMode(.alwaysTemplate)
+        self.ivPopUpBackground.backgroundColor = UIColor(red: 255/255.0, green: 250/255.0, blue: 236/255.0, alpha: 1)
+        self.ivPopUpBackground.roundedCorners(top: true)
         self.ivIcon.isHidden = true
         self.ic_icon_seconds.isHidden = false
         self.ic_icon_seconds.image = UIImage(named: "ic_logo_filter_chat")
@@ -267,6 +275,8 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     func setupUIPopUp4(){
         self.ivPopUpBackground.tintColor = UIColor(red: 239/255.0, green: 247/255.0, blue: 252/255.0, alpha: 1)
         self.ivPopUpBackground.image = UIImage(named: "ic_popupview_scanner")?.withRenderingMode(.alwaysTemplate)
+        self.ivPopUpBackground.backgroundColor = UIColor(red: 239/255.0, green: 247/255.0, blue: 252/255.0, alpha: 1)
+        self.ivPopUpBackground.roundedCorners(top: true)
         self.ivIcon.isHidden = true
         self.ic_icon_seconds.isHidden = false
         self.ic_icon_seconds.image = UIImage(named: "ic_logo_bot")
@@ -279,6 +289,9 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     func setupUIPopUp5(){
         self.ivPopUpBackground.tintColor = UIColor.white
         self.ivPopUpBackground.image = UIImage(named: "ic_popupview_scanner")?.withRenderingMode(.alwaysTemplate)
+        self.ivPopUpBackground.backgroundColor = UIColor.white
+        self.ivPopUpBackground.roundedCorners(top: true)
+        
         self.ivIcon.isHidden = true
         self.ic_icon_seconds.isHidden = false
         self.ic_icon_seconds.image = UIImage(named: "ic_logo_are_you_ready")
@@ -306,6 +319,8 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     @IBAction func actionBtHelp(_ sender: Any) {
         self.viewPopupHelp.isHidden = false
+        self.viewPopupHelp.backgroundColor = UIColor.white
+        self.viewPopupHelp.roundedCorners(top: true)
     }
     
     @IBAction func actionBtNextStart(_ sender: Any) {

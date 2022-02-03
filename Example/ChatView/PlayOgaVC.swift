@@ -92,28 +92,59 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
         self.togglePlayButton.setBackgroundImage(UIImage(named: "play_audio")?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.togglePlayButton.tintColor = UIColor(red: 39/255, green: 182/255, blue: 157/255, alpha: 1)
 
-        QiscusCore.shared.download(url: URL(string: self.mediaURL)!, onSuccess: { (url) in
-            self.pathURL = url
-            DispatchQueue.main.async {
-                self.hiddenLoading()
-                self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: url.lastPathComponent)
-                self.mediaplayer.media = VLCMedia(url: url)
+        if let url = URL(string: self.mediaURL) {
+            QiscusCore.shared.download(url: url, onSuccess: { (url) in
+                self.pathURL = url
+                DispatchQueue.main.async {
+                    self.hiddenLoading()
+                    self.navigationItem.setTitleWithSubtitle(title: "Play Audio", subtitle: url.lastPathComponent)
+                    self.mediaplayer.media = VLCMedia(url: url)
+                }
+            }) { (progress) in
+                DispatchQueue.main.async {
+                    self.lbLoading.text = "Please wait, still downloading . . . \(Int(progress) * 100) %"
+                }
+                
             }
-        }) { (progress) in
-            DispatchQueue.main.async {
-                self.lbLoading.text = "Please wait, still downloading . . . \(Int(progress) * 100) %"
-            }
-            
         }
 
     }
     
     @objc func share(){
-        if let url = URL(string: mediaURL) {
-            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-            
-            activityViewController.popoverPresentationController?.sourceView = self.view
-            self.present(activityViewController, animated: true, completion: nil)
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.systemBlue
+        
+
+        var progressCount = 0
+        if let url = URL(string: self.mediaURL) {
+            DispatchQueue.global(qos: .background).sync {
+                QiscusCore.shared.download(url: url) { path in
+                    
+                    DispatchQueue.main.async {
+                        self.hiddenLoading()
+                        
+                        
+                        let file = [path]
+                        let activityViewController = UIActivityViewController(activityItems: file, applicationActivities: nil)
+                        activityViewController.popoverPresentationController?.sourceView = self.view
+                        
+                        self.present(activityViewController, animated: true, completion: {
+                            
+                        })
+                    }
+                    
+                   
+                } onProgress: { progress in
+                    if progressCount < (Int(progress * 100)) {
+                        progressCount = (Int(progress * 100))
+                        DispatchQueue.main.async {
+                            self.lbLoading.text = "Please wait . . . \(Int(progress) * 100) %"
+                        }
+                    }
+                }
+            }
         }
 
     }

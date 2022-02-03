@@ -7,6 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2008F9AB275DD7580084DA9A /* ContactCustomerInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9A9275DD7580084DA9A /* ContactCustomerInfoCell.swift */; };
+		2008F9AC275DD7580084DA9A /* ContactCustomerInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9AA275DD7580084DA9A /* ContactCustomerInfoCell.xib */; };
+		2008F9AF275DDC960084DA9A /* ContactDetailCustomerInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9AD275DDC960084DA9A /* ContactDetailCustomerInfoVC.swift */; };
+		2008F9B0275DDC960084DA9A /* ContactDetailCustomerInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9AE275DDC960084DA9A /* ContactDetailCustomerInfoVC.xib */; };
+		2008F9BB275F190F0084DA9A /* ListRoomContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9B9275F190F0084DA9A /* ListRoomContactCell.swift */; };
+		2008F9BC275F190F0084DA9A /* ListRoomContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9BA275F190F0084DA9A /* ListRoomContactCell.xib */; };
+		2008F9BF275F3AB20084DA9A /* DetailConversationChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9BD275F3AB20084DA9A /* DetailConversationChatRoomVC.swift */; };
+		2008F9C0275F3AB20084DA9A /* DetailConversationChatRoomVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9BE275F3AB20084DA9A /* DetailConversationChatRoomVC.xib */; };
+		2008F9C8275F447E0084DA9A /* DetailConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9C6275F447E0084DA9A /* DetailConversationCell.swift */; };
+		2008F9C9275F447E0084DA9A /* DetailConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9C7275F447E0084DA9A /* DetailConversationCell.xib */; };
+		2008F9CB275FC0420084DA9A /* QCommentContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9CA275FC0420084DA9A /* QCommentContact.swift */; };
+		2008F9D0276191D30084DA9A /* DetailCustomerInformationContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9CE276191D30084DA9A /* DetailCustomerInformationContactVC.swift */; };
+		2008F9D1276191D30084DA9A /* DetailCustomerInformationContactVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9CF276191D30084DA9A /* DetailCustomerInformationContactVC.xib */; };
+		2008F9D52761A6D90084DA9A /* DCIContactAvatarNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9D32761A6D90084DA9A /* DCIContactAvatarNameCell.swift */; };
+		2008F9D62761A6D90084DA9A /* DCIContactAvatarNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9D42761A6D90084DA9A /* DCIContactAvatarNameCell.xib */; };
+		2008F9DA2761A7470084DA9A /* DCIContactLastConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9D82761A7470084DA9A /* DCIContactLastConversationCell.swift */; };
+		2008F9DB2761A7470084DA9A /* DCIContactLastConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9D92761A7470084DA9A /* DCIContactLastConversationCell.xib */; };
+		2008F9DE2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9DC2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.swift */; };
+		2008F9DF2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9DD2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.xib */; };
+		2008F9E22761AB660084DA9A /* HDCIContactChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9E02761AB660084DA9A /* HDCIContactChannelCell.swift */; };
+		2008F9E32761AB660084DA9A /* HDCIContactChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9E12761AB660084DA9A /* HDCIContactChannelCell.xib */; };
+		2008F9E82761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9E62761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.swift */; };
+		2008F9E92761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9E72761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.xib */; };
+		2008F9ED2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9EB2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift */; };
+		2008F9EE2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008F9EC2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib */; };
+		2008F9F02762E7230084DA9A /* CustomerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9EF2762E7230084DA9A /* CustomerProperties.swift */; };
+		201410B7276787F300B5AE31 /* LoadMoreDetailConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */; };
+		201410B8276787F300B5AE31 /* LoadMoreDetailConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */; };
+		203E4FFE27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */; };
+		203E4FFF27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */; };
+		203E5002277C23B5004FAF7B /* AlertWAInitiateChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E5000277C23B5004FAF7B /* AlertWAInitiateChatVC.swift */; };
+		203E5003277C23B5004FAF7B /* AlertWAInitiateChatVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E5001277C23B5004FAF7B /* AlertWAInitiateChatVC.xib */; };
+		203E5006277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E5004277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.swift */; };
+		203E5007277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E5005277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.xib */; };
+		203E500B277CA27E004FAF7B /* OpenChatSessionWAVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E5009277CA27E004FAF7B /* OpenChatSessionWAVC.swift */; };
+		203E500C277CA27E004FAF7B /* OpenChatSessionWAVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E500A277CA27E004FAF7B /* OpenChatSessionWAVC.xib */; };
+		203E500F277CAC6D004FAF7B /* OpenSessionWACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E500D277CAC6D004FAF7B /* OpenSessionWACell.swift */; };
+		203E5010277CAC6D004FAF7B /* OpenSessionWACell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E500E277CAC6D004FAF7B /* OpenSessionWACell.xib */; };
+		206623C62782DCE3000406CF /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206623C52782DCE3000406CF /* Double.swift */; };
+		20ADDAE227969B5400398496 /* AlertFailedSubmitWAOpenSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */; };
+		20ADDAE327969B5400398496 /* AlertFailedSubmitWAOpenSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */; };
 		3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */; };
 		3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */; };
 		3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */; };
@@ -197,6 +238,11 @@
 		3D819A2E221E655800F1B7CA /* QFileLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A2C221E655800F1B7CA /* QFileLeftCell.xib */; };
 		3D819A31221E656C00F1B7CA /* QFileRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */; };
 		3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D819A30221E656C00F1B7CA /* QFileRightCell.xib */; };
+		3D85D934274696F10057ECCF /* InstagramChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85D932274696F10057ECCF /* InstagramChannelCell.swift */; };
+		3D85D935274696F10057ECCF /* InstagramChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D85D933274696F10057ECCF /* InstagramChannelCell.xib */; };
+		3D85D93727469B700057ECCF /* InstagramChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85D93627469B700057ECCF /* InstagramChannelModel.swift */; };
+		3D85D93A27469C290057ECCF /* FilterChannelMultipleInstagramCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85D93827469C290057ECCF /* FilterChannelMultipleInstagramCell.swift */; };
+		3D85D93B27469C290057ECCF /* FilterChannelMultipleInstagramCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D85D93927469C290057ECCF /* FilterChannelMultipleInstagramCell.xib */; };
 		3D8A397626412118001CE15D /* FilterByTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A397426412118001CE15D /* FilterByTagCell.swift */; };
 		3D8A397726412118001CE15D /* FilterByTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D8A397526412118001CE15D /* FilterByTagCell.xib */; };
 		3D8A397D2644DF93001CE15D /* FilterByAgentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A397B2644DF93001CE15D /* FilterByAgentCell.swift */; };
@@ -349,6 +395,47 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2008F9A9275DD7580084DA9A /* ContactCustomerInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCustomerInfoCell.swift; sourceTree = "<group>"; };
+		2008F9AA275DD7580084DA9A /* ContactCustomerInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactCustomerInfoCell.xib; sourceTree = "<group>"; };
+		2008F9AD275DDC960084DA9A /* ContactDetailCustomerInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailCustomerInfoVC.swift; sourceTree = "<group>"; };
+		2008F9AE275DDC960084DA9A /* ContactDetailCustomerInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailCustomerInfoVC.xib; sourceTree = "<group>"; };
+		2008F9B9275F190F0084DA9A /* ListRoomContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRoomContactCell.swift; sourceTree = "<group>"; };
+		2008F9BA275F190F0084DA9A /* ListRoomContactCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListRoomContactCell.xib; sourceTree = "<group>"; };
+		2008F9BD275F3AB20084DA9A /* DetailConversationChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailConversationChatRoomVC.swift; sourceTree = "<group>"; };
+		2008F9BE275F3AB20084DA9A /* DetailConversationChatRoomVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailConversationChatRoomVC.xib; sourceTree = "<group>"; };
+		2008F9C6275F447E0084DA9A /* DetailConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailConversationCell.swift; sourceTree = "<group>"; };
+		2008F9C7275F447E0084DA9A /* DetailConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailConversationCell.xib; sourceTree = "<group>"; };
+		2008F9CA275FC0420084DA9A /* QCommentContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCommentContact.swift; sourceTree = "<group>"; };
+		2008F9CE276191D30084DA9A /* DetailCustomerInformationContactVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCustomerInformationContactVC.swift; sourceTree = "<group>"; };
+		2008F9CF276191D30084DA9A /* DetailCustomerInformationContactVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCustomerInformationContactVC.xib; sourceTree = "<group>"; };
+		2008F9D32761A6D90084DA9A /* DCIContactAvatarNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCIContactAvatarNameCell.swift; sourceTree = "<group>"; };
+		2008F9D42761A6D90084DA9A /* DCIContactAvatarNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DCIContactAvatarNameCell.xib; sourceTree = "<group>"; };
+		2008F9D82761A7470084DA9A /* DCIContactLastConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCIContactLastConversationCell.swift; sourceTree = "<group>"; };
+		2008F9D92761A7470084DA9A /* DCIContactLastConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DCIContactLastConversationCell.xib; sourceTree = "<group>"; };
+		2008F9DC2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDCIContactEmailAndPhoneCell.swift; sourceTree = "<group>"; };
+		2008F9DD2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDCIContactEmailAndPhoneCell.xib; sourceTree = "<group>"; };
+		2008F9E02761AB660084DA9A /* HDCIContactChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDCIContactChannelCell.swift; sourceTree = "<group>"; };
+		2008F9E12761AB660084DA9A /* HDCIContactChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDCIContactChannelCell.xib; sourceTree = "<group>"; };
+		2008F9E62761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDCIContactCustomerPropertisCell.swift; sourceTree = "<group>"; };
+		2008F9E72761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HDCIContactCustomerPropertisCell.xib; sourceTree = "<group>"; };
+		2008F9EB2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListContactCustomerPropertiesCell.swift; sourceTree = "<group>"; };
+		2008F9EC2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListContactCustomerPropertiesCell.xib; sourceTree = "<group>"; };
+		2008F9EF2762E7230084DA9A /* CustomerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerProperties.swift; sourceTree = "<group>"; };
+		201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreDetailConversationCell.swift; sourceTree = "<group>"; };
+		201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreDetailConversationCell.xib; sourceTree = "<group>"; };
+		203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSMCreditFreeSessionQuota.swift; sourceTree = "<group>"; };
+		203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HSMCreditFreeSessionQuota.xib; sourceTree = "<group>"; };
+		203E5000277C23B5004FAF7B /* AlertWAInitiateChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWAInitiateChatVC.swift; sourceTree = "<group>"; };
+		203E5001277C23B5004FAF7B /* AlertWAInitiateChatVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertWAInitiateChatVC.xib; sourceTree = "<group>"; };
+		203E5004277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWACreditBalanceRunOutVC.swift; sourceTree = "<group>"; };
+		203E5005277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertWACreditBalanceRunOutVC.xib; sourceTree = "<group>"; };
+		203E5009277CA27E004FAF7B /* OpenChatSessionWAVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatSessionWAVC.swift; sourceTree = "<group>"; };
+		203E500A277CA27E004FAF7B /* OpenChatSessionWAVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenChatSessionWAVC.xib; sourceTree = "<group>"; };
+		203E500D277CAC6D004FAF7B /* OpenSessionWACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSessionWACell.swift; sourceTree = "<group>"; };
+		203E500E277CAC6D004FAF7B /* OpenSessionWACell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenSessionWACell.xib; sourceTree = "<group>"; };
+		206623C52782DCE3000406CF /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFailedSubmitWAOpenSession.swift; sourceTree = "<group>"; };
+		20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertFailedSubmitWAOpenSession.xib; sourceTree = "<group>"; };
 		3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPostbackRightCell.swift; sourceTree = "<group>"; };
 		3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QPostbackRightCell.xib; sourceTree = "<group>"; };
 		3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAgentVC.swift; sourceTree = "<group>"; };
@@ -540,6 +627,11 @@
 		3D819A2C221E655800F1B7CA /* QFileLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileLeftCell.xib; sourceTree = "<group>"; };
 		3D819A2F221E656C00F1B7CA /* QFileRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QFileRightCell.swift; sourceTree = "<group>"; };
 		3D819A30221E656C00F1B7CA /* QFileRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileRightCell.xib; sourceTree = "<group>"; };
+		3D85D932274696F10057ECCF /* InstagramChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramChannelCell.swift; sourceTree = "<group>"; };
+		3D85D933274696F10057ECCF /* InstagramChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InstagramChannelCell.xib; sourceTree = "<group>"; };
+		3D85D93627469B700057ECCF /* InstagramChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramChannelModel.swift; sourceTree = "<group>"; };
+		3D85D93827469C290057ECCF /* FilterChannelMultipleInstagramCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleInstagramCell.swift; sourceTree = "<group>"; };
+		3D85D93927469C290057ECCF /* FilterChannelMultipleInstagramCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleInstagramCell.xib; sourceTree = "<group>"; };
 		3D8A397426412118001CE15D /* FilterByTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterByTagCell.swift; sourceTree = "<group>"; };
 		3D8A397526412118001CE15D /* FilterByTagCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterByTagCell.xib; sourceTree = "<group>"; };
 		3D8A397B2644DF93001CE15D /* FilterByAgentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterByAgentCell.swift; sourceTree = "<group>"; };
@@ -708,6 +800,149 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2008F9B1275DF3D40084DA9A /* ContactCell */ = {
+			isa = PBXGroup;
+			children = (
+				2008F9A9275DD7580084DA9A /* ContactCustomerInfoCell.swift */,
+				2008F9AA275DD7580084DA9A /* ContactCustomerInfoCell.xib */,
+				2008F9B9275F190F0084DA9A /* ListRoomContactCell.swift */,
+				2008F9BA275F190F0084DA9A /* ListRoomContactCell.xib */,
+			);
+			path = ContactCell;
+			sourceTree = "<group>";
+		};
+		2008F9B2275DF4120084DA9A /* TagsCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D7A39672577E153005E7FAE /* TagsCustomerInfoCell.swift */,
+				3D7A39682577E153005E7FAE /* TagsCustomerInfoCell.xib */,
+				3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */,
+				3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */,
+			);
+			path = TagsCell;
+			sourceTree = "<group>";
+		};
+		2008F9B3275DF43B0084DA9A /* AgentCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D7A396B25789B0D005E7FAE /* AgentCustomerInfoCell.swift */,
+				3D7A396C25789B0D005E7FAE /* AgentCustomerInfoCell.xib */,
+				3D7A396F2578A43F005E7FAE /* NoAgentsCell.swift */,
+				3D7A39702578A43F005E7FAE /* NoAgentsCell.xib */,
+			);
+			path = AgentCell;
+			sourceTree = "<group>";
+		};
+		2008F9B4275DF4680084DA9A /* HSMCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DB48BA925A7590900B5D760 /* HSMCell.swift */,
+				3DB48BAA25A7590900B5D760 /* HSMCell.xib */,
+				3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */,
+				3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */,
+				203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */,
+				203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */,
+			);
+			path = HSMCell;
+			sourceTree = "<group>";
+		};
+		2008F9B5275DF4820084DA9A /* BroadcastCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DC7FDCA25850E5A00CCA763 /* BroadcastHistoryCell.swift */,
+				3DC7FDCB25850E5A00CCA763 /* BroadcastHistoryCell.xib */,
+				3DC7FDD42585C71700CCA763 /* DetailBroadcastHistoryCell.swift */,
+				3DC7FDD52585C71700CCA763 /* DetailBroadcastHistoryCell.xib */,
+			);
+			path = BroadcastCell;
+			sourceTree = "<group>";
+		};
+		2008F9B6275DF4950084DA9A /* AdditionalInformationCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D7A395F2577C7B7005E7FAE /* AdditionalInformationCell.swift */,
+				3D7A39602577C7B7005E7FAE /* AdditionalInformationCell.xib */,
+				3D7A397925793960005E7FAE /* DetailAdditionalInformationCell.swift */,
+				3D7A397A25793960005E7FAE /* DetailAdditionalInformationCell.xib */,
+			);
+			path = AdditionalInformationCell;
+			sourceTree = "<group>";
+		};
+		2008F9B7275DF4BC0084DA9A /* OtherCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D7A39572577A701005E7FAE /* CustomerInfoCell.swift */,
+				3D7A39582577A701005E7FAE /* CustomerInfoCell.xib */,
+				3D7A39632577CA0C005E7FAE /* NotesCell.swift */,
+				3D7A39642577CA0C005E7FAE /* NotesCell.xib */,
+				3D5D071425CA37E300841D1B /* WABlockedCell.swift */,
+				3D5D071525CA37E300841D1B /* WABlockedCell.xib */,
+			);
+			path = OtherCell;
+			sourceTree = "<group>";
+		};
+		2008F9B8275DF4C90084DA9A /* TicketCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DE66995271D24080064B545 /* SubmitTicketCell.swift */,
+				3DE66996271D24080064B545 /* SubmitTicketCell.xib */,
+				3D7A395B2577ADCF005E7FAE /* CompleteTaskCell.swift */,
+				3D7A395C2577ADCF005E7FAE /* CompleteTaskCell.xib */,
+			);
+			path = TicketCell;
+			sourceTree = "<group>";
+		};
+		2008F9C1275F43080084DA9A /* DetailConversationChatRoomCell */ = {
+			isa = PBXGroup;
+			children = (
+				2008F9C6275F447E0084DA9A /* DetailConversationCell.swift */,
+				2008F9C7275F447E0084DA9A /* DetailConversationCell.xib */,
+				201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */,
+				201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */,
+			);
+			path = DetailConversationChatRoomCell;
+			sourceTree = "<group>";
+		};
+		2008F9D22761A6AD0084DA9A /* DetailCustomerInformationContactCell */ = {
+			isa = PBXGroup;
+			children = (
+				2008F9EA2761ACA30084DA9A /* PropertiesCell */,
+				2008F9D32761A6D90084DA9A /* DCIContactAvatarNameCell.swift */,
+				2008F9D42761A6D90084DA9A /* DCIContactAvatarNameCell.xib */,
+				2008F9D82761A7470084DA9A /* DCIContactLastConversationCell.swift */,
+				2008F9D92761A7470084DA9A /* DCIContactLastConversationCell.xib */,
+				2008F9DC2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.swift */,
+				2008F9DD2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.xib */,
+				2008F9E02761AB660084DA9A /* HDCIContactChannelCell.swift */,
+				2008F9E12761AB660084DA9A /* HDCIContactChannelCell.xib */,
+				2008F9E62761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.swift */,
+				2008F9E72761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.xib */,
+			);
+			path = DetailCustomerInformationContactCell;
+			sourceTree = "<group>";
+		};
+		2008F9EA2761ACA30084DA9A /* PropertiesCell */ = {
+			isa = PBXGroup;
+			children = (
+				2008F9EB2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift */,
+				2008F9EC2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib */,
+			);
+			path = PropertiesCell;
+			sourceTree = "<group>";
+		};
+		203E5008277CA234004FAF7B /* OpenChatSession */ = {
+			isa = PBXGroup;
+			children = (
+				203E5009277CA27E004FAF7B /* OpenChatSessionWAVC.swift */,
+				203E500A277CA27E004FAF7B /* OpenChatSessionWAVC.xib */,
+				203E500D277CAC6D004FAF7B /* OpenSessionWACell.swift */,
+				203E500E277CAC6D004FAF7B /* OpenSessionWACell.xib */,
+				20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */,
+				20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */,
+			);
+			path = OpenChatSession;
+			sourceTree = "<group>";
+		};
 		3D0B11EE25ECEE9600F32EDA /* QPostBackCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -819,6 +1054,9 @@
 				3D1282CB2649187A009F201E /* FeaturesModel.swift */,
 				3DBBF0DE266DE152005FBDAE /* WAChannelResolveModel.swift */,
 				3DE66999271D4C0E0064B545 /* SubmitTicketModel.swift */,
+				3D85D93627469B700057ECCF /* InstagramChannelModel.swift */,
+				2008F9CA275FC0420084DA9A /* QCommentContact.swift */,
+				2008F9EF2762E7230084DA9A /* CustomerProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -839,6 +1077,7 @@
 				3D99905826772FD70016AE6D /* UISearchBar.swift */,
 				3DBD7544267A429F006A7DE9 /* String.swift */,
 				3DF5071527213A7700FFC241 /* JsonSerializer.swift */,
+				206623C52782DCE3000406CF /* Double.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1037,36 +1276,16 @@
 		3D7A3973257930B1005E7FAE /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				3D0B8B25255DA619002A484F /* TagsSuggestionCell.swift */,
-				3D0B8B26255DA619002A484F /* TagsSuggestionCell.xib */,
-				3D7A39572577A701005E7FAE /* CustomerInfoCell.swift */,
-				3D7A39582577A701005E7FAE /* CustomerInfoCell.xib */,
-				3D7A395B2577ADCF005E7FAE /* CompleteTaskCell.swift */,
-				3D7A395C2577ADCF005E7FAE /* CompleteTaskCell.xib */,
-				3D7A395F2577C7B7005E7FAE /* AdditionalInformationCell.swift */,
-				3D7A39602577C7B7005E7FAE /* AdditionalInformationCell.xib */,
-				3D7A39632577CA0C005E7FAE /* NotesCell.swift */,
-				3D7A39642577CA0C005E7FAE /* NotesCell.xib */,
-				3D7A39672577E153005E7FAE /* TagsCustomerInfoCell.swift */,
-				3D7A39682577E153005E7FAE /* TagsCustomerInfoCell.xib */,
-				3D7A396B25789B0D005E7FAE /* AgentCustomerInfoCell.swift */,
-				3D7A396C25789B0D005E7FAE /* AgentCustomerInfoCell.xib */,
-				3D7A396F2578A43F005E7FAE /* NoAgentsCell.swift */,
-				3D7A39702578A43F005E7FAE /* NoAgentsCell.xib */,
-				3D7A397925793960005E7FAE /* DetailAdditionalInformationCell.swift */,
-				3D7A397A25793960005E7FAE /* DetailAdditionalInformationCell.xib */,
-				3DC7FDCA25850E5A00CCA763 /* BroadcastHistoryCell.swift */,
-				3DC7FDCB25850E5A00CCA763 /* BroadcastHistoryCell.xib */,
-				3DC7FDD42585C71700CCA763 /* DetailBroadcastHistoryCell.swift */,
-				3DC7FDD52585C71700CCA763 /* DetailBroadcastHistoryCell.xib */,
-				3DB48BA925A7590900B5D760 /* HSMCell.swift */,
-				3DB48BAA25A7590900B5D760 /* HSMCell.xib */,
-				3DB48BB525A807EE00B5D760 /* HSMWillExpireSoonCell.swift */,
-				3DB48BB625A807EE00B5D760 /* HSMWillExpireSoonCell.xib */,
-				3D5D071425CA37E300841D1B /* WABlockedCell.swift */,
-				3D5D071525CA37E300841D1B /* WABlockedCell.xib */,
-				3DE66995271D24080064B545 /* SubmitTicketCell.swift */,
-				3DE66996271D24080064B545 /* SubmitTicketCell.xib */,
+				2008F9D22761A6AD0084DA9A /* DetailCustomerInformationContactCell */,
+				2008F9C1275F43080084DA9A /* DetailConversationChatRoomCell */,
+				2008F9B7275DF4BC0084DA9A /* OtherCell */,
+				2008F9B8275DF4C90084DA9A /* TicketCell */,
+				2008F9B6275DF4950084DA9A /* AdditionalInformationCell */,
+				2008F9B5275DF4820084DA9A /* BroadcastCell */,
+				2008F9B4275DF4680084DA9A /* HSMCell */,
+				2008F9B3275DF43B0084DA9A /* AgentCell */,
+				2008F9B2275DF4120084DA9A /* TagsCell */,
+				2008F9B1275DF3D40084DA9A /* ContactCell */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1082,6 +1301,12 @@
 				3DC7FDD12585A8B400CCA763 /* BroadcastHistoryVC.xib */,
 				3DB48BAD25A76F5700B5D760 /* BottomAlertInfoHSM.swift */,
 				3DB48BAE25A76F5700B5D760 /* BottomAlertInfoHSM.xib */,
+				2008F9AD275DDC960084DA9A /* ContactDetailCustomerInfoVC.swift */,
+				2008F9AE275DDC960084DA9A /* ContactDetailCustomerInfoVC.xib */,
+				2008F9BD275F3AB20084DA9A /* DetailConversationChatRoomVC.swift */,
+				2008F9BE275F3AB20084DA9A /* DetailConversationChatRoomVC.xib */,
+				2008F9CE276191D30084DA9A /* DetailCustomerInformationContactVC.swift */,
+				2008F9CF276191D30084DA9A /* DetailCustomerInformationContactVC.xib */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -1289,6 +1514,10 @@
 				3D3BE50926293BB60026A63C /* TelegramChannelCell.xib */,
 				3D3BE5102629407C0026A63C /* FilterByChannelCell.swift */,
 				3D3BE5112629407C0026A63C /* FilterByChannelCell.xib */,
+				3D85D932274696F10057ECCF /* InstagramChannelCell.swift */,
+				3D85D933274696F10057ECCF /* InstagramChannelCell.xib */,
+				3D85D93827469C290057ECCF /* FilterChannelMultipleInstagramCell.swift */,
+				3D85D93927469C290057ECCF /* FilterChannelMultipleInstagramCell.xib */,
 			);
 			path = FilterByChannel;
 			sourceTree = "<group>";
@@ -1430,6 +1659,7 @@
 		3DCF6A3E2199562700C108E6 /* ChatView */ = {
 			isa = PBXGroup;
 			children = (
+				203E5008277CA234004FAF7B /* OpenChatSession */,
 				3D0B8B16255D8307002A484F /* Tags */,
 				3DC51C1F255D0890008BE893 /* AddRemoveAgent */,
 				3DAB88FF24C0E1640046E5DE /* ChatTemplateCell */,
@@ -1523,6 +1753,10 @@
 				3DF31DCF2721EF18003F0E56 /* AlertSuccessSubmitTicket.xib */,
 				3D114133272F9713005CBBEC /* AlertFailedSubmitTicket.swift */,
 				3D114134272F9713005CBBEC /* AlertFailedSubmitTicket.xib */,
+				203E5000277C23B5004FAF7B /* AlertWAInitiateChatVC.swift */,
+				203E5001277C23B5004FAF7B /* AlertWAInitiateChatVC.xib */,
+				203E5004277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.swift */,
+				203E5005277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.xib */,
 			);
 			path = Alert;
 			sourceTree = "<group>";
@@ -1589,6 +1823,7 @@
 				TargetAttributes = {
 					3DDEFB602192D35600484795 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1310;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1634,6 +1869,7 @@
 				3D7A39562577A328005E7FAE /* ChatAndCustomerInfoVC.xib in Resources */,
 				3D0EAE7225E8E90100481198 /* AlertAMFailedUpdate.xib in Resources */,
 				3D7A397C25793960005E7FAE /* DetailAdditionalInformationCell.xib in Resources */,
+				3D85D935274696F10057ECCF /* InstagramChannelCell.xib in Resources */,
 				3D3BE4E926287A190026A63C /* FBChannelCell.xib in Resources */,
 				3D3BE506262934240026A63C /* QiscusWidgetChannelCell.xib in Resources */,
 				3D0EAE6D25E8D35300481198 /* AccountManagementSPVVC.xib in Resources */,
@@ -1641,15 +1877,19 @@
 				3D3854A621B4DE6600435B31 /* UIChatViewController.xib in Resources */,
 				3D8A397E2644DF93001CE15D /* FilterByAgentCell.xib in Resources */,
 				3DFAD2FC268D84B40069B848 /* AnalyticsVC.xib in Resources */,
+				2008F9DF2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.xib in Resources */,
 				3DC02387266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.xib in Resources */,
 				3D7A395A2577A701005E7FAE /* CustomerInfoCell.xib in Resources */,
+				2008F9DB2761A7470084DA9A /* DCIContactLastConversationCell.xib in Resources */,
 				3DE66998271D24080064B545 /* SubmitTicketCell.xib in Resources */,
 				3D76775425D2B57D004C26DC /* AMRoleCell.xib in Resources */,
+				2008F9E32761AB660084DA9A /* HDCIContactChannelCell.xib in Resources */,
 				3D7A39722578A43F005E7FAE /* NoAgentsCell.xib in Resources */,
 				3DC0D41A26674BA500AF9783 /* AlertDisableFeatureFilterAgent.xib in Resources */,
 				3D3854AC21B4E03600435B31 /* UIChatListViewController.xib in Resources */,
 				3D3BE4DC2627DD2C0026A63C /* LineChannelCell.xib in Resources */,
 				3D7A396A2577E153005E7FAE /* TagsCustomerInfoCell.xib in Resources */,
+				2008F9D62761A6D90084DA9A /* DCIContactAvatarNameCell.xib in Resources */,
 				3D8F3E7225869400004434B7 /* AlertAvailabilityAgent.xib in Resources */,
 				3D2292EF256B9CFC0034CB12 /* PlayOgaVC.xib in Resources */,
 				3D5DD76522279AA400E39C96 /* EditNameVC.xib in Resources */,
@@ -1661,12 +1901,15 @@
 				3DFAD302268DA9C80069B848 /* AgentAnalyticsCell.xib in Resources */,
 				3DC02382266F6BCA008E5CCC /* InProgressResolveALLExpiredWACell.xib in Resources */,
 				3DCC3AF326930258002FD4B1 /* OverallAgentPerformance.xib in Resources */,
+				2008F9AC275DD7580084DA9A /* ContactCustomerInfoCell.xib in Resources */,
 				3D80B2B8221BDBE80053280C /* CreateGroupInfoVC.xib in Resources */,
+				203E5003277C23B5004FAF7B /* AlertWAInitiateChatVC.xib in Resources */,
 				3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */,
 				3DAF5528262533BD00208B99 /* FilterVC.xib in Resources */,
 				3DCC3AEE26930239002FD4B1 /* OverallAgentGeneral.xib in Resources */,
 				3DCF6A3B2199277F00C108E6 /* LoginViewController.xib in Resources */,
 				3D0EAE5B25E618F900481198 /* AMAlterBillEmailDuaCell.xib in Resources */,
+				2008F9C0275F3AB20084DA9A /* DetailConversationChatRoomVC.xib in Resources */,
 				3DA8244A2301B3980054D92F /* QCarouselCell.xib in Resources */,
 				3DC7FDCD25850E5A00CCA763 /* BroadcastHistoryCell.xib in Resources */,
 				3D3BE4F126288B9F0026A63C /* FilterChannelMultipleCustomCHCell.xib in Resources */,
@@ -1678,7 +1921,9 @@
 				3D7A395E2577ADCF005E7FAE /* CompleteTaskCell.xib in Resources */,
 				3DBBF0E5266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
+				2008F9EE2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib in Resources */,
 				3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */,
+				2008F9D1276191D30084DA9A /* DetailCustomerInformationContactVC.xib in Resources */,
 				3DBD7542267A2E49006A7DE9 /* UIChatListSearchMessageViewCell.xib in Resources */,
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
 				3DAB890324C0E2040046E5DE /* ChatTemplateCell.xib in Resources */,
@@ -1690,6 +1935,7 @@
 				3D76773825D2842D004C26DC /* SettingMenuVC.xib in Resources */,
 				3D3BE4E4262879800026A63C /* FilterChannelMultipleFBCell.xib in Resources */,
 				3DC51C23255D08D0008BE893 /* AddAgentVC.xib in Resources */,
+				203E5007277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
 				3DB48BAC25A7590900B5D760 /* HSMCell.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
@@ -1697,8 +1943,11 @@
 				3D76774A25D2ABDA004C26DC /* AMFullNameCell.xib in Resources */,
 				3DC7FE112586633800CCA763 /* AvailabilityAgentCell.xib in Resources */,
 				3D0EAE5625E60FCF00481198 /* AMAlterBillEmailSatuCell.xib in Resources */,
+				203E5010277CAC6D004FAF7B /* OpenSessionWACell.xib in Resources */,
+				2008F9BC275F190F0084DA9A /* ListRoomContactCell.xib in Resources */,
 				3DA824492301B3980054D92F /* QCarouselCardCell.xib in Resources */,
 				3D7A39622577C7B7005E7FAE /* AdditionalInformationCell.xib in Resources */,
+				2008F9C9275F447E0084DA9A /* DetailConversationCell.xib in Resources */,
 				3D0EAE6025E6199800481198 /* AMAlterBillEmailTigaCell.xib in Resources */,
 				3D8A397726412118001CE15D /* FilterByTagCell.xib in Resources */,
 				3D7ADB73268E00A900DB214D /* OtherAnalyticsVC.xib in Resources */,
@@ -1709,6 +1958,7 @@
 				3D5D071725CA37E300841D1B /* WABlockedCell.xib in Resources */,
 				3D114136272F9713005CBBEC /* AlertFailedSubmitTicket.xib in Resources */,
 				3D7A39662577CA0C005E7FAE /* NotesCell.xib in Resources */,
+				201410B8276787F300B5AE31 /* LoadMoreDetailConversationCell.xib in Resources */,
 				3D12874D25FB1650001A5962 /* QReplyLeftCell.xib in Resources */,
 				3DCC3B02269302B8002FD4B1 /* OverallAgentOthers.xib in Resources */,
 				3DAF553026253ED800208B99 /* WhatsAppChannelCell.xib in Resources */,
@@ -1729,6 +1979,7 @@
 				3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D3BE4D72627DBE40026A63C /* FilterChannelMultipleLineCell.xib in Resources */,
+				20ADDAE327969B5400398496 /* AlertFailedSubmitWAOpenSession.xib in Resources */,
 				3D9A29AF25D3B7F000E880E1 /* AlertAMFailedChangePassword.xib in Resources */,
 				3D3BE4F626288C360026A63C /* CustomCHChannelCell.xib in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
@@ -1743,6 +1994,7 @@
 				3D3854BB21B6409A00435B31 /* EmptyCell.xib in Resources */,
 				3D0EAE6525E63C5D00481198 /* AMIndustryCell.xib in Resources */,
 				3DA824502301B3980054D92F /* QPostbackLeftCell.xib in Resources */,
+				203E500C277CA27E004FAF7B /* OpenChatSessionWAVC.xib in Resources */,
 				3D76776125D2DD66004C26DC /* AlertAMSuccessUpdate.xib in Resources */,
 				3D40B8AE2192E20C00FE7228 /* QiscusUploaderVC.xib in Resources */,
 				3D76773E25D28958004C26DC /* AccountManagementAgentVC.xib in Resources */,
@@ -1751,10 +2003,12 @@
 				3D7ADB69268DF8AF00DB214D /* PerformanceAgentVC.xib in Resources */,
 				3D819A32221E656C00F1B7CA /* QFileRightCell.xib in Resources */,
 				3D76774525D29223004C26DC /* AMProfileAvatarCell.xib in Resources */,
+				2008F9B0275DDC960084DA9A /* ContactDetailCustomerInfoVC.xib in Resources */,
 				3D0B8B15255D6D3F002A484F /* RemoveAgentVC.xib in Resources */,
 				3D7A396E25789B0E005E7FAE /* AgentCustomerInfoCell.xib in Resources */,
 				3DD6E59125AD664800BF96AD /* QVideoRightCell.xib in Resources */,
 				3D3BE50B26293BB60026A63C /* TelegramChannelCell.xib in Resources */,
+				203E4FFF27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib in Resources */,
 				3D7A397825793100005E7FAE /* AdditionalInformationVC.xib in Resources */,
 				3DA788FE2480D84A00CEF339 /* QReplyImageLeftCell.xib in Resources */,
 				3DA8244E2301B3980054D92F /* QCardLeftCell.xib in Resources */,
@@ -1768,7 +2022,9 @@
 				3D80B2B0221BB4770053280C /* CreateNewGroupVC.xib in Resources */,
 				3DAF553526254CE500208B99 /* FilterChannelMultipleWACell.xib in Resources */,
 				3D76774F25D2B1F2004C26DC /* AMEmailAddressCell.xib in Resources */,
+				3D85D93B27469C290057ECCF /* FilterChannelMultipleInstagramCell.xib in Resources */,
 				3D12875925FB4F5B001A5962 /* QLocationLeftCell.xib in Resources */,
+				2008F9E92761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1837,6 +2093,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DBD7545267A429F006A7DE9 /* String.swift in Sources */,
+				2008F9BF275F3AB20084DA9A /* DetailConversationChatRoomVC.swift in Sources */,
 				3D0EAE7125E8E90100481198 /* AlertAMFailedUpdate.swift in Sources */,
 				3D40B8B52192E20C00FE7228 /* ViewController.swift in Sources */,
 				3D40B8F02192E20C00FE7228 /* QImageRightCell.swift in Sources */,
@@ -1849,6 +2106,7 @@
 				3DCC3AED26930239002FD4B1 /* OverallAgentGeneral.swift in Sources */,
 				3DB48BAF25A76F5700B5D760 /* BottomAlertInfoHSM.swift in Sources */,
 				3D76774E25D2B1F2004C26DC /* AMEmailAddressCell.swift in Sources */,
+				2008F9CB275FC0420084DA9A /* QCommentContact.swift in Sources */,
 				3D9CCD1A26564ACC00CD3D95 /* InboxCell.swift in Sources */,
 				3DB48BAB25A7590900B5D760 /* HSMCell.swift in Sources */,
 				3D76773D25D28958004C26DC /* AccountManagementAgentVC.swift in Sources */,
@@ -1858,6 +2116,8 @@
 				3D3854AB21B4E03600435B31 /* UIChatListViewController.swift in Sources */,
 				3D40B8C92192E20C00FE7228 /* CustomChatInput.swift in Sources */,
 				3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */,
+				2008F9DA2761A7470084DA9A /* DCIContactLastConversationCell.swift in Sources */,
+				2008F9F02762E7230084DA9A /* CustomerProperties.swift in Sources */,
 				3D3BE5122629407C0026A63C /* FilterByChannelCell.swift in Sources */,
 				3DC51C1C255B8BB2008BE893 /* QSiriWaveView.swift in Sources */,
 				3D7A396D25789B0E005E7FAE /* AgentCustomerInfoCell.swift in Sources */,
@@ -1866,24 +2126,31 @@
 				3DC7FE102586633800CCA763 /* AvailabilityAgentCell.swift in Sources */,
 				3DC51C2A255D14A7008BE893 /* AgentModel.swift in Sources */,
 				3D0B8B1D255D88CA002A484F /* TagListView.swift in Sources */,
+				2008F9C8275F447E0084DA9A /* DetailConversationCell.swift in Sources */,
 				3DC7FDCC25850E5A00CCA763 /* BroadcastHistoryCell.swift in Sources */,
 				3D0EAE4B25E6071500481198 /* AMAddressCell.swift in Sources */,
+				2008F9E22761AB660084DA9A /* HDCIContactChannelCell.swift in Sources */,
 				3DC02386266FA52F008E5CCC /* WaitingResolveALLExpiredWACell.swift in Sources */,
+				2008F9DE2761A9BB0084DA9A /* HDCIContactEmailAndPhoneCell.swift in Sources */,
 				3DA824472301B3980054D92F /* QPostbackLeftCell.swift in Sources */,
 				3D40B8D32192E20C00FE7228 /* QImageLeftCell.swift in Sources */,
 				3DF5071627213A7700FFC241 /* JsonSerializer.swift in Sources */,
+				203E500B277CA27E004FAF7B /* OpenChatSessionWAVC.swift in Sources */,
 				3DA788ED2480623000CEF339 /* UIChatListResolvedViewController.swift in Sources */,
 				3DBD7541267A2E49006A7DE9 /* UIChatListSearchMessageViewCell.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
+				20ADDAE227969B5400398496 /* AlertFailedSubmitWAOpenSession.swift in Sources */,
 				3DBBF0D4266DC7BB005FBDAE /* ResolvedALLWAVC.swift in Sources */,
 				3D7A395D2577ADCF005E7FAE /* CompleteTaskCell.swift in Sources */,
 				3D0EAE4125E5FC9A00481198 /* AccountManagementAdminVC.swift in Sources */,
 				3D7ADB68268DF8AF00DB214D /* PerformanceAgentVC.swift in Sources */,
+				2008F9AF275DDC960084DA9A /* ContactDetailCustomerInfoVC.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3DFAD301268DA9C80069B848 /* AgentAnalyticsCell.swift in Sources */,
 				3D5D071625CA37E300841D1B /* WABlockedCell.swift in Sources */,
 				3DAF552F26253ED800208B99 /* WhatsAppChannelCell.swift in Sources */,
+				2008F9BB275F190F0084DA9A /* ListRoomContactCell.swift in Sources */,
 				3DC7FDCF2585342400CCA763 /* BroadCastHistoryModel.swift in Sources */,
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
 				3DD6E59025AD664800BF96AD /* QVideoRightCell.swift in Sources */,
@@ -1905,6 +2172,7 @@
 				3D8CA6C3268DC1EE00176F80 /* AnalyticsAnotherAgent.swift in Sources */,
 				3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */,
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
+				3D85D934274696F10057ECCF /* InstagramChannelCell.swift in Sources */,
 				3D3BE4F526288C360026A63C /* CustomCHChannelCell.swift in Sources */,
 				3D76776025D2DD66004C26DC /* AlertAMSuccessUpdate.swift in Sources */,
 				3D8F3E7125869400004434B7 /* AlertAvailabilityAgent.swift in Sources */,
@@ -1912,12 +2180,14 @@
 				3D0EAE5A25E618F900481198 /* AMAlterBillEmailDuaCell.swift in Sources */,
 				3D80B2B7221BDBE80053280C /* CreateGroupInfoVC.swift in Sources */,
 				3D40B8B62192E20C00FE7228 /* NavigationBar.swift in Sources */,
+				203E5006277C37DC004FAF7B /* AlertWACreditBalanceRunOutVC.swift in Sources */,
 				3D3BE50A26293BB60026A63C /* TelegramChannelCell.swift in Sources */,
 				3DC7FE052586589900CCA763 /* RDNavigationDrawerDelegate.swift in Sources */,
 				3DA824532301B5690054D92F /* QiscusHelper.swift in Sources */,
 				3DFAD2F6268D744F0069B848 /* AnalyticsCell.swift in Sources */,
 				3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */,
 				3D80B2AF221BB4770053280C /* CreateNewGroupVC.swift in Sources */,
+				203E500F277CAC6D004FAF7B /* OpenSessionWACell.swift in Sources */,
 				3D0EAE6425E63C5D00481198 /* AMIndustryCell.swift in Sources */,
 				3D3BE4E3262879800026A63C /* FilterChannelMultipleFBCell.swift in Sources */,
 				3DB36C1625AB70A70086F05F /* HSMTemplateModel.swift in Sources */,
@@ -1954,15 +2224,19 @@
 				3DCC3AF226930258002FD4B1 /* OverallAgentPerformance.swift in Sources */,
 				3D4434E9221A71AF009B5CD0 /* ContactCell.swift in Sources */,
 				3D7A39652577CA0C005E7FAE /* NotesCell.swift in Sources */,
+				201410B7276787F300B5AE31 /* LoadMoreDetailConversationCell.swift in Sources */,
 				3DC0238B266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift in Sources */,
 				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
 				3DFAD2FB268D84B40069B848 /* AnalyticsVC.swift in Sources */,
 				3D3BE505262934240026A63C /* QiscusWidgetChannelCell.swift in Sources */,
 				3D40B8B32192E20C00FE7228 /* CommentModel.swift in Sources */,
+				2008F9AB275DD7580084DA9A /* ContactCustomerInfoCell.swift in Sources */,
+				206623C62782DCE3000406CF /* Double.swift in Sources */,
 				3D40B8ED2192E20C00FE7228 /* QTextRightCell.swift in Sources */,
 				3D5DD760222780E300E39C96 /* ProfileVC.swift in Sources */,
 				3DAF5527262533BD00208B99 /* FilterVC.swift in Sources */,
 				3D0B8B1F255D88F2002A484F /* TagView.swift in Sources */,
+				3D85D93A27469C290057ECCF /* FilterChannelMultipleInstagramCell.swift in Sources */,
 				3DDEFB652192D35600484795 /* AppDelegate.swift in Sources */,
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
 				3DAF553826256C9900208B99 /* WAChannelModel.swift in Sources */,
@@ -1971,16 +2245,20 @@
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3D12875D25FB5EAC001A5962 /* QLocationRightCell.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
+				2008F9D0276191D30084DA9A /* DetailCustomerInformationContactVC.swift in Sources */,
 				3D3BE50E26293CC50026A63C /* TelegramChannelModel.swift in Sources */,
 				3DA8244F2301B3980054D92F /* QCardLeftCell.swift in Sources */,
 				3DA788E92480613E00CEF339 /* UIChatListServedViewController.swift in Sources */,
 				3DB48BB725A807EE00B5D760 /* HSMWillExpireSoonCell.swift in Sources */,
 				3DE6699A271D4C0E0064B545 /* SubmitTicketModel.swift in Sources */,
+				2008F9D52761A6D90084DA9A /* DCIContactAvatarNameCell.swift in Sources */,
 				3D96939126B261D700FBE6C1 /* ScanBarcodeVC.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3D3BE4D12626EEEE0026A63C /* UIChatListALLViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
 				3D0EAE6C25E8D35300481198 /* AccountManagementSPVVC.swift in Sources */,
+				3D85D93727469B700057ECCF /* InstagramChannelModel.swift in Sources */,
+				2008F9E82761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.swift in Sources */,
 				3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */,
 				3DA788E52480406C00CEF339 /* UIChatListUnservedViewController.swift in Sources */,
 				3DAB890724C0FDE40046E5DE /* ChatTemplate.swift in Sources */,
@@ -2000,9 +2278,12 @@
 				3DF31DD02721EF18003F0E56 /* AlertSuccessSubmitTicket.swift in Sources */,
 				3DBBF0E4266DE7E8005FBDAE /* AlertResolveWAChannelVC.swift in Sources */,
 				3DA788FD2480D84A00CEF339 /* QReplyImageLeftCell.swift in Sources */,
+				2008F9ED2761ACC70084DA9A /* ListContactCustomerPropertiesCell.swift in Sources */,
+				203E5002277C23B5004FAF7B /* AlertWAInitiateChatVC.swift in Sources */,
 				3D2292EE256B9CFC0034CB12 /* PlayOgaVC.swift in Sources */,
 				3DC7FDD22585A8B400CCA763 /* BroadcastHistoryVC.swift in Sources */,
 				3DBBF0EB266DF54B005FBDAE /* LinearProgressBar.swift in Sources */,
+				203E4FFE27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift in Sources */,
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DB1BF172444420D00F732B4 /* LoadMoreActivityIndicator.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
@@ -2176,10 +2457,11 @@
 			baseConfigurationReference = C02BD24DCE9BA0B6E0BC7700 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2191,7 +2473,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
@@ -2207,10 +2489,11 @@
 			baseConfigurationReference = C5AD7F688AE45942F951EE04 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2220,7 +2503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.0;
+				MARKETING_VERSION = 1.11.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";

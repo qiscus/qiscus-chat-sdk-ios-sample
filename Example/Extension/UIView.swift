@@ -115,6 +115,8 @@ extension UITextField{
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        done.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+        
         
         let items = [flexSpace, done]
         doneToolbar.items = items
@@ -150,6 +152,8 @@ extension UISearchBar{
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
         
+        done.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+        
         let items = [flexSpace, done]
         doneToolbar.items = items
         doneToolbar.sizeToFit()
@@ -184,6 +188,9 @@ extension UITextView{
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
         
+        done.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+        
+        
         let items = [flexSpace, done]
         doneToolbar.items = items
         doneToolbar.sizeToFit()
@@ -197,3 +204,15 @@ extension UITextView{
     }
 }
 
+extension UIView {
+   func roundedCorners(top: Bool){
+       let corners:UIRectCorner = (top ? [.topLeft , .topRight] : [.bottomRight , .bottomLeft])
+       let maskPAth1 = UIBezierPath(roundedRect: self.bounds,
+                                    byRoundingCorners: corners,
+                                    cornerRadii:CGSize(width:16.0, height:16.0))
+       let maskLayer1 = CAShapeLayer()
+       maskLayer1.frame = self.bounds
+       maskLayer1.path = maskPAth1.cgPath
+       self.layer.mask = maskLayer1
+   }
+}

@@ -89,7 +89,7 @@ class UIChatListSearchMessageViewCell: UITableViewCell {
             let dateString = dateFormatter2.string(from: date)
             
             let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "h:mm a"
+            timeFormatter.dateFormat = "HH:mm"
             let timeString = timeFormatter.string(from: date)
             
             var result = ""

@@ -48,6 +48,10 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var resultsTelegramChannelModel = [TelegramChannelModel]()
     var channelsModelTelegram = [ChannelsModel]()
     
+    //Instagram channel
+    var resultsInstagramChannelModel = [InstagramChannelModel]()
+    var channelsModelInstagram = [ChannelsModel]()
+    
     //tags filter
     var tagsData = [TagsModel]()
     
@@ -63,12 +67,14 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var isCustomChannelSelected : Bool = false
     var isQiscusWidgetSelected : Bool = false
     var isTelegramSelected : Bool = false
+    var isInstagramSelected : Bool = false
     
     var isShowWAFilter : Bool = false
     var isShowLineFilter : Bool = false
     var isShowFBFilter : Bool = false
     var isShowCustomChannelFilter : Bool = false
     var isShowQiscusWidgetFilter: Bool = false
+    var isShowInstagramFilter: Bool = false
     var isShowTelegramFilter : Bool = false
     
     
@@ -278,6 +284,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.isCustomChannelSelected = false
         self.isQiscusWidgetSelected = false
         self.isTelegramSelected = false
+        self.isInstagramSelected = false
         
 
         // reset all UI
@@ -287,6 +294,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.resultsCustomCHChannelModel.removeAll()
         self.resultsQiscusWidgetChannelModel.removeAll()
         self.resultsTelegramChannelModel.removeAll()
+        self.resultsInstagramChannelModel.removeAll()
         
         self.channelsModelWA.removeAll()
         self.channelsModelLine.removeAll()
@@ -294,6 +302,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.channelsModelCustomCH.removeAll()
         self.channelsModelQiscusWidget.removeAll()
         self.channelsModelTelegram.removeAll()
+        self.channelsModelInstagram.removeAll()
         self.selectedTypeWA = ""
         
         self.tagsData.removeAll()
@@ -307,6 +316,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIFB"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUICustomCH"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIQiscusWidget"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIInstagram"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITelegram"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITag"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIAgent"), object: nil)
@@ -368,13 +378,13 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 } else {
                     //success
                     let json = JSON(response.result.value)
-                  
                     let waChannels = json["data"]["wa_channels"].array
                     let lineChannels = json["data"]["line_channels"].array
                     let fbChannels = json["data"]["fb_channels"].array
                     let chChannels = json["data"]["custom_channels"].array
                     let qiscusWidgetChannels = json["data"]["qiscus_channels"].array
                     let telegramChannels = json["data"]["telegram_channels"].array
+                    let igChannels = json["data"]["ig_channels"].array
                     
                     if waChannels?.count != 0 {
                         self.isShowWAFilter = true
@@ -464,6 +474,21 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             self.resultsTelegramChannelModel.append(dataTelegram)
                         }
                         
+                    }
+                    
+                    if igChannels?.count != 0 {
+                        self.isShowInstagramFilter  = true
+                        for data in igChannels! {
+                            var dataIG = InstagramChannelModel(json: data)
+
+                            if let hasFilter = self.defaults.string(forKey: "filter"){
+                                if hasFilter.contains("\(dataIG.id)") == true{
+                                    dataIG.isSelected = true
+                                }
+                            }
+                            self.resultsInstagramChannelModel.append(dataIG)
+                        }
+
                     }
 
                     
@@ -559,6 +584,10 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 array.append(telegramChannel.dictio)
             }
             
+            for instagramChannel in self.channelsModelInstagram{
+                array.append(instagramChannel.dictio)
+            }
+            
             
             let json = JSON(array)
             let representation = json.rawString()
@@ -616,7 +645,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         var resetActive = false
         
         if tableViewChannel.isHidden == false {
-            if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true{
+            if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true || isInstagramSelected == true{
                 resetActive = true
                 self.disableEnableApply(isEnable: true)
             }else{
@@ -716,6 +745,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.tableViewChannel.register(UINib(nibName: "CustomCHChannelCell", bundle: nil), forCellReuseIdentifier: "CustomCHChannelCellIdentifire")
         self.tableViewChannel.register(UINib(nibName: "QiscusWidgetChannelCell", bundle: nil), forCellReuseIdentifier: "QiscusWidgetChannelCellIdentifire")
         self.tableViewChannel.register(UINib(nibName: "TelegramChannelCell", bundle: nil), forCellReuseIdentifier: "TelegramChannelCellIdentifire")
+        self.tableViewChannel.register(UINib(nibName: "InstagramChannelCell", bundle: nil), forCellReuseIdentifier: "InstagramChannelCellIdentifire")
         
         self.tableViewChannel.translatesAutoresizingMaskIntoConstraints = false
         self.tableViewChannel.separatorStyle = .none
@@ -747,7 +777,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 return 2
             }
         }else if tableView == self.tableViewChannel {
-            return 7
+            return 8
         }else if tableView == self.tableViewTag{
             return 1
         }else if tableView == self.tableViewAgent{
@@ -794,6 +824,8 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 return self.filterQiscusWidget(tableView: tableView, indexPath: indexPath)
             }else if (indexPath.row == 6){
                 return self.filterTelegram(tableView: tableView, indexPath: indexPath)
+            }else if (indexPath.row == 7){
+                return self.filterInstagram(tableView: tableView, indexPath: indexPath)
             }
         } else if tableView == self.tableViewTag {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FilterByTagCellIdentifire", for: indexPath) as! FilterByTagCell
@@ -838,6 +870,10 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 }
             } else if indexPath.row == 6 {
                 if self.isShowTelegramFilter == false{
+                    return 0
+                }
+            } else if indexPath.row == 7 {
+                if self.isShowInstagramFilter == false{
                     return 0
                 }
             }
@@ -962,6 +998,14 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         cell.viewController = self
         cell.setupData(data: self.resultsTelegramChannelModel)
+        return cell
+    }
+    
+    func filterInstagram(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "InstagramChannelCellIdentifire", for: indexPath) as! InstagramChannelCell
+        cell.delegate = self
+        cell.viewController = self
+        cell.setupData(data: self.resultsInstagramChannelModel)
         return cell
     }
     
@@ -1094,6 +1138,27 @@ extension FilterVC : TelegramChannelCellDelegate {
         }else{
             //remove
             channelsModelTelegram.removeAll()
+        }
+    }
+}
+
+extension FilterVC : InstagramChannelCellDelegate {
+    func updateDataInstagram(isInstagramSelected: Bool, dataInstagramChannelModel : [InstagramChannelModel]?){
+        self.isInstagramSelected = isInstagramSelected
+        self.checkButtonReset()
+
+        if let dataInstagramChannelModel = dataInstagramChannelModel {
+            for data in dataInstagramChannelModel{
+                if data.isSelected == true{
+                    let dataInstagram = ChannelsModel(channelID: data.id, source: "ig")
+                    channelsModelInstagram.append(dataInstagram)
+                }else{
+                    channelsModelInstagram.removeAll(where: { $0.channel_id == data.id })
+                }
+            }
+        }else{
+            //remove
+            channelsModelInstagram.removeAll()
         }
     }
 }

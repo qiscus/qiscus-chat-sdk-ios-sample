@@ -167,6 +167,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     //scroll to commentId
     var scrollToComment : CommentModel? = nil
     
+    var channelID : Int = 0
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -206,6 +208,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         
         self.checkIFTypeWAExpired()
         self.setupReachability()
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1000,11 +1007,24 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     let channelID = json["data"]["channel_id"].int ?? 0
                     var userID = json["data"]["user_id"].string ?? ""
                     var isWaBlocked = json["data"]["is_blocked"].bool ?? false
+                    let isWaActive = json["data"]["channel"]["is_active"].bool ?? false
                     self.isWaBlocked = isWaBlocked
                     self.userID = userID
+                    self.channelID = channelID
                     if channelID != 0 {
-                        self.setupHSMAlertMessage()
-                        self.getTemplateHSM(channelID: channelID)
+                        //older version wa pricing
+//                        self.setupHSMAlertMessage()
+//                        self.getTemplateHSM(channelID: channelID)
+                        
+                        if isWaActive == true{
+                            //new version wa pricing
+                            self.checkWAActiveSession(channelID : channelID, waUserId: userID)
+                        }else{
+                            self.chatInput.showNoActiveTemplate()
+                        }
+                        
+                        
+                        
                     }
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
@@ -1059,130 +1079,6 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             self.viewAlertHSMTemplate.alpha = 1
             self.hideUIRecord(isHidden: true)
             self.settingTableViewHeightUP()
-        }
-    }
-    
-
-    
-    func getTemplateHSM(channelID: Int){
-        guard let token = UserDefaults.standard.getAuthenticationToken() else {
-            return
-        }
-        
-        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
-        let param = ["channel_id": channelID,
-                     "approved" : true
-        ] as [String : Any]
-        
-        
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/admin/hsm_24", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
-            if response.result.value != nil {
-                if (response.response?.statusCode)! >= 300 {
-                    //error
-                    
-                    if response.response?.statusCode == 401 {
-                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
-                            if success == true {
-                                self.getTemplateHSM(channelID: channelID)
-                            } else {
-                                return
-                            }
-                        }
-                    } else if response.response?.statusCode == 400 {
-                        if let userType = UserDefaults.standard.getUserType(){
-                            if userType == 3 || userType == 2 {
-                                //spv
-                                let style = NSMutableParagraphStyle()
-                                style.lineSpacing = 14
-                                style.alignment = .center
-                                let attributes = [NSAttributedString.Key.paragraphStyle : style, NSAttributedString.Key.foregroundColor : ColorConfiguration.alertTextColorHSM]
-                                
-                                let messageHSMDisable = "Please contact Your Admin"
-                                let attributedStringHSMDisable = NSMutableAttributedString(string: messageHSMDisable, attributes: attributes)
-                                
-                                // textView is a UITextView HSM Quota0
-                                self.tvAlertMessageHSMDisable.attributedText = attributedStringHSMDisable
-                            }
-                            
-                            self.handleHSMAlertPending()
-                        }
-                    }
-                    
-                } else {
-                    //success
-                    let payload = JSON(response.result.value)
-                    let arrayTemplate = payload["data"]["hsm_template"]["hsm_details"].array
-                    let enableSendHSM = payload["data"]["enabled"].bool ?? false
-                    let hsmQuota = payload["data"]["hsm_quota"].int ?? 0
-                    
-                    self.lbAlertCreditCountHSM.text = "Credit Message Template remaining : \(hsmQuota) Messages"
-                    
-                    if arrayTemplate?.count != 0 {
-                        var results = [HSMTemplateModel]()
-                        for dataTemplate in arrayTemplate! {
-                            let data = HSMTemplateModel(json: dataTemplate)
-                            results.append(data)
-                        }
-                        self.dataHSMTemplate = results
-                        self.dataLanguage.removeAll()
-                        for i in results {
-                            
-                            if !i.countryName.isEmpty{
-                                self.dataLanguage.append(i.countryName)
-                            }
-                        }
-                        
-                        if self.dataLanguage.count != 0 {
-                            self.tfSelectTemplateLanguage.text = self.dataLanguage.first
-                            
-                            let filterData = self.dataHSMTemplate.filter{ $0.countryName.lowercased() == self.dataLanguage.first!.lowercased() }
-                            
-                            if let data = filterData.first{
-                                self.textViewContentTemplateHSM.text = data.content
-                            }else{
-                                self.textViewContentTemplateHSM.text = ""
-                            }
-                            
-                        }
-                    }
-                    
-                    //self.qiscusAutoHideKeyboard()
-                    self.view.endEditing(true)
-                    if let room = QiscusCore.database.room.find(id: self.room!.id){
-                        let lastComment = room.lastComment
-                        
-                        if lastComment?.message.contains("Message failed to send because more than 24 hours") == true {
-                            if enableSendHSM == true{
-                                if hsmQuota == 0 {
-                                    self.viewExpiredQuota0.isHidden = false
-                                }else{
-                                    self.viewExpiredQuota0.isHidden = true
-                                }
-                                self.viewExpiredHSMDisable.isHidden = true
-                            }else{
-                                self.viewExpiredQuota0.isHidden = true
-                                self.viewExpiredHSMDisable.isHidden = false
-                            }
-                            self.viewAlertHSMTemplate.alpha = 1
-                            self.hideUIRecord(isHidden: true)
-                            self.settingTableViewHeightUP()
-                        }else{
-                            self.settingTableViewNormal()
-                            self.hideUIRecord(isHidden: false)
-                            self.viewAlertHSMTemplate.alpha = 0
-                        }
-                    }else{
-                        self.settingTableViewNormal()
-                        self.hideUIRecord(isHidden: false)
-                    }
-                }
-            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
-                //failed
-                self.hideUIRecord(isHidden: false)
-            } else {
-                //failed
-                self.hideUIRecord(isHidden: false)
-            }
         }
     }
     
@@ -1549,6 +1445,57 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 } else {
                    //failed
                 }
+            }
+        }
+    }
+    
+    func checkWAActiveSession(channelID: Int, waUserId : String){
+        self.chatInput.hideNoActiveSession()
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        let params = ["wa_user_id": waUserId, "channel_id": channelID] as [String : Any]
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/wa_sessions/show", method: .post, parameters: params, encoding: JSONEncoding.default, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.checkWAActiveSession(channelID: channelID, waUserId: waUserId)
+                            } else {
+                                return
+                            }
+                        }
+                    } else if response.response?.statusCode == 400{
+                        let json = JSON(response.result.value)
+                        print("check result ini bro =\(json)")
+                        if json.rawString()?.contains("this room is not initiate any session yet") == true {
+                            self.chatInput.showNoActiveSession()
+                        }
+                    }
+                } else {
+                    //success
+                    let json = JSON(response.result.value)
+                    let isExpired = json["data"]["is_expired"].bool ?? true
+                    print("check result ini bro2 =\(json)")
+                    
+                    if isExpired == false{
+                        self.chatInput.hideNoActiveSession()
+                    }else{
+                        self.chatInput.showNoActiveSession()
+                    }
+                   
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+                self.chatInput.showNoActiveSession()
+            } else {
+                //failed
+                self.chatInput.showNoActiveSession()
             }
         }
     }
@@ -2271,20 +2218,27 @@ extension UIChatViewController: UIChatViewDelegate {
         }
         
         if Thread.isMainThread {
-            if newSection {
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
-                self.tableViewConversation.endUpdates()
+            
+            if self.tableViewConversation.dataHasChanged {
+                self.tableViewConversation.reloadData()
                 self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                
-            } else {
-                let indexPath = IndexPath(row: 0, section: 0)
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertRows(at: [indexPath], with: .right)
-                self.tableViewConversation.endUpdates()
-                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                
+            }else{
+                if newSection {
+                    self.tableViewConversation.beginUpdates()
+                    self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
+                    self.tableViewConversation.endUpdates()
+                    self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    
+                } else {
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    self.tableViewConversation.beginUpdates()
+                    self.tableViewConversation.insertRows(at: [indexPath], with: .right)
+                    self.tableViewConversation.endUpdates()
+                    self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    
+                }
             }
+            
         }
         
         
@@ -2307,6 +2261,10 @@ extension UIChatViewController: UIChatViewDelegate {
                 self.isWaBlocked = true
                 self.setupNavigationTitle()
                 self.setupToolbarHandle()
+            } else if lastComment?.message.lowercased().contains("customer initiated session is ended") == true{
+                self.chatInput.showNoActiveSession()
+            } else if lastComment?.message.lowercased().contains("bussiness initiated session is ended") == true{
+                self.chatInput.showNoActiveSession()
             }
         }
     }
