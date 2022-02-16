@@ -20,15 +20,21 @@ protocol CustomChatInputDelegate {
     func sendAttachment(button : UIButton)
     func sendMessage(message: CommentModel)
     func startChat()
+    func followUpChat()
+    func infoIconAlertExpired()
 }
 
 class CustomChatInput: UIChatInput {
     
     @IBOutlet weak var noActiveTemplate: UIView!
    
+    @IBOutlet weak var lbMessageQuotaleft: UILabel!
+    @IBOutlet weak var ivAlert: UIImageView!
     @IBOutlet weak var viewShadowNoActiveSession: UIView!
     @IBOutlet weak var btStartChatNoActiveSession: UIButton!
+    @IBOutlet weak var btFollowUpChatNoActiveSession: UIButton!
     @IBOutlet weak var viewNoActiveSession: UIView!
+    @IBOutlet weak var viewNoActiveSessionFollowUp: UIView!
     @IBOutlet weak var viewRecord: UIView!
     @IBOutlet weak var heightView: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
@@ -84,10 +90,24 @@ class CustomChatInput: UIChatInput {
         self.viewRecord.alpha = 0
         
         self.btStartChatNoActiveSession.layer.cornerRadius = self.btStartChatNoActiveSession.layer.frame.height / 2
+        
+        self.btFollowUpChatNoActiveSession.layer.cornerRadius = self.btFollowUpChatNoActiveSession.layer.frame.height / 2
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(iconAlertTapped(tapGestureRecognizer:)))
+           ivAlert.isUserInteractionEnabled = true
+           ivAlert.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func iconAlertTapped(tapGestureRecognizer: UITapGestureRecognizer){
+        self.chatInputDelegate?.infoIconAlertExpired()
     }
     
     @IBAction func startChat(_ sender: Any) {
         self.chatInputDelegate?.startChat()
+    }
+    
+    @IBAction func followUpChat(_ sender: Any) {
+        self.chatInputDelegate?.followUpChat()
     }
     @IBAction func clickSend(_ sender: Any) {
         if(self.isRecording == true){
@@ -145,9 +165,11 @@ class CustomChatInput: UIChatInput {
         
         self.viewNoActiveSession.isHidden = true
         self.viewNoActiveSession.alpha = 0
+        self.viewNoActiveSessionFollowUp.isHidden = true
+        self.viewNoActiveSessionFollowUp.alpha = 0
     }
     
-    func showNoActiveSession(){
+    func showNoActiveSession(isStartChat : Bool = true, hsmQuota : Int = 0){
         self.noActiveTemplate.isHidden = true
         self.noActiveTemplate.alpha = 0
         
@@ -165,6 +187,32 @@ class CustomChatInput: UIChatInput {
         self.viewShadowNoActiveSession.layer.shadowOpacity = 0.3
         self.viewShadowNoActiveSession.layer.shadowRadius = 1.5
         self.viewShadowNoActiveSession.backgroundColor = UIColor.white
+        
+        if isStartChat == true {
+            self.viewNoActiveSessionFollowUp.isHidden = true
+            self.viewNoActiveSessionFollowUp.alpha = 0
+            self.btStartChatNoActiveSession.setTitle("Start Chat", for: .normal)
+            self.viewNoActiveSession.isHidden = false
+            self.viewNoActiveSession.alpha = 1
+        }else{
+            self.viewNoActiveSession.isHidden = true
+            self.viewNoActiveSession.alpha = 0
+            
+            self.btFollowUpChatNoActiveSession.setTitle("Follow Up Customer", for: .normal)
+            
+            self.viewNoActiveSessionFollowUp.isHidden = false
+            self.viewNoActiveSessionFollowUp.alpha = 1
+            
+            self.ivAlert.image = UIImage(named: "ic_app_Info")?.withRenderingMode(.alwaysTemplate)
+            self.ivAlert.tintColor = UIColor.red
+            
+            if hsmQuota >= 1 {
+                self.lbMessageQuotaleft.text = "\(hsmQuota) Message Quota Left"
+            }else {
+                self.lbMessageQuotaleft.text = "No Message Quota Left"
+            }
+            
+        }
         
     }
     
@@ -569,6 +617,103 @@ extension CustomChatInput : UITextViewDelegate {
 }
 
 extension UIChatViewController : CustomChatInputDelegate {
+    func infoIconAlertExpired() {
+        let popupVC = BottomAlertInfoHSM()
+        popupVC.isExpired = true
+        popupVC.width = self.view.frame.size.width
+        popupVC.topCornerRadius = 15
+        popupVC.presentDuration = 0.30
+        popupVC.dismissDuration = 0.30
+        popupVC.shouldDismissInteractivelty = true
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func followUpChat() {
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/credits/\(self.channelID)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            print("response call \(response)")
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //failed
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.followUpChat()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    
+                    let json = JSON(response.result.value)
+                    print("check arief =\(json)")
+                    let credit = json["data"]["credits"].string ?? "0"
+                    let freeSession = json["data"]["free_session"].int ?? 0
+                    let quota = json["data"]["quota"].int ?? 0
+                    
+                    let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
+                    
+                    if isHidePopup == true{
+                        //success
+                        let vc = OpenChatSessionWAVC()
+                        vc.channelID = self.channelID
+                        vc.roomId = self.room?.id ?? "0"
+                        vc.isHidePopup = true
+                        
+                        if self.waIsExpired == false{
+                            vc.lbtitle = "Follow Up Customer"
+                        }else{
+                            if UserDefaults.standard.getStatusFeatureSelfTopupCredit() == 2{
+                                vc.lbtitle = "Follow Up Customer"
+                            }
+                        }
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else{
+                        if self.waIsExpired == false{
+                            let vc = OpenChatSessionWAVC()
+                            vc.channelID = self.channelID
+                            vc.roomId = self.room?.id ?? "0"
+                            vc.isHidePopup = true
+                            
+                            if self.waIsExpired == false{
+                                vc.lbtitle = "Follow Up Customer"
+                            }
+                            
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }else{
+                            if UserDefaults.standard.getStatusFeatureSelfTopupCredit() == 2{
+                                let vc = OpenChatSessionWAVC()
+                                vc.channelID = self.channelID
+                                vc.roomId = self.room?.id ?? "0"
+                                vc.isHidePopup = true
+                                
+                                //if self.waIsExpired == false{
+                                    vc.lbtitle = "Follow Up Customer"
+                                //}
+                                
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            }else{
+                                self.startChat()
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
     func startChat() {
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
             return
@@ -685,17 +830,30 @@ extension UIChatViewController : CustomChatInputDelegate {
                         
                         attributesMessage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range: rangeType)
                         
-                        let vc = AlertWAInitiateChatVC()
-                        vc.channelID = self.channelID
-                        vc.roomID = self.room?.id ?? "0"
-                        vc.message = attributesMessage
-                        vc.chargeCredits = price
-                        vc.vc = self
-                        vc.modalPresentationStyle = .overFullScreen
+                        
+                        let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
+                        
+                        if isHidePopup == false{
+                            let vc = AlertWAInitiateChatVC()
+                            vc.channelID = self.channelID
+                            vc.roomID = self.room?.id ?? "0"
+                            vc.message = attributesMessage
+                            vc.chargeCredits = price
+                            vc.vc = self
+                            vc.modalPresentationStyle = .overFullScreen
 
-                        self.navigationController?.present(vc, animated: false, completion: {
+                            self.navigationController?.present(vc, animated: false, completion: {
 
-                        })
+                            })
+                        }else{
+                            let vc = OpenChatSessionWAVC()
+                            vc.chargedCredit = price
+                            vc.channelID = self.channelID
+                            vc.roomId = self.room?.id ?? "0"
+                            vc.isHidePopup = true
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                       
                     }
                     
                 }

@@ -35,6 +35,7 @@
 		2008F9F02762E7230084DA9A /* CustomerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008F9EF2762E7230084DA9A /* CustomerProperties.swift */; };
 		201410B7276787F300B5AE31 /* LoadMoreDetailConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */; };
 		201410B8276787F300B5AE31 /* LoadMoreDetailConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */; };
+		20143F7C27ABD54500A327D8 /* AVAudioFileConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20143F7B27ABD54500A327D8 /* AVAudioFileConverter.swift */; };
 		203E4FFE27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */; };
 		203E4FFF27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib in Resources */ = {isa = PBXBuildFile; fileRef = 203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */; };
 		203E5002277C23B5004FAF7B /* AlertWAInitiateChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203E5000277C23B5004FAF7B /* AlertWAInitiateChatVC.swift */; };
@@ -48,6 +49,8 @@
 		206623C62782DCE3000406CF /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206623C52782DCE3000406CF /* Double.swift */; };
 		20ADDAE227969B5400398496 /* AlertFailedSubmitWAOpenSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */; };
 		20ADDAE327969B5400398496 /* AlertFailedSubmitWAOpenSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */; };
+		20D063C927ACD50700B0D040 /* PlayFileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D063C727ACD50700B0D040 /* PlayFileVC.swift */; };
+		20D063CA27ACD50700B0D040 /* PlayFileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D063C827ACD50700B0D040 /* PlayFileVC.xib */; };
 		3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */; };
 		3D0B11F225ECEF5D00F32EDA /* QPostbackRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */; };
 		3D0B8B14255D6D3F002A484F /* RemoveAgentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */; };
@@ -423,6 +426,7 @@
 		2008F9EF2762E7230084DA9A /* CustomerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerProperties.swift; sourceTree = "<group>"; };
 		201410B5276787F300B5AE31 /* LoadMoreDetailConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreDetailConversationCell.swift; sourceTree = "<group>"; };
 		201410B6276787F300B5AE31 /* LoadMoreDetailConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadMoreDetailConversationCell.xib; sourceTree = "<group>"; };
+		20143F7B27ABD54500A327D8 /* AVAudioFileConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioFileConverter.swift; sourceTree = "<group>"; };
 		203E4FFC27754D69004FAF7B /* HSMCreditFreeSessionQuota.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSMCreditFreeSessionQuota.swift; sourceTree = "<group>"; };
 		203E4FFD27754D69004FAF7B /* HSMCreditFreeSessionQuota.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HSMCreditFreeSessionQuota.xib; sourceTree = "<group>"; };
 		203E5000277C23B5004FAF7B /* AlertWAInitiateChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWAInitiateChatVC.swift; sourceTree = "<group>"; };
@@ -436,6 +440,8 @@
 		206623C52782DCE3000406CF /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFailedSubmitWAOpenSession.swift; sourceTree = "<group>"; };
 		20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertFailedSubmitWAOpenSession.xib; sourceTree = "<group>"; };
+		20D063C727ACD50700B0D040 /* PlayFileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFileVC.swift; sourceTree = "<group>"; };
+		20D063C827ACD50700B0D040 /* PlayFileVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayFileVC.xib; sourceTree = "<group>"; };
 		3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPostbackRightCell.swift; sourceTree = "<group>"; };
 		3D0B11F025ECEF5D00F32EDA /* QPostbackRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QPostbackRightCell.xib; sourceTree = "<group>"; };
 		3D0B8B12255D6D3F002A484F /* RemoveAgentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveAgentVC.swift; sourceTree = "<group>"; };
@@ -1078,6 +1084,7 @@
 				3DBD7544267A429F006A7DE9 /* String.swift */,
 				3DF5071527213A7700FFC241 /* JsonSerializer.swift */,
 				206623C52782DCE3000406CF /* Double.swift */,
+				20143F7B27ABD54500A327D8 /* AVAudioFileConverter.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1675,6 +1682,8 @@
 				3D40B86C2192E20A00FE7228 /* ChatPreviewDocVC.xib */,
 				3D2292EC256B9CFC0034CB12 /* PlayOgaVC.swift */,
 				3D2292ED256B9CFC0034CB12 /* PlayOgaVC.xib */,
+				20D063C727ACD50700B0D040 /* PlayFileVC.swift */,
+				20D063C827ACD50700B0D040 /* PlayFileVC.xib */,
 			);
 			path = ChatView;
 			sourceTree = "<group>";
@@ -1921,6 +1930,7 @@
 				3D7A395E2577ADCF005E7FAE /* CompleteTaskCell.xib in Resources */,
 				3DBBF0E5266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
+				20D063CA27ACD50700B0D040 /* PlayFileVC.xib in Resources */,
 				2008F9EE2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib in Resources */,
 				3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */,
 				2008F9D1276191D30084DA9A /* DetailCustomerInformationContactVC.xib in Resources */,
@@ -2170,6 +2180,7 @@
 				3DD1BDF12644E5A200B2BA2A /* AgentFilterCell.swift in Sources */,
 				3D3BE4F026288B9F0026A63C /* FilterChannelMultipleCustomCHCell.swift in Sources */,
 				3D8CA6C3268DC1EE00176F80 /* AnalyticsAnotherAgent.swift in Sources */,
+				20D063C927ACD50700B0D040 /* PlayFileVC.swift in Sources */,
 				3D5ABD9D25D37954008ED9E6 /* AMChangePasswordVC.swift in Sources */,
 				3D76773025D16E5A004C26DC /* AlertOnlineOfflineFirstLoginAgent.swift in Sources */,
 				3D85D934274696F10057ECCF /* InstagramChannelCell.swift in Sources */,
@@ -2226,6 +2237,7 @@
 				3D7A39652577CA0C005E7FAE /* NotesCell.swift in Sources */,
 				201410B7276787F300B5AE31 /* LoadMoreDetailConversationCell.swift in Sources */,
 				3DC0238B266FB6D2008E5CCC /* AlertResolveCancelationWAChannelVC.swift in Sources */,
+				20143F7C27ABD54500A327D8 /* AVAudioFileConverter.swift in Sources */,
 				3D0B8B19255D8325002A484F /* TagsVC.swift in Sources */,
 				3DFAD2FB268D84B40069B848 /* AnalyticsVC.swift in Sources */,
 				3D3BE505262934240026A63C /* QiscusWidgetChannelCell.swift in Sources */,
@@ -2461,7 +2473,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2473,7 +2485,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.0;
+				MARKETING_VERSION = 1.11.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";
@@ -2493,7 +2505,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2503,7 +2515,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.0;
+				MARKETING_VERSION = 1.11.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Multichannel";

@@ -174,4 +174,21 @@ extension UserDefaults{
     func getSelectWAChannelsAnalytics() -> Int?{
         return integer(forKey: "selectWAChannelsAnalytics")
     }
+    
+    //wa pricing
+    func getStatusHidePopupEstimationInboxEnabled() -> Bool?{
+        return bool(forKey: "featureHidePopupEstimation")
+    }
+    
+    func setStatusHidePopupEstimationInboxEnabled(value: Bool){
+        set(value, forKey: "featureHidePopupEstimation")
+    }
+    
+    func setStatusFeatureSelfTopupCredit(value: Int){
+        set(value, forKey: "featureSelfTopupCredit")
+    }
+    
+    func getStatusFeatureSelfTopupCredit() -> Int?{
+        return integer(forKey: "featureSelfTopupCredit")
+    }
 }

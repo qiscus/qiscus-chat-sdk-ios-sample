@@ -20,9 +20,9 @@ class BottomAlertInfoHSM: BottomPopupViewController {
     var shouldDismissInteractivelty: Bool?
     var titleAlertExpired = "Has expired"
     var titleAlertWillExpireSoon = "Will expire soon"
-    var subtitleAlertExpired = #"The session has expired since it's over 24-hours after the customer's last message. If you wish to re-initiate a conversation after that time period, you need to send a paid message template. Please click the "Send Message Template" button"#
+    var subtitleAlertExpired = #"This session has expired because user has not replied within 24 hours. You can follow up using paid message template to re-initiate the conversation."#
     var subtitleAlertWillExpireSoon = "After 24-hours since the customer's last message, the session will be expired. You can re-initiate a conversation after that time period with a paid message template."
-    var subtitleAlertDisableHSM = "The session has expired since it's over 24-hours after the customer's last message. If you wish to re-initiate a conversation after that time period, you need to send a paid message template."
+    var subtitleAlertDisableHSM = "This session has expired because user has not replied within 24 hours. You can follow up using paid message template to re-initiate the conversation."
     var isExpired : Bool = false
     var enableHSM: Bool = true
     @IBOutlet weak var btClose: UIButton!
@@ -61,7 +61,7 @@ class BottomAlertInfoHSM: BottomPopupViewController {
     
     override func getPopupHeight() -> CGFloat {
         if self.isExpired == true {
-            return 210
+            return 170
         } else {
             return 160
         }

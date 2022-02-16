@@ -770,6 +770,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
         self.getConfigBotIntegration()
         self.getConfigResolvedALLWA()
         self.getConfigFeature()
+        self.getConfig()
     }
     
     func throttleGetList() {
@@ -1422,6 +1423,49 @@ class HomeVC: ButtonBarPagerTabStripViewController {
       
     }
     
+    func getConfig(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["show_all": true
+            ] as [String : Any]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/app/configs", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getConfig()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    var isHide = payload["data"]["configs"]["user_hide_popup_estimation_inbox"].string ?? "false"
+                    
+                    if isHide.contains("true") == true {
+                        UserDefaults.standard.setStatusHidePopupEstimationInboxEnabled(value: true)
+                    }else{
+                        UserDefaults.standard.setStatusHidePopupEstimationInboxEnabled(value: false)
+                    }
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
     func getConfigFeature(){
        
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
@@ -1456,7 +1500,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                 } else {
                     //success
                     let json = JSON(response.result.value)
-                  
+                    print("arief check json =\(json)")
                     if let features = json["data"]["features"].array {
                         if features.count != 0 {
                             for data in features {
@@ -1484,6 +1528,15 @@ class HomeVC: ButtonBarPagerTabStripViewController {
                                 
                                 if x.name.lowercased() == "SEARCH_CUSTOMER".lowercased(){
                                     self.statusSearchRoomFeature = x.status
+                                }
+                            }
+                        }
+                        
+                        if i.name.lowercased() == "OUTBOUND".lowercased(){
+                            for x in i.features {
+                                ////1 show, 2 hide, 3 disabled
+                                if x.name.lowercased() == "SELF_TOP_UP_CREDIT".lowercased(){
+                                    UserDefaults.standard.setStatusFeatureSelfTopupCredit(value: x.status)
                                 }
                             }
                         }

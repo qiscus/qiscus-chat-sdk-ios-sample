@@ -133,14 +133,22 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         self.btWACredits.setTitleColor(ColorConfiguration.defaultColorTosca, for: .normal)
         self.btWACredits.backgroundColor = UIColor.white
         
-        self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 40, width: self.containerView.frame.width, height: self.viewFrontWebView.frame.height - 40)
+        let status = UserDefaults.standard.getStatusFeatureSelfTopupCredit()
+        if  status == 1{
+            self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 40, width: self.containerView.frame.width, height: self.viewFrontWebView.frame.height - 40)
+        }
     }
     
     func showWAchannel(){
-        self.btWA.isHidden = false
-        self.btWACredits.isHidden = false
-        
-        self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 105, width: self.viewFrontWebView.frame.width, height: self.viewFrontWebView.frame.height - 105)
+        let status = UserDefaults.standard.getStatusFeatureSelfTopupCredit()
+        if  status == 1{
+            self.btWACredits.isHidden = false
+            self.btWA.isHidden = false
+            
+            self.containerView.frame = CGRect(x: self.viewFrontWebView.frame.origin.x, y: self.viewFrontWebView.frame.origin.y + 105, width: self.viewFrontWebView.frame.width, height: self.viewFrontWebView.frame.height - 105)
+        }else{
+            self.btWACredits.isHidden = true
+        }
     }
     
     @IBAction func waCreditsAction(_ sender: Any) {
@@ -390,7 +398,7 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
         
         
         if let statusFeatureCustomAnalytics = UserDefaults.standard.getStatusFeatureCustomAnalytics() {
-            if  statusFeatureCustomAnalytics == 1{
+            if  statusFeatureCustomAnalytics != 2{
                 self.countSelectAnalytics += 1
                 self.isActiveCustomAnalytics = true
                 self.arraySelectAnalyticsType.append("Custom analytics")
@@ -640,22 +648,39 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
             }
         }else{
             let data = arraySelectAnalyticsType[indexPath.row]
-            self.lbSelected.text = data
             self.tableViewSelectAnalyticsType.isHidden = true
             
             if data.contains("Custom analytics") == true{
-                self.setupWebViewCustomAnalytics()
+                if let statusFeatureCustomAnalytics = UserDefaults.standard.getStatusFeatureCustomAnalytics() {
+                    if  statusFeatureCustomAnalytics == 1{
+                        self.setupWebViewCustomAnalytics()
+                        self.lbSelected.text = data
+                    }else{
+                        let vc = AlertDisableFeatureFilterAgent()
+                        vc.errorMessage = "This feature has been disabled because it is not available in the plan that you are currently using."
+                        vc.modalPresentationStyle = .overFullScreen
+                        
+                        self.navigationController?.present(vc, animated: false, completion: {
+                            
+                        })
+                    }
+                }else{
+                    self.setupWebViewCustomAnalytics()
+                    self.lbSelected.text = data
+                }
+               
             }else if data.contains("Analytics on each agent") == true{
                 self.viewNoCustomAnalytics.isHidden = true
                 self.viewFrontWebView.isHidden = true
                 self.containerView.isHidden = true
                 self.buttonBarView.isHidden = true
+                self.lbSelected.text = data
             }else{
                 self.viewNoCustomAnalytics.isHidden = true
                 self.viewFrontWebView.isHidden = false
                 self.containerView.isHidden = false
                 self.buttonBarView.isHidden = false
-                
+                self.lbSelected.text = data
             }
         }
     }
