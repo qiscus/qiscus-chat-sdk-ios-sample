@@ -12,7 +12,6 @@ import SwiftyJSON
 import QiscusCore
 
 
-
 class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegate {
     @IBOutlet weak var heightProgressViewCons: NSLayoutConstraint!
     @IBOutlet weak var labelProgress: UILabel!
@@ -168,6 +167,29 @@ class ChatPreviewDocVC: UIViewController, UIWebViewDelegate, WKNavigationDelegat
         }
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        
+        if url.contains(".mp3") == true {
+            if let navController = self.navigationController {
+                let newVC = PlayOgaVC()
+                newVC.mediaURL = url
+                let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                backButton.tintColor = UIColor.white
+                
+                var stack = navController.viewControllers
+                stack.remove(at: stack.count - 1)       // remove current VC
+                stack.insert(newVC, at: stack.count) // add the new one
+                navController.navigationItem.backBarButtonItem = backButton
+                navController.setViewControllers(stack, animated: true) // boom!
+            }
+            
+//            let preview = PlayOgaVC()
+//            preview.mediaURL = url
+//            let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+//            backButton.tintColor = UIColor.white
+//            self.navigationController?.navigationItem.backBarButtonItem = backButton
+//            self.navigationController?.pushViewController(preview, animated: true)
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int(0.2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
             self.progressView.progress = 0.0
             //self.setupTableMessage(error.localizedDescription)

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,12 +20,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomChatInput" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <connections>
                 <outlet property="attachButton" destination="eX8-dS-8SK" id="Hfi-oJ-JQY"/>
-                <outlet property="btStartChatNoActiveSession" destination="YsZ-gM-wSw" id="wdX-wB-qKz"/>
+                <outlet property="btFollowUpChatNoActiveSession" destination="cUW-We-bNx" id="nqe-1p-Vta"/>
+                <outlet property="btStartChatNoActiveSession" destination="YsZ-gM-wSw" id="fte-ud-hJL"/>
                 <outlet property="cancelReplyPreviewButton" destination="1bf-bN-MbY" id="DLP-Pc-gt6"/>
                 <outlet property="heightTextViewCons" destination="1uw-f4-jxK" id="eTz-FI-LeA"/>
                 <outlet property="heightView" destination="9Gk-gy-9FX" id="2ND-F2-rHB"/>
+                <outlet property="ivAlert" destination="pLb-md-3km" id="EZh-Qx-c7U"/>
                 <outlet property="ivReplyPreview" destination="GSn-gi-EVT" id="R1K-uc-O7i"/>
                 <outlet property="ivReplyPreviewWidth" destination="pYl-vM-6wd" id="2VE-cD-djm"/>
+                <outlet property="lbMessageQuotaleft" destination="McR-vP-1bp" id="8Ng-Bf-ppv"/>
                 <outlet property="lbReplyPreview" destination="ruO-le-rJd" id="F5g-EY-eh7"/>
                 <outlet property="lbReplyPreviewSenderName" destination="Yk8-3h-VXh" id="Ixb-yg-Ksa"/>
                 <outlet property="noActiveTemplate" destination="yFQ-oz-oR1" id="0Os-AC-L8N"/>
@@ -35,9 +38,10 @@
                 <outlet property="topReplyPreviewCons" destination="sf1-71-TYj" id="QIB-yK-pED"/>
                 <outlet property="viewColorReplyPreview" destination="fRP-9s-dco" id="NUt-zz-J8j"/>
                 <outlet property="viewNoActiveSession" destination="P9r-w0-mOh" id="eOd-Cf-mc2"/>
+                <outlet property="viewNoActiveSessionFollowUp" destination="qd8-MG-3Rh" id="5ar-wS-CJZ"/>
                 <outlet property="viewRecord" destination="uoH-2B-uu0" id="cKg-yi-WwS"/>
                 <outlet property="viewReply" destination="pzL-Ph-9pf" id="oQ2-nb-X3O"/>
-                <outlet property="viewShadowNoActiveSession" destination="tQp-v5-UZz" id="Ry7-iE-QCC"/>
+                <outlet property="viewShadowNoActiveSession" destination="04j-ru-9El" id="DQh-yG-v3p"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -200,6 +204,71 @@
                         <constraint firstItem="4Vc-ko-PVq" firstAttribute="centerY" secondItem="yFQ-oz-oR1" secondAttribute="centerY" id="qqE-fS-ME3"/>
                     </constraints>
                 </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qd8-MG-3Rh" userLabel="ViewNoActiveSessionFollowUp">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04j-ru-9El" userLabel="ViewShadowNoActiveSession">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="Z72-XF-N3z"/>
+                            </constraints>
+                        </view>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_app_Info" translatesAutoresizingMaskIntoConstraints="NO" id="pLb-md-3km">
+                            <rect key="frame" x="265" y="17.5" width="20" height="20"/>
+                            <color key="tintColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="srs-GC-KtV"/>
+                                <constraint firstAttribute="width" constant="20" id="zUi-Dr-KIE"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Message Quota Left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="McR-vP-1bp">
+                            <rect key="frame" x="116.5" y="111" width="142.5" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="cxw-97-lUv"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This chat room has expired" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iau-Lh-7HP">
+                            <rect key="frame" x="80" y="19" width="175" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUW-We-bNx">
+                            <rect key="frame" x="24" y="56" width="327" height="40"/>
+                            <color key="backgroundColor" red="0.13725490200000001" green="0.69019607839999997" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="a4v-CD-quA"/>
+                            </constraints>
+                            <state key="normal" title="Follow Up Customer">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="followUpChat:" destination="-1" eventType="touchUpInside" id="L6r-of-LYp"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="UBn-Sa-dRG"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="McR-vP-1bp" firstAttribute="top" secondItem="cUW-We-bNx" secondAttribute="bottom" constant="15" id="2co-2I-0H8"/>
+                        <constraint firstItem="04j-ru-9El" firstAttribute="leading" secondItem="qd8-MG-3Rh" secondAttribute="leading" id="75e-B9-svc"/>
+                        <constraint firstItem="cUW-We-bNx" firstAttribute="leading" secondItem="qd8-MG-3Rh" secondAttribute="leading" constant="24" id="7bR-1j-hVm"/>
+                        <constraint firstAttribute="trailing" secondItem="04j-ru-9El" secondAttribute="trailing" id="9Pc-l7-uzs"/>
+                        <constraint firstItem="04j-ru-9El" firstAttribute="top" secondItem="qd8-MG-3Rh" secondAttribute="top" id="D7Y-AC-Iet"/>
+                        <constraint firstAttribute="trailing" secondItem="cUW-We-bNx" secondAttribute="trailing" constant="24" id="JRh-4N-o7m"/>
+                        <constraint firstItem="McR-vP-1bp" firstAttribute="centerX" secondItem="UBn-Sa-dRG" secondAttribute="centerX" id="WD5-3e-gXV"/>
+                        <constraint firstItem="iau-Lh-7HP" firstAttribute="centerX" secondItem="UBn-Sa-dRG" secondAttribute="centerX" constant="-20" id="bkz-tf-PS0"/>
+                        <constraint firstItem="cUW-We-bNx" firstAttribute="top" secondItem="iau-Lh-7HP" secondAttribute="bottom" constant="20" id="csi-5L-2cQ"/>
+                        <constraint firstItem="pLb-md-3km" firstAttribute="centerY" secondItem="iau-Lh-7HP" secondAttribute="centerY" id="rp5-Jb-Jdb"/>
+                        <constraint firstItem="pLb-md-3km" firstAttribute="leading" secondItem="iau-Lh-7HP" secondAttribute="trailing" constant="10" id="sXb-w1-pLS"/>
+                        <constraint firstAttribute="height" constant="149" id="tSV-bV-EyD"/>
+                        <constraint firstItem="iau-Lh-7HP" firstAttribute="top" secondItem="04j-ru-9El" secondAttribute="bottom" constant="18" id="xCh-yU-p8K"/>
+                    </constraints>
+                </view>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9r-w0-mOh" userLabel="ViewNoActiveSession">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
                     <subviews>
@@ -249,10 +318,12 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Vuj-gV-0ov" firstAttribute="top" secondItem="pzL-Ph-9pf" secondAttribute="bottom" constant="8" id="2Gh-rV-HSc"/>
+                <constraint firstItem="qd8-MG-3Rh" firstAttribute="trailing" secondItem="8Om-te-Qpk" secondAttribute="trailing" id="4Bb-3a-meU"/>
                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="9Gk-gy-9FX"/>
                 <constraint firstItem="P9r-w0-mOh" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="9se-id-hxo"/>
                 <constraint firstItem="uoH-2B-uu0" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="G4V-hS-XJc"/>
                 <constraint firstItem="yFQ-oz-oR1" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="GZb-lf-O9x"/>
+                <constraint firstItem="qd8-MG-3Rh" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="IO5-3e-Yfv"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="trailing" secondItem="pzL-Ph-9pf" secondAttribute="trailing" constant="6" id="IlP-a9-npG"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="Vuj-gV-0ov" secondAttribute="trailing" id="MqH-nR-qm0"/>
                 <constraint firstItem="P9r-w0-mOh" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" id="N8t-ok-ppH"/>
@@ -265,7 +336,9 @@
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="Vuj-gV-0ov" secondAttribute="bottom" constant="11" id="bTd-G3-sYf"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="uoH-2B-uu0" secondAttribute="trailing" id="cft-9j-2Jh"/>
                 <constraint firstItem="eX8-dS-8SK" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="gOG-2e-H61"/>
+                <constraint firstAttribute="bottom" secondItem="qd8-MG-3Rh" secondAttribute="bottom" id="iLz-hk-aMu"/>
                 <constraint firstItem="P9r-w0-mOh" firstAttribute="trailing" secondItem="8Om-te-Qpk" secondAttribute="trailing" id="owP-ny-Nh3"/>
+                <constraint firstItem="qd8-MG-3Rh" firstAttribute="top" secondItem="k7R-ZU-AZb" secondAttribute="top" id="q0l-VZ-kP8"/>
                 <constraint firstItem="P9r-w0-mOh" firstAttribute="bottom" secondItem="8Om-te-Qpk" secondAttribute="bottom" id="s2w-VH-lsx"/>
                 <constraint firstItem="pzL-Ph-9pf" firstAttribute="top" secondItem="8Om-te-Qpk" secondAttribute="top" constant="8" id="sf1-71-TYj"/>
                 <constraint firstItem="pzL-Ph-9pf" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" constant="10" id="uNX-uX-vKt"/>
@@ -288,6 +361,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_app_Info" width="24" height="24"/>
         <image name="ic_circle_plus" width="128" height="128"/>
         <image name="ic_close" width="24" height="24"/>
         <image name="ic_send" width="24" height="24"/>

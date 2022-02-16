@@ -9,9 +9,11 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import QiscusCore
 
 class OpenChatSessionWAVC: UIViewController {
 
+    @IBOutlet weak var heightViewAlert: NSLayoutConstraint!
     @IBOutlet weak var lbContent: UILabel!
     @IBOutlet weak var lbAlertHSM: UILabel!
     @IBOutlet weak var viewAlertHSM: UIView!
@@ -31,10 +33,20 @@ class OpenChatSessionWAVC: UIViewController {
     var roomId : String = "0"
     var dataLanguage = [String]()
     var dataHSMTemplate = [HSMTemplateModel]()
+    var isHidePopup = false
+    var lbtitle = "Open Session Chat"
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = lbtitle
+        if let room = QiscusCore.database.room.find(id: roomId){
+            let lastComment = room.lastComment?.message
+            
+            if lastComment?.lowercased() == "Business Initiate session started".lowercased(){
+                self.title = "Follow Up Customer"
+            }
+        }
         
-        self.title = "Open Session Chat"
+       
         let backButton = self.backButton(self, action: #selector(OpenChatSessionWAVC.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]
@@ -77,6 +89,11 @@ class OpenChatSessionWAVC: UIViewController {
         self.tableViewMessageType.register(UINib(nibName: "OpenSessionWACell", bundle: nil), forCellReuseIdentifier: "OpenSessionWACellIdentifire")
         
         self.tfMessageType.text = "24 Hours Message Template"
+        
+        if isHidePopup == true{
+            self.heightViewAlert.constant = 0
+            self.viewAlert.alpha = 0
+        }
 
     }
     
@@ -163,6 +180,12 @@ class OpenChatSessionWAVC: UIViewController {
                         
                         if dataMessage.contains("phone_number is invalid or don't have WA")  {
                             dataMessage = "phone number is invalid or don't have WA"
+                        }
+                        
+                        let errorMessage = json["errors"]["message"].string ?? ""
+                        
+                        if errorMessage.isEmpty == false && dataMessage.isEmpty == true{
+                            dataMessage = errorMessage
                         }
                         
                         let vc = AlertFailedSubmitWAOpenSession()

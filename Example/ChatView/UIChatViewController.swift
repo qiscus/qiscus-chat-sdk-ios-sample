@@ -168,6 +168,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     var scrollToComment : CommentModel? = nil
     
     var channelID : Int = 0
+    var hsmQuota : Int = 0
+    var waIsExpired : Bool = true
     
     open func getProgressBar() -> UIProgressView {
         return progressBar
@@ -1014,7 +1016,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     if channelID != 0 {
                         //older version wa pricing
 //                        self.setupHSMAlertMessage()
-//                        self.getTemplateHSM(channelID: channelID)
+                        self.getTemplateHSM(channelID: channelID)
                         
                         if isWaActive == true{
                             //new version wa pricing
@@ -1034,6 +1036,52 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             }
         }
     }
+    
+    func getTemplateHSM(channelID: Int){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["channel_id": channelID,
+                     "approved" : true
+        ] as [String : Any]
+        
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/admin/hsm_24?channel_id=\(channelID)&approved=true", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getTemplateHSM(channelID: channelID)
+                            } else {
+                                return
+                            }
+                        }
+                    } else if response.response?.statusCode == 400 {
+                        let json = JSON(response.result.value)
+                        print("check result ini bro =\(json)")
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let hsmQuota = payload["data"]["hsm_quota"].int ?? 0
+                    
+                    self.hsmQuota = hsmQuota
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
     
     func getCustomerUser(){
         guard let token = UserDefaults.standard.getAuthenticationToken() else {
@@ -1474,19 +1522,29 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         let json = JSON(response.result.value)
                         print("check result ini bro =\(json)")
                         if json.rawString()?.contains("this room is not initiate any session yet") == true {
-                            self.chatInput.showNoActiveSession()
+                            self.getCustomerRoom()
                         }
+                    }else{
+                        self.getCustomerRoom()
                     }
                 } else {
                     //success
                     let json = JSON(response.result.value)
                     let isExpired = json["data"]["is_expired"].bool ?? true
                     print("check result ini bro2 =\(json)")
+                    self.waIsExpired = isExpired
+                    let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
                     
-                    if isExpired == false{
-                        self.chatInput.hideNoActiveSession()
+                    if isHidePopup == true {
+                        self.getCustomerRoom()
                     }else{
-                        self.chatInput.showNoActiveSession()
+                        self.getCustomerRoom()
+//                        if isExpired == false{
+//                            //self.chatInput.hideNoActiveSession()
+//                            self.getCustomerRoom()
+//                        }else{
+//                            self.chatInput.showNoActiveSession()
+//                        }
                     }
                    
                 }
@@ -1498,6 +1556,133 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 self.chatInput.showNoActiveSession()
             }
         }
+    }
+    
+    func getCustomerRoom(){
+        if var room = QiscusCore.database.room.find(id: self.room!.id){
+            if var option = room.options{
+                if !option.isEmpty{
+                    var json = JSON.init(parseJSON: option)
+                    let lastCustommerTimestamp = json["last_customer_message_timestamp"].string ?? ""
+                    
+                    if lastCustommerTimestamp.isEmpty == true {
+                        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+                            return
+                        }
+                        
+                        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+                        
+                        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(room.id)", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+                            if response.result.value != nil {
+                                if (response.response?.statusCode)! >= 300 {
+                                    //error
+                                    
+                                    if response.response?.statusCode == 401 {
+                                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                                            if success == true {
+                                                self.getCustomerRoom()
+                                            } else {
+                                                return
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    //success
+                                    let payload = JSON(response.result.value)
+                                    let lastCustomerTimestamp  = payload["data"]["customer_room"]["last_customer_timestamp"].string ??
+                                        ""
+                                    
+                                    var json = JSON.init(parseJSON: option)
+                                    json["last_customer_message_timestamp"] = JSON(lastCustomerTimestamp)
+                                    
+                                    if let rawData = json.rawString() {
+                                        let room = room
+                                        room.options = rawData
+                                        QiscusCore.database.room.save([room])
+                                    }
+                                    
+                                    let date = self.getDate(timestamp: lastCustomerTimestamp)
+                                    let diff = date.differentTime()
+                                    
+                                    if diff >= 16 && diff <= 23 {
+                                       //will exxpired
+                                        self.chatInput.hideNoActiveSession()
+                                    } else if diff >= 24 {
+                                        //expired
+                                        let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
+                                        
+                                        if isHidePopup == true {
+                                            self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
+                                        }else{
+                                            
+                                            if let room = self.room{
+                                                let lastComment = room.lastComment?.message
+                                                
+                                                if lastComment?.lowercased() == "Business Initiate session started".lowercased() || self.waIsExpired == false{
+                                                    self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
+                                                }else{
+                                                    if UserDefaults.standard.getStatusFeatureSelfTopupCredit() == 2{
+                                                        self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
+                                                    }else{
+                                                        self.chatInput.showNoActiveSession(isStartChat: true, hsmQuota: self.hsmQuota)
+                                                    }
+                                                    
+                                                }
+                                            }else{
+                                                self.chatInput.showNoActiveSession(isStartChat: true, hsmQuota: self.hsmQuota)
+                                            }
+                                            
+                                        }
+                                       
+
+                                    } else {
+                                       //will expired
+                                        let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
+                                        if self.waIsExpired == true &&  isHidePopup == false{
+                                            self.chatInput.showNoActiveSession(isStartChat: true, hsmQuota: self.hsmQuota)
+                                        }
+                                    }
+                                    
+                                }
+                            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                                //failed
+                                self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
+                            } else {
+                                //failed
+                                self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
+                            }
+                        }
+                    }else{
+                        let date = self.getDate(timestamp: lastCustommerTimestamp)
+                        let diff = date.differentTime()
+                        
+                        if diff >= 16 && diff <= 23 {
+                           //will exxpired
+                        } else if diff >= 24 {
+                            //expired
+                            self.chatInput.showNoActiveSession(isStartChat: false)
+                        } else {
+                           //will expired
+                            let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
+                            
+                            if self.waIsExpired == true && isHidePopup == false {
+                                self.chatInput.showNoActiveSession(isStartChat: true, hsmQuota: self.hsmQuota)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func getDate(timestamp : String) -> Date {
+        //let timezone = TimeZone.current.identifier
+        let formatter = DateFormatter()
+        formatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ssZ"
+        formatter.timeZone = .current
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        let date = formatter.date(from: timestamp)
+        return date ?? Date()
     }
     
     @objc func loadMoreDataMessage(){
@@ -2262,9 +2447,9 @@ extension UIChatViewController: UIChatViewDelegate {
                 self.setupNavigationTitle()
                 self.setupToolbarHandle()
             } else if lastComment?.message.lowercased().contains("customer initiated session is ended") == true{
-                self.chatInput.showNoActiveSession()
+                self.getCustomerRoom()
             } else if lastComment?.message.lowercased().contains("bussiness initiated session is ended") == true{
-                self.chatInput.showNoActiveSession()
+                self.getCustomerRoom()
             }
         }
     }
