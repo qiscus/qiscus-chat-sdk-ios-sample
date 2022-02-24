@@ -11,6 +11,7 @@ import Photos
 import MobileCoreServices
 import QiscusCore
 import SwiftyJSON
+import PhotosUI
 
 protocol CustomChatInputDelegate {
     func sendAttachment()
@@ -267,6 +268,11 @@ extension UIChatViewController : CustomChatInputDelegate {
     }
     
     func uploadGalery() {
+        if #available(iOS 11.0, *) {
+            //self.latestNavbarTint = self.currentNavbarTint
+            UINavigationBar.appearance().tintColor = UIColor.blue
+        }
+        
         self.view.endEditing(true)
         let photoPermissions = PHPhotoLibrary.authorizationStatus()
         
@@ -280,20 +286,35 @@ extension UIChatViewController : CustomChatInputDelegate {
                     break
                 case .denied:
                     self.showPhotoAccessAlert()
+                    
+                    if #available(iOS 11.0, *) {
+                        UINavigationBar.appearance().tintColor = self.latestNavbarTint
+                        self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+                    }
                     break
                 default:
                     self.showPhotoAccessAlert()
+                    
+                    if #available(iOS 11.0, *) {
+                        UINavigationBar.appearance().tintColor = self.latestNavbarTint
+                        self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+                    }
                     break
                 }
             })
         }else{
             self.showPhotoAccessAlert()
+            
+            if #available(iOS 11.0, *) {
+                UINavigationBar.appearance().tintColor = self.latestNavbarTint
+                self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+            }
         }
     }
     
     func uploadFile(){
         if #available(iOS 11.0, *) {
-            self.latestNavbarTint = self.currentNavbarTint
+          //  self.latestNavbarTint = self.currentNavbarTint
             UINavigationBar.appearance().tintColor = UIColor.blue
         }
         
@@ -304,14 +325,21 @@ extension UIChatViewController : CustomChatInputDelegate {
     }
     
     func goToGaleryPicker(){
-        DispatchQueue.main.async(execute: {
+        if #available(iOS 14, *) {
+            var configuration = PHPickerConfiguration()
+            configuration.selectionLimit = 1
+            configuration.filter = .images
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            self.present(picker, animated: true, completion: nil)
+        } else {
             let picker = UIImagePickerController()
             picker.delegate = self
             picker.allowsEditing = false
             picker.sourceType = UIImagePickerController.SourceType.photoLibrary
             picker.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
             self.present(picker, animated: true, completion: nil)
-        })
+        }
     }
     
     func showPhotoAccessAlert(){
@@ -619,6 +647,80 @@ extension UIChatViewController: UIDocumentPickerDelegate{
             }catch _{
                 //finish loading
                 //self.dismissLoading()
+            }
+        }
+    }
+}
+
+extension UIChatViewController: PHPickerViewControllerDelegate {
+    
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        if #available(iOS 11.0, *) {
+            UINavigationBar.appearance().tintColor = self.latestNavbarTint
+            self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+        }
+        
+        guard !results.isEmpty else {
+            self.dismiss(animated:true, completion: nil)
+            return
+        }
+        
+        var imageName:String = "\(NSDate().timeIntervalSince1970 * 1000).jpg"
+        
+        let itemProviders = results.map(\.itemProvider)
+        
+        if itemProviders.count == 0{
+            self.dismiss(animated:true, completion: nil)
+            return
+        }
+        
+        for item in itemProviders {
+            if item.canLoadObject(ofClass: UIImage.self) {
+                item.loadObject(ofClass: UIImage.self) { (image, error) in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+                            var data = image.pngData()
+                            
+                            let imageSize = image.size
+                            var bigPart = CGFloat(0)
+                            if(imageSize.width > imageSize.height){
+                                bigPart = imageSize.width
+                            }else{
+                                bigPart = imageSize.height
+                            }
+                            
+                            var compressVal = CGFloat(1)
+                            if(bigPart > 2000){
+                                compressVal = 2000 / bigPart
+                            }
+                            
+                            data = image.jpegData(compressionQuality:compressVal)
+                            
+                            if data != nil {
+                                let mediaSize = Double(data!.count) / 1024.0
+                                if mediaSize > self.maxUploadSizeInKB {
+                                    picker.dismiss(animated: true, completion: {
+                                        self.showFileTooBigAlert()
+                                    })
+                                    return
+                                } else {
+                                    self.dismiss(animated:true, completion: nil)
+                                    
+                                    picker.dismiss(animated: true, completion: {
+                                        
+                                    })
+                                    
+                                    let uploader = QiscusUploaderVC(nibName: "QiscusUploaderVC", bundle: nil)
+                                    uploader.chatView = self
+                                    uploader.data = data
+                                    uploader.fileName = imageName
+                                    self.navigationController?.pushViewController(uploader, animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

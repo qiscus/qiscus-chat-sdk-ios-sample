@@ -96,6 +96,22 @@ class UIChatViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.barTintColor =  UIColor.white
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor.white
+            appearance.titleTextAttributes = [.font: UIFont.boldSystemFont(ofSize: 18.0),
+                                              .foregroundColor: UIColor.white]
+
+            // Customizing our navigation bar
+            navigationController?.navigationBar.tintColor =  UIColor.white
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        } else {
+            // Fallback on earlier versions
+        }
+        
         self.presenter.attachView(view: self)
         let center: NotificationCenter = NotificationCenter.default
         center.addObserver(self, selector: #selector(UIChatViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -223,7 +239,8 @@ class UIChatViewController: UIViewController {
     private func setupTableView() {
         let rotate = CGAffineTransform(rotationAngle: .pi)
         self.tableViewConversation.transform = rotate
-        self.tableViewConversation.scrollIndicatorInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: UIScreen.main.bounds.width - 8)
+        self.tableViewConversation.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        self.tableViewConversation.scrollIndicatorInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0, right: UIScreen.main.bounds.width - 8)
         self.tableViewConversation.rowHeight = UITableView.automaticDimension
         self.tableViewConversation.dataSource = self
         self.tableViewConversation.delegate = self
@@ -579,7 +596,7 @@ extension UIChatViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20
+        return 36
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

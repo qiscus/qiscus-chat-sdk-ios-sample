@@ -57,6 +57,11 @@ class QImageLeftCell: UIBaseChatCell {
         self.bindData(message: message)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        ivComment.image = nil
+    }
+    
     func bindData(message: CommentModel){
         self.setupBalon()
         
@@ -74,15 +79,18 @@ class QImageLeftCell: UIBaseChatCell {
                 if self.ivComment.image == nil {
                     self.showLoading()
                     self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
-                    QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlFile) in
-                        let data = NSData(contentsOf: urlFile)
-                        DispatchQueue.main.async {
-                            self.hideLoading()
-                            self.ivComment.image = UIImage(data: data as! Data)
-                        }
-                    }, onProgress: { (progress) in
-                        
-                    })
+                    DispatchQueue.global(qos: .background).sync {
+                        QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlFile) in
+                            let data = NSData(contentsOf: urlFile)
+                            DispatchQueue.main.async {
+                                self.hideLoading()
+                                self.ivComment.image = UIImage(data: data as! Data)
+                            }
+                        }, onProgress: { (progress) in
+                            
+                        })
+                    }
+                    
                 }
             }
         }
