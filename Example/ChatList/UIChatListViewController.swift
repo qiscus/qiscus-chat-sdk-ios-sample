@@ -31,16 +31,6 @@ class UIChatListViewController: UIViewController {
         super.viewDidLoad()
         self.setupUI()
         self.presenter.loadChat()
-        
-//        QiscusCore.shared.chatUser(userId: "myim3bot@indosatooredoo.com", extras: nil) { room, comments in
-//            let target = UIChatViewController()
-//            target.room = room
-//            self.navigationController?.pushViewController(target, animated: true)
-//        } onError: { error in
-//            
-//        }
-
-    
     }
     
     func setupUI(){

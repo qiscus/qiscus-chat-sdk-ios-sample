@@ -12,7 +12,7 @@ import Foundation
 import UserNotifications
 import SwiftyJSON
 
-let APP_ID : String = "qchatsdk-wo1txz0fm1ilza"
+let APP_ID : String = "sdksample"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
