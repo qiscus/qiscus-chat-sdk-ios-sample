@@ -56,7 +56,7 @@ class AlertWAInitiateChatVC: UIViewController {
                 
             }
             
-            let vc = OpenChatSessionWAVC()
+            let vc = NewOpenChatSessionWAVC()
             vc.chargedCredit = chargeCredits
             vc.channelID = self.channelID
             vc.roomId = self.roomID

@@ -260,8 +260,14 @@ class TagsCustomerInfoCell: UITableViewCell {
                             }
                         }
                     }
-                    self.viewController?.tableView.beginUpdates()
-                    self.viewController?.tableView.endUpdates()
+                    
+                    if ((self.viewController?.tableView.dataHasChanged) == true) {
+                        self.viewController?.tableView.reloadData()
+                    }else{
+                        self.viewController?.tableView.beginUpdates()
+                        self.viewController?.tableView.endUpdates()
+                    }
+                    
                     
                     if self.firstLoad == false {
                         self.firstLoad = true
@@ -305,7 +311,10 @@ class TagsCustomerInfoCell: UITableViewCell {
                     
                     for (index, tags) in self.tagsData.enumerated() {
                         if tags.id == id {
-                             self.tagsData.remove(at: index)
+                            if index >= self.tagsData.startIndex && index < self.tagsData.endIndex {
+                                self.tagsData.remove(at: index)
+                            }
+                            
                         }
                     }
                     

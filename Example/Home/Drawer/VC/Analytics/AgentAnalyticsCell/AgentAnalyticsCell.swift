@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import AlamofireImage
+import QiscusCore
 
 class AgentAnalyticsCell: UITableViewCell {
 
@@ -45,7 +46,12 @@ class AgentAnalyticsCell: UITableViewCell {
         
         if let avatarUrl = data.avatarUrl{
             self.ivAvatar.isHidden = false
-            self.ivAvatar.af_setImage(withURL: (URL(string: avatarUrl) ?? URL(string: "https://"))!)
+            let url = avatarUrl
+            QiscusCore.shared.getThumbnailURL(url: url) { newUrl in
+                self.ivAvatar.af_setImage(withURL: (URL(string: newUrl) ?? URL(string: "https://"))!)
+            } onError: { error in
+                self.ivAvatar.af_setImage(withURL: (URL(string: avatarUrl) ?? URL(string: "https://"))!)
+            }
         }else{
             self.ivAvatar.isHidden = true
         }

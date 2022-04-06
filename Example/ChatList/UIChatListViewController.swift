@@ -123,10 +123,14 @@ class UIChatListViewController: UIViewController, IndicatorInfoProvider {
                 let indexPath = IndexPath(item: Int(row) ?? 0, section: 0)
                 let isVisible = self.tableView.indexPathsForVisibleRows?.contains{$0 == indexPath}
                 if let v = isVisible, v == true {
-                    tableView.reloadRows(at: [indexPath], with: .none)
+                    if self.tableView.dataHasChanged {
+                        tableView.reloadData()
+                    }else{
+                        tableView.reloadRows(at: [indexPath], with: .none)
+                    }
+                    
                     self.defaults.removeObject(forKey: "lastSelectedListRoom")
                 }
-               
             }
         }
     }
@@ -242,10 +246,15 @@ extension UIChatListViewController : UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = self.rooms[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
-        cell.setupUI(data: data)
-        return cell
+        if self.rooms[safe: indexPath.row] != nil{
+            let data = self.rooms[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
+            cell.setupUI(data: data)
+            return cell
+        }else{
+            return UITableViewCell()
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

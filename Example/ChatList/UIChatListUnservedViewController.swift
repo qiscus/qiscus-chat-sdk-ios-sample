@@ -364,20 +364,30 @@ extension UIChatListUnservedViewController : UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = self.customerRooms[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
-        cell.setupUICustomerRoom(data: data)
-        return cell
+        if self.customerRooms[safe: indexPath.row] != nil{
+            let data = self.customerRooms[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: UIChatListViewCell.identifier, for: indexPath) as! UIChatListViewCell
+            cell.setupUICustomerRoom(data: data)
+            return cell
+        }else{
+            return UITableViewCell()
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let customerRoom = self.customerRooms[indexPath.row]
-        
-        QiscusCore.shared.getChatRoomWithMessages(roomId: customerRoom.roomId, onSuccess: { (room, comments) in
-            self.chat(withRoom: room)
-        }) { (error) in
-            //error
+        if self.customerRooms[safe: indexPath.row] != nil{
+            let customerRoom = self.customerRooms[indexPath.row]
+            
+            QiscusCore.shared.getChatRoomWithMessages(roomId: customerRoom.roomId, onSuccess: { (room, comments) in
+                self.chat(withRoom: room)
+            }) { (error) in
+                //error
+            }
+        }else{
+            self.tableView.reloadData()
         }
+        
         
     }
     

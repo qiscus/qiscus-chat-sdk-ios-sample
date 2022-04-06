@@ -92,7 +92,11 @@ class QTextRightCell: UIBaseChatCell {
                 let attributedString = NSMutableAttributedString(string: allMesage.htmlToString, attributes: attributedStringColor)
                 
                 if let distance = attributedString.string.distance(of: "This message was sent on previous session") {
-                    attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 10), range: NSRange(location: distance , length: attributedString.string.count - distance - 1))
+                    
+                    if attributedString.string.count != 0  && ((attributedString.string.count - distance - 1) != 0){
+                        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 10), range: NSRange(location: distance , length: attributedString.string.count - distance - 1))
+                    }
+                  
                 }
                 
                 self.tvContent.attributedText = attributedString
@@ -193,6 +197,10 @@ extension String {
         }
     }
     var htmlToString: String {
-        return htmlToAttributedString?.string ?? ""
+        if let check = htmlToAttributedString {
+            return check.string
+        }else{
+            return ""
+        }
     }
 }

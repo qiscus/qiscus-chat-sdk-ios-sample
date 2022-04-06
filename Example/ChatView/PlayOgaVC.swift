@@ -160,11 +160,13 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
     }
     
     func showAlertWith(title: String, message: String){
-        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        self.navigationController?.present(ac, animated: true, completion: {
-            //success
-        })
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            self.navigationController?.present(ac, animated: true, completion: {
+                //success
+            })
+        }
         
     }
         

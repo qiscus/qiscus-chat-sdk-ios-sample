@@ -97,13 +97,16 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
                     let channelType = json["channel"].string ?? "qiscus"
                    
                     if channelType.lowercased() == "wa"{
-                        QiscusCore.shared.loadMore(roomID: room.id, lastCommentID: comments.last!.id, limit: 100) { (comments) in
-                            if comments.count == 0 {
-                                return
+                        if let last = comments.last {
+                            QiscusCore.shared.loadMore(roomID: room.id, lastCommentID: last.id, limit: 100) { (comments) in
+                                if comments.count == 0 {
+                                    return
+                                }
+                            } onError: { (error) in
+                                
                             }
-                        } onError: { (error) in
-                            
                         }
+                        
                     }
                 }
             }
@@ -168,8 +171,10 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     }
     
     func unStableConnection(){
-        self.viewUnstableConnection.alpha = 1
-        self.heightViewUnstableConnectionConst.constant = 45
+        DispatchQueue.main.async {
+            self.viewUnstableConnection.alpha = 1
+            self.heightViewUnstableConnectionConst.constant = 45
+        }
     }
     
     @objc func hideUnstableConnection(_ notification: Notification){
@@ -177,8 +182,10 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
     }
     
     func stableConnection(){
-        self.viewUnstableConnection.alpha = 0
-        self.heightViewUnstableConnectionConst.constant = 0
+        DispatchQueue.main.async {
+            self.viewUnstableConnection.alpha = 0
+            self.heightViewUnstableConnectionConst.constant = 0
+        }
     }
     
     @objc func buttonSendWaTemplate(sender: UIButton!) {

@@ -56,8 +56,10 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
     }
     
     func unStableConnection(){
-        self.viewUnstableConnection.alpha = 1
-        self.heightViewUnstableConnectionConst.constant = 45
+        DispatchQueue.main.async {
+            self.viewUnstableConnection.alpha = 1
+            self.heightViewUnstableConnectionConst.constant = 45
+        }
     }
     
     @objc func hideUnstableConnection(_ notification: Notification){
@@ -65,8 +67,11 @@ class AccountManagementAgentVC: UIViewController,  UITableViewDataSource, UITabl
     }
     
     func stableConnection(){
-        self.viewUnstableConnection.alpha = 0
-        self.heightViewUnstableConnectionConst.constant = 0
+        DispatchQueue.main.async {
+            self.viewUnstableConnection.alpha = 0
+            self.heightViewUnstableConnectionConst.constant = 0
+        }
+        
     }
 
     func setupButtonSave(){

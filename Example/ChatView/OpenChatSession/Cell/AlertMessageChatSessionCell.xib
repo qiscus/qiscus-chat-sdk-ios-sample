@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="88" id="KGk-i7-Jjw" customClass="AlertMessageChatSessionCell" customModule="Qiscus_Multichannel" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78Q-J1-nTJ">
+                        <rect key="frame" x="20" y="0.0" width="280" height="68"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You dont have any 24 Hours Messages Template." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RS7-xB-MZL">
+                                <rect key="frame" x="20" y="20" width="240" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="i7R-O3-Ag5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="RS7-xB-MZL" firstAttribute="centerX" secondItem="78Q-J1-nTJ" secondAttribute="centerX" id="7NC-CZ-B91"/>
+                            <constraint firstItem="RS7-xB-MZL" firstAttribute="leading" secondItem="78Q-J1-nTJ" secondAttribute="leading" constant="20" id="Fje-if-YVk"/>
+                            <constraint firstAttribute="trailing" secondItem="RS7-xB-MZL" secondAttribute="trailing" constant="20" id="RFq-eg-HK5"/>
+                            <constraint firstItem="RS7-xB-MZL" firstAttribute="top" secondItem="78Q-J1-nTJ" secondAttribute="top" constant="20" symbolic="YES" id="n0a-2P-syD"/>
+                            <constraint firstItem="RS7-xB-MZL" firstAttribute="centerY" secondItem="78Q-J1-nTJ" secondAttribute="centerY" id="nxl-lF-5b3"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="78Q-J1-nTJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="PIX-wJ-h9V"/>
+                    <constraint firstAttribute="bottom" secondItem="78Q-J1-nTJ" secondAttribute="bottom" constant="20" id="bcJ-p2-SvD"/>
+                    <constraint firstItem="78Q-J1-nTJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="hlz-0S-Ccm"/>
+                    <constraint firstAttribute="trailing" secondItem="78Q-J1-nTJ" secondAttribute="trailing" constant="20" id="q4B-Sm-d0v"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="lbMessage" destination="RS7-xB-MZL" id="QHe-vA-5Lw"/>
+                <outlet property="viewMessage" destination="78Q-J1-nTJ" id="eIz-pn-XhE"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="88.392857142857139"/>
+        </tableViewCell>
+    </objects>
+</document>

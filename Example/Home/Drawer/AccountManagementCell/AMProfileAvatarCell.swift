@@ -44,7 +44,13 @@ class AMProfileAvatarCell: UITableViewCell {
     }
     
     func setupData(urlImage : URL, dataFullName : String, dataEmailAddress: String, companyName: String = "", address: String = "", phoneNumber: String = "", dataAlterBillEmail : [String] = [""]){
-        self.ivAvatar.af_setImage(withURL: urlImage)
+       
+        QiscusCore.shared.getThumbnailURL(url: urlImage.absoluteString) { newUrl in
+            self.ivAvatar.af_setImage(withURL: (URL(string: newUrl) ?? URL(string: "https://"))!)
+        } onError: { error in
+            self.ivAvatar.af_setImage(withURL: urlImage)
+        }
+        
         self.lastAvatarURL = urlImage
         self.fullName = dataFullName
         self.emailAddress = dataEmailAddress
@@ -242,21 +248,41 @@ class AMProfileAvatarCell: UITableViewCell {
                             } else {
                                 self.loadingIndicator.stopAnimating()
                                 self.loadingIndicator.isHidden = true
-                                self.ivAvatar.af_setImage(withURL: self.lastAvatarURL!)
+                               
+                                
+                                QiscusCore.shared.getThumbnailURL(url: self.lastAvatarURL?.absoluteString ?? "") { newUrl in
+                                    self.ivAvatar.af_setImage(withURL: (URL(string: newUrl) ?? URL(string: "https://"))!)
+                                } onError: { error in
+                                    self.ivAvatar.af_setImage(withURL: self.lastAvatarURL!)
+                                }
+                                
                                 return
                             }
                         }
                     }else{
                         self.loadingIndicator.stopAnimating()
                         self.loadingIndicator.isHidden = true
-                        self.ivAvatar.af_setImage(withURL: self.lastAvatarURL!)
+                        
+                        QiscusCore.shared.getThumbnailURL(url: self.lastAvatarURL?.absoluteString ?? "") { newUrl in
+                            self.ivAvatar.af_setImage(withURL: (URL(string: newUrl) ?? URL(string: "https://"))!)
+                        } onError: { error in
+                            self.ivAvatar.af_setImage(withURL: self.lastAvatarURL!)
+                        }
+                        
                         return
                     }
                 } else {
                     //success
                     self.loadingIndicator.stopAnimating()
                     self.loadingIndicator.isHidden = true
-                    self.ivAvatar.af_setImage(withURL: avatarURL)
+                    
+                    QiscusCore.shared.getThumbnailURL(url: avatarURL.absoluteString ) { newUrl in
+                        self.ivAvatar.af_setImage(withURL: (URL(string: newUrl) ?? URL(string: "https://"))!)
+                        self.lastAvatarURL = avatarURL
+                    } onError: { error in
+                        self.ivAvatar.af_setImage(withURL: self.lastAvatarURL!)
+                    }
+                    
                     //show alert success
                     
                     let vc = AlertAMSuccessUpdate()

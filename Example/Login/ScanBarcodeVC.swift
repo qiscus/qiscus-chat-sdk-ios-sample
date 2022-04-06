@@ -489,7 +489,7 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
                                 UserDefaults.standard.setAuthenticationToken(value: qismoToken)
                                 UserDefaults.standard.setUserType(value: userType)
                                 let app = UIApplication.shared.delegate as! AppDelegate
-                                app.validateUserToken(appId: "",identityToken: identityToken, qismo_key : qismo_key)
+                                app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
                                
                             }
                         } else if (response.response != nil && (response.response?.statusCode)! == 401) {
@@ -509,7 +509,7 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             
             let payload = JSON.init(parseJSON: data)
             
-            let appId = payload["app_id"].stringValue
+            let appId = payload["app_id"].string ?? ""
             let identityToken = payload["identity_token"].stringValue
             let qismo_key = payload["qismo_key"].stringValue
             var qismo_url = payload["qismo_url"].stringValue
@@ -529,12 +529,19 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
                 userTypeInt = 3
             }
             
-            UserDefaults.standard.setBaseURL(value: qismo_url)
-            UserDefaults.standard.setLongLivedToken(value: longLiveToken)
-            UserDefaults.standard.setAuthenticationToken(value: qismoToken)
-            UserDefaults.standard.setUserType(value: userTypeInt)
-            let app = UIApplication.shared.delegate as! AppDelegate
-            app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
+            if appId.isEmpty == true {
+                return
+            }else{
+                UserDefaults.standard.setAppID(value: appId)
+                UserDefaults.standard.setBaseURL(value: qismo_url)
+                UserDefaults.standard.setLongLivedToken(value: longLiveToken)
+                UserDefaults.standard.setAuthenticationToken(value: qismoToken)
+                UserDefaults.standard.setUserType(value: userTypeInt)
+                let app = UIApplication.shared.delegate as! AppDelegate
+                app.validateUserToken(appId: appId,identityToken: identityToken, qismo_key : qismo_key)
+            }
+            
+            
         }
 
     }

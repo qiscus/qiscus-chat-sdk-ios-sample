@@ -392,9 +392,28 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             var dataWA = WAChannelModel(json: data)
 
                             if let hasFilter = self.defaults.string(forKey: "filter"){
-                                if hasFilter.contains("\(dataWA.id)") == true{
-                                    dataWA.isSelected = true
+                                do {
+                                    let arr = try JSONSerializer.toArray(hasFilter)
+                                    
+                                    if  arr is Array<AnyObject> {
+                                        for jsonArr in arr as Array<AnyObject>{
+                                            let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                            let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                            
+                                            if dataWA.id == channelId  &&
+                                                source.lowercased() == "wa".lowercased(){
+                                                dataWA.isSelected = true
+                                            }
+                                            
+                                        }
+                                    }
+                                    
+                                } catch let parseError {
+                                    
                                 }
+//                                if hasFilter.contains("\(dataWA.id)") == true{
+//                                    dataWA.isSelected = true
+//                                }
                             }
                             self.resultsWAChannelModel.append(dataWA)
                         }
@@ -407,9 +426,29 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             var dataLine = LineChannelModel(json: data)
 
                             if let hasFilter = self.defaults.string(forKey: "filter"){
-                                if hasFilter.contains("\(dataLine.id)") == true{
-                                    dataLine.isSelected = true
+                                do {
+                                    let arr = try JSONSerializer.toArray(hasFilter)
+                                    
+                                    if  arr is Array<AnyObject> {
+                                        for jsonArr in arr as Array<AnyObject>{
+                                            let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                            let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                            
+                                            if dataLine.id == channelId  &&
+                                                source.lowercased() == "line".lowercased(){
+                                                dataLine.isSelected = true
+                                            }
+                                            
+                                        }
+                                    }
+                                    
+                                } catch let parseError {
+                                    
                                 }
+                                
+//                                if hasFilter.contains("\(dataLine.id)") == true{
+//                                    dataLine.isSelected = true
+//                                }
                             }
                             self.resultsLineChannelModel.append(dataLine)
                         }
@@ -422,9 +461,29 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             var dataFB = FBChannelModel(json: data)
 
                             if let hasFilter = self.defaults.string(forKey: "filter"){
-                                if hasFilter.contains("\(dataFB.id)") == true{
-                                    dataFB.isSelected = true
+                                do {
+                                    let arr = try JSONSerializer.toArray(hasFilter)
+                                    
+                                    if  arr is Array<AnyObject> {
+                                        for jsonArr in arr as Array<AnyObject>{
+                                            let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                            let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                            
+                                            if dataFB.id == channelId  &&
+                                                source.lowercased() == "fb".lowercased(){
+                                                dataFB.isSelected = true
+                                            }
+                                            
+                                        }
+                                    }
+                                    
+                                } catch let parseError {
+                                    
                                 }
+                                
+//                                if hasFilter.contains("\(dataFB.id)") == true{
+//                                    dataFB.isSelected = true
+//                                }
                             }
                             self.resultsFBChannelModel.append(dataFB)
                         }
@@ -435,12 +494,36 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         self.isShowCustomChannelFilter  = true
                         for data in chChannels! {
                             var dataCH = CustomCHChannelModel(json: data)
-                            
+
                             if let hasFilter = self.defaults.string(forKey: "filter"){
-                                if hasFilter.contains("\(dataCH.id)") == true{
-                                    dataCH.isSelected = true
+                                do {
+                                    let arr = try JSONSerializer.toArray(hasFilter)
+                                    
+                                    if  arr is Array<AnyObject> {
+                                        for jsonArr in arr as Array<AnyObject>{
+                                            let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                            let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                            
+                                            if dataCH.id == channelId  && dataCH.identifierKey.lowercased() ==
+                                                source.lowercased(){
+                                                dataCH.isSelected = true
+                                            }
+                                            
+                                        }
+                                    }
+                                
+                                } catch let parseError {
+                                    
                                 }
+                                
                             }
+                            
+                            
+//                            if let hasFilter = self.defaults.string(forKey: "filter"){
+//                                if hasFilter.contains("\(dataCH.id)") == true{
+//                                    dataCH.isSelected = true
+//                                }
+//                            }
                             self.resultsCustomCHChannelModel.append(dataCH)
                         }
                         
@@ -452,9 +535,30 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             var dataQW = QiscusWidgetChannelModel(json: data)
 
                             if let hasFilter = self.defaults.string(forKey: "filter"){
-                                if hasFilter.contains("\(dataQW.id)") == true{
-                                    dataQW.isSelected = true
+                                do {
+                                    let arr = try JSONSerializer.toArray(hasFilter)
+                                    
+                                    if  arr is Array<AnyObject> {
+                                        for jsonArr in arr as Array<AnyObject>{
+                                            let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                            let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                            
+                                            if dataQW.id == channelId  &&
+                                                source.lowercased() == "qiscus".lowercased(){
+                                                dataQW.isSelected = true
+                                            }
+                                            
+                                        }
+                                    }
+                                
+                                } catch let parseError {
+                                    
                                 }
+                                
+                                
+//                                if hasFilter.contains("\(dataQW.id)") == true{
+//                                    dataQW.isSelected = true
+//                                }
                             }
                             self.resultsQiscusWidgetChannelModel.append(dataQW)
                         }
@@ -467,9 +571,29 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             var dataTelegram = TelegramChannelModel(json: data)
                             
                             if let hasFilter = self.defaults.string(forKey: "filter"){
-                                if hasFilter.contains("\(dataTelegram.id)") == true{
-                                    dataTelegram.isSelected = true
+                                do {
+                                    let arr = try JSONSerializer.toArray(hasFilter)
+                                    
+                                    if  arr is Array<AnyObject> {
+                                        for jsonArr in arr as Array<AnyObject>{
+                                            let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                            let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                            
+                                            if dataTelegram.id == channelId  &&
+                                                source.lowercased() == "telegram".lowercased(){
+                                                dataTelegram.isSelected = true
+                                            }
+                                            
+                                        }
+                                    }
+                                    
+                                } catch let parseError {
+                                    
                                 }
+                                
+//                                if hasFilter.contains("\(dataTelegram.id)") == true{
+//                                    dataTelegram.isSelected = true
+//                                }
                             }
                             self.resultsTelegramChannelModel.append(dataTelegram)
                         }
@@ -482,9 +606,29 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             var dataIG = InstagramChannelModel(json: data)
 
                             if let hasFilter = self.defaults.string(forKey: "filter"){
-                                if hasFilter.contains("\(dataIG.id)") == true{
-                                    dataIG.isSelected = true
+                                do {
+                                    let arr = try JSONSerializer.toArray(hasFilter)
+                                    
+                                    if  arr is Array<AnyObject> {
+                                        for jsonArr in arr as Array<AnyObject>{
+                                            let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                            let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                            
+                                            if dataIG.id == channelId  &&
+                                                source.lowercased() == "ig".lowercased(){
+                                                dataIG.isSelected = true
+                                            }
+                                            
+                                        }
+                                    }
+                                    
+                                } catch let parseError {
+                                    
                                 }
+                                
+//                                if hasFilter.contains("\(dataIG.id)") == true{
+//                                    dataIG.isSelected = true
+//                                }
                             }
                             self.resultsInstagramChannelModel.append(dataIG)
                         }
@@ -1018,148 +1162,370 @@ extension FilterVC : WhatsAppChannelCellDelegate {
     }
     
     func updateDataWA(isWaSelected: Bool, dataWAChannelModel : [WAChannelModel]?){
-        self.isWASelected = isWaSelected
-        self.checkButtonReset()
-
         if let dataWAChannelModel = dataWAChannelModel {
             for data in dataWAChannelModel{
                 if data.isSelected == true{
-                    let dataWA = ChannelsModel(channelID: data.id, source: "wa")
-                    channelsModelWA.append(dataWA)
+                    
+                    let checkArray = self.channelsModelWA.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataWA = ChannelsModel(channelID: data.id, source: "wa")
+                        channelsModelWA.append(dataWA)
+                    }
                 }else{
-                    channelsModelWA.removeAll(where: { $0.channel_id == data.id })
+                    for (index, element) in self.channelsModelWA.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelWA.remove(at: index)
+                        }
+                    }
                 }
             }
         }else{
             //remove
             channelsModelWA.removeAll()
         }
+        
+        if self.channelsModelWA.count == 0 {
+            self.isWASelected = isWaSelected
+            self.selectedTypeWA = ""
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIFromSelectChannel"), object: nil)
+        }else{
+            if self.channelsModelWA.count < self.resultsWAChannelModel.count{
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIUnCheckWA"), object: nil)
+            }else{
+                NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUICheckWA"), object: nil)
+            }
+            self.isWASelected = true
+            
+        }
+        
+        
+        self.checkButtonReset()
     }
 }
 
 extension FilterVC : LineChannelCellDelegate {
     func updateDataLine(isLineSelected: Bool, dataLineChannelModel : [LineChannelModel]?){
-        self.isLineSelected = isLineSelected
-        self.checkButtonReset()
-
+//        self.isLineSelected = isLineSelected
+//        self.checkButtonReset()
+//
+//        if let dataLineChannelModel = dataLineChannelModel {
+//            for data in dataLineChannelModel{
+//                if data.isSelected == true{
+//                    let dataLine = ChannelsModel(channelID: data.id, source: "line")
+//                    channelsModelLine.append(dataLine)
+//                }else{
+//                    channelsModelLine.removeAll(where: { $0.channel_id == data.id })
+//                }
+//            }
+//        }else{
+//            //remove
+//            channelsModelLine.removeAll()
+//        }
+        
+        
         if let dataLineChannelModel = dataLineChannelModel {
             for data in dataLineChannelModel{
                 if data.isSelected == true{
-                    let dataLine = ChannelsModel(channelID: data.id, source: "line")
-                    channelsModelLine.append(dataLine)
+                    
+                    let checkArray = self.channelsModelLine.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataLine = ChannelsModel(channelID: data.id, source: "line")
+                        channelsModelLine.append(dataLine)
+                    }
                 }else{
-                    channelsModelLine.removeAll(where: { $0.channel_id == data.id })
+                    for (index, element) in self.channelsModelLine.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelLine.remove(at: index)
+                        }
+                    }
                 }
             }
         }else{
             //remove
             channelsModelLine.removeAll()
         }
+        
+        if self.channelsModelLine.count == 0 {
+            self.isLineSelected = isLineSelected
+        }else{
+            self.isLineSelected = true
+        }
+        
+        
+        self.checkButtonReset()
+        
     }
 }
 
 extension FilterVC : FBChannelCellDelegate {
     func updateDataFB(isFBSelected: Bool, dataFBChannelModel : [FBChannelModel]?){
-        self.isFBSelected = isFBSelected
-        self.checkButtonReset()
-
+//        self.isFBSelected = isFBSelected
+//        self.checkButtonReset()
+//
+//        if let dataFBChannelModel = dataFBChannelModel {
+//            for data in dataFBChannelModel{
+//                if data.isSelected == true{
+//                    let dataFB = ChannelsModel(channelID: data.id, source: "fb")
+//                    channelsModelFB.append(dataFB)
+//                }else{
+//                    channelsModelFB.removeAll(where: { $0.channel_id == data.id })
+//                }
+//            }
+//        }else{
+//            //remove
+//            channelsModelFB.removeAll()
+//        }
+        
         if let dataFBChannelModel = dataFBChannelModel {
             for data in dataFBChannelModel{
                 if data.isSelected == true{
-                    let dataFB = ChannelsModel(channelID: data.id, source: "fb")
-                    channelsModelFB.append(dataFB)
+                    
+                    let checkArray = self.channelsModelFB.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataFB = ChannelsModel(channelID: data.id, source: "fb")
+                        channelsModelFB.append(dataFB)
+                    }
                 }else{
-                    channelsModelFB.removeAll(where: { $0.channel_id == data.id })
+                    for (index, element) in self.channelsModelFB.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelFB.remove(at: index)
+                        }
+                    }
                 }
             }
         }else{
             //remove
             channelsModelFB.removeAll()
         }
+        
+        if self.channelsModelFB.count == 0 {
+            self.isFBSelected = isFBSelected
+        }else{
+            self.isFBSelected = true
+        }
+        
+        
+        self.checkButtonReset()
+        
     }
 }
 
 extension FilterVC : CustomCHChannelCellDelegate {
     func updateDataCustomCH(isCustomCHSelected: Bool, dataCustomCHChannelModel : [CustomCHChannelModel]?){
-        self.isCustomChannelSelected = isCustomCHSelected
-        self.checkButtonReset()
-
+//        self.isCustomChannelSelected = isCustomCHSelected
+//        self.checkButtonReset()
+//
+//        if let dataCustomCHChannelModel = dataCustomCHChannelModel {
+//            for data in dataCustomCHChannelModel{
+//                if data.isSelected == true{
+//                    let dataCustomCH = ChannelsModel(channelID: data.id, source: "\(data.identifierKey)")
+//                    channelsModelCustomCH.append(dataCustomCH)
+//                }else{
+//                    channelsModelCustomCH.removeAll(where: { $0.channel_id == data.id })
+//                }
+//            }
+//        }else{
+//            //remove
+//            channelsModelCustomCH.removeAll()
+//        }
+        
         if let dataCustomCHChannelModel = dataCustomCHChannelModel {
             for data in dataCustomCHChannelModel{
                 if data.isSelected == true{
-                    let dataCustomCH = ChannelsModel(channelID: data.id, source: "\(data.identifierKey)")
-                    channelsModelCustomCH.append(dataCustomCH)
+                    
+                    let checkArray = self.channelsModelCustomCH.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataCH = ChannelsModel(channelID: data.id, source: "\(data.identifierKey)")
+                        channelsModelCustomCH.append(dataCH)
+                    }
                 }else{
-                    channelsModelCustomCH.removeAll(where: { $0.channel_id == data.id })
+                    for (index, element) in self.channelsModelCustomCH.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelCustomCH.remove(at: index)
+                        }
+                    }
                 }
             }
         }else{
             //remove
             channelsModelCustomCH.removeAll()
         }
+        
+        if self.channelsModelCustomCH.count == 0 {
+            self.isCustomChannelSelected = isCustomCHSelected
+        }else{
+            self.isCustomChannelSelected = true
+        }
+        
+        
+        self.checkButtonReset()
+        
     }
 }
 
 extension FilterVC : QiscusWidgetChannelCellDelegate {
     func updateDataQiscusWidget(isQiscusWidgetSelected: Bool, dataQiscusWidgetChannelModel : [QiscusWidgetChannelModel]?){
-        self.isQiscusWidgetSelected = isQiscusWidgetSelected
-        self.checkButtonReset()
-
+//        self.isQiscusWidgetSelected = isQiscusWidgetSelected
+//        self.checkButtonReset()
+//
+//        if let dataQiscusWidgetChannelModel = dataQiscusWidgetChannelModel {
+//            for data in dataQiscusWidgetChannelModel{
+//                if data.isSelected == true{
+//                    let dataQiscusWidget = ChannelsModel(channelID: data.id, source: "qiscus")
+//                    channelsModelQiscusWidget.append(dataQiscusWidget)
+//                }else{
+//                    channelsModelQiscusWidget.removeAll(where: { $0.channel_id == data.id })
+//                }
+//            }
+//        }else{
+//            //remove
+//            channelsModelQiscusWidget.removeAll()
+//        }
+        
         if let dataQiscusWidgetChannelModel = dataQiscusWidgetChannelModel {
             for data in dataQiscusWidgetChannelModel{
                 if data.isSelected == true{
-                    let dataQiscusWidget = ChannelsModel(channelID: data.id, source: "qiscus")
-                    channelsModelQiscusWidget.append(dataQiscusWidget)
+                    
+                    let checkArray = self.channelsModelQiscusWidget.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataQiscusWidget = ChannelsModel(channelID: data.id, source: "qiscus")
+                        channelsModelQiscusWidget.append(dataQiscusWidget)
+                    }
                 }else{
-                    channelsModelQiscusWidget.removeAll(where: { $0.channel_id == data.id })
+                    for (index, element) in self.channelsModelQiscusWidget.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelQiscusWidget.remove(at: index)
+                        }
+                    }
                 }
             }
         }else{
             //remove
             channelsModelQiscusWidget.removeAll()
         }
+        
+        if self.channelsModelQiscusWidget.count == 0 {
+            self.isQiscusWidgetSelected = isQiscusWidgetSelected
+        }else{
+            self.isQiscusWidgetSelected = true
+        }
+        
+        
+        self.checkButtonReset()
+        
     }
 }
 
 extension FilterVC : TelegramChannelCellDelegate {
     func updateDataTelegram(isTelegramSelected: Bool, dataTelegramChannelModel : [TelegramChannelModel]?){
-        self.isTelegramSelected = isTelegramSelected
-        self.checkButtonReset()
-
+//        self.isTelegramSelected = isTelegramSelected
+//        self.checkButtonReset()
+//
+//        if let dataTelegramChannelModel = dataTelegramChannelModel {
+//            for data in dataTelegramChannelModel{
+//                if data.isSelected == true{
+//                    let dataTelegram = ChannelsModel(channelID: data.id, source: "telegram")
+//                    channelsModelTelegram.append(dataTelegram)
+//                }else{
+//                    channelsModelTelegram.removeAll(where: { $0.channel_id == data.id })
+//                }
+//            }
+//        }else{
+//            //remove
+//            channelsModelTelegram.removeAll()
+//        }
+        
         if let dataTelegramChannelModel = dataTelegramChannelModel {
             for data in dataTelegramChannelModel{
                 if data.isSelected == true{
-                    let dataTelegram = ChannelsModel(channelID: data.id, source: "telegram")
-                    channelsModelTelegram.append(dataTelegram)
+                    
+                    let checkArray = self.channelsModelTelegram.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataTelegram = ChannelsModel(channelID: data.id, source: "telegram")
+                        channelsModelTelegram.append(dataTelegram)
+                    }
                 }else{
-                    channelsModelTelegram.removeAll(where: { $0.channel_id == data.id })
+                    for (index, element) in self.channelsModelTelegram.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelTelegram.remove(at: index)
+                        }
+                    }
                 }
             }
         }else{
             //remove
             channelsModelTelegram.removeAll()
         }
+        
+        if self.channelsModelTelegram.count == 0 {
+            self.isTelegramSelected = isTelegramSelected
+        }else{
+            self.isTelegramSelected = true
+        }
+        
+        
+        self.checkButtonReset()
+        
     }
 }
 
 extension FilterVC : InstagramChannelCellDelegate {
     func updateDataInstagram(isInstagramSelected: Bool, dataInstagramChannelModel : [InstagramChannelModel]?){
-        self.isInstagramSelected = isInstagramSelected
-        self.checkButtonReset()
-
+//        self.isInstagramSelected = isInstagramSelected
+//        self.checkButtonReset()
+//
+//        if let dataInstagramChannelModel = dataInstagramChannelModel {
+//            for data in dataInstagramChannelModel{
+//                if data.isSelected == true{
+//                    let dataInstagram = ChannelsModel(channelID: data.id, source: "ig")
+//                    channelsModelInstagram.append(dataInstagram)
+//                }else{
+//                    channelsModelInstagram.removeAll(where: { $0.channel_id == data.id })
+//                }
+//            }
+//        }else{
+//            //remove
+//            channelsModelInstagram.removeAll()
+//        }
+        
         if let dataInstagramChannelModel = dataInstagramChannelModel {
             for data in dataInstagramChannelModel{
                 if data.isSelected == true{
-                    let dataInstagram = ChannelsModel(channelID: data.id, source: "ig")
-                    channelsModelInstagram.append(dataInstagram)
+                    
+                    let checkArray = self.channelsModelInstagram.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataInstagram = ChannelsModel(channelID: data.id, source: "ig")
+                        channelsModelInstagram.append(dataInstagram)
+                    }
                 }else{
-                    channelsModelInstagram.removeAll(where: { $0.channel_id == data.id })
+                    for (index, element) in self.channelsModelInstagram.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelInstagram.remove(at: index)
+                        }
+                    }
                 }
             }
         }else{
             //remove
             channelsModelInstagram.removeAll()
         }
+        
+        if self.channelsModelInstagram.count == 0 {
+            self.isInstagramSelected = isInstagramSelected
+        }else{
+            self.isInstagramSelected = true
+        }
+        
+        
+        self.checkButtonReset()
+        
     }
 }
 

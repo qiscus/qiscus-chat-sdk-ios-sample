@@ -11,6 +11,8 @@ import Alamofire
 import SwiftyJSON
 import QiscusCore
 
+
+///not used
 class OpenChatSessionWAVC: UIViewController {
 
     @IBOutlet weak var heightViewAlert: NSLayoutConstraint!

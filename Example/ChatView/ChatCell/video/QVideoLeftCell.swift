@@ -227,24 +227,41 @@ class QVideoLeftCell: UIBaseChatCell {
     }
     
     @objc func playDidTap() {
-        guard let payload = self.comment?.payload else { return }
-        if let fileName = payload["file_name"] as? String{
-            if let url = payload["url"] as? String {
-                if let vc = self.vc {
-                    vc.view.endEditing(true)
+        if (self.comment?.message.contains("[/file]") == true){
+            if let vc = self.vc {
+                vc.view.endEditing(true)
+            }
+            
+            var url = self.comment?.message.getAttachmentURL(message: self.comment?.message ?? "https://") ?? "https://"
+            
+            let preview = ChatPreviewDocVC()
+            preview.fileName = url
+            preview.url = url
+            preview.roomName = "Video Preview"
+            let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            backButton.tintColor = UIColor.white
+            
+            self.currentViewController()?.navigationItem.backBarButtonItem = backButton
+            self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
+        }else{
+            guard let payload = self.comment?.payload else { return }
+            if let fileName = payload["file_name"] as? String{
+                if let url = payload["url"] as? String {
+                    if let vc = self.vc {
+                        vc.view.endEditing(true)
+                    }
+                    
+                    let preview = ChatPreviewDocVC()
+                    preview.fileName = fileName
+                    preview.url = url
+                    preview.roomName = "Video Preview"
+                    let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                    backButton.tintColor = UIColor.white
+                    self.currentViewController()?.navigationItem.backBarButtonItem = backButton
+                    self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
                 }
-                
-                let preview = ChatPreviewDocVC()
-                preview.fileName = fileName
-                preview.url = url
-                preview.roomName = "Video Preview"
-                let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-                backButton.tintColor = UIColor.white
-                self.currentViewController()?.navigationItem.backBarButtonItem = backButton
-                self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
             }
         }
-       
     }
    
     

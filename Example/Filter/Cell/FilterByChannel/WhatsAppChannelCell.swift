@@ -49,6 +49,13 @@ class WhatsAppChannelCell: UITableViewCell {
         
         NotificationCenter.default.addObserver(self, selector: #selector(resetUI(_:)), name: NSNotification.Name(rawValue: "resetUIWA"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(resetUICheckWA(_:)), name: NSNotification.Name(rawValue: "resetUICheckWA"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(resetUIUnCheckWA(_:)), name: NSNotification.Name(rawValue: "resetUIUnCheckWA"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(resetUIFromSelectChannel(_:)), name: NSNotification.Name(rawValue: "resetUIFromSelectChannel"), object: nil)
+        
+        
     }
     
     func setupData(data: [WAChannelModel]){
@@ -210,8 +217,13 @@ class WhatsAppChannelCell: UITableViewCell {
     }
     
     @IBAction func waCheckUnCheckALL(_ sender: Any) {
-        self.checkUnCheckWA.isSelected = true
-        self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+        if self.viewController?.channelsModelWA.count == self.viewController?.resultsWAChannelModel.count ?? 0 {
+            self.checkUnCheckWA.isSelected = true
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+        }else{
+            self.checkUnCheckWA.isSelected = false
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check"), for: .normal)
+        }
         
         self.checkUnCheckALLWA.isSelected = true
         self.checkUnCheckALLWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
@@ -222,22 +234,42 @@ class WhatsAppChannelCell: UITableViewCell {
         self.checkUnCheckExpiringWA.isSelected = false
         self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
         
-        //checkALL multiple whatsapp
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "checkALLMultipleWA"), object: nil)
         
-        for data in self.dataWAChannelModel.enumerated() {
-            data.element.isSelected = true
+        var updateAll = false
+        
+        if self.viewController?.channelsModelWA.count == 0 {
+            //checkALL multiple whatsapp
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "checkALLMultipleWA"), object: nil)
+            
+            for data in self.dataWAChannelModel.enumerated() {
+                data.element.isSelected = true
+            }
+            
+            updateAll = true
+        }else{
+            updateAll = false
         }
         
+       
+        
         if let delegate = delegate {
-            delegate.updateDataWA(isWaSelected: true, dataWAChannelModel: self.dataWAChannelModel)
+            if updateAll == true{
+                delegate.updateDataWA(isWaSelected: true, dataWAChannelModel: self.dataWAChannelModel)
+            }
+          
             delegate.updateSelectedTypeWA(type: "all")
         }
     }
     
     @IBAction func waCheckUnCheckOngoing(_ sender: Any) {
-        self.checkUnCheckWA.isSelected = true
-        self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+        if self.viewController?.channelsModelWA.count == self.viewController?.resultsWAChannelModel.count ?? 0 {
+            self.checkUnCheckWA.isSelected = true
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+        }else{
+            self.checkUnCheckWA.isSelected = false
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check"), for: .normal)
+        }
+       
         
         self.checkUnCheckOngoingWA.isSelected = true
         self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
@@ -248,22 +280,41 @@ class WhatsAppChannelCell: UITableViewCell {
         self.checkUnCheckExpiringWA.isSelected = false
         self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
         
-        //checkALL multiple whatsapp
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "checkALLMultipleWA"), object: nil)
+       
+        var updateAll = false
         
-        for data in self.dataWAChannelModel.enumerated() {
-            data.element.isSelected = true
+        if self.viewController?.channelsModelWA.count == 0 {
+            for data in self.dataWAChannelModel.enumerated() {
+                data.element.isSelected = true
+            }
+            
+            //checkALL multiple whatsapp
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "checkALLMultipleWA"), object: nil)
+            
+            updateAll = true
+        }else{
+            updateAll = false
         }
         
+       
+        
         if let delegate = delegate {
-            delegate.updateDataWA(isWaSelected: true, dataWAChannelModel: self.dataWAChannelModel)
+            if updateAll == true {
+                delegate.updateDataWA(isWaSelected: true, dataWAChannelModel: self.dataWAChannelModel)
+            }
+           
             delegate.updateSelectedTypeWA(type: "expired")
         }
     }
     
     @IBAction func waCheckUnCheckExpiring(_ sender: Any) {
-        self.checkUnCheckWA.isSelected = true
-        self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+        if self.viewController?.channelsModelWA.count == self.viewController?.resultsWAChannelModel.count ?? 0 {
+            self.checkUnCheckWA.isSelected = true
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+        }else{
+            self.checkUnCheckWA.isSelected = false
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check"), for: .normal)
+        }
         
         self.checkUnCheckExpiringWA.isSelected = true
         self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
@@ -274,15 +325,30 @@ class WhatsAppChannelCell: UITableViewCell {
         self.checkUnCheckOngoingWA.isSelected = false
         self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
         
-        //checkALL multiple whatsapp
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "checkALLMultipleWA"), object: nil)
         
-        for data in self.dataWAChannelModel.enumerated() {
-            data.element.isSelected = true
-        }
+         var updateAll = false
+         
+         if self.viewController?.channelsModelWA.count == 0 {
+             //checkALL multiple whatsapp
+             NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "checkALLMultipleWA"), object: nil)
+             
+             for data in self.dataWAChannelModel.enumerated() {
+                 data.element.isSelected = true
+             }
+             
+             updateAll = true
+         }else{
+             updateAll = false
+         }
+         
+        
+        
         
         if let delegate = delegate {
-            delegate.updateDataWA(isWaSelected: true, dataWAChannelModel: self.dataWAChannelModel)
+            if updateAll == true {
+                delegate.updateDataWA(isWaSelected: true, dataWAChannelModel: self.dataWAChannelModel)
+            }
+            
             delegate.updateSelectedTypeWA(type: "almost_expired")
         }
     }
@@ -403,6 +469,122 @@ class WhatsAppChannelCell: UITableViewCell {
         self.checkUnCheckExpiringWA.isSelected = false
         self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
         self.isLoadDropDown = false
+    }
+    
+    @objc func resetUIFromSelectChannel(_ notification: Notification){
+        self.btWA.setImage(UIImage(named: "ic_drop_down_filter"), for: .normal)
+        self.btWA.isSelected = false
+        
+        self.btMultipleWA.isSelected = false
+        self.btMultipleWA.setImage(UIImage(named: "ic_drop_down_filter"), for: .normal)
+        
+        
+        self.checkUnCheckWA.isSelected = false
+        self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check"), for: .normal)
+        self.checkUnCheckALLWA.isSelected = false
+        self.checkUnCheckALLWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+        self.checkUnCheckOngoingWA.isSelected = false
+        self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+        self.checkUnCheckExpiringWA.isSelected = false
+        self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+    }
+    
+    
+    @objc func resetUICheckWA(_ notification: Notification){
+        self.checkUnCheckWA.isSelected = true
+        self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+        
+        
+        if self.checkUnCheckALLWA.isSelected == true {
+            //select all wa active
+            self.checkUnCheckALLWA.isSelected = true
+            self.checkUnCheckALLWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
+            
+            self.checkUnCheckExpiringWA.isSelected = false
+            self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            
+            self.checkUnCheckOngoingWA.isSelected = false
+            self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            
+            for data in self.dataWAChannelModel.enumerated() {
+                data.element.isSelected = true
+            }
+            
+            if let delegate = delegate {
+                delegate.updateSelectedTypeWA(type: "all")
+            }
+            
+        }else if self.checkUnCheckOngoingWA.isSelected == true{
+            //select onGoing wa active
+            self.checkUnCheckWA.isSelected = true
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+            
+            self.checkUnCheckOngoingWA.isSelected = true
+            self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
+            
+            //update uncheck ongoing and expiring
+            self.checkUnCheckALLWA.isSelected = false
+            self.checkUnCheckALLWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            self.checkUnCheckExpiringWA.isSelected = false
+            self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            
+            for data in self.dataWAChannelModel.enumerated() {
+                data.element.isSelected = true
+            }
+            
+            if let delegate = delegate {
+                delegate.updateSelectedTypeWA(type: "expired")
+            }
+        }else if self.checkUnCheckExpiringWA.isSelected == true{
+            //select expiring wa active
+            
+            self.checkUnCheckWA.isSelected = true
+            self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check_ok"), for: .normal)
+            
+            self.checkUnCheckExpiringWA.isSelected = true
+            self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
+            
+            //update uncheck ongoing and expiring
+            self.checkUnCheckALLWA.isSelected = false
+            self.checkUnCheckALLWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            self.checkUnCheckOngoingWA.isSelected = false
+            self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            
+            for data in self.dataWAChannelModel.enumerated() {
+                data.element.isSelected = true
+            }
+            
+            if let delegate = delegate {
+                delegate.updateSelectedTypeWA(type: "almost_expired")
+            }
+        }else{
+            //update check ALL wa
+            self.checkUnCheckALLWA.isSelected = true
+            self.checkUnCheckALLWA.setImage(UIImage(named: "ic_circle_check"), for: .normal)
+            
+            self.checkUnCheckExpiringWA.isSelected = false
+            self.checkUnCheckExpiringWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            
+            self.checkUnCheckOngoingWA.isSelected = false
+            self.checkUnCheckOngoingWA.setImage(UIImage(named: "ic_circle_uncheck"), for: .normal)
+            
+            for data in self.dataWAChannelModel.enumerated() {
+                data.element.isSelected = true
+            }
+            
+            if let delegate = delegate {
+                delegate.updateSelectedTypeWA(type: "all")
+            }
+        }
+        
+       
+        
+       
+    }
+    
+    @objc func resetUIUnCheckWA(_ notification: Notification){
+        self.checkUnCheckWA.isSelected = false
+        self.checkUnCheckWA.setImage(UIImage(named: "ic_rectangle_check"), for: .normal)
     }
     
 }

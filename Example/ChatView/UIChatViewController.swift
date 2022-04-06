@@ -171,6 +171,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     var hsmQuota : Int = 0
     var waIsExpired : Bool = true
     
+    
+    var addOtherAgent : Bool = true
+    var canAssignChat : Bool = true
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -215,6 +219,8 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         
         UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.white
+        
+        self.getConfigInfo()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -226,6 +232,72 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
 
         view.endEditing(true)
+    }
+    
+    func getConfigInfo(){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["show_all": true
+            ] as [String : Any]
+        
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/app/configs?config_names[]=AGENT_CONTACT_ACCESS&config_names[]=HIDE_AGENT_TOGGLE_STATUS&config_names[]=HIDE_AGENT_INBOX_CUSTOMER_ID&config_names[]=AGENT_CAN_ASSIGN_CHAT&config_names[]=AGENT_CAN_ADD_OTHER_AGENT", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getConfigInfo()
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    let addOtherAgent = payload["data"]["configs"]["agent_can_add_other_agent"].string ?? "true"
+                    
+                    let canAssignChat = payload["data"]["configs"]["agent_can_assign_chat"].string ?? "true"
+                   
+                    if let userType = UserDefaults.standard.getUserType(){
+                        if userType == 2 {
+                            //agent
+                            if addOtherAgent.lowercased() == "false".lowercased() {
+                                self.addOtherAgent = false
+                            }else{
+                                self.addOtherAgent = true
+                            }
+                            
+                            if canAssignChat.lowercased() == "false".lowercased(){
+                                self.canAssignChat = false
+                            }else{
+                                self.canAssignChat = true
+                            }
+                        }else{
+                            self.addOtherAgent = true
+                            self.canAssignChat = false
+                        }
+                    }else{
+                        self.addOtherAgent = false
+                        self.canAssignChat = false
+                    }
+                    
+                    self.setupNavigationTitle()
+                    self.setupToolbarHandle()
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
     }
     
     func setupReachability(){
@@ -261,8 +333,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     }
     
     func unStableConnection(){
-        self.viewUnstableConnection.alpha = 1
-        self.heightViewUnstableConnectionConst.constant = 45
+        DispatchQueue.main.async {
+            self.viewUnstableConnection.alpha = 1
+            self.heightViewUnstableConnectionConst.constant = 45
+        }
     }
     
     @objc func hideUnstableConnection(_ notification: Notification){
@@ -270,8 +344,10 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     }
     
     func stableConnection(){
-        self.viewUnstableConnection.alpha = 0
-        self.heightViewUnstableConnectionConst.constant = 0
+        DispatchQueue.main.async {
+            self.viewUnstableConnection.alpha = 0
+            self.heightViewUnstableConnectionConst.constant = 0
+        }
     }
     
     func setupToolbarHandle(){
@@ -839,26 +915,29 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         var isQiscusWidgetRoom = false
         
         if let room = self.room{
-            if !room.options!.isEmpty{
-                let json = JSON.init(parseJSON: room.options!)
-                let channelType = json["channel"].string ?? "qiscus"
-                
-                if channelType.lowercased() == "qiscus"{
-                    isQiscusWidgetRoom = true
-                }else if channelType.lowercased() == "telegram"{
-                    isQiscusWidgetRoom = false
-                }else if channelType.lowercased() == "line"{
-                    isQiscusWidgetRoom = false
-                }else if channelType.lowercased() == "fb"{
-                    isQiscusWidgetRoom = false
-                }else if channelType.lowercased() == "wa"{
-                    isQiscusWidgetRoom = false
-                }else if channelType.lowercased() == "twitter"{
-                    isQiscusWidgetRoom = false
-                }else{
-                    isQiscusWidgetRoom = false
+            if let roomOption = room.options {
+                if !roomOption.isEmpty{
+                    let json = JSON.init(parseJSON: roomOption)
+                    let channelType = json["channel"].string ?? "qiscus"
+                    
+                    if channelType.lowercased() == "qiscus"{
+                        isQiscusWidgetRoom = true
+                    }else if channelType.lowercased() == "telegram"{
+                        isQiscusWidgetRoom = false
+                    }else if channelType.lowercased() == "line"{
+                        isQiscusWidgetRoom = false
+                    }else if channelType.lowercased() == "fb"{
+                        isQiscusWidgetRoom = false
+                    }else if channelType.lowercased() == "wa"{
+                        isQiscusWidgetRoom = false
+                    }else if channelType.lowercased() == "twitter"{
+                        isQiscusWidgetRoom = false
+                    }else{
+                        isQiscusWidgetRoom = false
+                    }
                 }
             }
+           
         }
         
         if isQiscusWidgetRoom == false {
@@ -920,7 +999,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         
                         if let userType = UserDefaults.standard.getUserType(){
                             if userType == 2 {
-                                self.navigationItem.rightBarButtonItems = [actionButton, resolveButton]
+                                if self.canAssignChat == true || self.addOtherAgent == true {
+                                    self.navigationItem.rightBarButtonItems = [actionButton, resolveButton]
+                                }else{
+                                    self.navigationItem.rightBarButtonItems = [ resolveButton]
+                                }
                             }else{
                                 self.navigationItem.rightBarButtonItems = [actionButton, resolveButton]
                             }
@@ -1018,13 +1101,14 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
 //                        self.setupHSMAlertMessage()
                         self.getTemplateHSM(channelID: channelID)
                         
-                        if isWaActive == true{
-                            //new version wa pricing
-                            self.checkWAActiveSession(channelID : channelID, waUserId: userID)
-                        }else{
-                            self.chatInput.showNoActiveTemplate()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            if isWaActive == true{
+                                //new version wa pricing
+                                self.checkWAActiveSession(channelID : channelID, waUserId: userID)
+                            }else{
+                                self.chatInput.showNoActiveTemplate()
+                            }
                         }
-                        
                         
                         
                     }
@@ -1048,7 +1132,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         ] as [String : Any]
         
         
-        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/admin/hsm_24?channel_id=\(channelID)&approved=true", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v3/hsm?name=&page=1&limit=100&approved=true", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
                     //error
@@ -1345,27 +1429,41 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     }
     
     @objc func goActionButton() {
+        var show = true
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         if self.isWaBlocked == false {
-            alert.addAction(UIAlertAction(title: "Add Agent", style: .default , handler:{ (UIAlertAction)in
-                let vc = AddAgentVC()
-                vc.roomName = self.room?.name ?? ""
-                vc.roomID = self.room?.id ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }))
-            
             
             if let userType = UserDefaults.standard.getUserType(){
                 if userType == 2 {
-                   alert.addAction(UIAlertAction(title: "Assign Chat To", style: .default , handler:{ (UIAlertAction)in
-                       let vc = AddAgentVC()
-                       vc.roomName = self.room?.name ?? ""
-                       vc.roomID = self.room?.id ?? ""
-                       vc.isAssignFromAgent = true
-                       self.navigationController?.pushViewController(vc, animated: true)
-                   }))
+                    
+                    if self.canAssignChat == true {
+                        alert.addAction(UIAlertAction(title: "Assign Chat To", style: .default , handler:{ (UIAlertAction)in
+                            let vc = AddAgentVC()
+                            vc.roomName = self.room?.name ?? ""
+                            vc.roomID = self.room?.id ?? ""
+                            vc.isAssignFromAgent = true
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }))
+                    }
+                    
+                    if self.addOtherAgent == true{
+                        alert.addAction(UIAlertAction(title: "Add Agent", style: .default , handler:{ (UIAlertAction)in
+                            let vc = AddAgentVC()
+                            vc.roomName = self.room?.name ?? ""
+                            vc.roomID = self.room?.id ?? ""
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }))
+                    }
+                   
                 }else{
+                    alert.addAction(UIAlertAction(title: "Add Agent", style: .default , handler:{ (UIAlertAction)in
+                        let vc = AddAgentVC()
+                        vc.roomName = self.room?.name ?? ""
+                        vc.roomID = self.room?.id ?? ""
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }))
+                    
                     alert.addAction(UIAlertAction(title: "Remove Agent", style: .default , handler:{ (UIAlertAction)in
                         let vc = RemoveAgentVC()
                         vc.roomName = self.room?.name ?? ""
@@ -1409,14 +1507,28 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
             
         }))
         
-        
-        if let presenter = alert.popoverPresentationController {
-            presenter.barButtonItem = actionButton
+        if let userType = UserDefaults.standard.getUserType(){
+            if userType == 2 {
+                if self.canAssignChat == true || self.addOtherAgent == true {
+                    show = true
+                }else{
+                    show = false
+                }
+            }
+            
         }
         
-        self.present(alert, animated: true, completion: {
-            print("completion block")
-        })
+        if show == true {
+            if let presenter = alert.popoverPresentationController {
+                presenter.barButtonItem = actionButton
+            }
+            
+            self.present(alert, animated: true, completion: {
+                print("completion block")
+            })
+        }
+        
+       
     }
     
     func asAdminOrAgent(value : Int){
@@ -1876,6 +1988,20 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         cell.cellMenu = self
                         cell.isQiscus = self.isQiscus
                         return cell
+                    }else if(URL(string: ext)?.containsVideo == true){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoRightCell", for: indexPath) as! QVideoRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
+                        cell.vc = self
+                        return cell
+                    }else if(ext.isFileAttachment(urlMessage: ext) == true){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
+                        cell.vc = self
+                        return cell
                     }else{
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                         cell.menuConfig = menuConfig
@@ -1910,7 +2036,31 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         cell.isQiscus = self.isQiscus
                         cell.cellMenu = self
                         return cell
-                    }else{
+                    } else if URL(string: ext)?.containsVideo == true{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoLeftCell", for: indexPath) as! QVideoLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.isQiscus = self.isQiscus
+                        cell.cellMenu = self
+                        cell.vc = self
+                        return cell
+                    } else if (ext.isFileAttachment(urlMessage: ext) == true) {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.isQiscus = self.isQiscus
+                        cell.cellMenu = self
+                        cell.vc = self
+                        return cell
+                    } else {
                        let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
                         if self.room?.type == .group {
                             cell.colorName = colorName
@@ -1945,9 +2095,6 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     cell.cellMenu = self
                     return cell
                 }
-                
-                
-                
             }
         }else if  message.type == "file_attachment" {
             guard let payload = message.payload else {
@@ -2560,19 +2707,25 @@ extension UIChatViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableViewChatTemplate {
-            self.chatInput.textView.text = self.chatTemplates[indexPath.row].message
-            self.tableViewChatTemplate.isHidden = true
             
-            var maximumLabelSize: CGSize = CGSize(width: self.chatInput.textView.frame.size.width, height: 170)
-            var expectedLabelSize: CGSize = self.chatInput.textView.sizeThatFits(maximumLabelSize)
-          
-            if expectedLabelSize.height >= 170 {
-                 self.constraintViewInputHeight.constant = 170
-            } else if expectedLabelSize.height <= 48 {
-                self.constraintViewInputHeight.constant = 48
-            } else {
-                self.constraintViewInputHeight.constant = expectedLabelSize.height
+            if indexPath.row >= self.chatTemplates.startIndex && indexPath.row < self.chatTemplates.endIndex {
+                self.chatInput.textView.text = self.chatTemplates[indexPath.row].message
+                self.tableViewChatTemplate.isHidden = true
+                
+                var maximumLabelSize: CGSize = CGSize(width: self.chatInput.textView.frame.size.width, height: 170)
+                var expectedLabelSize: CGSize = self.chatInput.textView.sizeThatFits(maximumLabelSize)
+              
+                if expectedLabelSize.height >= 170 {
+                     self.constraintViewInputHeight.constant = 170
+                } else if expectedLabelSize.height <= 48 {
+                    self.constraintViewInputHeight.constant = 48
+                } else {
+                    self.constraintViewInputHeight.constant = expectedLabelSize.height
+                }
+            }else{
+                self.tableViewChatTemplate.reloadData()
             }
+           
             
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
