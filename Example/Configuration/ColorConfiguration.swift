@@ -25,6 +25,8 @@ class ColorConfiguration: NSObject {
     
     static var otherAgentRightBallonColor = UIColor(red: 134/255, green: 178/255, blue: 166/255, alpha: 1)
     
+    static var botRightBallonColor = UIColor(red: 106/255, green: 106/255, blue: 106/255, alpha: 1)
+    
     /// Your right baloon color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
     static var systemBalloonColor = UIColor(red: 201/255, green: 229/255, blue: 215/255, alpha: 1)
     

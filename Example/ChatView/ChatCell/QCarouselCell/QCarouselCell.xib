@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -71,6 +71,13 @@
                             <constraint firstAttribute="height" constant="14" id="rkG-xg-g1B"/>
                         </constraints>
                     </imageView>
+                    <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="XAb-fa-Br3">
+                        <rect key="frame" x="450" y="337" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="GUc-IX-fwk"/>
+                            <constraint firstAttribute="width" constant="20" id="bpG-Fb-2h0"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
@@ -83,12 +90,14 @@
                     <constraint firstItem="6NQ-ge-HdR" firstAttribute="leading" secondItem="e1W-UK-6Bb" secondAttribute="leading" constant="-10" id="Zum-ha-Clc"/>
                     <constraint firstAttribute="bottom" secondItem="6NQ-ge-HdR" secondAttribute="bottom" constant="10" id="aAl-Py-oCA"/>
                     <constraint firstItem="e1W-UK-6Bb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="c43-JA-sx7"/>
+                    <constraint firstItem="XAb-fa-Br3" firstAttribute="bottom" secondItem="e1W-UK-6Bb" secondAttribute="bottom" constant="9" id="c7r-GL-2kB"/>
                     <constraint firstItem="e1W-UK-6Bb" firstAttribute="leading" secondItem="P6w-Ql-HpH" secondAttribute="trailing" constant="18.5" id="hEz-Ln-k7O"/>
                     <constraint firstItem="yYG-W8-6YZ" firstAttribute="leading" secondItem="e1W-UK-6Bb" secondAttribute="leading" constant="23" id="i01-e3-Dqx"/>
                     <constraint firstAttribute="trailing" secondItem="6NQ-ge-HdR" secondAttribute="trailing" constant="10" id="jCO-Ud-ZGE"/>
                     <constraint firstItem="kRE-sV-ke2" firstAttribute="top" secondItem="P6w-Ql-HpH" secondAttribute="bottom" constant="2" id="jTS-Ly-Dzc"/>
                     <constraint firstItem="e1W-UK-6Bb" firstAttribute="leading" secondItem="kRE-sV-ke2" secondAttribute="trailing" constant="18" id="kwp-0K-n3B"/>
                     <constraint firstItem="yYG-W8-6YZ" firstAttribute="top" secondItem="6NQ-ge-HdR" secondAttribute="topMargin" constant="5" id="utp-De-8OO"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="XAb-fa-Br3" secondAttribute="trailing" constant="16" id="yXL-YC-Cu5"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -97,6 +106,7 @@
                 <outlet property="carouselHeight" destination="syM-gy-yzw" id="XiJ-MS-GCg"/>
                 <outlet property="carouselLeading" destination="c43-JA-sx7" id="XBV-WR-EIJ"/>
                 <outlet property="carouselView" destination="e1W-UK-6Bb" id="jE4-qf-Ay6"/>
+                <outlet property="ivBot" destination="XAb-fa-Br3" id="Txm-Zv-hhE"/>
                 <outlet property="ivStatus" destination="kRE-sV-ke2" id="hjb-FV-cdR"/>
                 <outlet property="lbNameHeight" destination="MAd-od-51w" id="5bM-KY-r19"/>
                 <outlet property="lbTime" destination="P6w-Ql-HpH" id="JbN-QM-ByE"/>
@@ -106,4 +116,7 @@
             <point key="canvasLocation" x="-40" y="106.14692653673164"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
+    </resources>
 </document>

@@ -21,6 +21,7 @@ class QReplyImageRightCell: UIBaseChatCell {
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var ivStatus: UIImageView!
     @IBOutlet weak var ivComment: UIImageView!
+    @IBOutlet weak var ivBot: UIImageView!
     
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
     @IBOutlet weak var lbNameTrailing: NSLayoutConstraint!
@@ -206,6 +207,20 @@ class QReplyImageRightCell: UIBaseChatCell {
             self.lbName.text = message.username
             self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
             self.ivBaloonLeft.tintColor = ColorConfiguration.otherAgentRightBallonColor
+        }
+        
+        self.ivBot.alpha = 0
+        self.ivBot.isHidden = true
+        if let extras = message.extras{
+            if !extras.isEmpty{
+                let json = JSON.init(extras)
+                let action = json["action"]["bot_reply"].bool ?? false
+                if action == true{
+                    self.ivBot.alpha = 1
+                    self.ivBot.isHidden = false
+                    self.ivBaloonLeft.tintColor = ColorConfiguration.botRightBallonColor
+                }
+            }
         }
     }
     

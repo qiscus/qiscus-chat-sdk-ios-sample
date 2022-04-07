@@ -12,6 +12,7 @@ import SwiftyJSON
 class QCarouselCell: UIBaseChatCell {
     @IBOutlet weak var carouselView: UICollectionView!
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var ivBot: UIImageView!
     @IBOutlet weak var carouselTrailing: NSLayoutConstraint!
     @IBOutlet weak var carouselLeading: NSLayoutConstraint!
     @IBOutlet weak var topMargin: NSLayoutConstraint!
@@ -140,6 +141,21 @@ class QCarouselCell: UIBaseChatCell {
                 self.userNameLabel.isHidden = true
                // self.topMargin.constant = 0
             }
+            
+            self.ivBot.alpha = 0
+            self.ivBot.isHidden = true
+            
+            if let extras = message.extras{
+                if !extras.isEmpty{
+                    let json = JSON.init(extras)
+                    let action = json["action"]["bot_reply"].bool ?? false
+                    if action == true{
+                        self.ivBot.alpha = 1
+                        self.ivBot.isHidden = false
+                    }
+                }
+            }
+            
         
             var attributedText = NSMutableAttributedString(string: message.message)
             let allRange = (message.message as NSString).range(of: message.message)

@@ -15,6 +15,7 @@ class QTextRightCell: UIBaseChatCell {
 //    @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var tvContent: UITextView!
     @IBOutlet weak var ivBaloonLeft: UIImageView!
+    @IBOutlet weak var ivBot: UIImageView!
     
     @IBOutlet weak var ivStatus: UIImageView!
     @IBOutlet weak var lbTime: UILabel!
@@ -112,6 +113,10 @@ class QTextRightCell: UIBaseChatCell {
     func setupBalon(message : CommentModel){
         //self.ivBaloonLeft.applyShadow()
         self.ivBaloonLeft.image = self.getBallon()
+        
+        self.ivBot.alpha = 0
+        self.ivBot.isHidden = true
+        
         if message.isMyComment() {
             self.lbNameHeight.constant = 0
             if message.message.contains("This message was sent on previous session") == true {
@@ -119,7 +124,19 @@ class QTextRightCell: UIBaseChatCell {
             } else {
                 self.ivBaloonLeft.tintColor = ColorConfiguration.rightBaloonColor
             }
-           
+            
+            if let extras = message.extras{
+                if !extras.isEmpty{
+                    let json = JSON.init(extras)
+                    let action = json["action"]["bot_reply"].bool ?? false
+                    if action == true{
+                        self.ivBot.alpha = 1
+                        self.ivBot.isHidden = false
+                        self.ivBaloonLeft.tintColor = ColorConfiguration.botRightBallonColor
+                    }
+                }
+            }
+            
         } else {
             self.lbNameHeight.constant = 20
             self.lbName.text = message.username

@@ -12,6 +12,7 @@ import SwiftyJSON
 
 class QFileRightCell: UIBaseChatCell {
     
+    @IBOutlet weak var ivBot: UIImageView!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tvContent: UILabel!
@@ -292,6 +293,20 @@ class QFileRightCell: UIBaseChatCell {
             }else{
                 self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
                 self.ivBaloonLeft.tintColor = ColorConfiguration.otherAgentRightBallonColor
+            }
+        }
+        
+        self.ivBot.alpha = 0
+        self.ivBot.isHidden = true
+        if let extras = message.extras{
+            if !extras.isEmpty{
+                let json = JSON.init(extras)
+                let action = json["action"]["bot_reply"].bool ?? false
+                if action == true{
+                    self.ivBot.alpha = 1
+                    self.ivBot.isHidden = false
+                    self.ivBaloonLeft.tintColor = ColorConfiguration.botRightBallonColor
+                }
             }
         }
     }

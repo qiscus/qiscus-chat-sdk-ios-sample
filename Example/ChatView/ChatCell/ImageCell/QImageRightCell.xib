@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -90,10 +90,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="gep-49-EWH">
+                                <rect key="frame" x="280" y="258" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="ZER-04-6il"/>
+                                    <constraint firstAttribute="height" constant="20" id="tFg-CW-6jC"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="vqP-Bv-Ahd" firstAttribute="trailing" secondItem="2BY-Ve-6Je" secondAttribute="trailing" constant="-2" id="08o-4S-1Op"/>
+                            <constraint firstAttribute="bottom" secondItem="gep-49-EWH" secondAttribute="bottom" constant="4" id="1Ie-pg-Pue"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="centerY" secondItem="MsS-mP-HBr" secondAttribute="centerY" constant="-74" id="6P5-rR-hH4"/>
                             <constraint firstItem="vqP-Bv-Ahd" firstAttribute="trailing" secondItem="2BY-Ve-6Je" secondAttribute="trailing" id="CMO-RO-xdN"/>
                             <constraint firstAttribute="bottom" secondItem="VY1-Tj-fZi" secondAttribute="bottom" constant="14.5" id="EQB-90-9KL"/>
@@ -106,6 +114,7 @@
                             <constraint firstItem="MsS-mP-HBr" firstAttribute="width" secondItem="vqP-Bv-Ahd" secondAttribute="width" id="WLz-P9-OPw"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fbA-Kr-gQb" secondAttribute="leading" constant="83" id="Wr0-sO-7g0"/>
                             <constraint firstItem="xFO-0p-bcU" firstAttribute="centerY" secondItem="vqP-Bv-Ahd" secondAttribute="centerY" constant="-15" id="YYT-Qm-0Ru"/>
+                            <constraint firstAttribute="trailing" secondItem="gep-49-EWH" secondAttribute="trailing" constant="20" id="Yfc-1e-d29"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="leading" secondItem="2DX-7T-UW9" secondAttribute="trailing" constant="8" symbolic="YES" id="cKr-X3-oU9"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="height" secondItem="MsS-mP-HBr" secondAttribute="height" constant="160" id="enF-hm-lAv"/>
                             <constraint firstItem="DHh-A5-LfB" firstAttribute="centerX" secondItem="xFO-0p-bcU" secondAttribute="centerX" id="heD-yQ-DhD"/>
@@ -136,6 +145,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="ivBaloonLeft" destination="VY1-Tj-fZi" id="aQE-Yx-aC2"/>
+                <outlet property="ivBot" destination="gep-49-EWH" id="b3w-W7-6HP"/>
                 <outlet property="ivComment" destination="vqP-Bv-Ahd" id="g9Y-hb-yQZ"/>
                 <outlet property="ivLoading" destination="xFO-0p-bcU" id="6fV-YL-h3O"/>
                 <outlet property="ivStatus" destination="U4m-VK-CJ7" id="eCx-ci-y8a"/>
@@ -152,6 +162,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
         <image name="ic_image" width="64" height="64"/>
         <image name="ic_read" width="72" height="72"/>
     </resources>

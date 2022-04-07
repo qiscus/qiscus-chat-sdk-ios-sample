@@ -12,6 +12,7 @@ import SDWebImage
 
 class QCardRightCell: UIBaseChatCell {
     
+    @IBOutlet weak var ivBot: UIImageView!
     @IBOutlet weak var userNameHeightCons: NSLayoutConstraint!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var containerArea: UIView!
@@ -89,6 +90,19 @@ class QCardRightCell: UIBaseChatCell {
             self.userNameLabel.text = message.username
             self.userNameLabel.textColor = ColorConfiguration.otherAgentRightBallonColor
             self.containerArea.backgroundColor = ColorConfiguration.otherAgentRightBallonColor
+        }
+        
+        self.ivBot.alpha = 0
+        self.ivBot.isHidden = true
+        if let extras = message.extras{
+            if !extras.isEmpty{
+                let json = JSON.init(extras)
+                let action = json["action"]["bot_reply"].bool ?? false
+                if action == true{
+                    self.ivBot.alpha = 1
+                    self.ivBot.isHidden = false
+                }
+            }
         }
     }
     

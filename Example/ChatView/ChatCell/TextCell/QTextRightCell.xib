@@ -76,12 +76,20 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                             </textView>
+                            <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="QHc-dk-CyX">
+                                <rect key="frame" x="288" y="43" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="HSd-pf-Ug3"/>
+                                    <constraint firstAttribute="width" constant="20" id="tTN-Ro-O3v"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="rPJ-wb-bdB" firstAttribute="leading" secondItem="mmf-nu-Icb" secondAttribute="trailing" constant="17" id="2P4-wF-Cze"/>
                             <constraint firstItem="mmf-nu-Icb" firstAttribute="top" secondItem="rPJ-wb-bdB" secondAttribute="top" id="68U-gL-8jk"/>
                             <constraint firstItem="Rmt-lx-aOk" firstAttribute="top" secondItem="0vi-q4-ytq" secondAttribute="bottom" constant="7" id="H8Z-Wp-DmD"/>
+                            <constraint firstAttribute="trailing" secondItem="QHc-dk-CyX" secondAttribute="trailing" constant="15" id="INx-ls-zaf"/>
                             <constraint firstAttribute="trailing" secondItem="rPJ-wb-bdB" secondAttribute="trailing" constant="16" id="IiV-aW-XCN"/>
                             <constraint firstItem="mmf-nu-Icb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Aza-wY-aNQ" secondAttribute="leading" constant="30" id="JBk-nv-2tv"/>
                             <constraint firstAttribute="bottom" secondItem="rPJ-wb-bdB" secondAttribute="bottom" constant="10" id="MC2-Px-Bg8"/>
@@ -93,6 +101,7 @@
                             <constraint firstItem="Rmt-lx-aOk" firstAttribute="centerX" secondItem="rPJ-wb-bdB" secondAttribute="centerX" id="Z0g-YI-vTn"/>
                             <constraint firstItem="rPJ-wb-bdB" firstAttribute="top" secondItem="0vi-q4-ytq" secondAttribute="bottom" constant="10" id="hBt-Dv-pLV"/>
                             <constraint firstAttribute="bottom" secondItem="Rmt-lx-aOk" secondAttribute="bottom" constant="5" id="qA6-ma-o1T"/>
+                            <constraint firstAttribute="bottom" secondItem="QHc-dk-CyX" secondAttribute="bottom" constant="-2" id="zHS-au-CDH"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -108,6 +117,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="ivBaloonLeft" destination="Rmt-lx-aOk" id="Wzz-yd-7ve"/>
+                <outlet property="ivBot" destination="QHc-dk-CyX" id="wqE-Ds-3rU"/>
                 <outlet property="ivStatus" destination="1G6-V5-pNK" id="LrL-eq-ocX"/>
                 <outlet property="lbName" destination="0vi-q4-ytq" id="JgG-Ua-DsO"/>
                 <outlet property="lbNameHeight" destination="4IC-wC-uwH" id="qDi-Y2-g8Y"/>
@@ -120,6 +130,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

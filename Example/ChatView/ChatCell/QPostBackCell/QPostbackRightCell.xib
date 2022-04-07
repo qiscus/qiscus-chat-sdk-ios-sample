@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -63,6 +63,13 @@
                             <constraint firstAttribute="height" constant="14" id="mbj-e3-bqa"/>
                         </constraints>
                     </imageView>
+                    <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="eVn-Ih-GeO">
+                        <rect key="frame" x="466" y="167" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="PJq-AK-R0R"/>
+                            <constraint firstAttribute="width" constant="20" id="Zd3-wN-Z2f"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
@@ -79,8 +86,10 @@
                     <constraint firstItem="oaN-7f-0PB" firstAttribute="leading" secondItem="RtQ-QM-GHJ" secondAttribute="trailing" constant="8" symbolic="YES" id="VlL-RV-yjy"/>
                     <constraint firstItem="Eyb-eM-ph1" firstAttribute="leading" secondItem="836-Ql-Vet" secondAttribute="leading" constant="-2" id="WPc-VZ-XjU"/>
                     <constraint firstAttribute="trailing" secondItem="oaN-7f-0PB" secondAttribute="trailing" constant="3" id="XLI-in-RB7"/>
+                    <constraint firstAttribute="trailing" secondItem="eVn-Ih-GeO" secondAttribute="trailing" constant="25" id="ZIn-yc-upL"/>
                     <constraint firstItem="RtQ-QM-GHJ" firstAttribute="top" secondItem="dPF-ZG-5GK" secondAttribute="bottom" constant="1" id="Zhu-54-HNo"/>
                     <constraint firstAttribute="trailing" secondItem="836-Ql-Vet" secondAttribute="trailing" constant="4" id="boc-la-pd8"/>
+                    <constraint firstAttribute="bottom" secondItem="eVn-Ih-GeO" secondAttribute="bottom" constant="-2" id="igx-f2-Uqa"/>
                     <constraint firstItem="dWA-YN-0gc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="100" id="nmh-lN-95C"/>
                     <constraint firstItem="oaN-7f-0PB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="100" id="sUI-lx-nkI"/>
                     <constraint firstItem="836-Ql-Vet" firstAttribute="top" secondItem="Eyb-eM-ph1" secondAttribute="bottom" constant="10" id="uaN-59-fbo"/>
@@ -93,6 +102,7 @@
                 <outlet property="buttonsView" destination="dWA-YN-0gc" id="BIr-QC-LT5"/>
                 <outlet property="buttonsViewHeight" destination="uBe-8B-YNi" id="ig3-MI-EoW"/>
                 <outlet property="dateLabel" destination="dPF-ZG-5GK" id="mNS-wu-DDl"/>
+                <outlet property="ivBot" destination="eVn-Ih-GeO" id="Iaa-FL-Zaz"/>
                 <outlet property="ivStatus" destination="RtQ-QM-GHJ" id="40Y-B7-yAn"/>
                 <outlet property="lbUserNameHeight" destination="MHf-1F-cAN" id="4rS-Vd-1Ib"/>
                 <outlet property="textView" destination="836-Ql-Vet" id="gEt-63-P2D"/>
@@ -102,4 +112,7 @@
             <point key="canvasLocation" x="196" y="49.025487256371818"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
+    </resources>
 </document>

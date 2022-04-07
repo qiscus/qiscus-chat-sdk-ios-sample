@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -126,6 +126,13 @@
                                 <color key="textColor" red="0.1215686275" green="0.12941176469999999" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_bot_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="Qwu-Xv-GNh">
+                                <rect key="frame" x="275" y="239" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="H9A-10-Sr7"/>
+                                    <constraint firstAttribute="height" constant="20" id="Zo4-FY-NgL"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -137,8 +144,10 @@
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="leading" secondItem="U4m-VK-CJ7" secondAttribute="trailing" constant="8" id="IhV-vV-JWz"/>
                             <constraint firstItem="v7I-S2-EoI" firstAttribute="top" secondItem="2BY-Ve-6Je" secondAttribute="bottom" constant="25" id="Mlc-oh-zve"/>
                             <constraint firstItem="R5N-0P-98q" firstAttribute="centerX" secondItem="VY1-Tj-fZi" secondAttribute="centerX" id="R7p-Za-gn4"/>
+                            <constraint firstAttribute="bottom" secondItem="Qwu-Xv-GNh" secondAttribute="bottom" constant="5" id="WUN-lh-RWh"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fbA-Kr-gQb" secondAttribute="leading" constant="83" id="Wr0-sO-7g0"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="leading" secondItem="2DX-7T-UW9" secondAttribute="trailing" constant="8" symbolic="YES" id="cKr-X3-oU9"/>
+                            <constraint firstAttribute="trailing" secondItem="Qwu-Xv-GNh" secondAttribute="trailing" constant="25" id="eXK-oC-rDc"/>
                             <constraint firstItem="VY1-Tj-fZi" firstAttribute="top" secondItem="2BY-Ve-6Je" secondAttribute="bottom" constant="8" id="eYo-kE-xIA"/>
                             <constraint firstItem="v7I-S2-EoI" firstAttribute="leading" secondItem="vqP-Bv-Ahd" secondAttribute="leading" id="fwx-52-hea"/>
                             <constraint firstItem="R5N-0P-98q" firstAttribute="top" secondItem="U4m-VK-CJ7" secondAttribute="top" id="kZu-0G-vCE"/>
@@ -164,6 +173,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="ivBaloonLeft" destination="VY1-Tj-fZi" id="aQE-Yx-aC2"/>
+                <outlet property="ivBot" destination="Qwu-Xv-GNh" id="sNt-Wg-ody"/>
                 <outlet property="ivComment" destination="vqP-Bv-Ahd" id="g9Y-hb-yQZ"/>
                 <outlet property="ivLoading" destination="xFO-0p-bcU" id="6fV-YL-h3O"/>
                 <outlet property="ivStatus" destination="U4m-VK-CJ7" id="eCx-ci-y8a"/>
@@ -180,6 +190,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_bot_bubble" width="38" height="38"/>
         <image name="ic_image" width="64" height="64"/>
         <image name="ic_read" width="72" height="72"/>
     </resources>

@@ -13,6 +13,7 @@ import AlamofireImage
 import SDWebImage
 
 class QReplyRightCell: UIBaseChatCell {
+    @IBOutlet weak var ivBot: UIImageView!
     @IBOutlet weak var viewReplyPreview: UIView!
     @IBOutlet weak var ivCommentImageWidhtCons: NSLayoutConstraint!
     @IBOutlet weak var lbCommentSender: UILabel!
@@ -250,6 +251,20 @@ class QReplyRightCell: UIBaseChatCell {
             }else{
                 self.lbName.textColor = ColorConfiguration.otherAgentRightBallonColor
                 self.ivBaloon.tintColor = ColorConfiguration.otherAgentRightBallonColor
+            }
+        }
+        self.ivBot.alpha = 0
+        self.ivBot.isHidden = true
+        
+        if let extras = message.extras{
+            if !extras.isEmpty{
+                let json = JSON.init(extras)
+                let action = json["action"]["bot_reply"].bool ?? false
+                if action == true{
+                    self.ivBot.alpha = 1
+                    self.ivBot.isHidden = false
+                    self.ivBaloon.tintColor = ColorConfiguration.botRightBallonColor
+                }
             }
         }
         

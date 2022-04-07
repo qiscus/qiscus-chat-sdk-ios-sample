@@ -12,6 +12,7 @@ import MapKit
 import SwiftyJSON
 
 class QLocationRightCell: UIBaseChatCell {
+    @IBOutlet weak var ivBot: UIImageView!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var lbNameHeight: NSLayoutConstraint!
     @IBOutlet weak var lbTime: UILabel!
@@ -153,6 +154,19 @@ class QLocationRightCell: UIBaseChatCell {
                 self.ivBaloon.tintColor = ColorConfiguration.otherAgentRightBallonColor
             }
             
+        }
+        self.ivBot.alpha = 0
+        self.ivBot.isHidden = true
+        if let extras = message.extras{
+            if !extras.isEmpty{
+                let json = JSON.init(extras)
+                let action = json["action"]["bot_reply"].bool ?? false
+                if action == true{
+                    self.ivBot.alpha = 1
+                    self.ivBot.isHidden = false
+                    self.ivBaloon.tintColor = ColorConfiguration.botRightBallonColor
+                }
+            }
         }
     }
     
