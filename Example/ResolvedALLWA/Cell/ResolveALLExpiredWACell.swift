@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ResolveALLExpiredWACellDelegate{
-    func inProgressResolve(data : WAChannelResolveModel)
+    func inProgressResolve(data : WAChannelResolveModel, indexPath :  IndexPath)
 }
 
 class ResolveALLExpiredWACell: UITableViewCell {
@@ -22,6 +22,7 @@ class ResolveALLExpiredWACell: UITableViewCell {
     var data : WAChannelResolveModel? = nil
     var delegate : ResolveALLExpiredWACellDelegate? = nil
     var queque = 0
+    var indexPosition = IndexPath(row: 0, section: 0)
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -44,7 +45,8 @@ class ResolveALLExpiredWACell: UITableViewCell {
         })
     }
     
-    func setupData(dataWAChannel : WAChannelResolveModel){
+    func setupData(dataWAChannel : WAChannelResolveModel, indexPath: IndexPath){
+        self.indexPosition = indexPath
         self.data = dataWAChannel
         self.lbChannelName.text = dataWAChannel.channelName
         self.lbExpiredRoomCount.text = "\(dataWAChannel.totalRooms)"
@@ -65,7 +67,7 @@ extension ResolveALLExpiredWACell : AlertResolveWAChannelDelegate {
         if let data = self.data {
             data.inProgressResolve = true
             if let delegate = delegate {
-                self.delegate?.inProgressResolve(data: data)
+                self.delegate?.inProgressResolve(data: data, indexPath: indexPosition)
             }
         }
     }

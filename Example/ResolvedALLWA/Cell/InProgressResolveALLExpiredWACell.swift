@@ -11,8 +11,8 @@ import Alamofire
 import SwiftyJSON
 
 protocol InProgressResolveALLExpiredWACellDelegate{
-    func cancelResolveInProgress(data : WAChannelResolveModel)
-    func updateStatusResolve(data : WAChannelResolveModel)
+    func cancelResolveInProgress(data : WAChannelResolveModel, indexPath : IndexPath)
+    func updateStatusResolve(data : WAChannelResolveModel, indexPath : IndexPath)
 }
 
 class InProgressResolveALLExpiredWACell: UITableViewCell {
@@ -26,6 +26,7 @@ class InProgressResolveALLExpiredWACell: UITableViewCell {
     var mainVC : ResolvedALLWAVC? = nil
     var data : WAChannelResolveModel? = nil
     var delegate : InProgressResolveALLExpiredWACellDelegate? = nil
+    var indexPosition = IndexPath(row: 0, section: 0)
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -49,7 +50,8 @@ class InProgressResolveALLExpiredWACell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(dataWAChannel : WAChannelResolveModel){
+    func setupData(dataWAChannel : WAChannelResolveModel, indexPath : IndexPath){
+        self.indexPosition = indexPath
         self.data = dataWAChannel
         self.totalRoom.text = "Total room will be resolved : \(dataWAChannel.totalRooms)"
         
@@ -63,10 +65,36 @@ class InProgressResolveALLExpiredWACell: UITableViewCell {
         if dataWAChannel.progressStatus.isEmpty {
             //api post
             self.linearProgress.progress = 0.0
+           
             self.postResolve()
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                if let delegate = self.delegate {
+//                    if let data = self.data {
+//                        data.totalRooms = 0
+//                        data.progressStatus = "finished"
+//                        data.isWaiting = false
+//                        data.inProgressResolve = false
+//                        delegate.updateStatusResolve(data: data, indexPath : self.indexPosition)
+//                    }
+//                }
+//            }
+            
         }else{
             //get
             self.getResolve()
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                if let delegate = self.delegate {
+//                    if let data = self.data {
+//                        data.totalRooms = 0
+//                        data.progressStatus = "finished"
+//                        data.isWaiting = false
+//                        data.inProgressResolve = false
+//                        delegate.updateStatusResolve(data: data, indexPath : self.indexPosition)
+//                    }
+//                }
+//            }
         }
         
     }
@@ -127,7 +155,7 @@ class InProgressResolveALLExpiredWACell: UITableViewCell {
                     
                     if let delegate = self.delegate {
                         if let data = self.data {
-                            delegate.updateStatusResolve(data: data)
+                            delegate.updateStatusResolve(data: data, indexPath : self.indexPosition)
                         }
                     }
                     
@@ -194,7 +222,7 @@ class InProgressResolveALLExpiredWACell: UITableViewCell {
                     
                     if let delegate = self.delegate {
                         if let data = self.data {
-                            delegate.updateStatusResolve(data: data)
+                            delegate.updateStatusResolve(data: data, indexPath : self.indexPosition)
                             
                             if progressStatus.lowercased() != "finished" {
                                 self.getResolve()
@@ -253,7 +281,7 @@ extension InProgressResolveALLExpiredWACell : AlertResolveCancelationWAChannelDe
                     //after call api
                     if let data = self.data {
                         if let delegate = self.delegate {
-                            self.delegate?.cancelResolveInProgress(data: data)
+                            self.delegate?.cancelResolveInProgress(data: data, indexPath: self.indexPosition)
                         }
                     }
                 }

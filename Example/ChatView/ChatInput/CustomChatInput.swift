@@ -372,35 +372,83 @@ class CustomChatInput: UIChatInput {
     
     func prepareRecording(){
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
-            case .authorized: // The user has previously granted access to the audio.
-                self.isGranted = true
-                self.startRecording()
-
-            case .notDetermined: // The user has not yet been asked for audio access.
-                self.isGranted = false
-            do {
-                try recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
-                try recordingSession.setActive(true)
-                recordingSession.requestRecordPermission { allowed in
-                    
-                    //DispatchQueue.main.async {
-                        if allowed {
-                            self.startRecording()
-                        } else {
+            case .authorized:
+            print("Permission granted")
+            self.isGranted = true
+            self.startRecording()
+           
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(for: .audio) { granted in
+                    if granted {
+                        do {
+                            try self.recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
+                            try self.recordingSession.setActive(true)
+                            self.recordingSession.requestRecordPermission { allowed in
+                                
+                                //DispatchQueue.main.async {
+                                    if allowed {
+                                        self.startRecording()
+                                    } else {
+                                        self.showMicrophoneAccessAlert()
+                                    }
+                                //}
+                            }
+                        } catch {
                             self.showMicrophoneAccessAlert()
                         }
-                    //}
+                    }
                 }
-            } catch {
-                self.showMicrophoneAccessAlert()
-            }
+            
             case .denied: // The user has previously denied access.
                 self.showMicrophoneAccessAlert()
 
             case .restricted: // The user can't grant access due to restrictions.
                 self.showMicrophoneAccessAlert()
+        @unknown default:
+            self.showMicrophoneAccessAlert()
         }
         
+//        ------------------------------------------------------------------------------------------------------------------------
+//        switch AVAudioSession.sharedInstance().recordPermission {
+//        case .granted:
+//            print("Permission granted")
+//            self.isGranted = true
+//            self.startRecording()
+//        case .denied:
+//            print("Permission denied")
+//            self.showMicrophoneAccessAlert()
+//        case .undetermined:
+//            print("Request permission here")
+//            self.isGranted = false
+//            AVAudioSession.sharedInstance().requestRecordPermission({ granted in
+//                // Handle granted
+//                self.isGranted = granted
+//
+//                if granted == true {
+//                    do {
+//                        try self.recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
+//                        try self.recordingSession.setActive(true)
+//                        self.recordingSession.requestRecordPermission { allowed in
+//
+//                            //DispatchQueue.main.async {
+//                                if allowed {
+//                                    self.startRecording()
+//                                } else {
+//                                    self.showMicrophoneAccessAlert()
+//                                }
+//                            //}
+//                        }
+//                    } catch {
+//                        self.showMicrophoneAccessAlert()
+//                    }
+//                }else{
+//                    self.showMicrophoneAccessAlert()
+//                }
+//            })
+//        @unknown default:
+//            print("Unknown case")
+//            self.showMicrophoneAccessAlert()
+//        }
         
 //        switch AVCaptureDevice.authorizationStatus(for: .audio) {
 //            case .authorized: // The user has previously granted access to the audio.
@@ -409,29 +457,29 @@ class CustomChatInput: UIChatInput {
 //
 //            case .notDetermined: // The user has not yet been asked for audio access.
 //                self.isGranted = false
-//                self.startRecording()
+//            do {
+//                try recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
+//                try recordingSession.setActive(true)
+//                recordingSession.requestRecordPermission { allowed in
+//
+//                    //DispatchQueue.main.async {
+//                        if allowed {
+//                            self.startRecording()
+//                        } else {
+//                            self.showMicrophoneAccessAlert()
+//                        }
+//                    //}
+//                }
+//            } catch {
+//                self.showMicrophoneAccessAlert()
+//            }
 //            case .denied: // The user has previously denied access.
 //                self.showMicrophoneAccessAlert()
 //
 //            case .restricted: // The user can't grant access due to restrictions.
 //                self.showMicrophoneAccessAlert()
 //        }
-        
-//        do {
-//            try recordingSession.setCategory(.playAndRecord, mode: .default, options: [])
-//            try recordingSession.setActive(true)
-//            recordingSession.requestRecordPermission { allowed in
-//                DispatchQueue.main.async {
-//                    if allowed {
-//                        self.startRecording()
-//                    } else {
-//                        self.showMicrophoneAccessAlert()
-//                    }
-//                }
-//            }
-//        } catch {
-//            self.showMicrophoneAccessAlert()
-//        }
+    
     }
     
     func showMicrophoneAccessAlert(){
@@ -889,13 +937,15 @@ extension UIChatViewController : CustomChatInputDelegate {
                         PHPhotoLibrary.requestAuthorization({(status:PHAuthorizationStatus) in
                             switch status{
                             case .authorized:
-                                let picker = UIImagePickerController()
-                                picker.delegate = self
-                                picker.allowsEditing = false
-                                picker.mediaTypes = [(kUTTypeImage as String),(kUTTypeMovie as String)]
-                                
-                                picker.sourceType = UIImagePickerController.SourceType.camera
-                                self.present(picker, animated: true, completion: nil)
+                                DispatchQueue.main.async(execute: {
+                                    let picker = UIImagePickerController()
+                                    picker.delegate = self
+                                    picker.allowsEditing = false
+                                    picker.mediaTypes = [(kUTTypeImage as String),(kUTTypeMovie as String)]
+                                    
+                                    picker.sourceType = UIImagePickerController.SourceType.camera
+                                    self.present(picker, animated: true, completion: nil)
+                                })
                                 break
                             case .denied:
                                 self.showPhotoAccessAlert()

@@ -25,7 +25,7 @@ class UIBottomPopupVC: BottomPopupViewController {
     @IBOutlet weak var viewBorder: UIView!
     
     @IBOutlet weak var btGetCustomer: UIButton!
-    
+    var timer : Timer?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,9 +33,38 @@ class UIBottomPopupVC: BottomPopupViewController {
             self.view.frame.size.width = width
         }
         self.setupUI()
+        
+        if (self.timer != nil) {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+        self.timer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(setupUI), userInfo: nil, repeats: true)
     }
     
-    func setupUI(){
+    @objc func setupUI(){
+        
+        if (self.currentViewController()?.isModal == false ){
+            if let wd = UIApplication.shared.delegate?.window {
+                var vc = wd!.rootViewController
+                if(vc is UINavigationController){
+                    vc = (vc as! UINavigationController).visibleViewController
+                    
+                }
+                
+                if(vc is UIBottomPopupVC){
+                    
+                }else{
+                    if (self.timer != nil) {
+                        self.timer?.invalidate()
+                        self.timer = nil
+                        return
+                    }
+                }
+            }
+            
+            
+        }
+        
         self.viewBorder.layer.cornerRadius = 4
         self.btGetCustomer.layer.cornerRadius = self.btGetCustomer.frame.height / 2
         self.btGetCustomer.layer.shadowColor = UIColor(red: 0.35, green: 0.44, blue: 0.25, alpha: 0.25).cgColor
@@ -47,7 +76,7 @@ class UIBottomPopupVC: BottomPopupViewController {
             if userType == 2 {
                 
                 self.lblUnserverOrGetCustomer.text = "Get Customer"
-                self.lblDescription.text = "There is 0 customers is not served by an agent. It can be taken by an Agent one by one"
+                self.lblDescription.text = "There is 0 customer is not served by an agent. It can be taken by an Agent one by one"
                 self.getAgentTakeOver()
                 self.getCSApiAgent()
                 self.btGetCustomer.isHidden = false
@@ -91,11 +120,25 @@ class UIBottomPopupVC: BottomPopupViewController {
                     //success
                     let payload = JSON(response.result.value)
                     let count = payload["data"]["total_unresolved"].int ?? 0
+                    var countString = "\(count)"
+                    var customerString = "customers"
+                    if count >= 100 {
+                        self.lblCount.text = "99+ Customer"
+                        countString = "99+"
+                    }else{
+                        if count == 1 || count == 0 {
+                            customerString = "customer"
+                            self.lblCount.text = "\(count) Customer"
+                        }else{
+                            self.lblCount.text = "\(count) Customer"
+                        }
+                        
+                    }
                     
-                    self.lblCount.text = "\(count) Customer"
+                   
                     
-                    let main_string = "There is \(count) customer is not served by an agent. It can be taken by an Agent one by one"
-                    let string_to_color = "\(count) customers"
+                    let main_string = "There is \(countString) \(customerString) is not served by an agent. It can be taken by an Agent one by one"
+                    let string_to_color = "\(countString) \(customerString)"
                     
                     let range = (main_string as NSString).range(of: string_to_color)
                     
@@ -139,11 +182,24 @@ class UIBottomPopupVC: BottomPopupViewController {
                     //success
                     let payload = JSON(response.result.value)
                     let count = payload["data"]["total_unserved"].int ?? 0
+                    var countString = "\(count)"
+                    var customerString = "customers"
+                    if count >= 100 {
+                        self.lblCount.text = "99+ Customers"
+                        countString = "99+"
+                    }else{
+                        if count == 1 || count == 0 {
+                            self.lblCount.text = "\(count) Customer"
+                            customerString = "customer"
+                        }else{
+                            self.lblCount.text = "\(count) Customers"
+                        }
+                        
+                    }
                     
-                    self.lblCount.text = "\(count) Customer"
                     
-                    let main_string = "There is \(count) customer is not served by an agent. It can be taken by an Agent one by one"
-                    let string_to_color = "\(count) customers"
+                    let main_string = "There is \(countString) \(customerString) is not served by an agent. It can be taken by an Agent one by one"
+                    let string_to_color = "\(countString) \(customerString)"
                     
                     let range = (main_string as NSString).range(of: string_to_color)
                     
@@ -171,7 +227,7 @@ class UIBottomPopupVC: BottomPopupViewController {
         Alamofire.request("\(QiscusHelper.getBaseURL())/api/v1/admin/service/get_unresolved_count", method: .get, parameters: nil, headers: header as! HTTPHeaders).responseJSON { (response) in
             if response.result.value != nil {
                 if (response.response?.statusCode)! >= 300 {
-                    self.lblCount.text = "0 Person"
+                    self.lblCount.text = "0 Customer"
                     
                     if response.response?.statusCode == 401 {
                         RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
@@ -188,14 +244,23 @@ class UIBottomPopupVC: BottomPopupViewController {
                     let payload = JSON(response.result.value)
                     let count = payload["data"]["total_unresolved"].int ?? 0
                     
-                    self.lblCount.text = "\(count) Person"
+                    if count >= 100 {
+                        self.lblCount.text = "99+ Customers"
+                    }else{
+                        if count == 1 {
+                            self.lblCount.text = "\(count) Customer"
+                        }else{
+                            self.lblCount.text = "\(count) Customers"
+                        }
+                        
+                    }
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
                 //failed
-                self.lblCount.text = "0 Person"
+                self.lblCount.text = "0 Customer"
             } else {
                 //failed
-                self.lblCount.text = "0 Person"
+                self.lblCount.text = "0 Customer"
             }
         }
     }
@@ -330,5 +395,28 @@ class UIBottomPopupVC: BottomPopupViewController {
     
     override func shouldPopupDismissInteractivelty() -> Bool {
         return shouldDismissInteractivelty ?? true
+    }
+    
+    func currentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        
+        if let nav = base as? UINavigationController {
+            return currentViewController(base: nav.visibleViewController)
+        }
+        
+        if let tab = base as? UITabBarController {
+            let moreNavigationController = tab.moreNavigationController
+            
+            if let top = moreNavigationController.topViewController, top.view.window != nil {
+                return currentViewController(base: top)
+            } else if let selected = tab.selectedViewController {
+                return currentViewController(base: selected)
+            }
+        }
+        
+        if let presented = base?.presentedViewController {
+            return currentViewController(base: presented)
+        }
+        
+        return base
     }
 }

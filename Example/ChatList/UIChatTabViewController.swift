@@ -44,7 +44,7 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
             self.timer?.invalidate()
             self.timer = nil
         }
-        self.timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getCountCustomer), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getCountCustomer), userInfo: nil, repeats: true)
     }
     
     

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIBottomPopupVC" customModule="Qiscus" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIBottomPopupVC" customModule="Qiscus_Multichannel" customModuleProvider="target">
             <connections>
                 <outlet property="btGetCustomer" destination="0m9-Xo-ttD" id="kah-fj-bIA"/>
                 <outlet property="lblCount" destination="Dxa-I7-B1J" id="80z-dN-sYx"/>
@@ -26,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unserved Customer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygE-M1-ghm">
-                    <rect key="frame" x="20" y="30" width="163.5" height="30"/>
+                    <rect key="frame" x="20" y="30" width="163" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="k5Q-RP-64q"/>
                     </constraints>
@@ -41,11 +39,11 @@
                         <constraint firstAttribute="height" constant="30" id="XGt-hY-wwU"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 Person" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxa-I7-B1J">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Customers" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxa-I7-B1J">
                     <rect key="frame" x="224" y="30" width="100" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Tf7-k5-4XE"/>
-                        <constraint firstAttribute="width" constant="100" id="fY0-cS-mh1"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="fY0-cS-mh1"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.1529411765" green="0.71372549019999998" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -71,7 +69,7 @@
                         <constraint firstAttribute="width" constant="30" id="pFF-Tn-rOn"/>
                     </constraints>
                 </imageView>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0m9-Xo-ttD">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0m9-Xo-ttD">
                     <rect key="frame" x="121.5" y="146" width="136" height="40"/>
                     <color key="backgroundColor" red="0.1529411765" green="0.71372549019999998" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -94,6 +92,7 @@
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="0m9-Xo-ttD" firstAttribute="top" secondItem="AOr-WY-cKV" secondAttribute="bottom" constant="16" id="0wc-6n-2ax"/>
@@ -117,7 +116,6 @@
                 <constraint firstAttribute="trailing" secondItem="1n2-zB-WS9" secondAttribute="trailing" constant="20" id="yVt-k9-sRt"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="17.8125" y="-193.83802816901408"/>
         </view>
     </objects>

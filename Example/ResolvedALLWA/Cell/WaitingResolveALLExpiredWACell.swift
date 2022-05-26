@@ -9,7 +9,7 @@
 import UIKit
 
 protocol WaitingResolveALLExpiredWACellDelegate{
-    func cancelResolve(data : WAChannelResolveModel)
+    func cancelResolve(data : WAChannelResolveModel, indexPath : IndexPath)
 }
 
 class WaitingResolveALLExpiredWACell: UITableViewCell {
@@ -22,6 +22,7 @@ class WaitingResolveALLExpiredWACell: UITableViewCell {
     var mainVC : ResolvedALLWAVC? = nil
     var data : WAChannelResolveModel? = nil
     var delegate : WaitingResolveALLExpiredWACellDelegate? = nil
+    var indexPosition = IndexPath(row: 0, section: 0)
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -48,7 +49,8 @@ class WaitingResolveALLExpiredWACell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupData(dataWAChannel : WAChannelResolveModel){
+    func setupData(dataWAChannel : WAChannelResolveModel, indexPath : IndexPath){
+        self.indexPosition = indexPath
         self.data = dataWAChannel
         self.totalRoom.text = "Total room will be resolved : \(dataWAChannel.totalRooms)"
         customLinearProgressBar.startAnimating()
@@ -59,7 +61,7 @@ class WaitingResolveALLExpiredWACell: UITableViewCell {
             data.inProgressResolve = false
             data.isWaiting = true
             if let delegate = self.delegate {
-                self.delegate?.cancelResolve(data: data)
+                self.delegate?.cancelResolve(data: data, indexPath: self.indexPosition)
             }
         }
 //        let vc = AlertResolveCancelationWAChannelVC()

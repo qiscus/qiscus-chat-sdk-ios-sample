@@ -78,7 +78,7 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             self.timer?.invalidate()
             self.timer = nil
         }
-        self.timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getCountCustomer), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(getCountCustomer), userInfo: nil, repeats: true)
         
        
         RDNavigationDrawer.left(target: self, view: sideBar, percentage: 80)
@@ -534,8 +534,8 @@ class HomeVC: ButtonBarPagerTabStripViewController {
             if userType != 2{
                 //admin //spv
                 if defaults.bool(forKey: "ic_resolved_all_WA_active") != false{
-                  // self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
-                   self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
+                   self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton, actionResolvedALLWAButton]
+                  // self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }else{
                     self.navigationItem.rightBarButtonItems = [actionFilterButton, actionSearchButton]
                 }

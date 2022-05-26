@@ -16,6 +16,7 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
     @IBOutlet weak var tvText: UITextView!
     var dataWAChannels = [WAChannelResolveModel]()
     var queque = [WAChannelResolveModel]()
+    var waitingList = [IndexPath]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,7 +30,7 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     func setupUI(){
-        self.title = "Resolve ALL Expired Chat"
+        self.title = "Resolve All Expired Chat"
         let backButton = self.backButton(self, action: #selector(ResolvedALLWAVC.goBack))
         
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -52,7 +53,7 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
         style.alignment = .justified
         let attributes = [NSAttributedString.Key.paragraphStyle : style, NSAttributedString.Key.foregroundColor : UIColor(red: 94/255.0, green: 107/255.0, blue: 125/255.0, alpha:1.0)]
         //
-        let attributedString = NSMutableAttributedString(string: "You can easily resolve all conversation from WhatsApp that has expired based on the channel you wabt here. To learn more regarding resolve all expired WhatsApp conversation please check this documentation", attributes: attributes)
+        let attributedString = NSMutableAttributedString(string: "You can easily resolve all conversations from WhatsApp that has expired based on the channel you want here. To learn more regarding resolve all expired WhatsApp conversation please check this documentation", attributes: attributes)
         let linkRange = (attributedString.string as NSString).range(of: "documentation")
         attributedString.addAttribute(NSAttributedString.Key.link, value: "https://documentation.qiscus.com/multichannel-customer-service/getting-started#resolve-all-expired-chat", range: linkRange)
         let linkAttributes: [NSAttributedString.Key : Any] = [
@@ -154,7 +155,7 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
             cell.mainVC = self
             cell.delegate = self
             cell.queque = self.queque.count
-            cell.setupData(dataWAChannel: data)
+            cell.setupData(dataWAChannel: data, indexPath: indexPath)
 
             return cell
         }else{
@@ -168,7 +169,7 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
                     cell.viewInProgress.layer.cornerRadius = 8
                     cell.mainVC = self
                     cell.delegate = self
-                    cell.setupData(dataWAChannel: data)
+                    cell.setupData(dataWAChannel: data, indexPath: indexPath)
                     return cell
                 }else{
                     //UIWAITING
@@ -180,7 +181,7 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
                     cell.viewInProgress.layer.cornerRadius = 8
                     cell.mainVC = self
                     cell.delegate = self
-                    cell.setupData(dataWAChannel: data)
+                    cell.setupData(dataWAChannel: data, indexPath : indexPath)
                     return cell
                 }
             }else{
@@ -194,7 +195,7 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
                 cell.mainVC = self
                 cell.delegate = self
                 cell.queque = self.queque.count
-                cell.setupData(dataWAChannel: data)
+                cell.setupData(dataWAChannel: data, indexPath: indexPath)
 
                 return cell
             }
@@ -224,41 +225,56 @@ class ResolvedALLWAVC: UIViewController, UITableViewDataSource, UITableViewDeleg
 }
 
 extension ResolvedALLWAVC : ResolveALLExpiredWACellDelegate {
-    func inProgressResolve(data : WAChannelResolveModel){
+    func inProgressResolve(data : WAChannelResolveModel, indexPath: IndexPath){
+        self.waitingList.append(indexPath)
         for (index, element) in self.dataWAChannels.enumerated(){
             if dataWAChannels[index].channelId == data.channelId{
                 if self.queque.count == 0 {
+                    data.inProgressResolve = true
                     data.isWaiting = false
+                }else{
+                    data.inProgressResolve = true
+                    data.isWaiting = true
                 }
                 dataWAChannels[index] = data
                 self.queque.append(data)
                 
-                self.tableView.reloadData()
+                
+                
+               self.tableView.reloadRows(at: [indexPath], with: .none)
             }
         }
     }
 }
 
 extension ResolvedALLWAVC : WaitingResolveALLExpiredWACellDelegate {
-    func cancelResolve(data : WAChannelResolveModel){
+    func cancelResolve(data : WAChannelResolveModel, indexPath : IndexPath){
         for (index, element) in self.dataWAChannels.enumerated(){
             if dataWAChannels[index].channelId == data.channelId{
                 dataWAChannels[index] = data
-                self.queque.removeFirst()
                 
-                self.tableView.reloadData()
+                if self.queque.count != 0 {
+                    self.queque = self.queque.filter { $0.channelId != data.channelId }
+                    
+                    self.waitingList = self.waitingList.filter { $0 != indexPath }
+                   
+                    
+                }
+               
+                self.tableView.reloadRows(at: [indexPath], with: .none)
             }
         }
     }
 }
 
 extension ResolvedALLWAVC : InProgressResolveALLExpiredWACellDelegate {
-    func cancelResolveInProgress(data : WAChannelResolveModel){
+    func cancelResolveInProgress(data : WAChannelResolveModel, indexPath : IndexPath){
         for (index, element) in self.dataWAChannels.enumerated(){
             if dataWAChannels[index].channelId == data.channelId{
                 dataWAChannels[index] = data
                 if  self.queque.count != 0{
                     self.queque.removeFirst()
+                    self.waitingList.removeFirst()
                     
                     if self.queque.count != 0{
                         if let que = self.queque.first {
@@ -273,18 +289,22 @@ extension ResolvedALLWAVC : InProgressResolveALLExpiredWACellDelegate {
                     }
                 }
                 
-                self.tableView.reloadData()
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+                if self.waitingList.count != 0 {
+                    self.tableView.reloadRows(at: [self.waitingList.first!], with: .none)
+                }
             }
         }
     }
     
-    func updateStatusResolve(data : WAChannelResolveModel){
+    func updateStatusResolve(data : WAChannelResolveModel, indexPath : IndexPath){
         for (index, element) in self.dataWAChannels.enumerated(){
             if dataWAChannels[index].channelId == data.channelId{
                 dataWAChannels[index] = data
                 
                 if data.progressStatus.lowercased() == "finished" {
                     if self.queque.count != 0{
+                        self.waitingList.removeFirst()
                         self.queque.removeFirst()
                         
                         if self.queque.count != 0{
@@ -299,12 +319,11 @@ extension ResolvedALLWAVC : InProgressResolveALLExpiredWACellDelegate {
                             }
                         }
                     }
-                   
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.tableView.reloadData()
-                        }
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                    if self.waitingList.count != 0 {
+                        self.tableView.reloadRows(at: [self.waitingList.first!], with: .none)
+                    }
                 }
-
             }
         }
     }
