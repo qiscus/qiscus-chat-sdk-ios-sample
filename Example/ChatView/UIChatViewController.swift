@@ -603,7 +603,12 @@ extension UIChatViewController: UITableViewDataSource {
         if let firstMessageInSection = self.presenter.comments[section].first {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "E, d MMM"
-            let dateString = dateFormatter.string(from: firstMessageInSection.date)
+            
+            var dateString = dateFormatter.string(from: firstMessageInSection.date)
+            
+            if Calendar.current.isDateInToday(firstMessageInSection.date){
+                dateString = "Today"
+            }
             
             let label = DateHeaderLabel()
             label.text = dateString
