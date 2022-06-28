@@ -168,7 +168,7 @@ var comments: [[CommentModel]]
                     }
                 }) { [weak self] (error) in
                     if let instance = self {
-                        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
+                        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.3) {
                             instance.loadMoreDispatchGroup.leave()
                         }
                     }

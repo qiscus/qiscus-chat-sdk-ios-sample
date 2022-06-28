@@ -175,6 +175,9 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
     var addOtherAgent : Bool = true
     var canAssignChat : Bool = true
     
+    var waExpiredAt : String = ""
+    var countdownTimer : Timer? = nil
+    
     open func getProgressBar() -> UIProgressView {
         return progressBar
     }
@@ -205,6 +208,13 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
 
         center.addObserver(self, selector: #selector(hideUnstableConnection(_:)), name: NSNotification.Name(rawValue: "stableConnection"), object: nil)
         center.addObserver(self, selector: #selector(showUnstableConnection(_:)), name: NSNotification.Name(rawValue: "unStableConnection"), object: nil)
+        
+        
+        //hack Library VN iRecordView
+//        NotificationCenter.default.addObserver(self, selector: #selector(vnOnCancel(_:)), name: NSNotification.Name(rawValue: "vnOnCancel"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(vnOnStart(_:)), name: NSNotification.Name(rawValue: "vnOnStart"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(vnOnFinished(_:)), name: NSNotification.Name(rawValue: "vnOnFinished"), object: nil)
+        
         view.endEditing(true)
 
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -230,6 +240,11 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "reSubscribeRoom"), object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        if  self.countdownTimer != nil {
+            self.countdownTimer?.invalidate()
+            self.countdownTimer = nil
+        }
 
         view.endEditing(true)
     }
@@ -330,6 +345,18 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
 
     @objc func showUnstableConnection(_ notification: Notification){
         self.unStableConnection()
+    }
+    
+    @objc func vnOnStart(_ notification: Notification){
+        self.chatInput.prepareRecording()
+    }
+    
+    @objc func vnOnCancel(_ notification: Notification){
+        self.chatInput.cancelRecord()
+    }
+    
+    @objc func vnOnFinished(_ notification: Notification){
+        self.chatInput.onFinishRecording()
     }
     
     func unStableConnection(){
@@ -1643,21 +1670,24 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                     //success
                     let json = JSON(response.result.value)
                     let isExpired = json["data"]["is_expired"].bool ?? true
+                    let expiredAt = json["data"]["expired_at"].string ?? ""
+                    
+                    self.waExpiredAt = expiredAt
                     print("check result ini bro2 =\(json)")
                     self.waIsExpired = isExpired
+                    
                     let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
                     
                     if isHidePopup == true {
                         self.getCustomerRoom()
                     }else{
                         self.getCustomerRoom()
-//                        if isExpired == false{
-//                            //self.chatInput.hideNoActiveSession()
-//                            self.getCustomerRoom()
-//                        }else{
-//                            self.chatInput.showNoActiveSession()
-//                        }
                     }
+                    
+                    if isExpired == false {
+                        self.startCountWAExpired()
+                    }
+                   
                    
                 }
             } else if (response.response != nil && (response.response?.statusCode)! == 401) {
@@ -1667,6 +1697,75 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 //failed
                 self.chatInput.showNoActiveSession()
             }
+        }
+    }
+    
+    func startCountWAExpired(){
+        if countdownTimer == nil {
+            
+            countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func updateTime(){
+        var releaseDate: NSDate?
+
+        let releaseDateString = self.waExpiredAt
+        let releaseDateFormatter = DateFormatter()
+        releaseDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZs"
+        releaseDateFormatter.timeZone = .current
+        releaseDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        releaseDate = releaseDateFormatter.date(from: releaseDateString) as? NSDate
+        
+        if releaseDate == nil {
+            releaseDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            releaseDateFormatter.timeZone = .current
+            releaseDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            releaseDate = releaseDateFormatter.date(from: releaseDateString) as? NSDate
+        }
+        
+        guard let releaseDatetime = releaseDate else {
+            return
+        }
+
+        let currentDate = Date()
+        let calendar = Calendar.current
+
+        let diffDateComponents = calendar.dateComponents([.day, .hour, .minute, .second], from: currentDate, to: releaseDatetime as Date)
+
+        let countdown = "Days \(diffDateComponents.day ?? 0), Hours \(diffDateComponents.hour ?? 0), Minutes \(diffDateComponents.minute ?? 0), Seconds \(diffDateComponents.second ?? 0)"
+
+        let days = diffDateComponents.day ?? 0
+        let hours = diffDateComponents.hour ?? 0
+        let minutes = diffDateComponents.minute ?? 0
+        let seconds = diffDateComponents.second ?? 0
+
+        var expired = false
+
+        if days == 0 || days <= 0{
+            expired = true
+        }
+
+        if hours == 0 || hours <= 0{
+            expired = true
+        }else{
+            expired = false
+        }
+
+        if minutes <= 0 && seconds <= 0{
+            expired = true
+        }else{
+            expired = false
+        }
+        
+        if expired == true {
+            if  self.countdownTimer != nil {
+                self.countdownTimer?.invalidate()
+                self.countdownTimer = nil
+            }
+            
+            self.checkWAActiveSession(channelID : self.channelID, waUserId: self.userID)
+            
         }
     }
     

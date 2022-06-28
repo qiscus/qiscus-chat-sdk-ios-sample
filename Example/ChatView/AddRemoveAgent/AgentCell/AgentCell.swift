@@ -47,7 +47,7 @@ class AgentCell: UITableViewCell {
     public func setupUIAgent(data : AgentModel){
         self.dataAgent = data
         if let avatar = data.avatarUrl {
-            self.avatarAgent.af_setImage(withURL: URL(string : avatar)!)
+            self.avatarAgent.af_setImage(withURL: URL(string : avatar) ?? URL(string:"https://")!)
         }else{
             self.avatarAgent.af_setImage(withURL: URL(string:"https://")!)
         }
