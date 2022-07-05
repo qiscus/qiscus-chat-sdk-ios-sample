@@ -44,7 +44,7 @@ class ContactDetailCustomerInfoVC: UIViewController {
     }
     
     func setupUI(){
-        self.title = "Contact Details"
+        self.title = "Customer Details"
         let backButton = self.backButton(self, action: #selector(ContactDetailCustomerInfoVC.goBack))
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.leftBarButtonItems = [backButton]

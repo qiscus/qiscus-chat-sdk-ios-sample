@@ -297,6 +297,7 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
                 } else {
                     //success
                     let payload = JSON(response.result.value)
+                    print("arief check data =\(payload)")
                     if let customerRooms = payload["data"]["customer_rooms"].array {
                         var results = [CustomerRoom]()
                         for room in customerRooms {
@@ -336,6 +337,10 @@ class UIChatListALLViewController: UIViewController, IndicatorInfoProvider {
                     
                     if let meta = payload["meta"]["cursor_after"].string{
                         self.metaAfter = meta
+                    }
+                    
+                    if let meta = payload["meta"]["cursor_after"].int{
+                        self.metaAfter = "\(meta)"
                     }
                     
                     if self.customerRooms.count == 0 {

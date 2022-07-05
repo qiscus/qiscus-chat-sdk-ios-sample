@@ -798,13 +798,13 @@ extension UIChatViewController : CustomChatInputDelegate {
                     
                     let estimationPrice = payload["data"]["estimation_charge"]["estimation_price"].string ?? "0"
                     let creditSource = payload["data"]["estimation_charge"]["credit_source"].string ?? ""
-                    let pricingCategory = payload["data"]["pricing_category"].string ?? "business_initiate"
+                    let pricingCategory = payload["data"]["pricing_category"].string ?? "business_initiated"
                     
                     var typePricingCategory = "business initiate"
-                    if pricingCategory == "business_initiate" {
+                    if pricingCategory == "business_initiated" {
                         typePricingCategory = "business initiate"
                     }else{
-                        typePricingCategory = "customer initiate"
+                        typePricingCategory = "user initiate"
                     }
                     
                     var credit = creditSource

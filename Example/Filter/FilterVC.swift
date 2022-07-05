@@ -27,6 +27,11 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var featureFilterByAgent = 2 // 1 show, 2 hide, 3 disabled
     var isAdminSPV : Bool = false
     
+    
+    //waca
+    var resultsWacaChannelModel = [WacaChannelModel]()
+    var channelsModelWaca = [ChannelsModel]()
+    
     //wa
     var resultsWAChannelModel = [WAChannelModel]()
     var channelsModelWA = [ChannelsModel]()
@@ -63,12 +68,14 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var defaults = UserDefaults.standard
     var isWASelected : Bool = false
     var isLineSelected : Bool = false
+    var isWacaSelected : Bool = false
     var isFBSelected : Bool = false
     var isCustomChannelSelected : Bool = false
     var isQiscusWidgetSelected : Bool = false
     var isTelegramSelected : Bool = false
     var isInstagramSelected : Bool = false
     
+    var isShowWacaFilter : Bool = false
     var isShowWAFilter : Bool = false
     var isShowLineFilter : Bool = false
     var isShowFBFilter : Bool = false
@@ -280,6 +287,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
        
         self.isWASelected = false
         self.isLineSelected = false
+        self.isWacaSelected = false
         self.isFBSelected = false
         self.isCustomChannelSelected = false
         self.isQiscusWidgetSelected = false
@@ -295,6 +303,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.resultsQiscusWidgetChannelModel.removeAll()
         self.resultsTelegramChannelModel.removeAll()
         self.resultsInstagramChannelModel.removeAll()
+        self.resultsWacaChannelModel.removeAll()
         
         self.channelsModelWA.removeAll()
         self.channelsModelLine.removeAll()
@@ -303,6 +312,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.channelsModelQiscusWidget.removeAll()
         self.channelsModelTelegram.removeAll()
         self.channelsModelInstagram.removeAll()
+        self.channelsModelWaca.removeAll()
         self.selectedTypeWA = ""
         
         self.tagsData.removeAll()
@@ -316,6 +326,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIFB"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUICustomCH"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIQiscusWidget"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIWaca"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUIInstagram"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITelegram"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "resetUITag"), object: nil)
@@ -385,6 +396,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     let qiscusWidgetChannels = json["data"]["qiscus_channels"].array
                     let telegramChannels = json["data"]["telegram_channels"].array
                     let igChannels = json["data"]["ig_channels"].array
+                    let wacaChannels = json["data"]["waca_channels"].array
                     
                     if waChannels?.count != 0 {
                         self.isShowWAFilter = true
@@ -418,6 +430,39 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             self.resultsWAChannelModel.append(dataWA)
                         }
 
+                    }
+                    
+                    if wacaChannels?.count != 0 {
+                        if let wacaChannels = wacaChannels {
+                            self.isShowWacaFilter = true
+                            for data in wacaChannels {
+                                let dataWaca = WacaChannelModel(json: data)
+
+                                if let hasFilter = self.defaults.string(forKey: "filter"){
+                                    do {
+                                        let arr = try JSONSerializer.toArray(hasFilter)
+                                        
+                                        if  arr is Array<AnyObject> {
+                                            for jsonArr in arr as Array<AnyObject>{
+                                                let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+                                                let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+                                                
+                                                if dataWaca.id == channelId  &&
+                                                    source.lowercased() == "waca".lowercased(){
+                                                    dataWaca.isSelected = true
+                                                }
+                                                
+                                            }
+                                        }
+                                        
+                                    } catch let parseError {
+                                        
+                                    }
+                                }
+                                
+                                self.resultsWacaChannelModel.append(dataWaca)
+                            }
+                        }
                     }
                     
                     if lineChannels?.count != 0 {
@@ -732,6 +777,10 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 array.append(instagramChannel.dictio)
             }
             
+            for wacaChannel in self.channelsModelWaca{
+                array.append(wacaChannel.dictio)
+            }
+            
             
             let json = JSON(array)
             let representation = json.rawString()
@@ -789,7 +838,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         var resetActive = false
         
         if tableViewChannel.isHidden == false {
-            if isWASelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true || isInstagramSelected == true{
+            if isWASelected == true || isWacaSelected == true || isLineSelected == true || isFBSelected == true || isCustomChannelSelected == true || isQiscusWidgetSelected == true || isTelegramSelected == true || isInstagramSelected == true{
                 resetActive = true
                 self.disableEnableApply(isEnable: true)
             }else{
@@ -890,6 +939,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.tableViewChannel.register(UINib(nibName: "QiscusWidgetChannelCell", bundle: nil), forCellReuseIdentifier: "QiscusWidgetChannelCellIdentifire")
         self.tableViewChannel.register(UINib(nibName: "TelegramChannelCell", bundle: nil), forCellReuseIdentifier: "TelegramChannelCellIdentifire")
         self.tableViewChannel.register(UINib(nibName: "InstagramChannelCell", bundle: nil), forCellReuseIdentifier: "InstagramChannelCellIdentifire")
+        self.tableViewChannel.register(UINib(nibName: "WacaChannelCell", bundle: nil), forCellReuseIdentifier: "WacaChannelCellIdentifire")
         
         self.tableViewChannel.translatesAutoresizingMaskIntoConstraints = false
         self.tableViewChannel.separatorStyle = .none
@@ -921,7 +971,7 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 return 2
             }
         }else if tableView == self.tableViewChannel {
-            return 8
+            return 9
         }else if tableView == self.tableViewTag{
             return 1
         }else if tableView == self.tableViewAgent{
@@ -958,17 +1008,19 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 return self.filterByChannelCell(tableView: tableView, indexPath: indexPath)
             }else if indexPath.row == 1 {
                 return self.filterWA(tableView: tableView, indexPath: indexPath)
-            }else if (indexPath.row == 2){
-                return self.filterLine(tableView: tableView, indexPath: indexPath)
+            }else if indexPath.row == 2 {
+                return self.filterWACA(tableView: tableView, indexPath: indexPath)
             }else if (indexPath.row == 3){
-                return self.filterFB(tableView: tableView, indexPath: indexPath)
+                return self.filterLine(tableView: tableView, indexPath: indexPath)
             }else if (indexPath.row == 4){
-                return self.filterCustomChannel(tableView: tableView, indexPath: indexPath)
+                return self.filterFB(tableView: tableView, indexPath: indexPath)
             }else if (indexPath.row == 5){
-                return self.filterQiscusWidget(tableView: tableView, indexPath: indexPath)
+                return self.filterCustomChannel(tableView: tableView, indexPath: indexPath)
             }else if (indexPath.row == 6){
-                return self.filterTelegram(tableView: tableView, indexPath: indexPath)
+                return self.filterQiscusWidget(tableView: tableView, indexPath: indexPath)
             }else if (indexPath.row == 7){
+                return self.filterTelegram(tableView: tableView, indexPath: indexPath)
+            }else if (indexPath.row == 8){
                 return self.filterInstagram(tableView: tableView, indexPath: indexPath)
             }
         } else if tableView == self.tableViewTag {
@@ -997,26 +1049,30 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     return 0
                 }
             } else if indexPath.row == 2 {
-                if self.isShowLineFilter == false{
+                if self.isShowWacaFilter == false{
                     return 0
                 }
             } else if indexPath.row == 3 {
-                if self.isShowFBFilter == false{
+                if self.isShowLineFilter == false{
                     return 0
                 }
             } else if indexPath.row == 4 {
-                if self.isShowCustomChannelFilter == false{
+                if self.isShowFBFilter == false{
                     return 0
                 }
             } else if indexPath.row == 5 {
-                if self.isShowQiscusWidgetFilter == false{
+                if self.isShowCustomChannelFilter == false{
                     return 0
                 }
             } else if indexPath.row == 6 {
-                if self.isShowTelegramFilter == false{
+                if self.isShowQiscusWidgetFilter == false{
                     return 0
                 }
             } else if indexPath.row == 7 {
+                if self.isShowTelegramFilter == false{
+                    return 0
+                }
+            } else if indexPath.row == 8 {
                 if self.isShowInstagramFilter == false{
                     return 0
                 }
@@ -1098,6 +1154,14 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         cell.viewController = self
         cell.setupData(data: self.resultsWAChannelModel)
+        return cell
+    }
+    
+    func filterWACA(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WacaChannelCellIdentifire", for: indexPath) as! WacaChannelCell
+        cell.delegate = self
+        cell.viewController = self
+        cell.setupData(data: self.resultsWacaChannelModel)
         return cell
     }
     
@@ -1201,6 +1265,61 @@ extension FilterVC : WhatsAppChannelCellDelegate {
         
         
         self.checkButtonReset()
+    }
+}
+
+extension FilterVC : WacaChannelCellDelegate {
+    func updateDataWaca(isWacaSelected: Bool, dataWacaChannelModel : [WacaChannelModel]?){
+//        self.isLineSelected = isLineSelected
+//        self.checkButtonReset()
+//
+//        if let dataLineChannelModel = dataLineChannelModel {
+//            for data in dataLineChannelModel{
+//                if data.isSelected == true{
+//                    let dataLine = ChannelsModel(channelID: data.id, source: "line")
+//                    channelsModelLine.append(dataLine)
+//                }else{
+//                    channelsModelLine.removeAll(where: { $0.channel_id == data.id })
+//                }
+//            }
+//        }else{
+//            //remove
+//            channelsModelLine.removeAll()
+//        }
+        
+        
+        if let dataWacaChannelModel = dataWacaChannelModel {
+            for data in dataWacaChannelModel{
+                if data.isSelected == true{
+                    
+                    let checkArray = self.channelsModelWaca.filter { $0.channel_id == data.id }
+                    
+                    if checkArray.count == 0 {
+                        let dataWaca = ChannelsModel(channelID: data.id, source: "waca")
+                        channelsModelWaca.append(dataWaca)
+                    }
+                }else{
+                    for (index, element) in self.channelsModelWaca.enumerated(){
+                        if element.channel_id == data.id {
+                            channelsModelWaca.remove(at: index)
+                        }
+                    }
+                }
+            }
+        }else{
+            //remove
+            channelsModelWaca.removeAll()
+        }
+        
+        if self.channelsModelWaca.count == 0 {
+            self.isWacaSelected = isWacaSelected
+        }else{
+            self.isWacaSelected = true
+        }
+        
+        
+        self.checkButtonReset()
+        
     }
 }
 

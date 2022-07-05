@@ -80,6 +80,11 @@
 		20A01C0727DF909A00944041 /* BroadcastLanguageChatSessionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20A01C0527DF909A00944041 /* BroadcastLanguageChatSessionCell.xib */; };
 		20ADDAE227969B5400398496 /* AlertFailedSubmitWAOpenSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */; };
 		20ADDAE327969B5400398496 /* AlertFailedSubmitWAOpenSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */; };
+		20CC086F286C081500E9CD7A /* WacaChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CC086E286C081500E9CD7A /* WacaChannelModel.swift */; };
+		20CC0872286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CC0870286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.swift */; };
+		20CC0873286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20CC0871286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.xib */; };
+		20CC0876286C0F4000E9CD7A /* WacaChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CC0874286C0F4000E9CD7A /* WacaChannelCell.swift */; };
+		20CC0877286C0F4000E9CD7A /* WacaChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20CC0875286C0F4000E9CD7A /* WacaChannelCell.xib */; };
 		20D063C927ACD50700B0D040 /* PlayFileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D063C727ACD50700B0D040 /* PlayFileVC.swift */; };
 		20D063CA27ACD50700B0D040 /* PlayFileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D063C827ACD50700B0D040 /* PlayFileVC.xib */; };
 		3D0B11F125ECEF5D00F32EDA /* QPostbackRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */; };
@@ -502,6 +507,11 @@
 		20A01C0527DF909A00944041 /* BroadcastLanguageChatSessionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BroadcastLanguageChatSessionCell.xib; sourceTree = "<group>"; };
 		20ADDAE027969B5400398496 /* AlertFailedSubmitWAOpenSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFailedSubmitWAOpenSession.swift; sourceTree = "<group>"; };
 		20ADDAE127969B5400398496 /* AlertFailedSubmitWAOpenSession.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertFailedSubmitWAOpenSession.xib; sourceTree = "<group>"; };
+		20CC086E286C081500E9CD7A /* WacaChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WacaChannelModel.swift; sourceTree = "<group>"; };
+		20CC0870286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChannelMultipleWacaCell.swift; sourceTree = "<group>"; };
+		20CC0871286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterChannelMultipleWacaCell.xib; sourceTree = "<group>"; };
+		20CC0874286C0F4000E9CD7A /* WacaChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WacaChannelCell.swift; sourceTree = "<group>"; };
+		20CC0875286C0F4000E9CD7A /* WacaChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WacaChannelCell.xib; sourceTree = "<group>"; };
 		20D063C727ACD50700B0D040 /* PlayFileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayFileVC.swift; sourceTree = "<group>"; };
 		20D063C827ACD50700B0D040 /* PlayFileVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayFileVC.xib; sourceTree = "<group>"; };
 		3D0B11EF25ECEF5D00F32EDA /* QPostbackRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QPostbackRightCell.swift; sourceTree = "<group>"; };
@@ -1164,6 +1174,7 @@
 				2008F9CA275FC0420084DA9A /* QCommentContact.swift */,
 				2008F9EF2762E7230084DA9A /* CustomerProperties.swift */,
 				20A01BF227D1F04900944041 /* BroadcastTemplateModel.swift */,
+				20CC086E286C081500E9CD7A /* WacaChannelModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1626,6 +1637,10 @@
 				3D85D933274696F10057ECCF /* InstagramChannelCell.xib */,
 				3D85D93827469C290057ECCF /* FilterChannelMultipleInstagramCell.swift */,
 				3D85D93927469C290057ECCF /* FilterChannelMultipleInstagramCell.xib */,
+				20CC0870286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.swift */,
+				20CC0871286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.xib */,
+				20CC0874286C0F4000E9CD7A /* WacaChannelCell.swift */,
+				20CC0875286C0F4000E9CD7A /* WacaChannelCell.xib */,
 			);
 			path = FilterByChannel;
 			sourceTree = "<group>";
@@ -2032,6 +2047,7 @@
 				3D7A395E2577ADCF005E7FAE /* CompleteTaskCell.xib in Resources */,
 				3DBBF0E5266DE7E8005FBDAE /* AlertResolveWAChannelVC.xib in Resources */,
 				3DAF2A3D222E77B60002B4E3 /* EditRoomNameVC.xib in Resources */,
+				20CC0877286C0F4000E9CD7A /* WacaChannelCell.xib in Resources */,
 				20D063CA27ACD50700B0D040 /* PlayFileVC.xib in Resources */,
 				2008F9EE2761ACC70084DA9A /* ListContactCustomerPropertiesCell.xib in Resources */,
 				3D26D2B925D4325600735B0A /* AlertMenuUploadVC.xib in Resources */,
@@ -2095,6 +2111,7 @@
 				3D0EAE4725E6040C00481198 /* AMCompanyNameCell.xib in Resources */,
 				3DA788EE2480623000CEF339 /* UIChatListResolvedViewController.xib in Resources */,
 				20A01C0327DEE3F500944041 /* ListOfHeaderBodyButtonCell.xib in Resources */,
+				20CC0873286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.xib in Resources */,
 				3DB48BB025A76F5700B5D760 /* BottomAlertInfoHSM.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D3BE4D72627DBE40026A63C /* FilterChannelMultipleLineCell.xib in Resources */,
@@ -2254,6 +2271,7 @@
 				3D7ADB6D268DFED400DB214D /* ChatAgentVC.swift in Sources */,
 				3DC7FE102586633800CCA763 /* AvailabilityAgentCell.swift in Sources */,
 				3DC51C2A255D14A7008BE893 /* AgentModel.swift in Sources */,
+				20CC0872286C0F2600E9CD7A /* FilterChannelMultipleWacaCell.swift in Sources */,
 				3D0B8B1D255D88CA002A484F /* TagListView.swift in Sources */,
 				20A01BE027CF1B0D00944041 /* HeaderChatSessionCell.swift in Sources */,
 				2008F9C8275F447E0084DA9A /* DetailConversationCell.swift in Sources */,
@@ -2335,6 +2353,7 @@
 				3DCC3AFC26930295002FD4B1 /* OverallAgentWA.swift in Sources */,
 				3DCC3B01269302B8002FD4B1 /* OverallAgentOthers.swift in Sources */,
 				3D7A39692577E153005E7FAE /* TagsCustomerInfoCell.swift in Sources */,
+				20CC086F286C081500E9CD7A /* WacaChannelModel.swift in Sources */,
 				3D0EAE5525E60FCF00481198 /* AMAlterBillEmailSatuCell.swift in Sources */,
 				3DAF2A38222E62850002B4E3 /* RoomInfoVC.swift in Sources */,
 				3D26D2B825D4325600735B0A /* AlertMenuUploadVC.swift in Sources */,
@@ -2397,6 +2416,7 @@
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
 				2047B16D27E03F3800C81A06 /* PreviewTemplateChatSessionCell.swift in Sources */,
 				3D0EAE6C25E8D35300481198 /* AccountManagementSPVVC.swift in Sources */,
+				20CC0876286C0F4000E9CD7A /* WacaChannelCell.swift in Sources */,
 				3D85D93727469B700057ECCF /* InstagramChannelModel.swift in Sources */,
 				2008F9E82761AC1B0084DA9A /* HDCIContactCustomerPropertisCell.swift in Sources */,
 				3D0B8B27255DA619002A484F /* TagsSuggestionCell.swift in Sources */,
@@ -2605,7 +2625,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2637,7 +2657,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;

@@ -1817,7 +1817,12 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                                     
                                     if diff >= 16 && diff <= 23 {
                                        //will exxpired
-                                        self.chatInput.hideNoActiveSession()
+                                        let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()
+                                        if self.waIsExpired == true &&  isHidePopup == false{
+                                            self.chatInput.showNoActiveSession(isStartChat: true, hsmQuota: self.hsmQuota)
+                                        }else{
+                                            self.chatInput.hideNoActiveSession()
+                                        }
                                     } else if diff >= 24 {
                                         //expired
                                         let isHidePopup = UserDefaults.standard.getStatusHidePopupEstimationInboxEnabled()

@@ -121,6 +121,8 @@ class UIChatListViewCell: UITableViewCell {
                     self.ivTypeChannel.image = UIImage(named: "ic_line")
                 }else if channelType.lowercased() == "fb"{
                     self.ivTypeChannel.image = UIImage(named: "ic_fb")
+                }else if channelType.lowercased() == "waca"{
+                    self.ivTypeChannel.image = UIImage(named: "ic_wa")
                 }else if channelType.lowercased() == "wa"{
                     self.ivTypeChannel.image = UIImage(named: "ic_wa")
                     
@@ -368,6 +370,8 @@ class UIChatListViewCell: UITableViewCell {
             self.ivTypeChannel.image = UIImage(named: "ic_line")
         }else if channelType.lowercased() == "fb"{
             self.ivTypeChannel.image = UIImage(named: "ic_fb")
+        }else if channelType.lowercased() == "waca"{
+            self.ivTypeChannel.image = UIImage(named: "ic_wa")
         }else if channelType.lowercased() == "wa"{
             self.ivTypeChannel.image = UIImage(named: "ic_wa")
             if !data.lastCustomerTimestamp.isEmpty{

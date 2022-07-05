@@ -299,6 +299,10 @@ class UIChatListServedViewController: UIViewController, IndicatorInfoProvider {
                         self.metaAfter = meta
                     }
                     
+                    if let meta = payload["meta"]["cursor_after"].int{
+                        self.metaAfter = "\(meta)"
+                    }
+                    
                     if self.customerRooms.count == 0 {
                         self.emptyRoomView.isHidden = false
                         self.tableView.isHidden = true
