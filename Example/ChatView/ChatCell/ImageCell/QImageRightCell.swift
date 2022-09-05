@@ -10,7 +10,6 @@ import QiscusCore
 
 import AlamofireImage
 import Alamofire
-import SimpleImageViewer
 
 class QImageRightCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!

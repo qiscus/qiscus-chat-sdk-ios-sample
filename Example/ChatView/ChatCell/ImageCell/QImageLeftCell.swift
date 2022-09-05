@@ -9,7 +9,6 @@ import UIKit
 import QiscusCore
 
 import Alamofire
-import SimpleImageViewer
 import SDWebImage
 
 class QImageLeftCell: UIBaseChatCell {

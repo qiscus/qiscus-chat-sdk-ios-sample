@@ -3,10 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		208EBBC128B86581002DBF9D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC028B86581002DBF9D /* Alamofire */; };
+		208EBBC428B8659B002DBF9D /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC328B8659B002DBF9D /* AlamofireImage */; };
+		208EBBC728B865C5002DBF9D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC628B865C5002DBF9D /* SDWebImage */; };
+		208EBBCE28B86761002DBF9D /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBCD28B86761002DBF9D /* UICircularProgressRing */; };
+		208EBBE828C1B6BE002DBF9D /* QiscusCore in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBE728C1B6BE002DBF9D /* QiscusCore */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
 		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
@@ -94,7 +99,6 @@
 		3DDEFB6A2192D35600484795 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB682192D35600484795 /* Main.storyboard */; };
 		3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6B2192D35D00484795 /* Assets.xcassets */; };
 		3DDEFB6F2192D35D00484795 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DDEFB6D2192D35D00484795 /* LaunchScreen.storyboard */; };
-		EE4AD92B42D67598F6C5EEA2 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E910F3CE92601E11DB86C8 /* Pods_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -188,9 +192,6 @@
 		3DDEFB6B2192D35D00484795 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DDEFB6E2192D35D00484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DDEFB702192D35D00484795 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		93E910F3CE92601E11DB86C8 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C02BD24DCE9BA0B6E0BC7700 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
-		C5AD7F688AE45942F951EE04 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,8 +199,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE4AD92B42D67598F6C5EEA2 /* Pods_Example.framework in Frameworks */,
+				208EBBCE28B86761002DBF9D /* UICircularProgressRing in Frameworks */,
+				208EBBE828C1B6BE002DBF9D /* QiscusCore in Frameworks */,
+				208EBBC128B86581002DBF9D /* Alamofire in Frameworks */,
+				208EBBC428B8659B002DBF9D /* AlamofireImage in Frameworks */,
 				3D819A2A221E58D400F1B7CA /* CloudKit.framework in Frameworks */,
+				208EBBC728B865C5002DBF9D /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,7 +463,6 @@
 			children = (
 				3DDEFB632192D35600484795 /* Example */,
 				3DDEFB622192D35600484795 /* Products */,
-				D70B999F40A6457404F78D14 /* Pods */,
 				B5B82705ECBC497C39E5804D /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -499,18 +503,8 @@
 			isa = PBXGroup;
 			children = (
 				3D819A29221E58D400F1B7CA /* CloudKit.framework */,
-				93E910F3CE92601E11DB86C8 /* Pods_Example.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D70B999F40A6457404F78D14 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C02BD24DCE9BA0B6E0BC7700 /* Pods-Example.debug.xcconfig */,
-				C5AD7F688AE45942F951EE04 /* Pods-Example.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -520,17 +514,22 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3DDEFB732192D35D00484795 /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
-				02C0D7EBE76652B4E7F88A7A /* [CP] Check Pods Manifest.lock */,
 				3DDEFB5D2192D35600484795 /* Sources */,
 				3DDEFB5E2192D35600484795 /* Frameworks */,
 				3DDEFB5F2192D35600484795 /* Resources */,
-				3C29835F5DE0C6DC65FB7414 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Example;
+			packageProductDependencies = (
+				208EBBC028B86581002DBF9D /* Alamofire */,
+				208EBBC328B8659B002DBF9D /* AlamofireImage */,
+				208EBBC628B865C5002DBF9D /* SDWebImage */,
+				208EBBCD28B86761002DBF9D /* UICircularProgressRing */,
+				208EBBE728C1B6BE002DBF9D /* QiscusCore */,
+			);
 			productName = Example;
 			productReference = 3DDEFB612192D35600484795 /* Qiscus.app */;
 			productType = "com.apple.product-type.application";
@@ -570,6 +569,13 @@
 				Base,
 			);
 			mainGroup = 3DDEFB582192D35600484795;
+			packageReferences = (
+				208EBBBF28B86581002DBF9D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				208EBBC228B8659B002DBF9D /* XCRemoteSwiftPackageReference "AlamofireImage" */,
+				208EBBC528B865C5002DBF9D /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				208EBBCC28B86761002DBF9D /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
+				208EBBE628C1B6BE002DBF9D /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */,
+			);
 			productRefGroup = 3DDEFB622192D35600484795 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -623,44 +629,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		02C0D7EBE76652B4E7F88A7A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3C29835F5DE0C6DC65FB7414 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3DDEFB5D2192D35600484795 /* Sources */ = {
@@ -794,7 +762,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -849,7 +817,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -861,7 +829,6 @@
 		};
 		3DDEFB742192D35D00484795 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C02BD24DCE9BA0B6E0BC7700 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
@@ -869,7 +836,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -884,7 +851,6 @@
 		};
 		3DDEFB752192D35D00484795 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C5AD7F688AE45942F951EE04 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
@@ -892,7 +858,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -927,6 +893,77 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		208EBBBF28B86581002DBF9D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = exactVersion;
+				version = 5.4.4;
+			};
+		};
+		208EBBC228B8659B002DBF9D /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/AlamofireImage";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.0;
+			};
+		};
+		208EBBC528B865C5002DBF9D /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		208EBBCC28B86761002DBF9D /* XCRemoteSwiftPackageReference "UICircularProgressRing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/luispadron/UICircularProgressRing";
+			requirement = {
+				kind = exactVersion;
+				version = 6.4.0;
+			};
+		};
+		208EBBE628C1B6BE002DBF9D /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/qiscus/QiscusCore-iOS";
+			requirement = {
+				kind = exactVersion;
+				version = 1.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		208EBBC028B86581002DBF9D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 208EBBBF28B86581002DBF9D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		208EBBC328B8659B002DBF9D /* AlamofireImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 208EBBC228B8659B002DBF9D /* XCRemoteSwiftPackageReference "AlamofireImage" */;
+			productName = AlamofireImage;
+		};
+		208EBBC628B865C5002DBF9D /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 208EBBC528B865C5002DBF9D /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		208EBBCD28B86761002DBF9D /* UICircularProgressRing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 208EBBCC28B86761002DBF9D /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
+			productName = UICircularProgressRing;
+		};
+		208EBBE728C1B6BE002DBF9D /* QiscusCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 208EBBE628C1B6BE002DBF9D /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */;
+			productName = QiscusCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3DDEFB592192D35600484795 /* Project object */;
 }

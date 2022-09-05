@@ -8,6 +8,7 @@
 import Foundation
 import QiscusCore
 import AlamofireImage
+import UIKit
 
 protocol UIChatUserInteraction {
     func sendMessage(withText text: String)

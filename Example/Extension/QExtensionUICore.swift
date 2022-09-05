@@ -9,6 +9,7 @@ import Foundation
 
 import QiscusCore
 import SwiftyJSON
+import UIKit
 
 extension UIBaseChatCell {
     
