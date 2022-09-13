@@ -803,9 +803,13 @@ extension UIChatViewController : CustomChatInputDelegate {
                     var typePricingCategory = "business initiate"
                     if pricingCategory == "business_initiated" {
                         typePricingCategory = "business initiate"
+                    }else if pricingCategory == "referral_conversion"{
+                        typePricingCategory = "facebook ads"
                     }else{
                         typePricingCategory = "user initiate"
                     }
+                    
+                    
                     
                     var credit = creditSource
                     if credit == "free_sessions"{

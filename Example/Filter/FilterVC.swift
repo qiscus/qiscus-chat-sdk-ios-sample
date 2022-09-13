@@ -432,38 +432,38 @@ class FilterVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
                     }
                     
-                    if wacaChannels?.count != 0 {
-                        if let wacaChannels = wacaChannels {
-                            self.isShowWacaFilter = true
-                            for data in wacaChannels {
-                                let dataWaca = WacaChannelModel(json: data)
-
-                                if let hasFilter = self.defaults.string(forKey: "filter"){
-                                    do {
-                                        let arr = try JSONSerializer.toArray(hasFilter)
-                                        
-                                        if  arr is Array<AnyObject> {
-                                            for jsonArr in arr as Array<AnyObject>{
-                                                let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
-                                                let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
-                                                
-                                                if dataWaca.id == channelId  &&
-                                                    source.lowercased() == "waca".lowercased(){
-                                                    dataWaca.isSelected = true
-                                                }
-                                                
-                                            }
-                                        }
-                                        
-                                    } catch let parseError {
-                                        
-                                    }
-                                }
-                                
-                                self.resultsWacaChannelModel.append(dataWaca)
-                            }
-                        }
-                    }
+//                    if wacaChannels?.count != 0 {
+//                        if let wacaChannels = wacaChannels {
+//                            self.isShowWacaFilter = true
+//                            for data in wacaChannels {
+//                                let dataWaca = WacaChannelModel(json: data)
+//
+//                                if let hasFilter = self.defaults.string(forKey: "filter"){
+//                                    do {
+//                                        let arr = try JSONSerializer.toArray(hasFilter)
+//                                        
+//                                        if  arr is Array<AnyObject> {
+//                                            for jsonArr in arr as Array<AnyObject>{
+//                                                let channelId  = (jsonArr["channel_id"] as AnyObject? as? Int) ?? 0 // to get rid of null
+//                                                let source =  (jsonArr["source"]  as AnyObject? as? String) ?? ""
+//                                                
+//                                                if dataWaca.id == channelId  &&
+//                                                    source.lowercased() == "waca".lowercased(){
+//                                                    dataWaca.isSelected = true
+//                                                }
+//                                                
+//                                            }
+//                                        }
+//                                        
+//                                    } catch let parseError {
+//                                        
+//                                    }
+//                                }
+//                                
+//                                self.resultsWacaChannelModel.append(dataWaca)
+//                            }
+//                        }
+//                    }
                     
                     if lineChannels?.count != 0 {
                         self.isShowLineFilter = true

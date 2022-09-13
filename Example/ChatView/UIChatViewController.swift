@@ -1835,7 +1835,13 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                                                 let lastComment = room.lastComment?.message
                                                 
                                                 if lastComment?.lowercased() == "Business Initiate session started".lowercased() || self.waIsExpired == false{
-                                                    self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
+                                                    
+                                                    if lastComment?.lowercased() == "Business Initiate session started".lowercased() && self.waIsExpired == true {
+                                                        self.chatInput.showNoActiveSession(isStartChat: true, hsmQuota: self.hsmQuota)
+                                                    }else{
+                                                        self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
+                                                    }
+                                                    
                                                 }else{
                                                     if UserDefaults.standard.getStatusFeatureSelfTopupCredit() == 2{
                                                         self.chatInput.showNoActiveSession(isStartChat: false, hsmQuota: self.hsmQuota)
@@ -2701,6 +2707,14 @@ extension UIChatViewController: UIChatViewDelegate {
                 self.getCustomerRoom()
             } else if lastComment?.message.lowercased().contains("bussiness initiated session is ended") == true{
                 self.getCustomerRoom()
+            } else if lastComment?.message.lowercased().contains("ads Initiate session started") == true {
+                
+                if  self.countdownTimer != nil {
+                    self.countdownTimer?.invalidate()
+                    self.countdownTimer = nil
+                }
+                
+                self.getCustomerInfo()
             }
         }
     }
