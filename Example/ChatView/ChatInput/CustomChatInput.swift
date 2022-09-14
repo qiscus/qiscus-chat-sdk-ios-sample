@@ -244,7 +244,11 @@ extension UIChatViewController : CustomChatInputDelegate {
                                 picker.mediaTypes = [(kUTTypeImage as String),(kUTTypeMovie as String)]
                                 
                                 picker.sourceType = UIImagePickerController.SourceType.camera
-                                self.present(picker, animated: true, completion: nil)
+                                
+                                DispatchQueue.main.sync(execute: {
+                                    self.present(picker, animated: true, completion: nil)
+                                })
+                              
                                 break
                             case .denied:
                                 self.showPhotoAccessAlert()
@@ -327,11 +331,15 @@ extension UIChatViewController : CustomChatInputDelegate {
     func goToGaleryPicker(){
         if #available(iOS 14, *) {
             var configuration = PHPickerConfiguration()
-            configuration.selectionLimit = 1
-            configuration.filter = .images
-            let picker = PHPickerViewController(configuration: configuration)
-            picker.delegate = self
-            self.present(picker, animated: true, completion: nil)
+            
+            DispatchQueue.global(qos: .background).sync {
+                configuration.selectionLimit = 1
+                configuration.filter = .images
+                let picker = PHPickerViewController(configuration: configuration)
+                picker.delegate = self
+                self.present(picker, animated: true, completion: nil)
+            }
+           
         } else {
             let picker = UIImagePickerController()
             picker.delegate = self

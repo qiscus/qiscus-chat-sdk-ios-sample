@@ -76,21 +76,18 @@ class QImageLeftCell: UIBaseChatCell {
         if let url = payload["url"] as? String {
             if let url = payload["url"] as? String {
                 
-                if self.ivComment.image == nil {
-                    self.showLoading()
-                    self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
-                    DispatchQueue.global(qos: .background).sync {
-                        QiscusCore.shared.download(url: URL(string: url)!, onSuccess: { (urlFile) in
-                            let data = NSData(contentsOf: urlFile)
-                            DispatchQueue.main.async {
-                                self.hideLoading()
-                                self.ivComment.image = UIImage(data: data as! Data)
-                            }
-                        }, onProgress: { (progress) in
-                            
-                        })
+                var fileImage = url
+                if fileImage.isEmpty {
+                    fileImage = "https://"
+                }
+                
+                self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+                
+                self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
+                self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                    if urlPath != nil && uiImage != nil{
+                        self.ivComment.af_setImage(withURL: urlPath!)
                     }
-                    
                 }
             }
         }
