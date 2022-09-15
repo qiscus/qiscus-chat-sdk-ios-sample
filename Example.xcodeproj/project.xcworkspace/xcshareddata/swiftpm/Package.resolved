@@ -37,6 +37,15 @@
       }
     },
     {
+      "identity" : "libwebp-xcode",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/libwebp-Xcode.git",
+      "state" : {
+        "revision" : "0f3bdb28a1edc5e8e43876d3835d20c601ef331f",
+        "version" : "1.2.3"
+      }
+    },
+    {
       "identity" : "qiscuscore-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/qiscus/QiscusCore-iOS",
@@ -61,6 +70,15 @@
       "state" : {
         "branch" : "master",
         "revision" : "3e48cb68d8e668d146dc59c73fb98cb628616236"
+      }
+    },
+    {
+      "identity" : "sdwebimagewebpcoder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImageWebPCoder.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "4416805045174938b11edb69a86e9f7dd0699952"
       }
     },
     {

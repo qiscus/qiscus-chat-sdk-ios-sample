@@ -444,8 +444,10 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     func onUpdateComment(comment: CommentModel, indexpath: IndexPath) {
         // reload cell in section and index path
-        if self.tableViewConversation.cellForRow(at: indexpath) != nil{
-            self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
+        if self.tableViewConversation.dataHasChanged {
+            self.tableViewConversation.reloadData()
+        } else {
+           self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
         }
     }
     
@@ -551,6 +553,23 @@ extension UIChatViewController: UIChatViewDelegate {
         }
     }
 }
+
+extension UITableView {
+    var dataHasChanged: Bool {
+        guard let dataSource = dataSource else { return false }
+        let sections = dataSource.numberOfSections?(in: self) ?? 0
+        if numberOfSections != sections {
+            return true
+        }
+        for section in 0..<sections {
+            if numberOfRows(inSection: section) != dataSource.tableView(self, numberOfRowsInSection: section) {
+                return true
+            }
+        }
+        return false
+    }
+}
+
 
 extension UIChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

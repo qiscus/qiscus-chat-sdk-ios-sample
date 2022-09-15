@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		202C7F9928D1815A008016B5 /* SDWebImageWebPCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 202C7F9828D1815A008016B5 /* SDWebImageWebPCoder */; };
 		208EBBC128B86581002DBF9D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC028B86581002DBF9D /* Alamofire */; };
 		208EBBC428B8659B002DBF9D /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC328B8659B002DBF9D /* AlamofireImage */; };
 		208EBBC728B865C5002DBF9D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC628B865C5002DBF9D /* SDWebImage */; };
@@ -199,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				202C7F9928D1815A008016B5 /* SDWebImageWebPCoder in Frameworks */,
 				208EBBCE28B86761002DBF9D /* UICircularProgressRing in Frameworks */,
 				208EBBE828C1B6BE002DBF9D /* QiscusCore in Frameworks */,
 				208EBBC128B86581002DBF9D /* Alamofire in Frameworks */,
@@ -529,6 +531,7 @@
 				208EBBC628B865C5002DBF9D /* SDWebImage */,
 				208EBBCD28B86761002DBF9D /* UICircularProgressRing */,
 				208EBBE728C1B6BE002DBF9D /* QiscusCore */,
+				202C7F9828D1815A008016B5 /* SDWebImageWebPCoder */,
 			);
 			productName = Example;
 			productReference = 3DDEFB612192D35600484795 /* Qiscus.app */;
@@ -575,6 +578,7 @@
 				208EBBC528B865C5002DBF9D /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				208EBBCC28B86761002DBF9D /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
 				208EBBE628C1B6BE002DBF9D /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */,
+				202C7F9728D1815A008016B5 /* XCRemoteSwiftPackageReference "SDWebImageWebPCoder" */,
 			);
 			productRefGroup = 3DDEFB622192D35600484795 /* Products */;
 			projectDirPath = "";
@@ -895,6 +899,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		202C7F9728D1815A008016B5 /* XCRemoteSwiftPackageReference "SDWebImageWebPCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageWebPCoder.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		208EBBBF28B86581002DBF9D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -938,6 +950,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		202C7F9828D1815A008016B5 /* SDWebImageWebPCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 202C7F9728D1815A008016B5 /* XCRemoteSwiftPackageReference "SDWebImageWebPCoder" */;
+			productName = SDWebImageWebPCoder;
+		};
 		208EBBC028B86581002DBF9D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 208EBBBF28B86581002DBF9D /* XCRemoteSwiftPackageReference "Alamofire" */;
