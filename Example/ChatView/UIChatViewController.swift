@@ -1337,15 +1337,19 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
         
         // support variation comment type
         self.registerClass(nib: UINib(nibName: "QTextRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextRightCell")
+        self.registerClass(nib: UINib(nibName: "QTextReDownloadRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextReDownloadRightCell")
         self.registerClass(nib: UINib(nibName: "QTextLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextLeftCell")
         self.registerClass(nib: UINib(nibName: "QImageRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageRightCell")
-        self.registerClass(nib: UINib(nibName: "QFileRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileRightCell")
-         self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
         self.registerClass(nib: UINib(nibName: "QImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageLeftCell")
+        self.registerClass(nib: UINib(nibName: "QImageReDownloadLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageReDownloadLeftCell")
+        self.registerClass(nib: UINib(nibName: "QFileRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileRightCell")
+        self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
+        self.registerClass(nib: UINib(nibName: "QFileReDownloadLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileReDownloadLeftCell")
         self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
         self.registerClass(nib: UINib(nibName: "QSystemCell", bundle:nil), forMessageCellWithReuseIdentifier: "qSystemCell")
         
         self.registerClass(nib: UINib(nibName: "QPostbackLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBack")
+        self.registerClass(nib: UINib(nibName: "QPostbackReDownloadLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBackReDownload")
         self.registerClass(nib: UINib(nibName: "QPostbackRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBackRight")
         self.registerClass(nib: UINib(nibName: "QCarouselCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCarouselCell")
         self.registerClass(nib: UINib(nibName: "QCardRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCardRightCell")
@@ -1355,6 +1359,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
          self.registerClass(nib: UINib(nibName: "QReplyImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyImageLeftCell")
         
         self.registerClass(nib: UINib(nibName: "QVideoRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qVideoRightCell")
+        self.registerClass(nib: UINib(nibName: "QVideoReDownloadLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qVideoReDownloadLeftCell")
         self.registerClass(nib: UINib(nibName: "QVideoLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qVideoLeftCell")
         
         self.registerClass(nib: UINib(nibName: "QReplyRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qReplyRightCell")
@@ -2136,40 +2141,127 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 if message.message.contains("[/file]") == true{
                     var ext = message.getAttachmentURL(message: message.message)
                     if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
-                        if self.room?.type == .group {
-                            cell.colorName = colorName
-                            cell.isPublic = true
-                        }else {
-                            cell.isPublic = false
+                        var typeData = ""
+                        if let extras = message.extras{
+                            if !extras.isEmpty{
+                                let json = JSON.init(extras)
+                                let type = json["type"].string ?? ""
+                                typeData = type
+                            }
                         }
-                        cell.isQiscus = self.isQiscus
-                        cell.cellMenu = self
-                        return cell
+                        if typeData.lowercased() == "redownload_attachment".lowercased(){
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qImageReDownloadLeftCell", for: indexPath) as! QImageReDownloadLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            return cell
+                        }else{
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            return cell
+                        }
                     } else if URL(string: ext)?.containsVideo == true{
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoLeftCell", for: indexPath) as! QVideoLeftCell
-                        if self.room?.type == .group {
-                            cell.colorName = colorName
-                            cell.isPublic = true
-                        }else {
-                            cell.isPublic = false
+                        var typeData = ""
+                        if let extras = message.extras{
+                            if !extras.isEmpty{
+                                let json = JSON.init(extras)
+                                let type = json["type"].string ?? ""
+                                typeData = type
+                            }
                         }
-                        cell.isQiscus = self.isQiscus
-                        cell.cellMenu = self
-                        cell.vc = self
-                        return cell
+                        if typeData.lowercased() == "redownload_attachment".lowercased(){
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoReDownloadLeftCell", for: indexPath) as! QVideoReDownloadLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            cell.vc = self
+                            return cell
+                        }else{
+                            var typeData = ""
+                            if let extras = message.extras{
+                                if !extras.isEmpty{
+                                    let json = JSON.init(extras)
+                                    let type = json["type"].string ?? ""
+                                    typeData = type
+                                }
+                            }
+                            if typeData.lowercased() == "redownload_attachment".lowercased(){
+                                let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoReDownloadLeftCell", for: indexPath) as! QVideoReDownloadLeftCell
+                                if self.room?.type == .group {
+                                    cell.colorName = colorName
+                                    cell.isPublic = true
+                                }else {
+                                    cell.isPublic = false
+                                }
+                                cell.isQiscus = self.isQiscus
+                                cell.cellMenu = self
+                                cell.vc = self
+                                return cell
+                            }else{
+                                let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoLeftCell", for: indexPath) as! QVideoLeftCell
+                                if self.room?.type == .group {
+                                    cell.colorName = colorName
+                                    cell.isPublic = true
+                                }else {
+                                    cell.isPublic = false
+                                }
+                                cell.isQiscus = self.isQiscus
+                                cell.cellMenu = self
+                                cell.vc = self
+                                return cell
+                            }
+                        }
                     } else if (ext.isFileAttachment(urlMessage: ext) == true) {
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
-                        if self.room?.type == .group {
-                            cell.colorName = colorName
-                            cell.isPublic = true
-                        }else {
-                            cell.isPublic = false
+                        var typeData = ""
+                        if let extras = message.extras{
+                            if !extras.isEmpty{
+                                let json = JSON.init(extras)
+                                let type = json["type"].string ?? ""
+                                typeData = type
+                            }
                         }
-                        cell.isQiscus = self.isQiscus
-                        cell.cellMenu = self
-                        cell.vc = self
-                        return cell
+                        if typeData.lowercased() == "redownload_attachment".lowercased(){
+                           let cell = tableView.dequeueReusableCell(withIdentifier: "qFileReDownloadLeftCell", for: indexPath) as! QFileReDownloadLeftCell
+                           if self.room?.type == .group {
+                               cell.colorName = colorName
+                               cell.isPublic = true
+                           }else {
+                               cell.isPublic = false
+                           }
+                           cell.isQiscus = self.isQiscus
+                           cell.cellMenu = self
+                           cell.vc = self
+                           return cell
+                        }else{
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            cell.vc = self
+                            return cell
+                        }
                     } else {
                        let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
                         if self.room?.type == .group {
@@ -2183,16 +2275,37 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         return cell
                     }
                 }else if message.message.contains("[/sticker]") == true{
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
-                    if self.room?.type == .group {
-                        cell.colorName = colorName
-                        cell.isPublic = true
-                    }else {
-                        cell.isPublic = false
+                    var typeData = ""
+                    if let extras = message.extras{
+                        if !extras.isEmpty{
+                            let json = JSON.init(extras)
+                            let type = json["type"].string ?? ""
+                            typeData = type
+                        }
                     }
-                    cell.isQiscus = self.isQiscus
-                    cell.cellMenu = self
-                    return cell
+                    if typeData.lowercased() == "redownload_attachment".lowercased(){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageReDownloadLeftCell", for: indexPath) as! QImageReDownloadLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.isQiscus = self.isQiscus
+                        cell.cellMenu = self
+                        return cell
+                    }else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                        if self.room?.type == .group {
+                            cell.colorName = colorName
+                            cell.isPublic = true
+                        }else {
+                            cell.isPublic = false
+                        }
+                        cell.isQiscus = self.isQiscus
+                        cell.cellMenu = self
+                        return cell
+                    }
                 }else{
                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
                     if self.room?.type == .group {
@@ -2255,16 +2368,37 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         cell.isQiscus = self.isQiscus
                         return cell
                     }else{
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
-                        if self.room?.type == .group {
-                            cell.colorName = colorName
-                            cell.isPublic = true
-                        }else {
-                            cell.isPublic = false
+                        var typeData = ""
+                        if let extras = message.extras{
+                            if !extras.isEmpty{
+                                let json = JSON.init(extras)
+                                let type = json["type"].string ?? ""
+                                typeData = type
+                            }
                         }
-                        cell.isQiscus = self.isQiscus
-                        cell.cellMenu = self
-                        return cell
+                        if typeData.lowercased() == "redownload_attachment".lowercased(){
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qImageReDownloadLeftCell", for: indexPath) as! QImageReDownloadLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            return cell
+                        }else{
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qImageLeftCell", for: indexPath) as! QImageLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            return cell
+                        }
                     }
                 }else if(urlFile?.containsVideo == true || isVideo == true ) {
                     if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
@@ -2276,7 +2410,59 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         return cell
                     }
                     else{
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoLeftCell", for: indexPath) as! QVideoLeftCell
+                        var typeData = ""
+                        if let extras = message.extras{
+                            if !extras.isEmpty{
+                                let json = JSON.init(extras)
+                                let type = json["type"].string ?? ""
+                                typeData = type
+                            }
+                        }
+                        if typeData.lowercased() == "redownload_attachment".lowercased(){
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoReDownloadLeftCell", for: indexPath) as! QVideoReDownloadLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            cell.vc = self
+                            return cell
+                        }else{
+                            let cell = tableView.dequeueReusableCell(withIdentifier: "qVideoLeftCell", for: indexPath) as! QVideoLeftCell
+                            if self.room?.type == .group {
+                                cell.colorName = colorName
+                                cell.isPublic = true
+                            }else {
+                                cell.isPublic = false
+                            }
+                            cell.isQiscus = self.isQiscus
+                            cell.cellMenu = self
+                            cell.vc = self
+                            return cell
+                        }
+                    }
+                }else{
+                    var typeData = ""
+                    if let extras = message.extras{
+                        if !extras.isEmpty{
+                            let json = JSON.init(extras)
+                            let type = json["type"].string ?? ""
+                            typeData = type
+                        }
+                    }
+                    
+                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
+                        cell.menuConfig = menuConfig
+                        cell.cellMenu = self
+                        cell.isQiscus = self.isQiscus
+                        cell.vc = self
+                        return cell
+                    }else if typeData.lowercased() == "redownload_attachment".lowercased(){
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileReDownloadLeftCell", for: indexPath) as! QFileReDownloadLeftCell
                         if self.room?.type == .group {
                             cell.colorName = colorName
                             cell.isPublic = true
@@ -2287,17 +2473,7 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                         cell.cellMenu = self
                         cell.vc = self
                         return cell
-                    }
-                }else{
-                    if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
-                        let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
-                        cell.menuConfig = menuConfig
-                        cell.cellMenu = self
-                        cell.isQiscus = self.isQiscus
-                        cell.vc = self
-                        return cell
-                    }
-                    else{
+                    }else{
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
                         if self.room?.type == .group {
                             cell.colorName = colorName
@@ -2354,18 +2530,65 @@ class UIChatViewController: UIViewController, UITextViewDelegate, UIPickerViewDa
                 cell.isQiscus = self.isQiscus
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
-                cell.isQiscus = self.isQiscus
-                cell.delegateChat = self
-                return cell
+                
+                if let dataPayload = message.payload{
+                    let data = JSON(dataPayload)
+                    
+                    let buttonsPayload = data["buttons"].arrayValue
+                    
+                    let dataType = buttonsPayload.first?["payload"]["payload"]["sub_type"].string ?? ""
+                    
+                    if buttonsPayload.count == 1 && dataType == "redownload" {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "postBackReDownload", for: indexPath) as! QPostbackRedownloadLeftCell
+                        cell.isQiscus = self.isQiscus
+                        cell.delegateChat = self
+                        return cell
+                    }else{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                        cell.isQiscus = self.isQiscus
+                        cell.delegateChat = self
+                        return cell
+                    }
+                   
+                }else{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                    cell.isQiscus = self.isQiscus
+                    cell.delegateChat = self
+                    return cell
+                }
             }
         }else if message.type == "button_postback_response" {
             if (message.isMyComment() == true || (!message.userEmail.contains(userID) && !userID.isEmpty)){
-                let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
-                cell.menuConfig = menuConfig
-                cell.cellMenu = self
-                cell.isQiscus = self.isQiscus
-                return cell
+                guard let payload = message.payload else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                    cell.menuConfig = menuConfig
+                    cell.cellMenu = self
+                    cell.isQiscus = self.isQiscus
+                    return cell
+                }
+                var typeData = ""
+                if !payload.isEmpty{
+                    let json = JSON.init(payload)
+                    let type = json["payload"]["sub_type"].string ?? ""
+                    typeData = type
+                }
+                
+                
+                if typeData.lowercased() == "redownload"{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextReDownloadRightCell", for: indexPath) as! QTextReDownloadRightCell
+                    cell.menuConfig = menuConfig
+                    cell.cellMenu = self
+                    cell.isQiscus = self.isQiscus
+                    return cell
+                }else{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                    cell.menuConfig = menuConfig
+                    cell.cellMenu = self
+                    cell.isQiscus = self.isQiscus
+                    return cell
+                }
+                
+                
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
                 if self.room?.type == .group {

@@ -245,7 +245,7 @@ class UIChatTabViewController: ButtonBarPagerTabStripViewController {
     }
     
     func setupUINavBar(){
-        self.title = "Multichannel Agent"
+        self.title = "Qiscus Omnichannel Agent"
         
         var buttonProfile = UIButton(type: .custom)
         buttonProfile.frame = CGRect(x: 0, y: 6, width: 30, height: 30)

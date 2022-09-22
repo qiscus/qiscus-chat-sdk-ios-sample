@@ -152,7 +152,7 @@ class PlayOgaVC: UIViewController, VLCMediaPlayerDelegate {
     func download(){
         if let url = URL(string: mediaURL) {
             QiscusCore.shared.download(url: url) { (urlLocal) in
-                self.showAlertWith(title: "Saved!", message: "File has been saved to your document in folder Qiscus Multichannel.")
+                self.showAlertWith(title: "Saved!", message: "File has been saved to your document in folder Qiscus Omnichannel Chat.")
             } onProgress: { (progress) in
 
             }

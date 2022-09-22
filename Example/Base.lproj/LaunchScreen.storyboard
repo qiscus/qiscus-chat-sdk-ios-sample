@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,8 +23,8 @@
                                     <constraint firstAttribute="height" constant="70" id="W2F-6b-Pe0"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_multichannel" translatesAutoresizingMaskIntoConstraints="NO" id="zy3-J7-7Py">
-                                <rect key="frame" x="45" y="413" width="324" height="80"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_omnichannel_chat" translatesAutoresizingMaskIntoConstraints="NO" id="zy3-J7-7Py">
+                                <rect key="frame" x="45" y="415" width="324" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="S3z-pr-5Fo"/>
                                 </constraints>
@@ -48,7 +48,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo_multichannel" width="231" height="63.5"/>
+        <image name="logo_omnichannel_chat" width="442" height="201"/>
         <image name="logo_qiscus_warna" width="102" height="38"/>
     </resources>
 </document>

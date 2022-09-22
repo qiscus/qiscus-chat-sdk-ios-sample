@@ -67,7 +67,7 @@ class AnalyticsVC: ButtonBarPagerTabStripViewController, UITableViewDataSource, 
             if userType != 2{
                 self.getListAgents()
             }else{
-                self.lbNoCustomAnalytics.text = "Custom analytics is one of the services provided by Multichannel to support customized analytics according to your needs. Please contact your admin"
+                self.lbNoCustomAnalytics.text = "Custom analytics is one of the services provided by Qiscus Omnichannel to support customized analytics according to your needs. Please contact your admin"
                 self.btContactUs.isHidden = true
             }
         }

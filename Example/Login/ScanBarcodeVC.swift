@@ -255,7 +255,7 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         self.ivTitle.image = UIImage(named: "ic_social_media")
         self.btAction.setTitle("Next", for: .normal)
         self.ivIndicator.image = UIImage(named: "ic_popupview_scanner_indicator_seconds")
-        self.lbSubtitle.text = "Connect your social media accounts to Qiscus Multichannel CS Chat, receive chats from the customer and reply it directly"
+        self.lbSubtitle.text = "Connect your social media accounts to Qiscus Omnichannel CS Chat, receive chats from the customer and reply it directly"
     }
     
     func setupUIPopUp3(){
@@ -283,7 +283,7 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         self.ivTitle.image = UIImage(named: "ic_bot_text")
         self.btAction.setTitle("Next", for: .normal)
         self.ivIndicator.image = UIImage(named: "ic_popupview_scanner_indicator_four")
-        self.lbSubtitle.text = "The Qiscus Multichannel CS Chat Solution is enhanced even further by Bot Integration. It is a chatting process managed by Artificial Intelligence (AI) directly"
+        self.lbSubtitle.text = "The Qiscus Omnichannel CS Chat Solution is enhanced even further by Bot Integration. It is a chatting process managed by Artificial Intelligence (AI) directly"
     }
     
     func setupUIPopUp5(){
@@ -298,7 +298,7 @@ class ScanBarcodeVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         self.ivTitle.image = UIImage(named: "ic_are_you_ready")
         self.btAction.setTitle("Let’s Start", for: .normal)
         self.ivIndicator.image = UIImage(named: "ic_popupview_scanner_indicator_five")
-        self.lbSubtitle.text = "To use this app, please login to Qiscus Multichannel Chat in your web browser, click the mobile button on the bottom left of the screen and scan the QR code."
+        self.lbSubtitle.text = "To use this app, please login to Qiscus Omnichannel Chat in your web browser, click the mobile button on the bottom left of the screen and scan the QR code."
     }
     
     @IBAction func actionContactUs(_ sender: Any) {

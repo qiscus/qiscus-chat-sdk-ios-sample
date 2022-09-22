@@ -22,6 +22,9 @@ class UIChatListViewCell: UITableViewCell {
     static var identifier: String {
         return String(describing: self)
     }
+    @IBOutlet weak var ivForwardMessageRightCons: NSLayoutConstraint!
+    @IBOutlet weak var ivForwardWidth: NSLayoutConstraint!
+    @IBOutlet weak var ivForward: UIImageView!
     @IBOutlet weak var widthBadgeStatus: NSLayoutConstraint!
     
     @IBOutlet weak var viewStatus: UIView!
@@ -101,7 +104,6 @@ class UIChatListViewCell: UITableViewCell {
 
     func setupUI(data : RoomModel) {
     let checkBot = UserDefaults.standard.getBot()
-        
     self.data = data
        if let option = data.options {
             if !option.isEmpty{
@@ -303,7 +305,29 @@ class UIChatListViewCell: UITableViewCell {
         }else { self.labelName.text = "Room" }
         self.labelDate.text = lastMessageCreateAt
         
+        self.ivForwardWidth.constant = 0
+        self.ivForward.alpha = 0
+        self.ivForwardMessageRightCons.constant = 0
         
+        if let lastComment = data.lastComment{
+            var isCustomer = false
+            if let userExtras = lastComment.userExtras {
+                let json = JSON(userExtras)
+                let checkType = json["user_extras"]["type"].string ?? ""
+                
+                if checkType == "agent" {
+                    isCustomer = false
+                }else{
+                    isCustomer = true
+                }
+            }
+            
+            if (lastComment.isMyComment() == true || isCustomer == false){
+                self.ivForwardWidth.constant = 15
+                self.ivForward.alpha = 1
+                self.ivForwardMessageRightCons.constant = 5
+            }
+        }
         
         if(data.unreadCount == 0){
             self.hiddenBadge()
@@ -580,7 +604,31 @@ class UIChatListViewCell: UITableViewCell {
                 self.labelLastMessage.font = UIFont.boldSystemFont(ofSize: 12.0)
             }
             
+            self.ivForwardWidth.constant = 0
+            self.ivForward.alpha = 0
+            self.ivForwardMessageRightCons.constant = 0
+            
             if let lastComment = room.lastComment{
+                var isCustomer = false
+                if let userExtras = lastComment.userExtras {
+                    let json = JSON(userExtras)
+                    let checkType = json["user_extras"]["type"].string ?? ""
+                    
+                    if checkType == "agent" {
+                        isCustomer = false
+                    }else{
+                        isCustomer = true
+                    }
+                }
+                
+                if (lastComment.isMyComment() == true || isCustomer == false){
+                    self.ivForwardWidth.constant = 15
+                    self.ivForward.alpha = 1
+                    self.ivForwardMessageRightCons.constant = 5
+                }
+                
+                
+                
                 if lastComment.message.hasPrefix("[file]"){
                     message = "Send File Attachment"
                 } else if lastComment.message.hasPrefix("[sticker]") == true{
@@ -596,7 +644,7 @@ class UIChatListViewCell: UITableViewCell {
                 }
             }else{
                 let lastComment = data.lastComment
-              
+                
                 if lastComment.hasPrefix("[file]"){
                     message = "Send File Attachment"
                 } else if lastComment.hasPrefix("[sticker]") == true{
@@ -609,7 +657,7 @@ class UIChatListViewCell: UITableViewCell {
             
         } else {
             let lastComment = data.lastComment
-          
+            
             if lastComment.hasPrefix("[file]"){
                 message = "Send File Attachment"
             } else if lastComment.hasPrefix("[sticker]") == true{
