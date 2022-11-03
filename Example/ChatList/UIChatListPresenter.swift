@@ -92,6 +92,14 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
+    func onRefreshToken(event: QiscusRefreshTokenEvent) {
+        if event == .isUnauthorized {
+            //need to force re login
+        }else if event == .isTokenExpired {
+            //need to call api refresh token when auto refresh token from be is false, by default is true from be
+        }
+    }
+    
     func onRoomMessageUpdated(_ room: RoomModel, message: CommentModel) {
         loadFromLocal(refresh: false)
         self.viewPresenter?.updateRooms(data: room)
