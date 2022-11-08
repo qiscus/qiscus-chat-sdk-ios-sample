@@ -62,6 +62,7 @@
 		2047B17627E05C3900C81A06 /* ListTemplateBroadCastURLPhoneNumberButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2047B17427E05C3900C81A06 /* ListTemplateBroadCastURLPhoneNumberButtonCell.xib */; };
 		2047B17927E1C9F200C81A06 /* AlertSuccessSubmitWAOpenSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2047B17727E1C9F200C81A06 /* AlertSuccessSubmitWAOpenSession.swift */; };
 		2047B17A27E1C9F200C81A06 /* AlertSuccessSubmitWAOpenSession.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2047B17827E1C9F200C81A06 /* AlertSuccessSubmitWAOpenSession.xib */; };
+		2058DC342910F964001DA0A7 /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2058DC332910F964001DA0A7 /* CopyableLabel.swift */; };
 		206623C62782DCE3000406CF /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206623C52782DCE3000406CF /* Double.swift */; };
 		2082C44728D99E2300F9E2D7 /* QFileReDownloadLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2082C44528D99E2300F9E2D7 /* QFileReDownloadLeftCell.swift */; };
 		2082C44828D99E2300F9E2D7 /* QFileReDownloadLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2082C44628D99E2300F9E2D7 /* QFileReDownloadLeftCell.xib */; };
@@ -499,6 +500,7 @@
 		2047B17427E05C3900C81A06 /* ListTemplateBroadCastURLPhoneNumberButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListTemplateBroadCastURLPhoneNumberButtonCell.xib; sourceTree = "<group>"; };
 		2047B17727E1C9F200C81A06 /* AlertSuccessSubmitWAOpenSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSuccessSubmitWAOpenSession.swift; sourceTree = "<group>"; };
 		2047B17827E1C9F200C81A06 /* AlertSuccessSubmitWAOpenSession.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertSuccessSubmitWAOpenSession.xib; sourceTree = "<group>"; };
+		2058DC332910F964001DA0A7 /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		206623C52782DCE3000406CF /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		2082C44528D99E2300F9E2D7 /* QFileReDownloadLeftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QFileReDownloadLeftCell.swift; sourceTree = "<group>"; };
 		2082C44628D99E2300F9E2D7 /* QFileReDownloadLeftCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QFileReDownloadLeftCell.xib; sourceTree = "<group>"; };
@@ -1219,6 +1221,7 @@
 				3DF5071527213A7700FFC241 /* JsonSerializer.swift */,
 				206623C52782DCE3000406CF /* Double.swift */,
 				20143F7B27ABD54500A327D8 /* AVAudioFileConverter.swift */,
+				2058DC332910F964001DA0A7 /* CopyableLabel.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2449,6 +2452,7 @@
 				3DE6699A271D4C0E0064B545 /* SubmitTicketModel.swift in Sources */,
 				2008F9D52761A6D90084DA9A /* DCIContactAvatarNameCell.swift in Sources */,
 				3D96939126B261D700FBE6C1 /* ScanBarcodeVC.swift in Sources */,
+				2058DC342910F964001DA0A7 /* CopyableLabel.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
 				3D3BE4D12626EEEE0026A63C /* UIChatListALLViewController.swift in Sources */,
 				3DA788E2248024DD00CEF339 /* CustomerRoom.swift in Sources */,
@@ -2665,7 +2669,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2678,7 +2682,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.16.1;
+				MARKETING_VERSION = 1.16.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Omnichannel Chat";
@@ -2698,7 +2702,7 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Qiscus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				ENABLE_BITCODE = NO;
@@ -2709,7 +2713,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.16.1;
+				MARKETING_VERSION = 1.16.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.multichannel.aa;
 				PRODUCT_NAME = "Qiscus Omnichannel Chat";

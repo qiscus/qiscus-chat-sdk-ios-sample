@@ -114,9 +114,9 @@ class SideBar: RDNavigationDrawer,  UITableViewDataSource, UITableViewDelegate {
                     let dataAvatarUrl = json["data"]["avatar_url"].string ?? "https://"
                     let dataName = json["data"]["name"].string ?? ""
                     
-                    let urlAvatar = URL(string: dataAvatarUrl)!
+                    let urlAvatar = URL(string: dataAvatarUrl) ?? URL(string: "https://")
                     self.lbName.text = dataName
-                    self.ivProfile.af_setImage(withURL: urlAvatar)
+                    self.ivProfile.af_setImage(withURL: urlAvatar!)
                    
                     self.loadingIndicator.stopAnimating()
                     self.loadingIndicator.isHidden = true
