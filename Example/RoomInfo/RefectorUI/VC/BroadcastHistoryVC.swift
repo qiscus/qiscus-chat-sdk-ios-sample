@@ -23,11 +23,35 @@ class BroadcastHistoryVC: UIViewController {
     @IBOutlet weak var lbDetailTemplateName: UILabel!
     @IBOutlet weak var lbDetailMessage: UILabel!
     
+    @IBOutlet weak var viewHeaderDetail: UIView!
+    @IBOutlet weak var lbHeader: UILabel!
+    
+    @IBOutlet weak var ivImageRightConst: NSLayoutConstraint!
+    @IBOutlet weak var ivImageHeaderWidhtConst: NSLayoutConstraint!
+    @IBOutlet weak var lbHeaderTop: UILabel!
+    @IBOutlet weak var ivImageHeader: UIImageView!
+    @IBOutlet weak var viewHeaderDetailConst: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var viewFooterDetail: UIView!
+    @IBOutlet weak var heightViewFooterDeailConst: NSLayoutConstraint!
+    @IBOutlet weak var lbFooter: UILabel!
+
+    
+    @IBOutlet weak var viewButtonDetail: UIView!
+    @IBOutlet weak var stackViewButton: UIStackView!
+    @IBOutlet weak var stackViewButtonHeightConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var lbButtonTop: UILabel!
+    @IBOutlet weak var heightViewButtonConst: NSLayoutConstraint!
+    
     var dataBroadCastHistory = [BroadCastHistoryModel]()
     var roomID = ""
     var totalBroadCastHistory = 1
     var page = 2
     var noLoadMore = false
+    
+    var buttonCount = 0
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +89,12 @@ class BroadcastHistoryVC: UIViewController {
     }
     
     func showDetail(data : BroadCastHistoryModel){
+        self.buttonCount = 0
+        
+        self.stackViewButton.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
+        
         self.viewBgDetail.alpha = 1
         self.lbDetailTime.text = "\(data.dateString(date: data.getDate())) (\((data.hour(date: data.getDate()))))"
         self.lbDetailMessage.text = data.message
@@ -80,6 +110,108 @@ class BroadcastHistoryVC: UIViewController {
              self.lbDetailStatus.text = "Pending"
         }else{
             self.lbDetailStatus.text = "Failed"
+        }
+        
+        if data.header.isEmpty == true {
+            self.viewHeaderDetailConst.constant = 0
+            self.viewHeaderDetail.alpha = 0
+        }else{
+            self.viewHeaderDetailConst.constant = 70
+            self.viewHeaderDetail.alpha = 1
+            
+            let data = data.header
+            let json = JSON.init(parseJSON: data)
+            let valueText = json["text"].string ?? ""
+            let valueType = json["type"].string ?? ""
+            
+            self.lbHeaderTop.text = "Header (\(valueType))"
+            self.lbHeader.text = valueText
+            
+            if valueType.lowercased() == "image" || valueType.lowercased() == "images"{
+                self.ivImageHeaderWidhtConst.constant = 14
+                self.ivImageRightConst.constant = 5
+                self.lbHeader.text = "Image"
+                self.ivImageHeader.image = UIImage(named: "ic_broadcast_image")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+                self.ivImageHeader.tintColor = ColorConfiguration.defaultColorTosca
+            }else if valueType.lowercased() == "video" || valueType.lowercased() == "videos"{
+                self.ivImageHeaderWidhtConst.constant = 14
+                self.ivImageRightConst.constant = 5
+                self.lbHeader.text = "Video"
+                self.ivImageHeader.image = UIImage(named: "ic_videocam")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+                self.ivImageHeader.tintColor = ColorConfiguration.defaultColorTosca
+            }else if valueType.lowercased() == "document" || valueType.lowercased() == "documents" || valueType.lowercased() == "file" || valueType.lowercased() == "files"{
+                self.ivImageHeaderWidhtConst.constant = 14
+                self.ivImageRightConst.constant = 5
+                self.lbHeader.text = "Document"
+                self.ivImageHeader.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+                self.ivImageHeader.tintColor = ColorConfiguration.defaultColorTosca
+            }else if valueType.lowercased() == "audio" || valueType.lowercased() == "audios"{
+                self.ivImageHeaderWidhtConst.constant = 14
+                self.ivImageRightConst.constant = 5
+                self.lbHeader.text = "Audio"
+                self.ivImageHeader.image = UIImage(named: "ic_file_attachment")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+                self.ivImageHeader.tintColor = ColorConfiguration.defaultColorTosca
+            }else{
+                self.ivImageHeaderWidhtConst.constant = 0
+                self.ivImageRightConst.constant = 0
+            }
+        }
+        
+        if data.footer.isEmpty == true {
+            self.heightViewFooterDeailConst.constant = 0
+            self.viewFooterDetail.alpha = 0
+        }else{
+            self.heightViewFooterDeailConst.constant = 80
+            self.viewFooterDetail.alpha = 1
+            
+            self.lbFooter.text = data.footer
+        }
+        
+        if data.button.isEmpty == true {
+            self.heightViewButtonConst.constant = 0
+            self.viewButtonDetail.alpha = 0
+        }else{
+            let data = data.button
+            let json = JSON.init(parseJSON: data)
+            
+            
+            let buttonsPayload = json.arrayValue
+            self.stackViewButtonHeightConst.constant = CGFloat(buttonsPayload.count * 30)
+            
+            for buttonsData in buttonsPayload{
+                let button = UIButton(frame: CGRect(x: 0, y: 0, width: self.stackViewButton.frame.size.width, height: 30))
+                let type = buttonsData["type"].string ?? ""
+                let title = buttonsData["button_text"].string ?? "-"
+                if type.lowercased() == "url" {
+                    button.setTitle(" Web Check in (\(title))", for: .normal)
+                    button.setImage(UIImage(named: "ic_broadcast_link"), for: .normal)
+                    button.imageView?.layer.transform = CATransform3DMakeScale(0.8, 0.8, 0.8)
+                    
+                    self.lbButtonTop.text = "Button (Call to Action)"
+                }else if type.lowercased() == "quick_reply"{
+                    self.lbButtonTop.text = "Button (Quick Reply)"
+                    button.setTitle(buttonsData["button_text"].string ?? "-", for: .normal)
+                }else if type.lowercased() == "phone_number" {
+                    button.setTitle(" Call CS (\(title))", for: .normal)
+                    button.setImage(UIImage(named: "ic_broadcast_phone"), for: .normal)
+                    button.imageView?.layer.transform = CATransform3DMakeScale(0.8, 0.8, 0.8)
+                    self.lbButtonTop.text = "Button (Call to Action)"
+                }else{
+                    self.lbButtonTop.text = "Button"
+                    button.setTitle("\(title)", for: .normal)
+                }
+                
+                button.setTitleColor(UIColor.black, for: .normal)
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .light)
+                button.tag = buttonCount
+                //button.addTarget(self, action:#selector(self.postback(sender:)), for: .touchUpInside)
+                self.stackViewButton.addArrangedSubview(button)
+                self.buttonCount += 1
+            }
+            
+            
+            self.heightViewButtonConst.constant = CGFloat(51 + (self.buttonCount * 30))
+            self.viewButtonDetail.alpha = 1
         }
         
     }

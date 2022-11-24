@@ -842,6 +842,59 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
         }
     }
     
+    func getListBroadCastHistoryAllChannel(roomID : String){
+        guard let token = UserDefaults.standard.getAuthenticationToken() else {
+            return
+        }
+        
+        let header = ["Authorization": token, "Qiscus-App-Id": UserDefaults.standard.getAppID() ?? ""] as [String : String]
+        let param = ["page": 1,
+                     "limit": 10,
+            ] as [String : Any]
+        //https://multichannel.qiscus.com/api/v2/customer_rooms/32299400/broadcast_history?page&limit
+        Alamofire.request("\(QiscusHelper.getBaseURL())/api/v2/customer_rooms/\(roomID)/broadcast_all_channel_history", method: .get, parameters: param, headers: header as! HTTPHeaders).responseJSON { (response) in
+            if response.result.value != nil {
+                if (response.response?.statusCode)! >= 300 {
+                    //error
+                    
+                    if response.response?.statusCode == 401 {
+                        RefreshToken.getRefreshToken(response: JSON(response.result.value)){ (success) in
+                            if success == true {
+                                self.getListBroadCastHistoryAllChannel(roomID: roomID)
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    
+                } else {
+                    //success
+                    let payload = JSON(response.result.value)
+                    if let broadCastHistory = payload["data"]["broadcast_logs"].array {
+                        var results = [BroadCastHistoryModel]()
+                        for dataBroadcast in broadCastHistory {
+                            let data = BroadCastHistoryModel(json: dataBroadcast)
+                            results.append(data)
+                        }
+                        self.broadCastHistory = results
+                       
+                    }
+                    
+                    let total = payload["meta"]["total"].int ?? 1
+                    
+                    self.broadcastHistoryCount = total
+                    
+//                    self.tableView.reloadData()
+                    
+                }
+            } else if (response.response != nil && (response.response?.statusCode)! == 401) {
+                //failed
+            } else {
+                //failed
+            }
+        }
+    }
+    
     func setupRoomInfo(){
         
         if let room = self.room{
@@ -894,7 +947,14 @@ class ChatAndCustomerInfoVC: UIViewController, UIPickerViewDataSource, UIPickerV
             
             self.getListTags(roomID: room.id)
             self.getListAgents(roomID: room.id)
-            self.getListBroadCastHistory(roomID: room.id)
+            if channelType.lowercased() == "wa"{
+                self.getListBroadCastHistory(roomID: room.id)
+            } else if channelType.lowercased() == "waca" || channelType.lowercased() == "qiscus"{
+                
+            }else{
+                self.getListBroadCastHistoryAllChannel(roomID: room.id)
+            }
+            
             self.getCustomerInfo()
             if let statusFeatureSubmitTicket = UserDefaults.standard.getStatusFeatureSubmitTicket() {
                 if  statusFeatureSubmitTicket == 1 || statusFeatureSubmitTicket == 0{
@@ -1609,7 +1669,11 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                 }
             }
         } else {
-            return 7
+            if channelType.lowercased() == "waca" || channelType.lowercased() == "qiscus"{
+                return 7
+            }else{
+                return 8
+            }
         }
         
     }
@@ -1759,20 +1823,40 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                 }
             }
         } else {
-            if indexPath.row == 0 {
-                return customerInfoCell(indexPath: indexPath)
-            } else if indexPath.row == 1 {
-                return contactCell(indexPath: indexPath)
-            } else if indexPath.row == 2 {
-                return completeTaskCell(indexPath: indexPath)
-            } else if indexPath.row == 3 {
-                return additionalInformationCell(indexPath: indexPath)
-            } else if indexPath.row == 4 {
-                return noteCell(indexPath: indexPath)
-            } else if indexPath.row == 5 {
-                return customerTagsInfoCell(indexPath: indexPath)
-            } else if indexPath.row == 6 {
-                return agentCustomerInfoCell(indexPath: indexPath)
+            if self.channelType.lowercased() == "waca" || self.channelType.lowercased() == "qiscus"{
+                if indexPath.row == 0 {
+                    return customerInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 1 {
+                    return contactCell(indexPath: indexPath)
+                } else if indexPath.row == 2 {
+                    return completeTaskCell(indexPath: indexPath)
+                } else if indexPath.row == 3 {
+                    return additionalInformationCell(indexPath: indexPath)
+                } else if indexPath.row == 4 {
+                    return noteCell(indexPath: indexPath)
+                } else if indexPath.row == 5 {
+                    return customerTagsInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 6 {
+                    return agentCustomerInfoCell(indexPath: indexPath)
+                }
+            }else{
+                if indexPath.row == 0 {
+                    return customerInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 1 {
+                    return contactCell(indexPath: indexPath)
+                } else if indexPath.row == 2 {
+                    return completeTaskCell(indexPath: indexPath)
+                } else if indexPath.row == 3 {
+                    return additionalInformationCell(indexPath: indexPath)
+                } else if indexPath.row == 4 {
+                    return broadcastHistoryCell(indexPath: indexPath)
+                } else if indexPath.row == 5 {
+                    return noteCell(indexPath: indexPath)
+                } else if indexPath.row == 6 {
+                    return customerTagsInfoCell(indexPath: indexPath)
+                } else if indexPath.row == 7 {
+                    return agentCustomerInfoCell(indexPath: indexPath)
+                }
             }
         }
         return UITableViewCell()
@@ -1856,12 +1940,25 @@ extension ChatAndCustomerInfoVC: UITableViewDataSource, UITableViewDelegate {
                 }
             }
         } else {
-            if indexPath.row == 3 {
-                self.tableView.deselectRow(at: indexPath, animated: true)
-                self.pushToAdditonalInformation()
-            }else if indexPath.row == 4 {
-                self.showForNotes()
-                self.tableView.deselectRow(at: indexPath, animated: true)
+            if self.channelType.lowercased() == "waca" || self.channelType.lowercased() == "qiscus"{
+                if indexPath.row == 3 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToAdditonalInformation()
+                }else if indexPath.row == 4 {
+                    self.showForNotes()
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                }
+            }else{
+                if indexPath.row == 3 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToAdditonalInformation()
+                }else if indexPath.row == 4 {
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                    self.pushToBroadcastHistory()
+                }else if indexPath.row == 5 {
+                    self.showForNotes()
+                    self.tableView.deselectRow(at: indexPath, animated: true)
+                }
             }
         }
     }

@@ -17,7 +17,10 @@ public class BroadCastHistoryModel : NSObject {
     var phoneNumber : String = ""
     var sentAt : String = ""
     var status : Int = 4
-    var templateName : String = ""
+    var templateName : String = "-"
+    var header  : String = ""
+    var footer : String = ""
+    var button : String = ""
     
     init(json: JSON) {
         self.id             = json["id"].string ?? ""
@@ -27,7 +30,17 @@ public class BroadCastHistoryModel : NSObject {
         self.phoneNumber    = json["phone_number"].string ?? ""
         self.sentAt = json["sent_at"].string ?? ""
         self.status = json["status"].int ?? 4
-        self.templateName = json["template_name"].string ?? ""
+        self.templateName = json["template_name"].string ?? "-"
+        self.header = json["header_value"].string ?? ""
+        self.footer = json["footer_value"].string ?? ""
+        let buttonData = json["button_params"].string ?? ""
+        
+        if buttonData == "[]" {
+            self.button = ""
+        }else{
+            self.button = buttonData
+        }
+        
     }
     
     func getDate() -> Date {

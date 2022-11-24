@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_broadcast_image.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "image (3).png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "image (4).png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
