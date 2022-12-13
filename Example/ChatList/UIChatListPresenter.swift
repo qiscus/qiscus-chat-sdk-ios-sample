@@ -92,6 +92,10 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
+    func onRefreshToken(event: QiscusRefreshTokenEvent) {
+        
+    }
+    
     func onRoomMessageUpdated(_ room: RoomModel, message: CommentModel) {
         loadFromLocal(refresh: false)
         self.viewPresenter?.updateRooms(data: room)
