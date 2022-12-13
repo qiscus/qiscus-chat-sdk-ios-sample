@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/emqx/CocoaMQTT.git",
       "state" : {
-        "revision" : "2bb3a92eb40dbe21d4deed57e37da68459239406",
-        "version" : "2.0.7"
+        "revision" : "354938b60768d257b34e7e4451a33fd31148da6e",
+        "version" : "2.0.9"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/leeway1208/MqttCocoaAsyncSocket",
       "state" : {
-        "revision" : "8c61a10eab8c9bc3a4d28883c1a25f6a271400f2",
-        "version" : "1.0.5"
+        "revision" : "ce3e18607fd01079495f86ff6195d8a3ca469f73",
+        "version" : "1.0.8"
       }
     },
     {
@@ -51,7 +51,7 @@
       "location" : "https://github.com/qiscus/QiscusCore-iOS",
       "state" : {
         "branch" : "master",
-        "revision" : "ac8f815feae3db7675fe51da0f239563df25e1e3"
+        "revision" : "961af8f0abecc445cfff94442e833f01523fffa3"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/qiscus/QiscusRealtime-iOS.git",
       "state" : {
-        "revision" : "17733b143b9fd3ab7e40fe43015a56251e6ed810",
-        "version" : "1.6.0"
+        "revision" : "fb6cb211a00047ecfa454fa48a1b7241c2a011f1",
+        "version" : "1.6.1"
       }
     },
     {
@@ -86,17 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/daltoniam/Starscream.git",
       "state" : {
-        "revision" : "e6b65c6d9077ea48b4a7bdda8994a1d3c6969c8d",
-        "version" : "3.1.1"
-      }
-    },
-    {
-      "identity" : "swift-nio-zlib-support",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-nio-zlib-support.git",
-      "state" : {
-        "revision" : "37760e9a52030bb9011972c5213c3350fa9d41fd",
-        "version" : "1.0.0"
+        "revision" : "a063fda2b8145a231953c20e7a646be254365396",
+        "version" : "3.1.2"
       }
     },
     {

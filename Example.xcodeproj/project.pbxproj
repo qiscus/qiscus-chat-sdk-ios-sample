@@ -12,7 +12,7 @@
 		208EBBC428B8659B002DBF9D /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC328B8659B002DBF9D /* AlamofireImage */; };
 		208EBBC728B865C5002DBF9D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBC628B865C5002DBF9D /* SDWebImage */; };
 		208EBBCE28B86761002DBF9D /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 208EBBCD28B86761002DBF9D /* UICircularProgressRing */; };
-		20B8B3F228E57A600037CCCE /* QiscusCore in Frameworks */ = {isa = PBXBuildFile; productRef = 20B8B3F128E57A600037CCCE /* QiscusCore */; };
+		20D4B7622948714F00E6D475 /* QiscusCore in Frameworks */ = {isa = PBXBuildFile; productRef = 20D4B7612948714F00E6D475 /* QiscusCore */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
 		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
@@ -203,7 +203,7 @@
 				202C7F9928D1815A008016B5 /* SDWebImageWebPCoder in Frameworks */,
 				208EBBCE28B86761002DBF9D /* UICircularProgressRing in Frameworks */,
 				208EBBC128B86581002DBF9D /* Alamofire in Frameworks */,
-				20B8B3F228E57A600037CCCE /* QiscusCore in Frameworks */,
+				20D4B7622948714F00E6D475 /* QiscusCore in Frameworks */,
 				208EBBC428B8659B002DBF9D /* AlamofireImage in Frameworks */,
 				3D819A2A221E58D400F1B7CA /* CloudKit.framework in Frameworks */,
 				208EBBC728B865C5002DBF9D /* SDWebImage in Frameworks */,
@@ -531,7 +531,7 @@
 				208EBBC628B865C5002DBF9D /* SDWebImage */,
 				208EBBCD28B86761002DBF9D /* UICircularProgressRing */,
 				202C7F9828D1815A008016B5 /* SDWebImageWebPCoder */,
-				20B8B3F128E57A600037CCCE /* QiscusCore */,
+				20D4B7612948714F00E6D475 /* QiscusCore */,
 			);
 			productName = Example;
 			productReference = 3DDEFB612192D35600484795 /* Qiscus.app */;
@@ -578,7 +578,7 @@
 				208EBBC528B865C5002DBF9D /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				208EBBCC28B86761002DBF9D /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
 				202C7F9728D1815A008016B5 /* XCRemoteSwiftPackageReference "SDWebImageWebPCoder" */,
-				20B8B3F028E57A600037CCCE /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */,
+				20D4B7602948714F00E6D475 /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */,
 			);
 			productRefGroup = 3DDEFB622192D35600484795 /* Products */;
 			projectDirPath = "";
@@ -939,7 +939,7 @@
 				version = 6.4.0;
 			};
 		};
-		20B8B3F028E57A600037CCCE /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */ = {
+		20D4B7602948714F00E6D475 /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/qiscus/QiscusCore-iOS";
 			requirement = {
@@ -975,9 +975,9 @@
 			package = 208EBBCC28B86761002DBF9D /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
 			productName = UICircularProgressRing;
 		};
-		20B8B3F128E57A600037CCCE /* QiscusCore */ = {
+		20D4B7612948714F00E6D475 /* QiscusCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 20B8B3F028E57A600037CCCE /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */;
+			package = 20D4B7602948714F00E6D475 /* XCRemoteSwiftPackageReference "QiscusCore-iOS" */;
 			productName = QiscusCore;
 		};
 /* End XCSwiftPackageProductDependency section */
