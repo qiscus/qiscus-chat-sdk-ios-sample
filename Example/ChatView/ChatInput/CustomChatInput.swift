@@ -345,8 +345,7 @@ extension UIChatViewController : CustomChatInputDelegate {
     func goToGaleryPicker(){
         if #available(iOS 14, *) {
             var configuration = PHPickerConfiguration()
-            
-            DispatchQueue.global(qos: .background).sync {
+            DispatchQueue.main.async {
                 configuration.selectionLimit = 1
                 configuration.filter = .images
                 let picker = PHPickerViewController(configuration: configuration)
