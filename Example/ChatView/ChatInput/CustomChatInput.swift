@@ -200,13 +200,27 @@ extension CustomChatInput : UITextViewDelegate {
         self.typing(true)
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSize.init(width: fixedWidth, height: CGFloat(MAXFLOAT)))
+        // Custom Height adjust on screensize
+        /// - Parameter maximumHeight: set proper value base on your preference in ui, on below is example for adjust height of text
+        /// input maximum 18% of height on every screen size
+        /// - Parameter rows: this will automatically calculate how much row now when typing
+        let maximumHeight = UIScreen.main.bounds.height * 0.18
+        let rows = round( (textView.contentSize.height - textView.textContainerInset.top - textView.textContainerInset.bottom) / (textView.font?.lineHeight ?? 0))
         if (newSize.height >= 34 && newSize.height <= 100) {
             self.heightTextViewCons.constant = newSize.height
             self.heightView.constant = newSize.height + 15.0
             if(self.topReplyPreviewCons.constant != 0){
-                self.setHeight(self.heightView.constant)
+                if rows >= 3 {
+                    self.setHeight(maximumHeight)
+                }else{
+                    self.setHeight(self.heightView.constant)
+                }
             }else{
-                self.setHeight(self.heightView.constant + self.replyPreviewCons.constant)
+                if rows >= 3 {
+                    self.setHeight(maximumHeight + self.replyPreviewCons.constant)
+                }else{
+                    self.setHeight(self.heightView.constant + self.replyPreviewCons.constant)
+                }
             }
             
         }
