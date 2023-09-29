@@ -9,6 +9,7 @@ import UIKit
 import ContactsUI
 import SwiftyJSON
 import QiscusCore
+import CoreLocation
 
 // Chat view blue print or function
 protocol UIChatView {
@@ -88,6 +89,9 @@ class UIChatViewController: UIViewController {
     open func getProgressBarHeight() ->  NSLayoutConstraint{
         return heightProgressBar
     }
+    
+    
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -239,7 +243,6 @@ class UIChatViewController: UIViewController {
     private func setupTableView() {
         let rotate = CGAffineTransform(rotationAngle: .pi)
         self.tableViewConversation.transform = rotate
-        self.tableViewConversation.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         self.tableViewConversation.scrollIndicatorInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0, right: UIScreen.main.bounds.width - 8)
         self.tableViewConversation.rowHeight = UITableView.automaticDimension
         self.tableViewConversation.dataSource = self
@@ -258,6 +261,13 @@ class UIChatViewController: UIViewController {
         self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
         self.registerClass(nib: UINib(nibName: "QReplyLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "qReplyLeftCell")
         self.registerClass(nib: UINib(nibName: "QReplyRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qReplyRightCell")
+        self.registerClass(nib: UINib(nibName: "QLocationLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "qLocationLeftCell")
+        self.registerClass(nib: UINib(nibName: "QLocationRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qLocationRightCell")
+        self.registerClass(nib: UINib(nibName: "QPostbackLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBack")
+        self.registerClass(nib: UINib(nibName: "QPostbackRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "postBackRight")
+        self.registerClass(nib: UINib(nibName: "QCarouselCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCarouselCell")
+        self.registerClass(nib: UINib(nibName: "QCardRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCardRightCell")
+        self.registerClass(nib: UINib(nibName: "QCardLeftCell", bundle: nil ), forMessageCellWithReuseIdentifier: "qCardLeftCell")
         
     }
     
@@ -430,7 +440,116 @@ class UIChatViewController: UIViewController {
                 return cell
             }
             
-        } else {
+        }else if message.type == "location" {
+            if (message.isMyComment() == true){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qLocationRightCell", for: indexPath) as! QLocationRightCell
+                cell.cellMenu = self
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qLocationLeftCell", for: indexPath) as! QLocationLeftCell
+                if self.room?.type == .group {
+                    cell.isPublic = true
+                    cell.colorName = colorName
+                }else {
+                    cell.isPublic = false
+                }
+                cell.cellMenu = self
+                return cell
+            }
+            
+        } else if message.type == "account_linking" {
+            if (message.isMyComment() == true){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "postBackRight", for: indexPath) as! QPostbackRightCell
+                cell.delegateChat = self
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                cell.delegateChat = self
+                return cell
+            }
+        } else if message.type == "buttons" {
+            if (message.isMyComment() == true){
+                let cell = tableView.dequeueReusableCell(withIdentifier: "postBackRight", for: indexPath) as! QPostbackRightCell
+                cell.delegateChat = self
+                return cell
+            } else {
+                
+                if let dataPayload = message.payload{
+                    let data = JSON(dataPayload)
+                    
+                    let buttonsPayload = data["buttons"].arrayValue
+                    
+                    let dataType = buttonsPayload.first?["payload"]["payload"]["sub_type"].string ?? ""
+                    
+                  
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                    cell.delegateChat = self
+                    return cell
+                    
+                }else{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "postBack", for: indexPath) as! QPostbackLeftCell
+                    cell.delegateChat = self
+                    return cell
+                }
+            }
+        }else if message.type == "button_postback_response" {
+            if (message.isMyComment() == true ){
+                guard let payload = message.payload else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                    cell.menuConfig = menuConfig
+                    cell.cellMenu = self
+                    return cell
+                }
+                var typeData = ""
+                if !payload.isEmpty{
+                    let json = JSON.init(payload)
+                    let type = json["payload"]["sub_type"].string ?? ""
+                    typeData = type
+                }
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
+                cell.menuConfig = menuConfig
+                cell.cellMenu = self
+                return cell
+                
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
+                if self.room?.type == .group {
+                    cell.colorName = colorName
+                    cell.isPublic = true
+                }else {
+                    cell.isPublic = false
+                }
+                cell.cellMenu = self
+                return cell
+            }
+        }else if message.type == "carousel"{
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "qCarouselCell", for: indexPath) as! QCarouselCell
+            cell.delegateChat = self
+            if self.room?.type == .group {
+                cell.isPublic = true
+            }else {
+                cell.isPublic = false
+            }
+            return cell
+        }else if message.type == "card" {
+            if (message.isMyComment() == true){
+                let cell =  tableView.dequeueReusableCell(withIdentifier: "qCardRightCell", for: indexPath) as! QCardRightCell
+                cell.delegateChat = self
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "qCardLeftCell", for: indexPath) as! QCardLeftCell
+                cell.delegateChat = self
+                if self.room?.type == .group {
+                    cell.isPublic = true
+                    cell.colorName = colorName
+                }else {
+                    cell.isPublic = false
+                }
+                return cell
+            }
+            
+        }else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
             return cell
         }
@@ -536,17 +655,24 @@ extension UIChatViewController: UIChatViewDelegate {
         }
         
         if Thread.isMainThread {
-            if newSection {
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
+            if self.tableViewConversation.dataHasChanged {
+                self.tableViewConversation.reloadData()
                 self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                self.tableViewConversation.endUpdates()
-            } else {
-                let indexPath = IndexPath(row: 0, section: 0)
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertRows(at: [indexPath], with: .right)
-                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                self.tableViewConversation.endUpdates()
+            }else{
+                if newSection {
+                    self.tableViewConversation.beginUpdates()
+                    self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
+                    self.tableViewConversation.endUpdates()
+                    self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    
+                } else {
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    self.tableViewConversation.beginUpdates()
+                    self.tableViewConversation.insertRows(at: [indexPath], with: .right)
+                    self.tableViewConversation.endUpdates()
+                    self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    
+                }
             }
         }
     }
@@ -591,9 +717,9 @@ extension UIChatViewController: UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.01
-    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 0.01
+//    }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 36
@@ -763,3 +889,117 @@ extension UIChatViewController : UIBaseChatCellDelegate {
     }
     
 }
+
+extension UITableView {
+    var dataHasChanged: Bool {
+        guard let dataSource = dataSource else { return false }
+        let sections = dataSource.numberOfSections?(in: self) ?? 0
+        if numberOfSections != sections {
+            return true
+        }
+        for section in 0..<sections {
+            if numberOfRows(inSection: section) != dataSource.tableView(self, numberOfRowsInSection: section) {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+extension UIChatViewController: CLLocationManagerDelegate {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        manager.stopUpdatingLocation()
+        if let currentLocation = manager.location {
+            let geoCoder = CLGeocoder()
+            let latitude = currentLocation.coordinate.latitude
+            let longitude = currentLocation.coordinate.longitude
+            var address:String?
+            var title:String?
+            
+            geoCoder.reverseGeocodeLocation(currentLocation, completionHandler:
+                    {(placemarks, error) in
+                if error == nil {
+                    let placeArray = placemarks
+                    var placeMark: CLPlacemark!
+                    placeMark = placeArray?[0]
+
+                    if let addressDictionary = placeMark.addressDictionary{
+                        if let addressArray = addressDictionary["FormattedAddressLines"] as? [String] {
+                            address = addressArray.joined(separator: ", ")
+                        }
+                        title = addressDictionary["Name"] as? String
+                        let comment = CommentModel.init()
+                        var locTitle = title
+                        var locAddress = ""
+                        if address != nil {
+                            locAddress = address!
+                        }
+                        if title == nil {
+                            
+                            var newLat = latitude
+                            var newLong = longitude
+                            var latString = "N"
+                            var longString = "E"
+                            if latitude < 0 {
+                                latString = "S"
+                                newLat = 0 - latitude
+                            }
+                            if longitude < 0 {
+                                longString = "W"
+                                newLong = 0 - longitude
+                            }
+                            let intLat = Int64(newLat)
+                            let intLong = Int64(newLong)
+                            let subLat = Int64((newLat - Double(intLat)) * 100)
+                            let subLong = Int64((newLong - Double(intLong)) * 100)
+                            let subSubLat = Int64((newLat - Double(intLat) - Double(Double(subLat)/100)) * 10000)
+                            let subSubLong = Int64((newLong - Double(intLong) - Double(Double(subLong)/100)) * 10000)
+                            let pLat = Int64((newLat - Double(intLat) - Double(Double(subLat)/100) - Double(Double(subSubLat)/10000)) * 100000)
+                            let pLong = Int64((newLong - Double(intLong) - Double(Double(subLong)/100) - Double(Double(subSubLong)/10000)) * 100000)
+
+                            locTitle = "\(intLat)º\(subLat)\'\(subSubLat).\(pLat)\"\(latString) \(intLong)º\(subLong)\'\(subSubLong).\(pLong)\"\(longString)"
+
+                            let url = "http://maps.google.com/maps?daddr=\(latitude),\(longitude)"
+
+                            var payload = [
+                                "name": "\(locTitle)",
+                                "address": "\(locAddress)",
+                                "latitude" : "\(latitude)",
+                                "longitude" : "\(longitude)",
+                                "map_url" : "\(url)"
+                            ] as
+                            [String: Any]
+
+                            comment.roomId = self.roomId
+                            comment.message = "Share Location"
+                            comment.type = "location"
+                            comment.payload = payload
+
+                        }else{
+                            let url = "http://maps.google.com/maps?daddr=\(latitude),\(longitude)"
+
+                            var payload = [
+                                "name": "\(locTitle)",
+                                "address": "\(locAddress)",
+                                "latitude" : "\(latitude)",
+                                "longitude" : "\(longitude)",
+                                "map_url" : "\(url)"
+                            ] as
+                            [String: Any]
+                            comment.message = ""
+                            comment.type = "location"
+                            comment.payload = payload
+
+                        }
+
+
+
+                        self.sendMessage(message: comment)
+                    }
+                }
+            })
+        }
+    }
+}
+

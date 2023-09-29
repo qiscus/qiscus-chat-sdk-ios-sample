@@ -316,6 +316,36 @@ extension UIChatViewController : CustomChatInputDelegate {
         }
     }
     
+    func shareCurrentLocation(){
+        
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+            case .authorizedAlways, .authorizedWhenInUse:
+                
+                self.locationManager.delegate = self
+                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                self.locationManager.startUpdatingLocation()
+                break
+            case .denied:
+                self.showLocationAccessAlert()
+                break
+            case .restricted:
+                self.showLocationAccessAlert()
+                break
+            case .notDetermined:
+                self.showLocationAccessAlert()
+                break
+            @unknown default:
+                self.showLocationAccessAlert()
+                break
+            }
+        }else{
+            self.showLocationAccessAlert()
+        }
+    }
+    
     func uploadFile(){
         if #available(iOS 11.0, *) {
           //  self.latestNavbarTint = self.currentNavbarTint
@@ -355,6 +385,21 @@ extension UIChatViewController : CustomChatInputDelegate {
             let text = TextConfiguration.sharedInstance.galeryAccessAlertText
             let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
             let settingTxt = TextConfiguration.sharedInstance.alertSettingText
+            QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
+                                 doneAction: {
+                                    self.goToIPhoneSetting()
+            },
+                                 cancelAction: {}
+            )
+        })
+    }
+    
+    func showLocationAccessAlert(){
+        DispatchQueue.main.async(execute: {
+            let text = TextConfiguration.sharedInstance.locationAccessAlertText
+            let cancelTxt = TextConfiguration.sharedInstance.alertCancelText
+            let settingTxt = TextConfiguration.sharedInstance.alertSettingText
+            
             QPopUpView.showAlert(withTarget: self, message: text, firstActionTitle: settingTxt, secondActionTitle: cancelTxt,
                                  doneAction: {
                                     self.goToIPhoneSetting()
@@ -425,6 +470,13 @@ extension UIChatViewController : CustomChatInputDelegate {
         })
         optionMenu.addAction(fileAction)
 
+        let locationAction = UIAlertAction(title: "Share current Location", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.shareCurrentLocation()
+        })
+        
+        optionMenu.addAction(locationAction)
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
 

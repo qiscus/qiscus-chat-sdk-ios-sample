@@ -133,9 +133,12 @@ extension UIChatListPresenter : QiscusCoreDelegate {
         loadFromLocal(refresh: true)
     }
     
+    //this func was deprecated
     func onRoom(deleted room: RoomModel) {
         self.loadFromLocal()
     }
+    
+    //this func was deprecated
     func onRoom(update room: RoomModel) {
         self.loadFromLocal()
     }
