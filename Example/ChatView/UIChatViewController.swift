@@ -564,7 +564,12 @@ extension UIChatViewController: UIChatViewDelegate {
     func onUpdateComment(comment: CommentModel, indexpath: IndexPath) {
         // reload cell in section and index path
         if self.tableViewConversation.cellForRow(at: indexpath) != nil{
-            self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
+            if self.tableViewConversation.dataHasChanged {
+                self.tableViewConversation.reloadData()
+            }else{
+                self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
+            }
+            
         }
     }
     
@@ -915,53 +920,30 @@ extension UIChatViewController: CLLocationManagerDelegate {
             let latitude = currentLocation.coordinate.latitude
             let longitude = currentLocation.coordinate.longitude
             var address:String?
-            var title:String?
+            var title:String = ""
             
-            geoCoder.reverseGeocodeLocation(currentLocation, completionHandler:
-                    {(placemarks, error) in
+            geoCoder.reverseGeocodeLocation(currentLocation) { placemarks, error in
                 if error == nil {
                     let placeArray = placemarks
                     var placeMark: CLPlacemark!
                     placeMark = placeArray?[0]
-
+                    
                     if let addressDictionary = placeMark.addressDictionary{
                         if let addressArray = addressDictionary["FormattedAddressLines"] as? [String] {
                             address = addressArray.joined(separator: ", ")
                         }
-                        title = addressDictionary["Name"] as? String
+                        title = addressDictionary["Name"] as? String ?? ""
                         let comment = CommentModel.init()
                         var locTitle = title
                         var locAddress = ""
                         if address != nil {
                             locAddress = address!
                         }
-                        if title == nil {
-                            
-                            var newLat = latitude
-                            var newLong = longitude
-                            var latString = "N"
-                            var longString = "E"
-                            if latitude < 0 {
-                                latString = "S"
-                                newLat = 0 - latitude
-                            }
-                            if longitude < 0 {
-                                longString = "W"
-                                newLong = 0 - longitude
-                            }
-                            let intLat = Int64(newLat)
-                            let intLong = Int64(newLong)
-                            let subLat = Int64((newLat - Double(intLat)) * 100)
-                            let subLong = Int64((newLong - Double(intLong)) * 100)
-                            let subSubLat = Int64((newLat - Double(intLat) - Double(Double(subLat)/100)) * 10000)
-                            let subSubLong = Int64((newLong - Double(intLong) - Double(Double(subLong)/100)) * 10000)
-                            let pLat = Int64((newLat - Double(intLat) - Double(Double(subLat)/100) - Double(Double(subSubLat)/10000)) * 100000)
-                            let pLong = Int64((newLong - Double(intLong) - Double(Double(subLong)/100) - Double(Double(subSubLong)/10000)) * 100000)
-
-                            locTitle = "\(intLat)º\(subLat)\'\(subSubLat).\(pLat)\"\(latString) \(intLong)º\(subLong)\'\(subSubLong).\(pLong)\"\(longString)"
-
-                            let url = "http://maps.google.com/maps?daddr=\(latitude),\(longitude)"
-
+                        if title == "" {
+                            let url = "http://maps.google.com/maps?daddr=\(currentLocation.coordinate.latitude),\(currentLocation.coordinate.longitude)"
+                            let latitude = currentLocation.coordinate.latitude
+                            let longitude = currentLocation.coordinate.longitude
+                            let locTitle = currentLocation.coordinate
                             var payload = [
                                 "name": "\(locTitle)",
                                 "address": "\(locAddress)",
@@ -970,15 +952,15 @@ extension UIChatViewController: CLLocationManagerDelegate {
                                 "map_url" : "\(url)"
                             ] as
                             [String: Any]
-
+                            
                             comment.roomId = self.roomId
                             comment.message = "Share Location"
                             comment.type = "location"
                             comment.payload = payload
-
+                            
                         }else{
                             let url = "http://maps.google.com/maps?daddr=\(latitude),\(longitude)"
-
+                            
                             var payload = [
                                 "name": "\(locTitle)",
                                 "address": "\(locAddress)",
@@ -990,15 +972,13 @@ extension UIChatViewController: CLLocationManagerDelegate {
                             comment.message = ""
                             comment.type = "location"
                             comment.payload = payload
-
+                            
                         }
-
-
-
+                        
                         self.sendMessage(message: comment)
                     }
                 }
-            })
+            }
         }
     }
 }

@@ -359,25 +359,25 @@ extension UIChatViewController : CustomChatInputDelegate {
     }
     
     func goToGaleryPicker(){
-        if #available(iOS 14, *) {
-            var configuration = PHPickerConfiguration()
-            
-            DispatchQueue.global(qos: .background).sync {
+        DispatchQueue.main.async(execute: {
+            if #available(iOS 14, *) {
+                var configuration = PHPickerConfiguration()
                 configuration.selectionLimit = 1
                 configuration.filter = .images
                 let picker = PHPickerViewController(configuration: configuration)
                 picker.delegate = self
+                picker.modalPresentationStyle = .overCurrentContext
+                self.present(picker, animated: true, completion: nil)
+            } else {
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.modalPresentationStyle = .overCurrentContext
+                picker.allowsEditing = false
+                picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+                picker.mediaTypes = [kUTTypeImage as String]
                 self.present(picker, animated: true, completion: nil)
             }
-           
-        } else {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.allowsEditing = false
-            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            picker.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
-            self.present(picker, animated: true, completion: nil)
-        }
+        })
     }
     
     func showPhotoAccessAlert(){
