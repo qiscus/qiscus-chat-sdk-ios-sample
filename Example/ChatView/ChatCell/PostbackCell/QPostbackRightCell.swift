@@ -235,7 +235,7 @@ class QPostbackRightCell: UIBaseChatCell {
             break
         default:
             let text = data["label"].stringValue
-            let type = "text"
+            let type = "button_postback_response"
             if let room = self.delegateChat?.room {
                 
                 let comment = CommentModel()

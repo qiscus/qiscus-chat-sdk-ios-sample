@@ -42,7 +42,7 @@ class QCarouselCell: UIBaseChatCell {
                         self.carouselView.scrollToItem(at: lastIndex, at: .left, animated: false)
                     }
                 }else{
-                    self.carouselLeading.constant = 0
+                    self.carouselLeading.constant = 20
                 }
             }
         }
@@ -61,9 +61,14 @@ class QCarouselCell: UIBaseChatCell {
         self.layer.zPosition = 99
         
         self.uiViewBackground.layer.shadowColor = UIColor.black.cgColor
+//        self.uiViewBackground.layer.shadowOffset = CGSize(width: 1, height: 1)
+//        self.uiViewBackground.layer.shadowOpacity = 0.3
+//        self.uiViewBackground.layer.shadowRadius = 1.0
+//        self.uiViewBackground.layer.cornerRadius = 8
+        
         self.uiViewBackground.layer.shadowOffset = CGSize(width: 1, height: 1)
-        self.uiViewBackground.layer.shadowOpacity = 0.3
-        self.uiViewBackground.layer.shadowRadius = 1.0
+        self.uiViewBackground.layer.shadowOpacity = 1
+        self.uiViewBackground.layer.shadowRadius = 1.5
         self.uiViewBackground.layer.cornerRadius = 8
         
         NotificationCenter.default.addObserver(self,
