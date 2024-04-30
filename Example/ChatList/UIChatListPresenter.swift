@@ -95,8 +95,27 @@ extension UIChatListPresenter : QiscusCoreDelegate {
     func onRefreshToken(event: QiscusRefreshTokenEvent) {
         if event == .isUnauthorized {
             //need to force re login
+            if let deviceToken = UserDefaults.standard.getDeviceToken(){
+                QiscusCore.shared.removeDeviceToken(token: deviceToken, onSuccess: { (success) in
+                    //success
+                }) { (error) in
+                    
+                }
+            }
+            
+            QiscusCore.clearUser { (error) in
+                let app = UIApplication.shared.delegate as! AppDelegate
+                app.auth()
+            }
         }else if event == .isTokenExpired {
             //need to call api refresh token when auto refresh token from be is false, by default is true from be
+       
+            QiscusCore.shared.refreshToken { refreshToken in
+                print("cek \(QiscusCore.getUserData()?.tokenExpiresAt)")
+            } onError: { error in
+
+            }
+
         }
     }
     
