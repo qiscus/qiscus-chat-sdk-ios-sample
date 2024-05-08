@@ -92,6 +92,7 @@ class UIChatListPresenter {
 }
 
 extension UIChatListPresenter : QiscusCoreDelegate {
+    //set delegate QiscusCoreDelegate to get event QiscusRefreshTokenEvent in AllViewController or other
     func onRefreshToken(event: QiscusRefreshTokenEvent) {
         if event == .isUnauthorized {
             //need to force re login
