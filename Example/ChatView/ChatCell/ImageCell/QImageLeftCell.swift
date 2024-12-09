@@ -30,6 +30,7 @@ class QImageLeftCell: UIBaseChatCell {
     var isPublic: Bool = false
     var menuConfig = enableMenuConfig()
     var colorName : UIColor = UIColor.black
+    var gifCheck : Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -81,14 +82,41 @@ class QImageLeftCell: UIBaseChatCell {
                     fileImage = "https://"
                 }
                 
+                if url.fileExtension(fromURL: url) == "gif"{
+                    self.gifCheck = true
+                }else{
+                    self.gifCheck = false
+                }
+                
                 self.ivComment.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
                 
-                self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
-                self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
-                    if urlPath != nil && uiImage != nil{
-                        self.ivComment.af_setImage(withURL: urlPath!)
+                if url.fileExtension(fromURL: url) == "gif"{
+                    self.gifCheck = true
+                    self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
+                    
+                    QiscusCore.shared.getThumbnailURL(url: fileImage) { url in
+                        self.ivComment.sd_setImage(with: URL(string: url) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                            if urlPath != nil && uiImage != nil{
+                                self.ivComment.af_setImage(withURL: urlPath!)
+                                
+                            }
+                        }
+                    } onError: { error in
+                        self.ivComment.sd_setImage(with: URL(string: url) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                            if urlPath != nil && uiImage != nil{
+                                self.ivComment.af_setImage(withURL: urlPath!)
+                            }
+                        }
+                    }
+                }else{
+                    self.ivComment.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
+                    self.ivComment.sd_setImage(with: URL(string: fileImage) ?? URL(string: "https://"), placeholderImage: nil, options: .highPriority) { (uiImage, error, cache, urlPath) in
+                        if urlPath != nil && uiImage != nil{
+                            self.ivComment.af_setImage(withURL: urlPath!)
+                        }
                     }
                 }
+                
             }
         }
         
@@ -120,15 +148,55 @@ class QImageLeftCell: UIBaseChatCell {
             print("Image not found!")
             return
         }
-        UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-        
-        //active this code for detail image
-//        let configuration = ImageViewerConfiguration { config in
-//            config.imageView = ivComment
-//        }
-//
-//        let imageViewerController = ImageViewerController(configuration: configuration)
-//        self.currentViewController()?.navigationController?.present(ImageViewerController(configuration: configuration), animated: true)
+        if gifCheck == true{
+            if (self.comment?.message.contains("[/file]") == true){
+                
+                var url = self.comment?.message.getAttachmentURL(message: self.comment?.message ?? "https://") ?? "https://"
+                
+                let preview = ChatPreviewDocVC()
+                preview.fileName = url
+                preview.url = url
+                preview.roomName = "Gif Preview"
+                let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                backButton.tintColor = UIColor.white
+                
+                self.currentViewController()?.navigationController?.navigationItem.backBarButtonItem = backButton
+                self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
+            }else{
+                guard let payload = self.comment?.payload else { return }
+                if let fileName = payload["file_name"] as? String{
+                    if let url = payload["url"] as? String {
+                        
+                        let preview = ChatPreviewDocVC()
+                        preview.fileName = fileName
+                        preview.url = url
+                        preview.roomName = "Gif Preview"
+                        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                        backButton.tintColor = UIColor.white
+                        self.currentViewController()?.navigationItem.backBarButtonItem = backButton
+                        self.currentViewController()?.navigationController?.pushViewController(preview, animated: true)
+                    }
+                }
+            }
+            
+        }else{
+            
+            DispatchQueue.global(qos: .background).sync {
+                //active this code for detail image
+                let configuration = ImageViewerConfiguration { config in
+                    config.imageView = ivComment
+                }
+                
+                let vc = ImageViewerController(configuration: configuration)
+                vc.modalPresentationStyle = .overFullScreen
+                
+                DispatchQueue.main.async {
+                    self.currentViewController()?.navigationController?.present(vc, animated: false, completion: {
+                        
+                    })
+                }
+            }
+        }
     }
     
     //MARK: - Add image to Library

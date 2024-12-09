@@ -655,7 +655,10 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                                     self.getProgressBarHeight().constant = 0
                                                 })
                                             }, onError: { (error) in
-                                                self.getProgressBarHeight().constant = 0
+                                                DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                                                    self.getProgressBarHeight().constant = 0
+                                                })
+                                                
                                             }, progressListener: { (progress) in
                                                 print("upload progress :\(progress)")
                                                 self.getProgressBarHeight().constant = 2

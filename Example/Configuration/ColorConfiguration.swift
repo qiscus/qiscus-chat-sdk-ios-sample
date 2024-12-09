@@ -71,6 +71,10 @@ class ColorConfiguration: NSObject {
     /// postback button color, using UIColor class, Default value: UIColor(red: 1, green: 1, blue: 1, alpha: 0.7)
     static var postBackButtonColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.7)
     
+    static var defaultColorBlue = UIColor(red: 1/255, green: 65/255, blue: 108/255, alpha: 1)
+    
+    static var defaultColorGreen = #colorLiteral(red: 0.5176470588, green: 0.7607843137, blue: 0.3803921569, alpha: 1)
+    
     static var avatarBackgroundColor:[UIColor] = [
         UIColor(red: 1, green: 23/255, blue: 68/255, alpha: 1),
         UIColor(red: 61/255, green: 90/255, blue: 254/255, alpha: 1),

@@ -26,6 +26,7 @@
 		209206B82AC68907005DAAA1 /* QCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209206B72AC68907005DAAA1 /* QCard.swift */; };
 		209206BA2AC6891D005DAAA1 /* QCardAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209206B92AC6891D005DAAA1 /* QCardAction.swift */; };
 		209206BC2AC68950005DAAA1 /* QCardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209206BB2AC68950005DAAA1 /* QCardButton.swift */; };
+		20C8A2572D05EB7E00519265 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C8A2562D05EB7E00519265 /* String.swift */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
 		3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */; };
 		3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3854A021B4DE6600435B31 /* UIChatViewController.swift */; };
@@ -136,6 +137,7 @@
 		209206B72AC68907005DAAA1 /* QCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCard.swift; sourceTree = "<group>"; };
 		209206B92AC6891D005DAAA1 /* QCardAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCardAction.swift; sourceTree = "<group>"; };
 		209206BB2AC68950005DAAA1 /* QCardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCardButton.swift; sourceTree = "<group>"; };
+		20C8A2562D05EB7E00519265 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
 		3D38549F21B4DE6500435B31 /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
 		3D3854A021B4DE6600435B31 /* UIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatViewController.swift; sourceTree = "<group>"; };
@@ -221,7 +223,7 @@
 		3DCF6A392199277E00C108E6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3DCF6A3C2199545100C108E6 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		3DDEFB612192D35600484795 /* Qiscus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Qiscus.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3DDEFB642192D35600484795 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3DDEFB642192D35600484795 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		3DDEFB692192D35600484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3DDEFB6B2192D35D00484795 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DDEFB6E2192D35D00484795 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				3D819A25221D0BFB00F1B7CA /* UITextField.swift */,
 				3D8F0D6022684130000135CA /* UserDefault.swift */,
 				3D96C03C2553079900583F50 /* Array.swift */,
+				20C8A2562D05EB7E00519265 /* String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -803,6 +806,7 @@
 				3D40B8B42192E20C00FE7228 /* UIView.swift in Sources */,
 				3D40B8BB2192E20C00FE7228 /* QPopUpView.swift in Sources */,
 				209206B82AC68907005DAAA1 /* QCard.swift in Sources */,
+				20C8A2572D05EB7E00519265 /* String.swift in Sources */,
 				3D40B8FE2192E20C00FE7228 /* AssetsConfiguration.swift in Sources */,
 				3DA7C69B221A68A30018A94F /* NewConversationVC.swift in Sources */,
 				3D3854A521B4DE6600435B31 /* UIChatViewController.swift in Sources */,
@@ -903,7 +907,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -959,7 +963,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -978,15 +982,18 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "sample sdk core v2";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.sample;
 				PRODUCT_NAME = Qiscus;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1005,15 +1012,18 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "sample sdk core v2";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.sdk.sample;
 				PRODUCT_NAME = Qiscus;
 				PROVISIONING_PROFILE_SPECIFIER = "";
