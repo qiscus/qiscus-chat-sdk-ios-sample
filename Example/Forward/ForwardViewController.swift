@@ -183,27 +183,36 @@ class ForwardViewController: UIViewController {
             if isSearch == "" {
                 //searchActive but empty query
                 let localdb = QiscusCore.database.room.all()
-                self.rooms = self.sortRoom(data: localdb)
+                //QiscusCore.database.room.all(completion: { localdb in
+                    self.rooms = self.sortRoom(data: localdb)
+                    
+                    self.sortRoomUserPresence()
+                    self.tableView.reloadData()
+                //})
                 
-                self.sortRoomUserPresence()
-                self.tableView.reloadData()
             }else{
                 //searchActive
                 let localdb = QiscusCore.database.room.all()
-                self.rooms = self.filterRoom(query: isSearch, data: localdb)
-                self.rooms = self.sortRoom(data: self.rooms)
+                //QiscusCore.database.room.all(completion: { localdb in
+                    self.rooms = self.filterRoom(query: isSearch, data: localdb)
+                    self.rooms = self.sortRoom(data: self.rooms)
+                    
+                    self.sortRoomUserPresence()
+                    self.tableView.reloadData()
+                //})
                 
-                self.sortRoomUserPresence()
-                self.tableView.reloadData()
             }
             
         }else{
             //searchNotActive
             let localdb = QiscusCore.database.room.all()
-            self.rooms = self.sortRoom(data: localdb)
+            //QiscusCore.database.room.all(completion: { localdb in
+                self.rooms = self.sortRoom(data: localdb)
+                
+                self.sortRoomUserPresence()
+                self.tableView.reloadData()
+            //})
             
-            self.sortRoomUserPresence()
-            self.tableView.reloadData()
         }
     }
     

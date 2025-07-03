@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		207BB4762DDF1AFB00712B6B /* TypingIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207BB4742DDF1AFB00712B6B /* TypingIndicatorCell.swift */; };
+		207BB4772DDF1AFB00712B6B /* TypingIndicatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 207BB4752DDF1AFB00712B6B /* TypingIndicatorCell.xib */; };
 		209206962AC5582B005DAAA1 /* QLocationRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209206942AC5582A005DAAA1 /* QLocationRightCell.swift */; };
 		209206972AC5582B005DAAA1 /* QLocationRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 209206952AC5582A005DAAA1 /* QLocationRightCell.xib */; };
 		2092069A2AC558B1005DAAA1 /* QLocationLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209206982AC558B1005DAAA1 /* QLocationLeftCell.swift */; };
@@ -118,6 +120,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		207BB4742DDF1AFB00712B6B /* TypingIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicatorCell.swift; sourceTree = "<group>"; };
+		207BB4752DDF1AFB00712B6B /* TypingIndicatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TypingIndicatorCell.xib; sourceTree = "<group>"; };
 		209206942AC5582A005DAAA1 /* QLocationRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLocationRightCell.swift; sourceTree = "<group>"; };
 		209206952AC5582A005DAAA1 /* QLocationRightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QLocationRightCell.xib; sourceTree = "<group>"; };
 		209206982AC558B1005DAAA1 /* QLocationLeftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLocationLeftCell.swift; sourceTree = "<group>"; };
@@ -246,6 +250,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		207BB4732DDF179600712B6B /* TypingIndicatorCell */ = {
+			isa = PBXGroup;
+			children = (
+				207BB4742DDF1AFB00712B6B /* TypingIndicatorCell.swift */,
+				207BB4752DDF1AFB00712B6B /* TypingIndicatorCell.xib */,
+			);
+			path = TypingIndicatorCell;
+			sourceTree = "<group>";
+		};
 		209206932AC5580F005DAAA1 /* LocationCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,6 +364,7 @@
 		3D40B8712192E20A00FE7228 /* ChatCell */ = {
 			isa = PBXGroup;
 			children = (
+				207BB4732DDF179600712B6B /* TypingIndicatorCell */,
 				209206AE2AC68830005DAAA1 /* CarouselCardCell */,
 				209206A52AC6829E005DAAA1 /* CardCell */,
 				2092069C2AC67D9A005DAAA1 /* PostbackCell */,
@@ -692,6 +706,7 @@
 				3D4434EA221A71AF009B5CD0 /* ContactCell.xib in Resources */,
 				3D40B8CB2192E20C00FE7228 /* QTextLeftCell.xib in Resources */,
 				3D5DD761222780E300E39C96 /* ProfileVC.xib in Resources */,
+				207BB4772DDF1AFB00712B6B /* TypingIndicatorCell.xib in Resources */,
 				3D40B8E92192E20C00FE7228 /* QImageRightCell.xib in Resources */,
 				3DA7C69C221A68A30018A94F /* NewConversationVC.xib in Resources */,
 				3D40B8D42192E20C00FE7228 /* QTextRightCell.xib in Resources */,
@@ -779,6 +794,7 @@
 				209206962AC5582B005DAAA1 /* QLocationRightCell.swift in Sources */,
 				3D40B8FF2192E20C00FE7228 /* QiscusTextConfiguration.swift in Sources */,
 				3D40B8AD2192E20C00FE7228 /* QExtensionUICore.swift in Sources */,
+				207BB4762DDF1AFB00712B6B /* TypingIndicatorCell.swift in Sources */,
 				3D96C02C2552F29900583F50 /* QReplyRightCell.swift in Sources */,
 				3D40B8E62192E20C00FE7228 /* QSystemCell.swift in Sources */,
 				3D3854A421B4DE6600435B31 /* UIChatNavigation.swift in Sources */,
@@ -988,7 +1004,7 @@
 				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "sample sdk core v2";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1018,7 +1034,7 @@
 				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "sample sdk core v2";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -28,6 +28,7 @@ protocol UIChatViewDelegate {
     func onSendMessageFinished(comment: CommentModel)
     func onGotNewComment(newSection: Bool)
     func onUpdateComment(comment: CommentModel, indexpath: IndexPath)
+    func onUpdateAITyping(typing : Bool, textMessage: String)
     func onUser(name: String, typing: Bool)
     func onUser(name: String, isOnline: Bool, message: String)
 }
@@ -129,7 +130,7 @@ class UIChatPresenter: UIChatUserInteraction {
                 
                 // update lastIdToLoad value
                 instance.lastIdToLoad = lastComment.id
-                 QiscusCore.shared.getPreviousMessagesById(roomID: roomId,limit: 10,messageId: lastComment.id, onSuccess: { (comments) in
+                 QiscusCore.shared.getPreviousMessagesById(roomID: roomId,limit: 100,messageId: lastComment.id, onSuccess: { (comments) in
                     
                     // notify the dispatch group that the current process is complete and able to continue to the next load more process
                     instance.loadMoreDispatchGroup.leave()
@@ -188,13 +189,35 @@ class UIChatPresenter: UIChatUserInteraction {
         }
     }
     
-    func sendMessage(withComment comment: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
-        addNewCommentUI(comment, isIncoming: false)
+//    func sendMessage(withComment comment: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+//        addNewCommentUI(comment, isIncoming: false)
+//        QiscusCore.shared.sendMessage(message: comment, onSuccess: { [weak self] (comment) in
+//            self?.didComment(comment: comment, changeStatus: comment.status)
+//            onSuccess(comment)
+//        }) { (error) in
+//            onError(error.message)
+//        }
+//    }
+    
+    func sendMessage(withComment comment: CommentModel,
+                     onSuccess: @escaping (CommentModel) -> Void,
+                     onError: @escaping (String) -> Void) {
+
+        // Jalankan update UI di main thread
+        DispatchQueue.main.async {
+            self.addNewCommentUI(comment, isIncoming: false)
+        }
+
         QiscusCore.shared.sendMessage(message: comment, onSuccess: { [weak self] (comment) in
-            self?.didComment(comment: comment, changeStatus: comment.status)
-            onSuccess(comment)
+            // didComment mungkin juga menyentuh UI
+            DispatchQueue.main.async {
+                self?.didComment(comment: comment, changeStatus: comment.status)
+                onSuccess(comment)
+            }
         }) { (error) in
-            onError(error.message)
+            DispatchQueue.main.async {
+                onError(error.message)
+            }
         }
     }
     
@@ -294,6 +317,10 @@ class UIChatPresenter: UIChatUserInteraction {
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
+    func onUserTypingAI(userId: String, roomId: String, typing: Bool, textMessage: String, senderName : String) {
+        self.viewPresenter?.onUpdateAITyping(typing : typing, textMessage: textMessage)
+    }
+    
     func onMessageUpdated(message: CommentModel) {
         for (group,c) in comments.enumerated() {
             if let index = c.index(where: { $0.uniqId == message.uniqId }) {

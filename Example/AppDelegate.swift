@@ -208,3 +208,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     }
 }
 // [END ios_10_message_handling]
+
+extension AppDelegate : QiscusCoreEventDelegate {
+    func onDebugEvent(_ event: String, message: String) {
+        print("event =\(event) && message = \(message)")
+    }
+}

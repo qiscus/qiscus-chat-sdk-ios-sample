@@ -61,6 +61,8 @@ class UIChatViewController: UIViewController {
     var heightAtIndexPath: [String: CGFloat] = [:]
     var roomId: String = ""
     var chatDelegate : UIChatView? = nil
+    var isAITyping : Bool = false
+    var AITextMessage : String = ""
     
     // UI Config
     var usersColor : [String:UIColor] = [String:UIColor]()
@@ -256,7 +258,7 @@ class UIChatViewController: UIViewController {
         self.registerClass(nib: UINib(nibName: "QTextLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qTextLeftCell")
         self.registerClass(nib: UINib(nibName: "QImageRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageRightCell")
         self.registerClass(nib: UINib(nibName: "QFileRightCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileRightCell")
-         self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
+        self.registerClass(nib: UINib(nibName: "QFileLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qFileLeftCell")
         self.registerClass(nib: UINib(nibName: "QImageLeftCell", bundle:nil), forMessageCellWithReuseIdentifier: "qImageLeftCell")
         self.registerClass(nib: UINib(nibName: "EmptyCell", bundle:nil), forMessageCellWithReuseIdentifier: "emptyCell")
         self.registerClass(nib: UINib(nibName: "QReplyLeftCell", bundle: nil), forMessageCellWithReuseIdentifier: "qReplyLeftCell")
@@ -268,7 +270,7 @@ class UIChatViewController: UIViewController {
         self.registerClass(nib: UINib(nibName: "QCarouselCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCarouselCell")
         self.registerClass(nib: UINib(nibName: "QCardRightCell", bundle: nil), forMessageCellWithReuseIdentifier: "qCardRightCell")
         self.registerClass(nib: UINib(nibName: "QCardLeftCell", bundle: nil ), forMessageCellWithReuseIdentifier: "qCardLeftCell")
-        
+        self.registerClass(nib: UINib(nibName: "TypingIndicatorCell", bundle: nil ), forMessageCellWithReuseIdentifier: "typingIndicatorCell")
     }
     
     @objc func goBack() {
@@ -558,6 +560,12 @@ class UIChatViewController: UIViewController {
 
 // MARK: UIChatDelegate
 extension UIChatViewController: UIChatViewDelegate {
+    func onUpdateAITyping(typing: Bool, textMessage: String) {
+        self.isAITyping = typing
+        self.AITextMessage = textMessage
+        self.tableViewConversation.reloadData()
+    }
+    
     func onReloadComment(){
         self.tableViewConversation.reloadData()
     }
@@ -685,12 +693,15 @@ extension UIChatViewController: UIChatViewDelegate {
 
 extension UIChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionCount = self.presenter.comments.count
-        let rowCount = self.presenter.comments[section].count
-        if sectionCount == 0 {
-            return 0
+        guard section < presenter.comments.count else { return 0 }
+        
+        let messageCount = presenter.comments[section].count
+        
+        if isAITyping && section == 0 {
+            return messageCount + 1 // Tambahkan Typing Cell di awal
+        } else {
+            return messageCount
         }
-        return rowCount
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -707,18 +718,39 @@ extension UIChatViewController: UITableViewDataSource {
     
     // MARK: table cell confi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // get mesage at indexpath
-        let comment = self.presenter.getMessage(atIndexPath: indexPath)
-        var cell = self.cellFor(message: comment, at: indexPath, in: tableView)
+        let comments = presenter.comments
+
+        // Typing Indicator hanya di section 0, row 0
+        if isAITyping && indexPath.section == 0 && indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "typingIndicatorCell", for: indexPath) as! TypingIndicatorCell
+            cell.bindData(message: self.AITextMessage)
+            return cell
+        }
+
+        guard indexPath.section < comments.count else {
+            return UITableViewCell()
+        }
+
+        // Offset row untuk data jika typing indicator di awal
+        let adjustedRow = (isAITyping && indexPath.section == 0) ? indexPath.row - 1 : indexPath.row
+
+        // Hindari crash jika adjustedRow out of bounds
+        guard adjustedRow >= 0, adjustedRow < comments[indexPath.section].count else {
+            return UITableViewCell()
+        }
+
+        let comment = presenter.comments[indexPath.section][adjustedRow]
+        let cell = self.cellFor(message: comment, at: indexPath, in: tableView)
         cell.comment = comment
         cell.layer.shouldRasterize = true
         cell.layer.rasterizationScale = UIScreen.main.scale
-        
-        // Load More
-        let comments = self.presenter.comments
-        if indexPath.section == comments.count - 1 && indexPath.row > comments[indexPath.section].count - 10 {
+
+        // Load more trigger
+        if indexPath.section == comments.count - 1,
+           indexPath.row > comments[indexPath.section].count - 10 {
             presenter.loadMore()
         }
+
         return cell
     }
     
@@ -731,29 +763,40 @@ extension UIChatViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if let firstMessageInSection = self.presenter.comments[section].first {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "E, d MMM"
-            
-            var dateString = dateFormatter.string(from: firstMessageInSection.date)
-            
-            if Calendar.current.isDateInToday(firstMessageInSection.date){
-                dateString = "Today"
-            }
-            
-            let label = DateHeaderLabel()
-            label.text = dateString
-            
-            let containerView = UIView()
-            containerView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            containerView.addSubview(label)
-            label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-            label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-            
-            return containerView
-            
+        guard tableView == self.tableViewConversation else { return nil }
+
+        // Amankan akses terhadap data presenter.comments
+        guard section < presenter.comments.count,
+              let firstMessageInSection = presenter.comments[section].first else {
+            return nil
         }
-        return nil
+
+        // Format tanggal
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, d MMM"
+
+        var dateString = dateFormatter.string(from: firstMessageInSection.date)
+        if Calendar.current.isDateInToday(firstMessageInSection.date) {
+            dateString = "Today"
+        }
+
+        // Label tanggal
+        let label = DateHeaderLabel()
+        label.text = dateString
+
+        // Container
+        let containerView = UIView()
+        containerView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        containerView.addSubview(label)
+
+        // AutoLayout
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+        ])
+
+        return containerView
     }
     
 }
@@ -839,15 +882,19 @@ extension UIChatViewController : UIChatInputDelegate {
         }
         
         self.presenter.sendMessage(withComment: message, onSuccess: { (comment) in
-            if(self.tableViewConversation.isHidden == true){
-                self.tableViewConversation.isHidden = false
-                self.emptyMessageView.alpha = 0
+            DispatchQueue.main.async {
+                if self.tableViewConversation.isHidden {
+                    self.tableViewConversation.isHidden = false
+                    self.emptyMessageView.alpha = 0
+                }
+                self.presenter.isTyping(false)
+                onSuccess(comment)
             }
-            self.presenter.isTyping(false)
-            onSuccess(comment)
         }) { (error) in
-            self.presenter.isTyping(false)
-            onError(error)
+            DispatchQueue.main.async {
+                self.presenter.isTyping(false)
+                onError(error)
+            }
         }
     }
     
@@ -981,5 +1028,22 @@ extension UIChatViewController: CLLocationManagerDelegate {
             }
         }
     }
+}
+
+extension UITableView {
+    func isLastIndexPath(_ indexPath: IndexPath) -> Bool {
+        let lastSection = numberOfSections - 1
+        guard indexPath.section == lastSection else { return false }
+
+        let lastRow = numberOfRows(inSection: lastSection) - 1
+        return indexPath.row == lastRow
+    }
+    
+    func isFirstIndexPath(_ indexPath: IndexPath) -> Bool {
+            let firstSection = 0
+            guard indexPath.section == firstSection else { return false }
+
+            return indexPath.row == 0
+        }
 }
 
