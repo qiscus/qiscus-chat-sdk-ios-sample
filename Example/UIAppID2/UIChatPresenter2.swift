@@ -30,6 +30,7 @@ protocol UIChatViewDelegate2 {
     func onUpdateComment(comment: QMessage, indexpath: IndexPath)
     func onUser(name: String, typing: Bool)
     func onUser(name: String, isOnline: Bool, message: String)
+    func onUpdateAITyping(typing : Bool, textMessage: String)
 }
 
 class UIChatPresenter2: UIChatUserInteraction2 {
@@ -363,6 +364,10 @@ extension UIChatPresenter2 : QiscusCoreRoomDelegate {
         if let user = QiscusCoreManager.qiscusCore2.database.participant.find(byUserId : userId){
             self.viewPresenter?.onUser(name: user.name, typing: typing)
         }
+    }
+    
+    func onUserTypingAI(userId: String, roomId: String, typing: Bool, textMessage: String, senderName: String) {
+        self.viewPresenter?.onUpdateAITyping(typing : typing, textMessage: textMessage)
     }
     
     func onUserOnlinePresence(userId: String, isOnline: Bool, lastSeen: Date){

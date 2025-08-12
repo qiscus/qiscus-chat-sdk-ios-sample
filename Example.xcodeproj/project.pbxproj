@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20CF66FE2DEE94EB005682AE /* TypingIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF66FC2DEE94EB005682AE /* TypingIndicatorCell.swift */; };
+		20CF66FF2DEE94EB005682AE /* TypingIndicatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20CF66FD2DEE94EB005682AE /* TypingIndicatorCell.xib */; };
 		3D19064923D8408A00425A92 /* UIChatNavigation2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19064723D8408900425A92 /* UIChatNavigation2.swift */; };
 		3D19064A23D8408A00425A92 /* UIChatNavigation2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D19064823D8408A00425A92 /* UIChatNavigation2.xib */; };
 		3D3854A321B4DE6600435B31 /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */; };
@@ -103,6 +105,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		20CF66FC2DEE94EB005682AE /* TypingIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicatorCell.swift; sourceTree = "<group>"; };
+		20CF66FD2DEE94EB005682AE /* TypingIndicatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TypingIndicatorCell.xib; sourceTree = "<group>"; };
 		3D19064723D8408900425A92 /* UIChatNavigation2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation2.swift; sourceTree = "<group>"; };
 		3D19064823D8408A00425A92 /* UIChatNavigation2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatNavigation2.xib; sourceTree = "<group>"; };
 		3D38549E21B4DE6500435B31 /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
@@ -216,6 +220,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20CF66FB2DEE94C7005682AE /* TypingIndicatorCell */ = {
+			isa = PBXGroup;
+			children = (
+				20CF66FC2DEE94EB005682AE /* TypingIndicatorCell.swift */,
+				20CF66FD2DEE94EB005682AE /* TypingIndicatorCell.xib */,
+			);
+			path = TypingIndicatorCell;
+			sourceTree = "<group>";
+		};
 		3D3854B821B534A500435B31 /* ChatListCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +285,7 @@
 		3D40B8712192E20A00FE7228 /* ChatCell */ = {
 			isa = PBXGroup;
 			children = (
+				20CF66FB2DEE94C7005682AE /* TypingIndicatorCell */,
 				3D8474E5219D2CA3004877C8 /* TextCell */,
 				3D8474E7219D2CEF004877C8 /* ImageCell */,
 				3D819A28221E574400F1B7CA /* FileCell */,
@@ -641,6 +655,7 @@
 				3DFA437D23D562F900FD8505 /* UIChatViewController2.xib in Resources */,
 				3DB8E98A2408BE9800D766B9 /* CreateChatViewController.xib in Resources */,
 				3D3854B021B4E12F00435B31 /* UIChatInput.xib in Resources */,
+				20CF66FF2DEE94EB005682AE /* TypingIndicatorCell.xib in Resources */,
 				3DDEFB6C2192D35D00484795 /* Assets.xcassets in Resources */,
 				3D80B2B3221BB75A0053280C /* ContactSelectCollCell.xib in Resources */,
 				3D40B8C72192E20C00FE7228 /* ChatPreviewDocVC.xib in Resources */,
@@ -745,6 +760,7 @@
 				3D80B2B4221BB75A0053280C /* ContactSelectCollCell.swift in Sources */,
 				3DFA437F23D563D900FD8505 /* UIChatPresenter2.swift in Sources */,
 				3D40B8B82192E20C00FE7228 /* UIImage.swift in Sources */,
+				20CF66FE2DEE94EB005682AE /* TypingIndicatorCell.swift in Sources */,
 				3D40B8C62192E20C00FE7228 /* ChatPreviewDocVC.swift in Sources */,
 				3DFA438923D5681A00FD8505 /* QiscusUploaderVC2.swift in Sources */,
 				3DCF6A3D2199545200C108E6 /* Date.swift in Sources */,
@@ -905,7 +921,7 @@
 				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -928,7 +944,7 @@
 				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = QG8KA4P8TE;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
