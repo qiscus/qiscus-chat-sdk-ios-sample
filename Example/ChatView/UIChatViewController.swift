@@ -251,6 +251,14 @@ class UIChatViewController: UIViewController {
         self.tableViewConversation.delegate = self
         self.tableViewConversation.scrollsToTop = false
         self.tableViewConversation.allowsSelection = false
+        
+        
+        if #available(iOS 26.0, *) {
+            // iOS 26 edge effect does not work with a transformed scroll view
+            self.tableViewConversation.topEdgeEffect.isHidden = true
+            self.tableViewConversation.bottomEdgeEffect.isHidden = true
+        }
+        
         self.chatDelegate = self
         
         // support variation comment type
